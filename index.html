@@ -964,7 +964,7 @@
                         </div>
                         <div class="project-details">
                             <span class="project-date">開始：2026-03-07</span>
-                            <span class="project-summary">總結：自動/手動當值編排，8條規則驗證</span>
+                            <span class="project-summary">總結：自動/手動當值編排，8條規則驗證，支援複製/匯入功能</span>
                             <a class="project-link" href="https://math-lish.github.io/homework-duty-system/" target="_blank">連結：https://math-lish.github.io/homework-duty-system/</a>
                         </div>
                     </div>
@@ -976,7 +976,7 @@
                         </div>
                         <div class="project-details">
                             <span class="project-date">開始：2026-03-01</span>
-                            <span class="project-summary">總結：教學資源網站</span>
+                            <span class="project-summary">總結：教學資源網站，包含數學教材、練習題及教學影片連結</span>
                             <a class="project-link" href="https://math-lish.github.io/ai-learning/" target="_blank">連結：https://math-lish.github.io/ai-learning/</a>
                         </div>
                     </div>
@@ -988,19 +988,19 @@
                         </div>
                         <div class="project-details">
                             <span class="project-date">開始：2026-02-20</span>
-                            <span class="project-summary">總結：Rummikub遊戲策劃</span>
+                            <span class="project-summary">總結：Rummikub遊戲策劃及比賽系統，培養學生邏輯思維</span>
                             <a class="project-link" href="https://math-lish.github.io/math-week-2026/" target="_blank">連結：https://math-lish.github.io/math-week-2026/</a>
                         </div>
                     </div>
                     <div class="project-item" data-expanded="false">
                         <div class="project-header">
-                            <span class="project-status">📋</span>
+                            <span class="project-status">✅</span>
                             <span class="project-name">全方位學習日</span>
                             <span class="project-expand-icon">▼</span>
                         </div>
                         <div class="project-details">
                             <span class="project-date">開始：2026-02-15</span>
-                            <span class="project-summary">總結：工作指引文檔編寫</span>
+                            <span class="project-summary">總結：全方位學習日工作指引文檔編寫，含活動流程及注意事項</span>
                             <a class="project-link" href="https://math-lish.github.io/lsc-ole-s1-2026/" target="_blank">連結：https://math-lish.github.io/lsc-ole-s1-2026/</a>
                         </div>
                     </div>
@@ -1012,8 +1012,32 @@
                         </div>
                         <div class="project-details">
                             <span class="project-date">開始：2026-03-05</span>
-                            <span class="project-summary">總結：實時監控系統</span>
+                            <span class="project-summary">總結：實時監控系統，展示AI助手工作狀態</span>
                             <a class="project-link" href="https://math-lish.github.io/virtual-office/" target="_blank">連結：https://math-lish.github.io/virtual-office/</a>
+                        </div>
+                    </div>
+                    <div class="project-item" data-expanded="false">
+                        <div class="project-header">
+                            <span class="project-status">🆕</span>
+                            <span class="project-name">晞霖學習網站</span>
+                            <span class="project-expand-icon">▼</span>
+                        </div>
+                        <div class="project-details">
+                            <span class="project-date">開始：2026-03-07</span>
+                            <span class="project-summary">總結：幼教網站，包含互動學習內容、遊戲及教材下載</span>
+                            <span class="project-link">連結：開發中...</span>
+                        </div>
+                    </div>
+                    <div class="project-item" data-expanded="false">
+                        <div class="project-header">
+                            <span class="project-status">✅</span>
+                            <span class="project-name">教師發展日網站</span>
+                            <span class="project-expand-icon">▼</span>
+                        </div>
+                        <div class="project-details">
+                            <span class="project-date">開始：2026-01-15</span>
+                            <span class="project-summary">總結：教師專業發展日活動網站，已完成</span>
+                            <span class="project-link">狀態：已完成</span>
                         </div>
                     </div>
                 </div>
@@ -1235,6 +1259,25 @@
         // Configuration
         const REFRESH_INTERVAL = 30000; // 30 seconds
         const API_ENDPOINT = '/api/sessions'; // Optional API endpoint
+        
+        // Store scroll position before refresh
+        let scrollPosition = { x: 0, y: 0 };
+        
+        // Save scroll position
+        function saveScrollPosition() {
+            scrollPosition = {
+                x: window.scrollX,
+                y: window.scrollY
+            };
+        }
+        
+        // Restore scroll position after refresh
+        function restoreScrollPosition() {
+            // Use requestAnimationFrame to ensure DOM is ready
+            requestAnimationFrame(() => {
+                window.scrollTo(scrollPosition.x, scrollPosition.y);
+            });
+        }
 
         // API Stats
         let apiStats = {
@@ -1405,6 +1448,9 @@
         // Fetch session data from OpenClaw via API
         async function fetchSessionData() {
             const indicator = document.getElementById('refreshIndicator');
+            
+            // Save scroll position before refresh
+            saveScrollPosition();
             indicator.classList.add('show');
 
             try {
@@ -1489,8 +1535,9 @@
             updateRoleCardData('tester', sessionData.tester.status, sessionData.tester.activity);
             updateRoleCardData('dev', sessionData.dev.status, sessionData.dev.activity);
 
-            // Hide indicator
+            // Hide indicator and restore scroll position
             indicator.classList.remove('show');
+            restoreScrollPosition();
         }
 
         // Manual refresh function
