@@ -150,6 +150,11 @@
             transform: translateX(5px);
         }
 
+        .project-item.expanded {
+            background: rgba(188, 0, 45, 0.15);
+            border-color: var(--japanese-red);
+        }
+
         .project-header {
             display: flex;
             align-items: center;
@@ -167,11 +172,26 @@
             font-weight: 500;
         }
 
+        .project-expand-icon {
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .project-item.expanded .project-expand-icon {
+            transform: rotate(180deg);
+        }
+
         .project-details {
-            display: flex;
+            display: none;
             flex-direction: column;
-            gap: 3px;
+            gap: 4px;
             padding-left: 26px;
+            margin-top: 4px;
+        }
+
+        .project-item.expanded .project-details {
+            display: flex;
         }
 
         .project-date {
@@ -182,6 +202,17 @@
         .project-summary {
             font-size: 0.8rem;
             color: var(--accent);
+        }
+
+        .project-link {
+            font-size: 0.75rem;
+            color: var(--accent-secondary);
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        .project-link:hover {
+            text-decoration: underline;
         }
 
         /* Agent Status */
@@ -559,6 +590,87 @@
             color: var(--text-secondary);
             padding: 10px;
         }
+
+        /* Mobile Tab Navigation */
+        .mobile-tabs {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-medium);
+            border-top: 2px solid var(--japanese-red);
+            z-index: 1000;
+            padding: 8px 0;
+            padding-bottom: calc(8px + env(safe-area-inset-bottom));
+        }
+
+        .mobile-tabs-inner {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .mobile-tab {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 12px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .mobile-tab.active {
+            color: var(--japanese-red);
+            background: rgba(188, 0, 45, 0.2);
+        }
+
+        .mobile-tab-icon {
+            font-size: 1.5rem;
+        }
+
+        .mobile-tab-label {
+            font-size: 0.65rem;
+            font-weight: 500;
+        }
+
+        /* Mobile content sections */
+        .mobile-content {
+            display: none;
+        }
+
+        .mobile-content.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-tabs {
+                display: block;
+            }
+
+            .container {
+                padding-bottom: 70px;
+            }
+
+            /* Hide sidebar sections initially on mobile, show via tabs */
+            .sidebar section {
+                display: none;
+            }
+
+            .sidebar section.mobile-content.active {
+                display: block;
+            }
+
+            /* Also handle main area */
+            .main-area.mobile-content.active {
+                display: flex;
+            }
+        }
     </style>
 </head>
 <body>
@@ -578,74 +690,82 @@
             </div>
 
             <!-- Project List -->
-            <section>
+            <section class="mobile-content" id="mobile-projects">
                 <h2 class="section-title">📋 項目列表</h2>
                 <div class="project-list" id="projectList">
-                    <div class="project-item">
+                    <div class="project-item" data-expanded="false">
                         <div class="project-header">
                             <span class="project-status">🔄</span>
                             <span class="project-name">欠交功課系統</span>
+                            <span class="project-expand-icon">▼</span>
                         </div>
                         <div class="project-details">
-                            <span class="project-date">開始日期: 2026-03-07</span>
-                            <span class="project-summary">自動/手動當值編排，8條規則驗證</span>
+                            <span class="project-date">開始：2026-03-07</span>
+                            <span class="project-summary">總結：自動/手動當值編排，8條規則驗證</span>
+                            <a class="project-link" href="https://zachlsc.github.io/homework-duty/" target="_blank">連結：https://zachlsc.github.io/homework-duty/</a>
                         </div>
                     </div>
-                    <div class="project-item">
+                    <div class="project-item" data-expanded="false">
                         <div class="project-header">
                             <span class="project-status">✅</span>
                             <span class="project-name">少康教學網站</span>
+                            <span class="project-expand-icon">▼</span>
                         </div>
                         <div class="project-details">
-                            <span class="project-date">教學資源網站</span>
-                            <span class="project-summary">已完成</span>
+                            <span class="project-date">開始：2026-03-01</span>
+                            <span class="project-summary">總結：教學資源網站</span>
+                            <a class="project-link" href="https://math-lish.github.io/ai-learning/" target="_blank">連結：https://math-lish.github.io/ai-learning/</a>
                         </div>
                     </div>
-                    <div class="project-item">
+                    <div class="project-item" data-expanded="false">
                         <div class="project-header">
                             <span class="project-status">🔄</span>
                             <span class="project-name">數學週 2026</span>
+                            <span class="project-expand-icon">▼</span>
                         </div>
                         <div class="project-details">
-                            <span class="project-date">Rummikub遊戲</span>
-                            <span class="project-summary">進行中</span>
+                            <span class="project-date">開始：2026-02-20</span>
+                            <span class="project-summary">總結：Rummikub遊戲策劃</span>
                         </div>
                     </div>
-                    <div class="project-item">
+                    <div class="project-item" data-expanded="false">
                         <div class="project-header">
                             <span class="project-status">📋</span>
                             <span class="project-name">全方位學習日</span>
+                            <span class="project-expand-icon">▼</span>
                         </div>
                         <div class="project-details">
-                            <span class="project-date">工作指引文檔</span>
-                            <span class="project-summary">未完成</span>
+                            <span class="project-date">開始：2026-02-15</span>
+                            <span class="project-summary">總結：工作指引文檔編寫</span>
                         </div>
                     </div>
-                    <div class="project-item">
+                    <div class="project-item" data-expanded="false">
                         <div class="project-header">
                             <span class="project-status">🔄</span>
                             <span class="project-name">虛擬辦公室</span>
+                            <span class="project-expand-icon">▼</span>
                         </div>
                         <div class="project-details">
-                            <span class="project-date">實時監控系統</span>
-                            <span class="project-summary">進行中</span>
+                            <span class="project-date">開始：2026-03-05</span>
+                            <span class="project-summary">總結：實時監控系統</span>
                         </div>
                     </div>
-                    <div class="project-item">
+                    <div class="project-item" data-expanded="false">
                         <div class="project-header">
                             <span class="project-status">✅</span>
                             <span class="project-name">教師發展日網站</span>
+                            <span class="project-expand-icon">▼</span>
                         </div>
                         <div class="project-details">
-                            <span class="project-date">已完成</span>
-                            <span class="project-summary">教師發展日網站</span>
+                            <span class="project-date">開始：2026-01-10</span>
+                            <span class="project-summary">總結：已完成</span>
                         </div>
                     </div>
                 </div>
             </section>
 
             <!-- Agent Status -->
-            <section>
+            <section class="mobile-content" id="mobile-agents">
                 <h2 class="section-title">🤖 Agents 狀態</h2>
                 <div class="agent-list" id="agentList">
                     <div class="agent-card" data-agent="brain">
@@ -676,7 +796,7 @@
             </section>
 
             <!-- System Info -->
-            <section class="system-info">
+            <section class="system-info mobile-content" id="mobile-system">
                 <h3>💻 系統資訊</h3>
                 <div class="system-grid">
                     <div class="system-item">
@@ -700,7 +820,7 @@
         </aside>
 
         <!-- Right Main Area - Virtual Office -->
-        <main class="main-area">
+        <main class="main-area mobile-content" id="mobile-office">
             <header class="office-header">
                 <h1 class="office-title">🏯 虛擬辦公室</h1>
                 <p class="office-subtitle">日本風格辦公空間 | Japanese Style Office</p>
@@ -773,6 +893,28 @@
         <span>更新中...</span>
     </div>
 
+    <!-- Mobile Tab Navigation -->
+    <nav class="mobile-tabs" id="mobileTabs">
+        <div class="mobile-tabs-inner">
+            <button class="mobile-tab active" data-tab="projects">
+                <span class="mobile-tab-icon">📋</span>
+                <span class="mobile-tab-label">項目</span>
+            </button>
+            <button class="mobile-tab" data-tab="agents">
+                <span class="mobile-tab-icon">🤖</span>
+                <span class="mobile-tab-label">Agents</span>
+            </button>
+            <button class="mobile-tab" data-tab="office">
+                <span class="mobile-tab-icon">📁</span>
+                <span class="mobile-tab-label">辦公室</span>
+            </button>
+            <button class="mobile-tab" data-tab="system">
+                <span class="mobile-tab-icon">💻</span>
+                <span class="mobile-tab-label">系統</span>
+            </button>
+        </div>
+    </nav>
+
     <script>
         // Configuration
         const REFRESH_INTERVAL = 30000; // 30 seconds
@@ -796,6 +938,70 @@
                 }
             }
         });
+
+        // Mobile tab navigation
+        const mobileTabs = document.getElementById('mobileTabs');
+        
+        function initMobileTabs() {
+            if (window.innerWidth > 768) {
+                // Desktop: show all sections
+                document.querySelectorAll('.mobile-content').forEach(el => {
+                    el.classList.add('active');
+                });
+                return;
+            }
+
+            const tabs = document.querySelectorAll('.mobile-tab');
+            const contents = {
+                'projects': document.getElementById('mobile-projects'),
+                'agents': document.getElementById('mobile-agents'),
+                'office': document.getElementById('mobile-office'),
+                'system': document.getElementById('mobile-system')
+            };
+
+            // Set default active tab
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabName = tab.dataset.tab;
+                    
+                    // Update tab active state
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+
+                    // Show corresponding content
+                    Object.entries(contents).forEach(([name, content]) => {
+                        if (content) {
+                            if (name === tabName) {
+                                content.classList.add('active');
+                            } else {
+                                content.classList.remove('active');
+                            }
+                        }
+                    });
+                });
+            });
+
+            // Show projects by default on mobile
+            tabs[0].click();
+        }
+
+        // Project expand/collapse
+        function initProjectExpand() {
+            const projectItems = document.querySelectorAll('.project-item');
+            
+            projectItems.forEach(item => {
+                const header = item.querySelector('.project-header');
+                header.addEventListener('click', (e) => {
+                    // Don't toggle if clicking on a link
+                    if (e.target.classList.contains('project-link')) {
+                        return;
+                    }
+                    
+                    const isExpanded = item.classList.toggle('expanded');
+                    item.dataset.expanded = isExpanded;
+                });
+            });
+        }
 
         // State
         let sessionData = {
@@ -907,18 +1113,24 @@
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
+            // Initialize mobile tabs and project expand
+            initMobileTabs();
+            initProjectExpand();
+
             // Initial fetch
             fetchSessionData();
 
             // Auto refresh every 30 seconds
             setInterval(fetchSessionData, REFRESH_INTERVAL);
+        });
 
-            // Make project items clickable
-            document.querySelectorAll('.project-item').forEach(item => {
-                item.addEventListener('click', () => {
-                    console.log('Project clicked:', item.querySelector('.project-name').textContent);
-                });
-            });
+        // Re-init on resize
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                initMobileTabs();
+            }, 250);
         });
 
         // Expose for manual refresh from console
