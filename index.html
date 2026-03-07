@@ -634,6 +634,8 @@
         }
 
         /* ========== PIXEL ART CHARACTERS ========== */
+        
+        /* Pixel Art Character Container */
         .pixel-character {
             position: relative;
             display: flex;
@@ -647,7 +649,7 @@
             transform: scale(1.1);
         }
 
-        /* Pixel Avatar Container */
+        /* Pixel Avatar - Base Style */
         .pixel-avatar {
             width: 64px;
             height: 64px;
@@ -655,16 +657,17 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             position: relative;
             image-rendering: pixelated;
             box-shadow: 
                 0 0 0 3px currentColor,
                 0 8px 0 rgba(0,0,0,0.2),
                 0 12px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
         }
 
-        /* Character shadows */
+        /* Character Shadow */
         .pixel-character::after {
             content: '';
             position: absolute;
@@ -677,17 +680,51 @@
             transition: all 0.3s ease;
         }
 
-        .pixel-character.walking::after {
-            animation: shadow-pulse 0.5s ease-in-out infinite;
+        /* ===== 角色顏色區分 ===== */
+        
+        /* 蓝色：大脑 (Brain) - AI Zone */
+        .pixel-character.brain .pixel-avatar {
+            background: linear-gradient(135deg, #2196F3, #1565C0);
+            color: #fff;
+            border: 3px solid #1976D2;
+        }
+        .pixel-character.brain::after {
+            background: rgba(33, 150, 243, 0.4);
         }
 
-        @keyframes shadow-pulse {
-            0%, 100% { transform: scale(1); opacity: 0.3; }
-            50% { transform: scale(0.8); opacity: 0.2; }
+        /* 绿色：师弟 (Dev) - Programming Zone */
+        .pixel-character.dev .pixel-avatar {
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            color: #fff;
+            border: 3px solid #388E3C;
+        }
+        .pixel-character.dev::after {
+            background: rgba(76, 175, 80, 0.4);
         }
 
-        /* Status-based animations */
-        /* 🟠 BUSY - Fast pulsing bounce */
+        /* 黄色：T仔 (Tester) - Rest Zone */
+        .pixel-character.tester .pixel-avatar {
+            background: linear-gradient(135deg, #FFC107, #FF8F00);
+            color: #fff;
+            border: 3px solid #FFA000;
+        }
+        .pixel-character.tester::after {
+            background: rgba(255, 193, 7, 0.4);
+        }
+
+        /* 红色：老板 (Boss) - Meeting Zone */
+        .pixel-character.boss .pixel-avatar {
+            background: linear-gradient(135deg, #F44336, #C62828);
+            color: #fff;
+            border: 3px solid #D32F2F;
+        }
+        .pixel-character.boss::after {
+            background: rgba(244, 67, 54, 0.4);
+        }
+
+        /* ===== 狀態對應動畫 ===== */
+
+        /* 🟠 BUSY - 快速脈衝跳動 */
         .pixel-character.busy {
             animation: busy-bounce 0.4s ease-in-out infinite;
         }
@@ -702,119 +739,79 @@
         }
 
         @keyframes busy-glow {
-            0% { filter: brightness(1); }
-            100% { filter: brightness(1.3) drop-shadow(0 0 10px currentColor); }
+            0% { filter: brightness(1) drop-shadow(0 0 2px currentColor); }
+            100% { filter: brightness(1.3) drop-shadow(0 0 15px currentColor); }
         }
 
-        /* 🟢 ONLINE - Normal floating walk */
+        /* 🟢 ONLINE - 正常浮動行走 */
         .pixel-character.online {
-            animation: walk-float 1s ease-in-out infinite;
+            animation: walk-float 1.5s ease-in-out infinite;
         }
 
         .pixel-character.online .pixel-avatar {
-            animation: avatar-sway 1s ease-in-out infinite;
+            animation: avatar-sway 1.5s ease-in-out infinite;
         }
 
         @keyframes walk-float {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-6px); }
+            50% { transform: translateY(-8px); }
         }
 
         @keyframes avatar-sway {
-            0%, 100% { transform: rotate(-3deg); }
-            50% { transform: rotate(3deg); }
+            0%, 100% { transform: rotate(-4deg); }
+            50% { transform: rotate(4deg); }
         }
 
-        /* 🔵 IDLE - Slow idle movement */
+        /* 🔵 IDLE - 緩慢Idle擺動 */
         .pixel-character.idle {
-            animation: idle-sway 2.5s ease-in-out infinite;
+            animation: idle-sway 3s ease-in-out infinite;
         }
 
         .pixel-character.idle .pixel-avatar {
-            opacity: 0.8;
-            animation: idle-breathe 3s ease-in-out infinite;
+            opacity: 0.85;
+            animation: idle-breathe 3.5s ease-in-out infinite;
         }
 
         @keyframes idle-sway {
             0%, 100% { transform: translateX(0) rotate(0deg); }
-            25% { transform: translateX(-2px) rotate(-2deg); }
-            75% { transform: translateX(2px) rotate(2deg); }
+            25% { transform: translateX(-3px) rotate(-3deg); }
+            75% { transform: translateX(3px) rotate(3deg); }
         }
 
         @keyframes idle-breathe {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(0.95); }
+            50% { transform: scale(0.92); }
         }
 
-        /* ⚫ OFFLINE - Static, no animation */
+        /* ⚫ OFFLINE - 靜態，無動畫 */
         .pixel-character.offline {
             animation: none;
-            filter: grayscale(0.8) brightness(0.6);
+            filter: grayscale(0.8) brightness(0.5);
         }
 
         .pixel-character.offline .pixel-avatar {
             animation: none;
-            filter: grayscale(1) brightness(0.5);
+            filter: grayscale(1) brightness(0.4);
+            opacity: 0.6;
         }
 
         .pixel-character.offline::after {
-            opacity: 0.15;
+            opacity: 0.1;
         }
 
         /* Character names */
         .pixel-name {
-            margin-top: 12px;
+            margin-top: 14px;
             font-size: 0.85rem;
             font-weight: 600;
             color: var(--text-primary);
             text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            padding: 4px 12px;
+            border-radius: 12px;
+            background: rgba(0,0,0,0.2);
         }
 
-        /* Zone-specific colors */
-        /* 蓝色大脑 - AI Zone */
-        .pixel-character.brain .pixel-avatar {
-            background: linear-gradient(135deg, #2196F3, #1976D2);
-            color: #fff;
-        }
-
-        /* 绿色师弟 - Programming Zone */
-        .pixel-character.dev .pixel-avatar {
-            background: linear-gradient(135deg, #4CAF50, #388E3C);
-            color: #fff;
-        }
-
-        /* 黄色T仔 - Rest Zone */
-        .pixel-character.tester .pixel-avatar {
-            background: linear-gradient(135deg, #FFC107, #FFA000);
-            color: #fff;
-        }
-
-        /* 红色老板 - Meeting Zone */
-        .pixel-character.boss .pixel-avatar {
-            background: linear-gradient(135deg, #F44336, #D32F2F);
-            color: #fff;
-        }
-
-        /* Walking animation - alternating leg simulation */
-        .pixel-character.walking .pixel-avatar::before {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 20px;
-            height: 10px;
-            background: inherit;
-            border-radius: 0 0 4px 4px;
-            animation: leg-swing 0.3s ease-in-out infinite alternate;
-        }
-
-        @keyframes leg-swing {
-            0% { transform: translateX(-50%) rotate(-15deg); }
-            100% { transform: translateX(-50%) rotate(15deg); }
-        }
-
-        /* Status indicator dot */
+        /* 狀態指示點 */
         .status-dot {
             position: absolute;
             top: -4px;
@@ -824,26 +821,27 @@
             border-radius: 50%;
             border: 2px solid var(--bg-dark);
             animation: status-pulse 2s ease-in-out infinite;
+            z-index: 10;
         }
 
         @keyframes status-pulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
+            50% { transform: scale(1.25); }
         }
 
         .status-dot.busy {
             background: #FF9800; /* 🟠 Orange */
-            box-shadow: 0 0 8px #FF9800;
+            box-shadow: 0 0 10px #FF9800;
         }
 
         .status-dot.online {
             background: #4CAF50; /* 🟢 Green */
-            box-shadow: 0 0 8px #4CAF50;
+            box-shadow: 0 0 10px #4CAF50;
         }
 
         .status-dot.idle {
             background: #2196F3; /* 🔵 Blue */
-            box-shadow: 0 0 8px #2196F3;
+            box-shadow: 0 0 10px #2196F3;
         }
 
         .status-dot.offline {
@@ -852,7 +850,27 @@
             animation: none;
         }
 
-        /* Zone content layout update */
+        /* 行走動畫 - 腿部擺動模擬 */
+        .pixel-character.walking .pixel-avatar::before {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 12px;
+            background: inherit;
+            filter: brightness(0.8);
+            border-radius: 0 0 3px 3px;
+            animation: leg-swing 0.25s ease-in-out infinite alternate;
+        }
+
+        @keyframes leg-swing {
+            0% { transform: translateX(-50%) rotate(-20deg); }
+            100% { transform: translateX(-50%) rotate(20deg); }
+        }
+
+        /* ===== Zone Content Updates ===== */
         .zone-content {
             flex: 1;
             display: flex;
@@ -860,10 +878,64 @@
             justify-content: center;
             flex-direction: column;
             gap: 15px;
+            position: relative;
         }
 
+        /* Character in zone */
+        .zone-char {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .zone-char .zone-avatar {
+            width: 64px;
+            height: 64px;
+            font-size: 2rem;
+        }
+
+        /* Meeting zone avatars */
+        .meeting-avatars {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .meeting-char {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            padding: 10px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .meeting-char:hover {
+            transform: scale(1.1);
+            background: rgba(255,255,255,0.1);
+        }
+
+        .meeting-char .zone-avatar {
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+        }
+
+        .meeting-char-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Animation classes */
         .zone-avatar.bounce {
-            animation: bounce 2s ease-in-out infinite;
+            animation: bounce 1s ease-in-out infinite;
         }
 
         .zone-avatar.glow {
@@ -871,7 +943,22 @@
         }
 
         .zone-avatar.wiggle {
-            animation: wiggle 1s ease-in-out infinite;
+            animation: wiggle 1.5s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 5px 20px rgba(188, 0, 45, 0.5); }
+            50% { box-shadow: 0 5px 30px rgba(188, 0, 45, 0.8), 0 0 20px rgba(188, 0, 45, 0.4); }
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
         }
 
         /* Clickable character cursor */
@@ -899,37 +986,6 @@
             0% { transform: scale(0); opacity: 1; }
             50% { transform: scale(1); opacity: 0.8; }
             100% { transform: scale(0); opacity: 0; }
-        }
-
-        /* Meeting zone avatars */
-        .meeting-avatars {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-        }
-
-        .meeting-char {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-
-        .meeting-char:hover {
-            transform: scale(1.1);
-        }
-
-        .meeting-char .zone-avatar {
-            width: 50px;
-            height: 50px;
-            font-size: 1.6rem;
-        }
-
-        .meeting-char-label {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
         }
         .refresh-indicator {
             position: fixed;
@@ -1335,13 +1391,12 @@
                         <span class="zone-title">AI 區</span>
                     </div>
                     <div class="zone-content">
-                        <div class="pixel-character brain online clickable" data-role="brain" title="點擊查看詳情">
-                            <div class="pixel-avatar">
-                                🧠
-                                <span class="status-dot online"></span>
-                            </div>
+                        <div class="pixel-character brain online" data-role="brain">
+                            <div class="pixel-avatar" title="點擊查看詳情">🧠</div>
+                            <span class="status-dot online"></span>
+                            <span class="pixel-name">大腦</span>
                         </div>
-                        <div class="zone-status">大腦 - AI 助手</div>
+                        <div class="zone-status">AI 助手</div>
                         <div class="zone-activity" id="brain-activity">處理請求中...</div>
                     </div>
                 </div>
@@ -1353,13 +1408,12 @@
                         <span class="zone-title">編程區</span>
                     </div>
                     <div class="zone-content">
-                        <div class="pixel-character dev online clickable" data-role="dev" title="點擊查看詳情">
-                            <div class="pixel-avatar">
-                                🔧
-                                <span class="status-dot online"></span>
-                            </div>
+                        <div class="pixel-character dev online" data-role="dev">
+                            <div class="pixel-avatar" title="點擊查看詳情">🔧</div>
+                            <span class="status-dot online"></span>
+                            <span class="pixel-name">師弟</span>
                         </div>
-                        <div class="zone-status">師弟 - 開發者</div>
+                        <div class="zone-status">開發者</div>
                         <div class="zone-activity" id="dev-activity">開發中...</div>
                     </div>
                 </div>
@@ -1371,13 +1425,12 @@
                         <span class="zone-title">休息區</span>
                     </div>
                     <div class="zone-content">
-                        <div class="pixel-character tester idle clickable" data-role="tester" title="點擊查看詳情">
-                            <div class="pixel-avatar">
-                                🧪
-                                <span class="status-dot idle"></span>
-                            </div>
+                        <div class="pixel-character tester idle" data-role="tester">
+                            <div class="pixel-avatar" title="點擊查看詳情">🧪</div>
+                            <span class="status-dot idle"></span>
+                            <span class="pixel-name">T仔</span>
                         </div>
-                        <div class="zone-status">T仔 - 測試員</div>
+                        <div class="zone-status">測試員</div>
                         <div class="zone-activity" id="tester-activity">Idle - 等待任務</div>
                     </div>
                 </div>
@@ -1391,24 +1444,18 @@
                     <div class="zone-content">
                         <div class="meeting-avatars">
                             <div class="pixel-character boss online" data-role="boss">
-                                <div class="pixel-avatar">
-                                    🦀
-                                    <span class="status-dot online"></span>
-                                </div>
+                                <div class="pixel-avatar">🦀</div>
+                                <span class="status-dot online"></span>
                                 <span class="pixel-name">老板</span>
                             </div>
                             <div class="pixel-character brain online" data-role="brain">
-                                <div class="pixel-avatar">
-                                    🧠
-                                    <span class="status-dot online"></span>
-                                </div>
+                                <div class="pixel-avatar">🧠</div>
+                                <span class="status-dot online"></span>
                                 <span class="pixel-name">大腦</span>
                             </div>
                             <div class="pixel-character dev online" data-role="dev">
-                                <div class="pixel-avatar">
-                                    🔧
-                                    <span class="status-dot online"></span>
-                                </div>
+                                <div class="pixel-avatar">🔧</div>
+                                <span class="status-dot online"></span>
                                 <span class="pixel-name">師弟</span>
                             </div>
                         </div>
@@ -2020,16 +2067,8 @@
 
         // Initialize click handlers for characters
         function initCharacterClicks() {
-            // Main zone avatars - using pixel-character class
-            document.querySelectorAll('.pixel-character.clickable').forEach(character => {
-                character.addEventListener('click', (e) => {
-                    const role = character.dataset.role;
-                    showRoleCard(role);
-                });
-            });
-
-            // Meeting zone characters - using pixel-character class
-            document.querySelectorAll('.meeting-avatars .pixel-character').forEach(character => {
+            // All pixel characters - clickable
+            document.querySelectorAll('.pixel-character').forEach(character => {
                 character.addEventListener('click', (e) => {
                     const role = character.dataset.role;
                     showRoleCard(role);
