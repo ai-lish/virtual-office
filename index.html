@@ -1423,7 +1423,128 @@
             50% { transform: rotate(5deg); }
         }
 
-        /* Clickable character cursor */
+        /* Speech Bubble */
+        .speech-bubble {
+            position: absolute;
+            background: #fff;
+            color: #333;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            z-index: 100;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .speech-bubble.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 6px solid #fff;
+        }
+
+        .speech-bubble.thinking { background: #E3F2FD; }
+        .speech-bubble.thinking::after { border-top-color: #E3F2FD; }
+        
+        .speech-bubble.coding { background: #E8F5E9; }
+        .speech-bubble.coding::after { border-top-color: #E8F5E9; }
+        
+        .speech-bubble.resting { background: #FFF3E0; }
+        .speech-bubble.resting::after { border-top-color: #FFF3E0; }
+        
+        .speech-bubble.meeting { background: #FFEBEE; }
+        .speech-bubble.meeting::after { border-top-color: #FFEBEE; }
+
+        /* Floating animation for speech bubble */
+        @keyframes bubbleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+
+        .speech-bubble.show {
+            animation: bubbleFloat 2s ease-in-out infinite;
+        }
+
+        /* Zone with character */
+        .zone.has-character .zone-content {
+            justify-content: flex-start;
+            padding-top: 20px;
+        }
+
+        /* Character in zone container */
+        .zone-char-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+        }
+
+        /* Character movement animation */
+        @keyframes moveToZone {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(0.5) translateY(-20px); opacity: 0.5; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
+
+        .pixel-character.moving {
+            animation: moveToZone 0.8s ease-in-out;
+        }
+
+        /* Zone character slots - positions where characters can be */
+        .zone-char-slot {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 80px;
+            min-height: 100px;
+        }
+
+        /* Multi-character support in zones */
+        .zone-multi-chars {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        .zone-multi-chars .pixel-character {
+            transform: scale(0.85);
+        }
+
+        .zone-multi-chars .pixel-character:hover {
+            transform: scale(0.95);
+        }
+
+        /* Meeting zone multiple characters */
+        .zone-meeting .zone-content {
+            flex-direction: row !important;
+            flex-wrap: wrap;
+            gap: 20px !important;
+            justify-content: center;
+        }
+
+        .zone-meeting .pixel-character {
+            transform: scale(0.8);
+        }
+
+        .zone-meeting .pixel-character:hover {
+            transform: scale(0.9);
+        }
         .zone-avatar.clickable {
             cursor: pointer;
             transition: transform 0.2s ease;
@@ -1799,6 +1920,14 @@
                         </div>
                         <span class="agent-status agent-active" id="status-dev">工作中</span>
                     </div>
+                    <div class="agent-card" data-agent="boss">
+                        <div class="agent-avatar">🦀</div>
+                        <div class="agent-info">
+                            <div class="agent-name">老板</div>
+                            <div class="agent-role">總指揮</div>
+                        </div>
+                        <span class="agent-status agent-active" id="status-boss">工作中</span>
+                    </div>
                 </div>
             </section>
 
@@ -1847,7 +1976,7 @@
 
             <div class="office-grid">
                 <!-- AI Zone - Brain -->
-                <div class="zone zone-ai">
+                <div class="zone zone-ai" id="zone-ai">
                     <div class="light-fixture" style="left: 50%; transform: translateX(-50%);"></div>
                     <div class="pixel-window"></div>
                     <div class="blue-decor blue-decor-1">🌟</div>
@@ -1862,10 +1991,8 @@
                         <div class="pixel-computer">
                             <div class="pixel-computer-screen">AI</div>
                         </div>
-                        <div class="pixel-character brain online" data-role="brain">
-                            <div class="pixel-avatar" title="點擊查看詳情">🧠</div>
-                            <span class="status-dot online"></span>
-                            <span class="pixel-name">大腦</span>
+                        <div class="zone-char-container" id="ai-zone-chars">
+                            <!-- Characters will be dynamically placed here -->
                         </div>
                         <div class="zone-status">AI 助手</div>
                         <div class="zone-activity" id="brain-activity">處理請求中...</div>
@@ -1873,7 +2000,7 @@
                 </div>
 
                 <!-- Programming Zone - 师弟 -->
-                <div class="zone zone-dev">
+                <div class="zone zone-dev" id="zone-dev">
                     <div class="light-fixture" style="left: 20px;"></div>
                     <div class="pixel-window"></div>
                     <div class="green-decor green-decor-1">🌿</div>
@@ -1891,10 +2018,8 @@
                             <div class="code-line code-line-3"></div>
                             <div class="code-line code-line-4"></div>
                         </div>
-                        <div class="pixel-character dev online" data-role="dev">
-                            <div class="pixel-avatar" title="點擊查看詳情">🔧</div>
-                            <span class="status-dot online"></span>
-                            <span class="pixel-name">師弟</span>
+                        <div class="zone-char-container" id="dev-zone-chars">
+                            <!-- Characters will be dynamically placed here -->
                         </div>
                         <div class="zone-status">開發者</div>
                         <div class="zone-activity" id="dev-activity">開發中...</div>
@@ -1902,7 +2027,7 @@
                 </div>
 
                 <!-- Rest Zone - T仔 -->
-                <div class="zone zone-rest">
+                <div class="zone zone-rest" id="zone-rest">
                     <div class="light-fixture" style="right: 25px;"></div>
                     <div class="pixel-window"></div>
                     <div class="yellow-decor yellow-decor-1">☕</div>
@@ -1920,10 +2045,8 @@
                             <div class="pixel-water"></div>
                             <div class="pixel-chair"></div>
                         </div>
-                        <div class="pixel-character tester idle" data-role="tester">
-                            <div class="pixel-avatar" title="點擊查看詳情">🧪</div>
-                            <span class="status-dot idle"></span>
-                            <span class="pixel-name">T仔</span>
+                        <div class="zone-char-container" id="rest-zone-chars">
+                            <!-- Characters will be dynamically placed here -->
                         </div>
                         <div class="zone-status">測試員</div>
                         <div class="zone-activity" id="tester-activity">Idle - 等待任務</div>
@@ -1931,7 +2054,7 @@
                 </div>
 
                 <!-- Meeting Zone - 老板 -->
-                <div class="zone zone-meeting">
+                <div class="zone zone-meeting" id="zone-meeting">
                     <div class="light-fixture" style="left: 30%;"></div>
                     <div class="light-fixture" style="right: 30%;"></div>
                     <div class="pixel-window"></div>
@@ -1951,22 +2074,8 @@
                                 <div class="wb-line wb-line-3"></div>
                             </div>
                         </div>
-                        <div class="meeting-avatars">
-                            <div class="pixel-character boss online" data-role="boss">
-                                <div class="pixel-avatar">🦀</div>
-                                <span class="status-dot online"></span>
-                                <span class="pixel-name">老板</span>
-                            </div>
-                            <div class="pixel-character brain online" data-role="brain">
-                                <div class="pixel-avatar">🧠</div>
-                                <span class="status-dot online"></span>
-                                <span class="pixel-name">大腦</span>
-                            </div>
-                            <div class="pixel-character dev online" data-role="dev">
-                                <div class="pixel-avatar">🔧</div>
-                                <span class="status-dot online"></span>
-                                <span class="pixel-name">師弟</span>
-                            </div>
+                        <div class="zone-multi-chars" id="meeting-zone-chars">
+                            <!-- Characters will be dynamically placed here when in meeting -->
                         </div>
                     </div>
                 </div>
@@ -2260,6 +2369,9 @@
             if (data.dev) {
                 updateAgentStatus('dev', data.dev.status, data.dev.activity);
             }
+            if (data.boss) {
+                updateAgentStatus('boss', data.boss.status, data.boss.activity);
+            }
 
             // Update last update time
             document.getElementById('lastUpdateTime').textContent = formatTime(new Date());
@@ -2429,6 +2541,18 @@
                 } else {
                     sessionData.dev = { status: 'offline', activity: '離線中', lastActivity: Date.now() - 3600000 };
                 }
+
+                // Boss status - cycles between meeting and idle
+                const bossCycle = (minutes * 60 + seconds) % 80;
+                if (bossCycle < 20) {
+                    sessionData.boss = { status: 'busy', activity: '傾緊偈...', lastActivity: Date.now() - 30000 };
+                } else if (bossCycle < 40) {
+                    sessionData.boss = { status: 'online', activity: '等緊人傾...', lastActivity: Date.now() - 180000 };
+                } else if (bossCycle < 60) {
+                    sessionData.boss = { status: 'idle', activity: '發緊呆...', lastActivity: Date.now() - 900000 };
+                } else {
+                    sessionData.boss = { status: 'offline', activity: '離線中', lastActivity: Date.now() - 7200000 };
+                }
             }
 
             // Update UI
@@ -2438,6 +2562,9 @@
             updateRoleCardData('brain', sessionData.brain.status, sessionData.brain.activity);
             updateRoleCardData('tester', sessionData.tester.status, sessionData.tester.activity);
             updateRoleCardData('dev', sessionData.dev.status, sessionData.dev.activity);
+            if (sessionData.boss) {
+                updateRoleCardData('boss', sessionData.boss.status, sessionData.boss.activity);
+            }
 
             // Hide indicator and restore scroll position
             indicator.classList.remove('show');
@@ -2478,6 +2605,246 @@
 
         // Expose for manual refresh from console
         window.refreshVirtualOffice = fetchSessionData;
+
+        // ===== Character Zone Management =====
+        
+        // Character definitions
+        const characterDefs = {
+            brain: {
+                name: '大腦',
+                avatar: '🧠',
+                zoneDefault: 'ai',
+                zones: {
+                    busy: 'ai',      // Thinking → AI Zone
+                    online: 'ai',    // Active → AI Zone
+                    idle: 'rest',    // Idle → Rest Zone
+                    offline: 'rest'  // Offline → Rest Zone
+                },
+                bubbleType: 'thinking',
+                bubbleTexts: {
+                    busy: ['思考緊...', '分析緊數據...', '諗緊點答...', '處理緊請求...'],
+                    online: ['回覆緊...', '分析緊...', '等待緊...', '思考中...'],
+                    idle: ['發緊呆...', '等緊嘢做...', '抖下先...'],
+                    offline: ['訓覺緊...', '離線中...']
+                }
+            },
+            dev: {
+                name: '師弟',
+                avatar: '🔧',
+                zoneDefault: 'dev',
+                zones: {
+                    busy: 'dev',      // Coding → Programming Zone
+                    online: 'dev',    // Active → Programming Zone
+                    idle: 'rest',     // Idle → Rest Zone
+                    offline: 'rest'   // Offline → Rest Zone
+                },
+                bubbleType: 'coding',
+                bubbleTexts: {
+                    busy: ['整緊野...', 'Debug緊...', 'Coding緊...', '寫緊Code...'],
+                    online: ['開發緊...', '寫緊Code...', '整緊嘢...'],
+                    idle: ['發緊呆...', '等緊嘢做...', '抖下先...'],
+                    offline: ['訓覺緊...', '離線中...']
+                }
+            },
+            tester: {
+                name: 'T仔',
+                avatar: '🧪',
+                zoneDefault: 'rest',
+                zones: {
+                    busy: 'dev',      // Testing → Programming Zone (working with dev)
+                    online: 'dev',    // Active → Programming Zone
+                    idle: 'rest',     // Idle → Rest Zone
+                    offline: 'rest'   // Offline → Rest Zone
+                },
+                bubbleType: 'resting',
+                bubbleTexts: {
+                    busy: ['Testing緊...', '測試緊...', '驗證緊...', 'QC緊...'],
+                    online: ['準備緊測試...', '等緊任務...'],
+                    idle: ['發緊呆...', '等緊嘢做...', '休息緊...', '飲緊咖啡...'],
+                    offline: ['訓覺緊...', '離線中...']
+                }
+            },
+            boss: {
+                name: '老板',
+                avatar: '🦀',
+                zoneDefault: 'meeting',
+                zones: {
+                    busy: 'meeting',   // Meeting → Meeting Zone
+                    online: 'meeting', // Available → Meeting Zone
+                    idle: 'meeting',   // Idle → Meeting Zone
+                    offline: 'meeting' // Offline → Meeting Zone
+                },
+                bubbleType: 'meeting',
+                bubbleTexts: {
+                    busy: ['傾緊偈...', '開緊會...', '傾緊項目...', '決定緊嘢...'],
+                    online: ['等緊人傾...', '準備緊...'],
+                    idle: ['發緊呆...', '等緊人...'],
+                    offline: ['唔係到...', '離線中...']
+                }
+            }
+        };
+
+        // Current zone assignments
+        let characterZoneAssignments = {
+            brain: 'ai',
+            dev: 'dev',
+            tester: 'rest',
+            boss: 'meeting'
+        };
+
+        // Meeting state - all characters join when boss is in meeting
+        let isMeetingActive = false;
+
+        // Get zone for character based on status
+        function getZoneForCharacter(characterId, status) {
+            const charDef = characterDefs[characterId];
+            if (!charDef) return 'rest';
+            
+            // If meeting is active, boss stays in meeting, others might join
+            if (isMeetingActive && characterId === 'boss') {
+                return 'meeting';
+            }
+            
+            return charDef.zones[status] || charDef.zoneDefault;
+        }
+
+        // Get random bubble text
+        function getBubbleText(characterId, status) {
+            const charDef = characterDefs[characterId];
+            if (!charDef) return '';
+            
+            const texts = charDef.bubbleTexts[status] || charDef.bubbleTexts.idle;
+            return texts[Math.floor(Math.random() * texts.length)];
+        }
+
+        // Create character element with speech bubble
+        function createCharacterElement(characterId, status, activity) {
+            const charDef = characterDefs[characterId];
+            if (!charDef) return '';
+
+            const bubbleText = getBubbleText(characterId, status);
+
+            return `
+                <div class="pixel-character ${characterId} ${status}" data-role="${characterId}">
+                    <div class="speech-bubble ${charDef.bubbleType}" id="bubble-${characterId}">${bubbleText}</div>
+                    <div class="pixel-avatar clickable" title="點擊查看詳情">${charDef.avatar}</div>
+                    <span class="status-dot ${status}"></span>
+                    <span class="pixel-name">${charDef.name}</span>
+                </div>
+            `;
+        }
+
+        // Update character positions in zones
+        function updateCharacterZones(data) {
+            // Determine if meeting is active (boss is busy/online)
+            const bossData = data.boss || { status: 'online' };
+            isMeetingActive = (bossData.status === 'busy' || bossData.status === 'online');
+
+            // Update each character's zone
+            ['brain', 'dev', 'tester', 'boss'].forEach(characterId => {
+                const charData = data[characterId];
+                if (!charData) return;
+
+                const newZone = getZoneForCharacter(characterId, charData.status);
+                const oldZone = characterZoneAssignments[characterId];
+                
+                // Only update if zone changed or first time
+                if (newZone !== oldZone || !oldZone) {
+                    characterZoneAssignments[characterId] = newZone;
+                }
+            });
+
+            // Render characters to their zones
+            renderCharactersToZones(data);
+        }
+
+        // Render characters to the appropriate zone containers
+        function renderCharactersToZones(data) {
+            // Clear all zone containers
+            document.getElementById('ai-zone-chars').innerHTML = '';
+            document.getElementById('dev-zone-chars').innerHTML = '';
+            document.getElementById('rest-zone-chars').innerHTML = '';
+            document.getElementById('meeting-zone-chars').innerHTML = '';
+
+            // Track which characters are in each zone
+            const zoneCharacters = {
+                ai: [],
+                dev: [],
+                rest: [],
+                meeting: []
+            };
+
+            // Assign characters to zones
+            ['brain', 'dev', 'tester', 'boss'].forEach(characterId => {
+                const charData = data[characterId];
+                if (!charData) return;
+
+                const zone = characterZoneAssignments[characterId] || characterDefs[characterId]?.zoneDefault || 'rest';
+                zoneCharacters[zone].push({ id: characterId, ...charData });
+            });
+
+            // Render to AI Zone
+            const aiContainer = document.getElementById('ai-zone-chars');
+            zoneCharacters.ai.forEach(char => {
+                aiContainer.innerHTML += createCharacterElement(char.id, char.status, char.activity);
+            });
+
+            // Render to Dev Zone
+            const devContainer = document.getElementById('dev-zone-chars');
+            zoneCharacters.dev.forEach(char => {
+                devContainer.innerHTML += createCharacterElement(char.id, char.status, char.activity);
+            });
+
+            // Render to Rest Zone
+            const restContainer = document.getElementById('rest-zone-chars');
+            zoneCharacters.rest.forEach(char => {
+                restContainer.innerHTML += createCharacterElement(char.id, char.status, char.activity);
+            });
+
+            // Render to Meeting Zone
+            const meetingContainer = document.getElementById('meeting-zone-chars');
+            zoneCharacters.meeting.forEach(char => {
+                meetingContainer.innerHTML += createCharacterElement(char.id, char.status, char.activity);
+            });
+
+            // Re-initialize character clicks after rendering
+            initCharacterClicks();
+
+            // Update zone activity displays
+            if (data.brain) {
+                document.getElementById('brain-activity').textContent = data.brain.activity || getBubbleText('brain', data.brain.status);
+            }
+            if (data.dev) {
+                document.getElementById('dev-activity').textContent = data.dev.activity || getBubbleText('dev', data.dev.status);
+            }
+            if (data.tester) {
+                document.getElementById('tester-activity').textContent = data.tester.activity || getBubbleText('tester', data.tester.status);
+            }
+
+            // Show/hide speech bubbles based on status
+            ['brain', 'dev', 'tester', 'boss'].forEach(characterId => {
+                const charData = data[characterId];
+                if (!charData) return;
+
+                const bubble = document.getElementById(`bubble-${characterId}`);
+                if (bubble) {
+                    bubble.textContent = getBubbleText(characterId, charData.status);
+                    if (charData.status === 'offline') {
+                        bubble.style.display = 'none';
+                    } else {
+                        bubble.style.display = 'block';
+                        setTimeout(() => bubble.classList.add('show'), 100);
+                    }
+                }
+            });
+        }
+
+        // Override updateUI to also update character zones
+        const originalUpdateUI = updateUI;
+        updateUI = function(data) {
+            originalUpdateUI(data);
+            updateCharacterZones(data);
+        };
 
         // Role Card Data
         const roleData = {
@@ -2602,23 +2969,6 @@
         function updateRoleCardData(role, status, activity) {
             currentSessionData[role] = { status, activity };
         }
-
-        // Override updateUI to also update role card data
-        const originalUpdateUI = updateUI;
-        updateUI = function(data) {
-            originalUpdateUI(data);
-
-            // Update role card session data
-            if (data.brain) {
-                updateRoleCardData('brain', data.brain.status, data.brain.activity);
-            }
-            if (data.tester) {
-                updateRoleCardData('tester', data.tester.status, data.tester.activity);
-            }
-            if (data.dev) {
-                updateRoleCardData('dev', data.dev.status, data.dev.activity);
-            }
-        };
     </script>
 </body>
 </html>
