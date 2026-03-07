@@ -2168,6 +2168,8 @@
                 x: window.scrollX,
                 y: window.scrollY
             };
+            // Also save to localStorage
+            localStorage.setItem('virtualOffice_scrollPosition', JSON.stringify(scrollPosition));
         }
         
         // Restore scroll position after refresh
@@ -2175,6 +2177,92 @@
             // Use requestAnimationFrame to ensure DOM is ready
             requestAnimationFrame(() => {
                 window.scrollTo(scrollPosition.x, scrollPosition.y);
+            });
+        }
+        
+        // ===== LocalStorage State Management =====
+        const STORAGE_KEYS = {
+            activeTab: 'virtualOffice_activeTab',
+            expandedProjects: 'virtualOffice_expandedProjects',
+            scrollPosition: 'virtualOffice_scrollPosition'
+        };
+        
+        // Save complete state
+        function saveState() {
+            // Save active tab
+            const activeTab = document.querySelector('.mobile-tab.active');
+            if (activeTab) {
+                localStorage.setItem(STORAGE_KEYS.activeTab, activeTab.dataset.tab);
+            }
+            
+            // Save expanded projects
+            const expandedProjects = [];
+            document.querySelectorAll('.project-item.expanded').forEach(item => {
+                const projectName = item.querySelector('.project-name').textContent;
+                expandedProjects.push(projectName);
+            });
+            localStorage.setItem(STORAGE_KEYS.expandedProjects, JSON.stringify(expandedProjects));
+            
+            // Save scroll position
+            saveScrollPosition();
+        }
+        
+        // Restore complete state
+        function restoreState() {
+            // Restore active tab
+            const savedTab = localStorage.getItem(STORAGE_KEYS.activeTab);
+            if (savedTab && window.innerWidth <= 768) {
+                const tabButton = document.querySelector(`.mobile-tab[data-tab="${savedTab}"]`);
+                if (tabButton) {
+                    tabButton.click();
+                }
+            }
+            
+            // Restore expanded projects
+            const savedExpanded = localStorage.getItem(STORAGE_KEYS.expandedProjects);
+            if (savedExpanded) {
+                try {
+                    const expandedProjects = JSON.parse(savedExpanded);
+                    document.querySelectorAll('.project-item').forEach(item => {
+                        const projectName = item.querySelector('.project-name').textContent;
+                        if (expandedProjects.includes(projectName)) {
+                            item.classList.add('expanded');
+                            item.dataset.expanded = 'true';
+                        }
+                    });
+                } catch (e) {
+                    console.log('Error restoring project state:', e);
+                }
+            }
+            
+            // Restore scroll position
+            const savedScroll = localStorage.getItem(STORAGE_KEYS.scrollPosition);
+            if (savedScroll) {
+                try {
+                    scrollPosition = JSON.parse(savedScroll);
+                    restoreScrollPosition();
+                } catch (e) {
+                    console.log('Error restoring scroll position:', e);
+                }
+            }
+        }
+        
+        // Save state on tab change
+        function initTabStateSaving() {
+            document.querySelectorAll('.mobile-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    setTimeout(saveState, 100);
+                });
+            });
+        }
+        
+        // Save state on project toggle
+        function initProjectStateSaving() {
+            document.querySelectorAll('.project-item').forEach(item => {
+                const header = item.querySelector('.project-header');
+                header.addEventListener('click', () => {
+                    setTimeout(saveState, 100);
+                });
             });
         }
 
@@ -2581,9 +2669,16 @@
             // Initialize mobile tabs and project expand
             initMobileTabs();
             initProjectExpand();
+            
+            // Initialize state saving
+            initTabStateSaving();
+            initProjectStateSaving();
 
             // Initialize character clicks
             initCharacterClicks();
+
+            // Restore state from localStorage
+            restoreState();
 
             // Initial fetch
             fetchSessionData();
