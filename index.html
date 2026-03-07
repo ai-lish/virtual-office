@@ -633,23 +633,233 @@
             visibility: visible;
         }
 
-        /* Character bounce animation */
-        @keyframes bounce {
+        /* ========== PIXEL ART CHARACTERS ========== */
+        .pixel-character {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .pixel-character:hover {
+            transform: scale(1.1);
+        }
+
+        /* Pixel Avatar Container */
+        .pixel-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            position: relative;
+            image-rendering: pixelated;
+            box-shadow: 
+                0 0 0 3px currentColor,
+                0 8px 0 rgba(0,0,0,0.2),
+                0 12px 20px rgba(0,0,0,0.3);
+        }
+
+        /* Character shadows */
+        .pixel-character::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            width: 40px;
+            height: 8px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 50%;
+            filter: blur(3px);
+            transition: all 0.3s ease;
+        }
+
+        .pixel-character.walking::after {
+            animation: shadow-pulse 0.5s ease-in-out infinite;
+        }
+
+        @keyframes shadow-pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(0.8); opacity: 0.2; }
+        }
+
+        /* Status-based animations */
+        /* 🟠 BUSY - Fast pulsing bounce */
+        .pixel-character.busy {
+            animation: busy-bounce 0.4s ease-in-out infinite;
+        }
+
+        .pixel-character.busy .pixel-avatar {
+            animation: busy-glow 0.4s ease-in-out infinite alternate;
+        }
+
+        @keyframes busy-bounce {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+            50% { transform: translateY(-12px); }
         }
 
-        /* Character glow animation */
-        @keyframes glow {
-            0%, 100% { box-shadow: 0 5px 20px rgba(188, 0, 45, 0.5); }
-            50% { box-shadow: 0 5px 30px rgba(188, 0, 45, 0.8), 0 0 20px rgba(188, 0, 45, 0.4); }
+        @keyframes busy-glow {
+            0% { filter: brightness(1); }
+            100% { filter: brightness(1.3) drop-shadow(0 0 10px currentColor); }
         }
 
-        /* Character wiggle animation */
-        @keyframes wiggle {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(-5deg); }
-            75% { transform: rotate(5deg); }
+        /* 🟢 ONLINE - Normal floating walk */
+        .pixel-character.online {
+            animation: walk-float 1s ease-in-out infinite;
+        }
+
+        .pixel-character.online .pixel-avatar {
+            animation: avatar-sway 1s ease-in-out infinite;
+        }
+
+        @keyframes walk-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        @keyframes avatar-sway {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+        }
+
+        /* 🔵 IDLE - Slow idle movement */
+        .pixel-character.idle {
+            animation: idle-sway 2.5s ease-in-out infinite;
+        }
+
+        .pixel-character.idle .pixel-avatar {
+            opacity: 0.8;
+            animation: idle-breathe 3s ease-in-out infinite;
+        }
+
+        @keyframes idle-sway {
+            0%, 100% { transform: translateX(0) rotate(0deg); }
+            25% { transform: translateX(-2px) rotate(-2deg); }
+            75% { transform: translateX(2px) rotate(2deg); }
+        }
+
+        @keyframes idle-breathe {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(0.95); }
+        }
+
+        /* ⚫ OFFLINE - Static, no animation */
+        .pixel-character.offline {
+            animation: none;
+            filter: grayscale(0.8) brightness(0.6);
+        }
+
+        .pixel-character.offline .pixel-avatar {
+            animation: none;
+            filter: grayscale(1) brightness(0.5);
+        }
+
+        .pixel-character.offline::after {
+            opacity: 0.15;
+        }
+
+        /* Character names */
+        .pixel-name {
+            margin-top: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Zone-specific colors */
+        /* 蓝色大脑 - AI Zone */
+        .pixel-character.brain .pixel-avatar {
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: #fff;
+        }
+
+        /* 绿色师弟 - Programming Zone */
+        .pixel-character.dev .pixel-avatar {
+            background: linear-gradient(135deg, #4CAF50, #388E3C);
+            color: #fff;
+        }
+
+        /* 黄色T仔 - Rest Zone */
+        .pixel-character.tester .pixel-avatar {
+            background: linear-gradient(135deg, #FFC107, #FFA000);
+            color: #fff;
+        }
+
+        /* 红色老板 - Meeting Zone */
+        .pixel-character.boss .pixel-avatar {
+            background: linear-gradient(135deg, #F44336, #D32F2F);
+            color: #fff;
+        }
+
+        /* Walking animation - alternating leg simulation */
+        .pixel-character.walking .pixel-avatar::before {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 10px;
+            background: inherit;
+            border-radius: 0 0 4px 4px;
+            animation: leg-swing 0.3s ease-in-out infinite alternate;
+        }
+
+        @keyframes leg-swing {
+            0% { transform: translateX(-50%) rotate(-15deg); }
+            100% { transform: translateX(-50%) rotate(15deg); }
+        }
+
+        /* Status indicator dot */
+        .status-dot {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid var(--bg-dark);
+            animation: status-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes status-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .status-dot.busy {
+            background: #FF9800; /* 🟠 Orange */
+            box-shadow: 0 0 8px #FF9800;
+        }
+
+        .status-dot.online {
+            background: #4CAF50; /* 🟢 Green */
+            box-shadow: 0 0 8px #4CAF50;
+        }
+
+        .status-dot.idle {
+            background: #2196F3; /* 🔵 Blue */
+            box-shadow: 0 0 8px #2196F3;
+        }
+
+        .status-dot.offline {
+            background: #9E9E9E; /* ⚫ Gray */
+            box-shadow: none;
+            animation: none;
+        }
+
+        /* Zone content layout update */
+        .zone-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 15px;
         }
 
         .zone-avatar.bounce {
@@ -1125,7 +1335,12 @@
                         <span class="zone-title">AI 區</span>
                     </div>
                     <div class="zone-content">
-                        <div class="zone-avatar glow clickable" data-role="brain" title="點擊查看詳情">🧠</div>
+                        <div class="pixel-character brain online clickable" data-role="brain" title="點擊查看詳情">
+                            <div class="pixel-avatar">
+                                🧠
+                                <span class="status-dot online"></span>
+                            </div>
+                        </div>
                         <div class="zone-status">大腦 - AI 助手</div>
                         <div class="zone-activity" id="brain-activity">處理請求中...</div>
                     </div>
@@ -1138,7 +1353,12 @@
                         <span class="zone-title">編程區</span>
                     </div>
                     <div class="zone-content">
-                        <div class="zone-avatar bounce clickable" data-role="dev" title="點擊查看詳情">🔧</div>
+                        <div class="pixel-character dev online clickable" data-role="dev" title="點擊查看詳情">
+                            <div class="pixel-avatar">
+                                🔧
+                                <span class="status-dot online"></span>
+                            </div>
+                        </div>
                         <div class="zone-status">師弟 - 開發者</div>
                         <div class="zone-activity" id="dev-activity">開發中...</div>
                     </div>
@@ -1151,7 +1371,12 @@
                         <span class="zone-title">休息區</span>
                     </div>
                     <div class="zone-content">
-                        <div class="zone-avatar wiggle clickable" data-role="tester" title="點擊查看詳情">🧪</div>
+                        <div class="pixel-character tester idle clickable" data-role="tester" title="點擊查看詳情">
+                            <div class="pixel-avatar">
+                                🧪
+                                <span class="status-dot idle"></span>
+                            </div>
+                        </div>
                         <div class="zone-status">T仔 - 測試員</div>
                         <div class="zone-activity" id="tester-activity">Idle - 等待任務</div>
                     </div>
@@ -1165,17 +1390,26 @@
                     </div>
                     <div class="zone-content">
                         <div class="meeting-avatars">
-                            <div class="meeting-char" data-role="boss">
-                                <div class="zone-avatar bounce">🦀</div>
-                                <span class="meeting-char-label">老板</span>
+                            <div class="pixel-character boss online" data-role="boss">
+                                <div class="pixel-avatar">
+                                    🦀
+                                    <span class="status-dot online"></span>
+                                </div>
+                                <span class="pixel-name">老板</span>
                             </div>
-                            <div class="meeting-char" data-role="brain">
-                                <div class="zone-avatar glow">🧠</div>
-                                <span class="meeting-char-label">大腦</span>
+                            <div class="pixel-character brain online" data-role="brain">
+                                <div class="pixel-avatar">
+                                    🧠
+                                    <span class="status-dot online"></span>
+                                </div>
+                                <span class="pixel-name">大腦</span>
                             </div>
-                            <div class="meeting-char" data-role="dev">
-                                <div class="zone-avatar bounce">🔧</div>
-                                <span class="meeting-char-label">師弟</span>
+                            <div class="pixel-character dev online" data-role="dev">
+                                <div class="pixel-avatar">
+                                    🔧
+                                    <span class="status-dot online"></span>
+                                </div>
+                                <span class="pixel-name">師弟</span>
                             </div>
                         </div>
                     </div>
@@ -1488,6 +1722,39 @@
             if (activityEl) {
                 activityEl.textContent = activity || getStatusText(status);
             }
+
+            // Update pixel character status
+            updatePixelCharacterStatus(agent, status);
+        }
+
+        // Update pixel character status classes
+        function updatePixelCharacterStatus(agent, status) {
+            // Map agent names to character classes
+            const characterMap = {
+                'brain': '.pixel-character.brain',
+                'dev': '.pixel-character.dev',
+                'tester': '.pixel-character.tester',
+                'boss': '.pixel-character.boss'
+            };
+
+            const selector = characterMap[agent];
+            if (!selector) return;
+
+            const character = document.querySelector(selector);
+            if (!character) return;
+
+            // Remove all status classes
+            character.classList.remove('busy', 'online', 'idle', 'offline');
+
+            // Add new status class
+            character.classList.add(status);
+
+            // Update status dot
+            const statusDot = character.querySelector('.status-dot');
+            if (statusDot) {
+                statusDot.classList.remove('busy', 'online', 'idle', 'offline');
+                statusDot.classList.add(status);
+            }
         }
 
         // Fetch session data from OpenClaw via API
@@ -1753,18 +2020,18 @@
 
         // Initialize click handlers for characters
         function initCharacterClicks() {
-            // Main zone avatars
-            document.querySelectorAll('.zone-avatar.clickable').forEach(avatar => {
-                avatar.addEventListener('click', (e) => {
-                    const role = avatar.dataset.role;
+            // Main zone avatars - using pixel-character class
+            document.querySelectorAll('.pixel-character.clickable').forEach(character => {
+                character.addEventListener('click', (e) => {
+                    const role = character.dataset.role;
                     showRoleCard(role);
                 });
             });
 
-            // Meeting zone characters
-            document.querySelectorAll('.meeting-char').forEach(char => {
-                char.addEventListener('click', (e) => {
-                    const role = char.dataset.role;
+            // Meeting zone characters - using pixel-character class
+            document.querySelectorAll('.meeting-avatars .pixel-character').forEach(character => {
+                character.addEventListener('click', (e) => {
+                    const role = character.dataset.role;
                     showRoleCard(role);
                 });
             });
