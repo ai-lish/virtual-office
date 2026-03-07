@@ -1361,7 +1361,7 @@
 
         /* ===== 狀態對應動畫 ===== */
 
-        /* 🟠 BUSY - 快速脈衝跳動 */
+        /* 🟠 BUSY - 快速脈衝跳動 (0.4s) */
         .pixel-character.busy {
             animation: busy-bounce 0.4s ease-in-out infinite;
         }
@@ -1380,7 +1380,7 @@
             100% { filter: brightness(1.3) drop-shadow(0 0 15px currentColor); }
         }
 
-        /* 🟢 ONLINE - 正常浮動行走 */
+        /* 🟢 ONLINE - 正常浮動 (1.5s) */
         .pixel-character.online {
             animation: walk-float 1.5s ease-in-out infinite;
         }
@@ -1399,9 +1399,9 @@
             50% { transform: rotate(4deg); }
         }
 
-        /* 🔵 IDLE - 緩慢Idle擺動 */
+        /* 🔵 IDLE - 緩慢呼吸動畫 (3.5s) */
         .pixel-character.idle {
-            animation: idle-sway 3s ease-in-out infinite;
+            animation: idle-sway 3.5s ease-in-out infinite;
         }
 
         .pixel-character.idle .pixel-avatar {
@@ -1434,6 +1434,31 @@
 
         .pixel-character.offline::after {
             opacity: 0.1;
+        }
+
+        /* ===== 走路動畫 (腿部擺動) ===== */
+        .pixel-character.walking .pixel-avatar {
+            animation: walk-leg-swing 0.3s ease-in-out infinite alternate;
+        }
+
+        @keyframes walk-leg-swing {
+            0% { transform: translateY(0) rotate(-3deg); }
+            100% { transform: translateY(-5px) rotate(3deg); }
+        }
+
+        /* 移動中的過渡效果 */
+        .pixel-character.moving {
+            transition: all 0.5s ease-in-out;
+            z-index: 100;
+        }
+
+        .pixel-character.moving .pixel-avatar {
+            animation: moving-pulse 0.5s ease-in-out infinite;
+        }
+
+        @keyframes moving-pulse {
+            0%, 100% { transform: scale(1); filter: brightness(1); }
+            50% { transform: scale(1.1); filter: brightness(1.2); }
         }
 
         /* Character names */
@@ -1524,12 +1549,25 @@
             flex-direction: column;
             align-items: center;
             gap: 8px;
+            position: relative;
         }
 
         .zone-char .zone-avatar {
             width: 64px;
             height: 64px;
             font-size: 2rem;
+        }
+
+        /* Pixel character container with speech bubble space */
+        .pixel-character {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            padding-top: 30px;
+            margin: 10px;
         }
 
         /* Meeting zone avatars */
@@ -1601,6 +1639,9 @@
         /* Speech Bubble */
         .speech-bubble {
             position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
             background: #fff;
             color: #333;
             padding: 6px 12px;
@@ -1610,14 +1651,25 @@
             box-shadow: 0 3px 10px rgba(0,0,0,0.2);
             z-index: 100;
             opacity: 0;
-            transform: translateY(10px);
             transition: all 0.3s ease;
             pointer-events: none;
+            min-width: 80px;
+            text-align: center;
         }
 
         .speech-bubble.show {
             opacity: 1;
-            transform: translateY(0);
+            animation: bubbleAppear 0.5s ease-out forwards, bubbleFloat 2s ease-in-out 0.5s infinite;
+        }
+
+        @keyframes bubbleAppear {
+            0% { opacity: 0; transform: translateX(-50%) translateY(10px) scale(0.8); }
+            100% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+        }
+
+        @keyframes bubbleFloat {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-3px); }
         }
 
         .speech-bubble::after {
@@ -1643,14 +1695,15 @@
         .speech-bubble.meeting { background: #FFEBEE; }
         .speech-bubble.meeting::after { border-top-color: #FFEBEE; }
 
-        /* Floating animation for speech bubble */
-        @keyframes bubbleFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-3px); }
+        /* Bubble for movement */
+        .speech-bubble.moving {
+            background: #E1F5FE;
+            animation: bubbleAppear 0.3s ease-out forwards, bubbleMove 0.8s ease-in-out 0.3s infinite !important;
         }
 
-        .speech-bubble.show {
-            animation: bubbleFloat 2s ease-in-out infinite;
+        @keyframes bubbleMove {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-5px); }
         }
 
         /* Zone with character */
@@ -3072,6 +3125,9 @@
             // Auto refresh every 30 seconds
             setInterval(fetchSessionData, REFRESH_INTERVAL);
             setInterval(fetchApiStats, REFRESH_INTERVAL);
+
+            // Start automatic zone movement (every 10 seconds)
+            startAutoZoneMovement();
         });
 
         // Re-init on resize
@@ -3091,12 +3147,13 @@
 
         // ===== Character Zone Management =====
         
-        // Character definitions
+        // Character definitions with target zones
         const characterDefs = {
             brain: {
                 name: '大腦',
                 avatar: '🧠',
                 zoneDefault: 'ai',
+                targetZone: 'ai',  // 大脑 → AI区
                 zones: {
                     busy: 'ai',      // Thinking → AI Zone
                     online: 'ai',    // Active → AI Zone
@@ -3115,6 +3172,7 @@
                 name: '師弟',
                 avatar: '🔧',
                 zoneDefault: 'dev',
+                targetZone: 'dev',  // 师弟 → 编程区
                 zones: {
                     busy: 'dev',      // Coding → Programming Zone
                     online: 'dev',    // Active → Programming Zone
@@ -3133,6 +3191,7 @@
                 name: 'T仔',
                 avatar: '🧪',
                 zoneDefault: 'rest',
+                targetZone: 'rest',  // T仔 → 休息区
                 zones: {
                     busy: 'dev',      // Testing → Programming Zone (working with dev)
                     online: 'dev',    // Active → Programming Zone
@@ -3151,6 +3210,7 @@
                 name: '老板',
                 avatar: '🦀',
                 zoneDefault: 'meeting',
+                targetZone: 'meeting',  // 老板 → 会议区
                 zones: {
                     busy: 'meeting',   // Meeting → Meeting Zone
                     online: 'meeting', // Available → Meeting Zone
@@ -3177,6 +3237,105 @@
 
         // Meeting state - all characters join when boss is in meeting
         let isMeetingActive = false;
+
+        // ===== Auto Zone Movement System =====
+        
+        // Zone movement interval (10 seconds)
+        const ZONE_MOVE_INTERVAL = 10000;
+        
+        // Characters currently moving
+        let movingCharacters = new Set();
+
+        // Function to simulate automatic zone movement
+        function triggerAutoZoneMovement() {
+            console.log('🔄 Triggering auto zone movement...');
+            
+            // Each character has a chance to move to their target zone
+            ['brain', 'dev', 'tester', 'boss'].forEach(characterId => {
+                const charDef = characterDefs[characterId];
+                const currentZone = characterZoneAssignments[characterId];
+                const targetZone = charDef.targetZone;
+                
+                // If not already in target zone, trigger movement
+                if (currentZone !== targetZone && !movingCharacters.has(characterId)) {
+                    moveCharacterToZone(characterId, targetZone);
+                }
+            });
+        }
+
+        // Move character to a new zone with animation
+        function moveCharacterToZone(characterId, targetZone) {
+            const charDef = characterDefs[characterId];
+            const oldZone = characterZoneAssignments[characterId];
+            
+            if (oldZone === targetZone) return;
+            
+            console.log(`🚶 ${charDef.name} moving from ${oldZone} to ${targetZone}`);
+            
+            // Mark character as moving
+            movingCharacters.add(characterId);
+            
+            // Find the character element
+            const characterElement = document.querySelector(`.pixel-character.${characterId}`);
+            if (characterElement) {
+                // Add walking/moving class for animation
+                characterElement.classList.add('moving', 'walking');
+                
+                // Update speech bubble to show movement
+                const bubble = characterElement.querySelector('.speech-bubble');
+                if (bubble) {
+                    bubble.textContent = `去${getZoneName(targetZone)}...`;
+                    bubble.classList.add('show', 'moving');
+                }
+            }
+            
+            // After movement animation, update zone
+            setTimeout(() => {
+                // Update zone assignment
+                characterZoneAssignments[characterId] = targetZone;
+                
+                // Re-render characters in zones
+                updateCharacterZones(sessionData);
+                
+                // Remove moving state
+                movingCharacters.delete(characterId);
+                
+                if (characterElement) {
+                    characterElement.classList.remove('moving', 'walking');
+                }
+                
+                console.log(`✅ ${charDef.name} arrived at ${getZoneName(targetZone)}`);
+            }, 1500); // Movement takes 1.5 seconds
+        }
+
+        // Get zone display name
+        function getZoneName(zoneId) {
+            const zoneNames = {
+                'ai': 'AI區',
+                'dev': '編程區',
+                'rest': '休息區',
+                'meeting': '會議區'
+            };
+            return zoneNames[zoneId] || zoneId;
+        }
+
+        // Start auto-movement timer
+        let autoMovementTimer = null;
+
+        function startAutoZoneMovement() {
+            // Initial movement after 5 seconds
+            setTimeout(triggerAutoZoneMovement, 5000);
+            
+            // Then every ZONE_MOVE_INTERVAL
+            autoMovementTimer = setInterval(triggerAutoZoneMovement, ZONE_MOVE_INTERVAL);
+        }
+
+        function stopAutoZoneMovement() {
+            if (autoMovementTimer) {
+                clearInterval(autoMovementTimer);
+                autoMovementTimer = null;
+            }
+        }
 
         // Get zone for character based on status
         function getZoneForCharacter(characterId, status) {
