@@ -457,7 +457,270 @@
             gap: 30px;
         }
 
-        /* Loading/Refresh indicator */
+        /* Role Card Popup */
+        .role-card-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: linear-gradient(145deg, var(--bg-medium), var(--bg-dark));
+            border: 2px solid var(--japanese-red);
+            border-radius: 20px;
+            padding: 25px;
+            min-width: 280px;
+            z-index: 2000;
+            box-shadow: 0 20px 60px rgba(188, 0, 45, 0.5);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .role-card-popup.show {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        .role-card-popup::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--japanese-red), #ff6b6b, var(--japanese-red));
+            border-radius: 22px;
+            z-index: -1;
+            animation: borderGlow 2s linear infinite;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .role-card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(188, 0, 45, 0.3);
+        }
+
+        .role-card-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--japanese-red), #ff6b6b);
+            box-shadow: 0 5px 20px rgba(188, 0, 45, 0.5);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .role-card-title {
+            flex: 1;
+        }
+
+        .role-card-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--japanese-red);
+            text-shadow: 0 0 10px rgba(188, 0, 45, 0.5);
+        }
+
+        .role-card-alias {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .role-card-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            line-height: 1;
+        }
+
+        .role-card-close:hover {
+            color: var(--japanese-red);
+            transform: rotate(90deg);
+        }
+
+        .role-card-body {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .role-card-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            background: rgba(188, 0, 45, 0.1);
+            border-radius: 10px;
+        }
+
+        .role-card-item-icon {
+            font-size: 1.2rem;
+        }
+
+        .role-card-item-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            min-width: 60px;
+        }
+
+        .role-card-item-value {
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .role-card-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .role-card-status.active {
+            background: rgba(39, 174, 96, 0.3);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .role-card-status.idle {
+            background: rgba(243, 156, 18, 0.3);
+            color: var(--warning);
+            border: 1px solid var(--warning);
+        }
+
+        .role-card-status.offline {
+            background: rgba(231, 76, 60, 0.3);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+
+        /* Overlay */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .popup-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Character bounce animation */
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* Character glow animation */
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 5px 20px rgba(188, 0, 45, 0.5); }
+            50% { box-shadow: 0 5px 30px rgba(188, 0, 45, 0.8), 0 0 20px rgba(188, 0, 45, 0.4); }
+        }
+
+        /* Character wiggle animation */
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-5deg); }
+            75% { transform: rotate(5deg); }
+        }
+
+        .zone-avatar.bounce {
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .zone-avatar.glow {
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        .zone-avatar.wiggle {
+            animation: wiggle 1s ease-in-out infinite;
+        }
+
+        /* Clickable character cursor */
+        .zone-avatar.clickable {
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .zone-avatar.clickable:hover {
+            transform: scale(1.15);
+        }
+
+        /* Sparkle effect */
+        .sparkle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sparkle 1s ease-out forwards;
+        }
+
+        @keyframes sparkle {
+            0% { transform: scale(0); opacity: 1; }
+            50% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+
+        /* Meeting zone avatars */
+        .meeting-avatars {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .meeting-char {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .meeting-char:hover {
+            transform: scale(1.1);
+        }
+
+        .meeting-char .zone-avatar {
+            width: 50px;
+            height: 50px;
+            font-size: 1.6rem;
+        }
+
+        .meeting-char-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
         .refresh-indicator {
             position: fixed;
             top: 20px;
@@ -827,56 +1090,66 @@
             </header>
 
             <div class="office-grid">
-                <!-- AI Zone -->
+                <!-- AI Zone - Brain -->
                 <div class="zone">
                     <div class="zone-header">
                         <span class="zone-icon">🧠</span>
                         <span class="zone-title">AI 區</span>
                     </div>
                     <div class="zone-content">
-                        <div class="zone-avatar">🧠</div>
-                        <div class="zone-status">大腦正在思考</div>
+                        <div class="zone-avatar glow clickable" data-role="brain" title="點擊查看詳情">🧠</div>
+                        <div class="zone-status">大腦 - AI 助手</div>
                         <div class="zone-activity" id="brain-activity">處理請求中...</div>
                     </div>
                 </div>
 
-                <!-- Programming Zone -->
+                <!-- Programming Zone - 师弟 -->
                 <div class="zone">
                     <div class="zone-header">
-                        <span class="zone-icon">💻</span>
+                        <span class="zone-icon">🔧</span>
                         <span class="zone-title">編程區</span>
                     </div>
                     <div class="zone-content">
-                        <div class="zone-avatar">💻</div>
-                        <div class="zone-status">師弟正在coding</div>
+                        <div class="zone-avatar bounce clickable" data-role="dev" title="點擊查看詳情">🔧</div>
+                        <div class="zone-status">師弟 - 開發者</div>
                         <div class="zone-activity" id="dev-activity">開發中...</div>
                     </div>
                 </div>
 
-                <!-- Rest Zone -->
+                <!-- Rest Zone - T仔 -->
                 <div class="zone">
                     <div class="zone-header">
-                        <span class="zone-icon">☕</span>
+                        <span class="zone-icon">🧪</span>
                         <span class="zone-title">休息區</span>
                     </div>
                     <div class="zone-content">
-                        <div class="zone-avatar">🧪</div>
-                        <div class="zone-status">T仔休息中</div>
+                        <div class="zone-avatar wiggle clickable" data-role="tester" title="點擊查看詳情">🧪</div>
+                        <div class="zone-status">T仔 - 測試員</div>
                         <div class="zone-activity" id="tester-activity">Idle - 等待任務</div>
                     </div>
                 </div>
 
-                <!-- Meeting Zone -->
+                <!-- Meeting Zone - 老板 -->
                 <div class="zone zone-meeting">
                     <div class="zone-header">
-                        <span class="zone-icon">👥</span>
+                        <span class="zone-icon">🦀</span>
                         <span class="zone-title">會議區</span>
                     </div>
                     <div class="zone-content">
-                        <div class="zone-avatar">🧠</div>
-                        <div class="zone-status">大腦</div>
-                        <div class="zone-avatar">💻</div>
-                        <div class="zone-status">師弟</div>
+                        <div class="meeting-avatars">
+                            <div class="meeting-char" data-role="boss">
+                                <div class="zone-avatar bounce">🦀</div>
+                                <span class="meeting-char-label">老板</span>
+                            </div>
+                            <div class="meeting-char" data-role="brain">
+                                <div class="zone-avatar glow">🧠</div>
+                                <span class="meeting-char-label">大腦</span>
+                            </div>
+                            <div class="meeting-char" data-role="dev">
+                                <div class="zone-avatar bounce">🔧</div>
+                                <span class="meeting-char-label">師弟</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -891,6 +1164,45 @@
     <div class="refresh-indicator" id="refreshIndicator">
         <div class="refresh-spinner"></div>
         <span>更新中...</span>
+    </div>
+
+    <!-- Popup Overlay -->
+    <div class="popup-overlay" id="popupOverlay"></div>
+
+    <!-- Role Card Popup -->
+    <div class="role-card-popup" id="roleCardPopup">
+        <button class="role-card-close" id="roleCardClose">×</button>
+        <div class="role-card-header">
+            <div class="role-card-avatar" id="roleCardAvatar">🧠</div>
+            <div class="role-card-title">
+                <div class="role-card-name" id="roleCardName">大腦</div>
+                <div class="role-card-alias" id="roleCardAlias">AI 助手</div>
+            </div>
+        </div>
+        <div class="role-card-body">
+            <div class="role-card-item">
+                <span class="role-card-item-icon">📊</span>
+                <span class="role-card-item-label">狀態</span>
+                <span class="role-card-item-value">
+                    <span class="role-card-status active" id="roleCardStatus">工作中</span>
+                </span>
+            </div>
+            <div class="role-card-item">
+                <span class="role-card-item-icon">⚡</span>
+                <span class="role-card-item-label">正在做</span>
+                <span class="role-card-item-value" id="roleCardActivity">處理請求中...</span>
+            </div>
+            <div class="role-card-item">
+                <span class="role-card-item-icon">🎯</span>
+                <span class="role-card-item-label">專長</span>
+                <span class="role-card-item-value" id="roleCardSpecialty">對話、分析、決策</span>
+            </div>
+            <div class="role-card-item">
+                <span class="role-card-item-icon">💬</span>
+                <span class="role-card-item-label">角色</span>
+                <span class="role-card-item-value" id="roleCardRole">主 AI 助手</span>
+            </div>
+        </div>
     </div>
 
     <!-- Mobile Tab Navigation -->
@@ -1057,22 +1369,46 @@
             indicator.classList.add('show');
 
             try {
-                // Try to fetch from API endpoint
-                const response = await fetch(API_ENDPOINT);
+                // Try to fetch from OpenClaw sessions API
+                const response = await fetch('/api/sessions');
                 if (response.ok) {
                     const data = await response.json();
-                    if (data.brain) sessionData.brain = data.brain;
-                    if (data.tester) sessionData.tester = data.tester;
-                    if (data.dev) sessionData.dev = data.dev;
+                    console.log('Sessions API data:', data);
+
+                    // Parse sessions data - update brain with main agent info
+                    if (data.main) {
+                        sessionData.brain = {
+                            status: data.main.status === 'active' ? 'active' : 'idle',
+                            activity: data.main.status === 'active' ? '處理請求中...' : 'Idle - 等待任務'
+                        };
+                    }
+
+                    // Try to get subagents info
+                    if (data.subagents && Array.isArray(data.subagents)) {
+                        data.subagents.forEach(agent => {
+                            if (agent.name && agent.name.toLowerCase().includes('test')) {
+                                sessionData.tester = {
+                                    status: agent.status === 'active' ? 'active' : 'idle',
+                                    activity: agent.status === 'active' ? '執行測試中...' : 'Idle - 等待任務'
+                                };
+                            }
+                            if (agent.name && (agent.name.toLowerCase().includes('dev') || agent.name.toLowerCase().includes('code'))) {
+                                sessionData.dev = {
+                                    status: agent.status === 'active' ? 'active' : 'idle',
+                                    activity: agent.status === 'active' ? '開發中...' : 'Idle - 等待任務'
+                                };
+                            }
+                        });
+                    }
                 }
             } catch (error) {
                 // API not available, use simulated data based on time
                 console.log('API not available, using simulated data');
-                
+
                 // Simulate different activities based on time
                 const now = new Date();
                 const minutes = now.getMinutes();
-                
+
                 // Rotate activities to show the office is alive
                 if (minutes % 3 === 0) {
                     sessionData.brain.activity = '分析數據中...';
@@ -1097,10 +1433,22 @@
                 } else {
                     sessionData.dev.activity = '開發中...';
                 }
+
+                // Boss in meetings periodically
+                if (minutes % 4 === 0) {
+                    currentSessionData.boss.activity = '主持會議中...';
+                } else {
+                    currentSessionData.boss.activity = '處理公務中...';
+                }
             }
 
             // Update UI
             updateUI(sessionData);
+
+            // Update role card session data
+            updateRoleCardData('brain', sessionData.brain.status, sessionData.brain.activity);
+            updateRoleCardData('tester', sessionData.tester.status, sessionData.tester.activity);
+            updateRoleCardData('dev', sessionData.dev.status, sessionData.dev.activity);
 
             // Hide indicator
             indicator.classList.remove('show');
@@ -1116,6 +1464,9 @@
             // Initialize mobile tabs and project expand
             initMobileTabs();
             initProjectExpand();
+
+            // Initialize character clicks
+            initCharacterClicks();
 
             // Initial fetch
             fetchSessionData();
@@ -1135,6 +1486,155 @@
 
         // Expose for manual refresh from console
         window.refreshVirtualOffice = fetchSessionData;
+
+        // Role Card Data
+        const roleData = {
+            brain: {
+                name: '大腦',
+                alias: 'AI 助手',
+                avatar: '🧠',
+                specialty: '對話、分析、決策',
+                role: '主 AI 助手'
+            },
+            dev: {
+                name: '師弟',
+                alias: '開發者',
+                avatar: '🔧',
+                specialty: '編程、Debug、系統搭建',
+                role: '開發者'
+            },
+            tester: {
+                name: 'T仔',
+                alias: '測試員',
+                avatar: '🧪',
+                specialty: '測試、QA、質量把關',
+                role: '測試員'
+            },
+            boss: {
+                name: '老板',
+                alias: '總指揮',
+                avatar: '🦀',
+                specialty: '統籌、決策、指令下達',
+                role: '管理者'
+            }
+        };
+
+        // Current session data for each role
+        let currentSessionData = {
+            brain: { status: 'active', activity: '處理請求中...' },
+            tester: { status: 'idle', activity: 'Idle - 等待任務' },
+            dev: { status: 'active', activity: '開發中...' },
+            boss: { status: 'active', activity: '主持會議中...' }
+        };
+
+        // DOM Elements for popup
+        const popupOverlay = document.getElementById('popupOverlay');
+        const roleCardPopup = document.getElementById('roleCardPopup');
+        const roleCardClose = document.getElementById('roleCardClose');
+
+        // Show role card popup
+        function showRoleCard(role) {
+            const data = roleData[role];
+            const session = currentSessionData[role] || { status: 'offline', activity: '離線中' };
+
+            if (!data) return;
+
+            // Update popup content
+            document.getElementById('roleCardAvatar').textContent = data.avatar;
+            document.getElementById('roleCardName').textContent = data.name;
+            document.getElementById('roleCardAlias').textContent = data.alias;
+            document.getElementById('roleCardSpecialty').textContent = data.specialty;
+            document.getElementById('roleCardRole').textContent = data.role;
+            document.getElementById('roleCardActivity').textContent = session.activity;
+
+            // Update status
+            const statusEl = document.getElementById('roleCardStatus');
+            statusEl.textContent = session.status === 'active' ? '工作中' : (session.status === 'idle' ? 'Idle' : '離線');
+            statusEl.className = `role-card-status ${session.status}`;
+
+            // Show popup
+            popupOverlay.classList.add('show');
+            roleCardPopup.classList.add('show');
+
+            // Add sparkle effect
+            createSparkles(roleCardPopup);
+        }
+
+        // Hide role card popup
+        function hideRoleCard() {
+            popupOverlay.classList.remove('show');
+            roleCardPopup.classList.remove('show');
+        }
+
+        // Create sparkle effect
+        function createSparkles(element) {
+            for (let i = 0; i < 8; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle';
+                    sparkle.style.left = Math.random() * 100 + '%';
+                    sparkle.style.top = Math.random() * 100 + '%';
+                    sparkle.style.background = ['#e94560', '#ff6b6b', '#fff'][Math.floor(Math.random() * 3)];
+                    element.appendChild(sparkle);
+
+                    setTimeout(() => sparkle.remove(), 1000);
+                }, i * 100);
+            }
+        }
+
+        // Initialize click handlers for characters
+        function initCharacterClicks() {
+            // Main zone avatars
+            document.querySelectorAll('.zone-avatar.clickable').forEach(avatar => {
+                avatar.addEventListener('click', (e) => {
+                    const role = avatar.dataset.role;
+                    showRoleCard(role);
+                });
+            });
+
+            // Meeting zone characters
+            document.querySelectorAll('.meeting-char').forEach(char => {
+                char.addEventListener('click', (e) => {
+                    const role = char.dataset.role;
+                    showRoleCard(role);
+                });
+            });
+
+            // Close button
+            roleCardClose.addEventListener('click', hideRoleCard);
+
+            // Overlay click to close
+            popupOverlay.addEventListener('click', hideRoleCard);
+
+            // Escape key to close
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    hideRoleCard();
+                }
+            });
+        }
+
+        // Update session data for role cards
+        function updateRoleCardData(role, status, activity) {
+            currentSessionData[role] = { status, activity };
+        }
+
+        // Override updateUI to also update role card data
+        const originalUpdateUI = updateUI;
+        updateUI = function(data) {
+            originalUpdateUI(data);
+
+            // Update role card session data
+            if (data.brain) {
+                updateRoleCardData('brain', data.brain.status, data.brain.activity);
+            }
+            if (data.tester) {
+                updateRoleCardData('tester', data.tester.status, data.tester.activity);
+            }
+            if (data.dev) {
+                updateRoleCardData('dev', data.dev.status, data.dev.activity);
+            }
+        };
     </script>
 </body>
 </html>
