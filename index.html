@@ -1101,9 +1101,9 @@
             visibility: visible;
         }
 
-        /* ========== PIXEL ART CHARACTERS ========== */
-        
-        /* Pixel Art Character Container */
+        /* ===== METROCITY PIXEL ART CHARACTERS ===== */
+
+        /* Pixel Character Container */
         .pixel-character {
             position: relative;
             display: flex;
@@ -1117,7 +1117,9 @@
             transform: scale(1.1);
         }
 
-        /* Pixel Avatar - Base Style */
+        /* ===== METROCITY 8-BIT STYLE AVATARS ===== */
+        
+        /* Base pixel avatar with MetroCity retro style */
         .pixel-avatar {
             width: 64px;
             height: 64px;
@@ -1133,6 +1135,173 @@
                 0 8px 0 rgba(0,0,0,0.2),
                 0 12px 20px rgba(0,0,0,0.3);
             transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        /* ===== METROCITY PIXEL SPRITE SYSTEM ===== */
+        /* Using CSS pixel art technique with box-shadow */
+
+        /* Brain - 蓝色 AI Agent - MetroCity Tech Style */
+        .pixel-character.brain .pixel-avatar {
+            background: linear-gradient(180deg, #1a5fb4 0%, #0d47a1 50%, #0a357a 100%);
+            color: #fff;
+            border: 3px solid #1976D2;
+            /* MetroCity brain sprite using CSS */
+            position: relative;
+        }
+
+        /* Brain pixel details */
+        .pixel-character.brain .pixel-avatar::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                /* Brain wrinkles - horizontal lines */
+                linear-gradient(transparent 20%, rgba(255,255,255,0.3) 20%, rgba(255,255,255,0.3) 22%, transparent 22%,
+                    transparent 35%, rgba(255,255,255,0.3) 35%, rgba(255,255,255,0.3) 37%, transparent 37%,
+                    transparent 50%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.3) 52%, transparent 52%,
+                    transparent 65%, rgba(255,255,255,0.3) 65%, rgba(255,255,255,0.3) 67%, transparent 67%,
+                    transparent 80%, rgba(255,255,255,0.3) 80%, rgba(255,255,255,0.3) 82%, transparent 82%)
+                ,
+                /* Brain center glow */
+                radial-gradient(circle at 50% 45%, rgba(66, 245, 215, 0.6) 0%, transparent 30%),
+                /* Eyes */
+                radial-gradient(circle at 35% 40%, #fff 4px, transparent 4px),
+                radial-gradient(circle at 65% 40%, #fff 4px, transparent 4px),
+                /* Pupils */
+                radial-gradient(circle at 35% 40%, #1a237e 2px, transparent 2px),
+                radial-gradient(circle at 65% 40%, #1a237e 2px, transparent 2px);
+            animation: brainPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes brainPulse {
+            0%, 100% { opacity: 0.9; }
+            50% { opacity: 1; }
+        }
+
+        /* Dev/师弟 - 绿色 Developer Agent */
+        .pixel-character.dev .pixel-avatar {
+            background: linear-gradient(180deg, #2e7d32 0%, #1b5e20 50%, #144a17 100%);
+            color: #fff;
+            border: 3px solid #388E3C;
+            position: relative;
+        }
+
+        /* Dev pixel details - coding with terminal */
+        .pixel-character.dev .pixel-avatar::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                /* Terminal screen lines */
+                linear-gradient(transparent 18%, rgba(76, 175, 80, 0.8) 18%, rgba(76, 175, 80, 0.8) 20%, transparent 20%,
+                    transparent 30%, #4CAF50 30%, #4CAF50 31%, transparent 31%,
+                    transparent 35%, #81C784 35%, #81C784 36%, transparent 36%,
+                    transparent 40%, #4CAF50 40%, #4CAF50 42%, transparent 42%,
+                    transparent 48%, #66BB6A 48%, #66BB6A 49%, transparent 49%,
+                    transparent 53%, #4CAF50 53%, #4CAF50 55%, transparent 55%,
+                    transparent 60%, #81C784 60%, #81C784 61%, transparent 61%,
+                    transparent 65%, #4CAF50 65%, #4CAF50 67%, transparent 67%)
+                ,
+                /* Monitor frame */
+                linear-gradient(90deg, transparent 5%, rgba(255,255,255,0.1) 5%, rgba(255,255,255,0.1) 95%, transparent 95%);
+            animation: codeScroll 3s linear infinite;
+        }
+
+        @keyframes codeScroll {
+            0% { background-position-y: 0; }
+            100% { background-position-y: 20px; }
+        }
+
+        /* Tester/T仔 - 黄色 Admin/Test Agent */
+        .pixel-character.tester .pixel-avatar {
+            background: linear-gradient(180deg, #ff8f00 0%, #e65100 50%, #bf360c 100%);
+            color: #fff;
+            border: 3px solid #FFA000;
+            position: relative;
+        }
+
+        /* Tester pixel details - flask/beaker */
+        .pixel-character.tester .pixel-avatar::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                /* Flask shape */
+                radial-gradient(ellipse at 50% 85%, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.9) 30%, transparent 30%)
+                ,
+                /* Flask neck */
+                linear-gradient(90deg, transparent 42%, rgba(255,255,255,0.8) 42%, rgba(255,255,255,0.8) 58%, transparent 58%)
+                ,
+                /* Liquid bubbles */
+                radial-gradient(circle at 40% 60%, rgba(76, 175, 80, 0.8) 3px, transparent 3px),
+                radial-gradient(circle at 55% 50%, rgba(33, 150, 243, 0.8) 4px, transparent 4px),
+                radial-gradient(circle at 45% 75%, rgba(156, 39, 176, 0.8) 2px, transparent 2px),
+                /* Steam/smoke */
+                radial-gradient(circle at 50% 25%, rgba(255,255,255,0.5) 2px, transparent 2px),
+                radial-gradient(circle at 45% 18%, rgba(255,255,255,0.4) 2px, transparent 2px),
+                radial-gradient(circle at 55% 20%, rgba(255,255,255,0.4) 2px, transparent 2px);
+            animation: bubbleFloat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes bubbleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+
+        /* Boss/老板 - 红色 Leader Agent */
+        .pixel-character.boss .pixel-avatar {
+            background: linear-gradient(180deg, #c62828 0%, #b71c1c 50%, #8e0000 100%);
+            color: #fff;
+            border: 3px solid #D32F2F;
+            position: relative;
+        }
+
+        /* Boss pixel details - crab in suit */
+        .pixel-character.boss .pixel-avatar::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                /* Crab body */
+                radial-gradient(ellipse at 50% 55%, rgba(255,235,59,0.9) 0%, rgba(255,235,59,0.9) 35%, transparent 35%)
+                ,
+                /* Eyes */
+                radial-gradient(circle at 40% 45%, #fff 5px, transparent 5px),
+                radial-gradient(circle at 60% 45%, #fff 5px, transparent 5px),
+                radial-gradient(circle at 40% 45%, #000 2px, transparent 2px),
+                radial-gradient(circle at 60% 45%, #000 2px, transparent 2px)
+                ,
+                /* Claws raised */
+                radial-gradient(circle at 20% 50%, rgba(255,235,59,0.8) 0%, rgba(255,235,59,0.8) 12%, transparent 12%) no-repeat,
+                radial-gradient(circle at 80% 50%, rgba(255,235,59,0.8) 0%, rgba(255,235,59,0.8) 12%, transparent 12%) no-repeat
+                ,
+                /* Suit tie */
+                linear-gradient(180deg, #e53935 0%, #c62828 100%);
+            background-size: 
+                100% 100%,
+                100% 100%,
+                100% 100%,
+                100% 100%,
+                30% 30%,
+                100% 30%;
+            background-position: 
+                0 0,
+                0 0,
+                0 0,
+                0 0,
+                0 30%,
+                45% 75%;
+            animation: bossStare 4s ease-in-out infinite;
+        }
+
+        @keyframes bossStare {
+            0%, 90%, 100% { transform: scale(1); }
+            95% { transform: scale(1.05); }
         }
 
         /* Character Shadow */
