@@ -44,6 +44,43 @@
             min-height: 100vh;
         }
 
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1000;
+            background: var(--japanese-red);
+            border: none;
+            border-radius: 8px;
+            padding: 10px 15px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(188, 0, 45, 0.4);
+        }
+
+        .mobile-menu-toggle span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 5px 0;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 6px);
+        }
+
+        .mobile-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -6px);
+        }
+
         /* Left Sidebar */
         .sidebar {
             width: 33.33%;
@@ -54,6 +91,7 @@
             flex-direction: column;
             gap: 20px;
             overflow-y: auto;
+            transition: transform 0.3s ease;
         }
 
         .logo {
@@ -96,8 +134,8 @@
 
         .project-item {
             display: flex;
-            align-items: center;
-            gap: 10px;
+            flex-direction: column;
+            gap: 6px;
             padding: 12px 15px;
             background: var(--japanese-shoji);
             border-radius: 8px;
@@ -112,26 +150,38 @@
             transform: translateX(5px);
         }
 
-        .project-status {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            flex-shrink: 0;
+        .project-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .status-completed { background: var(--success); box-shadow: 0 0 8px var(--success); }
-        .status-in-progress { background: var(--warning); box-shadow: 0 0 8px var(--warning); animation: pulse 2s infinite; }
-        .status-pending { background: var(--text-secondary); }
-        .status-not-started { background: var(--danger); }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+        .project-status {
+            font-size: 1rem;
+            flex-shrink: 0;
         }
 
         .project-name {
             flex: 1;
             font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .project-details {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            padding-left: 26px;
+        }
+
+        .project-date {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .project-summary {
+            font-size: 0.8rem;
+            color: var(--accent);
         }
 
         /* Agent Status */
@@ -422,26 +472,63 @@
         }
 
         @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
             .container {
                 flex-direction: column;
+                padding-top: 60px;
             }
+
+            .sidebar {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                height: calc(100vh - 60px);
+                z-index: 999;
+                transform: translateX(-100%);
+                border-right: none;
+                border-bottom: 2px solid var(--japanese-red);
+                max-height: calc(100vh - 60px);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
             .sidebar, .main-area {
                 width: 100%;
             }
-            .sidebar {
-                border-right: none;
-                border-bottom: 2px solid var(--japanese-red);
-                max-height: 50vh;
+
+            .main-area {
+                min-height: calc(100vh - 60px);
             }
+
             .office-grid {
                 grid-template-columns: 1fr;
                 grid-template-rows: auto;
             }
+
             .zone-meeting {
                 grid-column: span 1;
             }
+
             .system-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .project-details {
+                padding-left: 26px;
+            }
+
+            .project-date {
+                font-size: 0.7rem;
+            }
+
+            .project-summary {
+                font-size: 0.75rem;
             }
         }
 
@@ -449,12 +536,15 @@
             .logo {
                 padding: 10px;
             }
+
             .logo-text {
                 font-size: 1rem;
             }
+
             .agent-card {
                 padding: 10px;
             }
+
             .zone-avatar {
                 width: 50px;
                 height: 50px;
@@ -472,9 +562,16 @@
     </style>
 </head>
 <body>
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
     <div class="container">
         <!-- Left Sidebar -->
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="logo">
                 <span class="logo-icon">🏢</span>
                 <span class="logo-text">虛擬辦公室</span>
@@ -485,28 +582,64 @@
                 <h2 class="section-title">📋 項目列表</h2>
                 <div class="project-list" id="projectList">
                     <div class="project-item">
-                        <span class="project-status status-in-progress"></span>
-                        <span class="project-name">欠交功課系統</span>
+                        <div class="project-header">
+                            <span class="project-status">🔄</span>
+                            <span class="project-name">欠交功課系統</span>
+                        </div>
+                        <div class="project-details">
+                            <span class="project-date">開始日期: 2026-03-07</span>
+                            <span class="project-summary">自動/手動當值編排，8條規則驗證</span>
+                        </div>
                     </div>
                     <div class="project-item">
-                        <span class="project-status status-completed"></span>
-                        <span class="project-name">少康教學網站</span>
+                        <div class="project-header">
+                            <span class="project-status">✅</span>
+                            <span class="project-name">少康教學網站</span>
+                        </div>
+                        <div class="project-details">
+                            <span class="project-date">教學資源網站</span>
+                            <span class="project-summary">已完成</span>
+                        </div>
                     </div>
                     <div class="project-item">
-                        <span class="project-status status-in-progress"></span>
-                        <span class="project-name">數學週 2026</span>
+                        <div class="project-header">
+                            <span class="project-status">🔄</span>
+                            <span class="project-name">數學週 2026</span>
+                        </div>
+                        <div class="project-details">
+                            <span class="project-date">Rummikub遊戲</span>
+                            <span class="project-summary">進行中</span>
+                        </div>
                     </div>
                     <div class="project-item">
-                        <span class="project-status status-pending"></span>
-                        <span class="project-name">全方位學習日</span>
+                        <div class="project-header">
+                            <span class="project-status">📋</span>
+                            <span class="project-name">全方位學習日</span>
+                        </div>
+                        <div class="project-details">
+                            <span class="project-date">工作指引文檔</span>
+                            <span class="project-summary">未完成</span>
+                        </div>
                     </div>
                     <div class="project-item">
-                        <span class="project-status status-in-progress"></span>
-                        <span class="project-name">虛擬辦公室</span>
+                        <div class="project-header">
+                            <span class="project-status">🔄</span>
+                            <span class="project-name">虛擬辦公室</span>
+                        </div>
+                        <div class="project-details">
+                            <span class="project-date">實時監控系統</span>
+                            <span class="project-summary">進行中</span>
+                        </div>
                     </div>
                     <div class="project-item">
-                        <span class="project-status status-not-started"></span>
-                        <span class="project-name">教師發展日網站</span>
+                        <div class="project-header">
+                            <span class="project-status">✅</span>
+                            <span class="project-name">教師發展日網站</span>
+                        </div>
+                        <div class="project-details">
+                            <span class="project-date">已完成</span>
+                            <span class="project-summary">教師發展日網站</span>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -644,6 +777,25 @@
         // Configuration
         const REFRESH_INTERVAL = 30000; // 30 seconds
         const API_ENDPOINT = '/api/sessions'; // Optional API endpoint
+
+        // Mobile menu toggle
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const sidebar = document.getElementById('sidebar');
+
+        mobileMenuToggle.addEventListener('click', () => {
+            mobileMenuToggle.classList.toggle('active');
+            sidebar.classList.toggle('active');
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) {
+                if (!sidebar.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+                    mobileMenuToggle.classList.remove('active');
+                    sidebar.classList.remove('active');
+                }
+            }
+        });
 
         // State
         let sessionData = {
