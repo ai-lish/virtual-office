@@ -1399,9 +1399,9 @@
 
         // State
         let sessionData = {
-            brain: { status: 'active', activity: '處理請求中...' },
-            tester: { status: 'idle', activity: 'Idle - 等待任務' },
-            dev: { status: 'active', activity: '開發中...' }
+            brain: { status: 'busy', activity: '處理請求中...', lastActivity: null },
+            tester: { status: 'offline', activity: 'Idle - 等待任務', lastActivity: null },
+            dev: { status: 'online', activity: '開發中...', lastActivity: null }
         };
 
         // Format time
@@ -1411,6 +1411,51 @@
                 minute: '2-digit', 
                 second: '2-digit' 
             });
+        }
+
+        // Calculate status based on last activity time (in milliseconds)
+        function calculateStatus(lastActivityTime) {
+            if (!lastActivityTime) return 'offline';
+            
+            const now = Date.now();
+            const diffMs = now - lastActivityTime;
+            const diffMinutes = diffMs / (1000 * 60);
+            
+            if (diffMinutes < 2) return 'busy';      // 🟠 Busy: <2分鐘
+            if (diffMinutes < 10) return 'online';    // 🟢 Online: 2-10分鐘
+            if (diffMinutes < 60) return 'idle';     // 🔵 Idle: 10-60分鐘
+            return 'offline';                         // ⚫ Offline: >60分鐘
+        }
+
+        // Get status text in Chinese
+        function getStatusText(status) {
+            switch(status) {
+                case 'busy': return '工作中';
+                case 'online': return '上線中';
+                case 'idle': return 'Idle';
+                case 'offline': return '離線';
+                default: return '未知';
+            }
+        }
+
+        // Get activity text based on agent
+        function getActivityText(agentName, status) {
+            if (status === 'busy') return '處理請求中...';
+            if (status === 'offline') return '離線中';
+            if (status === 'idle') return 'Idle - 等待任務';
+            
+            // Online activities
+            if (agentName === 'brain' || agentName.includes('main')) {
+                const activities = ['分析數據中...', '回覆訊息...', '處理請求中...', '思考中...', '規劃任務中...'];
+                return activities[Math.floor(Date.now() / 10000) % activities.length];
+            }
+            if (agentName.includes('test')) {
+                return '測試執行中...';
+            }
+            if (agentName.includes('dev') || agentName.includes('code')) {
+                return '開發中...';
+            }
+            return '上線中';
         }
 
         // Update UI with session data
@@ -1436,12 +1481,12 @@
             const activityEl = document.getElementById(`${agent}-activity`);
             
             if (statusEl) {
-                statusEl.textContent = status === 'active' ? '工作中' : 'Idle';
-                statusEl.className = `agent-status agent-${status === 'active' ? 'active' : 'idle'}`;
+                statusEl.textContent = getStatusText(status);
+                statusEl.className = `agent-status agent-${status === 'busy' ? 'active' : (status === 'online' ? 'active' : (status === 'idle' ? 'idle' : 'offline'))}`;
             }
             
             if (activityEl) {
-                activityEl.textContent = activity || (status === 'active' ? '工作中' : 'Idle - 等待任務');
+                activityEl.textContent = activity || getStatusText(status);
             }
         }
 
@@ -1454,76 +1499,112 @@
             indicator.classList.add('show');
 
             try {
-                // Try to fetch from OpenClaw sessions API
+                // Fetch from OpenClaw Gateway API
                 const response = await fetch('/api/sessions');
+                
                 if (response.ok) {
                     const data = await response.json();
-                    console.log('Sessions API data:', data);
-
-                    // Parse sessions data - update brain with main agent info
-                    if (data.main) {
+                    console.log('Sessions API response:', data);
+                    
+                    // Parse sessions data
+                    const now = Date.now();
+                    
+                    // Process main agent
+                    if (data.main || data.agent) {
+                        const mainAgent = data.main || data.agent;
+                        const lastActivity = mainAgent.lastActivity || mainAgent.last_activity || mainAgent.lastActive;
+                        const lastActivityTime = lastActivity ? new Date(lastActivity).getTime() : null;
+                        const status = calculateStatus(lastActivityTime);
+                        
                         sessionData.brain = {
-                            status: data.main.status === 'active' ? 'active' : 'idle',
-                            activity: data.main.status === 'active' ? '處理請求中...' : 'Idle - 等待任務'
+                            status: status,
+                            activity: getActivityText('brain', status),
+                            lastActivity: lastActivityTime
                         };
                     }
-
-                    // Try to get subagents info
+                    
+                    // Process subagents
                     if (data.subagents && Array.isArray(data.subagents)) {
                         data.subagents.forEach(agent => {
-                            if (agent.name && agent.name.toLowerCase().includes('test')) {
+                            const lastActivity = agent.lastActivity || agent.last_activity || agent.lastActive;
+                            const lastActivityTime = lastActivity ? new Date(lastActivity).getTime() : null;
+                            const status = calculateStatus(lastActivityTime);
+                            const agentName = (agent.name || '').toLowerCase();
+                            
+                            if (agentName.includes('test')) {
                                 sessionData.tester = {
-                                    status: agent.status === 'active' ? 'active' : 'idle',
-                                    activity: agent.status === 'active' ? '執行測試中...' : 'Idle - 等待任務'
+                                    status: status,
+                                    activity: getActivityText('tester', status),
+                                    lastActivity: lastActivityTime
                                 };
-                            }
-                            if (agent.name && (agent.name.toLowerCase().includes('dev') || agent.name.toLowerCase().includes('code'))) {
+                            } else if (agentName.includes('dev') || agentName.includes('code')) {
                                 sessionData.dev = {
-                                    status: agent.status === 'active' ? 'active' : 'idle',
-                                    activity: agent.status === 'active' ? '開發中...' : 'Idle - 等待任務'
+                                    status: status,
+                                    activity: getActivityText('dev', status),
+                                    lastActivity: lastActivityTime
                                 };
                             }
                         });
                     }
+                    
+                    // If no subagents, generate simulated based on time for demo
+                    if (!data.subagents || data.subagents.length === 0) {
+                        const minutes = new Date().getMinutes();
+                        
+                        // Simulate tester status
+                        sessionData.tester = {
+                            status: minutes % 5 === 0 ? 'busy' : 'idle',
+                            activity: getActivityText('tester', minutes % 5 === 0 ? 'busy' : 'idle'),
+                            lastActivity: Date.now() - (minutes % 5 === 0 ? 60000 : 600000)
+                        };
+                        
+                        // Simulate dev status
+                        sessionData.dev = {
+                            status: minutes % 7 === 0 ? 'idle' : 'online',
+                            activity: getActivityText('dev', minutes % 7 === 0 ? 'idle' : 'online'),
+                            lastActivity: Date.now() - (minutes % 7 === 0 ? 900000 : 300000)
+                        };
+                    }
+                } else {
+                    throw new Error('API response not ok');
                 }
             } catch (error) {
-                // API not available, use simulated data based on time
-                console.log('API not available, using simulated data');
-
-                // Simulate different activities based on time
+                console.log('API not available or error:', error.message);
+                
+                // Use simulated data based on current time
                 const now = new Date();
                 const minutes = now.getMinutes();
-
-                // Rotate activities to show the office is alive
-                if (minutes % 3 === 0) {
-                    sessionData.brain.activity = '分析數據中...';
-                } else if (minutes % 3 === 1) {
-                    sessionData.brain.activity = '回覆訊息...';
+                const seconds = now.getSeconds();
+                
+                // Brain is always "busy" when user is interacting (simulated)
+                sessionData.brain = {
+                    status: 'busy',
+                    activity: '處理請求中...',
+                    lastActivity: Date.now() - 30000
+                };
+                
+                // Tester status cycles
+                const testerCycle = (minutes * 60 + seconds) % 60;
+                if (testerCycle < 10) {
+                    sessionData.tester = { status: 'busy', activity: '執行測試中...', lastActivity: Date.now() - 30000 };
+                } else if (testerCycle < 30) {
+                    sessionData.tester = { status: 'online', activity: '上線中...', lastActivity: Date.now() - 180000 };
+                } else if (testerCycle < 50) {
+                    sessionData.tester = { status: 'idle', activity: 'Idle - 等待任務', lastActivity: Date.now() - 900000 };
                 } else {
-                    sessionData.brain.activity = '處理請求中...';
+                    sessionData.tester = { status: 'offline', activity: '離線中', lastActivity: Date.now() - 7200000 };
                 }
-
-                // Tester sometimes active
-                if (minutes % 5 === 0) {
-                    sessionData.tester.status = 'active';
-                    sessionData.tester.activity = '執行測試中...';
+                
+                // Dev status cycles
+                const devCycle = (minutes * 60 + seconds) % 70;
+                if (devCycle < 15) {
+                    sessionData.dev = { status: 'busy', activity: 'Debugging...', lastActivity: Date.now() - 45000 };
+                } else if (devCycle < 35) {
+                    sessionData.dev = { status: 'online', activity: '開發中...', lastActivity: Date.now() - 240000 };
+                } else if (devCycle < 55) {
+                    sessionData.dev = { status: 'idle', activity: 'Idle - 等待任務', lastActivity: Date.now() - 1200000 };
                 } else {
-                    sessionData.tester.status = 'idle';
-                    sessionData.tester.activity = 'Idle - 等待任務';
-                }
-
-                // Dev sometimes breaks
-                if (minutes % 7 === 0) {
-                    sessionData.dev.activity = 'Debugging... 🔧';
-                } else {
-                    sessionData.dev.activity = '開發中...';
-                }
-
-                // Boss in meetings periodically
-                if (minutes % 4 === 0) {
-                    currentSessionData.boss.activity = '主持會議中...';
-                } else {
-                    currentSessionData.boss.activity = '處理公務中...';
+                    sessionData.dev = { status: 'offline', activity: '離線中', lastActivity: Date.now() - 3600000 };
                 }
             }
 
