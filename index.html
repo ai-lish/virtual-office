@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>虛擬辦公室 - Virtual Office</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #1a1a2e;
+            --bg-medium: #16213e;
+            --bg-light: #0f3460;
+            --accent: #e94560;
+            --accent-secondary: #f39c12;
+            --text-primary: #eee;
+            --text-secondary: #aaa;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --japanese-red: #bc002d;
+            --japanese-beige: #f5f0e6;
+            --japanese-wood: #8b5a2b;
+            --japanese-shoji: rgba(255, 255, 255, 0.15);
+        }
+
+        body {
+            font-family: 'Noto Sans SC', 'Zen Maru Gothic', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Left Sidebar */
+        .sidebar {
+            width: 33.33%;
+            background: linear-gradient(180deg, var(--bg-medium) 0%, var(--bg-dark) 100%);
+            padding: 20px;
+            border-right: 2px solid var(--japanese-red);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            overflow-y: auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background: var(--japanese-shoji);
+            border-radius: 10px;
+            border: 1px solid rgba(188, 0, 45, 0.3);
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+        }
+
+        .logo-text {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--japanese-red);
+            text-shadow: 0 0 10px rgba(188, 0, 45, 0.5);
+        }
+
+        .section-title {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            padding-left: 5px;
+            border-left: 3px solid var(--japanese-red);
+        }
+
+        /* Project List */
+        .project-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .project-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            background: var(--japanese-shoji);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .project-item:hover {
+            background: rgba(188, 0, 45, 0.2);
+            border-color: var(--japanese-red);
+            transform: translateX(5px);
+        }
+
+        .project-status {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .status-completed { background: var(--success); box-shadow: 0 0 8px var(--success); }
+        .status-in-progress { background: var(--warning); box-shadow: 0 0 8px var(--warning); animation: pulse 2s infinite; }
+        .status-pending { background: var(--text-secondary); }
+        .status-not-started { background: var(--danger); }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .project-name {
+            flex: 1;
+            font-size: 0.95rem;
+        }
+
+        /* Agent Status */
+        .agent-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .agent-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            background: var(--japanese-shoji);
+            border-radius: 10px;
+            border: 1px solid rgba(188, 0, 45, 0.2);
+        }
+
+        .agent-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, var(--japanese-red), #ff6b6b);
+            box-shadow: 0 4px 15px rgba(188, 0, 45, 0.4);
+        }
+
+        .agent-info {
+            flex: 1;
+        }
+
+        .agent-name {
+            font-weight: 500;
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+
+        .agent-role {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .agent-status {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .agent-active {
+            background: rgba(39, 174, 96, 0.2);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .agent-idle {
+            background: rgba(243, 156, 18, 0.2);
+            color: var(--warning);
+            border: 1px solid var(--warning);
+        }
+
+        .agent-offline {
+            background: rgba(231, 76, 60, 0.2);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+
+        /* System Info */
+        .system-info {
+            margin-top: auto;
+            padding: 15px;
+            background: var(--japanese-shoji);
+            border-radius: 10px;
+            border: 1px solid rgba(188, 0, 45, 0.2);
+        }
+
+        .system-info h3 {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .system-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .system-item {
+            font-size: 0.8rem;
+        }
+
+        .system-label {
+            color: var(--text-secondary);
+        }
+
+        .system-value {
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        /* Right Side - Virtual Office */
+        .main-area {
+            width: 66.67%;
+            background: 
+                radial-gradient(ellipse at top, rgba(188, 0, 45, 0.1) 0%, transparent 50%),
+                linear-gradient(180deg, var(--bg-dark) 0%, #0d0d1a 100%);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .office-header {
+            text-align: center;
+            padding: 15px;
+            background: var(--japanese-shoji);
+            border-radius: 10px;
+            border: 1px solid rgba(188, 0, 45, 0.3);
+        }
+
+        .office-title {
+            font-size: 1.5rem;
+            color: var(--japanese-red);
+            text-shadow: 0 0 15px rgba(188, 0, 45, 0.5);
+            margin-bottom: 5px;
+        }
+
+        .office-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .office-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 15px;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .zone {
+            background: var(--japanese-shoji);
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            border: 2px solid rgba(188, 0, 45, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .zone::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--japanese-red), #ff6b6b);
+        }
+
+        .zone:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(188, 0, 45, 0.3);
+        }
+
+        .zone-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .zone-icon {
+            font-size: 1.8rem;
+        }
+
+        .zone-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .zone-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .zone-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--japanese-red), #ff6b6b);
+            box-shadow: 0 5px 20px rgba(188, 0, 45, 0.5);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .zone-status {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        .zone-activity {
+            font-size: 0.8rem;
+            color: var(--accent);
+            background: rgba(188, 0, 45, 0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+        }
+
+        /* Special styling for meeting zone */
+        .zone-meeting {
+            grid-column: span 2;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+
+        .zone-meeting .zone-content {
+            flex-direction: row;
+            gap: 30px;
+        }
+
+        /* Loading/Refresh indicator */
+        .refresh-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--japanese-shoji);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border: 1px solid rgba(188, 0, 45, 0.3);
+        }
+
+        .refresh-indicator.show {
+            opacity: 1;
+        }
+
+        .refresh-spinner {
+            width: 14px;
+            height: 14px;
+            border: 2px solid var(--text-secondary);
+            border-top-color: var(--japanese-red);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 35%;
+            }
+            .main-area {
+                width: 65%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .sidebar, .main-area {
+                width: 100%;
+            }
+            .sidebar {
+                border-right: none;
+                border-bottom: 2px solid var(--japanese-red);
+                max-height: 50vh;
+            }
+            .office-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+            .zone-meeting {
+                grid-column: span 1;
+            }
+            .system-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                padding: 10px;
+            }
+            .logo-text {
+                font-size: 1rem;
+            }
+            .agent-card {
+                padding: 10px;
+            }
+            .zone-avatar {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Last update time */
+        .last-update {
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <span class="logo-icon">🏢</span>
+                <span class="logo-text">虛擬辦公室</span>
+            </div>
+
+            <!-- Project List -->
+            <section>
+                <h2 class="section-title">📋 項目列表</h2>
+                <div class="project-list" id="projectList">
+                    <div class="project-item">
+                        <span class="project-status status-in-progress"></span>
+                        <span class="project-name">欠交功課系統</span>
+                    </div>
+                    <div class="project-item">
+                        <span class="project-status status-completed"></span>
+                        <span class="project-name">少康教學網站</span>
+                    </div>
+                    <div class="project-item">
+                        <span class="project-status status-in-progress"></span>
+                        <span class="project-name">數學週 2026</span>
+                    </div>
+                    <div class="project-item">
+                        <span class="project-status status-pending"></span>
+                        <span class="project-name">全方位學習日</span>
+                    </div>
+                    <div class="project-item">
+                        <span class="project-status status-in-progress"></span>
+                        <span class="project-name">虛擬辦公室</span>
+                    </div>
+                    <div class="project-item">
+                        <span class="project-status status-not-started"></span>
+                        <span class="project-name">教師發展日網站</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Agent Status -->
+            <section>
+                <h2 class="section-title">🤖 Agents 狀態</h2>
+                <div class="agent-list" id="agentList">
+                    <div class="agent-card" data-agent="brain">
+                        <div class="agent-avatar">🧠</div>
+                        <div class="agent-info">
+                            <div class="agent-name">大腦</div>
+                            <div class="agent-role">主 AI 助手</div>
+                        </div>
+                        <span class="agent-status agent-active" id="status-brain">工作中</span>
+                    </div>
+                    <div class="agent-card" data-agent="tester">
+                        <div class="agent-avatar">🧪</div>
+                        <div class="agent-info">
+                            <div class="agent-name">T仔</div>
+                            <div class="agent-role">測試員</div>
+                        </div>
+                        <span class="agent-status agent-idle" id="status-tester">Idle</span>
+                    </div>
+                    <div class="agent-card" data-agent="dev">
+                        <div class="agent-avatar">💻</div>
+                        <div class="agent-info">
+                            <div class="agent-name">師弟</div>
+                            <div class="agent-role">開發者</div>
+                        </div>
+                        <span class="agent-status agent-active" id="status-dev">工作中</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- System Info -->
+            <section class="system-info">
+                <h3>💻 系統資訊</h3>
+                <div class="system-grid">
+                    <div class="system-item">
+                        <span class="system-label">型號：</span>
+                        <span class="system-value">Mac mini (M2)</span>
+                    </div>
+                    <div class="system-item">
+                        <span class="system-label">儲存：</span>
+                        <span class="system-value">228GB</span>
+                    </div>
+                    <div class="system-item">
+                        <span class="system-label">RAM：</span>
+                        <span class="system-value">8GB</span>
+                    </div>
+                    <div class="system-item">
+                        <span class="system-label">Gateway：</span>
+                        <span class="system-value" id="gateway-size">548MB</span>
+                    </div>
+                </div>
+            </section>
+        </aside>
+
+        <!-- Right Main Area - Virtual Office -->
+        <main class="main-area">
+            <header class="office-header">
+                <h1 class="office-title">🏯 虛擬辦公室</h1>
+                <p class="office-subtitle">日本風格辦公空間 | Japanese Style Office</p>
+            </header>
+
+            <div class="office-grid">
+                <!-- AI Zone -->
+                <div class="zone">
+                    <div class="zone-header">
+                        <span class="zone-icon">🧠</span>
+                        <span class="zone-title">AI 區</span>
+                    </div>
+                    <div class="zone-content">
+                        <div class="zone-avatar">🧠</div>
+                        <div class="zone-status">大腦正在思考</div>
+                        <div class="zone-activity" id="brain-activity">處理請求中...</div>
+                    </div>
+                </div>
+
+                <!-- Programming Zone -->
+                <div class="zone">
+                    <div class="zone-header">
+                        <span class="zone-icon">💻</span>
+                        <span class="zone-title">編程區</span>
+                    </div>
+                    <div class="zone-content">
+                        <div class="zone-avatar">💻</div>
+                        <div class="zone-status">師弟正在coding</div>
+                        <div class="zone-activity" id="dev-activity">開發中...</div>
+                    </div>
+                </div>
+
+                <!-- Rest Zone -->
+                <div class="zone">
+                    <div class="zone-header">
+                        <span class="zone-icon">☕</span>
+                        <span class="zone-title">休息區</span>
+                    </div>
+                    <div class="zone-content">
+                        <div class="zone-avatar">🧪</div>
+                        <div class="zone-status">T仔休息中</div>
+                        <div class="zone-activity" id="tester-activity">Idle - 等待任務</div>
+                    </div>
+                </div>
+
+                <!-- Meeting Zone -->
+                <div class="zone zone-meeting">
+                    <div class="zone-header">
+                        <span class="zone-icon">👥</span>
+                        <span class="zone-title">會議區</span>
+                    </div>
+                    <div class="zone-content">
+                        <div class="zone-avatar">🧠</div>
+                        <div class="zone-status">大腦</div>
+                        <div class="zone-avatar">💻</div>
+                        <div class="zone-status">師弟</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="last-update">
+                最後更新: <span id="lastUpdateTime">--:--:--</span> | 每30秒自動刷新
+            </div>
+        </main>
+    </div>
+
+    <!-- Refresh Indicator -->
+    <div class="refresh-indicator" id="refreshIndicator">
+        <div class="refresh-spinner"></div>
+        <span>更新中...</span>
+    </div>
+
+    <script>
+        // Configuration
+        const REFRESH_INTERVAL = 30000; // 30 seconds
+        const API_ENDPOINT = '/api/sessions'; // Optional API endpoint
+
+        // State
+        let sessionData = {
+            brain: { status: 'active', activity: '處理請求中...' },
+            tester: { status: 'idle', activity: 'Idle - 等待任務' },
+            dev: { status: 'active', activity: '開發中...' }
+        };
+
+        // Format time
+        function formatTime(date) {
+            return date.toLocaleTimeString('zh-HK', { 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                second: '2-digit' 
+            });
+        }
+
+        // Update UI with session data
+        function updateUI(data) {
+            // Update agent statuses
+            if (data.brain) {
+                updateAgentStatus('brain', data.brain.status, data.brain.activity);
+            }
+            if (data.tester) {
+                updateAgentStatus('tester', data.tester.status, data.tester.activity);
+            }
+            if (data.dev) {
+                updateAgentStatus('dev', data.dev.status, data.dev.activity);
+            }
+
+            // Update last update time
+            document.getElementById('lastUpdateTime').textContent = formatTime(new Date());
+        }
+
+        // Update single agent status
+        function updateAgentStatus(agent, status, activity) {
+            const statusEl = document.getElementById(`status-${agent}`);
+            const activityEl = document.getElementById(`${agent}-activity`);
+            
+            if (statusEl) {
+                statusEl.textContent = status === 'active' ? '工作中' : 'Idle';
+                statusEl.className = `agent-status agent-${status === 'active' ? 'active' : 'idle'}`;
+            }
+            
+            if (activityEl) {
+                activityEl.textContent = activity || (status === 'active' ? '工作中' : 'Idle - 等待任務');
+            }
+        }
+
+        // Fetch session data from OpenClaw via API
+        async function fetchSessionData() {
+            const indicator = document.getElementById('refreshIndicator');
+            indicator.classList.add('show');
+
+            try {
+                // Try to fetch from API endpoint
+                const response = await fetch(API_ENDPOINT);
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.brain) sessionData.brain = data.brain;
+                    if (data.tester) sessionData.tester = data.tester;
+                    if (data.dev) sessionData.dev = data.dev;
+                }
+            } catch (error) {
+                // API not available, use simulated data based on time
+                console.log('API not available, using simulated data');
+                
+                // Simulate different activities based on time
+                const now = new Date();
+                const minutes = now.getMinutes();
+                
+                // Rotate activities to show the office is alive
+                if (minutes % 3 === 0) {
+                    sessionData.brain.activity = '分析數據中...';
+                } else if (minutes % 3 === 1) {
+                    sessionData.brain.activity = '回覆訊息...';
+                } else {
+                    sessionData.brain.activity = '處理請求中...';
+                }
+
+                // Tester sometimes active
+                if (minutes % 5 === 0) {
+                    sessionData.tester.status = 'active';
+                    sessionData.tester.activity = '執行測試中...';
+                } else {
+                    sessionData.tester.status = 'idle';
+                    sessionData.tester.activity = 'Idle - 等待任務';
+                }
+
+                // Dev sometimes breaks
+                if (minutes % 7 === 0) {
+                    sessionData.dev.activity = 'Debugging... 🔧';
+                } else {
+                    sessionData.dev.activity = '開發中...';
+                }
+            }
+
+            // Update UI
+            updateUI(sessionData);
+
+            // Hide indicator
+            indicator.classList.remove('show');
+        }
+
+        // Manual refresh function
+        function manualRefresh() {
+            fetchSessionData();
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initial fetch
+            fetchSessionData();
+
+            // Auto refresh every 30 seconds
+            setInterval(fetchSessionData, REFRESH_INTERVAL);
+
+            // Make project items clickable
+            document.querySelectorAll('.project-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    console.log('Project clicked:', item.querySelector('.project-name').textContent);
+                });
+            });
+        });
+
+        // Expose for manual refresh from console
+        window.refreshVirtualOffice = fetchSessionData;
+    </script>
+</body>
+</html>
