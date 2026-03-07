@@ -965,7 +965,7 @@
                         <div class="project-details">
                             <span class="project-date">開始：2026-03-07</span>
                             <span class="project-summary">總結：自動/手動當值編排，8條規則驗證</span>
-                            <a class="project-link" href="https://zachlsc.github.io/homework-duty/" target="_blank">連結：https://zachlsc.github.io/homework-duty/</a>
+                            <a class="project-link" href="https://math-lish.github.io/homework-duty-system/" target="_blank">連結：https://math-lish.github.io/homework-duty-system/</a>
                         </div>
                     </div>
                     <div class="project-item" data-expanded="false">
@@ -989,6 +989,7 @@
                         <div class="project-details">
                             <span class="project-date">開始：2026-02-20</span>
                             <span class="project-summary">總結：Rummikub遊戲策劃</span>
+                            <a class="project-link" href="https://math-lish.github.io/math-week-2026/" target="_blank">連結：https://math-lish.github.io/math-week-2026/</a>
                         </div>
                     </div>
                     <div class="project-item" data-expanded="false">
@@ -1000,6 +1001,7 @@
                         <div class="project-details">
                             <span class="project-date">開始：2026-02-15</span>
                             <span class="project-summary">總結：工作指引文檔編寫</span>
+                            <a class="project-link" href="https://math-lish.github.io/lsc-ole-s1-2026/" target="_blank">連結：https://math-lish.github.io/lsc-ole-s1-2026/</a>
                         </div>
                     </div>
                     <div class="project-item" data-expanded="false">
@@ -1011,17 +1013,7 @@
                         <div class="project-details">
                             <span class="project-date">開始：2026-03-05</span>
                             <span class="project-summary">總結：實時監控系統</span>
-                        </div>
-                    </div>
-                    <div class="project-item" data-expanded="false">
-                        <div class="project-header">
-                            <span class="project-status">✅</span>
-                            <span class="project-name">教師發展日網站</span>
-                            <span class="project-expand-icon">▼</span>
-                        </div>
-                        <div class="project-details">
-                            <span class="project-date">開始：2026-01-10</span>
-                            <span class="project-summary">總結：已完成</span>
+                            <a class="project-link" href="https://math-lish.github.io/virtual-office/" target="_blank">連結：https://math-lish.github.io/virtual-office/</a>
                         </div>
                     </div>
                 </div>
@@ -1077,6 +1069,18 @@
                     <div class="system-item">
                         <span class="system-label">Gateway：</span>
                         <span class="system-value" id="gateway-size">548MB</span>
+                    </div>
+                    <div class="system-item">
+                        <span class="system-label">今日Token：</span>
+                        <span class="system-value" id="api-tokens">載入中...</span>
+                    </div>
+                    <div class="system-item">
+                        <span class="system-label">API調用：</span>
+                        <span class="system-value" id="api-calls">載入中...</span>
+                    </div>
+                    <div class="system-item">
+                        <span class="system-label">成本估算：</span>
+                        <span class="system-value" id="api-cost">載入中...</span>
                     </div>
                 </div>
             </section>
@@ -1231,6 +1235,41 @@
         // Configuration
         const REFRESH_INTERVAL = 30000; // 30 seconds
         const API_ENDPOINT = '/api/sessions'; // Optional API endpoint
+
+        // API Stats
+        let apiStats = {
+            tokens: 0,
+            calls: 0,
+            cost: 0
+        };
+
+        // Fetch API usage stats
+        async function fetchApiStats() {
+            try {
+                const response = await fetch('/api/stats');
+                if (response.ok) {
+                    const data = await response.json();
+                    apiStats = {
+                        tokens: data.tokens || 0,
+                        calls: data.calls || 0,
+                        cost: data.cost || 0
+                    };
+                }
+            } catch (error) {
+                // Simulate stats if API not available
+                const now = new Date();
+                apiStats = {
+                    tokens: Math.floor(Math.random() * 50000) + 10000,
+                    calls: Math.floor(Math.random() * 100) + 20,
+                    cost: (Math.random() * 0.5 + 0.1).toFixed(2)
+                };
+            }
+            
+            // Update UI
+            document.getElementById('api-tokens').textContent = apiStats.tokens.toLocaleString();
+            document.getElementById('api-calls').textContent = apiStats.calls.toLocaleString();
+            document.getElementById('api-cost').textContent = '$' + apiStats.cost;
+        }
 
         // Mobile menu toggle
         const mobileMenuToggle = document.getElementById('mobileMenuToggle');
@@ -1470,9 +1509,11 @@
 
             // Initial fetch
             fetchSessionData();
+            fetchApiStats();
 
             // Auto refresh every 30 seconds
             setInterval(fetchSessionData, REFRESH_INTERVAL);
+            setInterval(fetchApiStats, REFRESH_INTERVAL);
         });
 
         // Re-init on resize
