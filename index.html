@@ -56,41 +56,47 @@
             min-height: 100vh;
         }
 
-        /* Mobile Menu Toggle */
+        /* Mobile Menu Toggle - only show on larger tablets */
         .mobile-menu-toggle {
             display: none;
-            position: fixed;
-            top: 15px;
-            left: 15px;
-            z-index: 1000;
-            background: var(--japanese-red);
-            border: none;
-            border-radius: 8px;
-            padding: 10px 15px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(188, 0, 45, 0.4);
         }
 
-        .mobile-menu-toggle span {
-            display: block;
-            width: 25px;
-            height: 3px;
-            background: white;
-            margin: 5px 0;
-            border-radius: 2px;
-            transition: all 0.3s ease;
-        }
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .mobile-menu-toggle {
+                display: block;
+                position: fixed;
+                top: 15px;
+                left: 15px;
+                z-index: 1000;
+                background: var(--japanese-red);
+                border: none;
+                border-radius: 8px;
+                padding: 10px 15px;
+                cursor: pointer;
+                box-shadow: 0 4px 15px rgba(188, 0, 45, 0.4);
+            }
 
-        .mobile-menu-toggle.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 6px);
-        }
+            .mobile-menu-toggle span {
+                display: block;
+                width: 25px;
+                height: 3px;
+                background: white;
+                margin: 5px 0;
+                border-radius: 2px;
+                transition: all 0.3s ease;
+            }
 
-        .mobile-menu-toggle.active span:nth-child(2) {
-            opacity: 0;
-        }
+            .mobile-menu-toggle.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 6px);
+            }
 
-        .mobile-menu-toggle.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(5px, -6px);
+            .mobile-menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .mobile-menu-toggle.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(5px, -6px);
+            }
         }
 
         /* Left Sidebar */
@@ -1760,27 +1766,276 @@
             display: block;
         }
 
+        /* Single scrollable page on mobile - all content visible */
+        .mobile-single-page {
+            display: none;
+        }
+
         @media (max-width: 768px) {
+            /* Hide tab navigation when using single page layout */
             .mobile-tabs {
+                display: none;
+            }
+
+            /* Show all content in single scrollable page */
+            .mobile-single-page {
                 display: block;
             }
 
             .container {
-                padding-bottom: 70px;
+                padding-bottom: 20px;
             }
 
-            /* Hide sidebar sections initially on mobile, show via tabs */
-            .sidebar section {
-                display: none;
+            /* Sidebar shows all sections stacked */
+            .sidebar section.mobile-content {
+                display: block;
+                margin-bottom: 15px;
             }
 
-            .sidebar section.mobile-content.active {
+            .sidebar section.mobile-content:last-child {
+                margin-bottom: 0;
+            }
+
+            /* Main area always visible on mobile */
+            .main-area.mobile-content {
+                display: flex;
+            }
+
+            /* Stack sidebar and main area */
+            .sidebar {
+                position: relative;
+                transform: none !important;
+                width: 100%;
+                height: auto;
+                top: 0;
+                border-right: none;
+                border-bottom: 2px solid var(--japanese-red);
+                padding-bottom: 30px;
+            }
+
+            .main-area {
+                width: 100%;
+                min-height: auto;
+            }
+
+            .container {
+                flex-direction: column;
+                padding-top: 70px;
+            }
+
+            .mobile-menu-toggle {
                 display: block;
             }
 
-            /* Also handle main area */
-            .main-area.mobile-content.active {
+            /* Mobile single page layout - stacked sections */
+            .mobile-single-page .sidebar {
                 display: flex;
+                flex-direction: column;
+            }
+
+            .mobile-single-page .sidebar > * {
+                display: block !important;
+            }
+
+            /* Reduce spacing in single page mode */
+            .sidebar {
+                padding: 15px;
+                gap: 15px;
+            }
+
+            .project-list, .agent-list {
+                gap: 8px;
+            }
+
+            .project-item {
+                padding: 10px 12px;
+            }
+
+            .agent-card {
+                padding: 10px;
+            }
+
+            /* Office grid adjustments for mobile single page */
+            .office-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+                gap: 12px;
+            }
+
+            .zone {
+                min-height: 180px;
+                padding: 12px;
+            }
+
+            .zone-meeting {
+                grid-column: span 1;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .zone-meeting .zone-content {
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 10px !important;
+                justify-content: center;
+            }
+
+            /* Pixel art sizing for mobile */
+            .pixel-character {
+                transform: scale(0.75);
+            }
+
+            .pixel-character:hover {
+                transform: scale(0.85);
+            }
+
+            .pixel-avatar {
+                width: 50px;
+                height: 50px;
+                font-size: 1.8rem;
+            }
+
+            .pixel-name {
+                font-size: 0.75rem;
+                padding: 3px 8px;
+            }
+
+            .zone-avatar {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+
+            .speech-bubble {
+                font-size: 0.65rem;
+                padding: 4px 8px;
+            }
+
+            /* System info grid - 2 columns on mobile */
+            .system-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 6px;
+            }
+
+            .system-info {
+                padding: 12px;
+            }
+
+            .system-info h3 {
+                font-size: 0.8rem;
+                margin-bottom: 8px;
+            }
+
+            .system-item {
+                font-size: 0.75rem;
+            }
+
+            /* Section titles */
+            .section-title {
+                font-size: 0.85rem;
+                margin-bottom: 8px;
+            }
+
+            /* Office header */
+            .office-header {
+                padding: 12px;
+                margin-bottom: 10px;
+            }
+
+            .office-title {
+                font-size: 1.2rem;
+            }
+
+            .office-subtitle {
+                font-size: 0.8rem;
+            }
+
+            /* Last update */
+            .last-update {
+                padding: 8px;
+                font-size: 0.7rem;
+            }
+
+            /* Project details adjustments */
+            .project-details {
+                padding-left: 0;
+                margin-top: 8px;
+            }
+
+            .project-date {
+                font-size: 0.7rem;
+            }
+
+            .project-summary {
+                font-size: 0.75rem;
+            }
+
+            .project-link {
+                font-size: 0.7rem;
+            }
+
+            /* Hide desktop toggle on mobile */
+            .sidebar {
+                position: relative;
+                left: 0;
+                transform: none !important;
+            }
+
+            .mobile-menu-toggle {
+                display: none;
+            }
+        }
+
+        /* Very small screens (375px and below) */
+        @media (max-width: 380px) {
+            .system-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-header {
+                flex-wrap: wrap;
+            }
+
+            .project-expand-icon {
+                margin-left: auto;
+            }
+
+            .zone {
+                min-height: 150px;
+            }
+
+            .pixel-character {
+                transform: scale(0.65);
+            }
+
+            .pixel-character:hover {
+                transform: scale(0.75);
+            }
+        }
+
+        /* Medium mobile (414px) */
+        @media (min-width: 381px) and (max-width: 420px) {
+            .system-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .pixel-character {
+                transform: scale(0.7);
+            }
+        }
+
+        /* Larger mobile/tablet (768px) */
+        @media (min-width: 421px) and (max-width: 768px) {
+            .system-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .pixel-character {
+                transform: scale(0.8);
+            }
+
+            .zone {
+                min-height: 200px;
             }
         }
     </style>
@@ -1793,8 +2048,8 @@
         <span></span>
     </button>
 
-    <div class="container">
-        <!-- Left Sidebar -->
+    <div class="container mobile-single-page">
+        <!-- Left Sidebar - All sections visible on mobile -->
         <aside class="sidebar" id="sidebar">
             <div class="logo">
                 <span class="logo-icon">🏢</span>
@@ -1802,7 +2057,7 @@
             </div>
 
             <!-- Project List -->
-            <section class="mobile-content" id="mobile-projects">
+            <section class="mobile-content active">
                 <h2 class="section-title">📋 項目列表</h2>
                 <div class="project-list" id="projectList">
                     <div class="project-item" data-expanded="false">
@@ -1893,7 +2148,7 @@
             </section>
 
             <!-- Agent Status -->
-            <section class="mobile-content" id="mobile-agents">
+            <section class="mobile-content active">
                 <h2 class="section-title">🤖 Agents 狀態</h2>
                 <div class="agent-list" id="agentList">
                     <div class="agent-card" data-agent="brain">
@@ -1932,7 +2187,7 @@
             </section>
 
             <!-- System Info -->
-            <section class="system-info mobile-content" id="mobile-system">
+            <section class="system-info mobile-content active">
                 <h3>💻 系統資訊</h3>
                 <div class="system-grid">
                     <div class="system-item">
@@ -1968,7 +2223,7 @@
         </aside>
 
         <!-- Right Main Area - Virtual Office -->
-        <main class="main-area mobile-content" id="mobile-office">
+        <main class="main-area mobile-content active" id="mobile-office">
             <header class="office-header">
                 <h1 class="office-title">🏯 虛擬辦公室</h1>
                 <p class="office-subtitle">日本風格辦公空間 | Japanese Style Office</p>
@@ -2320,50 +2575,11 @@
             }
         });
 
-        // Mobile tab navigation
-        const mobileTabs = document.getElementById('mobileTabs');
-        
+        // Initialize mobile tabs (for larger screens if needed)
         function initMobileTabs() {
-            if (window.innerWidth > 768) {
-                // Desktop: show all sections
-                document.querySelectorAll('.mobile-content').forEach(el => {
-                    el.classList.add('active');
-                });
-                return;
-            }
-
-            const tabs = document.querySelectorAll('.mobile-tab');
-            const contents = {
-                'projects': document.getElementById('mobile-projects'),
-                'agents': document.getElementById('mobile-agents'),
-                'office': document.getElementById('mobile-office'),
-                'system': document.getElementById('mobile-system')
-            };
-
-            // Set default active tab
-            tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    const tabName = tab.dataset.tab;
-                    
-                    // Update tab active state
-                    tabs.forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-
-                    // Show corresponding content
-                    Object.entries(contents).forEach(([name, content]) => {
-                        if (content) {
-                            if (name === tabName) {
-                                content.classList.add('active');
-                            } else {
-                                content.classList.remove('active');
-                            }
-                        }
-                    });
-                });
-            });
-
-            // Show projects by default on mobile
-            tabs[0].click();
+            // On mobile single page, all content is visible by default
+            // No tab switching needed
+            return;
         }
 
         // Project expand/collapse
@@ -2694,7 +2910,10 @@
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(() => {
-                initMobileTabs();
+                // Just ensure all mobile content is visible
+                document.querySelectorAll('.mobile-content').forEach(el => {
+                    el.classList.add('active');
+                });
             }, 250);
         });
 
