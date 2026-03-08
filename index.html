@@ -2260,6 +2260,273 @@
                 min-height: 200px;
             }
         }
+
+        /* Project Detail Panel - Right Side 2/3 */
+        .project-detail-panel {
+            display: none;
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 66.67%;
+            height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            z-index: 1000;
+            padding: 20px;
+            overflow-y: auto;
+            box-shadow: -5px 0 30px rgba(0, 0, 0, 0.5);
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .project-detail-panel.active {
+            display: block;
+            transform: translateX(0);
+        }
+
+        .project-detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(188, 0, 45, 0.5);
+            margin-bottom: 20px;
+        }
+
+        .project-detail-title {
+            font-size: 1.5rem;
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .project-detail-status {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .project-detail-status.active {
+            background: rgba(76, 175, 80, 0.3);
+            color: #4caf50;
+        }
+
+        .project-detail-status.standby {
+            background: rgba(255, 152, 0, 0.3);
+            color: #ff9800;
+        }
+
+        .project-detail-status.completed {
+            background: rgba(33, 150, 243, 0.3);
+            color: #2196f3;
+        }
+
+        .close-detail-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+
+        .close-detail-btn:hover {
+            background: rgba(188, 0, 45, 0.5);
+        }
+
+        /* Project Info Cards */
+        .project-info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .info-card-label {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .info-card-value {
+            font-size: 1rem;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .info-card-value a {
+            color: #64b5f6;
+            text-decoration: none;
+        }
+
+        .info-card-value a:hover {
+            text-decoration: underline;
+        }
+
+        /* Timeline */
+        .timeline-section {
+            margin-top: 25px;
+        }
+
+        .timeline-title {
+            font-size: 1.1rem;
+            color: #fff;
+            margin-bottom: 15px;
+            padding-left: 10px;
+            border-left: 3px solid var(--japanese-red);
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--japanese-red), rgba(188, 0, 45, 0.3));
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -26px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--japanese-red);
+            box-shadow: 0 0 10px rgba(188, 0, 45, 0.5);
+        }
+
+        .timeline-date {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 5px;
+        }
+
+        .timeline-content {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 3px solid var(--japanese-red);
+        }
+
+        .timeline-event {
+            color: #fff;
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+        }
+
+        .timeline-detail {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+        }
+
+        /* OpenClaw Activity Section (Local Only) */
+        .openclaw-activity {
+            margin-top: 25px;
+            padding: 15px;
+            background: rgba(188, 0, 45, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(188, 0, 45, 0.3);
+        }
+
+        .openclaw-activity-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .openclaw-badge {
+            background: var(--japanese-red);
+            color: #fff;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+
+        .activity-time {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.5);
+            min-width: 60px;
+        }
+
+        .activity-text {
+            font-size: 0.9rem;
+            color: #fff;
+        }
+
+        /* Mode Indicator */
+        .mode-indicator {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 1001;
+        }
+
+        .mode-indicator.local {
+            background: rgba(76, 175, 80, 0.8);
+            color: #fff;
+        }
+
+        .mode-indicator.online {
+            background: rgba(33, 150, 243, 0.8);
+            color: #fff;
+        }
+
+        /* Project click handler */
+        .project-item {
+            cursor: pointer;
+        }
+
+        .project-item:hover {
+            background: rgba(188, 0, 45, 0.1);
+        }
+
+        .project-item.selected {
+            background: rgba(188, 0, 45, 0.2);
+            border-left: 3px solid var(--japanese-red);
+        }
     </style>
 </head>
 <body>
@@ -2368,6 +2635,63 @@
                     </div>
                 </div>
             </section>
+
+            <!-- Project Detail Panel -->
+            <div class="project-detail-panel" id="projectDetailPanel">
+                <div class="project-detail-header">
+                    <div>
+                        <div class="project-detail-title" id="detailTitle">項目名稱</div>
+                        <span class="project-detail-status active" id="detailStatus">進行中</span>
+                    </div>
+                    <button class="close-detail-btn" id="closeDetailBtn">×</button>
+                </div>
+
+                <div class="project-info-grid">
+                    <div class="info-card">
+                        <div class="info-card-label">開始日期</div>
+                        <div class="info-card-value" id="detailStartDate">-</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-label">目標完成</div>
+                        <div class="info-card-value" id="detailTargetDate">-</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-label">網站連結</div>
+                        <div class="info-card-value" id="detailLink">-</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-label">GitHub</div>
+                        <div class="info-card-value" id="detailGithub">-</div>
+                    </div>
+                </div>
+
+                <div class="info-card" style="margin-bottom: 25px;">
+                    <div class="info-card-label">項目描述</div>
+                    <div class="info-card-value" id="detailDescription">-</div>
+                </div>
+
+                <!-- Timeline Section -->
+                <div class="timeline-section">
+                    <div class="timeline-title">📅 時序線</div>
+                    <div class="timeline" id="detailTimeline">
+                        <!-- Timeline items will be dynamically added -->
+                    </div>
+                </div>
+
+                <!-- OpenClaw Activity (Local Only) -->
+                <div class="openclaw-activity" id="openclawActivity" style="display: none;">
+                    <div class="openclaw-activity-header">
+                        <span class="openclaw-badge">LOCAL</span>
+                        <span style="color: #fff; font-weight: 600;">OpenClaw 即時活動</span>
+                    </div>
+                    <div class="activity-list" id="activityList">
+                        <!-- Activity items will be dynamically added -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mode Indicator -->
+            <div class="mode-indicator" id="modeIndicator">線上模式</div>
 
             <!-- Agent Status -->
             <section class="mobile-content active">
@@ -2629,6 +2953,220 @@
         // Configuration
         const REFRESH_INTERVAL = 30000; // 30 seconds
         const API_ENDPOINT = '/api/status'; // OpenClaw Virtual Office API
+        
+        // ===== Mode Detection =====
+        const isLocal = window.location.port === '18899' || window.location.port === '3000' || window.location.hostname === 'localhost';
+        
+        // Update mode indicator
+        const modeIndicator = document.getElementById('modeIndicator');
+        if (modeIndicator) {
+            modeIndicator.textContent = isLocal ? '🏠 本地模式' : '🌐 線上模式';
+            modeIndicator.className = 'mode-indicator ' + (isLocal ? 'local' : 'online');
+        }
+        
+        // ===== Project Data with Timeline =====
+        const projectData = {
+            '欠交功課系統': {
+                startDate: '2026-03-07',
+                targetDate: '2026-03-15',
+                description: '自動/手動當值編排系統，8條規則驗證，支援複製/匯入功能。適用於老師追蹤學生欠交功課情況。',
+                link: 'https://math-lish.github.io/homework-duty-system/',
+                github: 'https://github.com/math-lish/homework-duty-system',
+                status: 'active',
+                timeline: [
+                    { date: '2026-03-07', event: '項目啟動', detail: '建立基礎架構' },
+                    { date: '2026-03-07', event: '完成自動編排', detail: '實現7日當值自動生成' },
+                    { date: '2026-03-08', event: '完成手動編排', detail: '支援拖放調整' },
+                    { date: '2026-03-08', event: '規則驗證', detail: '8條規則全部通過' }
+                ]
+            },
+            '少康教學網站': {
+                startDate: '2026-03-01',
+                targetDate: '2026-04-01',
+                description: '教學資源網站，包含數學教材、練習題及教學影片連結。',
+                link: 'https://math-lish.github.io/ai-learning/',
+                github: 'https://github.com/math-lish/ai-learning',
+                status: 'active',
+                timeline: [
+                    { date: '2026-03-01', event: '項目啟動', detail: '建立網站基礎結構' },
+                    { date: '2026-03-05', event: '數學教材上傳', detail: '完成S1-S3教材' },
+                    { date: '2026-03-07', event: '互動練習題', detail: '加入JavaScript練習' }
+                ]
+            },
+            '數學週 2026': {
+                startDate: '2026-02-20',
+                targetDate: '2026-03-20',
+                description: 'Rummikub遊戲策劃及比賽系統，培養學生邏輯思維。',
+                link: 'https://math-lish.github.io/math-week-2026/',
+                github: 'https://github.com/math-lish/math-week-2026',
+                status: 'active',
+                timeline: [
+                    { date: '2026-02-20', event: '項目策劃', detail: '確定比賽規則' },
+                    { date: '2026-03-01', event: '系統開發', detail: '遊戲平台建構' },
+                    { date: '2026-03-07', event: 'Beta測試', detail: '學生試玩反饋' }
+                ]
+            },
+            '全方位學習日': {
+                startDate: '2026-02-15',
+                targetDate: '2026-02-28',
+                description: '全方位學習日工作指引文檔編寫，含活動流程及注意事項。',
+                link: 'https://math-lish.github.io/lsc-ole-s1-2026/',
+                github: 'https://github.com/math-lish/lsc-ole-s1-2026',
+                status: 'completed',
+                timeline: [
+                    { date: '2026-02-15', event: '項目啟動', detail: '收集活動資料' },
+                    { date: '2026-02-20', event: '文檔編寫', detail: '完成初版' },
+                    { date: '2026-02-28', event: '活動完成', detail: '學生參與完成' }
+                ]
+            },
+            '虛擬辦公室': {
+                startDate: '2026-03-05',
+                targetDate: '2026-04-01',
+                description: '實時監控系統，展示AI助手工作狀態。可視化呈現OpenClaw agents既工作情況。',
+                link: 'https://math-lish.github.io/virtual-office/',
+                github: 'https://github.com/math-lish/virtual-office',
+                status: 'active',
+                timeline: [
+                    { date: '2026-03-05', event: '項目啟動', detail: '參考thx0701/openclaw-virtual-office' },
+                    { date: '2026-03-07', event: 'Parts 1-8', detail: '完成基礎功能' },
+                    { date: '2026-03-08', event: 'Parts 9-12', detail: '動畫及優化' },
+                    { date: '2026-03-08', event: '本地/線上拆分', detail: '增強Project控制面板' }
+                ]
+            },
+            '晞霖學習網站': {
+                startDate: '2026-03-07',
+                targetDate: '2026-05-01',
+                description: '幼教網站，包含互動學習內容、遊戲及教材下載。',
+                link: null,
+                github: 'https://github.com/math-lish/xi-lin-learning',
+                status: 'standby',
+                timeline: [
+                    { date: '2026-03-07', event: '項目策劃', detail: '收集幼教資源' }
+                ]
+            },
+            '教師發展日': {
+                startDate: '2026-01-10',
+                targetDate: '2026-01-15',
+                description: '教師專業發展日活動網站，已完成。',
+                link: 'https://math-lish.github.io/teacher-dev-day/',
+                github: 'https://github.com/math-lish/teacher-dev-day',
+                status: 'completed',
+                timeline: [
+                    { date: '2026-01-10', event: '項目啟動', detail: '籌備教師發展日' },
+                    { date: '2026-01-15', event: '活動完成', detail: '網站上線' }
+                ]
+            }
+        };
+        
+        // ===== Project Detail Panel Functions =====
+        const projectDetailPanel = document.getElementById('projectDetailPanel');
+        const closeDetailBtn = document.getElementById('closeDetailBtn');
+        
+        function openProjectDetail(projectName) {
+            const data = projectData[projectName];
+            if (!data) return;
+            
+            // Update panel content
+            document.getElementById('detailTitle').textContent = projectName;
+            document.getElementById('detailStartDate').textContent = data.startDate;
+            document.getElementById('detailTargetDate').textContent = data.targetDate || '待定';
+            document.getElementById('detailDescription').textContent = data.description;
+            
+            // Status
+            const statusEl = document.getElementById('detailStatus');
+            statusEl.textContent = data.status === 'active' ? '進行中' : data.status === 'completed' ? '已完成' : '準備中';
+            statusEl.className = 'project-detail-status ' + data.status;
+            
+            // Links
+            const linkEl = document.getElementById('detailLink');
+            if (data.link) {
+                linkEl.innerHTML = `<a href="${data.link}" target="_blank">${data.link}</a>`;
+            } else {
+                linkEl.textContent = '開發中...';
+            }
+            
+            const githubEl = document.getElementById('detailGithub');
+            githubEl.innerHTML = `<a href="${data.github}" target="_blank">${data.github}</a>`;
+            
+            // Timeline
+            const timelineEl = document.getElementById('detailTimeline');
+            timelineEl.innerHTML = data.timeline.map(item => `
+                <div class="timeline-item">
+                    <div class="timeline-date">${item.date}</div>
+                    <div class="timeline-content">
+                        <div class="timeline-event">${item.event}</div>
+                        <div class="timeline-detail">${item.detail}</div>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Show panel
+            projectDetailPanel.classList.add('active');
+            
+            // Highlight selected project
+            document.querySelectorAll('.project-item').forEach(el => {
+                el.classList.remove('selected');
+                if (el.querySelector('.project-name').textContent === projectName) {
+                    el.classList.add('selected');
+                }
+            });
+        }
+        
+        function closeProjectDetail() {
+            projectDetailPanel.classList.remove('active');
+            document.querySelectorAll('.project-item').forEach(el => {
+                el.classList.remove('selected');
+            });
+        }
+        
+        // Close button handler
+        if (closeDetailBtn) {
+            closeDetailBtn.addEventListener('click', closeProjectDetail);
+        }
+        
+        // Click on project items
+        document.querySelectorAll('.project-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const projectName = this.querySelector('.project-name').textContent;
+                openProjectDetail(projectName);
+            });
+        });
+        
+        // ===== OpenClaw Activity (Local Only) =====
+        let activityHistory = [];
+        
+        function updateOpenClawActivity(data) {
+            if (!isLocal) return;
+            
+            const activityEl = document.getElementById('openclawActivity');
+            if (!activityEl) return;
+            
+            activityEl.style.display = 'block';
+            
+            // Extract activity from agents
+            const activities = [];
+            if (data.agents) {
+                data.agents.forEach(agent => {
+                    if (agent.status !== 'offline' && agent.task) {
+                        activities.push({
+                            time: new Date(),
+                            text: `${agent.name}: ${agent.task}`
+                        });
+                    }
+                });
+            }
+            
+            // Update activity list
+            activityHistory = [...activities, ...activityHistory].slice(0, 10);
+            
+            const activityList = document.getElementById('activityList');
+            activityList.innerHTML = activityHistory.map(a => `
+                <div class="activity-item">
+                    <span class="activity-time">${a.time.toLocaleTimeString()}</span>
+                    <span class="activity-text">${a.text}</span>
+                </div>
+            `).join('');
+        }
         
         // Store scroll position before refresh
         let scrollPosition = { x: 0, y: 0 };
@@ -3114,6 +3652,11 @@
 
             // Update UI
             updateUI(sessionData);
+
+            // Update OpenClaw activity panel (local mode only)
+            if (isLocal && typeof data !== 'undefined') {
+                updateOpenClawActivity(data);
+            }
 
             // Update role card session data
             updateRoleCardData('brain', sessionData.brain.status, sessionData.brain.activity);
