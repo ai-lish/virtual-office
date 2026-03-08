@@ -3157,11 +3157,9 @@
 
             // Initial fetch
             fetchSessionData();
-            fetchApiStats();
 
             // Auto refresh every 30 seconds
             setInterval(fetchSessionData, REFRESH_INTERVAL);
-            setInterval(fetchApiStats, REFRESH_INTERVAL);
 
             // Start automatic zone movement (every 10 seconds)
             startAutoZoneMovement();
