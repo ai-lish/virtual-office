@@ -1,0 +1,39 @@
+{
+  "title": "🧑‍💻 虛擬辦公室 - Virtual Office",
+  "timestamp": 1772931752646,
+  "agents": [
+    {
+      "id": "main",
+      "name": "大腦 🧠",
+      "sprite": "agent-tech",
+      "role": "AI助手",
+      "status": "busy",
+      "task": "工作中...",
+      "lastActive": 0,
+      "session": "agent:main:telegram:direct:8707814594",
+      "tokens": 87112
+    },
+    {
+      "id": "tester",
+      "name": "T仔 📋",
+      "sprite": "agent-admin",
+      "role": "測試Agent",
+      "status": "offline",
+      "task": "等待中...",
+      "lastActive": -1,
+      "session": null,
+      "tokens": 0
+    },
+    {
+      "id": "dev",
+      "name": "師弟 💻",
+      "sprite": "agent-tech",
+      "role": "開發Agent",
+      "status": "offline",
+      "task": "等待中...",
+      "lastActive": -1,
+      "session": null,
+      "tokens": 0
+    }
+  ]
+}

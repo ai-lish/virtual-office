@@ -1,0 +1,26 @@
+{
+  "title": "🧑‍💻 虛擬辦公室 - Virtual Office",
+  "agents": [
+    {
+      "id": "main",
+      "name": "大腦 🧠",
+      "sprite": "agent-tech",
+      "sessionMatch": "main",
+      "role": "AI助手"
+    },
+    {
+      "id": "tester",
+      "name": "T仔 📋",
+      "sprite": "agent-admin",
+      "sessionMatch": "tester",
+      "role": "測試Agent"
+    },
+    {
+      "id": "dev",
+      "name": "師弟 💻",
+      "sprite": "agent-tech",
+      "sessionMatch": "dev",
+      "role": "開發Agent"
+    }
+  ]
+}

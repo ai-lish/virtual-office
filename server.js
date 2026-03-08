@@ -1,93 +1,286 @@
-const express = require('express');
-const { exec } = require('child_process');
+#!/usr/bin/env node
+/**
+ * OpenClaw Virtual Office — WebSocket Server
+ * Based on: https://github.com/thx0701/openclaw-virtual-office
+ * 
+ * Serves the dashboard + pushes real-time status updates via WebSocket.
+ * Polls OpenClaw sessions every 10s and broadcasts changes to all clients.
+ * 
+ * Usage:
+ *   node server.js                    # Default port 18899
+ *   PORT=3000 node server.js         # Custom port
+ */
+
+const http = require('http');
+const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = parseInt(process.env.PORT || '18899');
+const POLL_INTERVAL = parseInt(process.env.POLL_INTERVAL || '10000'); // 10s
+const BASE_DIR = __dirname;
 
-// Serve static files
-app.use(express.static(__dirname));
+// --- Simple WebSocket implementation (no dependencies) ---
 
-// Helper function for simulated activity
-function getSimulatedActivity() {
-    const activities = [
-        '處理請求中...',
-        '分析數據中...',
-        '回覆訊息...',
-        '規劃任務中...',
-        '学习中...'
-    ];
-    return activities[Math.floor(Math.random() * activities.length)];
+function hashWebSocketKey(key) {
+  const crypto = require('crypto');
+  return crypto
+    .createHash('sha1')
+    .update(key + '258EAFA5-E914-47DA-95CA-A5AB53DC65B4')
+    .digest('base64');
 }
 
-// API endpoint - returns data in format frontend expects: { main: {...}, subagents: [...] }
-function getSessionData(res) {
-    exec('openclaw sessions list --active 30 --json', { encoding: 'utf8' }, (error, stdout, stderr) => {
-        if (error) {
-            console.error('Error fetching sessions:', error);
-            res.json({
-                main: { name: 'brain', status: 'active', lastActivity: new Date().toISOString() },
-                subagents: [
-                    { name: 'tester', status: 'idle', lastActivity: new Date(Date.now() - 600000).toISOString() },
-                    { name: 'dev', status: 'active', lastActivity: new Date().toISOString() }
-                ]
-            });
-            return;
-        }
+function encodeFrame(data) {
+  const payload = Buffer.from(data, 'utf8');
+  const len = payload.length;
+  let header;
+  if (len < 126) {
+    header = Buffer.alloc(2);
+    header[0] = 0x81; // text frame, fin
+    header[1] = len;
+  } else if (len < 65536) {
+    header = Buffer.alloc(4);
+    header[0] = 0x81;
+    header[1] = 126;
+    header.writeUInt16BE(len, 2);
+  } else {
+    header = Buffer.alloc(10);
+    header[0] = 0x81;
+    header[1] = 127;
+    header.writeBigUInt64BE(BigInt(len), 2);
+  }
+  return Buffer.concat([header, payload]);
+}
 
-        try {
-            const sessions = JSON.parse(stdout || '[]');
-            const sessionCount = sessions.length;
-            const hasRecentActivity = sessionCount > 0;
+function decodeFrame(buffer) {
+  if (buffer.length < 2) return null;
+  const masked = (buffer[1] & 0x80) !== 0;
+  let payloadLen = buffer[1] & 0x7f;
+  let offset = 2;
+  if (payloadLen === 126) {
+    payloadLen = buffer.readUInt16BE(2);
+    offset = 4;
+  } else if (payloadLen === 127) {
+    payloadLen = Number(buffer.readBigUInt64BE(2));
+    offset = 10;
+  }
+  if (masked) {
+    const mask = buffer.slice(offset, offset + 4);
+    offset += 4;
+    const data = buffer.slice(offset, offset + payloadLen);
+    for (let i = 0; i < data.length; i++) data[i] ^= mask[i % 4];
+    return data.toString('utf8');
+  }
+  return buffer.slice(offset, offset + payloadLen).toString('utf8');
+}
 
-            res.json({
-                main: {
-                    name: 'brain',
-                    status: hasRecentActivity ? 'active' : 'idle',
-                    lastActivity: hasRecentActivity ? new Date().toISOString() : new Date(Date.now() - 300000).toISOString()
-                },
-                subagents: [
-                    {
-                        name: 'tester',
-                        status: Math.random() > 0.5 ? 'active' : 'idle',
-                        lastActivity: new Date(Date.now() - (Math.random() > 0.5 ? 60000 : 600000)).toISOString()
-                    },
-                    {
-                        name: 'dev',
-                        status: 'active',
-                        lastActivity: new Date().toISOString()
-                    }
-                ]
-            });
-        } catch (parseError) {
-            res.json({
-                main: { name: 'brain', status: 'active', lastActivity: new Date().toISOString() },
-                subagents: [
-                    { name: 'tester', status: 'idle', lastActivity: new Date(Date.now() - 600000).toISOString() },
-                    { name: 'dev', status: 'active', lastActivity: new Date().toISOString() }
-                ]
-            });
-        }
+// --- State management ---
+
+const clients = new Set();
+let currentStatus = null;
+let config = {};
+
+function loadConfig() {
+  try {
+    config = JSON.parse(fs.readFileSync(path.join(BASE_DIR, 'config.json'), 'utf8'));
+  } catch (e) {
+    config = { title: 'OpenClaw Virtual Office', agents: [] };
+  }
+}
+
+function getSessions() {
+  try {
+    const out = execSync('openclaw sessions --json', {
+      timeout: 10000,
+      encoding: 'utf8',
+      stdio: ['pipe', 'pipe', 'pipe'],
     });
+    const data = JSON.parse(out);
+    return Array.isArray(data) ? data : (data.sessions || []);
+  } catch (e) {
+    console.error('Error fetching OpenClaw sessions:', e.message);
+    return [];
+  }
 }
 
-// /api/stats endpoint
-app.get('/api/stats', async (req, res) => {
-    getSessionData(res);
+function matchSession(agent, sessions) {
+  const pattern = agent.sessionMatch || '';
+  if (!pattern) return null;
+  return sessions.find(s => {
+    const hay = (s.key || '') + '|' + (s.displayName || '');
+    return hay.includes(pattern);
+  });
+}
+
+function buildStatus() {
+  const sessions = getSessions();
+  const now = Date.now();
+  const agents = (config.agents || []).map(agent => {
+    const s = matchSession(agent, sessions);
+    if (s) {
+      const age = s.updatedAt ? Math.floor((now - s.updatedAt) / 60000) : 999;
+      let status = 'offline';
+      if (age < 2) status = 'busy';
+      else if (age < 10) status = 'online';
+      else if (age < 60) status = 'idle';
+
+      // Extract last message
+      let task = '工作中...';
+      for (const msg of [...(s.messages || [])].reverse()) {
+        const content = msg.content;
+        if (Array.isArray(content)) {
+          for (const c of content) {
+            if (c && c.type === 'text' && c.text && c.text.trim().length > 2) {
+              task = c.text.trim().slice(0, 80);
+              break;
+            }
+          }
+        } else if (typeof content === 'string' && content.trim().length > 2) {
+          task = content.trim().slice(0, 80);
+        }
+        if (task !== '工作中...') break;
+      }
+
+      return {
+        id: agent.id, name: agent.name, sprite: agent.sprite || 'agent-tech',
+        role: agent.role || '', status, task, lastActive: age,
+        session: s.key, tokens: s.totalTokens || 0,
+      };
+    }
+    return {
+      id: agent.id, name: agent.name, sprite: agent.sprite || 'agent-tech',
+      role: agent.role || '', status: 'offline', task: '等待中...',
+      lastActive: -1, session: null, tokens: 0,
+    };
+  });
+
+  return { title: config.title || 'OpenClaw Virtual Office', timestamp: now, agents };
+}
+
+function broadcast(data) {
+  const frame = encodeFrame(JSON.stringify(data));
+  for (const client of clients) {
+    try { client.write(frame); } catch (e) { clients.delete(client); }
+  }
+}
+
+// --- HTTP server ---
+
+const MIME = {
+  '.html': 'text/html', '.css': 'text/css', '.js': 'application/javascript',
+  '.json': 'application/json', '.png': 'image/png', '.jpg': 'image/jpeg',
+  '.svg': 'image/svg+xml', '.ico': 'image/x-icon',
+};
+
+const server = http.createServer((req, res) => {
+  let filePath = req.url.split('?')[0];
+  if (filePath === '/') filePath = '/index.html';
+  
+  // API endpoint for current status
+  if (filePath === '/api/status') {
+    res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+    res.end(JSON.stringify(currentStatus || { agents: [] }));
+    return;
+  }
+
+  const fullPath = path.join(BASE_DIR, filePath);
+  // Security: prevent path traversal
+  if (!fullPath.startsWith(BASE_DIR)) {
+    res.writeHead(403); res.end('Forbidden'); return;
+  }
+
+  fs.readFile(fullPath, (err, data) => {
+    if (err) {
+      res.writeHead(404); res.end('Not Found'); return;
+    }
+    const ext = path.extname(fullPath);
+    res.writeHead(200, { 'Content-Type': MIME[ext] || 'application/octet-stream' });
+    res.end(data);
+  });
 });
 
-// /api/sessions endpoint (same as /api/stats)
-app.get('/api/sessions', async (req, res) => {
-    getSessionData(res);
+// --- WebSocket upgrade ---
+
+server.on('upgrade', (req, socket, head) => {
+  if (req.url !== '/ws') { socket.destroy(); return; }
+  
+  const key = req.headers['sec-websocket-key'];
+  const accept = hashWebSocketKey(key);
+  
+  socket.write(
+    'HTTP/1.1 101 Switching Protocols\r\n' +
+    'Upgrade: websocket\r\n' +
+    'Connection: Upgrade\r\n' +
+    `Sec-WebSocket-Accept: ${accept}\r\n` +
+    '\r\n'
+  );
+  
+  clients.add(socket);
+  console.log(`[WS] Client connected (${clients.size} total)`);
+  
+  // Send current status immediately
+  if (currentStatus) {
+    socket.write(encodeFrame(JSON.stringify(currentStatus)));
+  }
+  
+  socket.on('data', (buf) => {
+    const opcode = buf[0] & 0x0f;
+    if (opcode === 0x8) { // close
+      clients.delete(socket);
+      socket.end();
+    }
+    // ping → pong
+    if (opcode === 0x9) {
+      const pong = Buffer.from(buf);
+      pong[0] = (pong[0] & 0xf0) | 0xa;
+      socket.write(pong);
+    }
+  });
+  
+  socket.on('close', () => {
+    clients.delete(socket);
+    console.log(`[WS] Client disconnected (${clients.size} total)`);
+  });
+  
+  socket.on('error', () => { clients.delete(socket); });
 });
 
-// Serve index.html for root
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+// --- Main loop ---
+
+loadConfig();
+// Watch config changes
+fs.watchFile(path.join(BASE_DIR, 'config.json'), () => {
+  console.log('[Config] Reloaded');
+  loadConfig();
 });
 
-// Start server
-app.listen(PORT, () => {
-    console.log(`🚀 Virtual Office running at http://localhost:${PORT}`);
-    console.log(`📱 API endpoints: http://localhost:${PORT}/api/stats, /api/sessions`);
+
+function poll() {
+  const newStatus = buildStatus();
+  const changed = JSON.stringify(newStatus.agents) !== JSON.stringify((currentStatus || {}).agents);
+  currentStatus = newStatus;
+  
+  // Also write status.json for backward compatibility
+  fs.writeFileSync(path.join(BASE_DIR, 'status.json'), JSON.stringify(newStatus, null, 2));
+  
+  if (changed && clients.size > 0) {
+    console.log(`[Poll] Status changed, broadcasting to ${clients.size} clients`);
+    broadcast(newStatus);
+  }
+}
+
+poll(); // Initial
+setInterval(poll, POLL_INTERVAL);
+
+server.listen(PORT, '0.0.0.0', () => {
+  const online = (currentStatus?.agents || []).filter(a => a.status !== 'offline').length;
+  const total = (currentStatus?.agents || []).length;
+  console.log(`
+🏢 OpenClaw Virtual Office Server
+   http://localhost:${PORT}
+   WebSocket: ws://localhost:${PORT}/ws
+   API: http://localhost:${PORT}/api/status
+   Agents: ${online}/${total} online
+   Polling every ${POLL_INTERVAL / 1000}s
+`);
 });

@@ -2634,7 +2634,7 @@
     <script>
         // Configuration
         const REFRESH_INTERVAL = 30000; // 30 seconds
-        const API_ENDPOINT = '/api/sessions'; // Optional API endpoint
+        const API_ENDPOINT = '/api/status'; // OpenClaw Virtual Office API
         
         // Store scroll position before refresh
         let scrollPosition = { x: 0, y: 0 };
@@ -2961,7 +2961,7 @@
 
             try {
                 // Fetch from OpenClaw Gateway API
-                const response = await fetch('/api/sessions');
+                const response = await fetch('/api/status');
                 
                 if (response.ok) {
                     const data = await response.json();
@@ -2970,8 +2970,42 @@
                     // Parse sessions data
                     const now = Date.now();
                     
-                    // Process main agent
-                    if (data.main || data.agent) {
+                    // Support both old format {main, subagents} and new format {agents}
+                    // Reference: https://github.com/thx0701/openclaw-virtual-office
+                    if (data.agents && Array.isArray(data.agents)) {
+                        // New format from reference server: { title, timestamp, agents: [...] }
+                        data.agents.forEach(agent => {
+                            const lastActivityTime = agent.lastActive && agent.lastActive > 0 
+                                ? Date.now() - (agent.lastActive * 60000) 
+                                : null;
+                            const status = agent.status || 'offline';
+                            const agentId = (agent.id || '').toLowerCase();
+                            const agentName = (agent.name || '').toLowerCase();
+                            
+                            if (agentId.includes('main') || agentName.includes('大腦') || agentName.includes('brain')) {
+                                sessionData.brain = {
+                                    status: status,
+                                    activity: agent.task || getActivityText('brain', status),
+                                    lastActivity: lastActivityTime
+                                };
+                            } else if (agentId.includes('test') || agentName.includes('t仔') || agentName.includes('tester')) {
+                                sessionData.tester = {
+                                    status: status,
+                                    activity: agent.task || getActivityText('tester', status),
+                                    lastActivity: lastActivityTime
+                                };
+                            } else if (agentId.includes('dev') || agentName.includes('師弟') || agentName.includes('dev')) {
+                                sessionData.dev = {
+                                    status: status,
+                                    activity: agent.task || getActivityText('dev', status),
+                                    lastActivity: lastActivityTime
+                                };
+                            }
+                        });
+                    }
+                    
+                    // Fallback: old format {main, subagents}
+                    else if (data.main || data.agent) {
                         const mainAgent = data.main || data.agent;
                         const lastActivity = mainAgent.lastActivity || mainAgent.last_activity || mainAgent.lastActive;
                         const lastActivityTime = lastActivity ? new Date(lastActivity).getTime() : null;
