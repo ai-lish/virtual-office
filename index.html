@@ -1990,18 +1990,13 @@
 
         /* Single scrollable page on mobile - all content visible */
         .mobile-single-page {
-            display: none;
+            display: block; /* Show on all sizes by default */
         }
 
         @media (max-width: 768px) {
             /* Hide tab navigation when using single page layout */
             .mobile-tabs {
                 display: none;
-            }
-
-            /* Show all content in single scrollable page */
-            .mobile-single-page {
-                display: block;
             }
 
             .container {
