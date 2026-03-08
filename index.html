@@ -343,6 +343,85 @@
             display: block;
         }
 
+        /* Agents View */
+        .agents-view {
+            display: none;
+            padding: 40px;
+            min-height: 100%;
+        }
+
+        .agents-view.active {
+            display: block;
+        }
+
+        .view-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--japanese-red);
+        }
+
+        .agents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 800px;
+        }
+
+        .agent-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid rgba(188,0,45,0.3);
+            transition: all 0.3s;
+        }
+
+        .agent-card:hover {
+            background: rgba(188,0,45,0.15);
+            transform: translateY(-5px);
+        }
+
+        .agent-avatar {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .agent-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .agent-role {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+
+        .agent-status {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: inline-block;
+        }
+
+        .agent-status.active {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
+        }
+
+        .agent-status.idle {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+        }
+
+        .agent-status.offline {
+            background: rgba(158, 158, 158, 0.2);
+            color: #9e9e9e;
+        }
+
         .detail-header {
             display: flex;
             justify-content: space-between;
@@ -608,6 +687,11 @@
                 <span class="name">師弟</span>
                 <span class="status-dot offline" id="dot-dev"></span>
             </div>
+            <div class="agent-mini">
+                <span class="avatar">📝</span>
+                <span class="name">書記</span>
+                <span class="status-dot offline" id="dot-secretary"></span>
+            </div>
         </div>
         <div class="system-info">
             <span class="mode-badge">🌐 線上模式</span>
@@ -630,6 +714,10 @@
                 <div class="nav-item active" data-view="home">
                     <span>🏠</span>
                     <span>首頁</span>
+                </div>
+                <div class="nav-item" data-view="agents">
+                    <span>🤖</span>
+                    <span>Agent</span>
                 </div>
             </nav>
 
@@ -822,6 +910,7 @@
         const projectListEl = document.getElementById('projectList');
         const homeViewEl = document.getElementById('homeView');
         const detailViewEl = document.getElementById('detailView');
+        const agentsViewEl = document.getElementById('agentsView');
         const sidebarEl = document.getElementById('sidebar');
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const logoBtn = document.getElementById('logoBtn');
@@ -885,9 +974,27 @@
             selectedProject = null;
             expandedProject = null;
             detailViewEl.classList.remove('active');
+            document.getElementById('agentsView').classList.remove('active');
             homeViewEl.style.display = 'flex';
             renderProjects();
             closeSidebar();
+            
+            // Update nav active state
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.querySelector('.nav-item[data-view="home"]').classList.add('active');
+        }
+
+        function showAgents() {
+            selectedProject = null;
+            expandedProject = null;
+            detailViewEl.classList.remove('active');
+            homeViewEl.style.display = 'none';
+            document.getElementById('agentsView').classList.add('active');
+            closeSidebar();
+            
+            // Update nav active state
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.querySelector('.nav-item[data-view="agents"]').classList.add('active');
         }
 
         function toggleProject(index) {
@@ -932,6 +1039,13 @@
             document.getElementById('dot-brain').className = 'status-dot ' + brainStatus;
             document.getElementById('dot-tester').className = 'status-dot ' + testerStatus;
             document.getElementById('dot-dev').className = 'status-dot ' + devStatus;
+            
+            // 書記 status - also random for now
+            const secretaryStatus = statuses[Math.floor(Math.random() * 3)];
+            const secretaryDot = document.getElementById('dot-secretary');
+            if (secretaryDot) {
+                secretaryDot.className = 'status-dot ' + secretaryStatus;
+            }
         }
 
         // ===============================
@@ -947,7 +1061,14 @@
             
             // Nav items
             document.querySelectorAll('.nav-item').forEach(item => {
-                item.addEventListener('click', showHome);
+                item.addEventListener('click', () => {
+                    const view = item.dataset.view;
+                    if (view === 'agents') {
+                        showAgents();
+                    } else {
+                        showHome();
+                    }
+                });
             });
 
             // Update agent status
