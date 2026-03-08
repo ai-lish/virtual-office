@@ -3113,6 +3113,9 @@
                 } else {
                     sessionData.boss = { status: 'offline', activity: '離線中', lastActivity: Date.now() - 7200000 };
                 }
+                
+                // Hide indicator even on error
+                indicator.classList.remove('show');
             }
 
             // Update UI
