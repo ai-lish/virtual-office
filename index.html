@@ -2753,7 +2753,7 @@
         // Fetch API usage stats
         async function fetchApiStats() {
             try {
-                const response = await fetch('/api/stats');
+                const response = await fetch('/api/status');
                 if (response.ok) {
                     const data = await response.json();
                     apiStats = {
