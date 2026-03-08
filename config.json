@@ -21,6 +21,13 @@
       "sprite": "agent-tech",
       "sessionMatch": "dev",
       "role": "開發Agent"
+    },
+    {
+      "id": "secretary",
+      "name": "書記 📝",
+      "sprite": "agent-admin",
+      "sessionMatch": "secretary",
+      "role": "文書記錄 - 虛擬辦公室既管控"
     }
   ]
 }
