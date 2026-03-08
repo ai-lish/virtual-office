@@ -1,6 +1,6 @@
 {
   "title": "🧑‍💻 虛擬辦公室 - Virtual Office",
-  "timestamp": 1772932082991,
+  "timestamp": 1772932184323,
   "agents": [
     {
       "id": "main",
@@ -9,7 +9,7 @@
       "role": "AI助手",
       "status": "online",
       "task": "工作中...",
-      "lastActive": 4,
+      "lastActive": 5,
       "session": "agent:main:telegram:direct:8707814594",
       "tokens": 107597
     },
