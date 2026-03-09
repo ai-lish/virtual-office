@@ -776,6 +776,25 @@
                     <h3 class="timeline-title">📅 時序線</h3>
                     <div class="timeline" id="detailTimeline"></div>
                 </div>
+
+                <div class="timeline-section" id="secretarySection" style="display: none;">
+                    <h3 class="timeline-title">📝 書記總結</h3>
+                    <div class="info-card">
+                        <div class="info-label">狀態</div>
+                        <div class="info-value" id="secretaryStatus">-</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">摘要</div>
+                        <div class="info-value" id="secretarySummary">-</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">下一步</div>
+                        <div class="info-value" id="secretaryNext">-</div>
+                    </div>
+                    <div style="margin-top: 10px; font-size: 12px; color: #888;">
+                        最新更新：<span id="secretaryLastSync">-</span>
+                    </div>
+                </div>
             </div>
         </main>
     </div>
@@ -903,6 +922,18 @@
         // ===============================
         let selectedProject = null;
         let expandedProject = null;
+        let projectRecords = null;
+
+        // Load project records for secretary summary
+        async function loadProjectRecords() {
+            try {
+                const response = await fetch('project-records.json');
+                projectRecords = await response.json();
+            } catch (e) {
+                console.log('No project records found');
+                projectRecords = null;
+            }
+        }
 
         // ===============================
         // DOM ELEMENTS
@@ -965,6 +996,19 @@
                     <div class="timeline-detail">${t.detail}</div>
                 </div>
             `).join('');
+
+            // Render secretary summary
+            const secretarySection = document.getElementById('secretarySection');
+            if (projectRecords && projectRecords.projects && projectRecords.projects[p.name]) {
+                const record = projectRecords.projects[p.name];
+                secretarySection.style.display = 'block';
+                document.getElementById('secretaryStatus').textContent = record.status === 'completed' ? '✅ 完成' : record.status === 'active' ? '🔄 進行中' : '⏸️ 待開發';
+                document.getElementById('secretarySummary').textContent = record.summary || '-';
+                document.getElementById('secretaryNext').innerHTML = record.next ? record.next.map(n => `• ${n}`).join('<br>') : '-';
+                document.getElementById('secretaryLastSync').textContent = projectRecords.lastSync ? new Date(projectRecords.lastSync).toLocaleString('zh-HK') : '-';
+            } else {
+                secretarySection.style.display = 'none';
+            }
 
             homeViewEl.style.display = 'none';
             detailViewEl.classList.add('active');
@@ -1053,6 +1097,7 @@
         // ===============================
         function init() {
             renderProjects();
+            loadProjectRecords();
             
             // Event listeners
             mobileMenuBtn.addEventListener('click', toggleSidebar);
