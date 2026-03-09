@@ -923,6 +923,7 @@
         let selectedProject = null;
         let expandedProject = null;
         let projectRecords = null;
+        let projectTimeline = null;
 
         // Load project records for secretary summary
         async function loadProjectRecords() {
@@ -932,6 +933,17 @@
             } catch (e) {
                 console.log('No project records found');
                 projectRecords = null;
+            }
+        }
+
+        // Load project timeline for timeline display
+        async function loadProjectTimeline() {
+            try {
+                const response = await fetch('project-timeline.json');
+                projectTimeline = await response.json();
+            } catch (e) {
+                console.log('No project timeline found');
+                projectTimeline = null;
             }
         }
 
@@ -988,8 +1000,12 @@
             document.getElementById('detailGithub').innerHTML = `<a href="${p.github}" target="_blank">${p.github}</a>`;
             document.getElementById('detailDesc').textContent = p.description;
 
-            // Render timeline
-            document.getElementById('detailTimeline').innerHTML = p.timeline.map(t => `
+            // Render timeline (use external JSON if available, else fallback to hardcoded)
+            let timelineData = p.timeline || [];
+            if (projectTimeline && projectTimeline.projects && projectTimeline.projects[p.name]) {
+                timelineData = projectTimeline.projects[p.name].timeline || timelineData;
+            }
+            document.getElementById('detailTimeline').innerHTML = timelineData.map(t => `
                 <div class="timeline-item">
                     <div class="timeline-date">${t.date}</div>
                     <div class="timeline-event">${t.event}</div>
@@ -1098,6 +1114,7 @@
         function init() {
             renderProjects();
             loadProjectRecords();
+            loadProjectTimeline();
             
             // Event listeners
             mobileMenuBtn.addEventListener('click', toggleSidebar);

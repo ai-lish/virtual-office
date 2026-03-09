@@ -12,6 +12,7 @@ const { execSync } = require('child_process');
 const WORKSPACE = '/Users/zachli/.openclaw/workspace';
 const SECRETARY_FILE = path.join(WORKSPACE, 'secretary-records.md');
 const RECORDS_FILE = path.join(WORKSPACE, 'virtual-office', 'project-records.json');
+const TIMELINE_FILE = path.join(WORKSPACE, 'virtual-office', 'project-timeline.json');
 const STATUS_FILE = path.join(WORKSPACE, 'virtual-office', 'status.json');
 
 // Project name mapping (secretary-records.md name -> virtual-office name)
@@ -116,6 +117,54 @@ function updateRecords(summary) {
     console.log(`Updated ${RECORDS_FILE}`);
 }
 
+function loadTimeline() {
+    if (!fs.existsSync(TIMELINE_FILE)) {
+        console.log('No timeline file, creating new...');
+        return {
+            lastSync: new Date().toISOString(),
+            projects: {}
+        };
+    }
+    return JSON.parse(fs.readFileSync(TIMELINE_FILE, 'utf-8'));
+}
+
+function updateTimeline(records) {
+    const timeline = loadTimeline();
+    const today = getToday();
+    
+    const allProjects = ['全方位學習日', '少康教學網站', '虛擬辦公室', '晞霖學習網站'];
+    
+    for (const project of allProjects) {
+        const items = records[project] || [];
+        
+        // Initialize project if not exists
+        if (!timeline.projects[project]) {
+            timeline.projects[project] = { timeline: [] };
+        }
+        
+        // Add today's entry if there are new items
+        if (items.length > 0) {
+            // Check if already added today
+            const todayEntry = timeline.projects[project].timeline.find(
+                t => t.date === today && t.event.includes('書記')
+            );
+            
+            if (!todayEntry) {
+                // Add new entry at the beginning
+                timeline.projects[project].timeline.unshift({
+                    date: today,
+                    event: '📝 書記總結',
+                    detail: `更新項目狀態：${items.slice(0, 3).join('、')}${items.length > 3 ? '...' : ''}`
+                });
+            }
+        }
+    }
+    
+    timeline.lastSync = new Date().toISOString();
+    fs.writeFileSync(TIMELINE_FILE, JSON.stringify(timeline, null, 2), 'utf-8');
+    console.log(`Updated ${TIMELINE_FILE}`);
+}
+
 function gitCommit() {
     try {
         const timestamp = new Date().toLocaleString('zh-HK');
@@ -143,6 +192,7 @@ function main() {
     
     const summary = generateSummary(todayRecords);
     updateRecords(summary);
+    updateTimeline(todayRecords);
     gitCommit();
     
     console.log('=== 同步完成 ===');
