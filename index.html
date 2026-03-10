@@ -1081,8 +1081,8 @@
             const manual = projectManuals.manuals[key];
             
             // Switch to detail view
-            homeViewEl.style.display = 'none';
-            agentsViewEl.style.display = 'none';
+            if (homeViewEl) homeViewEl.style.display = 'none';
+            if (agentsViewEl) agentsViewEl.style.display = 'none';
             detailViewEl.style.display = 'block';
             detailViewEl.classList.add('active');
 
