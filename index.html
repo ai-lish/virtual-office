@@ -461,6 +461,42 @@
             color: #9e9e9e;
         }
 
+        /* Project Tabs */
+        .detail-tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+        .detail-tab { padding: 8px 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-secondary); border-radius: 8px; cursor: pointer; font-size: 0.9rem; }
+        .detail-tab:hover { background: rgba(188,0,45,0.2); color: #fff; }
+        .detail-tab.active { background: var(--japanese-red); color: #fff; border-color: var(--japanese-red); }
+
+        /* Modals */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal-content { background: var(--bg-medium); border: 2px solid var(--japanese-red); border-radius: 15px; max-width: 600px; width: 100%; max-height: 80vh; overflow-y: auto; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .modal-title { font-size: 1.3rem; font-weight: 700; color: #fff; }
+        .modal-close { background: none; border: none; color: var(--text-secondary); font-size: 1.5rem; cursor: pointer; }
+        .modal-body { padding: 20px; }
+        
+        /* Skills & Workflow */
+        .skill-group { margin-bottom: 25px; }
+        .skill-group-title { font-size: 1rem; font-weight: 600; color: var(--japanese-red); margin-bottom: 15px; padding-bottom: 8px; border-bottom: 1px solid rgba(188,0,45,0.3); }
+        .skill-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 10px; margin-bottom: 10px; }
+        .skill-item:hover { background: rgba(188,0,45,0.15); }
+        .skill-icon { font-size: 1.5rem; }
+        .skill-name { font-weight: 600; color: #fff; }
+        .skill-desc { font-size: 0.85rem; color: var(--text-secondary); }
+        
+        .workflow-agent { margin-bottom: 25px; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 12px; }
+        .workflow-agent-header { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
+        .workflow-agent-avatar { font-size: 2rem; }
+        .workflow-agent-name { font-size: 1.1rem; font-weight: 600; color: #fff; }
+        .workflow-step { display: flex; align-items: flex-start; gap: 12px; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 8px; margin-bottom: 8px; }
+        .workflow-step-num { width: 24px; height: 24px; background: var(--japanese-red); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 600; flex-shrink: 0; }
+        .workflow-step-title { color: #fff; font-weight: 500; }
+        .workflow-step-desc { font-size: 0.85rem; color: var(--text-secondary); }
+        
+        .agent-mini { cursor: pointer; transition: transform 0.2s; }
+        .agent-mini:hover { transform: scale(1.05); background: rgba(255,255,255,0.1); }
+
         .detail-header {
             display: flex;
             justify-content: space-between;
@@ -758,6 +794,10 @@
                     <span>🤖</span>
                     <span>Agent</span>
                 </div>
+                <div class="nav-item" id="skillsNavItem">
+                    <span>🛠️</span>
+                    <span>Skills</span>
+                </div>
             </nav>
 
             <div class="sidebar-content">
@@ -792,6 +832,13 @@
                     <button class="back-btn" id="backBtn">← 返回首頁</button>
                 </div>
 
+                <!-- Project Tabs -->
+                <div class="detail-tabs" id="detailTabs">
+                    <button class="detail-tab active" data-tab="info">📋 項目資訊</button>
+                    <button class="detail-tab" data-tab="manual" id="manualTabBtn">📖 使用手冊</button>
+                </div>
+
+                <div id="tabInfo">
                 <div class="info-grid">
                     <div class="info-card">
                         <div class="info-label">開始日期</div>
@@ -821,6 +868,13 @@
                     <div class="timeline" id="detailTimeline"></div>
                 </div>
 
+                </div> <!-- End tabInfo -->
+                
+                <!-- Manual Tab Content -->
+                <div id="tabManual" style="display:none;">
+                    <div class="info-card"><div class="info-label">使用手冊</div><div class="info-value" id="manualContent">-</div></div>
+                </div>
+
                 <div class="timeline-section" id="secretarySection" style="display: none;">
                     <h3 class="timeline-title">📝 書記總結</h3>
                     <div class="info-card">
@@ -841,6 +895,22 @@
                 </div>
             </div>
         </main>
+
+        <!-- Skills Modal -->
+        <div class="modal-overlay" id="skillsModal">
+            <div class="modal-content">
+                <div class="modal-header"><span class="modal-title">🛠️ Skills 列表</span><button class="modal-close" id="closeSkillsModal">×</button></div>
+                <div class="modal-body"><div id="skillsList"></div></div>
+            </div>
+        </div>
+
+        <!-- Workflow Modal -->
+        <div class="modal-overlay" id="workflowModal">
+            <div class="modal-content">
+                <div class="modal-header"><span class="modal-title">🔄 Agent 工作流程</span><button class="modal-close" id="closeWorkflowModal">×</button></div>
+                <div class="modal-body"><div id="workflowList"></div></div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -968,6 +1038,56 @@
         let expandedProject = null;
         let projectRecords = null;
         let projectTimeline = null;
+        let currentTab = 'info';
+        let currentProjectName = null;
+
+        // Skills Data
+        const skillsData = { office: [
+            {icon:'📧',name:'gog',desc:'Google Workspace CLI - Gmail, Calendar, Drive, Contacts, Sheets, Docs'},
+            {icon:'📝',name:'apple-notes',desc:'Manage Apple Notes via memo CLI'},
+            {icon:'⏰',name:'apple-reminders',desc:'Manage Apple Reminders via remindctl CLI'},
+            {icon:'🌤️',name:'weather',desc:'Get weather and forecasts via wttr.in'}
+        ], production: [
+            {icon:'🌐',name:'website-creator',desc:'教學網站製作Skill - 製作新網頁、修改現有系統'},
+            {icon:'📄',name:'nano-pdf',desc:'Edit PDFs with natural-language instructions'},
+            {icon:'🐙',name:'github',desc:'GitHub operations via gh CLI'},
+            {icon:'🐛',name:'gh-issues',desc:'Fetch GitHub issues, implement fixes'},
+            {icon:'🤖',name:'gemini',desc:'Gemini CLI for Q&A, summaries'},
+            {icon:'📊',name:'summarize',desc:'Summarize content from URLs, podcasts'}
+        ], testing: [
+            {icon:'🧪',name:'website-tester',desc:'網站/系統測試Skill - 功能測試、结构測試'},
+            {icon:'✅',name:'task-verifier',desc:'確保Subagent任務真正完成'},
+            {icon:'🔒',name:'healthcheck',desc:'Host security hardening'},
+            {icon:'📸',name:'peekaboo',desc:'Capture and automate macOS UI'}
+        ]};
+
+        // Workflow Data
+        const workflowData = [
+            {name:'大腦',avatar:'🧠',steps:[
+                {title:'接收任務',desc:'從Telegram/Discord接收Zach既order'},
+                {title:'分析需求',desc:'理解任務目標，制定實踐方案'},
+                {title:'制定計劃',desc:'分配任務比師弟/T仔/書記'},
+                {title:'匯報進度',desc:'完成後向Zach匯報結果'}
+            ]},
+            {name:'師弟',avatar:'💻',steps:[
+                {title:'接收任務',desc:'從大腦收到製作指令'},
+                {title:'讀取Skill',desc:'如需要既Skill，讀取相關SKILL.md'},
+                {title:'寫Code/網頁',desc:'使用繁體中文，直接係源頭保證質量'},
+                {title:'Commit & Push',desc:'完成後commit並push到GitHub'}
+            ]},
+            {name:'T仔',avatar:'🧪',steps:[
+                {title:'接收任務',desc:'從大腦收到測試指令'},
+                {title:'自動化測試',desc:'运行自动化测试脚本'},
+                {title:'親自測試',desc:'用Browser Tool親自測試每個功能'},
+                {title:'深入分析',desc:'檢查繁體中文正確無誤'}
+            ]},
+            {name:'書記',avatar:'📝',steps:[
+                {title:'記錄項目',desc:'持續記錄各項目進度同狀態'},
+                {title:'生成摘要',desc:'整理項目要點、下一步行動'},
+                {title:'更新JSON',desc:'寫入project-records.json'},
+                {title:'同步狀態',desc:'保持虛擬辦公室既項目狀態最新'}
+            ]}
+        ];
 
         // Load project records for secretary summary
         async function loadProjectRecords() {
@@ -1255,12 +1375,60 @@
             loadProjectTimeline();
             loadProjectManuals().then(() => {
                 renderManuals();
+                updateManualTabVisibility();
             });
             
             // Event listeners
             mobileMenuBtn.addEventListener('click', toggleSidebar);
             logoBtn.addEventListener('click', showHome);
             backBtn.addEventListener('click', showHome);
+            
+            // Skills modal
+            document.getElementById('skillsNavItem').addEventListener('click', () => {
+                renderSkills();
+                document.getElementById('skillsModal').classList.add('active');
+                document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+                document.getElementById('skillsNavItem').classList.add('active');
+            });
+            document.getElementById('closeSkillsModal').addEventListener('click', () => {
+                document.getElementById('skillsModal').classList.remove('active');
+            });
+            document.getElementById('skillsModal').addEventListener('click', (e) => {
+                if (e.target.id === 'skillsModal') document.getElementById('skillsModal').classList.remove('active');
+            });
+            
+            // Workflow modal
+            document.getElementById('closeWorkflowModal').addEventListener('click', () => {
+                document.getElementById('workflowModal').classList.remove('active');
+            });
+            document.getElementById('workflowModal').addEventListener('click', (e) => {
+                if (e.target.id === 'workflowModal') document.getElementById('workflowModal').classList.remove('active');
+            });
+            
+            // Tab switching
+            document.querySelectorAll('.detail-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    currentTab = tab.dataset.tab;
+                    document.querySelectorAll('.detail-tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    if (currentTab === 'info') {
+                        document.getElementById('tabInfo').style.display = 'block';
+                        document.getElementById('tabManual').style.display = 'none';
+                    } else {
+                        document.getElementById('tabInfo').style.display = 'none';
+                        document.getElementById('tabManual').style.display = 'block';
+                        showManualForCurrentProject();
+                    }
+                });
+            });
+            
+            // Agent click handlers
+            document.querySelectorAll('.agent-mini').forEach(agent => {
+                agent.addEventListener('click', () => {
+                    renderWorkflow();
+                    document.getElementById('workflowModal').classList.add('active');
+                });
+            });
             
             // Nav items
             document.querySelectorAll('.nav-item').forEach(item => {
@@ -1278,6 +1446,94 @@
             updateAgentStatus();
             setInterval(updateAgentStatus, 30000);
         }
+
+        // Skills render
+        function renderSkills() {
+            var html = '';
+            html += '<div class="skill-group"><div class="skill-group-title">🏢 辦公</div>';
+            skillsData.office.forEach(s => html += '<div class="skill-item"><span class="skill-icon">'+s.icon+'</span><div><div class="skill-name">'+s.name+'</div><div class="skill-desc">'+s.desc+'</div></div></div>');
+            html += '</div>';
+            html += '<div class="skill-group"><div class="skill-group-title">⚙️ 生產</div>';
+            skillsData.production.forEach(s => html += '<div class="skill-item"><span class="skill-icon">'+s.icon+'</span><div><div class="skill-name">'+s.name+'</div><div class="skill-desc">'+s.desc+'</div></div></div>');
+            html += '</div>';
+            html += '<div class="skill-group"><div class="skill-group-title">🧪 測試</div>';
+            skillsData.testing.forEach(s => html += '<div class="skill-item"><span class="skill-icon">'+s.icon+'</span><div><div class="skill-name">'+s.name+'</div><div class="skill-desc">'+s.desc+'</div></div></div>');
+            html += '</div>';
+            document.getElementById('skillsList').innerHTML = html;
+        }
+
+        // Workflow render
+        function renderWorkflow() {
+            var html = '';
+            workflowData.forEach(a => {
+                html += '<div class="workflow-agent"><div class="workflow-agent-header"><span class="workflow-agent-avatar">'+a.avatar+'</span><span class="workflow-agent-name">'+a.name+'</span></div>';
+                html += '<div class="workflow-steps">';
+                a.steps.forEach((s,i) => html += '<div class="workflow-step"><span class="workflow-step-num">'+(i+1)+'</span><div><div class="workflow-step-title">'+s.title+'</div><div class="workflow-step-desc">'+s.desc+'</div></div></div>');
+                html += '</div></div>';
+            });
+            document.getElementById('workflowList').innerHTML = html;
+        }
+
+        // Show manual for current project
+        function showManualForCurrentProject() {
+            var el = document.getElementById('manualContent');
+            if (!projectManuals || !projectManuals.manuals || !currentProjectName) {
+                el.innerHTML = '<p style="color:var(--text-secondary)">呢個項目暫時未有使用手冊</p>';
+                return;
+            }
+            var m = projectManuals.manuals[currentProjectName];
+            if (!m) { el.innerHTML = '<p style="color:var(--text-secondary)">呢個項目暫時未有使用手冊</p>'; return; }
+            var html = '<h3 style="color:var(--japanese-red)">'+m.title+'</h3>';
+            if (m.sections) m.sections.forEach(s => html += '<div style="padding:10px;margin:5px 0;background:rgba(255,255,255,0.03);border-radius:8px"><div style="font-weight:600">'+s.title+'</div><div style="color:var(--text-secondary)">'+s.content+'</div></div>');
+            el.innerHTML = html;
+        }
+
+        // Update manual tab visibility
+        function updateManualTabVisibility() {
+            var btn = document.getElementById('manualTabBtn');
+            if (!projectManuals || !projectManuals.manuals || !currentProjectName) {
+                btn.style.display = 'none'; return;
+            }
+            btn.style.display = projectManuals.manuals[currentProjectName] ? 'inline-block' : 'none';
+        }
+
+        // Modify showProjectDetail
+        var _showProjectDetail = showProjectDetail;
+        showProjectDetail = function(idx) {
+            var p = projects[idx];
+            currentProjectName = p.name;
+            _showProjectDetail(idx);
+            updateManualTabVisibility();
+            currentTab = 'info';
+            document.querySelectorAll('.detail-tab').forEach(t => t.classList.remove('active'));
+            document.querySelector('.detail-tab[data-tab="info"]').classList.add('active');
+            document.getElementById('tabInfo').style.display = 'block';
+            document.getElementById('tabManual').style.display = 'none';
+        };
+
+        // Modify showHome
+        var _showHome = showHome;
+        showHome = function() {
+            currentProjectName = null;
+            document.getElementById('detailTabs').style.display = 'flex';
+            _showHome();
+        };
+
+        // Modify showAgents
+        var _showAgents = showAgents;
+        showAgents = function() {
+            currentProjectName = null;
+            document.getElementById('detailTabs').style.display = 'flex';
+            _showAgents();
+        };
+
+        // Modify showManualDetail
+        var _showManualDetail = showManualDetail;
+        showManualDetail = function(key) {
+            currentProjectName = key;
+            document.getElementById('detailTabs').style.display = 'none';
+            _showManualDetail(key);
+        };
 
         init();
     </script>
