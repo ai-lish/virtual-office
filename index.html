@@ -822,6 +822,12 @@
                 <p style="color: var(--text-secondary);">從左側選擇項目以查看詳情</p>
             </div>
 
+            <!-- Agents View -->
+            <div class="agents-view" id="agentsView">
+                <h2 class="section-title" style="margin-bottom:20px">🤖 Agent 工作流程</h2>
+                <div class="agents-grid" id="agentsGrid"></div>
+            </div>
+
             <!-- Project Detail View -->
             <div class="detail-view" id="detailView">
                 <div class="detail-header">
@@ -1310,9 +1316,29 @@
             document.getElementById('agentsView').classList.add('active');
             closeSidebar();
             
+            // Render agents
+            renderAgentsView();
+            
             // Update nav active state
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.querySelector('.nav-item[data-view="agents"]').classList.add('active');
+        }
+        
+        function renderAgentsView() {
+            const grid = document.getElementById('agentsGrid');
+            if (!grid || !workflowData) return;
+            grid.innerHTML = workflowData.map(a => `
+                <div class="workflow-agent">
+                    <div class="agent-header">
+                        <span class="agent-icon">${a.icon}</span>
+                        <span class="agent-name">${a.name}</span>
+                        <span class="agent-role">${a.role}</span>
+                    </div>
+                    <div class="workflow-steps">
+                        ${a.steps.map((s,i) => `<div class="step"><span class="step-num">${i+1}</span>${s}</div>`).join('')}
+                    </div>
+                </div>
+            `).join('');
         }
 
         function toggleProject(index) {
