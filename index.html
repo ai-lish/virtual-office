@@ -1886,19 +1886,108 @@
         // SECRETARY INFO
         // ===============================
         function showSecretaryInfo() {
-            alert('🦀 書記 Agent\n\n' +
-                '虛擬辦公室日常優化：\n\n' +
-                '1. ✅ SVG圖像比對系統\n' +
-                '2. 📋 項目資訊Tab\n' +
-                '3. 📖 使用手冊自動擷取\n' +
-                '4. 🧪 測試備忘\n' +
-                '5. 🔔 通知中心\n' +
-                '6. 🌙 主題切換\n' +
-                '7. 📊 項目時序\n' +
-                '8. 📅 工作排程\n' +
-                '9. 📱 手機版優化\n' +
-                '10. 🔄 實時更新\n\n' +
-                '點擊上方項目查看詳情！');
+            var now = new Date();
+            var hour = now.getHours();
+            var date = now.getDate();
+            
+            // Dynamic suggestions based on time
+            var suggestions = [];
+            
+            if (hour >= 4 && hour < 8) {
+                suggestions = [
+                    '🌅 早晨報告生成',
+                    '☕ 數學故事更新',
+                    '📊 項目狀態檢查',
+                    '🔄 數據同步',
+                    '📝 待辦事項整理',
+                    '⏰ 今日日程確認',
+                    '📧 郵件檢查',
+                    '📚 學習材料準備',
+                    '🧠 技能更新',
+                    '💾 記錄備份'
+                ];
+            } else if (hour >= 8 && hour < 13) {
+                suggestions = [
+                    '💻 網站開發',
+                    '📝 代碼優化',
+                    '🧪 測試執行',
+                    '📖 文件更新',
+                    '🔧 問題修復',
+                    '📊 進度匯報',
+                    '💬 用戶反饋處理',
+                    '🔄 版本發布',
+                    '📚 技能學習',
+                    '📝 會議記錄'
+                ];
+            } else if (hour >= 13 && hour < 18) {
+                suggestions = [
+                    '📝 教材製作',
+                    '🎮 遊戲更新',
+                    '📖 教學網站維護',
+                    '🧪 功能測試',
+                    '📊 數據分析',
+                    '💾 資料整理',
+                    '🔄 系統優化',
+                    '📧 溝通回覆',
+                    '📚 學習資源',
+                    '📝 工作日誌'
+                ];
+            } else if (hour >= 18 && hour < 23) {
+                suggestions = [
+                    '📊 晚間報告',
+                    '📝 總結記錄',
+                    '🔄 數據同步',
+                    '📅 明日計劃',
+                    '💾 資料備份',
+                    '📧 郵件整理',
+                    '🧠 技能複習',
+                    '📚 學習總結',
+                    '📝 待辦更新',
+                    '🌙 準備休息'
+                ];
+            } else {
+                suggestions = [
+                    '🌙 深夜工作中',
+                    '📝 系統維護',
+                    '💾 數據備份',
+                    '🔄 自動化任務',
+                    '📊 數據分析',
+                    '🧠 技能優化',
+                    '📝 記錄更新',
+                    '📚 文檔整理',
+                    '💾 系統優化',
+                    '⏰ 定時任務'
+                ];
+            }
+            
+            // Add some dynamic elements based on date
+            var daySuggestions = [
+                'SVG圖像比對 - 試卷製作',
+                '項目時序更新',
+                '工作排程檢視',
+                '虛擬辦公室優化',
+                '使用手冊更新',
+                '測試備忘優化',
+                '通知中心檢查',
+                '主題切換',
+                '手機版優化',
+                '實時更新'
+            ];
+            
+            // Mix in some day-specific items
+            var idx = date % 10;
+            suggestions[idx] = '⭐ ' + daySuggestions[idx % daySuggestions.length];
+            
+            var msg = '🦀 書記 Agent\n\n';
+            msg += '⏰ ' + (hour >= 23 || hour < 6 ? '🌙 深夜' : hour < 13 ? '🌅 早晨' : hour < 18 ? '☀️ 下午' : '🌆 晚間') + '工作清單：\n\n';
+            
+            for (var i = 0; i < 10; i++) {
+                msg += (i + 1) + '. ' + suggestions[i] + '\n';
+            }
+            
+            msg += '\n點擊上方項目查看詳情！';
+            
+            alert(msg);
         }
 
         function updateSecretaryFloatingStatus() {
