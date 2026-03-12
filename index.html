@@ -557,13 +557,13 @@
         .notification-dropdown {
             position: fixed;
             bottom: 80px;
-            right: 80px;
+            right: 20px;
             width: 320px;
             max-height: 400px;
-            background: var(--bg-medium);
-            border: 2px solid var(--japanese-red);
+            background: var(--bg-medium, #1a1a2e);
+            border: 2px solid var(--japanese-red, #bc002d);
             border-radius: 15px;
-            z-index: 1002;
+            z-index: 9999;
             display: none;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
@@ -659,11 +659,29 @@
 
         /* Light Theme */
         body.light-theme {
-            --bg-dark: #f5f5f5;
-            --bg-medium: #ffffff;
-            --bg-light: #e8e8e8;
-            --text-primary: #333333;
-            --text-secondary: #666666;
+            --bg-dark: #f5f5f5 !important;
+            --bg-medium: #ffffff !important;
+            --bg-light: #e8e8e8 !important;
+            --text-primary: #333333 !important;
+            --text-secondary: #666666 !important;
+            background: #f5f5f5 !important;
+        }
+
+        body.light-theme .sidebar,
+        body.light-theme .top-bar,
+        body.light-theme .main-content,
+        body.light-theme .project-item,
+        body.light-theme .nav-item,
+        body.light-theme .modal-content,
+        body.light-theme .notification-dropdown {
+            background: #ffffff !important;
+            color: #333333 !important;
+        }
+
+        body.light-theme .hero-title,
+        body.light-theme .view-title,
+        body.light-theme .detail-title {
+            color: #bc002d !important;
         }
 
         /* Project Detail View */
@@ -1922,12 +1940,12 @@
             
             if (window.innerWidth <= 768) {
                 bubble.style.display = 'none';
-                bell.style.bottom = '80px';
-                bell.style.right = '20px';
-                theme.style.bottom = '80px';
-                theme.style.right = '80px';
+                bell.style.display = 'none';
+                theme.style.bottom = '20px';
+                theme.style.right = '20px';
             } else {
                 bubble.style.display = 'flex';
+                bell.style.display = 'flex';
                 bell.style.bottom = '20px';
                 bell.style.right = '80px';
                 theme.style.bottom = '20px';
