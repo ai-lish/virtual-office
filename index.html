@@ -2163,6 +2163,21 @@
             const list = document.getElementById('notificationList');
             const badge = document.getElementById('notificationBadge');
             
+            // Add countdown notification
+            var now = new Date();
+            var hour = now.getHours();
+            var scheduleTimes = [4, 8, 13, 18, 23];
+            var nextReport = scheduleTimes.find(t => t > hour) || scheduleTimes[0];
+            var nextTime = new Date(now);
+            nextTime.setHours(nextReport, 0, 0);
+            if (nextReport <= hour) nextTime.setDate(nextTime.getDate() + 1);
+            var hoursUntil = Math.floor((nextTime - now) / (1000 * 60 * 60));
+            var minsUntil = Math.floor(((nextTime - now) % (1000 * 60 * 60)) / (1000 * 60));
+            
+            // Prepend countdown notification
+            var countdownMsg = '📝 下一份報告仲有 ' + hoursUntil + '小時' + minsUntil + '分';
+            var countdownNotification = {title: countdownMsg, time: '⏰ 定時任務', unread: false, type: 'countdown'};
+            
             if (notifications.length === 0) {
                 list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text-secondary)">暫無通知</div>';
                 badge.style.display = 'none';
@@ -2173,7 +2188,8 @@
             badge.textContent = unreadCount;
             badge.style.display = unreadCount > 0 ? 'flex' : 'none';
             
-            list.innerHTML = notifications.map((n, i) => `
+            list.innerHTML = '<div class="notification-item" style="background: rgba(188,0,45,0.2);"><div class="notification-title">' + countdownMsg + '</div><div class="notification-time">⏰ 定時任務</div></div>' + 
+                notifications.map((n, i) => `
                 <div class="notification-item ${n.unread ? 'unread' : ''}" onclick="markAsRead(${i})">
                     <div class="notification-title">${n.title}</div>
                     <div class="notification-time">${n.time}</div>
