@@ -2185,18 +2185,53 @@
             document.getElementById('workflowList').innerHTML = html;
         }
 
-        // Show manual for current project
+        // Show manual for current project - fetch from GitHub
         function showManualForCurrentProject() {
-            var el = document.getElementById('manualContent');
-            if (!projectManuals || !projectManuals.manuals || !currentProjectName) {
-                el.innerHTML = '<p style="color:var(--text-secondary)">呢個項目暫時未有使用手冊</p>';
+            var manualEl = document.getElementById('manualContent');
+            var testEl = document.getElementById('testContent');
+            
+            // Get GitHub URL from project records
+            var githubUrl = '';
+            if (projectRecords && projectRecords.projects && projectRecords.projects[currentProjectName]) {
+                githubUrl = projectRecords.projects[currentProjectName].github;
+            }
+            
+            if (!githubUrl) {
+                manualEl.innerHTML = '<p style="color:var(--text-secondary)">未能找到項目GitHub網址</p>';
+                testEl.innerHTML = '<p style="color:var(--text-secondary)">未能找到項目GitHub網址</p>';
                 return;
             }
-            var m = projectManuals.manuals[currentProjectName];
-            if (!m) { el.innerHTML = '<p style="color:var(--text-secondary)">呢個項目暫時未有使用手冊</p>'; return; }
-            var html = '<h3 style="color:var(--japanese-red)">'+m.title+'</h3>';
-            if (m.sections) m.sections.forEach(s => html += '<div style="padding:10px;margin:5px 0;background:rgba(255,255,255,0.03);border-radius:8px"><div style="font-weight:600">'+s.title+'</div><div style="color:var(--text-secondary)">'+s.content+'</div></div>');
-            el.innerHTML = html;
+            
+            // Fetch README.md from GitHub
+            var readmeUrl = githubUrl + '/raw/main/README.md';
+            var testUrl = githubUrl + '/raw/main/TEST.md';
+            
+            // Fetch README
+            fetch(readmeUrl)
+                .then(response => {
+                    if (response.ok) return response.text();
+                    throw new Error('README not found');
+                })
+                .then(text => {
+                    // Convert markdown to HTML (simple)
+                    manualEl.innerHTML = '<pre style="white-space:pre-wrap;background:rgba(0,0,0,0.2);padding:15px;border-radius:8px;max-height:400px;overflow-y:auto;">' + text + '</pre><p><a href="' + githubUrl + '/blob/main/README.md" target="_blank" style="color:var(--japanese-red)">GitHub上查看 →</a></p>';
+                })
+                .catch(err => {
+                    manualEl.innerHTML = '<p style="color:var(--text-secondary)">呢個項目暫時未有使用手冊<br><a href="' + githubUrl + '/new/main?filename=README.md" target="_blank" style="color:var(--japanese-red)">喺GitHub建立 →</a></p>';
+                });
+            
+            // Fetch TEST.md
+            fetch(testUrl)
+                .then(response => {
+                    if (response.ok) return response.text();
+                    throw new Error('TEST not found');
+                })
+                .then(text => {
+                    testEl.innerHTML = '<pre style="white-space:pre-wrap;background:rgba(0,0,0,0.2);padding:15px;border-radius:8px;max-height:400px;overflow-y:auto;">' + text + '</pre><p><a href="' + githubUrl + '/blob/main/TEST.md" target="_blank" style="color:var(--japanese-red)">GitHub上查看 →</a></p>';
+                })
+                .catch(err => {
+                    testEl.innerHTML = '<p style="color:var(--text-secondary)">呢個項目暫時未有測試備忘<br><a href="' + githubUrl + '/new/main?filename=TEST.md" target="_blank" style="color:var(--japanese-red)">喺GitHub建立 →</a></p>';
+                });
         }
 
         // Update manual tab visibility
