@@ -2310,30 +2310,110 @@
         
         function showSvgExam(idx) {
             var exam = svgCompareData[currentProjectName].exams[idx];
+            var projectKey = currentProjectName;
+            var imageFolder = 's3-p2'; // folder name for images
+            
             var html = '<div style="background:rgba(255,255,255,0.05);padding:15px;border-radius:10px;margin-top:15px;">';
             html += '<h4>' + exam.name + ' - 圖像比對</h4>';
-            html += '<p style="color:var(--text-secondary);font-size:0.9em;">點擊試卷頁面內既圖像，可以放大比對</p>';
-            html += '<div style="display:flex;gap:10px;margin-top:15px;flex-wrap:wrap;">';
-            html += '<a href="https://math-lish.github.io/' + currentProjectName + '/' + exam.file + '" target="_blank" style="flex:1;min-width:300px;padding:15px;background:var(--japanese-red);color:white;text-decoration:none;border-radius:8px;text-align:center;">📱 前往試卷頁面<br><small>檢視 SVG 圖像</small></a>';
-            html += '<a href="https://github.com/math-lish/' + currentProjectName + '/tree/main/exam-images" target="_blank" style="flex:1;min-width:300px;padding:15px;background:#2c3e50;color:white;text-decoration:none;border-radius:8px;text-align:center;">📂 PDF 原始圖像<br><small>GitHub 圖像庫</small></a>';
+            html += '<p style="color:var(--text-secondary);font-size:0.9em;margin-bottom:15px;">選擇要比較既題目圖像：</p>';
+            
+            // Show pages with questions that have images
+            html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-bottom:20px;">';
+            
+            // Questions that typically have images
+            var questionsWithImages = [
+                {q:7, name:'Q7 扇形'},
+                {q:13, name:'Q13 棒形圖'},
+                {q:14, name:'Q14 三角形'},
+                {q:16, name:'Q16 圓錐'},
+                {q:17, name:'Q17 角錐'},
+                {q:25, name:'Q25 球體+圓錐'},
+                {q:26, name:'Q26 圓錐展開'},
+                {q:27, name:'Q27 正棱錐'},
+                {q:28, name:'Q28 平截頭體'},
+                {q:30, name:'Q30 幹葉圖'}
+            ];
+            
+            questionsWithImages.forEach(function(item) {
+                html += '<button onclick="showSvgCompare(' + item.q + ',\'' + projectKey + '\',\'' + imageFolder + '\')" style="padding:10px;background:rgba(255,255,255,0.1);color:white;border:1px solid rgba(255,255,255,0.2);border-radius:5px;cursor:pointer;font-size:0.85em;">' + item.name + '</button>';
+            });
+            
             html += '</div>';
             
-            // Show PDF pages for comparison
-            html += '<h5 style="margin-top:25px;">PDF 原始圖像 (每頁):</h5>';
-            html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:10px;">';
+            // Comparison result area
+            html += '<div id="svgCompareResult" style="margin-top:20px;"></div>';
             
-            // Generate page image links
-            var totalPages = exam.images || 10;
-            for (var i = 1; i <= totalPages; i++) {
-                var pageNum = String(i).padStart(2, '0');
-                html += '<a href="https://raw.githubusercontent.com/math-lish/' + currentProjectName + '/main/exam-images/s3-p2/page-' + pageNum + '.png" target="_blank" style="display:block;padding:10px;background:rgba(255,255,255,0.1);border-radius:5px;text-decoration:none;color:white;text-align:center;">';
-                html += '📄 第 ' + i + ' 頁';
-                html += '</a>';
-            }
+            // External links
+            html += '<div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;">';
+            html += '<a href="https://math-lish.github.io/' + currentProjectName + '/' + exam.file + '" target="_blank" style="flex:1;min-width:200px;padding:12px;background:var(--japanese-red);color:white;text-decoration:none;border-radius:8px;text-align:center;font-size:0.9em;">📱 前往試卷頁面</a>';
+            html += '<a href="https://github.com/math-lish/' + currentProjectName + '/tree/main/exam-images/' + imageFolder + '" target="_blank" style="flex:1;min-width:200px;padding:12px;background:#2c3e50;color:white;text-decoration:none;border-radius:8px;text-align:center;font-size:0.9em;">📂 PDF原始圖像庫</a>';
             html += '</div>';
             
             html += '</div>';
             document.getElementById('svgExamDetail').innerHTML = html;
+        }
+        
+        function showSvgCompare(qNum, projectKey, imageFolder) {
+            var resultEl = document.getElementById('svgCompareResult');
+            
+            // Determine which PDF page has this question
+            // S3 P2: pages 2-10, Q7 is on page 3, Q13-14 on page 4-5, etc.
+            var pageInfo = {
+                7: {page: 3, label: '扇形弧長'},
+                13: {page: 4, label: '棒形圖'},
+                14: {page: 4, label: '三角形'},
+                16: {page: 5, label: '圓錐'},
+                17: {page: 5, label: '角錐'},
+                25: {page: 8, label: '球體與圓錐'},
+                26: {page: 8, label: '圓錐展開'},
+                27: {page: 9, label: '正棱錐'},
+                28: {page: 9, label: '平截頭體'},
+                30: {page: 10, label: '幹葉圖'}
+            };
+            
+            var info = pageInfo[qNum] || {page: 3, label: 'Q'+qNum};
+            var pageNum = String(info.page).padStart(2, '0');
+            
+            var pdfImageUrl = 'https://raw.githubusercontent.com/math-lish/' + projectKey + '/main/exam-images/' + imageFolder + '/page-' + pageNum + '.png';
+            var examPageUrl = 'https://math-lish.github.io/' + projectKey + '/exam-2025-26-s3-term2-p2.html';
+            
+            var html = '<div style="background:rgba(0,0,0,0.3);padding:20px;border-radius:10px;margin-top:15px;">';
+            html += '<h5 style="margin-bottom:15px;">📊 ' + info.label + ' (Q' + qNum + ') - PDF 第' + info.page + '頁</h5>';
+            
+            // Side by side comparison
+            html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:15px;">';
+            
+            // PDF Original
+            html += '<div>';
+            html += '<p style="color:var(--text-secondary);font-size:0.85em;margin-bottom:8px;">📄 PDF 原始圖像</p>';
+            html += '<div style="background:white;border-radius:8px;overflow:hidden;">';
+            html += '<img src="' + pdfImageUrl + '" style="width:100%;height:auto;display:block;" onerror="this.src=\'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 150%22><rect fill=%22%23eee%22 width=%22200%22 height=%22150%22/><text x=%22100%22 y=%2280%22 text-anchor=%22middle%22 fill=%22%23999%22>載入中...</text></svg>\'">';
+            html += '</div>';
+            html += '</div>';
+            
+            // SVG (link to exam page)
+            html += '<div>';
+            html += '<p style="color:var(--text-secondary);font-size:0.85em;margin-bottom:8px;">🎨 AI 生成 SVG</p>';
+            html += '<div style="background:white;border-radius:8px;overflow:hidden;padding:10px;text-align:center;">';
+            html += '<p style="color:#333;font-size:0.9em;margin-bottom:10px;">請到試卷頁面查看 SVG 圖像</p>';
+            html += '<a href="' + examPageUrl + '#q' + qNum + '" target="_blank" style="display:inline-block;padding:10px 20px;background:var(--japanese-red);color:white;text-decoration:none;border-radius:5px;font-size:0.9em;">前往試卷頁面 →</a>';
+            html += '</div>';
+            html += '</div>';
+            
+            html += '</div>';
+            
+            // Action buttons
+            html += '<div style="display:flex;gap:10px;margin-top:20px;justify-content:center;">';
+            html += '<button onclick="markSvgCompare(' + qNum + ', true)" style="padding:12px 30px;background:#27ae60;color:white;border:none;border-radius:8px;cursor:pointer;font-size:1em;">✅ 通過</button>';
+            html += '<button onclick="markSvgCompare(' + qNum + ', false)" style="padding:12px 30px;background:#e74c3c;color:white;border:none;border-radius:8px;cursor:pointer;font-size:1em;">❌ 失敗</button>';
+            html += '</div>';
+            
+            html += '</div>';
+            resultEl.innerHTML = html;
+        }
+        
+        function markSvgCompare(qNum, passed) {
+            alert(passed ? '✅ Q' + qNum + ' 圖像通過！' : '❌ Q' + qNum + ' 需要調整，請提供更詳細既描述');
         }
 
         // Show manual for current project - fetch from GitHub
