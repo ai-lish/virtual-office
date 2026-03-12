@@ -1120,6 +1120,34 @@
                 margin-left: 35%;
             }
         }
+        
+        /* Quick Features */
+        .back-to-top {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: var(--japanese-red);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(188,0,45,0.4);
+            z-index: 999;
+            transition: all 0.3s;
+            display: none;
+        }
+        .back-to-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(188,0,45,0.5);
+        }
+        
+        /* Dark theme SVG optimization */
+        .svg-container svg {
+            filter: brightness(1);
+        }
     </style>
 </head>
 <body>
@@ -1620,7 +1648,15 @@
         // RENDER FUNCTIONS
         // ===============================
         function renderProjects() {
-            projectListEl.innerHTML = projects.map((p, i) => `
+            // Sort projects by last update (simulated - most recently expanded/shown first)
+            var sortedProjects = [...projects].sort(function(a, b) {
+                // Custom sort: move virtual-office to top, then by name
+                if (a.name === '虛擬辦公室') return -1;
+                if (b.name === '虛擬辦公室') return 1;
+                return a.name.localeCompare(b.name);
+            });
+            
+            projectListEl.innerHTML = sortedProjects.map((p, i) => `
                 <div class="project-item ${expandedProject === i ? 'expanded' : ''} ${selectedProject === i ? 'selected' : ''}" data-index="${i}">
                     <span class="project-status-icon">${p.status === 'completed' ? '✅' : p.status === 'active' ? '🔄' : '⏳'}</span>
                     <span class="project-name">${p.name}</span>
@@ -2306,6 +2342,9 @@
                         document.getElementById('tabSvg').style.display = 'block';
                         loadSvgCompare();
                     }
+                    
+                    // Save tab state
+                    localStorage.setItem('virtualOfficeTab', currentTab);
                 });
             });
             
@@ -2600,6 +2639,61 @@
             document.getElementById('detailTabs').style.display = 'none';
             _showManualDetail(key);
         };
+
+        // Quick Features
+        
+        // 1. Back to Top Button
+        var backToTopBtn = document.createElement('button');
+        backToTopBtn.className = 'back-to-top';
+        backToTopBtn.innerHTML = '↑';
+        backToTopBtn.onclick = function() {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        };
+        document.body.appendChild(backToTopBtn);
+        
+        window.onscroll = function() {
+            if (window.scrollY > 300) {
+                backToTopBtn.style.display = 'block';
+            } else {
+                backToTopBtn.style.display = 'none';
+            }
+        };
+        
+        // 2. Tab State Memory
+        var savedTab = localStorage.getItem('virtualOfficeTab');
+        if (savedTab) {
+            var tabBtn = document.querySelector('.detail-tab[data-tab="' + savedTab + '"]');
+            if (tabBtn) {
+                document.querySelectorAll('.detail-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('[id^="tab"]').forEach(t => t.style.display = 'none');
+                tabBtn.classList.add('active');
+                var tabContent = document.getElementById('tab' + savedTab.charAt(0).toUpperCase() + savedTab.slice(1));
+                if (savedTab === 'svg') {
+                    document.getElementById('tabSvg').style.display = 'block';
+                }
+            }
+        }
+        
+        // 3. More detailed status text
+        function getDetailedStatus() {
+            var hour = new Date().getHours();
+            var statusTexts = {
+                morning: ['🌅 早晨工作中', '📝 整理今日任務', '☕ 準備開始'],
+                afternoon: ['☀️ 下午工作中', '💻 專注開發', '📊 處理項目'],
+                evening: ['🌆 晚間工作中', '📋 準備匯報', '💾 數據整理'],
+                night: ['🌙 深夜工作中', '🔄 系統維護', '💤 稍作休息']
+            };
+            
+            if (hour >= 6 && hour < 12) return statusTexts.morning[Math.floor(Math.random()*3)];
+            if (hour >= 12 && hour < 18) return statusTexts.afternoon[Math.floor(Math.random()*3)];
+            if (hour >= 18 && hour < 22) return statusTexts.evening[Math.floor(Math.random()*3)];
+            return statusTexts.night[Math.floor(Math.random()*3)];
+        }
+        
+        var statusEl = document.getElementById('secretaryFloatingStatus');
+        if (statusEl) {
+            statusEl.textContent = getDetailedStatus();
+        }
 
         init();
     </script>
