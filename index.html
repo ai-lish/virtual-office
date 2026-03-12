@@ -371,6 +371,79 @@
             margin-bottom: 40px;
         }
 
+        /* Floating Secretary Avatar */
+        .floating-secretary {
+            position: absolute;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            text-align: center;
+            animation: float 3s ease-in-out infinite;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .floating-secretary:hover {
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(-50%); }
+            50% { transform: translateY(-60%); }
+        }
+
+        .secretary-avatar-large {
+            font-size: 5rem;
+            display: block;
+            filter: drop-shadow(0 0 20px rgba(188,0,45,0.5));
+        }
+
+        .secretary-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 10px;
+            color: var(--japanese-red);
+        }
+
+        .secretary-status {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1001;
+            background: var(--bg-light);
+            border: 2px solid var(--japanese-red);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px var(--japanese-red);
+        }
+
+        /* Light Theme */
+        body.light-theme {
+            --bg-dark: #f5f5f5;
+            --bg-medium: #ffffff;
+            --bg-light: #e8e8e8;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+        }
+
         /* Project Detail View */
         .detail-view {
             display: none;
@@ -722,6 +795,33 @@
             .info-grid {
                 grid-template-columns: 1fr;
             }
+
+            /* Hide floating secretary on mobile */
+            .floating-secretary {
+                display: none;
+            }
+
+            /* Adjust theme toggle for mobile */
+            .theme-toggle {
+                bottom: 80px;
+                width: 44px;
+                height: 44px;
+                font-size: 1.2rem;
+            }
+
+            /* Better touch targets */
+            .nav-item, .project-item, .manual-item {
+                padding: 12px 15px;
+            }
+
+            .detail-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .detail-title {
+                font-size: 1.3rem;
+            }
         }
 
         @media (min-width: 769px) and (max-width: 1024px) {
@@ -820,7 +920,17 @@
                 <h1 class="hero-title">🧑‍💻 虛擬辦公室</h1>
                 <p class="hero-subtitle">實時監控 AI 助手工作狀態</p>
                 <p style="color: var(--text-secondary);">從左側選擇項目以查看詳情</p>
+                
+                <!-- Floating Secretary Avatar -->
+                <div class="floating-secretary" onclick="showSecretaryInfo()">
+                    <span class="secretary-avatar-large">🦀</span>
+                    <div class="secretary-name">書記 Agent</div>
+                    <div class="secretary-status" id="secretaryFloatingStatus">工作中...</div>
+                </div>
             </div>
+
+            <!-- Theme Toggle Button -->
+            <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切換主題">🌙</button>
 
             <!-- Agents View -->
             <div class="agents-view" id="agentsView">
@@ -1363,6 +1473,46 @@
             sidebarEl.classList.toggle('open');
         }
 
+        // ===============================
+        // THEME TOGGLE
+        // ===============================
+        function toggleTheme() {
+            document.body.classList.toggle('light-theme');
+            const isLight = document.body.classList.contains('light-theme');
+            document.getElementById('themeToggle').textContent = isLight ? '☀️' : '🌙';
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        }
+
+        // Load saved theme
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-theme');
+                document.getElementById('themeToggle').textContent = '☀️';
+            }
+        }
+
+        // ===============================
+        // SECRETARY INFO
+        // ===============================
+        function showSecretaryInfo() {
+            alert('🦀 書記 Agent\n\n職責：\n• 定時報告系統狀態\n• 記錄工作日誌\n• 提醒待辦事項\n\n狀態：工作中');
+        }
+
+        function updateSecretaryFloatingStatus() {
+            const statusEl = document.getElementById('secretaryFloatingStatus');
+            const hour = new Date().getHours();
+            if (hour >= 23 || hour < 6) {
+                statusEl.textContent = '🌙 休息中';
+            } else if (hour >= 18) {
+                statusEl.textContent = '🌆 晚間工作中';
+            } else if (hour >= 13) {
+                statusEl.textContent = '☀️ 下午工作中';
+            } else {
+                statusEl.textContent = '🌅 早晨工作中';
+            }
+        }
+
         function closeSidebar() {
             sidebarEl.classList.remove('open');
         }
@@ -1403,6 +1553,10 @@
                 renderManuals();
                 updateManualTabVisibility();
             });
+            
+            // Load theme and update secretary status
+            loadTheme();
+            updateSecretaryFloatingStatus();
             
             // Event listeners
             mobileMenuBtn.addEventListener('click', toggleSidebar);
