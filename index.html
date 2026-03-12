@@ -2311,13 +2311,28 @@
         function showSvgExam(idx) {
             var exam = svgCompareData[currentProjectName].exams[idx];
             var html = '<div style="background:rgba(255,255,255,0.05);padding:15px;border-radius:10px;margin-top:15px;">';
-            html += '<h4>' + exam.name + '</h4>';
-            html += '<p style="color:var(--text-secondary);font-size:0.9em;">需要比對既圖像數量：' + exam.images + '張</p>';
-            html += '<div style="margin-top:15px;">';
-            html += '<p style="color:var(--text-secondary);">請去 <a href="https://math-lish.github.io/' + currentProjectName + '/' + exam.file + '" target="_blank" style="color:var(--japanese-red);">試卷頁面</a> 檢視現有既 SVG 圖像</p>';
-            html += '<p style="color:var(--text-secondary);margin-top:10px;">然後對比 GitHub 上既 PDF 原始圖像：</p>';
-            html += '<a href="https://github.com/math-lish/' + currentProjectName + '/tree/main/exam-images" target="_blank" style="display:inline-block;margin-top:10px;padding:8px 16px;background:var(--japanese-red);color:white;text-decoration:none;border-radius:5px;">📂 前往 GitHub 圖像庫 →</a>';
-            html += '</div></div>';
+            html += '<h4>' + exam.name + ' - 圖像比對</h4>';
+            html += '<p style="color:var(--text-secondary);font-size:0.9em;">點擊試卷頁面內既圖像，可以放大比對</p>';
+            html += '<div style="display:flex;gap:10px;margin-top:15px;flex-wrap:wrap;">';
+            html += '<a href="https://math-lish.github.io/' + currentProjectName + '/' + exam.file + '" target="_blank" style="flex:1;min-width:300px;padding:15px;background:var(--japanese-red);color:white;text-decoration:none;border-radius:8px;text-align:center;">📱 前往試卷頁面<br><small>檢視 SVG 圖像</small></a>';
+            html += '<a href="https://github.com/math-lish/' + currentProjectName + '/tree/main/exam-images" target="_blank" style="flex:1;min-width:300px;padding:15px;background:#2c3e50;color:white;text-decoration:none;border-radius:8px;text-align:center;">📂 PDF 原始圖像<br><small>GitHub 圖像庫</small></a>';
+            html += '</div>';
+            
+            // Show PDF pages for comparison
+            html += '<h5 style="margin-top:25px;">PDF 原始圖像 (每頁):</h5>';
+            html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:10px;">';
+            
+            // Generate page image links
+            var totalPages = exam.images || 10;
+            for (var i = 1; i <= totalPages; i++) {
+                var pageNum = String(i).padStart(2, '0');
+                html += '<a href="https://raw.githubusercontent.com/math-lish/' + currentProjectName + '/main/exam-images/s3-p2/page-' + pageNum + '.png" target="_blank" style="display:block;padding:10px;background:rgba(255,255,255,0.1);border-radius:5px;text-decoration:none;color:white;text-align:center;">';
+                html += '📄 第 ' + i + ' 頁';
+                html += '</a>';
+            }
+            html += '</div>';
+            
+            html += '</div>';
             document.getElementById('svgExamDetail').innerHTML = html;
         }
 
