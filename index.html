@@ -1517,10 +1517,11 @@
                 statusText: '進行中',
                 startDate: '2026-03-05',
                 targetDate: '2026-04-01',
-                link: 'http://localhost:18899',
+                link: 'https://math-lish.github.io/virtual-office/',
                 github: 'https://github.com/math-lish/virtual-office',
                 summary: '實時監控系統，展示AI助手工作狀態，大腦/T仔/師弟/書記Agent',
-                description: '可視化呈現OpenClaw agents的工作情況。持續優化中。耗時：~15分鐘。',
+                description: '可視化呈現OpenClaw agents的工作情況。持續優化中。',
+                lastCommit: { message: 'Add: Countdown notification showing time until next report', date: '2026-03-13 07:50' },
                 timeline: [
                     { date: '2026-03-05', event: '項目啟動', detail: '參考thx0701/openclaw-virtual-office' },
                     { date: '2026-03-07', event: 'Parts 1-8', detail: '完成基礎功能' },
@@ -1801,7 +1802,13 @@
                 ? `<a href="${p.link}" target="_blank">${p.link}</a>` 
                 : '開發中...';
             document.getElementById('detailGithub').innerHTML = `<a href="${p.github}" target="_blank">${p.github}</a>`;
-            document.getElementById('detailDesc').textContent = p.description;
+            document.getElementById('detailDesc').innerHTML = p.description;
+
+            // Show last commit info if available
+            if (p.lastCommit) {
+                var commitHtml = '<div style="margin-top:15px;padding:12px;background:rgba(255,255,255,0.05);border-radius:8px;border-left:3px solid var(--japanese-red);"><div style="color:var(--japanese-red);font-weight:bold;margin-bottom:8px;">📝 最近更新</div><div style="font-size:0.9em;color:var(--text-secondary);">' + p.lastCommit.message + '</div><div style="font-size:0.8em;color:var(--text-secondary);margin-top:8px;">' + p.lastCommit.date + '</div></div>';
+                document.getElementById('detailDesc').innerHTML += commitHtml;
+            }
 
             // Render timeline (use external JSON if available, else fallback to hardcoded)
             let timelineData = p.timeline || [];
