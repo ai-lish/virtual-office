@@ -231,6 +231,85 @@
             border: 1px solid transparent;
         }
 
+        /* Timeline Mini */
+        .timeline-mini {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .timeline-item-mini {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 6px;
+            font-size: 0.8rem;
+        }
+
+        .timeline-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--japanese-red);
+            flex-shrink: 0;
+        }
+
+        .timeline-dot.completed {
+            background: #4caf50;
+        }
+
+        .timeline-dot.pending {
+            background: #ff9800;
+        }
+
+        /* Schedule Mini */
+        .schedule-mini {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .schedule-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 6px;
+            font-size: 0.8rem;
+        }
+
+        .schedule-time {
+            color: var(--japanese-red);
+            font-weight: 500;
+            min-width: 50px;
+        }
+
+        .schedule-task {
+            flex: 1;
+        }
+
+        .schedule-check {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: opacity 0.2s;
+        }
+
+        .schedule-check:hover {
+            opacity: 1;
+        }
+
+        .schedule-item.completed {
+            opacity: 0.5;
+            text-decoration: line-through;
+        }
+
         .project-item:hover {
             background: rgba(188,0,45,0.15);
             border-color: rgba(188,0,45,0.3);
@@ -1049,7 +1128,17 @@
                     <!-- Projects rendered by JS -->
                 </div>
                 
-                <div class="section-title" style="margin-top: 25px;">📖 使用手冊</div>
+                <!-- Project Timeline Mini -->
+                <div class="section-title" style="margin-top: 25px;">📊 項目時序</div>
+                <div class="timeline-mini" id="timelineMini">
+                    <!-- Timeline rendered by JS -->
+                </div>
+                
+                <!-- Work Schedule -->
+                <div class="section-title" style="margin-top: 25px;">📅 工作排程</div>
+                <div class="schedule-mini" id="scheduleMini">
+                    <!-- Schedule rendered by JS -->
+                </div>
                 <div class="manual-list" id="manualList">
                     <!-- Manuals rendered by JS -->
                 </div>
@@ -1690,6 +1779,77 @@
             { title: '🧪 T仔通過測試', time: '3小時前', unread: false }
         ];
 
+        // ===============================
+        // PROJECT TIMELINE MINI
+        // ===============================
+        const projectTimeline = [
+            { project: '少康教學網站', status: 'completed', date: '03-08' },
+            { project: '全方位學習日', status: 'completed', date: '03-10' },
+            { project: '欠交功課系統', status: 'completed', date: '03-11' },
+            { project: 'S1考試專區', status: 'in-progress', date: '03-12' },
+            { project: '虛擬辦公室', status: 'in-progress', date: '03-12' },
+            { project: '數學故事系統', status: 'pending', date: '待定' }
+        ];
+
+        function renderTimelineMini() {
+            const container = document.getElementById('timelineMini');
+            if (!container) return;
+            
+            container.innerHTML = projectTimeline.map(item => `
+                <div class="timeline-item-mini" onclick="showProjectByName('${item.project}')">
+                    <span class="timeline-dot ${item.status === 'completed' ? 'completed' : item.status === 'pending' ? 'pending' : ''}"></span>
+                    <span style="flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.project}</span>
+                    <span style="color:var(--text-secondary);font-size:0.7rem;">${item.date}</span>
+                </div>
+            `).join('');
+        }
+
+        function showProjectByName(name) {
+            const projects = document.querySelectorAll('.project-item');
+            projects.forEach(p => {
+                if (p.textContent.includes(name)) {
+                    p.click();
+                }
+            });
+        }
+
+        // ===============================
+        // WORK SCHEDULE MINI
+        // ===============================
+        let workSchedule = [
+            { time: '04:00', task: '📝 生成早晨報告', completed: false },
+            { time: '08:00', task: '📝 生成上午報告', completed: false },
+            { time: '13:00', task: '📝 生成下午報告', completed: false },
+            { time: '18:00', task: '📝 生成晚間報告', completed: false },
+            { time: '23:00', task: '📝 生成夜間報告', completed: false }
+        ];
+
+        function renderScheduleMini() {
+            const container = document.getElementById('scheduleMini');
+            if (!container) return;
+            
+            const hour = new Date().getHours();
+            
+            container.innerHTML = workSchedule.map((item, index) => {
+                const itemHour = parseInt(item.time.split(':')[0]);
+                const isPast = itemHour < hour;
+                const isCurrent = itemHour <= hour && itemHour + 4 > hour;
+                
+                return `
+                    <div class="schedule-item ${item.completed || isPast ? 'completed' : ''}" onclick="toggleSchedule(${index})">
+                        <span class="schedule-time">${item.time}</span>
+                        <span class="schedule-task">${item.task}</span>
+                        <span class="schedule-check">${item.completed ? '✅' : '⬜'}</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleSchedule(index) {
+            workSchedule[index].completed = !workSchedule[index].completed;
+            renderScheduleMini();
+        }
+
         function renderNotifications() {
             const list = document.getElementById('notificationList');
             const badge = document.getElementById('notificationBadge');
@@ -1820,6 +1980,8 @@
             loadTheme();
             updateSecretaryFloatingStatus();
             renderNotifications();
+            renderTimelineMini();
+            renderScheduleMini();
             updateWorkingStatus();
             checkMobile();
             
