@@ -1,41 +1,33 @@
 {
-  "lastSync": "2026-03-12T11:54:00.000Z",
+  "lastSync": "2026-03-12T15:00:05.900Z",
   "projects": {
-    "少康教學網站": {
-      "status": "completed",
-      "summary": "教學資源網站，包含數學教材、練習題及教學影片連結",
-      "url": "https://math-lish.github.io/ai-learning/",
-      "github": "https://github.com/math-lish/ai-learning"
-    },
     "全方位學習日": {
-      "status": "completed",
-      "summary": "S1全方位學習日網站，包含首頁/老師版，活動日期：2026年3月26日",
-      "url": "https://math-lish.github.io/lsc-ole-s1-2026/",
-      "github": "https://github.com/math-lish/lsc-ole-s1-2026"
+      "status": "pending",
+      "summary": "記錄中...",
+      "next": [
+        "等指示"
+      ]
+    },
+    "少康教學網站": {
+      "status": "pending",
+      "summary": "記錄中...",
+      "next": [
+        "等指示"
+      ]
     },
     "虛擬辦公室": {
-      "status": "active",
-      "summary": "實時監控系統，展示AI助手工作狀態，大腦/T仔/師弟/書記Agent",
-      "url": "https://math-lish.github.io/virtual-office/",
-      "github": "https://github.com/math-lish/virtual-office"
-    },
-    "欠交功課當值系統": {
-      "status": "completed",
-      "summary": "自動/手動當值編排，8條規則驗證，支援複製/匯入功能",
-      "url": "https://math-lish.github.io/homework-duty-system/",
-      "github": "https://github.com/math-lish/homework-duty-system"
-    },
-    "數學週": {
       "status": "pending",
-      "summary": "數學週活動網站",
-      "url": "https://math-lish.github.io/math-week-2026/",
-      "github": "https://github.com/math-lish/math-week-2026"
+      "summary": "記錄中...",
+      "next": [
+        "等指示"
+      ]
     },
-    "教師發展日": {
+    "晞霖學習網站": {
       "status": "pending",
-      "summary": "教師專業發展日活動網站",
-      "url": "https://math-lish.github.io/teacher-dev-day/",
-      "github": "https://github.com/math-lish/teacher-dev-day"
+      "summary": "記錄中...",
+      "next": [
+        "等指示"
+      ]
     }
   }
 }
