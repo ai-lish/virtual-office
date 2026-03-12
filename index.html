@@ -501,8 +501,13 @@
             transform: translateY(-50%);
             text-align: center;
             animation: float 3s ease-in-out infinite;
-            cursor: pointer;
+            cursor: grab;
             transition: transform 0.3s;
+            z-index: 100;
+        }
+        
+        .floating-secretary:active {
+            cursor: grabbing;
         }
 
         .floating-secretary:hover {
@@ -680,10 +685,21 @@
             animation: pulse 2s infinite;
             box-shadow: 0 5px 20px rgba(0,0,0,0.3);
         }
+        
+        .working-bubble.typing::after {
+            content: '...';
+            animation: typing 1s infinite;
+        }
+        
+        @keyframes typing {
+            0% { content: '.'; }
+            33% { content: '..'; }
+            66% { content: '...'; }
+        }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(0.98); }
         }
 
         .working-bubble .dot {
@@ -1046,6 +1062,7 @@
                 height: calc(100vh - 60px);
                 transform: translateX(-100%);
                 z-index: 999;
+                transition: transform 0.3s ease-in-out;
             }
 
             .sidebar.open {
@@ -1055,6 +1072,7 @@
             .main-content {
                 margin-left: 0;
                 width: 100%;
+                transition: margin-left 0.3s ease-in-out;
             }
 
             .agent-bar {
@@ -1275,7 +1293,7 @@
                 </div>
                 
                 <!-- Floating Secretary Avatar -->
-                <div class="floating-secretary" onclick="showSecretaryInfo()">
+                <div class="floating-secretary" id="floatingSecretary" onclick="showSecretaryInfo()">
                     <span class="secretary-avatar-large">🦀</span>
                     <div class="secretary-name">書記 Agent</div>
                     <div class="secretary-status" id="secretaryFloatingStatus">工作中...</div>
@@ -2712,6 +2730,62 @@
         var statusEl = document.getElementById('secretaryFloatingStatus');
         if (statusEl) {
             statusEl.textContent = getDetailedStatus();
+        }
+        
+        // 7. Draggable Floating Avatar
+        var secretary = document.getElementById('floatingSecretary');
+        if (secretary) {
+            var isDragging = false;
+            var startX, startY, initialX, initialY;
+            
+            secretary.addEventListener('mousedown', dragStart);
+            secretary.addEventListener('touchstart', dragStart);
+            
+            function dragStart(e) {
+                if (e.type === 'touchstart') {
+                    startX = e.touches[0].clientX;
+                    startY = e.touches[0].clientY;
+                } else {
+                    startX = e.clientX;
+                    startY = e.clientY;
+                }
+                var rect = secretary.getBoundingClientRect();
+                initialX = rect.left;
+                initialY = rect.top;
+                isDragging = true;
+                secretary.style.animation = 'none';
+            }
+            
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('touchmove', drag);
+            
+            function drag(e) {
+                if (!isDragging) return;
+                e.preventDefault();
+                var clientX, clientY;
+                if (e.type === 'touchmove') {
+                    clientX = e.touches[0].clientX;
+                    clientY = e.touches[0].clientY;
+                } else {
+                    clientX = e.clientX;
+                    clientY = e.clientY;
+                }
+                var dx = clientX - startX;
+                var dy = clientY - startY;
+                secretary.style.position = 'fixed';
+                secretary.style.left = (initialX + dx) + 'px';
+                secretary.style.top = (initialY + dy) + 'px';
+                secretary.style.right = 'auto';
+                secretary.style.transform = 'none';
+            }
+            
+            document.addEventListener('mouseup', dragEnd);
+            document.addEventListener('touchend', dragEnd);
+            
+            function dragEnd() {
+                isDragging = false;
+                secretary.style.animation = 'float 3s ease-in-out infinite';
+            }
         }
 
         init();
