@@ -1745,7 +1745,6 @@
         // MOBILE MENU
         // ===============================
         function toggleSidebar() {
-            alert('Menu clicked!');
             sidebarEl.classList.toggle('open');
         }
 
@@ -1753,7 +1752,6 @@
         // THEME TOGGLE
         // ===============================
         function toggleTheme() {
-            alert('Theme clicked!');
             console.log('Theme toggle clicked!');
             document.body.classList.toggle('light-theme');
             const isLight = document.body.classList.contains('light-theme');
@@ -1908,7 +1906,6 @@
         }
 
         function toggleNotifications() {
-            alert('Notification clicked!');
             console.log('Notification bell clicked!');
             const dropdown = document.getElementById('notificationDropdown');
             dropdown.classList.toggle('open');
