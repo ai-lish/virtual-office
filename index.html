@@ -1282,6 +1282,7 @@
                     <button class="detail-tab active" data-tab="info">📋 項目資訊</button>
                     <button class="detail-tab" data-tab="manual">📖 使用手冊</button>
                     <button class="detail-tab" data-tab="test">🧪 測試備忘</button>
+                    <button class="detail-tab" data-tab="svg">🎨 SVG比對</button>
                 </div>
 
                 <div id="tabInfo">
@@ -1337,6 +1338,21 @@
                             <li>手機版：闊度≤768px時正常顯示</li>
                         </ul>
                     </div></div>
+                </div>
+
+                <!-- SVG Comparison Tab -->
+                <div id="tabSvg" style="display:none;">
+                    <div class="info-card">
+                        <div class="info-label">🎨 SVG 圖像比對</div>
+                        <div class="info-value" id="svgContent">
+                            <p style="color: var(--text-secondary); margin-bottom: 15px;">
+                                比較 AI 生成既 SVG 圖像與原始 PDF 圖像，確認正確後點擊 ✅ 或 ❌ 記錄結果。
+                            </p>
+                            <div id="svgCompareArea">
+                                <p style="color: var(--text-secondary);">選擇試卷進行比對...</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="timeline-section" id="secretarySection" style="display: none;">
@@ -2187,6 +2203,7 @@
                     document.getElementById('tabInfo').style.display = 'none';
                     document.getElementById('tabManual').style.display = 'none';
                     document.getElementById('tabTest').style.display = 'none';
+                    document.getElementById('tabSvg').style.display = 'none';
                     
                     // Show selected tab
                     if (currentTab === 'info') {
@@ -2196,6 +2213,9 @@
                         showManualForCurrentProject();
                     } else if (currentTab === 'test') {
                         document.getElementById('tabTest').style.display = 'block';
+                    } else if (currentTab === 'svg') {
+                        document.getElementById('tabSvg').style.display = 'block';
+                        loadSvgCompare();
                     }
                 });
             });
@@ -2250,6 +2270,55 @@
                 html += '</div></div>';
             });
             document.getElementById('workflowList').innerHTML = html;
+        }
+
+        // SVG Comparison System
+        var svgCompareData = {
+            'ai-learning': {
+                exams: [
+                    { name: '2025-26 S1 Term2 P2', file: 'exam-2025-26-s1-term2-p2.html', images: 12 },
+                    { name: '2025-26 S3 Term2 P2', file: 'exam-2025-26-s3-term2-p2.html', images: 10 }
+                ]
+            }
+        };
+        
+        var currentSvgCompare = null;
+        
+        function loadSvgCompare() {
+            var area = document.getElementById('svgCompareArea');
+            if (!currentProjectName) {
+                area.innerHTML = '<p style="color:var(--text-secondary)">請先選擇一個項目</p>';
+                return;
+            }
+            
+            // Check if project has exam images
+            var examData = svgCompareData[currentProjectName];
+            if (!examData) {
+                area.innerHTML = '<p style="color:var(--text-secondary)">呢個項目暫時未有試卷比對功能</p>';
+                return;
+            }
+            
+            var html = '<div style="margin-bottom: 20px;">';
+            html += '<h4 style="margin-bottom:10px">選擇試卷：</h4>';
+            examData.exams.forEach(function(exam, idx) {
+                html += '<button onclick="showSvgExam(' + idx + ')" style="margin:5px;padding:8px 16px;background:var(--japanese-red);color:white;border:none;border-radius:5px;cursor:pointer;">' + exam.name + '</button>';
+            });
+            html += '</div>';
+            html += '<div id="svgExamDetail"></div>';
+            area.innerHTML = html;
+        }
+        
+        function showSvgExam(idx) {
+            var exam = svgCompareData[currentProjectName].exams[idx];
+            var html = '<div style="background:rgba(255,255,255,0.05);padding:15px;border-radius:10px;margin-top:15px;">';
+            html += '<h4>' + exam.name + '</h4>';
+            html += '<p style="color:var(--text-secondary);font-size:0.9em;">需要比對既圖像數量：' + exam.images + '張</p>';
+            html += '<div style="margin-top:15px;">';
+            html += '<p style="color:var(--text-secondary);">請去 <a href="https://math-lish.github.io/' + currentProjectName + '/' + exam.file + '" target="_blank" style="color:var(--japanese-red);">試卷頁面</a> 檢視現有既 SVG 圖像</p>';
+            html += '<p style="color:var(--text-secondary);margin-top:10px;">然後對比 GitHub 上既 PDF 原始圖像：</p>';
+            html += '<a href="https://github.com/math-lish/' + currentProjectName + '/tree/main/exam-images" target="_blank" style="display:inline-block;margin-top:10px;padding:8px 16px;background:var(--japanese-red);color:white;text-decoration:none;border-radius:5px;">📂 前往 GitHub 圖像庫 →</a>';
+            html += '</div></div>';
+            document.getElementById('svgExamDetail').innerHTML = html;
         }
 
         // Show manual for current project - fetch from GitHub
