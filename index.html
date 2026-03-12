@@ -1081,7 +1081,7 @@
 </head>
 <body>
     <!-- Mobile Menu Button -->
-    <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleSidebar();">
+    <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleSidebar();" ontouchstart="toggleSidebar();">
         <span></span>
         <span></span>
         <span></span>
@@ -1183,10 +1183,10 @@
             </div>
 
             <!-- Theme Toggle Button -->
-            <button class="theme-toggle" id="themeToggle" title="切換主題" onclick="toggleTheme();">🌙</button>
+            <button class="theme-toggle" id="themeToggle" title="切換主題" onclick="toggleTheme();" ontouchstart="toggleTheme();">🌙</button>
             
             <!-- Notification Bell -->
-            <div class="notification-bell" id="notificationBell" onclick="toggleNotifications();">
+            <div class="notification-bell" id="notificationBell" onclick="toggleNotifications();" ontouchstart="toggleNotifications();">
                 🔔
                 <span class="notification-badge" id="notificationBadge" style="display:none;">0</span>
             </div>
