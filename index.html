@@ -1958,13 +1958,26 @@
             const theme = document.getElementById('themeToggle');
             
             if (window.innerWidth <= 768) {
-                bubble.style.display = 'none';
-                bell.style.display = 'none';
-                theme.style.bottom = '20px';
-                theme.style.right = '20px';
-            } else {
+                // Mobile: show all buttons but adjust positions
                 bubble.style.display = 'flex';
                 bell.style.display = 'flex';
+                theme.style.display = 'flex';
+                
+                // Adjust positions for mobile
+                bubble.style.top = '70px';
+                bubble.style.right = '10px';
+                bell.style.bottom = '20px';
+                bell.style.right = '20px';
+                theme.style.bottom = '20px';
+                theme.style.right = '70px';
+            } else {
+                // Desktop
+                bubble.style.display = 'flex';
+                bell.style.display = 'flex';
+                theme.style.display = 'flex';
+                
+                bubble.style.top = '';
+                bubble.style.right = '';
                 bell.style.bottom = '20px';
                 bell.style.right = '80px';
                 theme.style.bottom = '20px';
