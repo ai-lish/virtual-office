@@ -556,21 +556,24 @@
 
         .notification-dropdown {
             position: fixed;
-            bottom: 80px;
+            bottom: 70px;
             right: 20px;
             width: 320px;
             max-height: 400px;
             background: var(--bg-medium, #1a1a2e);
             border: 2px solid var(--japanese-red, #bc002d);
             border-radius: 15px;
-            z-index: 9999;
-            display: none;
+            z-index: 99999 !important;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.3s;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .notification-dropdown.open {
-            display: block;
+            visibility: visible;
+            opacity: 1;
         }
 
         .notification-header {
@@ -1750,18 +1753,31 @@
         // THEME TOGGLE
         // ===============================
         function toggleTheme() {
+            console.log('Theme toggle clicked!');
             document.body.classList.toggle('light-theme');
             const isLight = document.body.classList.contains('light-theme');
+            console.log('Is light theme:', isLight);
             document.getElementById('themeToggle').textContent = isLight ? '☀️' : '🌙';
             localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            // Force background color change
+            if (isLight) {
+                document.body.style.background = '#f5f5f5';
+                document.querySelector('.main-content').style.background = 'linear-gradient(135deg, #f5f5f5 0%, #ffffff 50%, #e8e8e8 100%)';
+            } else {
+                document.body.style.background = '';
+                document.querySelector('.main-content').style.background = '';
+            }
         }
 
         // Load saved theme
         function loadTheme() {
             const savedTheme = localStorage.getItem('theme');
+            console.log('Saved theme:', savedTheme);
             if (savedTheme === 'light') {
                 document.body.classList.add('light-theme');
                 document.getElementById('themeToggle').textContent = '☀️';
+                document.body.style.background = '#f5f5f5';
+                document.querySelector('.main-content').style.background = 'linear-gradient(135deg, #f5f5f5 0%, #ffffff 50%, #e8e8e8 100%)';
             }
         }
 
@@ -1891,7 +1907,10 @@
         }
 
         function toggleNotifications() {
-            document.getElementById('notificationDropdown').classList.toggle('open');
+            console.log('Notification bell clicked!');
+            const dropdown = document.getElementById('notificationDropdown');
+            dropdown.classList.toggle('open');
+            console.log('Dropdown open:', dropdown.classList.contains('open'));
         }
 
         function markAsRead(index) {
