@@ -1303,8 +1303,6 @@
     </div>
 
     <script>
-        console.log('Script starting...');
-        alert('Script loaded!');
         // ===============================
         // PROJECT DATA
         // ===============================
@@ -1752,12 +1750,10 @@
         // THEME TOGGLE
         // ===============================
         function toggleTheme() {
-            console.log('Theme toggle clicked');
             document.body.classList.toggle('light-theme');
             const isLight = document.body.classList.contains('light-theme');
             document.getElementById('themeToggle').textContent = isLight ? '☀️' : '🌙';
             localStorage.setItem('theme', isLight ? 'light' : 'dark');
-            alert('Theme changed to: ' + (isLight ? 'Light' : 'Dark'));
         }
 
         // Load saved theme
