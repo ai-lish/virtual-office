@@ -2470,6 +2470,24 @@
             }
         };
         
+        // SVG comparison status tracking
+        var svgStatus = JSON.parse(localStorage.getItem('svgCompareStatus') || '{}');
+        
+        function markSvgCompare(qNum, passed) {
+            if (!currentProjectName) return;
+            if (!svgStatus[currentProjectName]) svgStatus[currentProjectName] = {};
+            svgStatus[currentProjectName][qNum] = {
+                passed: passed,
+                date: new Date().toLocaleString('zh-HK')
+            };
+            localStorage.setItem('svgCompareStatus', JSON.stringify(svgStatus));
+            alert(passed ? '✅ Q' + qNum + ' 圖像通過！' : '❌ Q' + qNum + ' 需要調整，請提供更詳細既描述');
+        }
+        
+        function getSvgStatus(project, qNum) {
+            return svgStatus[project] && svgStatus[project][qNum] || null;
+        }
+        
         var currentSvgCompare = null;
         
         function loadSvgCompare() {
