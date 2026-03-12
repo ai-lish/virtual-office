@@ -1227,7 +1227,8 @@
                 <!-- Project Tabs -->
                 <div class="detail-tabs" id="detailTabs">
                     <button class="detail-tab active" data-tab="info">📋 項目資訊</button>
-                    <button class="detail-tab" data-tab="manual" id="manualTabBtn">📖 使用手冊</button>
+                    <button class="detail-tab" data-tab="manual">📖 使用手冊</button>
+                    <button class="detail-tab" data-tab="test">🧪 測試備忘</button>
                 </div>
 
                 <div id="tabInfo">
@@ -1265,6 +1266,24 @@
                 <!-- Manual Tab Content -->
                 <div id="tabManual" style="display:none;">
                     <div class="info-card"><div class="info-label">使用手冊</div><div class="info-value" id="manualContent">-</div></div>
+                </div>
+
+                <!-- Test Tab Content -->
+                <div id="tabTest" style="display:none;">
+                    <div class="info-card"><div class="info-label">🧪 測試備忘</div>
+                    <div class="info-value" id="testContent">
+                        <h4 style="margin: 10px 0 5px 0;">基本功能測試：</h4>
+                        <ul style="margin-left: 20px; color: var(--text-secondary);">
+                            <li>主題切換：Click 🌙/☀️ 應切换背景颜色</li>
+                            <li>通知中心：Click 🔔 應彈出通知列表</li>
+                            <li>漢堡包：Click ☰ 應開啟側邊欄</li>
+                            <li>書記頭像：Click 🦀 應顯示資訊</li>
+                            <li>工作氣泡：每10秒自動更新任務</li>
+                            <li>項目時序：左側顯示項目狀態</li>
+                            <li>工作排程：左側顯示定時任務</li>
+                            <li>手機版：闊度≤768px時正常顯示</li>
+                        </ul>
+                    </div></div>
                 </div>
 
                 <div class="timeline-section" id="secretarySection" style="display: none;">
@@ -1784,7 +1803,19 @@
         // SECRETARY INFO
         // ===============================
         function showSecretaryInfo() {
-            alert('🦀 書記 Agent\n\n職責：\n• 定時報告系統狀態\n• 記錄工作日誌\n• 提醒待辦事項\n\n狀態：工作中');
+            alert('🦀 書記 Agent\n\n' +
+                '虛擬辦公室10項優化建議：\n\n' +
+                '1. ✅ 書記浮動頭像\n' +
+                '2. ✅ 主題切換 (日/夜)\n' +
+                '3. ✅ Dark Mode\n' +
+                '4. ✅ 手機版優化\n' +
+                '5. ❌ Calendar整合 (需要API)\n' +
+                '6. ✅ 通知中心\n' +
+                '7. ✅ 工作狀態氣泡\n' +
+                '8. ✅ 項目時序線\n' +
+                '9. ✅ 工作排程\n' +
+                '10. ✅ 使用手冊+測試備忘\n\n' +
+                '狀態：工作中');
         }
 
         function updateSecretaryFloatingStatus() {
@@ -2084,13 +2115,20 @@
                     currentTab = tab.dataset.tab;
                     document.querySelectorAll('.detail-tab').forEach(t => t.classList.remove('active'));
                     tab.classList.add('active');
+                    
+                    // Hide all tabs
+                    document.getElementById('tabInfo').style.display = 'none';
+                    document.getElementById('tabManual').style.display = 'none';
+                    document.getElementById('tabTest').style.display = 'none';
+                    
+                    // Show selected tab
                     if (currentTab === 'info') {
                         document.getElementById('tabInfo').style.display = 'block';
-                        document.getElementById('tabManual').style.display = 'none';
-                    } else {
-                        document.getElementById('tabInfo').style.display = 'none';
+                    } else if (currentTab === 'manual') {
                         document.getElementById('tabManual').style.display = 'block';
                         showManualForCurrentProject();
+                    } else if (currentTab === 'test') {
+                        document.getElementById('tabTest').style.display = 'block';
                     }
                 });
             });
