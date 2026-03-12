@@ -2028,6 +2028,17 @@
             // Listen for window resize
             window.addEventListener('resize', checkMobile);
             
+            // Add event listeners for fixed buttons
+            const themeBtn = document.getElementById('themeToggle');
+            if (themeBtn) {
+                themeBtn.addEventListener('click', toggleTheme);
+            }
+            
+            const notifBell = document.getElementById('notificationBell');
+            if (notifBell) {
+                notifBell.addEventListener('click', toggleNotifications);
+            }
+            
             // Event listeners
             mobileMenuBtn.addEventListener('click', toggleSidebar);
             logoBtn.addEventListener('click', showHome);
