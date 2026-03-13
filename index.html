@@ -2990,15 +2990,29 @@
             var manualEl = document.getElementById('manualContent');
             var testEl = document.getElementById('testContent');
             
-            // Get GitHub URL from project records
+            console.log('showManualForCurrentProject called, currentProjectName:', currentProjectName);
+            
+            // Get GitHub URL from projects array (hardcoded, more reliable)
             var githubUrl = '';
-            if (projectRecords && projectRecords.projects && projectRecords.projects[currentProjectName]) {
+            
+            // First try to find in projects array
+            if (currentProjectName && projects) {
+                var currentProject = projects.find(p => p.name === currentProjectName);
+                if (currentProject && currentProject.github) {
+                    githubUrl = currentProject.github;
+                    console.log('Found GitHub URL from projects array:', githubUrl);
+                }
+            }
+            
+            // Fallback to projectRecords if not found
+            if (!githubUrl && projectRecords && projectRecords.projects && projectRecords.projects[currentProjectName]) {
                 githubUrl = projectRecords.projects[currentProjectName].github;
+                console.log('Found GitHub URL from projectRecords:', githubUrl);
             }
             
             if (!githubUrl) {
-                manualEl.innerHTML = '<p style="color:var(--text-secondary)">未能找到項目GitHub網址</p>';
-                testEl.innerHTML = '<p style="color:var(--text-secondary)">未能找到項目GitHub網址</p>';
+                manualEl.innerHTML = '<p style="color:var(--text-secondary)">未能找到項目 GitHub 網址 (' + (currentProjectName || 'no project') + ')</p>';
+                testEl.innerHTML = '<p style="color:var(--text-secondary)">未能找到項目 GitHub 網址 (' + (currentProjectName || 'no project') + ')</p>';
                 return;
             }
             
