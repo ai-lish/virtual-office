@@ -14,11 +14,13 @@
 ### 2. 主題切換 🌙/☀️
 - 點擊切換日夜主題
 - 自動記住用戶偏好 (localStorage)
+- **5種自訂主題** (ocean, forest, sunset...)
 
 ### 3. 通知中心 🔔
 - 顯示系統通知
 - 點擊彈出通知列表
 - 可標記已讀或清除
+- **通知訂閱功能**
 
 ### 4. 工作氣泡 💬
 - 右上角浮動氣泡
@@ -42,10 +44,34 @@
 - PDF 圖像庫
 - SVG 比對工具
 
-### 8. 其他功能
+### 8. 統計圖表 📈
+- 顯示通過率
+- 顯示題目數據
+- 可導出報告
+
+### 9. 其他功能
 - Tab 狀態記憶
 - 快速返回頂部
 - 手機優化 📱
+- 項目搜索
+- 數據緩存優化
+- 自動化備份
+- 導出功能 (PDF/Markdown)
+
+## 🆕 10項新功能 (2026-03-14)
+
+| # | 功能 | 說明 |
+|---|------|------|
+| 1 | 數據緩存優化 | CacheManager - 智能緩存系統 |
+| 2 | 圖像比對記錄 | ImageCompareRecord - 儲存通過/失敗狀態 |
+| 3 | 自動化備份 | AutoBackup - 自動備份設置 |
+| 4 | 統計圖表 | showStatistics() - 顯示統計數據 |
+| 5 | 自訂義主題 | CustomThemes - 5種主題 (ocean, forest, sunset...) |
+| 6 | 通知訂閱 | NotificationSubscription - 訂閱主題通知 |
+| 7 | 導出功能 | exportProjectReport() - 導出項目報告 |
+| 8 | 項目搜索 | searchProjects() - 快速搜索項目 |
+| 9 | 權限管理 | PermissionManager - admin/user/guest 權限 |
+| 10 | API 集成 | APIIntegration - 統一 API 調用 |
 
 ## 🎨 考試頁面製作 (SVG Workflow)
 
