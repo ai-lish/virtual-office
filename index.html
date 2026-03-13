@@ -682,13 +682,48 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            animation: pulse 2s infinite;
             box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+        
+        /* Different states */
+        .working-bubble.working {
+            animation: pulse 2s infinite;
         }
         
         .working-bubble.typing::after {
             content: '...';
             animation: typing 1s infinite;
+        }
+        
+        .working-bubble.thinking .dot {
+            background: #ff9800;
+            animation: blink 1s infinite;
+        }
+        
+        .working-bubble.thinking {
+            border-color: #ff9800;
+        }
+        
+        .working-bubble.idle .dot {
+            background: #2196f3;
+            animation: none;
+            opacity: 0.5;
+        }
+        
+        .working-bubble.idle {
+            border-color: #2196f3;
+            animation: none;
+        }
+        
+        .working-bubble.completed .dot {
+            background: #4caf50;
+            animation: none;
+        }
+        
+        .working-bubble.completed {
+            border-color: #4caf50;
+            animation: none;
         }
         
         @keyframes typing {
@@ -1810,7 +1845,29 @@
             }
         }
 
-        function showProjectDetail(index) {
+        // Fetch GitHub commits for a project
+        async function fetchGitHubCommits(githubUrl, limit = 10) {
+            try {
+                // Extract owner and repo from URL
+                const match = githubUrl.match(/github\.com\/([^\/]+)\/([^\/]+)/);
+                if (!match) return null;
+                
+                const response = await fetch(`https://api.github.com/repos/${match[1]}/${match[2]}/commits?per_page=${limit}`);
+                if (!response.ok) return null;
+                
+                const commits = await response.json();
+                return commits.map(c => ({
+                    message: c.commit.message.split('\n')[0],
+                    date: new Date(c.commit.author.date).toLocaleDateString('zh-HK'),
+                    author: c.commit.author.name
+                }));
+            } catch (e) {
+                console.log('Failed to fetch commits:', e);
+                return null;
+            }
+        }
+
+        async function showProjectDetail(index) {
             const p = sortedProjects[index];
             
             document.getElementById('detailTitle').textContent = p.name;
@@ -1824,8 +1881,17 @@
             document.getElementById('detailGithub').innerHTML = `<a href="${p.github}" target="_blank">${p.github}</a>`;
             document.getElementById('detailDesc').innerHTML = p.description;
 
-            // Show last commit info if available
-            if (p.lastCommit) {
+            // Show GitHub commits
+            const commits = await fetchGitHubCommits(p.github, 10);
+            if (commits && commits.length > 0) {
+                var commitHtml = '<div style="margin-top:15px;padding:12px;background:rgba(255,255,255,0.05);border-radius:8px;border-left:3px solid var(--japanese-red);"><div style="color:var(--japanese-red);font-weight:bold;margin-bottom:8px;">📝 最近更新 (GitHub)</div>';
+                commits.slice(0, 5).forEach((c, i) => {
+                    commitHtml += `<div style="font-size:0.85em;color:var(--text-secondary);margin-bottom:6px;padding-left:8px;border-left:2px solid rgba(188,0,45,0.3);"><span style="color:var(--japanese-red);">${i+1}.</span> ${c.message} <span style="opacity:0.6;">(${c.date})</span></div>`;
+                });
+                commitHtml += '</div>';
+                document.getElementById('detailDesc').innerHTML += commitHtml;
+            } else if (p.lastCommit) {
+                // Fallback to hardcoded
                 var commitHtml = '<div style="margin-top:15px;padding:12px;background:rgba(255,255,255,0.05);border-radius:8px;border-left:3px solid var(--japanese-red);"><div style="color:var(--japanese-red);font-weight:bold;margin-bottom:8px;">📝 最近更新</div><div style="font-size:0.9em;color:var(--text-secondary);">' + p.lastCommit.message + '</div><div style="font-size:0.8em;color:var(--text-secondary);margin-top:8px;">' + p.lastCommit.date + '</div></div>';
                 document.getElementById('detailDesc').innerHTML += commitHtml;
             }
@@ -2308,6 +2374,7 @@
         async function updateWorkingStatus() {
             const bubble = document.getElementById('workingBubble');
             const text = document.getElementById('workingText');
+            const dot = bubble.querySelector('.dot');
             const hour = new Date().getHours();
             
             // Show/hide based on time
@@ -2317,6 +2384,7 @@
                 bubble.style.display = 'flex';
                 
                 // Try to load actual task from status.json
+                let taskText = '';
                 try {
                     if (!cachedStatus || Date.now() - cachedStatus.timestamp > 30000) {
                         const response = await fetch('status.json');
@@ -2326,15 +2394,31 @@
                     // Find active agent task
                     const activeAgent = cachedStatus.agents.find(a => a.status === 'busy' || a.status === 'active');
                     if (activeAgent && activeAgent.task) {
-                        text.textContent = activeAgent.task;
+                        taskText = activeAgent.task;
                     } else {
                         const taskIndex = Math.floor(Date.now() / 10000) % workingTasks.length;
-                        text.textContent = workingTasks[taskIndex];
+                        taskText = workingTasks[taskIndex];
                     }
                 } catch (e) {
                     // Fallback to rotating tasks
                     const taskIndex = Math.floor(Date.now() / 10000) % workingTasks.length;
-                    text.textContent = workingTasks[taskIndex];
+                    taskText = workingTasks[taskIndex];
+                }
+                
+                text.textContent = taskText;
+                
+                // Update bubble state based on task
+                bubble.className = 'working-bubble'; // Reset
+                if (taskText.includes('報告') || taskText.includes('生成') || taskText.includes('分析')) {
+                    bubble.classList.add('thinking');
+                } else if (taskText.includes('寫') || taskText.includes('更新') || taskText.includes('輸入')) {
+                    bubble.classList.add('typing');
+                } else if (taskText.includes('完成') || taskText.includes('✅')) {
+                    bubble.classList.add('completed');
+                } else if (taskText.includes('等待') || taskText.includes('閒置')) {
+                    bubble.classList.add('idle');
+                } else {
+                    bubble.classList.add('working');
                 }
             }
         }
