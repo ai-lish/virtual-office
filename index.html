@@ -1880,6 +1880,17 @@
                 : '開發中...';
             document.getElementById('detailGithub').innerHTML = `<a href="${p.github}" target="_blank">${p.github}</a>`;
             
+            // Fetch and show GitHub stats
+            const stats = await fetchGitHubStats(p.github);
+            if (stats) {
+                var statsHtml = '<div style="margin-top:10px;display:flex;gap:15px;font-size:0.9em;">';
+                statsHtml += `<span>⭐ ${stats.stars}</span>`;
+                statsHtml += `<span>🍴 ${stats.forks}</span>`;
+                statsHtml += `<span>📅 ${stats.updated}</span>`;
+                statsHtml += '</div>';
+                document.getElementById('detailGithub').innerHTML += statsHtml;
+            }
+            
             // Show PDF Image Library button for ai-learning
             if (p.name === '少康教學網站') {
                 var pdfLibHtml = '<div style="margin-top:15px;display:flex;gap:10px;flex-wrap:wrap;">';
@@ -2052,15 +2063,87 @@
             }
         }
 
-        // Load saved theme
+        // Load saved theme (Enhanced with localStorage)
         function loadTheme() {
-            const savedTheme = localStorage.getItem('theme');
+            const savedTheme = localStorage.getItem('theme') || 'dark';
             console.log('Saved theme:', savedTheme);
             if (savedTheme === 'light') {
                 document.body.classList.add('light-theme');
                 document.getElementById('themeToggle').textContent = '☀️';
                 document.body.style.background = '#f5f5f5';
                 document.querySelector('.main-content').style.background = 'linear-gradient(135deg, #f5f5f5 0%, #ffffff 50%, #e8e8e8 100%)';
+            }
+            // Save preference if not set
+            if (!localStorage.getItem('theme')) {
+                localStorage.setItem('theme', savedTheme);
+            }
+        }
+
+        // Toggle theme with localStorage
+        function toggleTheme() {
+            const body = document.body;
+            const btn = document.getElementById('themeToggle');
+            
+            if (body.classList.contains('light-theme')) {
+                body.classList.remove('light-theme');
+                body.style.background = 'var(--bg-dark)';
+                btn.textContent = '🌙';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.classList.add('light-theme');
+                body.style.background = '#f5f5f5';
+                btn.textContent = '☀️';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Save Tab state to localStorage
+        function saveTabState(tabName) {
+            localStorage.setItem('activeTab', tabName);
+        }
+
+        // Load Tab state from localStorage
+        function loadTabState() {
+            const savedTab = localStorage.getItem('activeTab');
+            if (savedTab) {
+                const tab = document.querySelector(`.detail-tab[data-tab="${savedTab}"]`);
+                if (tab) {
+                    tab.click();
+                }
+            }
+        }
+
+        // Back to Top button
+        function createBackToTop() {
+            const btn = document.createElement('div');
+            btn.id = 'backToTop';
+            btn.innerHTML = '⬆️';
+            btn.style.cssText = 'position:fixed;bottom:80px;right:20px;width:50px;height:50px;background:var(--japanese-red);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;z-index:999;opacity:0;transition:opacity 0.3s;';
+            btn.onclick = () => window.scrollTo({top:0, behavior:'smooth'});
+            document.body.appendChild(btn);
+            
+            window.addEventListener('scroll', () => {
+                btn.style.opacity = window.scrollY > 300 ? '1' : '0';
+            });
+        }
+
+        // Fetch GitHub repo stats
+        async function fetchGitHubStats(repoUrl) {
+            try {
+                const match = repoUrl.match(/github\.com\/([^\/]+)\/([^\/]+)/);
+                if (!match) return null;
+                
+                const response = await fetch(`https://api.github.com/repos/${match[1]}/${match[2]}`);
+                if (!response.ok) return null;
+                
+                const data = await response.json();
+                return {
+                    stars: data.stargazers_count,
+                    forks: data.forks_count,
+                    updated: new Date(data.updated_at).toLocaleDateString('zh-HK')
+                };
+            } catch (e) {
+                return null;
             }
         }
 
@@ -2519,6 +2602,12 @@
             updateWorkingStatus();
             checkMobile();
             
+            // Create back to top button
+            createBackToTop();
+            
+            // Load saved tab state after a short delay
+            setTimeout(loadTabState, 500);
+            
             // Update working status every 10 seconds
             setInterval(updateWorkingStatus, 10000);
             
@@ -2569,6 +2658,9 @@
                     currentTab = tab.dataset.tab;
                     document.querySelectorAll('.detail-tab').forEach(t => t.classList.remove('active'));
                     tab.classList.add('active');
+                    
+                    // Save tab state
+                    saveTabState(currentTab);
                     
                     // Hide all tabs
                     document.getElementById('tabInfo').style.display = 'none';
