@@ -1925,8 +1925,15 @@
             }
             
             renderProjects();
+            
+            // Force close sidebar on mobile and desktop
+            if (sidebarEl) {
+                sidebarEl.classList.remove('open');
+                sidebarEl.style.transform = 'translateX(-100%)';
+                sidebarEl.style.left = '-280px';
+            }
+            
             showProjectDetail(index);
-            closeSidebar();
         }
 
         // ===============================
