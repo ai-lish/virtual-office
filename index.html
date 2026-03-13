@@ -2063,6 +2063,296 @@
             }
         }
 
+        // ===============================
+        // 1. ENHANCED DATA CACHING SYSTEM
+        // ===============================
+        const CacheManager = {
+            storage: {},
+            get: function(key) {
+                const item = localStorage.getItem('vcache_' + key);
+                if (!item) return null;
+                try {
+                    const data = JSON.parse(item);
+                    if (Date.now() > data.expiry) {
+                        localStorage.removeItem('vcache_' + key);
+                        return null;
+                    }
+                    return data.value;
+                } catch(e) { return null; }
+            },
+            set: function(key, value, hours=24) {
+                localStorage.setItem('vcache_' + key, JSON.stringify({
+                    value: value,
+                    expiry: Date.now() + hours * 3600000
+                }));
+            },
+            clear: function() {
+                Object.keys(localStorage).forEach(k => {
+                    if (k.startsWith('vcache_')) localStorage.removeItem(k);
+                });
+            }
+        };
+
+        // ===============================
+        // 2. SVG IMAGE COMPARISON RECORD
+        // ===============================
+        const ImageCompareRecord = {
+            save: function(examId, questionId, passed) {
+                let records = JSON.parse(localStorage.getItem('svgCompareRecords') || '{}');
+                if (!records[examId]) records[examId] = {};
+                records[examId][questionId] = { passed: passed, date: new Date().toISOString() };
+                localStorage.setItem('svgCompareRecords', JSON.stringify(records));
+            },
+            get: function(examId, questionId) {
+                let records = JSON.parse(localStorage.getItem('svgCompareRecords') || '{}');
+                return records[examId] ? records[examId][questionId] : null;
+            },
+            getAll: function(examId) {
+                return JSON.parse(localStorage.getItem('svgCompareRecords') || '{}')[examId] || {};
+            },
+            export: function() {
+                const records = localStorage.getItem('svgCompareRecords') || '{}';
+                const blob = new Blob([records], {type: 'application/json'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'svg-compare-records-' + new Date().toISOString().slice(0,10) + '.json';
+                a.click();
+            }
+        };
+
+        // ===============================
+        // 3. AUTO BACKUP SYSTEM
+        // ===============================
+        const AutoBackup = {
+            enabled: false,
+            interval: 24, // hours
+            lastBackup: null,
+            init: function() {
+                const saved = localStorage.getItem('autoBackup');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    this.enabled = data.enabled;
+                    this.interval = data.interval || 24;
+                    this.lastBackup = data.lastBackup;
+                }
+            },
+            save: function() {
+                localStorage.setItem('autoBackup', JSON.stringify({
+                    enabled: this.enabled,
+                    interval: this.interval,
+                    lastBackup: this.lastBackup
+                }));
+            },
+            backup: function() {
+                const backup = {
+                    timestamp: new Date().toISOString(),
+                    theme: localStorage.getItem('theme'),
+                    mood: localStorage.getItem('secretaryMood'),
+                    secretaryPos: { x: localStorage.getItem('secretaryPosX'), y: localStorage.getItem('secretaryPosY') },
+                    svgRecords: localStorage.getItem('svgCompareRecords'),
+                    activeTab: localStorage.getItem('activeTab')
+                };
+                localStorage.setItem('vcbackup_' + Date.now(), JSON.stringify(backup));
+                this.lastBackup = new Date().toISOString();
+                this.save();
+                return backup;
+            },
+            restore: function(timestamp) {
+                const data = localStorage.getItem('vcbackup_' + timestamp);
+                if (data) {
+                    const backup = JSON.parse(data);
+                    if (backup.theme) localStorage.setItem('theme', backup.theme);
+                    if (backup.mood) localStorage.setItem('secretaryMood', backup.mood);
+                    if (backup.secretaryPos) {
+                        localStorage.setItem('secretaryPosX', backup.secretaryPos.x);
+                        localStorage.setItem('secretaryPosY', backup.secretaryPos.y);
+                    }
+                    if (backup.svgRecords) localStorage.setItem('svgCompareRecords', backup.svgRecords);
+                    if (backup.activeTab) localStorage.setItem('activeTab', backup.activeTab);
+                    return true;
+                }
+                return false;
+            }
+        };
+
+        // ===============================
+        // 4. STATISTICS CHARTS
+        // ===============================
+        function showStatistics() {
+            const svgRecords = ImageCompareRecord.getAll('all');
+            let total = 0, passed = 0;
+            Object.values(svgRecords).forEach(q => {
+                total++;
+                if (q.passed) passed++;
+            });
+            
+            const html = '<div style="padding:20px;background:rgba(255,255,255,0.1);border-radius:10px;margin:10px 0;">' +
+                '<h3 style="color:var(--japanese-red);margin-bottom:15px;">📊 統計數據</h3>' +
+                '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:15px;">' +
+                '<div style="background:rgba(0,0,0,0.2);padding:15px;border-radius:8px;text-align:center;">' +
+                '<div style="font-size:2em;font-weight:bold;">' + total + '</div>' +
+                '<div style="color:var(--text-secondary);">總題目數</div></div>' +
+                '<div style="background:rgba(0,0,0,0.2);padding:15px;border-radius:8px;text-align:center;">' +
+                '<div style="font-size:2em;font-weight:bold;color:#4caf50;">' + passed + '</div>' +
+                '<div style="color:var(--text-secondary);">通過數</div></div>' +
+                '<div style="background:rgba(0,0,0,0.2);padding:15px;border-radius:8px;text-align:center;">' +
+                '<div style="font-size:2em;font-weight:bold;color:#f44336;">' + (total-passed) + '</div>' +
+                '<div style="color:var(--text-secondary);">失敗數</div></div>' +
+                '<div style="background:rgba(0,0,0,0.2);padding:15px;border-radius:8px;text-align:center;">' +
+                '<div style="font-size:2em;font-weight:bold;">' + (total ? Math.round(passed*100/total) : 0) + '%</div>' +
+                '<div style="color:var(--text-secondary);">通過率</div></div>' +
+                '</div></div>';
+            
+            document.getElementById('detailDesc').innerHTML += html;
+        }
+
+        // ===============================
+        // 5. CUSTOM THEMES
+        // ===============================
+        const CustomThemes = {
+            themes: {
+                'default-dark': { bg: '#1a1a2e', accent: '#e94560', text: '#eaeaea' },
+                'default-light': { bg: '#f5f5f5', accent: '#3498db', text: '#2c3e50' },
+                'ocean': { bg: '#0a1929', accent: '#64ffda', text: '#ccd6f6' },
+                'forest': { bg: '#1b2a1f', accent: '#98fb98', text: '#d4f5d4' },
+                'sunset': { bg: '#2d1b2e', accent: '#ff6b6b', text: '#ffeaa7' }
+            },
+            apply: function(themeName) {
+                const theme = this.themes[themeName];
+                if (theme) {
+                    document.documentElement.style.setProperty('--bg-dark', theme.bg);
+                    document.documentElement.style.setProperty('--japanese-red', theme.accent);
+                    document.documentElement.style.setProperty('--text-primary', theme.text);
+                    localStorage.setItem('customTheme', themeName);
+                }
+            },
+            list: function() {
+                return Object.keys(this.themes);
+            }
+        };
+
+        // ===============================
+        // 6. NOTIFICATION SUBSCRIPTION
+        // ===============================
+        const NotificationSubscription = {
+            topics: ['project-update', 'task-complete', 'system-alert', 'daily-report'],
+            subscriptions: [],
+            subscribe: function(topic) {
+                if (!this.subscriptions.includes(topic)) {
+                    this.subscriptions.push(topic);
+                    localStorage.setItem('notifSubs', JSON.stringify(this.subscriptions));
+                }
+            },
+            unsubscribe: function(topic) {
+                this.subscriptions = this.subscriptions.filter(t => t !== topic);
+                localStorage.setItem('notifSubs', JSON.stringify(this.subscriptions));
+            },
+            notify: function(topic, message) {
+                if (this.subscriptions.includes(topic)) {
+                    // Show notification
+                    const notif = document.createElement('div');
+                    notif.style.cssText = 'position:fixed;top:80px;right:20px;background:var(--japanese-red);color:white;padding:15px 20px;border-radius:8px;z-index:9999;animation:slideIn 0.3s;';
+                    notif.innerHTML = '<strong>' + topic + '</strong><br>' + message;
+                    document.body.appendChild(notif);
+                    setTimeout(() => notif.remove(), 5000);
+                }
+            }
+        };
+
+        // ===============================
+        // 7. EXPORT FUNCTION
+        // ===============================
+        function exportProjectReport() {
+            const report = {
+                generated: new Date().toISOString(),
+                project: currentProjectName,
+                theme: localStorage.getItem('theme'),
+                svgRecords: ImageCompareRecord.getAll('all'),
+                backup: AutoBackup.lastBackup
+            };
+            
+            let md = '# 📊 項目報告\n\n';
+            md += '## 基本資訊\n\n';
+            md += '- 項目：' + currentProjectName + '\n';
+            md += '- 生成時間：' + report.generated + '\n';
+            md += '- 主題：' + report.theme + '\n\n';
+            md += '## SVG 比對記錄\n\n';
+            const records = report.svgRecords;
+            for (const [q, data] of Object.entries(records)) {
+                md += '- ' + q + ': ' + (data.passed ? '✅' : '❌') + ' (' + new Date(data.date).toLocaleDateString() + ')\n';
+            }
+            
+            const blob = new Blob([md], {type: 'text/markdown'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'project-report-' + currentProjectName + '-' + new Date().toISOString().slice(0,10) + '.md';
+            a.click();
+        }
+
+        // ===============================
+        // 8. PROJECT SEARCH
+        // ===============================
+        function searchProjects(query) {
+            if (!query) return projects;
+            query = query.toLowerCase();
+            return projects.filter(p => 
+                p.name.toLowerCase().includes(query) ||
+                (p.summary && p.summary.toLowerCase().includes(query))
+            );
+        }
+
+        // ===============================
+        // 9. PERMISSION MANAGEMENT (Simplified)
+        // ===============================
+        const PermissionManager = {
+            roles: { admin: ['read','write','delete','export'], user: ['read'], guest: ['read'] },
+            currentRole: 'user',
+            check: function(action) {
+                return this.roles[this.currentRole]?.includes(action) || false;
+            },
+            setRole: function(role) {
+                if (this.roles[role]) {
+                    this.currentRole = role;
+                    localStorage.setItem('userRole', role);
+                }
+            }
+        };
+
+        // ===============================
+        // 10. API INTEGRATION
+        // ===============================
+        const APIIntegration = {
+            endpoints: {
+                github: 'https://api.github.com',
+                weather: 'https://wttr.in'
+            },
+            async fetch(url, options={}) {
+                const cacheKey = 'api_' + btoa(url).slice(0,20);
+                const cached = CacheManager.get(cacheKey);
+                if (cached) return cached;
+                
+                try {
+                    const response = await fetch(url, options);
+                    const data = await response.json();
+                    CacheManager.set(cacheKey, data, 1); // 1 hour cache
+                    return data;
+                } catch(e) {
+                    console.error('API Error:', e);
+                    return null;
+                }
+            }
+        };
+
+        // ===============================
+        // LOAD ENHANCED FEATURES
+        // ===============================
+        AutoBackup.init();
+        const savedSubs = localStorage.getItem('notifSubs');
+        if (savedSubs) NotificationSubscription.subscriptions = JSON.parse(savedSubs);
+        PermissionManager.setRole(localStorage.getItem('userRole') || 'user');
+
         // Load saved theme (Enhanced with localStorage)
         function loadTheme() {
             const savedTheme = localStorage.getItem('theme') || 'dark';
