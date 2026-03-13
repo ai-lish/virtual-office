@@ -1700,12 +1700,16 @@
         // RENDER FUNCTIONS
         // ===============================
         function renderProjects() {
-            // Sort projects by last update (simulated - most recently expanded/shown first)
+            // Sort projects by last timeline date (most recent first)
             var sortedProjects = [...projects].sort(function(a, b) {
-                // Custom sort: move virtual-office to top, then by name
+                // Get last timeline date for each project
+                var dateA = a.timeline && a.timeline.length > 0 ? new Date(a.timeline[0].date) : new Date('2026-01-01');
+                var dateB = b.timeline && b.timeline.length > 0 ? new Date(b.timeline[0].date) : new Date('2026-01-01');
+                
+                // Custom sort: move virtual-office to top, then by last update (descending)
                 if (a.name === '虛擬辦公室') return -1;
                 if (b.name === '虛擬辦公室') return 1;
-                return a.name.localeCompare(b.name);
+                return dateB - dateA;
             });
             
             projectListEl.innerHTML = sortedProjects.map((p, i) => `
@@ -1977,12 +1981,26 @@
         }
 
         // ===============================
-        // SECRETARY INFO
+        // SECRETARY INFO WITH WEATHER & MOOD
         // ===============================
-        function showSecretaryInfo() {
+        let currentMood = '😐';
+        
+        async function showSecretaryInfo() {
             var now = new Date();
             var hour = now.getHours();
             var date = now.getDate();
+            
+            // Fetch weather
+            let weatherInfo = '';
+            try {
+                const weatherResponse = await fetch('https://wttr.in/Hong+Kong?format=%c%t&lang=zh');
+                if (weatherResponse.ok) {
+                    const weatherText = await weatherResponse.text();
+                    weatherInfo = ` ${weatherText}`.trim();
+                }
+            } catch (e) {
+                weatherInfo = ' 香港';
+            }
             
             // Dynamic suggestions based on time
             var suggestions = [];
@@ -2079,9 +2097,18 @@
                 msg += (i + 1) + '. ' + suggestions[i] + '\n';
             }
             
-            msg += '\n點擊上方項目查看詳情！';
+            msg += '\n🌀 當前天氣' + weatherInfo + ' | 心情：' + currentMood;
+            msg += '\n\n點擊上方項目查看詳情！';
             
-            alert(msg);
+            // Mood selection prompt
+            const moodPrompt = '\n\n選擇心情：😐一般 😊開心 😢忙碌 💪高效';
+            const moodChoice = prompt(msg + moodPrompt, currentMood);
+            if (moodChoice && ['😐', '😊', '😢', '💪'].includes(moodChoice)) {
+                currentMood = moodChoice;
+                localStorage.setItem('secretaryMood', currentMood);
+            } else if (moodChoice) {
+                currentMood = '😐';
+            }
         }
 
         function updateSecretaryFloatingStatus() {
@@ -2267,7 +2294,9 @@
             '🔄 同步系統狀態'
         ];
 
-        function updateWorkingStatus() {
+        let cachedStatus = null;
+        
+        async function updateWorkingStatus() {
             const bubble = document.getElementById('workingBubble');
             const text = document.getElementById('workingText');
             const hour = new Date().getHours();
@@ -2277,9 +2306,27 @@
                 bubble.style.display = 'none';
             } else {
                 bubble.style.display = 'flex';
-                // Rotate through tasks
-                const taskIndex = Math.floor(Date.now() / 10000) % workingTasks.length;
-                text.textContent = workingTasks[taskIndex];
+                
+                // Try to load actual task from status.json
+                try {
+                    if (!cachedStatus || Date.now() - cachedStatus.timestamp > 30000) {
+                        const response = await fetch('status.json');
+                        cachedStatus = await response.json();
+                    }
+                    
+                    // Find active agent task
+                    const activeAgent = cachedStatus.agents.find(a => a.status === 'busy' || a.status === 'active');
+                    if (activeAgent && activeAgent.task) {
+                        text.textContent = activeAgent.task;
+                    } else {
+                        const taskIndex = Math.floor(Date.now() / 10000) % workingTasks.length;
+                        text.textContent = workingTasks[taskIndex];
+                    }
+                } catch (e) {
+                    // Fallback to rotating tasks
+                    const taskIndex = Math.floor(Date.now() / 10000) % workingTasks.length;
+                    text.textContent = workingTasks[taskIndex];
+                }
             }
         }
 
@@ -2350,6 +2397,9 @@
         // INITIALIZE
         // ===============================
         function init() {
+            // Load saved mood
+            currentMood = localStorage.getItem('secretaryMood') || '😐';
+            
             renderProjects();
             loadProjectRecords();
             loadProjectTimeline();
