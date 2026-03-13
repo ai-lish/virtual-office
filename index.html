@@ -2099,25 +2099,28 @@
         // PROJECT TIMELINE MINI
         // ===============================
         const projectTimeline = [
-            { project: '少康教學網站', status: 'completed', date: '03-08' },
-            { project: '全方位學習日', status: 'completed', date: '03-10' },
-            { project: '欠交功課系統', status: 'completed', date: '03-11' },
-            { project: 'S1考試專區', status: 'in-progress', date: '03-12' },
-            { project: '虛擬辦公室', status: 'in-progress', date: '03-12' },
-            { project: '數學故事系統', status: 'pending', date: '待定' }
+            { project: '少康教學網站', status: 'completed', date: '03-08', progress: 100 },
+            { project: '全方位學習日', status: 'completed', date: '03-10', progress: 100 },
+            { project: '欠交功課系統', status: 'completed', date: '03-11', progress: 100 },
+            { project: 'S1考試專區', status: 'in-progress', date: '03-12', progress: 85 },
+            { project: '虛擬辦公室', status: 'in-progress', date: '03-12', progress: 64 },
+            { project: '數學故事系統', status: 'pending', date: '待定', progress: 0 }
         ];
 
         function renderTimelineMini() {
             const container = document.getElementById('timelineMini');
             if (!container) return;
             
-            container.innerHTML = projectTimeline.map(item => `
+            container.innerHTML = projectTimeline.map(item => {
+                var progress = item.progress || 0;
+                var progressColor = progress >= 100 ? '#27ae60' : progress >= 50 ? '#f39c12' : '#e74c3c';
+                return `
                 <div class="timeline-item-mini" onclick="showProjectByName('${item.project}')">
                     <span class="timeline-dot ${item.status === 'completed' ? 'completed' : item.status === 'pending' ? 'pending' : ''}"></span>
                     <span style="flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.project}</span>
-                    <span style="color:var(--text-secondary);font-size:0.7rem;">${item.date}</span>
+                    <span style="color:${progressColor};font-size:0.7rem;margin-left:5px;">${progress}%</span>
                 </div>
-            `).join('');
+            `}).join('');
         }
 
         function showProjectByName(name) {
@@ -2146,7 +2149,24 @@
             
             const hour = new Date().getHours();
             
-            container.innerHTML = workSchedule.map((item, index) => {
+            // Generate timeline visualization
+            var timelineHtml = '<div style="margin-bottom:15px;padding:10px;background:rgba(255,255,255,0.05);border-radius:8px;">';
+            timelineHtml += '<div style="font-size:0.8rem;color:var(--japanese-red);margin-bottom:8px;">📅 今日報告時間線</div>';
+            timelineHtml += '<div style="display:flex;justify-content:space-between;position:relative;">';
+            
+            var reportTimes = [4, 8, 13, 18, 23];
+            var reportLabels = ['04:00', '08:00', '13:00', '18:00', '23:00'];
+            
+            reportTimes.forEach((t, i) => {
+                var isPast = t < hour;
+                var isNext = (i > 0 && reportTimes[i-1] <= hour && t > hour) || (i === 0 && hour < 4);
+                var status = isPast ? '✅' : (isNext ? '🔄' : '⏳');
+                timelineHtml += '<div style="text-align:center;"><div style="font-size:1.2rem;">' + status + '</div><div style="font-size:0.7rem;color:var(--text-secondary);">' + reportLabels[i] + '</div></div>';
+            });
+            
+            timelineHtml += '</div></div>';
+            
+            container.innerHTML = timelineHtml + workSchedule.map((item, index) => {
                 const itemHour = parseInt(item.time.split(':')[0]);
                 const isPast = itemHour < hour;
                 const isCurrent = itemHour <= hour && itemHour + 4 > hour;
