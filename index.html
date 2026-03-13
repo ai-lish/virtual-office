@@ -1699,9 +1699,11 @@
         // ===============================
         // RENDER FUNCTIONS
         // ===============================
+        let sortedProjects = [];
+        
         function renderProjects() {
             // Sort projects by last timeline date (most recent first)
-            var sortedProjects = [...projects].sort(function(a, b) {
+            sortedProjects = [...projects].sort(function(a, b) {
                 // Get last timeline date for each project
                 var dateA = a.timeline && a.timeline.length > 0 ? new Date(a.timeline[0].date) : new Date('2026-01-01');
                 var dateB = b.timeline && b.timeline.length > 0 ? new Date(b.timeline[0].date) : new Date('2026-01-01');
@@ -1809,7 +1811,7 @@
         }
 
         function showProjectDetail(index) {
-            const p = projects[index];
+            const p = sortedProjects[index];
             
             document.getElementById('detailTitle').textContent = p.name;
             document.getElementById('detailStatus').textContent = p.statusText;

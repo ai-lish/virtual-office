@@ -1,33 +1,40 @@
 {
-  "lastSync": "2026-03-12T15:00:05.900Z",
+  "lastSync": "2026-03-13T15:00:00.000Z",
   "projects": {
     "全方位學習日": {
-      "status": "pending",
-      "summary": "記錄中...",
-      "next": [
-        "等指示"
-      ]
+      "status": "completed",
+      "summary": "S1全方位學習日網站，包含首頁/老師版，活動日期：2026年3月26日",
+      "next": ["已完成"]
     },
     "少康教學網站": {
       "status": "pending",
-      "summary": "記錄中...",
-      "next": [
-        "等指示"
-      ]
+      "summary": "教學資源網站，包含數學教材、練習題及教學影片連結",
+      "next": ["等指示"]
     },
     "虛擬辦公室": {
-      "status": "pending",
-      "summary": "記錄中...",
-      "next": [
-        "等指示"
-      ]
+      "status": "active",
+      "summary": "實時監控系統，展示AI助手工作狀態",
+      "next": ["持續優化中"]
     },
     "晞霖學習網站": {
+      "status": "completed",
+      "summary": "幼兒學習網站，語文/數學分類、寫字、畫畫、大與小、男女配對",
+      "next": ["已完成"]
+    },
+    "數學週 2026": {
       "status": "pending",
-      "summary": "記錄中...",
-      "next": [
-        "等指示"
-      ]
+      "summary": "Rummikub遊戲策劃及比賽系統",
+      "next": ["等指示"]
+    },
+    "教師發展日": {
+      "status": "completed",
+      "summary": "教師專業發展日活動網站",
+      "next": ["已完成"]
+    },
+    "欠交功課系統": {
+      "status": "pending",
+      "summary": "自動/手動當值編排，8條規則驗證",
+      "next": ["等指示"]
     }
   }
 }
