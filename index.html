@@ -1647,9 +1647,23 @@
 
         // Load project timeline for timeline display
         async function loadProjectTimeline() {
+            // Check localStorage cache first
+            var cached = localStorage.getItem('projectTimelineCache');
+            var cacheTime = localStorage.getItem('projectTimelineCacheTime');
+            var now = Date.now();
+            
+            if (cached && cacheTime && (now - parseInt(cacheTime)) < 3600000) { // 1 hour cache
+                projectTimeline = JSON.parse(cached);
+                renderTimelineMini();
+                return;
+            }
+            
             try {
                 const response = await fetch('project-timeline.json');
                 projectTimeline = await response.json();
+                // Save to cache
+                localStorage.setItem('projectTimelineCache', JSON.stringify(projectTimeline));
+                localStorage.setItem('projectTimelineCacheTime', now.toString());
             } catch (e) {
                 console.log('No project timeline found');
                 projectTimeline = null;
@@ -2696,6 +2710,9 @@
                 var lastTest = testStatus[currentProjectName];
                 testEl.innerHTML += '<div style="margin-top:15px;padding:12px;background:rgba(188,0,45,0.2);border-radius:8px;border-left:3px solid var(--japanese-red);"><div style="color:var(--japanese-red);font-weight:bold;margin-bottom:5px;">🧪 最近測試</div><div style="font-size:0.9em;">' + lastTest.date + '</div></div>';
             }
+            
+            // Quick action buttons
+            testEl.innerHTML += '<div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;"><button onclick="generateReadmeSuggestion()" style="padding:10px 15px;background:var(--japanese-red);color:white;border:none;border-radius:5px;cursor:pointer;">📝 生成README範本</button><button onclick="showQualityReport()" style="padding:10px 15px;background:#2c3e50;color:white;border:none;border-radius:5px;cursor:pointer;">📊 質量報告</button></div>';
         }
 
         // Update manual tab visibility
@@ -2854,6 +2871,67 @@
                 isDragging = false;
                 secretary.style.animation = 'float 3s ease-in-out infinite';
             }
+        }
+        
+        // 8. Generate README suggestion
+        function generateReadmeSuggestion() {
+            var project = currentProjectName;
+            if (!project) {
+                alert('請先選擇一個項目');
+                return;
+            }
+            
+            var suggestions = {
+                'ai-learning': '# 🎓 AI Learning - 少康教學網站\n\n## 📁 檔案結構\n\n```\nai-learning/\n├── index.html              # 主頁\n├── S1Ch1.html            # Ch1 基礎運算\n├── exam-2025-26-s1-term2.html  # 考試專區\n├── README.md\n└── TEST.md\n```\n\n## 🚀 使用方法\n\n1. 打開網站\n2. 選擇課題\n3. 開始學習\n\n## 📋 測試\n\n運行自動化測試...',
+                'virtual-office': '# 🧑‍💻 虛擬辦公室\n\n## 功能\n\n- 項目列表\n- 工作排程\n- 書記Agent\n\n## 📊 項目狀態\n\n| 項目 | 狀態 |\n|------|------|\n| 考試卡片 | ✅ |\n| SVG比對 | ✅ |',
+                'default': '# 📝 ' + project + '\n\n## 項目描述\n\n' + (projectRecords && projectRecords.projects && projectRecords.projects[project] ? projectRecords.projects[project].summary || '' : '')
+            };
+            
+            var content = suggestions[project] || suggestions['default'];
+            
+            var blob = new Blob([content], {type: 'text/markdown'});
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'README.md';
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            alert('✅ README.md 範本已下載！\n\n請根據項目實際內容修改。');
+        }
+        
+        // 9. Quality Report - Weekly Summary
+        function showQualityReport() {
+            var svgData = JSON.parse(localStorage.getItem('svgCompareStatus') || '{}');
+            var testData = JSON.parse(localStorage.getItem('testStatus') || '{}');
+            
+            var report = '# 📊 質量報告\n\n';
+            report += '生成時間：' + new Date().toLocaleString('zh-HK') + '\n\n';
+            report += '## 🖼️ SVG 比對狀態\n\n';
+            
+            for (var proj in svgData) {
+                report += '### ' + proj + '\n';
+                var passed = 0, failed = 0;
+                for (var q in svgData[proj]) {
+                    if (svgData[proj][q].passed) passed++;
+                    else failed++;
+                }
+                report += '- 通過：' + passed + '\n';
+                report += '- 失敗：' + failed + '\n\n';
+            }
+            
+            report += '## 🧪 測試記錄\n\n';
+            for (var proj in testData) {
+                report += '- ' + proj + '：' + testData[proj].date + '\n';
+            }
+            
+            var blob = new Blob([report], {type: 'text/markdown'});
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'quality-report.md';
+            a.click();
+            URL.revokeObjectURL(url);
         }
 
         init();
