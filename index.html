@@ -3070,7 +3070,7 @@
         // Modify showProjectDetail
         var _showProjectDetail = showProjectDetail;
         showProjectDetail = function(idx) {
-            var p = projects[idx];
+            var p = sortedProjects[idx];  // Use sortedProjects, not projects!
             currentProjectName = p.name;
             _showProjectDetail(idx);
             updateManualTabVisibility();
