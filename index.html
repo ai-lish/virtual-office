@@ -2346,12 +2346,89 @@
         };
 
         // ===============================
+        // 11. TASK COUNTDOWN IN BUBBLE
+        // ===============================
+        const TaskCountdown = {
+            currentTask: null,
+            startTime: null,
+            timer: null,
+            tasks: [
+                { name: '生成報告', duration: 30 },
+                { name: '更新項目', duration: 45 },
+                { name: '同步數據', duration: 20 },
+                { name: '處理請求', duration: 15 }
+            ],
+            start: function(taskName, duration) {
+                this.currentTask = taskName;
+                this.startTime = Date.now();
+                this.duration = duration * 1000;
+                this.update();
+                this.timer = setInterval(() => this.update(), 1000);
+            },
+            update: function() {
+                const elapsed = Date.now() - this.startTime;
+                const remaining = Math.max(0, Math.ceil((this.duration - elapsed) / 1000));
+                const bubble = document.getElementById('taskBubble');
+                if (bubble) {
+                    const percent = Math.min(100, (elapsed / this.duration) * 100);
+                    bubble.innerHTML = '<div style="font-size:12px;margin-bottom:5px;">' + this.currentTask + '</div>' +
+                        '<div style="font-size:14px;font-weight:bold;">' + remaining + '秒</div>' +
+                        '<div style="width:100%;height:4px;background:rgba(255,255,255,0.2);margin-top:5px;border-radius:2px;">' +
+                        '<div style="width:' + percent + '%;height:100%;background:var(--japanese-red);border-radius:2px;transition:width 1s;"></div></div>';
+                }
+                if (remaining <= 0) {
+                    this.stop();
+                }
+            },
+            stop: function() {
+                if (this.timer) {
+                    clearInterval(this.timer);
+                    this.timer = null;
+                }
+            },
+            random: function() {
+                const task = this.tasks[Math.floor(Math.random() * this.tasks.length)];
+                this.start(task.name, task.duration);
+            }
+        };
+
+        // ===============================
+        // 12. SVG DARK MODE OPTIMIZATION
+        // ===============================
+        function applySvgDarkMode() {
+            const style = document.createElement('style');
+            style.id = 'svg-dark-mode';
+            style.textContent = `
+                .light-theme svg text { fill: #333333; }
+                .light-theme svg line, 
+                .light-theme svg polygon, 
+                .light-theme svg path,
+                .light-theme svg rect,
+                .light-theme svg circle { stroke: #333333; }
+                .light-theme svg[fill="none"] { stroke: #333333; }
+                .light-theme svg text { color: #333333; }
+                body:not(.light-theme) svg text { fill: #e0e0e0; }
+                body:not(.light-theme) svg line, 
+                body:not(.light-theme) svg polygon, 
+                body:not(.light-theme) svg path,
+                body:not(.light-theme) svg rect,
+                body:not(.light-theme) svg circle { stroke: #ffffff; }
+                body:not(.light-theme) svg[fill="none"] { stroke: #ffffff; }
+                body:not(.light-theme) svg text { color: #e0e0e0; }
+            `;
+            document.head.appendChild(style);
+        }
+
+        // ===============================
         // LOAD ENHANCED FEATURES
         // ===============================
         AutoBackup.init();
         const savedSubs = localStorage.getItem('notifSubs');
         if (savedSubs) NotificationSubscription.subscriptions = JSON.parse(savedSubs);
         PermissionManager.setRole(localStorage.getItem('userRole') || 'user');
+        
+        // Apply SVG dark mode optimization
+        applySvgDarkMode();
 
         // Load saved theme (Enhanced with localStorage)
         function loadTheme() {
