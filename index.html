@@ -1201,6 +1201,264 @@
         .svg-container svg {
             filter: brightness(1);
         }
+
+        /* ===============================
+           10. WORKING BUBBLE - Elastic Animation
+           =============================== */
+        .working-bubble {
+            animation: elastic-pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes elastic-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .working-bubble.celebrate {
+            animation: celebrate 0.5s ease-in-out;
+        }
+        
+        @keyframes celebrate {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* ===============================
+           11. SECRETARY MOOD EXPRESSIONS
+           =============================== */
+        .secretary-mood {
+            position: absolute;
+            font-size: 1.2rem;
+            top: -20px;
+            right: -10px;
+            transition: transform 0.3s ease;
+        }
+        
+        .secretary-mood.thinking { transform: rotate(-15deg); }
+        .secretary-mood.happy { transform: rotate(10deg); }
+        .secretary-mood.busy { transform: rotate(-5deg) scale(1.1); }
+        .secretary-mood.rest { transform: rotate(5deg); }
+        .secretary-mood.surprised { transform: scale(1.2); }
+
+        /* ===============================
+           12. NOTIFICATION CLASSIFICATION
+           =============================== */
+        .notification-category {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            margin-right: 8px;
+        }
+        
+        .notification-category.system { background: #2196F3; color: white; }
+        .notification-category.task { background: #4CAF50; color: white; }
+        .notification-category.reminder { background: #FF9800; color: white; }
+        .notification-category.error { background: #F44336; color: white; }
+
+        /* ===============================
+           13. PROJECT TIMELINE DRAG & DROP
+           =============================== */
+        .timeline-item.sortable {
+            cursor: grab;
+        }
+        
+        .timeline-item.sortable:active {
+            cursor: grabbing;
+        }
+        
+        .timeline-item.dragging {
+            opacity: 0.5;
+            transform: scale(1.02);
+        }
+
+        /* ===============================
+           14. WORK SCHEDULE GANTT
+           =============================== */
+        .gantt-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        
+        .gantt-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .gantt-label {
+            width: 80px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .gantt-bar-container {
+            flex: 1;
+            height: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .gantt-bar {
+            position: absolute;
+            height: 100%;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .gantt-bar.today {
+            background: linear-gradient(90deg, #bc002d, #ff1744);
+        }
+        
+        .gantt-bar.future {
+            background: linear-gradient(90deg, #2196F3, #64B5F6);
+        }
+        
+        .gantt-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-light);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+        }
+        
+        .gantt-bar:hover .gantt-tooltip {
+            opacity: 1;
+        }
+
+        /* ===============================
+           15. DATA EXPORT
+           =============================== */
+        .export-buttons {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        
+        .export-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+        
+        .export-btn.json { background: #2196F3; color: white; }
+        .export-btn.csv { background: #4CAF50; color: white; }
+        .export-btn:hover { transform: translateY(-2px); }
+
+        /* ===============================
+           16. PROJECT SEARCH
+           =============================== */
+        .search-filter-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .search-input {
+            flex: 1;
+            min-width: 150px;
+            padding: 8px 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
+            background: rgba(255,255,255,0.05);
+            color: white;
+            font-size: 0.9rem;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--japanese-red);
+        }
+        
+        .filter-select {
+            padding: 8px 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
+            background: rgba(255,255,255,0.05);
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        /* ===============================
+           17. PERMISSION MANAGEMENT
+           =============================== */
+        .permission-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            margin-left: 8px;
+        }
+        
+        .permission-badge.admin { background: #9C27B0; color: white; }
+        .permission-badge.editor { background: #2196F3; color: white; }
+        .permission-badge.viewer { background: #607D8B; color: white; }
+
+        /* ===============================
+           18. STATISTICS INTERACTIVE
+           =============================== */
+        .stats-filter {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+        
+        .stats-filter label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        .stats-checkbox {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .stats-checkbox label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        /* ===============================
+           19. API MANAGER
+           =============================== */
+        .api-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+        }
+        
+        .api-status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        
+        .api-status-dot.online { background: #4CAF50; }
+        .api-status-dot.offline { background: #F44336; }
+        .api-status-dot.pending { background: #FF9800; }
+
+
     </style>
 </head>
 <body>
@@ -3733,6 +3991,290 @@
         }
 
         init();
+
+        // ===============================
+        // 10 NEW FEATURES IMPLEMENTATION
+        // ===============================
+        
+        // Feature 1: Secretary Mood Expressions
+        const secretaryMoods = ['🧐', '😊', '💪', '😴', '😲'];
+        const moodClasses = ['thinking', 'happy', 'busy', 'rest', 'surprised'];
+        
+        function getSecretaryMood() {
+            const hour = new Date().getHours();
+            if (hour >= 23 || hour < 6) return { emoji: '😴', class: 'rest' };
+            if (hour >= 18) return { emoji: '😊', class: 'happy' };
+            if (hour >= 12) return { emoji: '💪', class: 'busy' };
+            if (hour >= 9) return { emoji: '🧐', class: 'thinking' };
+            return { emoji: '😊', class: 'happy' };
+        }
+        
+        function updateSecretaryMood() {
+            const mood = getSecretaryMood();
+            const floatingSec = document.getElementById('floatingSecretary');
+            if (floatingSec) {
+                let moodEl = floatingSec.querySelector('.secretary-mood');
+                if (!moodEl) {
+                    moodEl = document.createElement('span');
+                    moodEl.className = 'secretary-mood';
+                    floatingSec.style.position = 'relative';
+                    floatingSec.appendChild(moodEl);
+                }
+                moodEl.textContent = mood.emoji;
+                moodEl.className = 'secretary-mood ' + mood.class;
+            }
+        }
+        
+        // Feature 2: Working Bubble Celebrate Animation
+        function celebrateTask() {
+            const bubble = document.getElementById('workingBubble');
+            if (bubble) {
+                bubble.classList.add('celebrate');
+                setTimeout(() => bubble.classList.remove('celebrate'), 500);
+            }
+        }
+        
+        // Feature 3: Notification Classification
+        const notificationCategories = ['system', 'task', 'reminder', 'error'];
+        
+        function addNotification(title, message, category = 'system') {
+            const list = document.getElementById('notificationList');
+            if (!list) return;
+            
+            const item = document.createElement('div');
+            item.className = 'notification-item unread';
+            item.innerHTML = `
+                <span class="notification-category ${category}">${category}</span>
+                <div class="notification-title">${title}</div>
+                <div class="notification-text">${message}</div>
+                <div class="notification-time">剛剛</div>
+            `;
+            item.onclick = function() {
+                this.classList.remove('unread');
+                updateBadge();
+            };
+            
+            const badge = document.getElementById('notificationBadge');
+            const count = parseInt(badge?.textContent || '0') + 1;
+            badge.textContent = count;
+            badge.style.display = 'inline';
+            
+            list.insertBefore(item, list.firstChild);
+        }
+        
+        function updateBadge() {
+            const list = document.getElementById('notificationList');
+            if (!list) return;
+            const unread = list.querySelectorAll('.unread').length;
+            const badge = document.getElementById('notificationBadge');
+            if (badge) {
+                badge.textContent = unread;
+                badge.style.display = unread > 0 ? 'inline' : 'none';
+            }
+        }
+        
+        // Feature 4: Project Timeline Drag & Drop
+        function initDragDrop() {
+            const timeline = document.getElementById('detailTimeline');
+            if (!timeline) return;
+            
+            const items = timeline.querySelectorAll('.timeline-item');
+            items.forEach(item => {
+                item.classList.add('sortable');
+                item.draggable = true;
+                
+                item.addEventListener('dragstart', function(e) {
+                    this.classList.add('dragging');
+                });
+                
+                item.addEventListener('dragend', function(e) {
+                    this.classList.remove('dragging');
+                    saveTimelineOrder();
+                });
+            });
+        }
+        
+        function saveTimelineOrder() {
+            const timeline = document.getElementById('detailTimeline');
+            if (!timeline) return;
+            
+            const order = Array.from(timeline.querySelectorAll('.timeline-item'))
+                .map(item => item.dataset.milestone);
+            localStorage.setItem('timelineOrder', JSON.stringify(order));
+        }
+        
+        function loadTimelineOrder() {
+            const order = JSON.parse(localStorage.getItem('timelineOrder') || '[]');
+            const timeline = document.getElementById('detailTimeline');
+            if (!timeline || order.length === 0) return;
+            
+            order.forEach(milestone => {
+                const item = timeline.querySelector(`[data-milestone="${milestone}"]`);
+                if (item) timeline.appendChild(item);
+            });
+        }
+        
+        // Feature 5: Gantt Chart for Work Schedule
+        function renderGanttChart(scheduleData) {
+            const container = document.getElementById('detailTimeline');
+            if (!container) return;
+            
+            const today = new Date();
+            const ganttHTML = scheduleData.map(task => {
+                const start = new Date(task.start);
+                const end = new Date(task.end);
+                const startPercent = Math.max(0, (start - today) / (30 * 24 * 60 * 60 * 1000) * 100);
+                const width = Math.min(100 - startPercent, (end - start) / (30 * 24 * 60 * 60 * 1000) * 100);
+                const isToday = today >= start && today <= end;
+                
+                return `
+                    <div class="gantt-row">
+                        <div class="gantt-label">${task.name}</div>
+                        <div class="gantt-bar-container">
+                            <div class="gantt-bar ${isToday ? 'today' : 'future'}" 
+                                 style="left: ${startPercent}%; width: ${width}%;">
+                                <div class="gantt-tooltip">${task.start} - ${task.end}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            container.innerHTML = '<div class="gantt-chart">' + ganttHTML + '</div>';
+        }
+        
+        // Feature 6: Data Export (JSON/CSV)
+        function exportData(format) {
+            if (!selectedProject) return;
+            
+            let data, filename, type;
+            
+            if (format === 'json') {
+                data = JSON.stringify(selectedProject, null, 2);
+                filename = selectedProject.name + '.json';
+                type = 'application/json';
+            } else if (format === 'csv') {
+                const headers = ['項目', '狀態', '開始日期', '目標完成', '網站'];
+                const rows = [headers];
+                rows.push([
+                    selectedProject.name,
+                    selectedProject.status,
+                    selectedProject.start || '',
+                    selectedProject.target || '',
+                    selectedProject.link || ''
+                ]);
+                data = rows.map(r => r.join(',')).join('\n');
+                filename = selectedProject.name + '.csv';
+                type = 'text/csv';
+            }
+            
+            const blob = new Blob([data], { type });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        // Feature 7: Project Search with Filters
+        function filterProjects(searchTerm, statusFilter) {
+            const cards = document.querySelectorAll('.project-card');
+            cards.forEach(card => {
+                const name = card.querySelector('.project-name')?.textContent?.toLowerCase() || '';
+                const status = card.dataset.status || '';
+                const matchesSearch = name.includes(searchTerm.toLowerCase());
+                const matchesStatus = !statusFilter || status === statusFilter;
+                card.style.display = matchesSearch && matchesStatus ? 'block' : 'none';
+            });
+            
+            // Update count
+            const visible = document.querySelectorAll('.project-card[style*="block"], .project-card:not([style*="display"])').length;
+            document.getElementById('projectCount').textContent = visible;
+        }
+        
+        // Feature 8: Permission Management
+        const userRoles = {
+            admin: ['read', 'write', 'delete', 'export'],
+            editor: ['read', 'write', 'export'],
+            viewer: ['read']
+        };
+        
+        function getUserRole() {
+            return localStorage.getItem('userRole') || 'viewer';
+        }
+        
+        function setUserRole(role) {
+            localStorage.setItem('userRole', role);
+            updatePermissionUI();
+        }
+        
+        function hasPermission(permission) {
+            const role = getUserRole();
+            return userRoles[role]?.includes(permission) || false;
+        }
+        
+        function updatePermissionUI() {
+            const role = getUserRole();
+            document.querySelectorAll('.permission-required').forEach(el => {
+                const required = el.dataset.permission;
+                el.style.display = hasPermission(required) ? 'block' : 'none';
+            });
+        }
+        
+        // Feature 9: API Integration Manager
+        const apiManager = {
+            endpoints: {},
+            
+            register(name, config) {
+                this.endpoints[name] = { ...config, status: 'pending' };
+            },
+            
+            async call(name, options = {}) {
+                const endpoint = this.endpoints[name];
+                if (!endpoint) throw new Error('API not found: ' + name);
+                
+                try {
+                    endpoint.status = 'pending';
+                    const response = await fetch(endpoint.url, options);
+                    endpoint.status = response.ok ? 'online' : 'offline';
+                    return response.json();
+                } catch (e) {
+                    endpoint.status = 'offline';
+                    throw e;
+                }
+            },
+            
+            getStatus(name) {
+                return this.endpoints[name]?.status || 'offline';
+            }
+        };
+        
+        // Feature 10: Statistics Chart Interaction
+        function toggleStatsSeries(seriesId) {
+            const series = document.querySelectorAll('[data-series="' + seriesId + '"]');
+            series.forEach(el => {
+                el.style.display = el.style.display === 'none' ? 'block' : 'none';
+            });
+        }
+        
+        function filterStatsByDateRange(start, end) {
+            console.log('Filtering stats from', start, 'to', end);
+            // Implementation would filter the statistics data
+        }
+
+        // Initialize all features
+        document.addEventListener('DOMContentLoaded', function() {
+            updateSecretaryMood();
+            setInterval(updateSecretaryMood, 60000);
+            loadTimelineOrder();
+            updatePermissionUI();
+            
+            // Add sample notifications
+            addNotification('系統就緒', '虛擬辦公室已啟動', 'system');
+            addNotification('新任務', '10項新功能等待實現', 'task');
+        });
+
     </script>
 </body>
 </html>
