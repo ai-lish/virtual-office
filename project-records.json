@@ -1,33 +1,67 @@
 {
-  "lastSync": "2026-03-13T15:00:05.867Z",
+  "lastSync": "2026-03-15T10:09:00.000Z",
   "projects": {
-    "全方位學習日": {
-      "status": "pending",
-      "summary": "記錄中...",
-      "next": [
-        "等指示"
-      ]
+    "ai-learning": {
+      "status": "active",
+      "summary": "AI 學習網站 + n8n Workflow",
+      "url": "https://github.com/ai-lish/ai-learning",
+      "githubPages": "https://ai-lish.github.io/ai-learning",
+      "hasIndex": true,
+      "next": ["n8n 考試Workflow 測試"]
     },
-    "少康教學網站": {
-      "status": "pending",
-      "summary": "記錄中...",
-      "next": [
-        "等指示"
-      ]
+    "virtual-office": {
+      "status": "completed",
+      "summary": "虛擬辦公室 - 10項功能 100%通過",
+      "url": "https://github.com/ai-lish/virtual-office",
+      "githubPages": "https://ai-lish.github.io/virtual-office",
+      "hasIndex": true,
+      "next": []
     },
-    "虛擬辦公室": {
+    "lsc-ole-s1-2026": {
       "status": "pending",
-      "summary": "記錄中...",
-      "next": [
-        "等指示"
-      ]
+      "summary": "LSC OLE S1 2026",
+      "url": "https://github.com/ai-lish/lsc-ole-s1-2026",
+      "githubPages": "https://ai-lish.github.io/lsc-ole-s1-2026",
+      "hasIndex": true,
+      "next": []
     },
-    "晞霖學習網站": {
+    "homework-duty-system": {
       "status": "pending",
-      "summary": "記錄中...",
-      "next": [
-        "等指示"
-      ]
+      "summary": "功課值班系統",
+      "url": "https://github.com/ai-lish/homework-duty-system",
+      "githubPages": "https://ai-lish.github.io/homework-duty-system",
+      "hasIndex": true,
+      "next": []
+    },
+    "math-week-2026": {
+      "status": "pending",
+      "summary": "數學周 2026",
+      "url": "https://github.com/ai-lish/math-week-2026",
+      "githubPages": "https://ai-lish.github.io/math-week-2026",
+      "hasIndex": true,
+      "next": []
+    },
+    "teacher-dev-day": {
+      "status": "pending",
+      "summary": "教師發展日",
+      "url": "https://github.com/ai-lish/teacher-dev-day",
+      "githubPages": "https://ai-lish.github.io/teacher-dev-day",
+      "hasIndex": true,
+      "next": []
+    },
+    "preschool": {
+      "status": "pending",
+      "summary": "幼兒教育",
+      "url": "https://github.com/ai-lish/preschool",
+      "githubPages": "https://ai-lish.github.io/preschool",
+      "hasIndex": true,
+      "next": []
     }
+  },
+  "githubStatus": {
+    "total": 7,
+    "accessible": 7,
+    "githubPagesEnabled": 0,
+    "lastChecked": "2026-03-15T10:09:00.000Z"
   }
 }
