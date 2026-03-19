@@ -1,5 +1,5 @@
 {
-  "title": "🧑‍💻 虛擬辦公室 - Virtual Office",
+  "title": "🧑💻 虛擬辦公室 - Virtual Office",
   "agents": [
     {
       "id": "main",
@@ -28,6 +28,13 @@
       "sprite": "agent-admin",
       "sessionMatch": "secretary",
       "role": "文書記錄 - 虛擬辦公室既管控"
+    },
+    {
+      "id": "ta",
+      "name": "小詩 🌙",
+      "sprite": "agent-tech",
+      "sessionMatch": "ta",
+      "role": "凌晨自學Agent"
     }
   ]
 }
