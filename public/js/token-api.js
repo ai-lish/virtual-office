@@ -1,134 +1,322 @@
 /**
- * Phase 11: Token API Client
- * JavaScript client for token analysis API
+ * Phase 11: Token API Client (Static JSON Version)
+ * Loads data directly from token-log.json for GitHub Pages compatibility
  */
 
 class TokenAPI {
   constructor(baseUrl = '') {
     this.baseUrl = baseUrl || '';
+    this.data = null;
   }
 
   /**
-   * Make API request
+   * Load data from static JSON file
    */
-  async request(endpoint, params = {}) {
-    const url = new URL(`${this.baseUrl}/api/tokens${endpoint}`, window.location.origin);
-    
-    Object.entries(params).forEach(([key, value]) => {
-      if (value !== undefined && value !== null && value !== '') {
-        url.searchParams.append(key, value);
-      }
-    });
+  async loadData() {
+    if (this.data) return this.data;
     
     try {
-      const response = await fetch(url.toString());
-      const data = await response.json();
-      
+      // Try relative path first (for GitHub Pages)
+      let response = await fetch('token-log.json');
       if (!response.ok) {
-        throw new Error(data.error?.message || `HTTP ${response.status}`);
+        // Try parent path (when accessed from public/pages/)
+        response = await fetch('../token-log.json');
       }
-      
-      return data;
+      if (!response.ok) {
+        throw new Error('Failed to load token-log.json');
+      }
+      this.data = await response.json();
+      return this.data;
     } catch (error) {
-      console.error(`API Error [${endpoint}]:`, error);
+      console.error('Error loading data:', error);
       throw error;
     }
+  }
+
+  /**
+   * Calculate cache hit rate
+   */
+  calculateCacheHitRate(records) {
+    const cacheRead = records
+      .filter(r => r.consumedApi && r.consumedApi.includes('cache-read'))
+      .reduce((sum, r) => sum + (r.totalUsageQuantity || 0), 0);
+    
+    const cacheCreate = records
+      .filter(r => r.consumedApi && r.consumedApi.includes('cache-create'))
+      .reduce((sum, r) => sum + (r.totalUsageQuantity || 0), 0);
+    
+    const total = cacheRead + cacheCreate;
+    
+    return {
+      cacheRead,
+      cacheCreate,
+      hitRate: total > 0 ? cacheRead / total : 0,
+      hitRatePercentage: total > 0 ? `${(cacheRead / total * 100).toFixed(1)}%` : '0.0%',
+      savingsTokens: cacheRead
+    };
+  }
+
+  /**
+   * Calculate model distribution
+   */
+  calculateModelDistribution(records) {
+    const models = {};
+    records.forEach(r => {
+      const model = r.consumedModel || 'unknown';
+      if (!models[model]) {
+        models[model] = { tokens: 0, count: 0, inputTokens: 0, outputTokens: 0 };
+      }
+      models[model].tokens += r.totalUsageQuantity || 0;
+      models[model].count++;
+      models[model].inputTokens += r.inputUsageQuantity || 0;
+      models[model].outputTokens += r.outputUsageQuantity || 0;
+    });
+    
+    const total = Object.values(models).reduce((sum, m) => sum + m.tokens, 0);
+    Object.keys(models).forEach(model => {
+      models[model].percentage = total > 0 ? `${(models[model].tokens / total * 100).toFixed(1)}%` : '0.0%';
+    });
+    
+    return models;
+  }
+
+  /**
+   * Calculate API distribution
+   */
+  calculateApiDistribution(records) {
+    const apis = {};
+    records.forEach(r => {
+      const api = r.consumedApi || 'unknown';
+      if (!apis[api]) {
+        apis[api] = { tokens: 0, count: 0, inputTokens: 0, outputTokens: 0 };
+      }
+      apis[api].tokens += r.totalUsageQuantity || 0;
+      apis[api].count++;
+      apis[api].inputTokens += r.inputUsageQuantity || 0;
+      apis[api].outputTokens += r.outputUsageQuantity || 0;
+    });
+    
+    const total = Object.values(apis).reduce((sum, a) => sum + a.tokens, 0);
+    Object.keys(apis).forEach(api => {
+      apis[api].percentage = total > 0 ? `${(apis[api].tokens / total * 100).toFixed(1)}%` : '0.0%';
+    });
+    
+    return apis;
   }
 
   /**
    * Get summary statistics
    */
   async getSummary(startDate, endDate) {
-    return this.request('/summary', { startDate, endDate });
+    const data = await this.loadData();
+    let records = data.records || [];
+    
+    if (startDate || endDate) {
+      records = records.filter(r => {
+        if (!r.consumptionTime) return false;
+        const date = r.consumptionTime.split('T')[0];
+        if (startDate && date < startDate) return false;
+        if (endDate && date > endDate) return false;
+        return true;
+      });
+    }
+    
+    const totalInput = records.reduce((sum, r) => sum + (r.inputUsageQuantity || 0), 0);
+    const totalOutput = records.reduce((sum, r) => sum + (r.outputUsageQuantity || 0), 0);
+    const totalTokens = records.reduce((sum, r) => sum + (r.totalUsageQuantity || 0), 0);
+    
+    const dates = records.map(r => r.consumptionTime).filter(t => t).map(t => t.split('T')[0]).sort();
+    
+    return {
+      totalRecords: records.length,
+      dateRange: {
+        start: dates[0] || null,
+        end: dates[dates.length - 1] || null
+      },
+      metrics: {
+        totalInputTokens: totalInput,
+        totalOutputTokens: totalOutput,
+        totalTokens: totalTokens,
+        avgTokensPerRecord: records.length > 0 ? Math.round(totalTokens / records.length) : 0
+      },
+      cache: this.calculateCacheHitRate(records),
+      byModel: this.calculateModelDistribution(records),
+      byApi: this.calculateApiDistribution(records)
+    };
   }
 
   /**
    * Get token trends
    */
   async getTrend(period = 'daily', startDate, endDate) {
-    return this.request('/trend', { period, startDate, endDate });
-  }
-
-  /**
-   * Get API distribution
-   */
-  async getByApi(startDate, endDate) {
-    return this.request('/by-api', { startDate, endDate });
-  }
-
-  /**
-   * Get model distribution
-   */
-  async getByModel(startDate, endDate) {
-    return this.request('/by-model', { startDate, endDate });
-  }
-
-  /**
-   * Get cache efficiency
-   */
-  async getCacheEfficiency(startDate, endDate) {
-    return this.request('/cache-efficiency', { startDate, endDate });
-  }
-
-  /**
-   * Get VLM usage
-   */
-  async getVLM() {
-    return this.request('/vlm');
+    const data = await this.loadData();
+    let records = data.records || [];
+    
+    if (startDate || endDate) {
+      records = records.filter(r => {
+        if (!r.consumptionTime) return false;
+        const date = r.consumptionTime.split('T')[0];
+        if (startDate && date < startDate) return false;
+        if (endDate && date > endDate) return false;
+        return true;
+      });
+    }
+    
+    // Group by period
+    const grouped = {};
+    records.forEach(r => {
+      if (!r.consumptionTime) return;
+      const date = r.consumptionTime.split('T')[0];
+      const hour = r.consumptionTime.split('T')[1].split(':')[0];
+      
+      let key;
+      if (period === 'hourly') {
+        key = `${date} ${hour}:00`;
+      } else if (period === 'weekly') {
+        const d = new Date(date);
+        const weekStart = new Date(d);
+        weekStart.setDate(d.getDate() - d.getDay());
+        key = weekStart.toISOString().split('T')[0];
+      } else {
+        key = date;
+      }
+      
+      if (!grouped[key]) {
+        grouped[key] = { tokens: 0, input: 0, output: 0, count: 0 };
+      }
+      grouped[key].tokens += r.totalUsageQuantity || 0;
+      grouped[key].input += r.inputUsageQuantity || 0;
+      grouped[key].output += r.outputUsageQuantity || 0;
+      grouped[key].count++;
+    });
+    
+    return Object.entries(grouped)
+      .map(([period, data]) => ({ period, ...data }))
+      .sort((a, b) => a.period.localeCompare(b.period));
   }
 
   /**
    * Get daily distribution
    */
   async getDaily(limit = 30, startDate, endDate) {
-    return this.request('/daily', { limit, startDate, endDate });
+    const trend = await this.getTrend('daily', startDate, endDate);
+    return trend.slice(-limit);
   }
 
   /**
    * Get hourly distribution
    */
   async getHourly(startDate, endDate) {
-    return this.request('/hourly', { startDate, endDate });
+    const data = await this.loadData();
+    let records = data.records || [];
+    
+    if (startDate || endDate) {
+      records = records.filter(r => {
+        if (!r.consumptionTime) return false;
+        const date = r.consumptionTime.split('T')[0];
+        if (startDate && date < startDate) return false;
+        if (endDate && date > endDate) return false;
+        return true;
+      });
+    }
+    
+    const hourly = {};
+    for (let i = 0; i < 24; i++) {
+      hourly[i] = 0;
+    }
+    
+    records.forEach(r => {
+      if (!r.consumptionTime) return;
+      const hour = parseInt(r.consumptionTime.split('T')[1].split(':')[0]);
+      hourly[hour] += r.totalUsageQuantity || 0;
+    });
+    
+    return Object.entries(hourly).map(([hour, tokens]) => ({ hour: parseInt(hour), tokens }));
   }
 
   /**
-   * Get comparison data
+   * Get API distribution
    */
-  async getCompare(period = 'daily') {
-    return this.request('/compare', { period });
+  async getByApi(startDate, endDate) {
+    const summary = await this.getSummary(startDate, endDate);
+    return summary.byApi;
   }
 
   /**
-   * Get weekly summary
+   * Get model distribution
    */
-  async getWeekly(weekStart) {
-    return this.request('/weekly', { weekStart });
+  async getByModel(startDate, endDate) {
+    const summary = await this.getSummary(startDate, endDate);
+    return summary.byModel;
   }
 
   /**
-   * Get monthly summary
+   * Get cache efficiency
    */
-  async getMonthly(month) {
-    return this.request('/monthly', { month });
+  async getCacheEfficiency(startDate, endDate) {
+    const summary = await this.getSummary(startDate, endDate);
+    return summary.cache;
   }
 
   /**
-   * Get paginated records
+   * Get VLM usage
    */
-  async getRecords(page = 1, limit = 50, startDate, endDate) {
-    return this.request('/records', { page, limit, startDate, endDate });
+  async getVLM() {
+    const data = await this.loadData();
+    const vlmRecords = (data.records || []).filter(r => 
+      r.consumedModel && r.consumedModel.includes('vlm')
+    );
+    
+    return {
+      totalCalls: vlmRecords.length,
+      totalTokens: vlmRecords.reduce((sum, r) => sum + (r.totalUsageQuantity || 0), 0)
+    };
   }
 
   /**
    * Export data
    */
   async export(format = 'json', startDate, endDate) {
-    const url = new URL(`${this.baseUrl}/api/tokens/export`, window.location.origin);
-    url.searchParams.append('format', format);
-    if (startDate) url.searchParams.append('startDate', startDate);
-    if (endDate) url.searchParams.append('endDate', endDate);
+    const data = await this.loadData();
+    let records = data.records || [];
     
-    window.open(url.toString(), '_blank');
+    if (startDate || endDate) {
+      records = records.filter(r => {
+        if (!r.consumptionTime) return false;
+        const date = r.consumptionTime.split('T')[0];
+        if (startDate && date < startDate) return false;
+        if (endDate && date > endDate) return false;
+        return true;
+      });
+    }
+    
+    if (format === 'csv') {
+      const headers = ['Date', 'API', 'Model', 'Input', 'Output', 'Total'];
+      const rows = records.map(r => [
+        r.consumptionTime ? r.consumptionTime.split('T')[0] : '',
+        r.consumedApi || '',
+        r.consumedModel || '',
+        r.inputUsageQuantity || 0,
+        r.outputUsageQuantity || 0,
+        r.totalUsageQuantity || 0
+      ]);
+      const csv = [headers, ...rows].map(row => row.join(',')).join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'token-export.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    } else {
+      const blob = new Blob([JSON.stringify(records, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'token-export.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
   }
 }
 
