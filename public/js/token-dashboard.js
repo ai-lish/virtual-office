@@ -163,6 +163,8 @@ class TokenDashboard {
     const { metrics, cache, totalRecords, dateRange } = summary;
     const compare = this.data.compare;
     
+    if (!metrics) return;
+    
     const cards = [
       {
         label: 'Total Tokens',
