@@ -1558,6 +1558,17 @@
                     <div class="collapse-content" id="scheduleMini">
                         <!-- Schedule rendered by JS -->
                     </div>
+                
+                <!-- Token Stats - Collapsible -->
+                <div class="collapsible-section">
+                    <div class="section-title collapsible" onclick="toggleSidebarSection('tokenMini')">
+                        📊 Token 統計 <span class="collapse-icon">▶</span>
+                    </div>
+                    <div class="collapse-content" id="tokenMini">
+                        <div id="token-sidebar-stats">
+                            <div style="padding: 8px; font-size: 0.85em; color: var(--text-secondary);">載入中...</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </aside>
@@ -1570,22 +1581,31 @@
                 <p class="hero-subtitle">實時監控 AI 助手工作狀態</p>
                 <p style="color: var(--text-secondary);">從左側選擇項目以查看詳情</p>
                 
-                <!-- Token Analytics -->
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 30px; max-width: 800px;">
-                    <div class="info-card" style="cursor: pointer;" onclick="window.open('public/pages/token-analysis.html', '_blank');">
-                        <div style="font-size: 2rem; margin-bottom: 10px;">📊</div>
-                        <div style="font-weight: bold;">Token 分析</div>
-                        <div style="font-size: 0.85em; color: var(--text-secondary);">Minimax 使用統計</div>
+                <!-- Token Analytics Inline -->
+                <div style="margin-top: 30px; max-width: 900px;">
+                    <h2 style="margin-bottom: 15px;">📊 Token 使用統計</h2>
+                    <div id="token-home-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px;">
+                        <div class="info-card">
+                            <div style="font-size: 0.85em; color: var(--text-secondary);">總記錄</div>
+                            <div style="font-size: 1.5rem; font-weight: bold;" id="token-total-records">-</div>
+                        </div>
+                        <div class="info-card">
+                            <div style="font-size: 0.85em; color: var(--text-secondary);">Cache 命中率</div>
+                            <div style="font-size: 1.5rem; font-weight: bold;" id="token-cache-rate">-</div>
+                        </div>
+                        <div class="info-card">
+                            <div style="font-size: 0.85em; color: var(--text-secondary);">主要 Model</div>
+                            <div style="font-size: 1.5rem; font-weight: bold;" id="token-top-model">-</div>
+                        </div>
+                        <div class="info-card">
+                            <div style="font-size: 0.85em; color: var(--text-secondary);">最近更新</div>
+                            <div style="font-size: 1.5rem; font-weight: bold;" id="token-last-update">-</div>
+                        </div>
                     </div>
-                    <div class="info-card" style="cursor: pointer;" onclick="window.location.href='#token-summary';">
-                        <div style="font-size: 2rem; margin-bottom: 10px;">💰</div>
-                        <div style="font-weight: bold;">用量摘要</div>
-                        <div style="font-size: 0.85em; color: var(--text-secondary);">Cache & API 分佈</div>
-                    </div>
-                    <div class="info-card" style="cursor: pointer;" onclick="window.location.href='#token-trends';">
-                        <div style="font-size: 2rem; margin-bottom: 10px;">📈</div>
-                        <div style="font-weight: bold;">使用趨勢</div>
-                        <div style="font-size: 0.85em; color: var(--text-secondary);">每日/每週統計</div>
+                    <div style="margin-top: 15px;">
+                        <button class="btn" onclick="window.open('public/pages/token-analysis.html', '_blank');" style="background: var(--japanese-red); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer;">
+                            📊 詳細分析
+                        </button>
                     </div>
                 </div>
                 
@@ -3096,6 +3116,74 @@
             renderScheduleMini();
         }
 
+        // ===============================
+        // TOKEN STATS
+        // ===============================
+        async function loadTokenStats() {
+            try {
+                const response = await fetch('token-log.json');
+                if (!response.ok) return;
+                const data = await response.json();
+                
+                const totalRecords = data.records ? data.records.length : 0;
+                const lastUpdate = data.meta ? new Date(data.meta.lastUpdated).toLocaleDateString('zh-HK') : '-';
+                
+                // Calculate cache hit rate from records
+                let totalCacheRead = 0;
+                let totalCacheCreate = 0;
+                let modelCount = {};
+                
+                if (data.records) {
+                    data.records.forEach(r => {
+                        if (r.consumedApi === 'cache-read') totalCacheRead += r.totalUsageQuantity || 0;
+                        if (r.consumedApi === 'cache-create') totalCacheCreate += r.totalUsageQuantity || 0;
+                        if (r.consumedModel) {
+                            modelCount[r.consumedModel] = (modelCount[r.consumedModel] || 0) + (r.totalUsageQuantity || 0);
+                        }
+                    });
+                }
+                
+                const totalCache = totalCacheRead + totalCacheCreate;
+                const cacheRate = totalCache > 0 ? Math.round((totalCacheRead / totalCache) * 100) + '%' : '-';
+                const topModel = Object.keys(modelCount).sort((a, b) => modelCount[b] - modelCount[a])[0] || '-';
+                const topModelDisplay = topModel === 'MiniMax-M2.5' ? 'M2.5' : topModel === 'MiniMax-M2.7' ? 'M2.7' : topModel;
+                
+                // Update homepage stats
+                const totalEl = document.getElementById('token-total-records');
+                const cacheEl = document.getElementById('token-cache-rate');
+                const modelEl = document.getElementById('token-top-model');
+                const updateEl = document.getElementById('token-last-update');
+                
+                if (totalEl) totalEl.textContent = totalRecords.toLocaleString();
+                if (cacheEl) cacheEl.textContent = cacheRate;
+                if (modelEl) modelEl.textContent = topModelDisplay;
+                if (updateEl) updateEl.textContent = lastUpdate;
+                
+                // Update sidebar stats
+                const sidebarStats = document.getElementById('token-sidebar-stats');
+                if (sidebarStats) {
+                    sidebarStats.innerHTML = `
+                        <div style="padding: 8px;">
+                            <div style="margin-bottom: 8px;">
+                                <span style="color: var(--text-secondary); font-size: 0.8em;">記錄數</span>
+                                <div style="font-weight: bold;">${totalRecords.toLocaleString()}</div>
+                            </div>
+                            <div style="margin-bottom: 8px;">
+                                <span style="color: var(--text-secondary); font-size: 0.8em;">Cache 命中率</span>
+                                <div style="font-weight: bold;">${cacheRate}</div>
+                            </div>
+                            <div>
+                                <span style="color: var(--text-secondary); font-size: 0.8em;">主要 Model</span>
+                                <div style="font-weight: bold;">${topModelDisplay}</div>
+                            </div>
+                        </div>
+                    `;
+                }
+            } catch (e) {
+                console.log('Token stats load error:', e);
+            }
+        }
+
         function renderNotifications() {
             const list = document.getElementById('notificationList');
             const badge = document.getElementById('notificationBadge');
@@ -3302,6 +3390,7 @@
             renderNotifications();
             renderTimelineMini();
             renderScheduleMini();
+            loadTokenStats();
             updateWorkingStatus();
             checkMobile();
             
