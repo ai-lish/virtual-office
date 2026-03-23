@@ -1,0 +1,45 @@
+{
+  "title": "虛擬辦公室回報範本",
+  "version": "1.0",
+  "templates": {
+    "taskUpdate": {
+      "name": "任務更新",
+      "description": "報告任務進度、已完成事項、同下一步工作",
+      "format": "📋 **任務更新** - {date}\n\n**負責人**: {owner}\n**任務代碼**: {taskCode}\n\n### ✅ 已完成\n{completed}\n\n### 🔄 進行中\n{inProgress}\n\n### ⏳ 下一步\n{nextSteps}\n\n---\n_使用此範本快速匯報工作進度_"
+    },
+    "blockerReport": {
+      "name": "阻礙報告",
+      "description": "報告阻礙事項、尋求協助",
+      "format": "🚧 **阻礙報告** - {date}\n\n**報告人**: {reporter}\n**緊急程度**: {priority}\n\n### 問題描述\n{description}\n\n### 嘗試過的解決方案\n{solutionsTried}\n\n### 需要協助\n{neededHelp}\n\n---\n_及時報告阻礙，避免項目延遲_"
+    },
+    "codeReviewRequest": {
+      "name": "程式碼審查請求",
+      "description": "請求 Code Review、說明 PR 內容",
+      "format": "🔍 **程式碼審查請求** - {date}\n\n**申請人**: {author}\n**PR 標題**: {prTitle}\n**PR 連結**: {prLink}\n\n### 變更摘要\n{summary}\n\n### 變更類型\n- [ ] 新功能 (New Feature)\n- [ ] 錯誤修復 (Bug Fix)\n- [ ] 重構 (Refactor)\n- [ ] 文档更新 (Docs)\n\n### 測試情況\n{testing}\n\n### 需要特別關注\n{reviewFocus}\n\n---\n_提交 PR 後使用此範本請求 Code Review_"
+    },
+    "standup": {
+      "name": "每日Standup",
+      "description": "每日例會報告格式",
+      "format": "🌅 **每日 Standup** - {date}\n\n**匯報人**: {reporter}\n\n### 昨日完成\n{yesterdayDone}\n\n### 今日計劃\n{todayPlan}\n\n### 阻礙/需要協助\n{blockers}\n\n---\n_每日早上提交_"
+    },
+    "weeklyReport": {
+      "name": "週報",
+      "description": "每週工作總結",
+      "format": "📊 **週報** - {weekOf}\n\n**匯報人**: {reporter}\n\n### 本週完成\n{weeklyCompleted}\n\n### 統計\n| 類型 | 數量 |\n|------|------|\n| 完成任務 | {tasksCompleted} |\n| PR 合併 | {prMerged} |\n| Code Review | {reviewsDone} |\n\n### 學習/反思\n{learnings}\n\n### 下週目標\n{nextWeekGoals}\n\n---\n_每週五提交_"
+    }
+  },
+  "usage": {
+    "channels": {
+      "templates": "#templates 或 #資源",
+      "standup": "#daily-standup",
+      "weekly": "#weekly-review"
+    },
+    "commands": [
+      "!template task - 獲取任務更新範本",
+      "!template blocker - 獲取阻礙報告範本",
+      "!template review - 獲取程式碼審查請求範本",
+      "!template standup - 獲取每日 Standup 範本",
+      "!template weekly - 獲取週報範本"
+    ]
+  }
+}

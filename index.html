@@ -1479,7 +1479,7 @@
             </div>
             <div class="agent-mini">
                 <span class="avatar">🧪</span>
-                <span class="name">T仔</span>
+                <span class="name">tester</span>
                 <span class="status-dot idle" id="dot-tester"></span>
             </div>
             <div class="agent-mini">
@@ -1812,7 +1812,7 @@
                 targetDate: '2026-04-01',
                 link: 'https://ai-lish.github.io/virtual-office/',
                 github: 'https://github.com/ai-lish/virtual-office',
-                summary: '實時監控系統，展示AI助手工作狀態，大腦/T仔/師弟/書記Agent',
+                summary: '實時監控系統，展示AI助手工作狀態，大腦/tester/師弟/書記Agent',
                 description: '可視化呈現OpenClaw agents的工作情況。持續優化中。',
                 lastCommit: { message: 'Add: Countdown notification showing time until next report', date: '2026-03-13 07:50' },
                 timeline: [
@@ -1904,7 +1904,7 @@
             {name:'大腦',avatar:'🧠',steps:[
                 {title:'接收任務',desc:'從Telegram/Discord接收Zach既order'},
                 {title:'分析需求',desc:'理解任務目標，制定實踐方案'},
-                {title:'制定計劃',desc:'分配任務比師弟/T仔/書記'},
+                {title:'制定計劃',desc:'分配任務比師弟/tester/書記'},
                 {title:'匯報進度',desc:'完成後向Zach匯報結果'}
             ]},
             {name:'師弟',avatar:'💻',steps:[
@@ -1913,7 +1913,7 @@
                 {title:'寫Code/網頁',desc:'使用繁體中文，直接係源頭保證質量'},
                 {title:'Commit & Push',desc:'完成後commit並push到GitHub'}
             ]},
-            {name:'T仔',avatar:'🧪',steps:[
+            {name:'tester',avatar:'🧪',steps:[
                 {title:'接收任務',desc:'從大腦收到測試指令'},
                 {title:'自動化測試',desc:'运行自动化测试脚本'},
                 {title:'親自測試',desc:'用Browser Tool親自測試每個功能'},
@@ -2299,6 +2299,9 @@
 
         function toggleSidebar() {
             sidebarEl.classList.toggle('open');
+            // Clear inline styles that may block reopening
+            sidebarEl.style.transform = '';
+            sidebarEl.style.left = '';
         }
 
         // ===============================
@@ -2995,7 +2998,7 @@
             { title: '🧠 大腦完成任務分配', time: '30分鐘前', unread: true },
             { title: '📚 新增數學故事', time: '1小時前', unread: false },
             { title: '💻 師弟完成網站更新', time: '2小時前', unread: false },
-            { title: '🧪 T仔通過測試', time: '3小時前', unread: false }
+            { title: '🧪 tester通過測試', time: '3小時前', unread: false }
         ];
 
         // ===============================

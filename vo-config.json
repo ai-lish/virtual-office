@@ -1,0 +1,21 @@
+{
+  "syncEnabled": true,
+  "websocketPort": 18900,
+  "pollInterval": 5000,
+  "maxHistory": 1000,
+  "features": {
+    "status": true,
+    "standup": true,
+    "poll": true,
+    "mood": true,
+    "pomodoro": true,
+    "reminder": true,
+    "points": true,
+    "badges": true,
+    "calendar": true,
+    "whiteboard": true,
+    "forum": true,
+    "templates": true,
+    "stats": true
+  }
+}

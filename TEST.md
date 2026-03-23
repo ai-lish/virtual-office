@@ -1,6 +1,8 @@
 # 虛擬辦公室 - 測試備忘
 
-## 🧪 測試案例
+## 🧪 測試案例 (31項建議全面測試)
+
+---
 
 ### 1. 主題切換
 | 步驟 | 預期結果 |
@@ -82,10 +84,6 @@
 | 縮放Browser ≤768px | Layout調整 |
 | 所有Button顯示 | 正常工作 |
 | 側邊欄動畫 | 平滑滑入/滑出 |
-
----
-
-## 🆕 17項新功能測試 (2026-03-14)
 
 ### 13. 數據緩存優化 (CacheManager)
 | 步驟 | 預期結果 |
@@ -180,6 +178,28 @@
 
 ---
 
+## 🎯 Phase 7-8 新功能測試 (Discord Bot)
+
+### 30. Webhooks 自動化
+| 用例 ID | 測試描述 | 預期結果 |
+|---------|---------|---------|
+| WH-01 | `!phase7 webhook add rss <url> <name>` | 添加 RSS 訂閱 |
+| WH-02 | `!phase7 webhook add github <owner/repo>` | 添加 GitHub 監控 |
+| WH-03 | `!phase7 webhook list` | 顯示所有 Webhook |
+| WH-04 | RSS 更新觸發 | 發送到 Discord 頻道 |
+
+### 31. 每週主題頻道 + AI Summaries
+| 用例 ID | 測試描述 | 預期結果 |
+|---------|---------|---------|
+| WT-01 | `!theme` | 顯示今日主題 |
+| WT-02 | 週一主題 | 顯示「創意發想」 |
+| WT-03 | 週三主題 | 顯示「進度衝刺」 |
+| WT-04 | 週五主題 | 顯示「回顧總結」 |
+| AS-01 | 50 條訊息後自動總結 | 頻道收到總結訊息 |
+| AS-02 | `!stats` | 顯示使用統計 |
+
+---
+
 ## ⚠️ 已知問題
 - 某些browser click事件可能需要refresh先work
 - GitHub Pages可能有緩存 (Ctrl+Shift+R)
@@ -191,3 +211,59 @@
 
 ## 📝 測試記錄
 - 2026-03-14: 完成17項新功能測試
+- 2026-03-21: 完成 Phase 7-8 新功能測試
+- 2026-03-22: 更新為31項建議測試
+
+---
+
+## 📋 Discord Bot 指令測試清單
+
+### Phase 4 指令
+| 指令 | 功能 | 測試狀態 |
+|------|------|---------|
+| `!standup` | 開工回報 | ⬜ |
+| `!standup reply` | 回覆開工 | ⬜ |
+| `!standup list` | 查看回覆 | ⬜ |
+| `!voice` / `!v` | Voice 狀態 | ⬜ |
+| `!status set [任務]` | 設定狀態 | ⬜ |
+| `!status done` | 標記完成 | ⬜ |
+| `!status blocker` | 標記阻礙 | ⬜ |
+| `!poll` | 創建投票 | ⬜ |
+| `!poll close` | 結束投票 | ⬜ |
+| `!points` | 查看積分 | ⬜ |
+| `!badges` | 查看徽章 | ⬜ |
+| `!leaderboard` | 排行榜 | ⬜ |
+| `!mood [1-5]` | 心情回報 | ⬜ |
+| `!mood stats` | 心情統計 | ⬜ |
+| `!dashboard` | 數據儀表板 | ⬜ |
+| `!remind` | 設置提醒 | ⬜ |
+| `!gcal` | 查看日曆 | ⬜ |
+| `!notion` | Notion 整合 | ⬜ |
+
+### Phase 7 指令
+| 指令 | 功能 | 測試狀態 |
+|------|------|---------|
+| `!phase7 webhook` | Webhook 管理 | ⬜ |
+| `!phase7 greeting` | 問候設定 | ⬜ |
+| `!phase7 voice` | Voice 通知 | ⬜ |
+| `!phase7 ondi` | 「喺度」狀態 | ⬜ |
+| `!theme` | 每週主題 | ⬜ |
+| `!phase7 summary` | AI 總結 | ⬜ |
+| `!phase7 calendar` | 日曆設定 | ⬜ |
+| `!phase7 sync` | 同步設定 | ⬜ |
+| `!phase7 stats` | 統計數據 | ⬜ |
+
+### Phase 8 指令
+| 指令 | 功能 | 測試狀態 |
+|------|------|---------|
+| `!phase8 notion` | Notion 同步 | ⬜ |
+| `!phase8 jenkins` | Jenkins 監控 | ⬜ |
+| `!phase8 deadline` | 截止提醒 | ⬜ |
+| `!phase8 quiet` | 安靜時段 | ⬜ |
+| `!phase8 cleanup` | 每月清理 | ⬜ |
+| `!phase8 archive` | Thread 封存 | ⬜ |
+| `!deadline` | 快速截止 | ⬜ |
+
+---
+
+*最後更新：2026-03-22*

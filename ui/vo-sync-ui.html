@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Virtual Office Sync</title>
+  <style>
+    :root {
+      --bg-primary: #1a1a2e;
+      --bg-secondary: #16213e;
+      --bg-card: #0f3460;
+      --text-primary: #e8e8e8;
+      --text-secondary: #a0a0a0;
+      --accent: #e94560;
+      --accent2: #533483;
+      --success: #4ecca3;
+      --warning: #ffc107;
+      --danger: #dc3545;
+      --online: #4ecca3;
+      --busy: #e94560;
+      --idle: #ffc107;
+      --offline: #6c757d;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .vo-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .vo-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 20px;
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+
+    .vo-header h1 {
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .vo-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+    }
+
+    .vo-status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--offline);
+    }
+
+    .vo-status-dot.connected { background: var(--success); }
+    .vo-status-dot.connecting { background: var(--warning); animation: pulse 1s infinite; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* Navigation Tabs */
+    .vo-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+      padding: 10px;
+      background: var(--bg-secondary);
+      border-radius: 12px;
+    }
+
+    .vo-tab {
+      padding: 10px 16px;
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+
+    .vo-tab:hover {
+      background: var(--bg-card);
+      color: var(--text-primary);
+    }
+
+    .vo-tab.active {
+      background: var(--accent);
+      color: white;
+    }
+
+    /* Panels */
+    .vo-panel {
+      display: none;
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .vo-panel.active { display: block; }
+
+    .vo-panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .vo-panel-header h2 {
+      font-size: 1.3rem;
+    }
+
+    /* Cards */
+    .vo-card {
+      background: var(--bg-card);
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+
+    .vo-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .vo-card-title {
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .vo-card-badge {
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 10px;
+      background: var(--accent2);
+    }
+
+    /* Status Indicators */
+    .vo-member {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: var(--bg-card);
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .vo-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--accent2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .vo-member-info { flex: 1; }
+    .vo-member-name { font-weight: 600; }
+    .vo-member-task { font-size: 0.85rem; color: var(--text-secondary); }
+
+    .vo-member-status {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .vo-member-status.online { background: var(--online); }
+    .vo-member-status.busy { background: var(--busy); }
+    .vo-member-status.idle { background: var(--idle); }
+    .vo-member-status.offline { background: var(--offline); }
+
+    /* Buttons */
+    .vo-btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+
+    .vo-btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .vo-btn-primary:hover { background: #d13a52; }
+
+    .vo-btn-secondary {
+      background: var(--bg-card);
+      color: var(--text-primary);
+    }
+
+    .vo-btn-secondary:hover { background: var(--accent2); }
+
+    .vo-btn-small {
+      padding: 6px 12px;
+      font-size: 0.8rem;
+    }
+
+    /* Forms */
+    .vo-form-group {
+      margin-bottom: 15px;
+    }
+
+    .vo-form-label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    .vo-form-input, .vo-form-textarea, .vo-form-select {
+      width: 100%;
+      padding: 10px 12px;
+      background: var(--bg-primary);
+      border: 1px solid var(--bg-card);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-size: 0.95rem;
+    }
+
+    .vo-form-input:focus, .vo-form-textarea:focus, .vo-form-select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .vo-form-textarea { resize: vertical; min-height: 80px; }
+
+    /* Poll */
+    .vo-poll {
+      background: var(--bg-card);
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+
+    .vo-poll-question {
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .vo-poll-options { display: flex; flex-direction: column; gap: 8px; }
+
+    .vo-poll-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      background: var(--bg-primary);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .vo-poll-option:hover { background: var(--accent2); }
+
+    .vo-poll-option.selected { border: 2px solid var(--accent); }
+
+    .vo-poll-bar {
+      height: 8px;
+      background: var(--accent2);
+      border-radius: 4px;
+      transition: width 0.3s;
+    }
+
+    .vo-poll-votes {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-left: auto;
+    }
+
+    /* Pomodoro Timer */
+    .vo-timer {
+      text-align: center;
+      padding: 30px;
+    }
+
+    .vo-timer-display {
+      font-size: 4rem;
+      font-weight: 700;
+      font-family: monospace;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .vo-timer-task {
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+    }
+
+    .vo-timer-controls {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    /* Mood Selector */
+    .vo-mood-selector {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      padding: 20px;
+    }
+
+    .vo-mood-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      background: var(--bg-card);
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .vo-mood-btn:hover, .vo-mood-btn.selected {
+      transform: scale(1.2);
+      border-color: var(--accent);
+    }
+
+    /* Leaderboard */
+    .vo-leaderboard {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .vo-leaderboard-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: var(--bg-card);
+      border-radius: 8px;
+    }
+
+    .vo-leaderboard-rank {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--accent2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+
+    .vo-leaderboard-rank.gold { background: #ffd700; color: #000; }
+    .vo-leaderboard-rank.silver { background: #c0c0c0; color: #000; }
+    .vo-leaderboard-rank.bronze { background: #cd7f32; color: #fff; }
+
+    .vo-leaderboard-info { flex: 1; }
+    .vo-leaderboard-name { font-weight: 600; }
+    .vo-leaderboard-points { color: var(--text-secondary); font-size: 0.9rem; }
+
+    /* Reminders */
+    .vo-reminder {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: var(--bg-card);
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .vo-reminder-time {
+      font-family: monospace;
+      color: var(--accent);
+    }
+
+    .vo-reminder-content { flex: 1; }
+
+    .vo-reminder.done { opacity: 0.5; text-decoration: line-through; }
+
+    /* Whiteboard Canvas */
+    .vo-whiteboard {
+      border: 2px solid var(--bg-card);
+      border-radius: 8px;
+      min-height: 400px;
+      background: #fff;
+      color: #000;
+      padding: 10px;
+      position: relative;
+    }
+
+    .vo-whiteboard-item {
+      padding: 5px 10px;
+      margin: 5px 0;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    /* Forum */
+    .vo-forum-post {
+      background: var(--bg-card);
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+
+    .vo-forum-post-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .vo-forum-post-meta {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    /* Calendar */
+    .vo-calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+    }
+
+    .vo-calendar-day {
+      aspect-ratio: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-card);
+      border-radius: 6px;
+      font-size: 0.85rem;
+    }
+
+    .vo-calendar-day.today { border: 2px solid var(--accent); }
+    .vo-calendar-day.has-event { background: var(--accent2); }
+
+    .vo-calendar-event {
+      font-size: 0.65rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 100%;
+    }
+
+    /* Badges */
+    .vo-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .vo-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      background: var(--bg-card);
+      border-radius: 20px;
+      font-size: 0.85rem;
+    }
+
+    .vo-badge-icon { font-size: 1.2rem; }
+
+    /* Grid layouts */
+    .vo-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 15px;
+    }
+
+    .vo-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+    }
+
+    /* Stats */
+    .vo-stat-card {
+      background: var(--bg-card);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .vo-stat-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .vo-stat-label {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* Animations */
+    .vo-fade-in {
+      animation: fadeIn 0.3s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Notification Toast */
+    .vo-toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 15px 20px;
+      background: var(--bg-card);
+      border-radius: 8px;
+      border-left: 4px solid var(--accent);
+      transform: translateX(120%);
+      transition: transform 0.3s;
+      z-index: 1000;
+    }
+
+    .vo-toast.show { transform: translateX(0); }
+    .vo-toast.success { border-color: var(--success); }
+    .vo-toast.error { border-color: var(--danger); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .vo-tabs { overflow-x: auto; }
+      .vo-timer-display { font-size: 3rem; }
+      .vo-grid-2, .vo-grid-3 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="vo-container">
+    <!-- Header -->
+    <div class="vo-header">
+      <h1>🏢 Virtual Office Sync</h1>
+      <div class="vo-status">
+        <div class="vo-status-dot" id="connectionDot"></div>
+        <span id="connectionText">Disconnected</span>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="vo-tabs">
+      <button class="vo-tab active" data-panel="status">👥 狀態</button>
+      <button class="vo-tab" data-panel="pomodoro">⏱️ 番茄鐘</button>
+      <button class="vo-tab" data-panel="poll">🗳️ 投票</button>
+      <button class="vo-tab" data-panel="mood">😊 心情</button>
+      <button class="vo-tab" data-panel="reminders">⏰ 提醒</button>
+      <button class="vo-tab" data-panel="points">🏆 積分</button>
+      <button class="vo-tab" data-panel="whiteboard">🎨 白板</button>
+      <button class="vo-tab" data-panel="forum">💬 論壇</button>
+      <button class="vo-tab" data-panel="calendar">📅 日曆</button>
+      <button class="vo-tab" data-panel="stats">📊 統計</button>
+    </div>
+
+    <!-- Status Panel -->
+    <div class="vo-panel active" id="panel-status">
+      <div class="vo-panel-header">
+        <h2>👥 團隊狀態</h2>
+        <button class="vo-btn vo-btn-secondary" onclick="showSetStatusModal()">設定狀態</button>
+      </div>
+      <div id="statusList">
+        <p style="color: var(--text-secondary)">載入中...</p>
+      </div>
+    </div>
+
+    <!-- Pomodoro Panel -->
+    <div class="vo-panel" id="panel-pomodoro">
+      <div class="vo-panel-header">
+        <h2>⏱️ 番茄鐘</h2>
+      </div>
+      <div class="vo-grid-2">
+        <div class="vo-card vo-timer">
+          <div class="vo-timer-display" id="timerDisplay">25:00</div>
+          <div class="vo-timer-task" id="timerTask">準備開始...</div>
+          <div class="vo-timer-controls">
+            <button class="vo-btn vo-btn-primary" id="timerStartBtn" onclick="startPomodoro()">開始</button>
+            <button class="vo-btn vo-btn-secondary" id="timerStopBtn" onclick="stopPomodoro()">停止</button>
+          </div>
+          <div style="margin-top: 15px;">
+            <button class="vo-btn vo-btn-small vo-btn-secondary" onclick="startPomodoro('short')">短休息</button>
+            <button class="vo-btn vo-btn-small vo-btn-secondary" onclick="startPomodoro('long')">長休息</button>
+          </div>
+        </div>
+        <div>
+          <h3 style="margin-bottom: 10px;">進行中的衝刺</h3>
+          <div id="activeSessions">
+            <p style="color: var(--text-secondary)">暫無進行中的衝刺</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Poll Panel -->
+    <div class="vo-panel" id="panel-poll">
+      <div class="vo-panel-header">
+        <h2>🗳️ 投票</h2>
+        <button class="vo-btn vo-btn-primary" onclick="showCreatePollModal()">新建投票</button>
+      </div>
+      <div id="pollList">
+        <p style="color: var(--text-secondary)">載入中...</p>
+      </div>
+    </div>
+
+    <!-- Mood Panel -->
+    <div class="vo-panel" id="panel-mood">
+      <div class="vo-panel-header">
+        <h2>😊 心情天氣</h2>
+      </div>
+      <div class="vo-card">
+        <h3>今日心情</h3>
+        <div class="vo-mood-selector">
+          <button class="vo-mood-btn" data-mood="1" title="幾辛苦">😫</button>
+          <button class="vo-mood-btn" data-mood="2" title="有點累">😔</button>
+          <button class="vo-mood-btn" data-mood="3" title="一般">😐</button>
+          <button class="vo-mood-btn" data-mood="4" title="不錯">🙂</button>
+          <button class="vo-mood-btn" data-mood="5" title="超開心">😄</button>
+        </div>
+        <div class="vo-form-group" style="margin-top: 15px;">
+          <label class="vo-form-label">備註 (選填)</label>
+          <input type="text" class="vo-form-input" id="moodNote" placeholder="今天怎麼樣？">
+        </div>
+        <button class="vo-btn vo-btn-primary" onclick="submitMood()">提交心情</button>
+      </div>
+      <div class="vo-card" style="margin-top: 15px;">
+        <h3>團隊平均心情</h3>
+        <div id="teamMood" style="font-size: 3rem; text-align: center; padding: 20px;">
+          -
+        </div>
+        <div id="moodHistory" style="margin-top: 15px;"></div>
+      </div>
+    </div>
+
+    <!-- Reminders Panel -->
+    <div class="vo-panel" id="panel-reminders">
+      <div class="vo-panel-header">
+        <h2>⏰ 提醒</h2>
+        <button class="vo-btn vo-btn-primary" onclick="showAddReminderModal()">新增提醒</button>
+      </div>
+      <div id="reminderList">
+        <p style="color: var(--text-secondary)">載入中...</p>
+      </div>
+    </div>
+
+    <!-- Points Panel -->
+    <div class="vo-panel" id="panel-points">
+      <div class="vo-panel-header">
+        <h2>🏆 積分排行榜</h2>
+      </div>
+      <div class="vo-grid-2">
+        <div>
+          <h3 style="margin-bottom: 15px;">我的積分</h3>
+          <div class="vo-card" id="myPoints">
+            <p style="color: var(--text-secondary)">載入中...</p>
+          </div>
+          <h3 style="margin: 20px 0 15px;">我的徽章</h3>
+          <div class="vo-badges" id="myBadges">
+            <p style="color: var(--text-secondary)">暫無徽章</p>
+          </div>
+        </div>
+        <div>
+          <h3 style="margin-bottom: 15px;">排行榜</h3>
+          <div class="vo-leaderboard" id="leaderboard">
+            <p style="color: var(--text-secondary)">載入中...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Whiteboard Panel -->
+    <div class="vo-panel" id="panel-whiteboard">
+      <div class="vo-panel-header">
+        <h2>🎨 白板</h2>
+        <div>
+          <button class="vo-btn vo-btn-secondary" onclick="showNewPageModal()">新建頁面</button>
+          <button class="vo-btn vo-btn-primary" onclick="showAddItemModal()">添加內容</button>
+        </div>
+      </div>
+      <div style="margin-bottom: 15px;">
+        <select class="vo-form-select" id="whiteboardPage" onchange="loadWhiteboardPage()">
+          <option value="default">默認白板</option>
+        </select>
+      </div>
+      <div class="vo-whiteboard" id="whiteboardCanvas"></div>
+    </div>
+
+    <!-- Forum Panel -->
+    <div class="vo-panel" id="panel-forum">
+      <div class="vo-panel-header">
+        <h2>💬 論壇</h2>
+        <button class="vo-btn vo-btn-primary" onclick="showCreatePostModal()">發布帖子</button>
+      </div>
+      <div id="forumList">
+        <p style="color: var(--text-secondary)">載入中...</p>
+      </div>
+    </div>
+
+    <!-- Calendar Panel -->
+    <div class="vo-panel" id="panel-calendar">
+      <div class="vo-panel-header">
+        <h2>📅 日曆</h2>
+        <button class="vo-btn vo-btn-primary" onclick="showAddEventModal()">添加事件</button>
+      </div>
+      <div class="vo-card">
+        <h3 id="calendarMonth" style="text-align: center; margin-bottom: 15px;">2026年3月</h3>
+        <div class="vo-calendar" id="calendarGrid"></div>
+      </div>
+      <div id="eventList" style="margin-top: 20px;"></div>
+    </div>
+
+    <!-- Stats Panel -->
+    <div class="vo-panel" id="panel-stats">
+      <div class="vo-panel-header">
+        <h2>📊 統計數據</h2>
+      </div>
+      <div class="vo-grid-3" id="statsGrid">
+        <div class="vo-stat-card">
+          <div class="vo-stat-value" id="statPolls">-</div>
+          <div class="vo-stat-label">投票數</div>
+        </div>
+        <div class="vo-stat-card">
+          <div class="vo-stat-value" id="statStandups">-</div>
+          <div class="vo-stat-label">Standup 提交</div>
+        </div>
+        <div class="vo-stat-card">
+          <div class="vo-stat-value" id="statPomodoros">-</div>
+          <div class="vo-stat-label">完成的番茄鐘</div>
+        </div>
+        <div class="vo-stat-card">
+          <div class="vo-stat-value" id="statMoods">-</div>
+          <div class="vo-stat-label">心情提交</div>
+        </div>
+        <div class="vo-stat-card">
+          <div class="vo-stat-value" id="statReminders">-</div>
+          <div class="vo-stat-label">提醒數</div>
+        </div>
+        <div class="vo-stat-card">
+          <div class="vo-stat-value" id="statPosts">-</div>
+          <div class="vo-stat-label">論壇帖子</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="vo-toast" id="toast"></div>
+
+  <!-- Modals (simplified) -->
+  <div id="modalOverlay" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 1001; align-items: center; justify-content: center;">
+    <div style="background: var(--bg-secondary); border-radius: 12px; padding: 25px; max-width: 500px; width: 90%;">
+      <h3 id="modalTitle" style="margin-bottom: 20px;">Modal</h3>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <script src="../sync/vo-sync-client.js"></script>
+  <script>
+    // ==================== Initialization ====================
+    let voClient = null;
+    let currentTimer = null;
+    let timerRemaining = 25 * 60 * 1000;
+    let currentUserId = 'web-user-' + Math.random().toString(36).substr(2, 9);
+
+    function init() {
+      // Create client
+      voClient = new VOSyncClient({
+        url: `ws://${window.location.hostname}:18900/ws/vo`,
+        userId: currentUserId,
+      });
+
+      // Connection events
+      voClient.on('connected', () => {
+        updateConnectionStatus(true);
+        showToast('已連接到服務器', 'success');
+      });
+
+      voClient.on('disconnected', () => {
+        updateConnectionStatus(false);
+        showToast('連接已斷開', 'error');
+      });
+
+      // Data events
+      voClient.on('init', (data) => {
+        renderAllData(data);
+      });
+
+      voClient.on('status_update', (data) => {
+        renderStatus(data.data || data);
+      });
+
+      voClient.on('poll_update', (data) => {
+        renderPolls(data.data?.polls || voClient.getInitialData()?.polls || []);
+      });
+
+      voClient.on('poll_created', (data) => {
+        renderPolls(data.data ? [data.data] : []);
+        showToast('新投票已創建');
+      });
+
+      voClient.on('mood_added', (data) => {
+        if (data.teamStats) {
+          renderTeamMood(data.teamStats);
+        }
+      });
+
+      voClient.on('pomodoro_started', (data) => {
+        if (data.data?.userId === currentUserId) {
+          startTimerDisplay(data.data.endsAt);
+        }
+        renderActiveSessions();
+      });
+
+      voClient.on('pomodoro_stopped', (data) => {
+        renderActiveSessions();
+        showToast('番茄鐘已結束');
+      });
+
+      voClient.on('reminder_added', (data) => {
+        loadReminders();
+        showToast('提醒已添加');
+      });
+
+      voClient.on('points_updated', (data) => {
+        loadPoints();
+      });
+
+      // Tab switching
+      document.querySelectorAll('.vo-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.vo-tab').forEach(t => t.classList.remove('active'));
+          document.querySelectorAll('.vo-panel').forEach(p => p.classList.remove('active'));
+          tab.classList.add('active');
+          document.getElementById('panel-' + tab.dataset.panel).classList.add('active');
+        });
+      });
+
+      // Mood buttons
+      document.querySelectorAll('.vo-mood-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.vo-mood-btn').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+        });
+      });
+
+      // Load initial data
+      loadAllData();
+    }
+
+    // ==================== Connection ====================
+
+    function updateConnectionStatus(connected) {
+      const dot = document.getElementById('connectionDot');
+      const text = document.getElementById('connectionText');
+      if (connected) {
+        dot.className = 'vo-status-dot connected';
+        text.textContent = '已連接';
+      } else {
+        dot.className = 'vo-status-dot';
+        text.textContent = '已斷開';
+      }
+    }
+
+    // ==================== Data Loading ====================
+
+    function loadAllData() {
+      loadStatus();
+      loadPolls();
+      loadMood();
+      loadReminders();
+      loadPoints();
+      loadLeaderboard();
+      loadPomodoroSessions();
+      loadWhiteboardPages();
+      loadForumPosts();
+      loadCalendar();
+      loadStats();
+    }
+
+    function renderAllData(data) {
+      if (data.status) renderStatus(data.status);
+      if (data.polls) renderPolls(data.polls);
+      if (data.mood) {
+        renderTeamMood(data.mood.teamStats);
+        renderMoodHistory(data.mood.entries);
+      }
+      if (data.pomodoro) renderActiveSessions(data.pomodoro);
+      if (data.reminders) renderReminders(data.reminders);
+      if (data.leaderboard) renderLeaderboard(data.leaderboard);
+    }
+
+    // ==================== Status ====================
+
+    function loadStatus() {
+      voClient.getStatus();
+    }
+
+    function renderStatus(status) {
+      const container = document.getElementById('statusList');
+      if (!status || !status.members) {
+        container.innerHTML = '<p style="color: var(--text-secondary)">暫無狀態數據</p>';
+        return;
+      }
+
+      const members = Object.entries(status.members).map(([id, data]) => ({ id, ...data }));
+      if (members.length === 0) {
+        container.innerHTML = '<p style="color: var(--text-secondary)">暫無在線成員</p>';
+        return;
+      }
+
+      container.innerHTML = members.map(m => `
+        <div class="vo-member vo-fade-in">
+          <div class="vo-avatar">${m.emoji || '👤'}</div>
+          <div class="vo-member-info">
+            <div class="vo-member-name">${m.name || m.id}</div>
+            <div class="vo-member-task">${m.task || '等待中...'}</div>
+          </div>
+          <div class="vo-member-status ${m.status || 'offline'}"></div>
+        </div>
+      `).join('');
+    }
+
+    function showSetStatusModal() {
+      const modal = document.getElementById('modalOverlay');
+      document.getElementById('modalTitle').textContent = '設定狀態';
+      document.getElementById('modalContent').innerHTML = `
+        <div class="vo-form-group">
+          <label class="vo-form-label">狀態</label>
+          <select class="vo-form-select" id="setStatusStatus">
+            <option value="online">🟢 在線</option>
+            <option value="busy">🔴 忙碌</option>
+            <option value="idle">🟡 離開</option>
+          </select>
+        </div>
+        <div class="vo-form-group">
+          <label class="vo-form-label">當前任務</label>
+          <input type="text" class="vo-form-input" id="setStatusTask" placeholder="在做什麼？">
+        </div>
+        <div class="vo-form-group">
+          <label class="vo-form-label">表情</label>
+          <input type="text" class="vo-form-input" id="setStatusEmoji" placeholder="👤" value="👤">
+        </div>
+        <button class="vo-btn vo-btn-primary" onclick="setStatus()">保存</button>
+        <button class="vo-btn vo-btn-secondary" onclick="closeModal()">取消</button>
+      `;
+      modal.style.display = 'flex';
+    }
+
+    function setStatus() {
+      const status = document.getElementById('setStatusStatus').value;
+      const task = document.getElementById('setStatusTask').value;
+      const emoji = document.getElementById('setStatusEmoji').value;
+      voClient.updateStatus(status, task, emoji);
+      closeModal();
+      showToast('狀態已更新');
+    }
+
+    // ==================== Pomodoro ====================
+
+    function loadPomodoroSessions() {
+      voClient.getPomodoroSessions();
+    }
+
+    function renderActiveSessions(sessions) {
+      const container = document.getElementById('activeSessions');
+      if (!sessions || sessions.length === 0) {
+        container.innerHTML = '<p style="color: var(--text-secondary)">暫無進行中的衝刺</p>';
+        return;
+      }
+      container.innerHTML = sessions.map(s => `
+        <div class="vo-card">
+          <strong>${s.task}</strong> - ${s.type === 'work' ? '工作' : s.type === 'shortBreak' ? '短休息' : '長休息'}
+          <br><small>由 ${s.userId}</small>
+        </div>
+      `).join('');
+    }
+
+    function startPomodoro(type = 'work') {
+      const task = document.getElementById('timerTask')?.textContent || '專注工作';
+      const durations = {
+        work: 25 * 60 * 1000,
+        short: 5 * 60 * 1000,
+        long: 15 * 60 * 1000,
+      };
+      timerRemaining = durations[type] || durations.work;
+      document.getElementById('timerTask').textContent = type === 'work' ? '工作中...' : '休息中...';
+      voClient.startPomodoro(task, type, timerRemaining);
+      startTimerDisplay(Date.now() + timerRemaining);
+    }
+
+    function stopPomodoro() {
+      voClient.stopPomodoro();
+      stopTimerDisplay();
+    }
+
+    function startTimerDisplay(endTime) {
+      stopTimerDisplay();
+      currentTimer = setInterval(() => {
+        const remaining = Math.max(0, endTime - Date.now());
+        const mins = Math.floor(remaining / 60000);
+        const secs = Math.floor((remaining % 60000) /1000);
+        document.getElementById('timerDisplay').textContent = 
+          `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        if (remaining <= 0) {
+          stopTimerDisplay();
+          showToast('時間到！', 'success');
+          playNotificationSound();
+        }
+      }, 1000);
+    }
+
+    function stopTimerDisplay() {
+      if (currentTimer) {
+        clearInterval(currentTimer);
+        currentTimer = null;
+      }
+    }
+
+    function playNotificationSound() {
+      // Simple beep using Web Audio API
+      try {
+        const ctx = new AudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.frequency.value = 800;
+        gain.gain.value = 0.3;
+        osc.start();
+        setTimeout(() => { osc.stop(); ctx.close(); }, 500);
+      } catch (e) {}
+    }
+
+    // ==================== Polls ====================
+
+    function loadPolls() {
+      voClient.getPolls();
+    }
+
+    function renderPolls(polls) {
+      const container = document.getElementById('pollList');
+      if (!polls || polls.length === 0) {
+        container.innerHTML = '<p style="color: var(--text-secondary)">暫無投票</p>';
+        return;
+      }
+      container.innerHTML = polls.map(p => `
+        <div class="vo-poll vo-fade-in">
+          <div class="vo-poll-question">${p.question}</div>
+          <div class="vo-poll-options">
+            ${p.options.map((opt, i) => `
+              <div class="vo-poll-option ${opt.voters?.includes(currentUserId) ? 'selected' : ''}" 
+                   onclick="vote('${p.id}', ${opt.id})">
+                <div style="flex: 1;">${opt.text}</div>
+                <div class="vo-poll-bar" style="width: ${p.totalVotes > 0 ? (opt.votes / p.totalVotes * 100) : 0}%;"></div>
+                <div class="vo-poll-votes">${opt.votes} 票</div>
+              </div>
+            `).join('')}
+          </div>
+          ${p.closed ? '<p style="color: var(--text-secondary); margin-top: 10px;">（已結束）</p>' : ''}
+        </div>
+      `).join('');
+    }
+
+    function vote(pollId, optionId) {
+      voClient.vote(pollId, optionId);
+      showToast('已投票');
+    }
+
+    function showCreatePollModal() {
+      const modal = document.getElementById('modalOverlay');
+      document.getElementById('modalTitle').textContent = '新建投票';
+      document.getElementById('modalContent').innerHTML = `
+        <div class="vo-form-group">
+          <label class="vo-form-label">問題</label>
+          <input type="text" class="vo-form-input" id="pollQuestion" placeholder="你要問什麼？">
+        </div>
+        <div class="vo-form-group">
+          <label class="vo-form-label">選項（每行一個）</label>
+          <textarea class="vo-form-textarea" id="pollOptions" placeholder="選項1&#10;選項2&#10;選項3"></textarea>
+        </div>
+        <button class="vo-btn vo-btn-primary" onclick="createPoll()">創建</button>
+        <button class="vo-btn vo-btn-secondary" onclick="closeModal()">取消</button>
+      `;
+      modal.style.display = 'flex';
+    }
+
+    function createPoll() {
+      const question = document.getElementById('pollQuestion').value;
+      const optionsText = document.getElementById('pollOptions').value;
+      const options = optionsText.split('\n').filter(o => o.trim());
+      if (question && options.length >= 2) {
+        voClient.createPoll(question, options);
+        closeModal();
+        showToast('投票已創建');
+      }
+    }
+
+    // ==================== Mood ====================
+
+    function loadMood() {
+      voClient.getMood();
+    }
+
+    function submitMood() {
+      const selected = document.querySelector('.vo-mood-btn.selected');
+      const score = selected ? parseInt(selected.dataset.mood) : 3;
+      const note = document.getElementById('moodNote').value;
+      voClient.submitMood(score, note);
+      showToast('心情已提交', 'success');
+    }
+
+    function renderTeamMood(stats) {
+      const container = document.getElementById('teamMood');
+      const emoji = stats.average >= 4.5 ? '😄' : stats.average >= 3.5 ? '🙂' : stats.average >= 2.5 ? '😐' : stats.average >= 1.5 ? '😔' : '😫';
+      container.textContent = `${emoji} ${stats.average || '-'} (${stats.count || 0}人)`;
+    }
+
+    function renderMoodHistory(entries) {
+      const container = document.getElementById('moodHistory');
+      if (!entries || entries.length === 0) return;
+      const recent = entries.slice(-7).reverse();
+      container.innerHTML = recent.map(e => {
+        const moodEmoji = ['', '😫', '😔', '😐', '🙂', '😄'];
+        const date = new Date(e.createdAt).toLocaleDateString('zh-Hant');
+        return `<span style="margin-right: 10px;">${date}: ${moodEmoji[e.score] || '😐'}</span>`;
+      }).join('');
+    }
+
+    // ==================== Reminders ====================
+
+    function loadReminders() {
+      voClient.getReminders();
+    }
+
+    function renderReminders(reminders) {
+      const container = document.getElementById('reminderList');
+      if (!reminders || reminders.length === 0) {
+        container.innerHTML = '<p style="color: var(--text-secondary)">暫無提醒</p>';
+        return;
+      }
+      container.innerHTML = reminders.map(r => `
+        <div class="vo-reminder ${r.triggered ? 'done' : ''}">
+          <div class="vo-reminder-time">${new Date(r.remindAt).toLocaleString('zh-Hant')}</div>
+          <div class="vo-reminder-content">${r.content}</div>
+          <button class="vo-btn vo-btn-small vo-btn-secondary" onclick="completeReminder('${r.id}')">完成</button>
+        </div>
+      `).join('');
+    }
+
+    function completeReminder(id) {
+      voClient.completeReminder(id);
+      showToast('提醒已完成');
+    }
+
+    function showAddReminderModal() {
+      const modal = document.getElementById('modalOverlay');
+      document.getElementById('modalTitle').textContent = '新增提醒';
+      document.getElementById('modalContent').innerHTML = `
+        <div class="vo-form-group">
+          <label class="vo-form-label">內容</label>
+          <input type="text" class="vo-form-input" id="reminderContent" placeholder="提醒什麼？">
+        </div>
+        <div class="vo-form-group">
+          <label class="vo-form-label">時間（分鐘後）</label>
+          <input type="number" class="vo-form-input" id="reminderMinutes" value="60" min="1">
+        </div>
+        <button class="vo-btn vo-btn-primary" onclick="addReminder()">添加</button>
+        <button class="vo-btn vo-btn-secondary" onclick="closeModal()">取消</button>
+      `;
+      modal.style.display = 'flex';
+    }
+
+    function addReminder() {
+      const content = document.getElementById('reminderContent').value;
+      const minutes = parseInt(document.getElementById('reminderMinutes').value) || 60;
+      const remindAt = Date.now() + minutes * 60 * 1000;
+      voClient.addReminder(content, remindAt);
+      closeModal();
+      showToast('提醒已添加');
+    }
+
+    // ==================== Points & Badges ====================
+
+    function loadPoints() {
+      voClient.getPoints();
+    }
+
+    function loadLeaderboard() {
+      voClient.getLeaderboard();
+    }
+
+    function renderPoints(data) {
+      const container = document.getElementById('myPoints');
+      container.innerHTML = `
+        <div style="text-align: center;">
+          <div style="font-size: 3rem; font-weight: 700; color: var(--accent);">${data.points || 0}</div>
+          <div style="color: var(--text-secondary);">Level ${data.level || 1}</div>
+        </div>
+      `;
+    }
+
+    function renderLeaderboard(leaderboard) {
+      const container = document.getElementById('leaderboard');
+      if (!leaderboard || leaderboard.length === 0) {
+        container.innerHTML = '<p style="color: var(--text-secondary)">暫無數據</p>';
+        return;
+      }
+      container.innerHTML = leaderboard.map((item, i) => {
+        const rankClass = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : '';
+        return `
+          <div class="vo-leaderboard-item">
+            <div class="vo-leaderboard-rank ${rankClass}">${i + 1}</div>
+            <div class="vo-leaderboard-info">
+              <div class="vo-leaderboard-name">${item.userId}</div>
+            </div>
+            <div class="vo-leaderboard-points">${item.points} 分</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function loadBadges() {
+      voClient.getBadges();
+    }
+
+    function renderBadges(badges) {
+      const container = document.getElementById('myBadges');
+      if (!badges || badges.length === 0) {
+        container.innerHTML = '<p style="color: var(--text-secondary)">暫無徽章</p>';
+        return;
+      }
+      container.innerHTML = badges.map(b => `
+        <div class="vo-badge">
+          <span class="vo-badge-icon">${b.icon || '🏅'}</span>
+          <span>${b.name}</span>
+        </div>
+      `).join('');
+    }
+
+    // ==================== Whiteboard ====================
+
+    function loadWhiteboardPages() {
+      voClient.getWhiteboardPages();
+    }
+
+    function loadWhiteboardPage() {
+      const pageId = document.getElementById('whiteboardPage').value;
+      voClient.getWhiteboardPage(pageId);
+    }
+
+    function renderWhiteboard(page) {
+      const canvas = document.getElementById('whiteboardCanvas');
+      if (!page || !page.content || page.content.length === 0) {
+        canvas.innerHTML = '<p style="color: #999; text-align: center;">白板是空的，點擊添加內容</p>';
+        return;
+      }
+      canvas.innerHTML = page.content.map(item => `
+        <div class="vo-whiteboard-item" style="background: ${item.color || '#fff'}20; color: #000;">
+          ${item.text}
+        </div>
+      `).join('');
+    }
+
+    function showNewPageModal() {
+      const modal = document.getElementById('modalOverlay');
+      document.getElementById('modalTitle').textContent = '新建白板頁面';
+      document.getElementById('modalContent').innerHTML = `
+        <div class="vo-form-group">
+          <label class="vo-form-label">頁面名稱</label>
+          <input type="text" class="vo-form-input" id="pageName" placeholder="新頁面">
+        </div>
+        <button class="vo-btn vo-btn-primary" onclick="createWhiteboardPage()">創建</button>
+        <button class="vo-btn vo-btn-secondary" onclick="closeModal()">取消</button>
+      `;
+      modal.style.display = 'flex';
+    }
+
+    function createWhiteboardPage() {
+      const name = document.getElementById('pageName').value;
+      voClient.createWhiteboardPage(name);
+      closeModal();
+      showToast('頁面已創建');
+    }
+
+    function showAddItemModal() {
+      const modal = document.getElementById('modalOverlay');
+      document.getElementById('modalTitle').textContent = '添加內容';
+      document.getElementById('modalContent').innerHTML = `
+        <div class="vo-form-group">
+          <label class="vo-form-label">內容</label>
+          <textarea class="vo-form-textarea" id="itemContent" placeholder="輸入內容..."></textarea>
+        </div>
+        <div class="vo-form-group">
+          <label class="vo-form-label">顏色</label>
+          <input type="color" class="vo-form-input" id="itemColor" value="#ffffff">
+        </div>
+        <button class="vo-btn vo-btn-primary" onclick="addWhiteboardItem()">添加</button>
+        <button class="vo-btn vo-btn-secondary" onclick="closeModal()">取消</button>
+      `;
+      modal.style.display = 'flex';
+    }
+
+    function addWhiteboardItem() {
+      const text = document.getElementById('itemContent').value;
+      const color = document.getElementById('itemColor').value;
+      const pageId = document.getElementById('whiteboardPage').value;
+      voClient.addWhiteboardItem('text', text, color, 0, 0, pageId);
+      closeModal();
+      showToast('內容已添加');
+    }
+
+    // ==================== Forum ====================
+
+    function loadForumPosts() {
+      voClient.getForumPosts();
+    }
+
+    function renderForumPosts(posts) {
+      const container = document.getElementById('forumList');
+      if (!posts || posts.length === 0) {
+        container.innerHTML = '<p style="color: var(--text-secondary)">暫無帖子</p>';
+        return;
+      }
+      container.innerHTML = posts.map(p => `
+        <div class="vo-forum-post vo-fade-in">
+          <div class="vo-forum-post-title">${p.title}</div>
+          <div class="vo-forum-post-meta">
+            ${p.author} • ${new Date(p.createdAt).toLocaleDateString('zh-Hant')} • ${p.replies?.length || 0} 回覆
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function showCreatePostModal() {
+      const modal = document.getElementById('modalOverlay');
+      document.getElementById('modalTitle').textContent = '發布帖子';
+      document.getElementById('modalContent').innerHTML = `
+        <div class="vo-form-group">
+          <label class="vo-form-label">標題</label>
+          <input type="text" class="vo-form-input" id="postTitle" placeholder="標題">
+        </div>
+        <div class="vo-form-group">
+          <label class="vo-form-label">內容</label>
+          <textarea class="vo-form-textarea" id="postContent" placeholder="內容..."></textarea>
+        </div>
+        <button class="vo-btn vo-btn-primary" onclick="createPost()">發布</button>
+        <button class="vo-btn vo-btn-secondary" onclick="closeModal()">取消</button>
+      `;
+      modal.style.display = 'flex';
+    }
+
+    function createPost() {
+      const title = document.getElementById('postTitle').value;
+      const content = document.getElementById('postContent').value;
+      voClient.createForumPost(title, content);
+      closeModal();
+      showToast('帖子已發布');
+    }
+
+    // ==================== Calendar ====================
+
+    function loadCalendar() {
+      voClient.getCalendar();
+    }
+
+    function renderCalendar(events) {
+      const grid = document.getElementById('calendarGrid');
+      const monthLabel = document.getElementById('calendarMonth');
+      const now = new Date();
+      monthLabel.textContent = `${now.getFullYear()}年${now.getMonth() + 1}月`;
+
+      // Days header
+      const days = ['日', '一', '二', '三', '四', '五', '六'];
+      let html = days.map(d => `<div style="text-align: center; font-weight: bold;">${d}</div>`).join('');
+
+      // First day offset
+      const firstDay = new Date(now.getFullYear(), now.getMonth(), 1).getDay();
+      const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+
+      // Empty cells
+      for (let i = 0; i < firstDay; i++) {
+        html += '<div></div>';
+      }
+
+      // Day cells
+      for (let d = 1; d <= daysInMonth; d++) {
+        const isToday = d === now.getDate();
+        const dayEvents = (events || []).filter(e => {
+          const ed = new Date(e.start || e.createdAt);
+          return ed.getDate() === d && ed.getMonth() === now.getMonth();
+        });
+        html += `
+          <div class="vo-calendar-day ${isToday ? 'today' : ''} ${dayEvents.length > 0 ? 'has-event' : ''}">
+            <div>${d}</div>
+            ${dayEvents.slice(0, 2).map(e => `<div class="vo-calendar-event">${e.title || e.content?.slice(0, 10)}</div>`).join('')}
+          </div>
+        `;
+      }
+      grid.innerHTML = html;
+    }
+
+    function showAddEventModal() {
+      const modal = document.getElementById('modalOverlay');
+      document.getElementById('modalTitle').textContent = '添加事件';
+      document.getElementById('modalContent').innerHTML = `
+        <div class="vo-form-group">
+          <label class="vo-form-label">標題</label>
+          <input type="text" class="vo-form-input" id="eventTitle" placeholder="事件標題">
+        </div>
+        <div class="vo-form-group">
+          <label class="vo-form-label">開始時間</label>
+          <input type="datetime-local" class="vo-form-input" id="eventStart">
+        </div>
+        <button class="vo-btn vo-btn-primary" onclick="addEvent()">添加</button>
+        <button class="vo-btn vo-btn-secondary" onclick="closeModal()">取消</button>
+      `;
+      modal.style.display = 'flex';
+    }
+
+    function addEvent() {
+      const title = document.getElementById('eventTitle').value;
+      const start = document.getElementById('eventStart').value;
+      voClient.addCalendarEvent({ title, start: new Date(start).getTime() });
+      closeModal();
+      showToast('事件已添加');
+    }
+
+    // ==================== Stats ====================
+
+    function loadStats() {
+      voClient.getStats();
+    }
+
+    function renderStats(stats) {
+      if (stats.poll) document.getElementById('statPolls').textContent = stats.poll.created || 0;
+      if (stats.standup) document.getElementById('statStandups').textContent = stats.standup.submitted || 0;
+      if (stats.pomodoro) document.getElementById('statPomodoros').textContent = stats.pomodoro.completed || 0;
+      if (stats.mood) document.getElementById('statMoods').textContent = stats.mood.submitted || 0;
+      if (stats.reminder) document.getElementById('statReminders').textContent = (stats.reminder.active || 0) + (stats.reminder.triggered || 0);
+      if (stats.forum) document.getElementById('statPosts').textContent = stats.forum.created || 0;
+    }
+
+    // ==================== Utilities ====================
+
+    function closeModal() {
+      document.getElementById('modalOverlay').style.display = 'none';
+    }
+
+    function showToast(message, type = '') {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.className = 'vo-toast show ' + type;
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // Close modal on outside click
+    document.getElementById('modalOverlay').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('modalOverlay')) {
+        closeModal();
+      }
+    });
+
+    // Start
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

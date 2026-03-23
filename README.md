@@ -86,6 +86,168 @@
 
 ## 📝 更新記錄
 - 2026-03-14: 完成全部17項功能
+- 2026-03-20: Phase 4 - Voice 頻道虛擬桌面 + 自動清理腳本
+- 2026-03-21: Phase 3 - Standup + Status + 儀表板
+
+## 🎯 Phase 3: Standup + Status + 儀表板
+
+### 功能 1: Status 頻道
+- 設立 #status 頻道
+- 團隊成員用短訊息更新當前工作狀態
+- 格式：「🔵 正在處理 [任務] - 預計完成時間」
+- 使用 Reaction 表情表達進度：✅ 完成、⏳ 進行中、🚫 阻礙
+
+### 功能 2: Standup 自動化
+- 每日定時 Bot 發送問題模板
+- 「今日完成？/ 明日計劃？/ 阻礙？」
+- 成員回覆後，Bot 自動整理並發佈至 #standups-summary 頻道
+
+### 功能 3: 進度儀表板捷徑
+- 在固定訊息置頂專案進度連結（Google Sheets / Notion / Linear）
+- 使用 Discord 既公告頻道發佈每週進度報告
+
+### 命令列表
+
+```
+# 狀態命令
+!status                    # 查看所有成員狀態
+!status set [任務]         # 設定當前狀態
+!status done              # 標記完成
+!status blocker [原因]     # 標記阻礙
+!status clear             # 清除狀態
+
+# Standup 命令
+!standup                  # 獲取 Standup 範本
+!standup reply            # 回覆今日 Standup
+!standup list             # 查看今日 Standup
+!standup summary          # 生成摘要
+
+# 儀表板命令
+!dashboard                # 查看儀表板連結
+!dashboard set [type] [URL]  # 設定連結 (sheets|notion|linear)
+!dashboard pin            # 置頂訊息
+!dashboard weekly         # 測試每週報告
+```
+
+### 相關檔案
+- `status-db.json` - 成員狀態資料庫
+- `standup-db.json` - Standup 記錄資料庫
+- `dashboard-config.json` - 儀表板配置
+
+### 新增頻道
+- #status (ID: 1484660301449134101)
+- #standups-summary (ID: 1484660313705025626)
+- #project-dashboard (ID: 1484660327923712001)
+
+## 🎯 Phase 4: Voice 頻道虛擬桌面 + 自動清理
+
+### 功能 1: Voice 頻道虛擬桌面
+- 監控「設計組」「開發組」「客服組」語音頻道
+- 成員加入頻道 = 「在崗」狀態
+- 網站即時顯示各組在崗人數
+- API: `/api/voice-status`
+
+### 功能 2: 自動清理腳本
+- 自動歸檔已完成項目的頻道
+- 在落後於計劃的 threads 頂部添加「⚠️ 落後進度」提醒
+
+### 啟動方式
+
+```bash
+# 啟動 Web 服務器 (同時提供 API)
+npm start
+
+# 啟動 Discord Bot (需要設置環境變量)
+DISCORD_BOT_TOKEN=your_token npm run bot
+
+# 運行自動清理腳本
+npm run cleanup
+```
+
+### 環境變量
+- `DISCORD_BOT_TOKEN` - Discord Bot Token (從 https://discord.com/developers/applications 获取)
+- `PORT` - Web 服務器端口 (默認 18899)
+
+## 🎯 Phase 8: 6項新功能 (2026-03-21)
+
+### 功能 1: Notion/Airtable 任務同步
+- 監控 Notion/Airtable 中的任務更新
+- 有更新時自動推送到 Discord 相關頻道
+- 每 5 分鐘自動檢查
+
+### 功能 2: Jenkins/CI 建置通知
+- 監控 Jenkins build 狀態
+- 建置成功/失敗時自動通知
+- 支持 GitHub Actions, GitLab CI 等
+
+### 功能 3: 截止前自動提醒
+- 設定任務的截止時間
+- 截止前 24小時、2小時、1小時自動 DM 負責人
+- 支持 +1d, +2h 等相對時間格式
+
+### 功能 4: 安靜時段
+- 設定晚上 11 點後禁止通知
+- 可以用 Cron Job 控制
+- 緊急/urgent 類型可豁免
+
+### 功能 5: 每月清理
+- 自動檢測閒置的頻道/threads
+- 自動歸檔到「歸檔」分類
+- 閒置定義：超過 30 天無活動
+
+### 功能 6: Thread 封存
+- 自動為重要訊息啟用 Thread 封存
+- 檢測關鍵詞：[完成], [已解决], [Closed], [Done]
+- 保留記錄但不干擾主頻道
+
+### 命令
+
+```bash
+# Phase 8 幫助
+!phase8                     # 查看幫助
+!phase8 status              # 查看狀態
+
+# 任務同步
+!phase8 notion enable [apiKey] [databaseId]
+!phase8 notion channel [#channel]
+!phase8 airtable enable [apiKey] [baseId]
+
+# CI 監控
+!phase8 jenkins enable [url] [user] [token]
+!phase8 jenkins addjob [jobName]
+!phase8 ci enable github
+
+# 截止提醒
+!phase8 deadline add [任務] [@user] [+1d]
+!phase8 deadline list
+!phase8 deadline remove [id]
+
+# 安靜時段
+!phase8 quiet on/off
+!phase8 quiet set 23:00 08:00
+!phase8 quiet status
+
+# 每月清理
+!phase8 cleanup run
+!phase8 cleanup status
+
+# Thread 封存
+!phase8 archive run
+!phase8 archive list
+!phase8 archive add [關鍵詞]
+
+# 捷徑命令
+!deadline         # 查看任務列表
+!quiet status     # 查看安靜時段
+!archive list     # 查看封存記錄
+```
+
+### 相關檔案
+- `phase8-new-features.js` - Phase 8 功能模組
+- `phase8-data.json` - Phase 8 數據存儲
+
+### 測試文檔
+- `TEST-PLAN-PHASE8.md` - 詳細測試計劃
 
 ## 🎨 考試頁面製作 (SVG Workflow)
 

@@ -164,6 +164,318 @@ function broadcast(data) {
   }
 }
 
+// ========== ClawTeam API Functions ==========
+
+const AGENTS_DIR = path.join(process.env.HOME || '/Users/zachli', '.openclaw/workspace/agents');
+
+// Read agent identity files
+function readAgentIdentity(agentPath) {
+  const identityPath = path.join(agentPath, 'IDENTITY.md');
+  const toolsPath = path.join(agentPath, 'TOOLS.md');
+  const soulPath = path.join(agentPath, 'SOUL.md');
+  
+  const identity = { name: 'Unknown', role: 'Agent', emoji: '🤖' };
+  
+  try {
+    if (fs.existsSync(identityPath)) {
+      const content = fs.readFileSync(identityPath, 'utf8');
+      const nameMatch = content.match(/- \*\*Name:\*\*\s*(.+)/);
+      const emojiMatch = content.match(/- \*\*Emoji:\*\*\s*(.+)/);
+      if (nameMatch) identity.name = nameMatch[1].trim();
+      if (emojiMatch) identity.emoji = emojiMatch[1].trim();
+    }
+  } catch (e) {}
+  
+  try {
+    if (fs.existsSync(soulPath)) {
+      const content = fs.readFileSync(soulPath, 'utf8');
+      const roleMatch = content.match(/\*\*Role:\*\*\s*(.+)/);
+      if (roleMatch) identity.role = roleMatch[1].trim();
+    }
+  } catch (e) {}
+  
+  return identity;
+}
+
+// Get all teams (from agent workspaces)
+function getClawTeamTeams() {
+  const teams = [];
+  const agentDirs = ['secretary', 'dev', 'ta', 'tester'];
+  
+  for (const dir of agentDirs) {
+    const agentPath = path.join(AGENTS_DIR, dir);
+    if (fs.existsSync(agentPath)) {
+      const identity = readAgentIdentity(agentPath);
+      teams.push({
+        id: dir,
+        name: identity.name,
+        role: identity.role,
+        emoji: identity.emoji,
+        path: agentPath,
+      });
+    }
+  }
+  
+  return { teams, count: teams.length, timestamp: Date.now() };
+}
+
+// Get tasks from phase data files and agent memory
+function getClawTeamTasks() {
+  const tasks = { todo: [], inProgress: [], done: [], lastUpdated: null };
+  
+  // Read from phase data files
+  const phaseFiles = ['phase5-data.json', 'phase6-data.json', 'phase7-data.json', 'phase8-data.json', 'phase9-data.json'];
+  
+  for (const phaseFile of phaseFiles) {
+    try {
+      const filePath = path.join(BASE_DIR, phaseFile);
+      if (fs.existsSync(filePath)) {
+        const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+        
+        // Extract tasks from cron reminders
+        if (data.cronEnhanced?.reminders) {
+          for (const r of data.cronEnhanced.reminders) {
+            if (r.enabled) {
+              tasks.todo.push({
+                id: r.id,
+                title: r.name,
+                source: phaseFile,
+                type: 'reminder',
+                status: r.enabled ? 'active' : 'inactive'
+              });
+            }
+          }
+        }
+        
+        // Extract dashboard tasks
+        if (data.dashboard?.sections) {
+          tasks.inProgress.push({
+            id: 'dashboard',
+            title: 'Dashboard',
+            source: phaseFile,
+            type: 'feature',
+            sections: data.dashboard.sections
+          });
+        }
+      }
+    } catch (e) {}
+  }
+  
+  // Read from agent memory files for active tasks
+  const memoryDir = path.join(process.env.HOME || '/Users/zachli', '.openclaw/workspace/memory');
+  if (fs.existsSync(memoryDir)) {
+    try {
+      const files = fs.readdirSync(memoryDir).filter(f => f.endsWith('.md')).sort().reverse().slice(0, 7);
+      for (const file of files) {
+        const content = fs.readFileSync(path.join(memoryDir, file), 'utf8');
+        // Extract task-like lines (starting with - [ ] or - ✅)
+        const taskMatches = content.match(/- \[ \] (.+)/g) || [];
+        for (const match of taskMatches) {
+          const title = match.replace('- [ ] ', '').trim();
+          if (title && !tasks.todo.find(t => t.title === title)) {
+            tasks.todo.push({ id: `mem-${file}-${tasks.todo.length}`, title, source: file, type: 'memory' });
+          }
+        }
+        const doneMatches = content.match(/- ✅ (.+)/g) || [];
+        for (const match of doneMatches) {
+          const title = match.replace('- ✅ ', '').trim();
+          if (title && !tasks.done.find(t => t.title === title)) {
+            tasks.done.push({ id: `mem-${file}-${tasks.done.length}`, title, source: file, type: 'memory' });
+          }
+        }
+      }
+    } catch (e) {}
+  }
+  
+  tasks.lastUpdated = Date.now();
+  return tasks;
+}
+
+// Get agent status from OpenClaw sessions
+function getClawTeamAgents() {
+  const sessions = getSessions();
+  const now = Date.now();
+  
+  const agents = [];
+  const agentDirs = ['secretary', 'dev', 'ta', 'tester'];
+  
+  for (const dir of agentDirs) {
+    const agentPath = path.join(AGENTS_DIR, dir);
+    const identity = fs.existsSync(agentPath) ? readAgentIdentity(agentPath) : { name: dir, role: 'Agent', emoji: '🤖' };
+    
+    // Find matching session
+    const session = sessions.find(s => s.key.includes(`subagent:${dir}`) || s.key.includes(`:${dir}`));
+    
+    if (session) {
+      const ageMs = now - (session.updatedAt || now);
+      const ageMins = Math.floor(ageMs / 60000);
+      let status = 'offline';
+      if (ageMins < 2) status = 'busy';
+      else if (ageMins < 10) status = 'online';
+      else if (ageMins < 60) status = 'idle';
+      
+      agents.push({
+        id: dir,
+        name: identity.name,
+        emoji: identity.emoji,
+        role: identity.role,
+        status,
+        lastActive: ageMins,
+        session: session.key,
+        tokens: session.totalTokens || 0,
+        inputTokens: session.inputTokens || 0,
+        outputTokens: session.outputTokens || 0,
+        updatedAt: session.updatedAt
+      });
+    } else {
+      agents.push({
+        id: dir,
+        name: identity.name,
+        emoji: identity.emoji,
+        role: identity.role,
+        status: 'offline',
+        lastActive: -1,
+        session: null,
+        tokens: 0
+      });
+    }
+  }
+  
+  return { agents, count: agents.length, timestamp: Date.now() };
+}
+
+// Get recent messages from Discord (via Discord bot data)
+function getClawTeamMessages() {
+  const messages = [];
+  
+  // Read from Discord bot's message cache if available
+  const messageCachePath = path.join(BASE_DIR, 'discord-messages.json');
+  try {
+    if (fs.existsSync(messageCachePath)) {
+      const cache = JSON.parse(fs.readFileSync(messageCachePath, 'utf8'));
+      messages.push(...(cache.messages || []).slice(0, 50));
+    }
+  } catch (e) {}
+  
+  // Read from poll-db and keyword-db for recent activity
+  const dbFiles = ['poll-db.json', 'keyword-db.json'];
+  for (const dbFile of dbFiles) {
+    try {
+      const filePath = path.join(BASE_DIR, dbFile);
+      if (fs.existsSync(filePath)) {
+        const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+        // Extract recent polls/votes as "messages"
+        if (data.polls) {
+          for (const poll of data.polls.slice(0, 5)) {
+            messages.push({
+              id: `poll-${poll.id}`,
+              type: 'poll',
+              content: poll.question,
+              author: poll.author || 'system',
+              createdAt: poll.createdAt,
+              channel: poll.channelId
+            });
+          }
+        }
+        if (data.keywords) {
+          for (const kw of Object.keys(data.keywords || {}).slice(0, 5)) {
+            messages.push({
+              id: `keyword-${kw}`,
+              type: 'keyword',
+              content: `Keyword subscription: ${kw}`,
+              createdAt: Date.now()
+            });
+          }
+        }
+      }
+    } catch (e) {}
+  }
+  
+  // Read from OpenClaw sessions for recent messages
+  const sessions = getSessions();
+  for (const session of sessions.slice(0, 10)) {
+    if (session.messages && session.messages.length > 0) {
+      const lastMsg = session.messages[session.messages.length - 1];
+      const content = Array.isArray(lastMsg.content) 
+        ? lastMsg.content.find(c => c.type === 'text')?.text || '...'
+        : typeof lastMsg.content === 'string' ? lastMsg.content.slice(0, 100) : '...';
+      
+      messages.push({
+        id: `session-${session.sessionId?.slice(0, 8)}`,
+        type: 'session',
+        content: content.slice(0, 120),
+        author: session.agentId || 'unknown',
+        createdAt: session.updatedAt,
+        session: session.key
+      });
+    }
+  }
+  
+  // Sort by createdAt descending
+  messages.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+  
+  return { messages: messages.slice(0, 20), count: messages.length, timestamp: Date.now() };
+}
+
+// Get activity timeline from memory files and session logs
+function getClawTeamActivity() {
+  const activities = [];
+  const memoryDir = path.join(process.env.HOME || '/Users/zachli', '.openclaw/workspace/memory');
+  
+  // Read memory files for activity
+  if (fs.existsSync(memoryDir)) {
+    try {
+      const files = fs.readdirSync(memoryDir).filter(f => f.endsWith('.md')).sort().reverse().slice(0, 7);
+      
+      for (const file of files) {
+        const content = fs.readFileSync(path.join(memoryDir, file), 'utf8');
+        const dateMatch = file.match(/(\d{4}-\d{2}-\d{2})/);
+        
+        // Extract timestamp from file
+        const timestamp = dateMatch ? new Date(dateMatch[1]).getTime() : Date.now();
+        
+        // Look for action items and events
+        const lines = content.split('\n');
+        for (const line of lines) {
+          // Detect various activity types
+          if (line.includes('spawned') || line.includes('created') || line.includes('started')) {
+            activities.push({ type: 'spawn', description: line.trim().slice(0, 100), timestamp, source: file });
+          } else if (line.includes('completed') || line.includes('finished') || line.includes('done')) {
+            activities.push({ type: 'complete', description: line.trim().slice(0, 100), timestamp, source: file });
+          } else if (line.includes('error') || line.includes('failed') || line.includes('failed')) {
+            activities.push({ type: 'error', description: line.trim().slice(0, 100), timestamp, source: file });
+          } else if (line.match(/^## /)) {
+            activities.push({ type: 'section', description: line.replace(/^## /, '').trim(), timestamp, source: file });
+          }
+        }
+      }
+    } catch (e) {
+      console.error('[ClawTeam API] Error reading memory:', e.message);
+    }
+  }
+  
+  // Add agent status changes
+  const sessions = getSessions();
+  for (const session of sessions) {
+    if (session.key.includes('subagent:')) {
+      const agentId = session.key.split('subagent:')[1].split(':')[0];
+      activities.push({
+        type: 'agent',
+        description: `Agent ${agentId} session active`,
+        timestamp: session.updatedAt || Date.now(),
+        source: 'session'
+      });
+    }
+  }
+  
+  // Sort by timestamp descending
+  activities.sort((a, b) => b.timestamp - a.timestamp);
+  
+  return { activities: activities.slice(0, 50), count: activities.length, timestamp: Date.now() };
+}
+
+// ==============================================
+
 // --- HTTP server ---
 
 const MIME = {
@@ -176,12 +488,229 @@ const server = http.createServer((req, res) => {
   let filePath = req.url.split('?')[0];
   if (filePath === '/') filePath = '/index.html';
   
+  // API endpoint for voice status (from Discord bot)
+  if (filePath === '/api/voice-status') {
+    try {
+      const voiceStatus = JSON.parse(fs.readFileSync(path.join(BASE_DIR, 'voice-status.json'), 'utf8'));
+      res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+      res.end(JSON.stringify(voiceStatus));
+    } catch (e) {
+      res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+      res.end(JSON.stringify({ channels: {}, total: 0 }));
+    }
+    return;
+  }
+
   // API endpoint for current status
   if (filePath === '/api/status') {
     res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
     res.end(JSON.stringify(currentStatus || { agents: [] }));
     return;
   }
+
+  // ========== ClawTeam API Endpoints ==========
+  
+  // /api/clawteam/teams - List all teams
+  if (filePath === '/api/clawteam/teams') {
+    const teams = getClawTeamTeams();
+    res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+    res.end(JSON.stringify(teams));
+    return;
+  }
+
+  // /api/clawteam/tasks - Task kanban status
+  if (filePath === '/api/clawteam/tasks') {
+    const tasks = getClawTeamTasks();
+    res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+    res.end(JSON.stringify(tasks));
+    return;
+  }
+
+  // /api/clawteam/agents - Agent status
+  if (filePath === '/api/clawteam/agents') {
+    const agents = getClawTeamAgents();
+    res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+    res.end(JSON.stringify(agents));
+    return;
+  }
+
+  // /api/clawteam/messages - Recent inbox messages
+  if (filePath === '/api/clawteam/messages') {
+    const messages = getClawTeamMessages();
+    res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+    res.end(JSON.stringify(messages));
+    return;
+  }
+
+  // /api/clawteam/activity - Activity timeline
+  if (filePath === '/api/clawteam/activity') {
+    const activity = getClawTeamActivity();
+    res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+    res.end(JSON.stringify(activity));
+    return;
+  }
+
+  // ============================================
+  // Phase 11: Token Analysis API
+  // ============================================
+  
+  const { TokenAPI } = require('./phase11-api');
+  const tokenApi = new TokenAPI();
+  
+  // Token API routes
+  const tokenEndpoints = [
+    '/api/tokens/summary',
+    '/api/tokens/trend',
+    '/api/tokens/by-api',
+    '/api/tokens/by-model',
+    '/api/tokens/cache-efficiency',
+    '/api/tokens/vlm',
+    '/api/tokens/daily',
+    '/api/tokens/hourly',
+    '/api/tokens/export',
+    '/api/tokens/compare',
+    '/api/tokens/weekly',
+    '/api/tokens/monthly',
+    '/api/tokens/records'
+  ];
+  
+  if (tokenEndpoints.some(ep => filePath.startsWith(ep))) {
+    // Parse query string
+    const urlParts = filePath.split('?');
+    const endpoint = urlParts[0];
+    const queryString = urlParts[1] || '';
+    const params = {};
+    queryString.split('&').forEach(pair => {
+      const [key, value] = pair.split('=');
+      if (key) params[decodeURIComponent(key)] = decodeURIComponent(value || '');
+    });
+    
+    // Route to appropriate handler
+    let result = { success: false, error: { message: 'Not found', code: 'NOT_FOUND' } };
+    
+    try {
+      if (endpoint === '/api/tokens/summary') {
+        const { TokenAnalyzer } = require('./phase11-analyzer');
+        const analyzer = new TokenAnalyzer();
+        result = { success: true, data: analyzer.getSummaryWithRange(params.startDate, params.endDate) };
+      } else if (endpoint === '/api/tokens/trend') {
+        const { TokenAnalyzer } = require('./phase11-analyzer');
+        const analyzer = new TokenAnalyzer();
+        const records = analyzer.getRecords();
+        let filtered = records;
+        if (params.startDate || params.endDate) {
+          filtered = analyzer.filterByDateRange(records, params.startDate, params.endDate);
+        }
+        result = { success: true, data: { period: params.period || 'daily', trends: analyzer.getTrends(filtered, params.period || 'daily') } };
+      } else if (endpoint === '/api/tokens/by-api') {
+        const { TokenAnalyzer } = require('./phase11-analyzer');
+        const analyzer = new TokenAnalyzer();
+        const records = analyzer.getRecords();
+        let filtered = records;
+        if (params.startDate || params.endDate) {
+          filtered = analyzer.filterByDateRange(records, params.startDate, params.endDate);
+        }
+        const dist = analyzer.getApiDistribution(filtered);
+        const total = Object.values(dist).reduce((sum, d) => sum + d.tokens, 0);
+        result = { success: true, data: { distribution: dist, totalTokens: total, recordCount: filtered.length } };
+      } else if (endpoint === '/api/tokens/by-model') {
+        const { TokenAnalyzer } = require('./phase11-analyzer');
+        const analyzer = new TokenAnalyzer();
+        const records = analyzer.getRecords();
+        let filtered = records;
+        if (params.startDate || params.endDate) {
+          filtered = analyzer.filterByDateRange(records, params.startDate, params.endDate);
+        }
+        const dist = analyzer.getModelDistribution(filtered);
+        const total = Object.values(dist).reduce((sum, d) => sum + d.tokens, 0);
+        result = { success: true, data: { distribution: dist, totalTokens: total, recordCount: filtered.length } };
+      } else if (endpoint === '/api/tokens/cache-efficiency') {
+        const { TokenAnalyzer } = require('./phase11-analyzer');
+        const analyzer = new TokenAnalyzer();
+        const records = analyzer.getRecords();
+        let filtered = records;
+        if (params.startDate || params.endDate) {
+          filtered = analyzer.filterByDateRange(records, params.startDate, params.endDate);
+        }
+        const cache = analyzer.calculateCacheHitRate(filtered);
+        const io = analyzer.calculateInputOutputRatio(filtered);
+        result = { success: true, data: { ...cache, totalTokens: io.totalTokens, inputTokens: io.inputTokens, outputTokens: io.outputTokens, inputOutputRatio: io.ratio } };
+      } else if (endpoint === '/api/tokens/vlm') {
+        const { TokenAnalyzer } = require('./phase11-analyzer');
+        const analyzer = new TokenAnalyzer();
+        result = { success: true, data: analyzer.analyzeVLMUsage() };
+      } else if (endpoint === '/api/tokens/daily') {
+        const { TokenAnalyzer } = require('./phase11-analyzer');
+        const analyzer = new TokenAnalyzer();
+        const records = analyzer.getRecords();
+        let filtered = records;
+        if (params.startDate || params.endDate) {
+          filtered = analyzer.filterByDateRange(records, params.startDate, params.endDate);
+        }
+        let daily = analyzer.getDailyDistribution(filtered);
+        if (params.limit) daily = daily.slice(-parseInt(params.limit));
+        result = { success: true, data: { daily, count: daily.length } };
+      } else if (endpoint === '/api/tokens/hourly') {
+        const { TokenAnalyzer } = require('./phase11-analyzer');
+        const analyzer = new TokenAnalyzer();
+        const records = analyzer.getRecords();
+        let filtered = records;
+        if (params.startDate || params.endDate) {
+          filtered = analyzer.filterByDateRange(records, params.startDate, params.endDate);
+        }
+        const hourly = analyzer.getHourlyDistribution(filtered);
+        const hourlyArr = Object.entries(hourly).map(([h, t]) => ({ hour: parseInt(h), tokens: t }));
+        const peak = hourlyArr.reduce((max, h) => h.tokens > max.tokens ? h : max, hourlyArr[0]);
+        result = { success: true, data: { hourly: hourlyArr, peakHour: peak } };
+      } else if (endpoint === '/api/tokens/export') {
+        const { TokenAnalyzer } = require('./phase11-analyzer');
+        const analyzer = new TokenAnalyzer();
+        const records = analyzer.getRecords();
+        let filtered = records;
+        if (params.startDate || params.endDate) {
+          filtered = analyzer.filterByDateRange(records, params.startDate, params.endDate);
+        }
+        result = { success: true, data: { records: filtered, count: filtered.length, exportedAt: new Date().toISOString() } };
+      } else if (endpoint === '/api/tokens/compare') {
+        const { TokenAnalyzer } = require('./phase11-analyzer');
+        const analyzer = new TokenAnalyzer();
+        result = { success: true, data: analyzer.compareToPreviousPeriod(null, params.period || 'daily') };
+      } else if (endpoint === '/api/tokens/weekly') {
+        const { TokenAnalyzer } = require('./phase11-analyzer');
+        const analyzer = new TokenAnalyzer();
+        const summary = analyzer.buildWeeklySummary(null, params.weekStart);
+        result = summary ? { success: true, data: summary } : { success: false, error: { message: 'No data for specified week', code: 'NOT_FOUND' } };
+      } else if (endpoint === '/api/tokens/monthly') {
+        const { TokenAnalyzer } = require('./phase11-analyzer');
+        const analyzer = new TokenAnalyzer();
+        const summary = analyzer.buildMonthlySummary(null, params.month);
+        result = summary ? { success: true, data: summary } : { success: false, error: { message: 'No data for specified month', code: 'NOT_FOUND' } };
+      } else if (endpoint === '/api/tokens/records') {
+        const { TokenAnalyzer } = require('./phase11-analyzer');
+        const analyzer = new TokenAnalyzer();
+        const records = analyzer.getRecords();
+        let filtered = records;
+        if (params.startDate || params.endDate) {
+          filtered = analyzer.filterByDateRange(records, params.startDate, params.endDate);
+        }
+        filtered = [...filtered].sort((a, b) => new Date(b.consumptionTime) - new Date(a.consumptionTime));
+        const page = parseInt(params.page) || 1;
+        const limit = Math.min(parseInt(params.limit) || 50, 100);
+        const start = (page - 1) * limit;
+        result = { success: true, data: { records: filtered.slice(start, start + limit), pagination: { page, limit, total: filtered.length, totalPages: Math.ceil(filtered.length / limit) } } };
+      }
+      
+      res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+      res.end(JSON.stringify(result));
+      return;
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+      res.end(JSON.stringify({ success: false, error: { message: err.message, code: 'SERVER_ERROR' } }));
+      return;
+    }
+  }
+
+  // ============================================
 
   const fullPath = path.join(BASE_DIR, filePath);
   // Security: prevent path traversal

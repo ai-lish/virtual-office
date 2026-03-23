@@ -1,0 +1,37 @@
+{
+  "templates": [
+    {
+      "id": "daily-standup",
+      "name": "每日 Standup",
+      "category": "standup",
+      "content": "## 昨日完成\n- \n\n## 今日計劃\n- \n\n## 阻礙\n- 無",
+      "createdAt": 1711000000000,
+      "useCount": 0
+    },
+    {
+      "id": "bug-report",
+      "name": "Bug 報告",
+      "category": "report",
+      "content": "## Bug 描述\n\n## 重現步驟\n1. \n2. \n3. \n\n## 預期行為\n\n## 實際行為",
+      "createdAt": 1711000000000,
+      "useCount": 0
+    },
+    {
+      "id": "meeting-notes",
+      "name": "會議記錄",
+      "category": "notes",
+      "content": "## 會議主題\n\n## 出席者\n\n## 討論內容\n\n## 行動項目\n- [ ] ",
+      "createdAt": 1711000000000,
+      "useCount": 0
+    },
+    {
+      "id": "feature-request",
+      "name": "功能請求",
+      "category": "request",
+      "content": "## 功能名稱\n\n## 需求描述\n\n## 使用場景\n\n## 預期效果",
+      "createdAt": 1711000000000,
+      "useCount": 0
+    }
+  ],
+  "recentUse": {}
+}

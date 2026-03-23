@@ -1,0 +1,41 @@
+{
+  "location": "Hong_Kong",
+  "users": {},
+  "lastFetch": 1774127891443,
+  "cache": {
+    "success": true,
+    "current": {
+      "temp_C": "21",
+      "weatherDesc": "Partly cloudy",
+      "humidity": "8",
+      "windSpeed": "1",
+      "feelsLike": "21"
+    },
+    "forecast": [
+      {
+        "date": "2026-03-22",
+        "maxTemp": "22",
+        "minTemp": "20",
+        "avgTemp": "21",
+        "sunrise": "06:26 AM",
+        "sunset": "06:35 PM"
+      },
+      {
+        "date": "2026-03-23",
+        "maxTemp": "23",
+        "minTemp": "21",
+        "avgTemp": "22",
+        "sunrise": "06:25 AM",
+        "sunset": "06:35 PM"
+      },
+      {
+        "date": "2026-03-24",
+        "maxTemp": "23",
+        "minTemp": "21",
+        "avgTemp": "22",
+        "sunrise": "06:24 AM",
+        "sunset": "06:35 PM"
+      }
+    ]
+  }
+}

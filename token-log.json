@@ -1,0 +1,26 @@
+{
+  "meta": {
+    "lastUpdated": null,
+    "lastCsvImport": null,
+    "sourceFile": "token.csv",
+    "totalRecords": 0,
+    "version": "1.0"
+  },
+  "records": [],
+  "lastId": 0,
+  "dailySummary": {},
+  "weeklySummary": {},
+  "monthlySummary": {},
+  "vlmUsage": {
+    "coding-plan-vlm": {
+      "totalCalls": 0,
+      "totalTokens": 0,
+      "totalImages": 0,
+      "avgTokensPerCall": 0,
+      "avgImagesPerCall": 0,
+      "firstUse": null,
+      "lastUse": null,
+      "dailyBreakdown": {}
+    }
+  }
+}

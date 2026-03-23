@@ -1,5 +1,22 @@
 {
   "title": "🧑💻 虛擬辦公室 - Virtual Office",
+  "discord": {
+    "guildId": "1483416944681160757",
+    "voiceCategory": "虛擬桌面",
+    "channels": {
+      "design": { "name": "設計組", "roleId": null },
+      "dev": { "name": "開發組", "roleId": null },
+      "support": { "name": "客服組", "roleId": null }
+    },
+    "archiveCategory": "歸檔",
+    "forumChannels": [],
+    "standupChannel": null,
+    "weeklyChannel": null,
+    "templateChannel": null,
+    "statusChannel": "1484660301449134101",
+    "standupSummaryChannel": "1484660313705025626",
+    "dashboardChannel": "1484660327923712001"
+  },
   "agents": [
     {
       "id": "main",

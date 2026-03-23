@@ -1,0 +1,66 @@
+{
+  "webhooks": {
+    "rss": [],
+    "github": [],
+    "pypi": [],
+    "lastCheck": {}
+  },
+  "greeting": {
+    "enabled": true,
+    "time": "09:00",
+    "channels": ["1483436247618682900"],
+    "responses": {},
+    "lastSent": null
+  },
+  "voiceNotifications": {
+    "enabled": true,
+    "joinChannel": "1483436247618682900",
+    "leaveChannel": "1483436247618682900"
+  },
+  "ondiStatus": {
+    "enabled": true,
+    "channel": "1483436247618682900",
+    "history": []
+  },
+  "weeklyThemes": {
+    "monday": { "name": "創意發想", "description": "Brainstorming & 新點子" },
+    "wednesday": { "name": "進度衝刺", "description": "Execution & 實作" },
+    "friday": { "name": "回顧總結", "description": "Review & 學習" },
+    "currentTheme": null,
+    "themeChannel": "1483436247618682900"
+  },
+  "aiSummaries": {
+    "enabled": true,
+    "threshold": 50,
+    "summaryChannel": "1483436247618682900",
+    "conversationHistory": []
+  },
+  "gcalPush": {
+    "enabled": true,
+    "notifyMinutes": 5,
+    "notifyChannel": "1483436247618682900",
+    "calendarId": null,
+    "lastNotify": {}
+  },
+  "sync": {
+    "notion": { "enabled": false, "apiKey": null, "databaseId": null },
+    "linear": { "enabled": false, "apiKey": null, "teamId": null },
+    "statusMapping": {}
+  },
+  "polls": {
+    "slashEnabled": true,
+    "autoClose": true
+  },
+  "analytics": {
+    "enabled": true,
+    "trackCommands": true,
+    "trackVoiceTime": true,
+    "trackMessages": true,
+    "stats": {
+      "commands": {},
+      "voiceTime": {},
+      "messages": {},
+      "daily": {}
+    }
+  }
+}
