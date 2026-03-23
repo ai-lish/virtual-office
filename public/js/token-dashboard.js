@@ -105,20 +105,20 @@ class TokenDashboard {
       ]);
       
       this.data = {
-        summary: summary.data,
-        trends: trends.data,
-        byApi: byApi.data,
-        byModel: byModel.data,
-        cacheEfficiency: cacheEfficiency.data,
-        vlm: vlm.data,
-        daily: daily.data,
-        hourly: hourly.data
+        summary: summary,
+        trends: trends,
+        byApi: byApi,
+        byModel: byModel,
+        cacheEfficiency: cacheEfficiency,
+        vlm: vlm,
+        daily: daily,
+        hourly: hourly
       };
       
       // Load comparison
       try {
         const compare = await this.api.getCompare('daily');
-        this.data.compare = compare.data;
+        this.data.compare = compare;
       } catch (e) {
         console.warn('Could not load comparison:', e);
       }
@@ -218,7 +218,7 @@ class TokenDashboard {
     const container = document.getElementById('trend-chart');
     if (!container) return;
     
-    const trends = this.data.trends?.trends || [];
+    const trends = this.data.trends || [];
     const chartHtml = this.charts.renderASCIILineChart(trends, { width: 70, height: 12 });
     container.innerHTML = `<pre class="ascii-chart">${chartHtml}</pre>`;
   }
@@ -230,7 +230,7 @@ class TokenDashboard {
     const container = document.getElementById('api-dist-chart');
     if (!container) return;
     
-    const byApi = this.data.byApi?.distribution || {};
+    const byApi = this.data.byApi || {};
     this.charts.renderPieChart(byApi, { container });
   }
 
@@ -241,7 +241,7 @@ class TokenDashboard {
     const container = document.getElementById('model-dist-chart');
     if (!container) return;
     
-    const byModel = this.data.byModel?.distribution || {};
+    const byModel = this.data.byModel || {};
     this.charts.renderPieChart(byModel, { container });
   }
 
@@ -252,7 +252,7 @@ class TokenDashboard {
     const container = document.getElementById('heatmap-chart');
     if (!container) return;
     
-    const hourly = this.data.hourly?.hourly || [];
+    const hourly = this.data.hourly || [];
     this.charts.renderHeatmap(hourly, { container });
   }
 
@@ -317,7 +317,7 @@ class TokenDashboard {
     const container = document.getElementById('daily-chart');
     if (!container) return;
     
-    const daily = this.data.daily?.daily || [];
+    const daily = this.data.daily || [];
     this.charts.renderBarChart(daily.slice(-14), { container, maxHeight: 120 });
   }
 

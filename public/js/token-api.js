@@ -204,6 +204,35 @@ class TokenAPI {
   }
 
   /**
+   * Get comparison data (week vs week)
+   */
+  async getCompare(period = 'daily') {
+    const trend = await this.getTrend(period);
+    if (trend.length < 2) {
+      return { changePercent: 0, trend: 'stable', current: 0, previous: 0 };
+    }
+    
+    const half = Math.floor(trend.length / 2);
+    const recent = trend.slice(half);
+    const previous = trend.slice(0, half);
+    
+    const currentTotal = recent.reduce((sum, d) => sum + d.tokens, 0);
+    const previousTotal = previous.reduce((sum, d) => sum + d.tokens, 0);
+    
+    let changePercent = 0;
+    if (previousTotal > 0) {
+      changePercent = ((currentTotal - previousTotal) / previousTotal) * 100;
+    }
+    
+    return {
+      changePercent: Math.round(changePercent * 10) / 10,
+      trend: changePercent > 5 ? 'up' : changePercent < -5 ? 'down' : 'stable',
+      current: currentTotal,
+      previous: previousTotal
+    };
+  }
+
+  /**
    * Get hourly distribution
    */
   async getHourly(startDate, endDate) {
@@ -267,9 +296,24 @@ class TokenAPI {
       r.consumedModel && r.consumedModel.includes('vlm')
     );
     
+    const totalTokens = vlmRecords.reduce((sum, r) => sum + (r.totalUsageQuantity || 0), 0);
+    
+    // Find peak hour
+    const hourlyTokens = {};
+    for (let i = 0; i < 24; i++) hourlyTokens[i] = 0;
+    vlmRecords.forEach(r => {
+      if (r.consumptionTime) {
+        const hour = parseInt(r.consumptionTime.split('T')[1].split(':')[0]);
+        hourlyTokens[hour] += r.totalUsageQuantity || 0;
+      }
+    });
+    const peakHour = Object.entries(hourlyTokens).sort((a, b) => b[1] - a[1])[0];
+    
     return {
       totalCalls: vlmRecords.length,
-      totalTokens: vlmRecords.reduce((sum, r) => sum + (r.totalUsageQuantity || 0), 0)
+      totalTokens: totalTokens,
+      avgTokensPerCall: vlmRecords.length > 0 ? Math.round(totalTokens / vlmRecords.length) : 0,
+      peakHour: peakHour ? parseInt(peakHour[0]) : null
     };
   }
 
