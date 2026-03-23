@@ -11,8 +11,8 @@
   --token-bg-dark: #1E1F22;
   --token-bg-card: #2C2F33;
   --token-text: #FFFFFF;
-  --token-text-muted: #B9BBBE;
-  --token-border: #40444B;
+  --token-text-muted: #9BA1AB;
+  --token-border: #505560;
 }
 
 /* Reset */
@@ -47,7 +47,7 @@ body {
 }
 
 .dashboard-title {
-  font-size: 28px;
+  font-size: 36px;
   font-weight: 700;
   display: flex;
   align-items: center;
@@ -55,7 +55,7 @@ body {
 }
 
 .dashboard-title .emoji {
-  font-size: 32px;
+  font-size: 40px;
 }
 
 .dashboard-controls {
@@ -86,20 +86,22 @@ body {
 }
 
 .kpi-card .label {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--token-text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 8px;
+  letter-spacing: 0.8px;
+  margin-bottom: 10px;
   display: flex;
   align-items: center;
   gap: 6px;
+  font-weight: 600;
 }
 
 .kpi-card .value {
-  font-size: 28px;
-  font-weight: 700;
+  font-size: 36px;
+  font-weight: 800;
   color: var(--token-text);
+  letter-spacing: -0.5px;
 }
 
 .kpi-card .value.success { color: var(--token-success); }
@@ -131,12 +133,13 @@ body {
 }
 
 .chart-title {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 700;
   margin-bottom: 16px;
   display: flex;
   align-items: center;
   gap: 8px;
+  color: var(--token-text);
 }
 
 /* Chart Containers */
@@ -174,17 +177,18 @@ body {
 }
 
 .distribution-name {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--token-text-muted);
+  font-weight: 500;
 }
 
 .distribution-value {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 700;
 }
 
 .distribution-percent {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--token-text-muted);
 }
 
@@ -353,12 +357,13 @@ select:focus {
 }
 
 .section-title {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 16px;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 20px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  color: var(--token-text);
 }
 
 /* Badge */
