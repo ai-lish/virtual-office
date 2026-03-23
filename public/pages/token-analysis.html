@@ -36,12 +36,16 @@
     </header>
 
     <!-- Loading State -->
-    <div id="loading" class="loading" style="display: none;">
-      載入中...
+    <div id="loading" class="loading" style="display: flex; justify-content: center; align-items: center; min-height: 200px;">
+      <div style="text-align: center;">
+        <div style="font-size: 2rem;">⏳</div>
+        <div style="margin-top: 10px;">載入中...</div>
+        <div id="loading-status" style="margin-top: 5px; font-size: 0.8em; color: var(--token-text-muted);">連接中...</div>
+      </div>
     </div>
 
     <!-- Error State -->
-    <div id="error-message" class="error-message" style="display: none;"></div>
+    <div id="error-message" class="error-message" style="display: none; padding: 20px; background: #ED4245; color: white; border-radius: 8px; margin: 20px;"></div>
 
     <!-- KPI Cards -->
     <section class="section">

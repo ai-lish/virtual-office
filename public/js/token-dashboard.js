@@ -75,14 +75,16 @@ class TokenDashboard {
    * Load all dashboard data
    */
   async loadAllData() {
-    this.showLoading(true);
+    this.showLoading(true, '載入中...');
     
     try {
+      this.showLoading(true, '載入摘要...');
       const params = {
         startDate: this.dateRange.startDate,
         endDate: this.dateRange.endDate
       };
       
+      this.showLoading(true, '載入數據...');
       // Load all data in parallel
       const [
         summary,
@@ -103,6 +105,8 @@ class TokenDashboard {
         this.api.getDaily(30, params.startDate, params.endDate),
         this.api.getHourly(params.startDate, params.endDate)
       ]);
+      
+      this.showLoading(true, '處理數據...');
       
       this.data = {
         summary: summary,
@@ -125,7 +129,9 @@ class TokenDashboard {
       
     } catch (error) {
       console.error('Error loading data:', error);
-      this.showError(error.message);
+      this.showError('載入錯誤: ' + error.message);
+      this.showLoading(false);
+      return;
     }
     
     this.showLoading(false);
@@ -334,10 +340,14 @@ class TokenDashboard {
   /**
    * Show/hide loading state
    */
-  showLoading(show) {
+  showLoading(show, message = '載入中...') {
     const loading = document.getElementById('loading');
+    const status = document.getElementById('loading-status');
     if (loading) {
       loading.style.display = show ? 'flex' : 'none';
+    }
+    if (status) {
+      status.textContent = message;
     }
   }
 
