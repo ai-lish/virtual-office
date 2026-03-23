@@ -71,11 +71,11 @@ class TokenAnalyzer {
    */
   calculateCacheHitRate(records) {
     const cacheRead = records
-      .filter(r => r.consumedApi === 'cache-read')
+      .filter(r => r.consumedApi && r.consumedApi.includes('cache-read'))
       .reduce((sum, r) => sum + r.totalUsageQuantity, 0);
     
     const cacheCreate = records
-      .filter(r => r.consumedApi === 'cache-create')
+      .filter(r => r.consumedApi && r.consumedApi.includes('cache-create'))
       .reduce((sum, r) => sum + r.totalUsageQuantity, 0);
     
     const total = cacheRead + cacheCreate;
@@ -387,10 +387,10 @@ class TokenAnalyzer {
       
       // Cache for this day
       const cacheRead = dayRecords
-        .filter(r => r.consumedApi === 'cache-read')
+        .filter(r => r.consumedApi && r.consumedApi.includes('cache-read'))
         .reduce((sum, r) => sum + r.totalUsageQuantity, 0);
       const cacheCreate = dayRecords
-        .filter(r => r.consumedApi === 'cache-create')
+        .filter(r => r.consumedApi && r.consumedApi.includes('cache-create'))
         .reduce((sum, r) => sum + r.totalUsageQuantity, 0);
       const cacheTotal = cacheRead + cacheCreate;
       
