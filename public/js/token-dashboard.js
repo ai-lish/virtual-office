@@ -86,6 +86,11 @@ class TokenDashboard {
       
       this.showLoading(true, '載入數據...');
       // Load all data in parallel
+      // Try quick summary first (fast path)
+      const quickSummary = await this.api.getSummaryQuick(params.startDate, params.endDate);
+      this.data = { summary: quickSummary };
+      this.showLoading(true, '載入詳細數據...');
+
       const [
         summary,
         trends,
@@ -105,7 +110,7 @@ class TokenDashboard {
         this.api.getDaily(30, params.startDate, params.endDate),
         this.api.getHourly(params.startDate, params.endDate)
       ]);
-      
+
       this.showLoading(true, '處理數據...');
       
       this.data = {
@@ -357,7 +362,31 @@ class TokenDashboard {
   showError(message) {
     const error = document.getElementById('error-message');
     if (error) {
-      error.textContent = message;
+      error.innerHTML = '';
+      const msg = document.createElement('div');
+      msg.textContent = message;
+      error.appendChild(msg);
+
+      // link to raw token file for troubleshooting
+      const rawLink = document.createElement('a');
+      rawLink.href = '../token-log.json';
+      rawLink.target = '_blank';
+      rawLink.style.display = 'block';
+      rawLink.style.marginTop = '8px';
+      rawLink.style.color = 'white';
+      rawLink.textContent = '檢視原始 token-log.json';
+      error.appendChild(rawLink);
+
+      const retry = document.createElement('button');
+      retry.textContent = '重試';
+      retry.className = 'btn btn-primary';
+      retry.style.marginTop = '12px';
+      retry.addEventListener('click', () => {
+        error.style.display = 'none';
+        this.refresh();
+      });
+      error.appendChild(retry);
+
       error.style.display = 'block';
     }
   }
