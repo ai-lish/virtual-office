@@ -324,11 +324,22 @@ class CopilotUsageTracker {
           let body = '';
           res.on('data', chunk => { body += chunk; });
           res.on('end', () => {
-            try {
-              resolve(JSON.parse(body));
-            } catch (e) {
-              reject(new Error('Failed to parse GitHub API response'));
+            let parsed;
+            try { parsed = JSON.parse(body); } catch (e) {
+              resolve({ error: 'GitHub API returned non-JSON response', status: res.statusCode });
+              return;
             }
+            if (res.statusCode !== 200) {
+              resolve({
+                error: parsed.message || `GitHub API error (HTTP ${res.statusCode})`,
+                status: res.statusCode,
+                note: parsed.message === 'Not Found'
+                  ? 'Endpoint unavailable for this account type'
+                  : 'Ensure GITHUB_TOKEN has manage_billing:copilot scope'
+              });
+              return;
+            }
+            resolve(parsed);
           });
         });
         req.on('error', reject);

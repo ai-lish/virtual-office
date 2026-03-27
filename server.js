@@ -801,6 +801,22 @@ const server = http.createServer((req, res) => {
         return;
       }
 
+      if (req.method === 'GET' && filePath === '/api/copilot/fetch-github') {
+        tracker.fetchFromGitHub().then(result => {
+          // Auto-apply quota if GitHub returned valid billing data
+          if (result && !result.error && result.seat_breakdown) {
+            const seats = result.seat_breakdown;
+            const total = seats.total || null;
+            const used  = seats.active_this_cycle !== undefined ? seats.active_this_cycle : null;
+            if (total !== null) tracker.setQuota(total, used, null);
+          }
+          sendOk({ raw: result, applied: !!(result && !result.error && result.seat_breakdown) });
+        }).catch(err => {
+          sendErr(err.message, 'FETCH_ERROR', 500);
+        });
+        return;
+      }
+
       sendErr('Copilot endpoint not found', 'NOT_FOUND', 404);
       return;
     } catch (err) {
