@@ -1,0 +1,34 @@
+{
+  "meta": {
+    "generatedAt": "2026-03-27T20:52:00Z",
+    "totalSuggestions": 1200,
+    "totalUsers": 24,
+    "dateRange": { "start": "2026-03-20", "end": "2026-03-27" }
+  },
+  "metrics": {
+    "totalSuggestions": 1200,
+    "acceptedSuggestions": 720,
+    "acceptanceRate": 0.6,
+    "totalInputTokens": 450000,
+    "totalOutputTokens": 1550000,
+    "totalTokens": 2000000,
+    "avgTokensPerSuggestion": 166
+  },
+  "daily": [
+    { "date": "2026-03-20", "suggestions": 120, "tokens": 200000 },
+    { "date": "2026-03-21", "suggestions": 140, "tokens": 220000 },
+    { "date": "2026-03-22", "suggestions": 130, "tokens": 210000 },
+    { "date": "2026-03-23", "suggestions": 150, "tokens": 240000 },
+    { "date": "2026-03-24", "suggestions": 170, "tokens": 280000 },
+    { "date": "2026-03-25", "suggestions": 190, "tokens": 300000 },
+    { "date": "2026-03-26", "suggestions": 200, "tokens": 350000 },
+    { "date": "2026-03-27", "suggestions": 200, "tokens": 400000 }
+  ],
+  "byUser": {
+    "alice": { "suggestions": 240, "accepted": 140, "tokens": 420000 },
+    "bob": { "suggestions": 180, "accepted": 120, "tokens": 300000 },
+    "carol": { "suggestions": 150, "accepted": 90, "tokens": 240000 },
+    "dave": { "suggestions": 120, "accepted": 80, "tokens": 200000 },
+    "others": { "suggestions": 510, "accepted": 290, "tokens": 840000 }
+  }
+}
