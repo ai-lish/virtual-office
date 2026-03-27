@@ -711,6 +711,122 @@ const server = http.createServer((req, res) => {
   }
 
   // ============================================
+  // Phase 12: Copilot Usage API
+  // ============================================
+
+  if (filePath.startsWith('/api/copilot/')) {
+    const { CopilotUsageTracker, COPILOT_MODEL_MULTIPLIERS } = require('./copilot-usage-api');
+    const tracker = new CopilotUsageTracker();
+    const headers = { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' };
+
+    const sendOk = (data) => {
+      res.writeHead(200, headers);
+      res.end(JSON.stringify({ success: true, data }));
+    };
+    const sendErr = (message, code, status) => {
+      res.writeHead(status || 400, headers);
+      res.end(JSON.stringify({ success: false, error: { message, code: code || 'ERROR' } }));
+    };
+
+    const readBody = (cb) => {
+      let body = '';
+      req.on('data', chunk => { body += chunk; });
+      req.on('end', () => {
+        try {
+          cb(null, body ? JSON.parse(body) : {});
+        } catch (e) {
+          cb(new Error('Invalid JSON body'));
+        }
+      });
+    };
+
+    try {
+      if (req.method === 'GET' && filePath === '/api/copilot/quota') {
+        sendOk(tracker.getQuotaStatus());
+        return;
+      }
+
+      if (req.method === 'GET' && filePath === '/api/copilot/analysis') {
+        sendOk(tracker.getUsageAnalysis());
+        return;
+      }
+
+      if (req.method === 'GET' && filePath === '/api/copilot/models') {
+        const models = Object.entries(COPILOT_MODEL_MULTIPLIERS).map(([name, multiplier]) => ({
+          name,
+          multiplier,
+          type: multiplier === 0 ? 'base' : 'premium'
+        }));
+        sendOk({ models, total: models.length });
+        return;
+      }
+
+      if (req.method === 'POST' && filePath === '/api/copilot/log') {
+        readBody((err, body) => {
+          if (err) { sendErr(err.message, 'BAD_REQUEST'); return; }
+          try {
+            const { model, feature, tokens } = body;
+            const entry = tracker.logUsage(model, feature, tokens);
+            sendOk({ entry, quota: tracker.getQuotaStatus() });
+          } catch (e) {
+            sendErr(e.message, 'SERVER_ERROR', 500);
+          }
+        });
+        return;
+      }
+
+      if (req.method === 'POST' && filePath === '/api/copilot/preference') {
+        readBody((err, body) => {
+          if (err) { sendErr(err.message, 'BAD_REQUEST'); return; }
+          try {
+            const result = tracker.setModelPreference(body.preference);
+            sendOk(result);
+          } catch (e) {
+            sendErr(e.message, 'BAD_REQUEST');
+          }
+        });
+        return;
+      }
+
+      if (req.method === 'POST' && filePath === '/api/copilot/quota') {
+        readBody((err, body) => {
+          if (err) { sendErr(err.message, 'BAD_REQUEST'); return; }
+          try {
+            const quota = tracker.setQuota(body.total, body.used, body.resetDate);
+            sendOk({ quota });
+          } catch (e) {
+            sendErr(e.message, 'SERVER_ERROR', 500);
+          }
+        });
+        return;
+      }
+
+      if (req.method === 'GET' && filePath === '/api/copilot/fetch-github') {
+        tracker.fetchFromGitHub().then(result => {
+          // Auto-apply quota if GitHub returned valid billing data
+          if (result && !result.error && result.seat_breakdown) {
+            const seats = result.seat_breakdown;
+            const total = seats.total || null;
+            const used  = seats.active_this_cycle !== undefined ? seats.active_this_cycle : null;
+            if (total !== null) tracker.setQuota(total, used, null);
+          }
+          sendOk({ raw: result, applied: !!(result && !result.error && result.seat_breakdown) });
+        }).catch(err => {
+          sendErr(err.message, 'FETCH_ERROR', 500);
+        });
+        return;
+      }
+
+      sendErr('Copilot endpoint not found', 'NOT_FOUND', 404);
+      return;
+    } catch (err) {
+      res.writeHead(500, headers);
+      res.end(JSON.stringify({ success: false, error: { message: err.message, code: 'SERVER_ERROR' } }));
+      return;
+    }
+  }
+
+  // ============================================
 
   const fullPath = path.join(BASE_DIR, filePath);
   // Security: prevent path traversal

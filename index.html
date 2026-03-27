@@ -1608,6 +1608,101 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- Phase 12: Copilot Usage Dashboard -->
+                <div id="copilot-dashboard" style="margin-top: 30px; max-width: 900px;">
+                    <h2 style="margin-bottom: 15px;">🤖 GitHub Copilot Premium 用量</h2>
+
+                    <!-- Quota Bar -->
+                    <div style="background: #16213e; border-radius: 8px; padding: 16px; margin-bottom: 16px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <span style="color: #ccc; font-size: 0.9em;">Premium 請求配額</span>
+                            <span id="copilot-quota-label" style="font-size: 0.9em; color: #888;">載入中…</span>
+                        </div>
+                        <div style="background: #0f3460; border-radius: 4px; height: 12px; overflow: hidden;">
+                            <div id="copilot-quota-bar" style="height: 100%; width: 0%; border-radius: 4px; background: #2ecc71; transition: width 0.4s, background 0.4s;"></div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px;">
+                            <div style="text-align: center;">
+                                <div style="font-size: 0.78em; color: #888;">剩餘</div>
+                                <div id="copilot-remaining" style="font-weight: bold; font-size: 1.1em;">-</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 0.78em; color: #888;">每日預算</div>
+                                <div id="copilot-daily-budget" style="font-weight: bold; font-size: 1.1em;">-</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 0.78em; color: #888;">重置日期</div>
+                                <div id="copilot-reset-date" style="font-weight: bold; font-size: 1.1em;">-</div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 12px; display: flex; align-items: center; gap: 10px;">
+                            <button id="copilot-sync-btn" onclick="syncCopilotFromGitHub()" style="padding: 6px 14px; border-radius: 6px; border: 1px solid #444; background: #0f3460; color: #ccc; cursor: pointer; font-size: 0.82em;">🔄 從 GitHub 同步</button>
+                            <span id="copilot-sync-status" style="font-size: 0.78em; color: #888;"></span>
+                        </div>
+                    </div>
+
+                    <!-- Recommendation + Strategy -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+                        <!-- Recommendation -->
+                        <div id="copilot-recommendation-card" style="background: #16213e; border-radius: 8px; padding: 16px; border-left: 4px solid #2ecc71;">
+                            <div style="font-size: 0.78em; color: #888; margin-bottom: 4px;">智能推薦</div>
+                            <div id="copilot-rec-label" style="font-weight: bold; margin-bottom: 4px;">-</div>
+                            <div id="copilot-rec-model" style="font-size: 0.85em; color: #aaa;">推薦模型：-</div>
+                            <div id="copilot-rec-message" style="font-size: 0.8em; color: #888; margin-top: 6px;">-</div>
+                        </div>
+                        <!-- Strategy Buttons -->
+                        <div style="background: #16213e; border-radius: 8px; padding: 16px;">
+                            <div style="font-size: 0.78em; color: #888; margin-bottom: 8px;">模型策略</div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                                <button id="copilot-pref-auto"     onclick="setCopilotPreference('auto')"     style="padding: 6px; border-radius: 6px; border: 1px solid #444; background: #0f3460; color: #ccc; cursor: pointer; font-size: 0.8em;">🔄 auto</button>
+                                <button id="copilot-pref-premium"  onclick="setCopilotPreference('premium')"  style="padding: 6px; border-radius: 6px; border: 1px solid #444; background: #0f3460; color: #ccc; cursor: pointer; font-size: 0.8em;">⚡ premium</button>
+                                <button id="copilot-pref-balanced" onclick="setCopilotPreference('balanced')" style="padding: 6px; border-radius: 6px; border: 1px solid #444; background: #0f3460; color: #ccc; cursor: pointer; font-size: 0.8em;">⚖️ balanced</button>
+                                <button id="copilot-pref-base"     onclick="setCopilotPreference('base')"     style="padding: 6px; border-radius: 6px; border: 1px solid #444; background: #0f3460; color: #ccc; cursor: pointer; font-size: 0.8em;">💰 base</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Summary Cards -->
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px;">
+                        <div style="background: #16213e; border-radius: 8px; padding: 14px; text-align: center;">
+                            <div style="font-size: 0.78em; color: #888;">今日用量</div>
+                            <div id="copilot-today-cost" style="font-size: 1.4rem; font-weight: bold;">-</div>
+                            <div id="copilot-today-count" style="font-size: 0.78em; color: #888;">- 次</div>
+                        </div>
+                        <div style="background: #16213e; border-radius: 8px; padding: 14px; text-align: center;">
+                            <div style="font-size: 0.78em; color: #888;">本週用量</div>
+                            <div id="copilot-week-cost" style="font-size: 1.4rem; font-weight: bold;">-</div>
+                            <div id="copilot-week-count" style="font-size: 0.78em; color: #888;">- 次</div>
+                        </div>
+                        <div style="background: #16213e; border-radius: 8px; padding: 14px; text-align: center;">
+                            <div style="font-size: 0.78em; color: #888;">總計用量</div>
+                            <div id="copilot-total-cost" style="font-size: 1.4rem; font-weight: bold;">-</div>
+                            <div id="copilot-total-count" style="font-size: 0.78em; color: #888;">- 次</div>
+                        </div>
+                    </div>
+
+                    <!-- 7-Day Trend + Model Distribution -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <!-- 7-Day Trend Chart -->
+                        <div style="background: #16213e; border-radius: 8px; padding: 16px;">
+                            <div style="font-size: 0.85em; color: #ccc; margin-bottom: 12px;">📈 7天趨勢</div>
+                            <div id="copilot-trend-chart" style="display: flex; align-items: flex-end; gap: 6px; height: 80px;">
+                                <!-- bars rendered by JS -->
+                            </div>
+                            <div id="copilot-trend-labels" style="display: flex; gap: 6px; margin-top: 4px;">
+                                <!-- labels rendered by JS -->
+                            </div>
+                        </div>
+                        <!-- Model Distribution -->
+                        <div style="background: #16213e; border-radius: 8px; padding: 16px;">
+                            <div style="font-size: 0.85em; color: #ccc; margin-bottom: 12px;">🔍 模型分佈</div>
+                            <div id="copilot-model-dist" style="font-size: 0.82em;">
+                                <div style="color: #888;">暫無資料</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 
                 <!-- Floating Secretary Avatar (Draggable) -->
                 <div class="floating-secretary" id="floatingSecretary" onclick="showSecretaryInfo()" style="cursor:move;" title="可以拖曳移動">
@@ -3184,6 +3279,144 @@
             }
         }
 
+        // ===============================
+        // COPILOT USAGE DASHBOARD (Phase 12)
+        // ===============================
+        async function loadCopilotDashboard() {
+            try {
+                const [quotaRes, analysisRes] = await Promise.all([
+                    fetch('/api/copilot/quota'),
+                    fetch('/api/copilot/analysis')
+                ]);
+                if (!quotaRes.ok || !analysisRes.ok) return;
+                const quotaData = await quotaRes.json();
+                const analysisData = await analysisRes.json();
+                if (!quotaData.success || !analysisData.success) return;
+
+                const q = quotaData.data;
+                const a = analysisData.data;
+
+                // Quota bar
+                const pct = q.usedPercent || 0;
+                const barColor = pct >= 95 ? '#e74c3c' : pct >= 80 ? '#f39c12' : '#2ecc71';
+                const bar = document.getElementById('copilot-quota-bar');
+                if (bar) { bar.style.width = Math.min(pct, 100) + '%'; bar.style.background = barColor; }
+
+                const setEl = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
+                setEl('copilot-quota-label', `${q.used} / ${q.total} (${pct}%)`);
+                setEl('copilot-remaining', q.remaining);
+                setEl('copilot-daily-budget', q.dailyBudget);
+                setEl('copilot-reset-date', q.resetDate ? q.resetDate.slice(0, 10) : '未設定');
+
+                // Recommendation
+                const rec = q.recommendation;
+                if (rec) {
+                    setEl('copilot-rec-label', `${rec.emoji} ${rec.label}`);
+                    setEl('copilot-rec-model', `推薦模型：${rec.suggestedModel}`);
+                    setEl('copilot-rec-message', rec.message);
+                    const card = document.getElementById('copilot-recommendation-card');
+                    if (card) card.style.borderLeftColor = rec.color;
+                }
+
+                // Strategy buttons highlight
+                ['auto', 'premium', 'balanced', 'base'].forEach(p => {
+                    const btn = document.getElementById('copilot-pref-' + p);
+                    if (btn) {
+                        btn.style.background = q.modelPreference === p ? '#e94560' : '#0f3460';
+                        btn.style.color = q.modelPreference === p ? '#fff' : '#ccc';
+                        btn.style.borderColor = q.modelPreference === p ? '#e94560' : '#444';
+                    }
+                });
+
+                // Summary cards
+                const s = a.summary;
+                setEl('copilot-today-cost', s.today.premiumCost);
+                setEl('copilot-today-count', s.today.count + ' 次');
+                setEl('copilot-week-cost', s.week.premiumCost);
+                setEl('copilot-week-count', s.week.count + ' 次');
+                setEl('copilot-total-cost', s.total.premiumCost);
+                setEl('copilot-total-count', s.total.count + ' 次');
+
+                // 7-day trend chart
+                const trend = a.trend7Days || [];
+                const chartEl = document.getElementById('copilot-trend-chart');
+                const labelsEl = document.getElementById('copilot-trend-labels');
+                if (chartEl && trend.length) {
+                    const maxCost = Math.max(...trend.map(t => t.premiumCost), 0.01);
+                    chartEl.innerHTML = trend.map(t => {
+                        const h = Math.round((t.premiumCost / maxCost) * 70) + 10;
+                        return `<div title="${t.date}: ${t.premiumCost}" style="flex:1; height:${h}px; background:#e94560; border-radius:3px 3px 0 0; opacity:0.8;"></div>`;
+                    }).join('');
+                    if (labelsEl) {
+                        labelsEl.innerHTML = trend.map(t => {
+                            const d = t.date.slice(5);
+                            return `<div style="flex:1; text-align:center; font-size:0.65em; color:#888;">${d}</div>`;
+                        }).join('');
+                    }
+                }
+
+                // Model distribution
+                const distEl = document.getElementById('copilot-model-dist');
+                if (distEl) {
+                    const dist = a.modelDistribution || {};
+                    const entries = Object.entries(dist).sort((x, y) => y[1].count - x[1].count);
+                    if (entries.length === 0) {
+                        distEl.innerHTML = '<div style="color:#888;">暫無資料</div>';
+                    } else {
+                        distEl.innerHTML = entries.map(([model, info]) =>
+                            `<div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+                                <span style="color:#ccc;">${model}</span>
+                                <span style="color:#888;">${info.count} 次 / ${info.premiumCost} pts</span>
+                            </div>`
+                        ).join('');
+                    }
+                }
+            } catch (e) {
+                console.log('Copilot dashboard load error:', e);
+            }
+        }
+
+        async function setCopilotPreference(preference) {
+            try {
+                const res = await fetch('/api/copilot/preference', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ preference })
+                });
+                if (res.ok) loadCopilotDashboard();
+            } catch (e) {
+                console.log('Set preference error:', e);
+            }
+        }
+
+        async function syncCopilotFromGitHub() {
+            const btn = document.getElementById('copilot-sync-btn');
+            const statusEl = document.getElementById('copilot-sync-status');
+            if (btn) btn.disabled = true;
+            if (statusEl) statusEl.textContent = '同步中…';
+            try {
+                const res = await fetch('/api/copilot/fetch-github');
+                const json = await res.json();
+                if (json.success) {
+                    const raw = json.data.raw || {};
+                    if (raw.error) {
+                        if (statusEl) { statusEl.textContent = '⚠️ ' + raw.error; statusEl.style.color = '#f39c12'; }
+                    } else {
+                        if (statusEl) { statusEl.textContent = json.data.applied ? '✅ 已從 GitHub 更新配額' : '✅ 提取成功（資料已顯示）'; statusEl.style.color = '#2ecc71'; }
+                        loadCopilotDashboard();
+                    }
+                } else {
+                    if (statusEl) { statusEl.textContent = '❌ ' + (json.error && json.error.message || '提取失敗'); statusEl.style.color = '#e74c3c'; }
+                }
+            } catch (e) {
+                if (statusEl) { statusEl.textContent = '❌ 網絡錯誤'; statusEl.style.color = '#e74c3c'; }
+                console.log('Sync from GitHub error:', e);
+            } finally {
+                if (btn) btn.disabled = false;
+                setTimeout(() => { if (statusEl) { statusEl.textContent = ''; statusEl.style.color = '#888'; } }, 6000);
+            }
+        }
+
         function renderNotifications() {
             const list = document.getElementById('notificationList');
             const badge = document.getElementById('notificationBadge');
@@ -3391,6 +3624,7 @@
             renderTimelineMini();
             renderScheduleMini();
             loadTokenStats();
+            loadCopilotDashboard();
             updateWorkingStatus();
             checkMobile();
             
@@ -3402,6 +3636,9 @@
             
             // Update working status every 10 seconds
             setInterval(updateWorkingStatus, 10000);
+
+            // Refresh Copilot dashboard every 60 seconds
+            setInterval(loadCopilotDashboard, 60000);
             
             // Listen for window resize
             window.addEventListener('resize', checkMobile);
