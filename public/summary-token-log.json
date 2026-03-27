@@ -1,0 +1,25 @@
+{
+  "meta": {
+    "totalRecords": 1354,
+    "dateRange": {
+      "start": "2026-03-03",
+      "end": "2026-03-22"
+    },
+    "lastUpdated": "2026-03-23T14:07:21.016Z"
+  },
+  "metrics": {
+    "totalInputTokens": 2536074687,
+    "totalOutputTokens": 6339027,
+    "totalTokens": 2542413714,
+    "avgTokensPerRecord": 1877706
+  },
+  "cache": {
+    "cacheRead": 494535424,
+    "cacheCreate": 252102537,
+    "hitRate": 0.6623496926645014,
+    "hitRatePercentage": "66.2%",
+    "savingsTokens": 0
+  },
+  "byModel": {},
+  "byApi": {}
+}
