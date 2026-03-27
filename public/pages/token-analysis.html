@@ -14,22 +14,26 @@
         <span class="emoji">🤖</span>
         AI Token 使用儀表板
       </h1>
-      <div class="dashboard-controls">
-        <input type="date" id="start-date" placeholder="Start Date">
-        <input type="date" id="end-date" placeholder="End Date">
-        <select id="period-select">
+      <div class="dashboard-controls" role="region" aria-label="Dashboard controls">
+        <label for="start-date" class="visually-hidden">Start date</label>
+        <input type="date" id="start-date" placeholder="Start Date" aria-label="Start date">
+        <label for="end-date" class="visually-hidden">End date</label>
+        <input type="date" id="end-date" placeholder="End Date" aria-label="End date">
+        <label for="period-select" class="visually-hidden">Period</label>
+        <select id="period-select" aria-label="Period selector">
           <option value="hourly">每小時</option>
           <option value="daily" selected>每日</option>
           <option value="weekly">每週</option>
         </select>
-        <button class="btn btn-secondary" id="refresh-btn">
+        <button class="btn btn-secondary" id="refresh-btn" aria-label="刷新數據">
           🔄 刷新
         </button>
-        <select id="export-format">
+        <label for="export-format" class="visually-hidden">Export format</label>
+        <select id="export-format" aria-label="Export format">
           <option value="json">JSON</option>
           <option value="csv">CSV</option>
         </select>
-        <button class="btn btn-primary" id="export-btn">
+        <button class="btn btn-primary" id="export-btn" aria-label="導出數據">
           📥 導出
         </button>
       </div>
