@@ -1986,6 +1986,49 @@
                     { date: '2026-03-07', event: '完成自動編排', detail: '實現7日當值自動生成' },
                     { date: '2026-03-08', event: '完成手動編排', detail: '支援拖放調整' }
                 ]
+            },
+            {
+                name: '🎵 Song-of-Songs',
+                status: 'active',
+                statusText: '進行中',
+                startDate: '2026-03-28',
+                targetDate: '2026-04-30',
+                link: 'https://github.com/ai-lish/Song-of-Songs',
+                github: 'https://github.com/ai-lish/Song-of-Songs',
+                summary: '雅歌 YouTube 頻道自動化，AI 驅動詩歌製作與發布系統',
+                description: '🎤 錄音 → 🎵 AI編曲 → 🎚️ AI Tuning → 🎬 AI歌詞影片 → 📺 AI發布 YouTube。優先開發歌詞影片生成（可行性90-95%）。師弟已建立完整 lrc2ass.py、generate_video.py、main.py。等待音頻+LRC素材。',
+                feasibility: {
+                    '歌詞影片製作': '90-95%',
+                    '音樂編曲': '70%',
+                    '人聲 Tuning': '80%',
+                    '後期混音': '70%',
+                    'YouTube 發布': '85%',
+                    '縮圖製作': '75%'
+                },
+                pipeline: ['🎤 錄音', '🎵 AI編曲', '🎚️ AI Tuning', '🎬 AI歌詞影片', '📺 AI發布'],
+                currentPhase: 3,  // 0-indexed: 0=錄音, 1=編曲, 2=Tuning, 3=歌詞影片(當前), 4=發布
+                modules: [
+                    { name: 'lrc2ass.py — LRC → ASS 轉換', status: 'completed' },
+                    { name: 'generate_video.py — 影片生成器', status: 'completed' },
+                    { name: 'main.py — 統一入口', status: 'completed' },
+                    { name: '音頻素材 (Step1_latest.m4a)', status: 'pending', owner: '用戶提供' },
+                    { name: '歌詞檔案 (LRC)', status: 'pending', owner: '用戶提供' },
+                    { name: '視覺背景設計', status: 'pending', owner: '畫家' }
+                ],
+                team: {
+                    '師弟': '✅ 完成',
+                    'T仔': '✅ 完成',
+                    '小詩': '✅ 完成',
+                    '畫家': '⏳ 待啟動',
+                    '書記': '✅ 完成'
+                },
+                blockers: ['需提供音頻文件', '需提供LRC歌詞', '畫家需設計背景視覺'],
+                timeline: [
+                    { date: '2026-03-28', event: '項目啟動', detail: '團隊分工確認，師弟建立 lyrics-video 模組' },
+                    { date: '2026-03-28', event: 'Phase 1 歌詞影片', detail: '師弟完成 lrc2ass.py、generate_video.py、main.py' },
+                    { date: '2026-03-28', event: '小詩評估', detail: '確認歌詞影片可行性 90-95%，最大 blocker: 缺少音頻+LRC' },
+                    { date: '2026-03-28', event: 'T仔測試', detail: 'FFmpeg 正常，pipeline 已就緒，等待素材' }
+                ]
             }
         ];
 
