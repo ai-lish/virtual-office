@@ -125,6 +125,69 @@
       </div>
     </section>
 
+    <!-- TOKEN Records Table -->
+    <section class="section" id="records-section">
+      <h2 class="section-title">🗂️ TOKEN 記錄列表</h2>
+      <div class="chart-card">
+        <!-- Filter Bar -->
+        <div class="records-filters" role="search" aria-label="TOKEN 記錄篩選">
+          <input type="text" id="filter-key" class="records-filter-input" placeholder="🔑 搜尋 API Key..." aria-label="按 API Key 篩選">
+          <select id="filter-api" class="records-filter-select" aria-label="按 API 類型篩選">
+            <option value="">📡 所有 API</option>
+          </select>
+          <select id="filter-model" class="records-filter-select" aria-label="按模型篩選">
+            <option value="">🤖 所有模型</option>
+          </select>
+          <button class="btn btn-secondary" id="records-filter-btn" aria-label="套用篩選">🔍 篩選</button>
+          <button class="btn btn-secondary" id="records-clear-btn" aria-label="清除篩選">✕ 清除</button>
+        </div>
+        <!-- Table -->
+        <div class="table-container">
+          <table class="data-table records-table" role="grid" aria-label="TOKEN 使用記錄">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">🕐 時間</th>
+                <th scope="col">🔑 API Key</th>
+                <th scope="col">📡 API 類型</th>
+                <th scope="col">🤖 模型</th>
+                <th scope="col" class="num-col">⬇ 輸入</th>
+                <th scope="col" class="num-col">⬆ 輸出</th>
+                <th scope="col" class="num-col">Σ 總計</th>
+                <th scope="col">狀態</th>
+              </tr>
+            </thead>
+            <tbody id="records-tbody">
+              <tr><td colspan="9" style="text-align:center; padding: 20px; color: var(--token-text-muted);">載入中...</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- Pagination -->
+        <div class="records-pagination" role="navigation" aria-label="記錄分頁">
+          <span id="records-info" class="records-info"></span>
+          <div class="pagination-controls">
+            <button class="btn btn-secondary pagination-btn" id="page-first" aria-label="第一頁" disabled>«</button>
+            <button class="btn btn-secondary pagination-btn" id="page-prev" aria-label="上一頁" disabled>‹</button>
+            <span id="page-indicator" class="page-indicator"></span>
+            <button class="btn btn-secondary pagination-btn" id="page-next" aria-label="下一頁" disabled>›</button>
+            <button class="btn btn-secondary pagination-btn" id="page-last" aria-label="最後頁" disabled>»</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Record Detail Modal -->
+    <div id="record-modal" class="record-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" style="display:none;">
+      <div class="record-modal-backdrop" id="modal-backdrop"></div>
+      <div class="record-modal-content">
+        <div class="record-modal-header">
+          <h3 id="modal-title" class="record-modal-title">📋 TOKEN 記錄詳情</h3>
+          <button class="record-modal-close" id="modal-close" aria-label="關閉">✕</button>
+        </div>
+        <div id="record-modal-body" class="record-modal-body"></div>
+      </div>
+    </div>
+
     <!-- Footer -->
     <footer style="text-align: center; padding: 40px 0; color: var(--token-text-muted); font-size: 12px;">
       <p>Phase 11: Minimax Token 使用情況分析系統</p>

@@ -10,6 +10,25 @@ class TokenAPI {
   }
 
   /**
+   * Parse a consumptionTime string into { date, hour }
+   * Handles both ISO format ("2026-03-28T20:00:00Z") and
+   * range format ("2026-03-27 20:00-21:00").
+   */
+  parseTime(timeStr) {
+    if (!timeStr) return { date: null, hour: null };
+    if (timeStr.includes('T')) {
+      // ISO: "2026-03-28T20:00:00Z"
+      const [datePart, timePart] = timeStr.split('T');
+      return { date: datePart, hour: parseInt(timePart.split(':')[0]) };
+    }
+    // Range: "2026-03-27 20:00-21:00"
+    const spaceIdx = timeStr.indexOf(' ');
+    const datePart = timeStr.slice(0, spaceIdx);
+    const hourStr = timeStr.slice(spaceIdx + 1).split(':')[0];
+    return { date: datePart, hour: parseInt(hourStr) };
+  }
+
+  /**
    * Load data from static JSON file
    */
   async loadData(retry = 1) {
@@ -167,7 +186,8 @@ class TokenAPI {
     if (startDate || endDate) {
       records = records.filter(r => {
         if (!r.consumptionTime) return false;
-        const date = r.consumptionTime.split('T')[0];
+        const { date } = this.parseTime(r.consumptionTime);
+        if (!date) return false;
         if (startDate && date < startDate) return false;
         if (endDate && date > endDate) return false;
         return true;
@@ -178,7 +198,10 @@ class TokenAPI {
     const totalOutput = records.reduce((sum, r) => sum + (r.outputUsageQuantity || 0), 0);
     const totalTokens = records.reduce((sum, r) => sum + (r.totalUsageQuantity || 0), 0);
     
-    const dates = records.map(r => r.consumptionTime).filter(t => t).map(t => t.split('T')[0]).sort();
+    const dates = records
+      .map(r => r.consumptionTime ? this.parseTime(r.consumptionTime).date : null)
+      .filter(Boolean)
+      .sort();
     
     return {
       totalRecords: records.length,
@@ -208,7 +231,8 @@ class TokenAPI {
     if (startDate || endDate) {
       records = records.filter(r => {
         if (!r.consumptionTime) return false;
-        const date = r.consumptionTime.split('T')[0];
+        const { date } = this.parseTime(r.consumptionTime);
+        if (!date) return false;
         if (startDate && date < startDate) return false;
         if (endDate && date > endDate) return false;
         return true;
@@ -219,12 +243,12 @@ class TokenAPI {
     const grouped = {};
     records.forEach(r => {
       if (!r.consumptionTime) return;
-      const date = r.consumptionTime.split('T')[0];
-      const hour = r.consumptionTime.split('T')[1].split(':')[0];
+      const { date, hour } = this.parseTime(r.consumptionTime);
+      if (!date) return;
       
       let key;
       if (period === 'hourly') {
-        key = `${date} ${hour}:00`;
+        key = `${date} ${String(hour).padStart(2, '0')}:00`;
       } else if (period === 'weekly') {
         const d = new Date(date);
         const weekStart = new Date(d);
@@ -295,7 +319,8 @@ class TokenAPI {
     if (startDate || endDate) {
       records = records.filter(r => {
         if (!r.consumptionTime) return false;
-        const date = r.consumptionTime.split('T')[0];
+        const { date } = this.parseTime(r.consumptionTime);
+        if (!date) return false;
         if (startDate && date < startDate) return false;
         if (endDate && date > endDate) return false;
         return true;
@@ -309,8 +334,10 @@ class TokenAPI {
     
     records.forEach(r => {
       if (!r.consumptionTime) return;
-      const hour = parseInt(r.consumptionTime.split('T')[1].split(':')[0]);
-      hourly[hour] += r.totalUsageQuantity || 0;
+      const { hour } = this.parseTime(r.consumptionTime);
+      if (hour !== null && !isNaN(hour)) {
+        hourly[hour] += r.totalUsageQuantity || 0;
+      }
     });
     
     return Object.entries(hourly).map(([hour, tokens]) => ({ hour: parseInt(hour), tokens }));
@@ -356,8 +383,10 @@ class TokenAPI {
     for (let i = 0; i < 24; i++) hourlyTokens[i] = 0;
     vlmRecords.forEach(r => {
       if (r.consumptionTime) {
-        const hour = parseInt(r.consumptionTime.split('T')[1].split(':')[0]);
-        hourlyTokens[hour] += r.totalUsageQuantity || 0;
+        const { hour } = this.parseTime(r.consumptionTime);
+        if (hour !== null && !isNaN(hour)) {
+          hourlyTokens[hour] += r.totalUsageQuantity || 0;
+        }
       }
     });
     const peakHour = Object.entries(hourlyTokens).sort((a, b) => b[1] - a[1])[0];
@@ -366,7 +395,50 @@ class TokenAPI {
       totalCalls: vlmRecords.length,
       totalTokens: totalTokens,
       avgTokensPerCall: vlmRecords.length > 0 ? Math.round(totalTokens / vlmRecords.length) : 0,
-      peakHour: peakHour ? parseInt(peakHour[0]) : null
+      peakHour: peakHour && peakHour[1] > 0 ? parseInt(peakHour[0]) : null
+    };
+  }
+
+  /**
+   * Get paginated and filtered individual records
+   */
+  async getRecords({ limit = 20, offset = 0, startDate, endDate, api, model, keyName } = {}) {
+    const data = await this.loadData();
+    let records = data.records || [];
+
+    // Apply filters
+    if (startDate || endDate) {
+      records = records.filter(r => {
+        if (!r.consumptionTime) return false;
+        const { date } = this.parseTime(r.consumptionTime);
+        if (!date) return false;
+        if (startDate && date < startDate) return false;
+        if (endDate && date > endDate) return false;
+        return true;
+      });
+    }
+    if (api) {
+      records = records.filter(r => r.consumedApi && r.consumedApi.includes(api));
+    }
+    if (model) {
+      records = records.filter(r => r.consumedModel && r.consumedModel.includes(model));
+    }
+    if (keyName) {
+      records = records.filter(r => r.secretKeyName && r.secretKeyName.includes(keyName));
+    }
+
+    // Sort newest first
+    records = records.slice().sort((a, b) => {
+      const ta = a.consumptionTime || '';
+      const tb = b.consumptionTime || '';
+      return tb.localeCompare(ta);
+    });
+
+    return {
+      total: records.length,
+      offset,
+      limit,
+      records: records.slice(offset, offset + limit)
     };
   }
 

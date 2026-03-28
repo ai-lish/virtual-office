@@ -230,26 +230,23 @@ class TokenCharts {
       return;
     }
     
-    const max = Math.max(...data.map(d => d.totalTokens));
+    const max = Math.max(...data.map(d => d.tokens || d.totalTokens || 0));
     const barMaxHeight = options.maxHeight || 150;
     
     const bars = data.map(d => {
-      const height = Math.round((d.totalTokens / max) * barMaxHeight);
-      const pct = d.totalTokens >= 1e6 
-        ? `${(d.totalTokens / 1e6).toFixed(1)}M` 
-        : d.totalTokens >= 1e3 
-          ? `${(d.totalTokens / 1e3).toFixed(0)}K` 
-          : d.totalTokens;
+      const value = d.tokens || d.totalTokens || 0;
+      const height = Math.round((value / max) * barMaxHeight);
+      const label = d.period?.slice(5) || d.date?.slice(5) || '';
       
       return `
         <div style="display: flex; flex-direction: column; align-items: center; flex: 1;">
           <div style="height: ${barMaxHeight}px; display: flex; align-items: flex-end; width: 100%;">
             <div class="bar" style="width: 80%; margin: 0 auto; height: ${height}px; 
                  background: linear-gradient(to top, #5865F2, #7289DA); border-radius: 4px 4px 0 0;
-                 transition: height 0.3s;" title="${TokenCharts.formatNumber(d.totalTokens)}"></div>
+                 transition: height 0.3s;" title="${TokenCharts.formatNumber(value)}"></div>
           </div>
           <span style="font-size: 10px; margin-top: 8px; color: var(--token-text-muted);">
-            ${d.date?.slice(5) || ''}
+            ${label}
           </span>
         </div>
       `;

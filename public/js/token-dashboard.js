@@ -12,6 +12,11 @@ class TokenDashboard {
       startDate: null,
       endDate: null
     };
+    // Records table state
+    this.recordsPage = 0;
+    this.recordsLimit = 20;
+    this.recordsTotal = 0;
+    this.recordsFilter = { api: '', model: '', keyName: '' };
   }
 
   /**
@@ -69,6 +74,33 @@ class TokenDashboard {
     if (periodSelect) {
       periodSelect.addEventListener('change', () => this.refresh());
     }
+
+    // Records filter buttons
+    const filterBtn = document.getElementById('records-filter-btn');
+    if (filterBtn) {
+      filterBtn.addEventListener('click', () => this.applyRecordsFilter());
+    }
+
+    const clearBtn = document.getElementById('records-clear-btn');
+    if (clearBtn) {
+      clearBtn.addEventListener('click', () => this.clearRecordsFilter());
+    }
+
+    // Pagination buttons
+    document.getElementById('page-first')?.addEventListener('click', () => this.goToPage(0));
+    document.getElementById('page-prev')?.addEventListener('click', () => this.goToPage(this.recordsPage - 1));
+    document.getElementById('page-next')?.addEventListener('click', () => this.goToPage(this.recordsPage + 1));
+    document.getElementById('page-last')?.addEventListener('click', () => {
+      const lastPage = Math.max(0, Math.ceil(this.recordsTotal / this.recordsLimit) - 1);
+      this.goToPage(lastPage);
+    });
+
+    // Modal close
+    document.getElementById('modal-close')?.addEventListener('click', () => this.closeRecordModal());
+    document.getElementById('modal-backdrop')?.addEventListener('click', () => this.closeRecordModal());
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') this.closeRecordModal();
+    });
   }
 
   /**
@@ -162,6 +194,8 @@ class TokenDashboard {
     this.renderCacheEfficiency();
     this.renderVLMPanel();
     this.renderDailyChart();
+    this.populateFilterOptions();
+    this.renderRecordsTable();
   }
 
   /**
@@ -400,6 +434,287 @@ class TokenDashboard {
     if (num >= 1e6) return `${(num / 1e6).toFixed(2)}M`;
     if (num >= 1e3) return `${(num / 1e3).toFixed(1)}K`;
     return num.toLocaleString();
+  }
+
+  /**
+   * Populate filter dropdowns from loaded data
+   */
+  populateFilterOptions() {
+    const summary = this.data.summary;
+    if (!summary) return;
+
+    const apiSelect = document.getElementById('filter-api');
+    const modelSelect = document.getElementById('filter-model');
+    if (!apiSelect || !modelSelect) return;
+
+    const currentApi = apiSelect.value;
+    const currentModel = modelSelect.value;
+
+    // byApi can be either an object (keys = api names) or an array of {api, ...}
+    const byApi = summary.byApi || {};
+    const apiKeys = Array.isArray(byApi)
+      ? byApi.map(item => item.api).filter(Boolean).sort()
+      : Object.keys(byApi).sort();
+
+    const byModel = summary.byModel || {};
+    const modelKeys = Array.isArray(byModel)
+      ? byModel.map(item => item.model).filter(Boolean).sort()
+      : Object.keys(byModel).sort();
+
+    // Rebuild API options
+    apiSelect.innerHTML = '<option value="">📡 所有 API</option>' +
+      apiKeys.map(k => `<option value="${k}"${k === currentApi ? ' selected' : ''}>${k}</option>`).join('');
+
+    // Rebuild model options
+    modelSelect.innerHTML = '<option value="">🤖 所有模型</option>' +
+      modelKeys.map(k => `<option value="${k}"${k === currentModel ? ' selected' : ''}>${k}</option>`).join('');
+  }
+
+  /**
+   * Apply filter state from UI controls and reload records
+   */
+  applyRecordsFilter() {
+    this.recordsFilter.api = document.getElementById('filter-api')?.value || '';
+    this.recordsFilter.model = document.getElementById('filter-model')?.value || '';
+    this.recordsFilter.keyName = document.getElementById('filter-key')?.value.trim() || '';
+    this.recordsPage = 0;
+    this.renderRecordsTable();
+  }
+
+  /**
+   * Clear all record filters
+   */
+  clearRecordsFilter() {
+    this.recordsFilter = { api: '', model: '', keyName: '' };
+    this.recordsPage = 0;
+    const filterKey = document.getElementById('filter-key');
+    const filterApi = document.getElementById('filter-api');
+    const filterModel = document.getElementById('filter-model');
+    if (filterKey) filterKey.value = '';
+    if (filterApi) filterApi.value = '';
+    if (filterModel) filterModel.value = '';
+    this.renderRecordsTable();
+  }
+
+  /**
+   * Navigate to a specific records page
+   */
+  goToPage(page) {
+    const maxPage = Math.max(0, Math.ceil(this.recordsTotal / this.recordsLimit) - 1);
+    this.recordsPage = Math.max(0, Math.min(page, maxPage));
+    this.renderRecordsTable();
+  }
+
+  /**
+   * Get CSS class for API type badge
+   */
+  getApiBadgeClass(api) {
+    if (!api) return 'api-badge-other';
+    if (api.includes('cache-read')) return 'api-badge-cache-read';
+    if (api.includes('cache-create')) return 'api-badge-cache-create';
+    if (api.includes('chatcompletion')) return 'api-badge-chat';
+    if (api.includes('vlm') || api.includes('image')) return 'api-badge-vlm';
+    return 'api-badge-other';
+  }
+
+  /**
+   * Format a datetime string for display
+   */
+  formatDateTime(iso) {
+    if (!iso) return '-';
+    // Handle range format: "2026-03-27 20:00-21:00"
+    if (!iso.includes('T')) {
+      // Extract date and start time from "YYYY-MM-DD HH:MM-HH:MM"
+      const spaceIdx = iso.indexOf(' ');
+      if (spaceIdx > 0) {
+        const datePart = iso.slice(0, spaceIdx);
+        const timePart = iso.slice(spaceIdx + 1).split('-')[0]; // take start time
+        return `${datePart} ${timePart}`;
+      }
+      return iso;
+    }
+    // Handle ISO format
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return iso;
+    const pad = n => String(n).padStart(2, '0');
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  }
+
+  /**
+   * Render the records table with current page and filters
+   */
+  async renderRecordsTable() {
+    const tbody = document.getElementById('records-tbody');
+    if (!tbody) return;
+
+    tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding:20px; color:var(--token-text-muted);">載入記錄中...</td></tr>';
+
+    try {
+      const result = await this.api.getRecords({
+        limit: this.recordsLimit,
+        offset: this.recordsPage * this.recordsLimit,
+        startDate: this.dateRange.startDate,
+        endDate: this.dateRange.endDate,
+        api: this.recordsFilter.api || undefined,
+        model: this.recordsFilter.model || undefined,
+        keyName: this.recordsFilter.keyName || undefined
+      });
+
+      this.recordsTotal = result.total;
+      const records = result.records;
+      const startNum = result.offset + 1;
+
+      if (records.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding:20px; color:var(--token-text-muted);">找不到符合條件的記錄</td></tr>';
+      } else {
+        tbody.innerHTML = records.map((r, i) => {
+          const rowNum = startNum + i;
+          const apiBadgeClass = this.getApiBadgeClass(r.consumedApi);
+          const statusClass = (r.consumptionStatus || '').toUpperCase() === 'SUCCESS'
+            ? 'status-badge-success' : 'status-badge-failed';
+          const statusText = (r.consumptionStatus || '').toUpperCase() === 'SUCCESS' ? '✓ 成功' : '✗ 失敗';
+
+          return `
+            <tr data-record-id="${r.id || ''}" tabindex="0" role="row" aria-label="記錄 ${rowNum}">
+              <td style="color:var(--token-text-muted);font-size:12px;">${rowNum}</td>
+              <td><span class="record-time">${this.formatDateTime(r.consumptionTime)}</span></td>
+              <td><span class="record-key" title="${r.secretKeyName || ''}">${r.secretKeyName || '-'}</span></td>
+              <td><span class="api-badge ${apiBadgeClass}" title="${r.consumedApi || ''}">${r.consumedApi || '-'}</span></td>
+              <td><span class="record-model" title="${r.consumedModel || ''}">${r.consumedModel || '-'}</span></td>
+              <td class="num-col">${this.formatNumber(r.inputUsageQuantity)}</td>
+              <td class="num-col">${this.formatNumber(r.outputUsageQuantity)}</td>
+              <td class="num-col" style="font-weight:700;">${this.formatNumber(r.totalUsageQuantity)}</td>
+              <td><span class="badge ${statusClass}">${statusText}</span></td>
+            </tr>
+          `;
+        }).join('');
+
+        // Attach click/keyboard handlers for detail modal
+        tbody.querySelectorAll('tr[data-record-id]').forEach((row, i) => {
+          const record = records[i];
+          const open = () => this.showRecordDetail(record);
+          row.addEventListener('click', open);
+          row.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+        });
+      }
+
+      // Update pagination
+      this.updatePaginationControls();
+    } catch (err) {
+      tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:20px;color:var(--token-danger);">載入失敗: ${err.message}</td></tr>`;
+    }
+  }
+
+  /**
+   * Update pagination control states and labels
+   */
+  updatePaginationControls() {
+    const totalPages = Math.max(1, Math.ceil(this.recordsTotal / this.recordsLimit));
+    const currentPage = this.recordsPage + 1;
+    const startNum = this.recordsPage * this.recordsLimit + 1;
+    const endNum = Math.min(startNum + this.recordsLimit - 1, this.recordsTotal);
+
+    const info = document.getElementById('records-info');
+    if (info) {
+      info.textContent = this.recordsTotal > 0
+        ? `顯示 ${startNum}–${endNum} / 共 ${this.recordsTotal.toLocaleString()} 條記錄`
+        : '無記錄';
+    }
+
+    const indicator = document.getElementById('page-indicator');
+    if (indicator) {
+      indicator.textContent = `第 ${currentPage} / ${totalPages} 頁`;
+    }
+
+    const setDisabled = (id, val) => {
+      const el = document.getElementById(id);
+      if (el) el.disabled = val;
+    };
+
+    setDisabled('page-first', this.recordsPage === 0);
+    setDisabled('page-prev', this.recordsPage === 0);
+    setDisabled('page-next', currentPage >= totalPages);
+    setDisabled('page-last', currentPage >= totalPages);
+  }
+
+  /**
+   * Show the record detail modal
+   */
+  showRecordDetail(record) {
+    const modal = document.getElementById('record-modal');
+    const body = document.getElementById('record-modal-body');
+    if (!modal || !body) return;
+
+    const apiBadgeClass = this.getApiBadgeClass(record.consumedApi);
+    const statusClass = (record.consumptionStatus || '').toUpperCase() === 'SUCCESS'
+      ? 'status-badge-success' : 'status-badge-failed';
+    const statusText = (record.consumptionStatus || '').toUpperCase() === 'SUCCESS' ? '✓ 成功' : '✗ 失敗';
+
+    body.innerHTML = `
+      <div class="record-token-summary">
+        <div class="record-token-box">
+          <div class="label">⬇ 輸入 Tokens</div>
+          <div class="value input-color">${this.formatNumber(record.inputUsageQuantity)}</div>
+        </div>
+        <div class="record-token-box">
+          <div class="label">⬆ 輸出 Tokens</div>
+          <div class="value output-color">${this.formatNumber(record.outputUsageQuantity)}</div>
+        </div>
+        <div class="record-token-box">
+          <div class="label">Σ 總計 Tokens</div>
+          <div class="value total-color">${this.formatNumber(record.totalUsageQuantity)}</div>
+        </div>
+      </div>
+      <div class="record-detail-grid" style="margin-top:20px;">
+        <div class="record-detail-item">
+          <div class="record-detail-label">🕐 消費時間</div>
+          <div class="record-detail-value">${this.formatDateTime(record.consumptionTime)}</div>
+        </div>
+        <div class="record-detail-item">
+          <div class="record-detail-label">狀態</div>
+          <div class="record-detail-value"><span class="badge ${statusClass}">${statusText}</span></div>
+        </div>
+        <div class="record-detail-item">
+          <div class="record-detail-label">📡 API 類型</div>
+          <div class="record-detail-value"><span class="api-badge ${apiBadgeClass}">${record.consumedApi || '-'}</span></div>
+        </div>
+        <div class="record-detail-item">
+          <div class="record-detail-label">🤖 模型</div>
+          <div class="record-detail-value">${record.consumedModel || '-'}</div>
+        </div>
+        <div class="record-detail-item">
+          <div class="record-detail-label">🔑 API Key</div>
+          <div class="record-detail-value">${record.secretKeyName || '-'}</div>
+        </div>
+        <div class="record-detail-item">
+          <div class="record-detail-label">📦 批次</div>
+          <div class="record-detail-value">${record.importBatch || '-'}</div>
+        </div>
+        <div class="record-detail-item">
+          <div class="record-detail-label">💰 費用</div>
+          <div class="record-detail-value">${record.amountSpent != null ? record.amountSpent : '-'}</div>
+        </div>
+        <div class="record-detail-item">
+          <div class="record-detail-label">💰 折扣後費用</div>
+          <div class="record-detail-value">${record.amountAfterVoucher != null ? record.amountAfterVoucher : '-'}</div>
+        </div>
+        <div class="record-detail-item full-width">
+          <div class="record-detail-label">🆔 記錄 ID</div>
+          <div class="record-detail-value" style="font-size:13px;font-family:monospace;">${record.id || '-'}</div>
+        </div>
+      </div>
+    `;
+
+    modal.style.display = 'flex';
+    document.getElementById('modal-close')?.focus();
+  }
+
+  /**
+   * Close the record detail modal
+   */
+  closeRecordModal() {
+    const modal = document.getElementById('record-modal');
+    if (modal) modal.style.display = 'none';
   }
 }
 
