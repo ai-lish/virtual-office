@@ -12,25 +12,78 @@ class TokenAPI {
   /**
    * Load data from static JSON file
    */
-  async loadData() {
+  async loadData(retry = 1) {
     if (this.data) return this.data;
-    
-    try {
-      // Try relative path first (for GitHub Pages)
-      let response = await fetch('token-log.json');
-      if (!response.ok) {
-        // Try parent path (when accessed from public/pages/)
-        response = await fetch('../token-log.json');
+
+    const tryFetch = async (url) => {
+      try {
+        const res = await fetch(url);
+        if (!res.ok) return null;
+        return await res.json();
+      } catch (e) {
+        return null;
       }
-      if (!response.ok) {
+    };
+
+    try {
+      // Try a few locations and allow a retry (with cache-bust)
+      let data = await tryFetch('token-log.json');
+      if (!data) data = await tryFetch('../token-log.json');
+      if (!data && retry > 0) {
+        // retry once with cache-bust
+        const cb = `?t=${Date.now()}`;
+        data = await tryFetch(`token-log.json${cb}`) || await tryFetch(`../token-log.json${cb}`);
+      }
+
+      if (!data) {
         throw new Error('Failed to load token-log.json');
       }
-      this.data = await response.json();
+
+      this.data = data;
       return this.data;
     } catch (error) {
       console.error('Error loading data:', error);
       throw error;
     }
+  }
+
+  /**
+   * Load a small summary file for quick initial rendering
+   */
+  async loadSummary() {
+    if (this.summary) return this.summary;
+    try {
+      let response = await fetch('summary-token-log.json');
+      if (!response.ok) response = await fetch('../summary-token-log.json');
+      if (!response.ok) throw new Error('Failed to load summary-token-log.json');
+      this.summary = await response.json();
+      return this.summary;
+    } catch (error) {
+      console.warn('Summary not available:', error.message);
+      return null;
+    }
+  }
+
+  /**
+   * Quick summary getter that uses summary-token-log.json when available
+   */
+  async getSummaryQuick(startDate, endDate) {
+    const s = await this.loadSummary();
+    if (s) {
+      // If date filters provided, fall back to full summary via getSummary
+      if (startDate || endDate) return this.getSummary(startDate, endDate);
+      // Return object resembling getSummary() top-level structure
+      return {
+        totalRecords: s.meta?.totalRecords || 0,
+        dateRange: s.meta?.dateRange || { start: null, end: null },
+        metrics: s.metrics || { totalInputTokens: 0, totalOutputTokens: 0, totalTokens: 0, avgTokensPerRecord: 0 },
+        cache: s.cache || { cacheRead: 0, cacheCreate: 0, hitRate: 0, hitRatePercentage: '0.0%', savingsTokens: 0 },
+        byModel: s.byModel || {},
+        byApi: s.byApi || {}
+      };
+    }
+    // Fallback to full summary
+    return this.getSummary(startDate, endDate);
   }
 
   /**

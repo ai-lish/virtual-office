@@ -1636,10 +1636,6 @@
                                 <div id="copilot-reset-date" style="font-weight: bold; font-size: 1.1em;">-</div>
                             </div>
                         </div>
-                        <div style="margin-top: 12px; display: flex; align-items: center; gap: 10px;">
-                            <button id="copilot-sync-btn" onclick="syncCopilotFromGitHub()" style="padding: 6px 14px; border-radius: 6px; border: 1px solid #444; background: #0f3460; color: #ccc; cursor: pointer; font-size: 0.82em;">🔄 從 GitHub 同步</button>
-                            <span id="copilot-sync-status" style="font-size: 0.78em; color: #888;"></span>
-                        </div>
                     </div>
 
                     <!-- Recommendation + Strategy -->
@@ -3386,34 +3382,6 @@
                 if (res.ok) loadCopilotDashboard();
             } catch (e) {
                 console.log('Set preference error:', e);
-            }
-        }
-
-        async function syncCopilotFromGitHub() {
-            const btn = document.getElementById('copilot-sync-btn');
-            const statusEl = document.getElementById('copilot-sync-status');
-            if (btn) btn.disabled = true;
-            if (statusEl) statusEl.textContent = '同步中…';
-            try {
-                const res = await fetch('/api/copilot/fetch-github');
-                const json = await res.json();
-                if (json.success) {
-                    const raw = json.data.raw || {};
-                    if (raw.error) {
-                        if (statusEl) { statusEl.textContent = '⚠️ ' + raw.error; statusEl.style.color = '#f39c12'; }
-                    } else {
-                        if (statusEl) { statusEl.textContent = json.data.applied ? '✅ 已從 GitHub 更新配額' : '✅ 提取成功（資料已顯示）'; statusEl.style.color = '#2ecc71'; }
-                        loadCopilotDashboard();
-                    }
-                } else {
-                    if (statusEl) { statusEl.textContent = '❌ ' + (json.error && json.error.message || '提取失敗'); statusEl.style.color = '#e74c3c'; }
-                }
-            } catch (e) {
-                if (statusEl) { statusEl.textContent = '❌ 網絡錯誤'; statusEl.style.color = '#e74c3c'; }
-                console.log('Sync from GitHub error:', e);
-            } finally {
-                if (btn) btn.disabled = false;
-                setTimeout(() => { if (statusEl) { statusEl.textContent = ''; statusEl.style.color = '#888'; } }, 6000);
             }
         }
 

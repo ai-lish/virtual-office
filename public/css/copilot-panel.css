@@ -1,0 +1,831 @@
+/**
+ * Copilot Panel Styles
+ * Design spec: virtual-office/docs/DESIGN-SPEC.md
+ */
+
+/* ─── Design Tokens ─────────────────────────────────────── */
+.copilot-panel {
+  --copilot-bg: #13151A;
+  --copilot-surface: #1C1F26;
+  --copilot-surface-raised: #252830;
+  --copilot-border: #333642;
+  --copilot-text: #E8EAF0;
+  --copilot-text-muted: #8B8FA8;
+  --copilot-primary: #6366F1;
+  --copilot-accent: #818CF8;
+  --copilot-success: #34D399;
+  --copilot-warning: #FBBF24;
+  --copilot-danger: #F87171;
+  --copilot-chart-1: #6366F1;
+  --copilot-chart-2: #8B5CF6;
+  --copilot-chart-3: #EC4899;
+  --copilot-chart-4: #F59E0B;
+  --copilot-chart-5: #10B981;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.25);
+  --shadow-raised: 0 6px 20px rgba(0, 0, 0, 0.35);
+
+  --transition: 200ms ease-out;
+
+  /* Typography */
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  font-family: var(--font);
+  background: var(--copilot-bg);
+  color: var(--copilot-text);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.copilot-panel.theme-light {
+  --copilot-bg: #F8F9FC;
+  --copilot-surface: #FFFFFF;
+  --copilot-surface-raised: #F0F1F5;
+  --copilot-border: #E2E4EA;
+  --copilot-text: #1A1D2E;
+  --copilot-text-muted: #6B7280;
+  --copilot-primary: #4F46E5;
+  --copilot-accent: #6366F1;
+  --copilot-success: #059669;
+  --copilot-warning: #D97706;
+  --copilot-danger: #DC2626;
+  --copilot-chart-1: #4F46E5;
+  --copilot-chart-2: #7C3AED;
+  --copilot-chart-3: #DB2777;
+  --copilot-chart-4: #D97706;
+  --copilot-chart-5: #059669;
+}
+
+/* ─── Header ─────────────────────────────────────────────── */
+.copilot-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.copilot-title {
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--copilot-text);
+}
+
+.copilot-title-icon {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, var(--copilot-primary), var(--copilot-accent));
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.copilot-title-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke: white;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.copilot-header-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.copilot-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--copilot-border);
+  background: var(--copilot-surface);
+  color: var(--copilot-text-muted);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: var(--font);
+}
+
+.copilot-btn:hover {
+  background: var(--copilot-surface-raised);
+  color: var(--copilot-text);
+  border-color: var(--copilot-primary);
+}
+
+.copilot-btn:focus-visible {
+  outline: 2px solid var(--copilot-primary);
+  outline-offset: 2px;
+}
+
+.copilot-btn svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+}
+
+.copilot-btn-refreshing svg {
+  animation: copilot-spin 0.8s linear infinite;
+}
+
+@keyframes copilot-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ─── Top Row: Gauge + Recommendation ───────────────────── */
+.copilot-top-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 600px) {
+  .copilot-top-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ─── Quota Gauge ────────────────────────────────────────── */
+.copilot-gauge-card {
+  background: var(--copilot-surface);
+  border: 1px solid var(--copilot-border);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  min-width: 200px;
+  position: relative;
+  overflow: hidden;
+}
+
+.copilot-gauge-wrap {
+  position: relative;
+  width: 160px;
+  height: 160px;
+}
+
+.copilot-gauge-svg {
+  width: 160px;
+  height: 160px;
+  transform: rotate(-90deg);
+}
+
+@media (max-width: 600px) {
+  .copilot-gauge-wrap,
+  .copilot-gauge-svg {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+.copilot-gauge-track {
+  fill: none;
+  stroke: var(--copilot-border);
+  stroke-width: 10;
+}
+
+.copilot-gauge-fill {
+  fill: none;
+  stroke-width: 10;
+  stroke-linecap: round;
+  /* Animation handled by CSS transition + JS */
+  transition: stroke-dashoffset 800ms cubic-bezier(0.4, 0, 0.2, 1),
+              stroke 300ms ease;
+}
+
+.copilot-gauge-fill.normal  { stroke: var(--copilot-success); }
+.copilot-gauge-fill.warning { stroke: var(--copilot-warning); }
+.copilot-gauge-fill.danger  { stroke: var(--copilot-danger); }
+
+.copilot-gauge-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+}
+
+.copilot-gauge-pct {
+  font-size: 36px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: var(--copilot-text);
+  letter-spacing: -1px;
+}
+
+.copilot-gauge-label {
+  font-size: 11px;
+  color: var(--copilot-text-muted);
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.copilot-gauge-meta {
+  font-size: 12px;
+  color: var(--copilot-text-muted);
+  text-align: center;
+  line-height: 1.6;
+}
+
+.copilot-gauge-meta strong {
+  color: var(--copilot-text);
+  font-weight: 600;
+}
+
+/* ─── Warning Banner ─────────────────────────────────────── */
+.copilot-warning-banner {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  margin-top: 12px;
+}
+
+.copilot-warning-banner.visible { display: flex; }
+
+.copilot-warning-banner.warning {
+  background: rgba(251, 191, 36, 0.12);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  color: var(--copilot-warning);
+}
+
+.copilot-warning-banner.danger {
+  background: rgba(248, 113, 113, 0.12);
+  border: 1px solid rgba(248, 113, 113, 0.3);
+  color: var(--copilot-danger);
+  animation: copilot-pulse-danger 2s ease-in-out infinite;
+}
+
+@keyframes copilot-pulse-danger {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.75; }
+}
+
+.copilot-warning-banner svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  flex-shrink: 0;
+}
+
+/* ─── Recommendation Card ─────────────────────────────────── */
+.copilot-rec-card {
+  background: var(--copilot-surface);
+  border: 1px solid var(--copilot-border);
+  border-left: 4px solid var(--copilot-success);
+  border-radius: var(--radius-md);
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.copilot-rec-card:hover {
+  box-shadow: var(--shadow-card);
+}
+
+.copilot-rec-card.status-normal  { border-left-color: var(--copilot-success); }
+.copilot-rec-card.status-warning { border-left-color: var(--copilot-warning); }
+.copilot-rec-card.status-danger  { border-left-color: var(--copilot-danger); }
+
+.copilot-rec-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.copilot-rec-emoji {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.copilot-rec-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--copilot-text);
+}
+
+.copilot-rec-body {
+  font-size: 13px;
+  color: var(--copilot-text-muted);
+  line-height: 1.55;
+}
+
+.copilot-rec-footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.copilot-model-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--copilot-accent);
+}
+
+.copilot-btn-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  background: var(--copilot-primary);
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: var(--font);
+  text-decoration: none;
+}
+
+.copilot-btn-switch:hover {
+  background: var(--copilot-accent);
+  transform: translateY(-1px);
+}
+
+/* ─── Section ─────────────────────────────────────────────── */
+.copilot-section {
+  margin-bottom: 24px;
+}
+
+.copilot-section-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--copilot-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.copilot-section-title svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+}
+
+/* ─── 7-Day Trend Chart ──────────────────────────────────── */
+.copilot-trend-card {
+  background: var(--copilot-surface);
+  border: 1px solid var(--copilot-border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+}
+
+.copilot-trend-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.copilot-trend-legend {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--copilot-text-muted);
+}
+
+.copilot-trend-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.copilot-trend-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.copilot-trend-chart-wrap {
+  position: relative;
+  height: 160px;
+  overflow: hidden;
+}
+
+.copilot-trend-svg {
+  width: 100%;
+  height: 160px;
+  overflow: visible;
+}
+
+.copilot-trend-tooltip {
+  position: absolute;
+  background: var(--copilot-surface-raised);
+  border: 1px solid var(--copilot-border);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  font-size: 12px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 150ms ease;
+  white-space: nowrap;
+  z-index: 10;
+  box-shadow: var(--shadow-raised);
+}
+
+.copilot-trend-tooltip.visible { opacity: 1; }
+
+.copilot-trend-tooltip-date {
+  color: var(--copilot-text-muted);
+  font-size: 11px;
+  margin-bottom: 2px;
+}
+
+.copilot-trend-tooltip-val {
+  font-weight: 700;
+  color: var(--copilot-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.copilot-trend-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 160px;
+  color: var(--copilot-text-muted);
+  font-size: 13px;
+}
+
+/* Hidden accessible table for trend chart */
+.copilot-trend-table {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+
+/* ─── Two-Column Grid ─────────────────────────────────────── */
+.copilot-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 600px) {
+  .copilot-two-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ─── Model Distribution ─────────────────────────────────── */
+.copilot-dist-card {
+  background: var(--copilot-surface);
+  border: 1px solid var(--copilot-border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+}
+
+.copilot-model-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+.copilot-model-name {
+  width: 110px;
+  flex-shrink: 0;
+  color: var(--copilot-text-muted);
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.copilot-model-bar-wrap {
+  flex: 1;
+  height: 8px;
+  background: var(--copilot-border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.copilot-model-bar {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 600ms cubic-bezier(0.4, 0, 0.2, 1);
+  min-width: 2px;
+}
+
+.copilot-model-pct {
+  width: 40px;
+  text-align: right;
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--copilot-text);
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+
+.copilot-model-count {
+  width: 55px;
+  text-align: right;
+  font-size: 11px;
+  color: var(--copilot-text-muted);
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+
+.copilot-dist-empty {
+  text-align: center;
+  padding: 32px 0;
+  color: var(--copilot-text-muted);
+  font-size: 13px;
+}
+
+/* ─── Donut Chart ────────────────────────────────────────── */
+.copilot-donut-wrap {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+@media (max-width: 400px) {
+  .copilot-donut-wrap {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.copilot-donut-svg {
+  width: 120px;
+  height: 120px;
+  flex-shrink: 0;
+  transform: rotate(-90deg);
+}
+
+.copilot-donut-segment {
+  transition: transform 150ms ease, opacity 150ms ease;
+  transform-origin: center;
+  cursor: pointer;
+}
+
+.copilot-donut-segment:hover {
+  transform: scale(1.04);
+  opacity: 0.9;
+}
+
+.copilot-donut-center-text {
+  font-size: 18px;
+  font-weight: 800;
+  fill: var(--copilot-text);
+}
+
+.copilot-donut-center-sub {
+  font-size: 10px;
+  fill: var(--copilot-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.copilot-donut-legend {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.copilot-donut-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.copilot-donut-legend-item:hover {
+  color: var(--copilot-text);
+}
+
+.copilot-donut-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.copilot-donut-legend-label {
+  flex: 1;
+  color: var(--copilot-text-muted);
+}
+
+.copilot-donut-legend-value {
+  font-weight: 600;
+  color: var(--copilot-text);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Usage Summary Row ──────────────────────────────────── */
+.copilot-summary-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  background: var(--copilot-surface);
+  border: 1px solid var(--copilot-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.copilot-summary-cell {
+  padding: 20px;
+  text-align: center;
+  border-right: 1px solid var(--copilot-border);
+  transition: background var(--transition);
+}
+
+.copilot-summary-cell:last-child { border-right: none; }
+.copilot-summary-cell:hover { background: var(--copilot-surface-raised); }
+
+.copilot-summary-label {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--copilot-text-muted);
+  margin-bottom: 8px;
+}
+
+.copilot-summary-value {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--copilot-text);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+
+.copilot-summary-sub {
+  font-size: 11px;
+  color: var(--copilot-text-muted);
+  margin-top: 4px;
+}
+
+@media (max-width: 500px) {
+  .copilot-summary-row {
+    grid-template-columns: 1fr;
+  }
+  .copilot-summary-cell {
+    border-right: none;
+    border-bottom: 1px solid var(--copilot-border);
+  }
+  .copilot-summary-cell:last-child { border-bottom: none; }
+  .copilot-summary-value { font-size: 22px; }
+}
+
+/* ─── Footer ─────────────────────────────────────────────── */
+.copilot-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  border-top: 1px solid var(--copilot-border);
+  margin-top: 8px;
+}
+
+.copilot-footer-time {
+  font-size: 11px;
+  color: var(--copilot-text-muted);
+}
+
+.copilot-automate-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--copilot-text-muted);
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--copilot-border);
+  background: var(--copilot-surface);
+  transition: var(--transition);
+}
+
+.copilot-automate-link:hover {
+  color: var(--copilot-primary);
+  border-color: var(--copilot-primary);
+  background: rgba(99, 102, 241, 0.06);
+}
+
+.copilot-automate-link svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+}
+
+/* ─── Loading Skeleton ───────────────────────────────────── */
+.copilot-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--copilot-border) 25%,
+    var(--copilot-surface-raised) 50%,
+    var(--copilot-border) 75%
+  );
+  background-size: 200% 100%;
+  animation: copilot-shimmer 1.4s ease-in-out infinite;
+  border-radius: 4px;
+}
+
+@keyframes copilot-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ─── Error State ───────────────────────────────────────── */
+.copilot-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 32px;
+  background: var(--copilot-surface);
+  border: 1px solid rgba(248, 113, 113, 0.3);
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+
+.copilot-error-icon {
+  font-size: 32px;
+}
+
+.copilot-error-msg {
+  font-size: 13px;
+  color: var(--copilot-danger);
+}
+
+/* ─── Accessibility ──────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .copilot-gauge-fill,
+  .copilot-model-bar,
+  .copilot-donut-segment,
+  .copilot-btn,
+  .copilot-btn-switch {
+    transition: none;
+    animation: none;
+  }
+  .copilot-pulse-danger { animation: none; }
+}
+
+/* Screen-reader only utility */
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+  border: 0;
+}
