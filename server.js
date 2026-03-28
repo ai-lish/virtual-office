@@ -715,7 +715,7 @@ const server = http.createServer((req, res) => {
   // ============================================
 
   if (filePath.startsWith('/api/copilot/')) {
-    const { CopilotUsageTracker, COPILOT_MODEL_MULTIPLIERS } = require('./copilot-usage-api');
+    const { CopilotUsageTracker, COPILOT_MODEL_MULTIPLIERS, getModelProvider } = require('./copilot-usage-api');
     const tracker = new CopilotUsageTracker();
     const headers = { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' };
 
@@ -761,13 +761,52 @@ const server = http.createServer((req, res) => {
         return;
       }
 
+      if (req.method === 'GET' && filePath === '/api/copilot/github-status') {
+        // Return GitHub API polling status
+        const apiKeys = tracker.loadApiKeys();
+        const endpoints = [
+          { path: '/user/copilot_billing', note: 'User-level billing (requires manage_billing:copilot scope)' },
+          { path: '/user/copilot_subscription', note: 'Copilot subscription status' },
+          { path: '/user/copilot/seats', note: 'Copilot seat assignments' },
+          { path: '/orgs/github/copilot/usage', note: 'Org-level usage (requires org admin)' },
+          { path: '/enterprises/github/copilot/usage', note: 'Enterprise-level usage' },
+        ];
+        sendOk({
+          githubTokenSet: !!apiKeys.githubToken,
+          lastSync: apiKeys.lastGitHubSync,
+          lastError: apiKeys.lastGitHubError,
+          endpoints,
+          mathLishTokenStatus: 'tested_all_return_404',
+          mathLishTokenPlan: 'free',
+          note: 'All Copilot API endpoints return 404 because math-lish token lacks manage_billing:copilot scope and account has no Copilot subscription',
+        });
+        return;
+      }
+
       if (req.method === 'POST' && filePath === '/api/copilot/log') {
         readBody((err, body) => {
           if (err) { sendErr(err.message, 'BAD_REQUEST'); return; }
           try {
-            const { model, feature, tokens } = body;
-            const entry = tracker.logUsage(model, feature, tokens);
+            const { model, feature, tokens, latency, apiKeyUsed, success } = body;
+            const entry = tracker.logUsage(model, feature, tokens, { latency, apiKeyUsed, success });
             sendOk({ entry, quota: tracker.getQuotaStatus() });
+          } catch (e) {
+            sendErr(e.message, 'SERVER_ERROR', 500);
+          }
+        });
+        return;
+      }
+
+      if (req.method === 'POST' && filePath === '/api/copilot/log-batch') {
+        // Batch log multiple entries at once
+        readBody((err, body) => {
+          if (err) { sendErr(err.message, 'BAD_REQUEST'); return; }
+          try {
+            const entries = Array.isArray(body) ? body : body.entries || [];
+            const logged = entries.map(e => tracker.logUsage(e.model, e.feature, e.tokens, {
+              latency: e.latency, apiKeyUsed: e.apiKeyUsed, success: e.success
+            }));
+            sendOk({ logged: logged.length, entries: logged, quota: tracker.getQuotaStatus() });
           } catch (e) {
             sendErr(e.message, 'SERVER_ERROR', 500);
           }
@@ -798,6 +837,54 @@ const server = http.createServer((req, res) => {
             sendErr(e.message, 'SERVER_ERROR', 500);
           }
         });
+        return;
+      }
+
+      if (req.method === 'POST' && filePath === '/api/copilot/poll-github') {
+        // Trigger a GitHub API poll (async, returns immediately with status)
+        readBody((err, body) => {
+          if (err) { sendErr(err.message, 'BAD_REQUEST'); return; }
+          // Run async and respond immediately
+          tracker.pollGitHubCopilotUsage(body.token).then(results => {
+            sendOk({ polled: true, results, tokenUsed: !!body.token });
+          }).catch(e => {
+            sendErr(e.message, 'SERVER_ERROR', 500);
+          });
+        });
+        return;
+      }
+
+      if (req.method === 'POST' && filePath === '/api/copilot/api-key') {
+        // Store an API key for a provider
+        readBody((err, body) => {
+          if (err) { sendErr(err.message, 'BAD_REQUEST'); return; }
+          try {
+            const { provider, key } = body;
+            if (!provider || !key) { sendErr('provider and key are required', 'BAD_REQUEST'); return; }
+            const result = tracker.setApiKey(provider, key);
+            sendOk(result);
+          } catch (e) {
+            sendErr(e.message, 'SERVER_ERROR', 500);
+          }
+        });
+        return;
+      }
+
+      if (req.method === 'GET' && filePath === '/api/copilot/api-keys') {
+        sendOk(tracker.listApiKeys());
+        return;
+      }
+
+      if (req.method === 'DELETE' && filePath === '/api/copilot/api-key') {
+        const urlParts = filePath.split('?');
+        const params = {};
+        (urlParts[1] || '').split('&').forEach(pair => {
+          const [k, v] = pair.split('=');
+          if (k) params[decodeURIComponent(k)] = decodeURIComponent(v || '');
+        });
+        const provider = params.provider;
+        if (!provider) { sendErr('provider query param required', 'BAD_REQUEST'); return; }
+        sendOk(tracker.removeApiKey(provider));
         return;
       }
 
@@ -901,6 +988,99 @@ function poll() {
 poll(); // Initial
 setInterval(poll, POLL_INTERVAL);
 
+// ============================================================
+// Phase 12: GitHub Copilot API Polling
+// ============================================================
+//
+// Architecture:
+//   - COPILOT_POLL_INTERVAL: How often to poll GitHub API (default: 1 hour)
+//   - Uses the GitHub token from copilot-api-keys.json (githubToken field)
+//     or GITHUB_TOKEN env var
+//   - All known Copilot billing endpoints return 404 for personal tokens
+//     because they require manage_billing:copilot scope
+//
+// Tested endpoints (all return 404 for math-lish token):
+//   GET /user/copilot_billing              — 404 (needs manage_billing:copilot scope)
+//   GET /user/copilot_subscription        — 404 (needs manage_billing:copilot scope)
+//   GET /user/copilot/seats                — 404 (needs manage_billing:copilot scope)
+//   GET /orgs/{org}/copilot/usage         — 404 (needs org admin)
+//   GET /enterprise/{ent}/copilot/usage   — 404 (needs enterprise admin)
+//
+// Requirements for real data:
+//   1. Token must have: manage_billing:copilot OAuth scope
+//   2. Account must have: GitHub Copilot subscription
+//   3. math-lish account is on "free" plan — no Copilot subscription
+//
+// The polling still runs to catch the endpoint if it becomes available.
+// Results are stored in copilot-api-keys.json (lastGitHubSync, lastGitHubError)
+// ============================================================
+
+const COPILOT_POLL_INTERVAL = parseInt(process.env.COPILOT_POLL_INTERVAL || (60 * 60 * 1000)); // 1 hour
+
+let copilotTracker = null;
+
+function getCopilotTracker() {
+  if (!copilotTracker) {
+    const { CopilotUsageTracker } = require('./copilot-usage-api');
+    copilotTracker = new CopilotUsageTracker();
+  }
+  return copilotTracker;
+}
+
+async function pollGitHubCopilot() {
+  const tracker = getCopilotTracker();
+  const apiKeys = tracker.loadApiKeys();
+  const token   = apiKeys.githubToken || process.env.GITHUB_TOKEN;
+
+  if (!token) {
+    console.log('[CopilotPoll] No GitHub token configured — skipping poll');
+    console.log('[CopilotPoll] To enable: node log-usage.js --api-key github <token>');
+    return;
+  }
+
+  console.log(`[CopilotPoll] Polling GitHub Copilot API...`);
+  const results = await tracker.pollGitHubCopilotUsage(token);
+
+  let anySuccess = false;
+  for (const [path, result] of Object.entries(results)) {
+    if (result.status === 'success') {
+      anySuccess = true;
+      console.log(`[CopilotPoll] ✅ ${path} — returned data`);
+    }
+  }
+
+  if (!anySuccess) {
+    console.log(`[CopilotPoll] ❌ All endpoints returned errors (expected for personal tokens)`);
+    // Log individual errors at debug level
+    for (const [path, result] of Object.entries(results)) {
+      if (result.error) {
+        console.log(`[CopilotPoll]   ${path}: HTTP ${result.status} — ${result.error}`);
+      }
+    }
+  }
+}
+
+// Initial poll after 30s (give server time to fully start)
+setTimeout(pollGitHubCopilot, 30_000);
+// Then poll on interval
+setInterval(pollGitHubCopilot, COPILOT_POLL_INTERVAL);
+
+// Initial GitHub Copilot status report (sync, for startup log)
+(function reportGitHubStatus() {
+  try {
+    const tracker = getCopilotTracker();
+    const apiKeys = tracker.loadApiKeys();
+    console.log(`[CopilotPoll] GitHub token: ${apiKeys.githubToken ? 'configured' : 'not configured'}`);
+    if (!apiKeys.githubToken) {
+      console.log(`[CopilotPoll] Note: Set GITHUB_TOKEN env var or use: node log-usage.js --api-key github <token>`);
+      console.log(`[CopilotPoll] math-lish token tested: all Copilot endpoints return 404`);
+      console.log(`[CopilotPoll]   Reason: token lacks manage_billing:copilot scope + no Copilot subscription`);
+    }
+  } catch (e) {
+    console.log(`[CopilotPoll] Could not load API keys: ${e.message}`);
+  }
+})();
+
 server.listen(PORT, '0.0.0.0', () => {
   const online = (currentStatus?.agents || []).filter(a => a.status !== 'offline').length;
   const total = (currentStatus?.agents || []).length;
@@ -911,5 +1091,6 @@ server.listen(PORT, '0.0.0.0', () => {
    API: http://localhost:${PORT}/api/status
    Agents: ${online}/${total} online
    Polling every ${POLL_INTERVAL / 1000}s
+   Copilot polling every ${COPILOT_POLL_INTERVAL / 60000}min
 `);
 });

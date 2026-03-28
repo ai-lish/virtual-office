@@ -2,62 +2,48 @@
 <html lang="zh-HK">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Copilot Usage Prototype</title>
-  <link rel="stylesheet" href="../css/token-dashboard.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Copilot 使用面板 — Virtual Office</title>
+  <!-- Inter font for the panel -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Copilot panel styles -->
+  <link rel="stylesheet" href="../css/copilot-panel.css">
+  <style>
+    /* Light theme toggle — add ?theme=light to URL to activate */
+    body.theme-light {
+      background: #F0F2F5;
+    }
+  </style>
 </head>
 <body>
-  <div class="token-dashboard">
-    <header class="dashboard-header">
-      <h1 class="dashboard-title"><span class="emoji">🤖</span> Copilot 使用情況（Prototype）</h1>
-    </header>
+  <!-- ─── Copilot Panel Root ─────────────────────────────── -->
+  <div id="copilot-panel-root" class="copilot-panel" role="main">
 
-    <section class="section">
-      <h2 class="section-title">概覽</h2>
-      <div id="copilot-kpis" class="kpi-grid"></div>
-    </section>
+    <!-- Content injected by CopilotPanel JS -->
+    <div style="display:flex;align-items:center;justify-content:center;height:400px;color:var(--copilot-text-muted);font-size:14px;">
+      <span>載入中…</span>
+    </div>
 
-    <section class="section">
-      <h2 class="section-title">每日建議與 Token 使用</h2>
-      <div id="copilot-daily" class="chart-container"></div>
-    </section>
-
-    <section class="section">
-      <h2 class="section-title">Top Users</h2>
-      <div id="copilot-users" class="chart-container"></div>
-    </section>
-
-    <footer style="text-align:center;color:var(--token-text-muted);padding:20px;">
-      Prototype data only
-    </footer>
   </div>
 
+  <!-- ─── Scripts ───────────────────────────────────────── -->
+  <script src="../js/copilot-panel.js"></script>
   <script>
-    async function load() {
-      const res = await fetch('../copilot-summary-token-log.json');
-      const d = await res.json();
-
-      // KPIs
-      const kpis = [
-        { label: 'Total Suggestions', value: d.metrics.totalSuggestions },
-        { label: 'Accepted', value: d.metrics.acceptedSuggestions },
-        { label: 'Acceptance Rate', value: (d.metrics.acceptanceRate * 100).toFixed(1) + '%' },
-        { label: 'Total Tokens', value: d.metrics.totalTokens }
-      ];
-      document.getElementById('copilot-kpis').innerHTML = kpis.map(k=>`<div class="kpi-card"><div class="label">${k.label}</div><div class="value">${k.value}</div></div>`).join('');
-
-      // Daily chart (simple ascii line)
-      const daily = d.daily.map(x=>x.tokens);
-      const max = Math.max(...daily);
-      const lines = d.daily.map(r=>`<div>${r.date} <div style="background:#444;padding:6px;border-radius:6px;width:${Math.round((r.tokens/max)*100)}%;display:inline-block;">${r.tokens}</div></div>`).join('');
-      document.getElementById('copilot-daily').innerHTML = lines;
-
-      // Top users
-      const users = Object.entries(d.byUser).sort((a,b)=>b[1].tokens-a[1].tokens);
-      const userHtml = users.map(([u,stats])=>`<div style="margin-bottom:8px;"><b>${u}</b> — ${stats.suggestions} suggestions, ${stats.accepted} accepted, ${stats.tokens} tokens</div>`).join('');
-      document.getElementById('copilot-users').innerHTML = userHtml;
+    // Theme: add ?theme=light to URL to switch
+    const params = new URLSearchParams(location.search);
+    if (params.get('theme') === 'light') {
+      document.body.classList.add('theme-light');
+      document.querySelector('#copilot-panel-root')?.classList.add('theme-light');
     }
-    load();
+
+    // Boot the panel
+    document.addEventListener('DOMContentLoaded', () => {
+      const panel = new CopilotPanel('#copilot-panel-root');
+      panel.init();
+      // Expose globally for console debugging
+      window.__copilotPanel = panel;
+    });
   </script>
 </body>
 </html>
