@@ -1,25 +1,21 @@
 {
-  "meta": {
-    "generatedAt": "2026-03-28T16:18:06.986Z",
-    "totalRecords": 28,
-    "source": "GitHub Copilot premiumRequestUsageReport + manual import"
-  },
+  "meta": "2026-03-28T16:49:01.064Z",
   "quota": {
-    "total": 500,
-    "used": 17,
-    "remaining": 483,
-    "usedPercent": 3.4,
-    "dailyBudget": 16.1,
-    "daysRemaining": 30,
-    "resetDate": "2026-04-27",
+    "total": 300,
+    "used": 74.58,
+    "remaining": 225.42,
+    "usedPercent": 24.9,
+    "dailyBudget": 56.35,
+    "daysRemaining": 4,
+    "resetDate": "2026-04-01",
     "warningLevel": "normal"
   },
   "modelPreference": "balanced",
   "providerUsage": {
-    "claude": 29,
-    "openai": 1.32,
-    "gemini": 3,
-    "unknown": 7
+    "claude": 245,
+    "openai": 8.58,
+    "gemini": 5,
+    "unknown": 8
   },
   "recommendation": {
     "level": "comfortable",
