@@ -58,10 +58,19 @@
       "next": []
     }
   },
+  "song-of-songs": {
+      "status": "active",
+      "summary": "雅歌 - YouTube 頻道自動化",
+      "url": "https://github.com/ai-lish/Song-of-Songs",
+      "githubPages": "https://youtube.com/@-songofsongs",
+      "hasIndex": false,
+      "next": ["建立自動化流程"]
+    }
+  },
   "githubStatus": {
-    "total": 7,
-    "accessible": 7,
+    "total": 8,
+    "accessible": 8,
     "githubPagesEnabled": 0,
-    "lastChecked": "2026-03-15T10:09:00.000Z"
+    "lastChecked": "2026-03-28T10:09:00.000Z"
   }
 }
