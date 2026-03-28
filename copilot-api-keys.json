@@ -1,6 +1,0 @@
-{
-  "keys": {},
-  "githubToken": null,
-  "lastGitHubSync": "2026-03-28T17:16:40.912Z",
-  "lastGitHubError": "{\"/user/copilot_billing\":{\"status\":403,\"error\":\"Blocked by DNS monitoring proxy\",\"note\":\"User-level billing (requires manage_billing:copilot scope)\"},\"/user/copilot_subscription\":{\"status\":403,\"error\":\"Blocked by DNS monitoring proxy\",\"note\":\"Copilot subscription status\"},\"/user/copilot/seats\":{\"status\":403,\"error\":\"Blocked by DNS monitoring proxy\",\"note\":\"Copilot seat assignments\"},\"/orgs/github/copilot/usage\":{\"status\":403,\"error\":\"Blocked by DNS monitoring proxy\",\"note\":\"Org-level usage (requires org admin)\"},\"/enterprises/github/copilot/usage\":{\"status\":403,\"error\":\"Blocked by DNS monitoring proxy\",\"note\":\"Enterprise-level usage\"},\"/user/billing/copilot\":{\"status\":403,\"error\":\"Blocked by DNS monitoring proxy\",\"note\":\"Alternative billing endpoint\"}}"
-}

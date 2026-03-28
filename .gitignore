@@ -2,3 +2,4 @@ node_modules/
 .DS_Store
 *.log
 copilot-usage-db.json
+copilot-api-keys.json
