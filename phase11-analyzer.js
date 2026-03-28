@@ -70,14 +70,14 @@ class TokenAnalyzer {
    * Formula: cache-read / (cache-read + cache-create)
    */
   calculateCacheHitRate(records) {
-    const cacheRead = records
-      .filter(r => r.consumedApi && r.consumedApi.includes('cache-read'))
-      .reduce((sum, r) => sum + r.totalUsageQuantity, 0);
-    
-    const cacheCreate = records
-      .filter(r => r.consumedApi && r.consumedApi.includes('cache-create'))
-      .reduce((sum, r) => sum + r.totalUsageQuantity, 0);
-    
+    let cacheRead = 0;
+    let cacheCreate = 0;
+    for (const r of records) {
+      if (r.consumedApi) {
+        if (r.consumedApi.includes('cache-read')) cacheRead += r.totalUsageQuantity;
+        if (r.consumedApi.includes('cache-create')) cacheCreate += r.totalUsageQuantity;
+      }
+    }
     const total = cacheRead + cacheCreate;
     
     return {
@@ -111,23 +111,31 @@ class TokenAnalyzer {
   getSummary(records = null) {
     if (!records) records = this.getRecords();
     
-    const inputTokens = this.sum(records, 'inputUsageQuantity');
-    const outputTokens = this.sum(records, 'outputUsageQuantity');
-    const totalTokens = this.sum(records, 'totalUsageQuantity');
-    const totalSpent = this.sum(records, 'amountSpent');
-    const totalAfterVoucher = this.sum(records, 'amountAfterVoucher');
-    
-    // Get date range
-    let dateRange = { start: null, end: null };
-    if (records.length > 0) {
-      const sorted = [...records].sort((a, b) => 
-        new Date(a.consumptionTime) - new Date(b.consumptionTime)
-      );
-      dateRange = {
-        start: sorted[0].consumptionTime.slice(0, 10),
-        end: sorted[sorted.length - 1].consumptionTime.slice(0, 10)
-      };
+    // Single pass: accumulate all numeric sums and date range simultaneously
+    let inputTokens = 0;
+    let outputTokens = 0;
+    let totalTokens = 0;
+    let totalSpent = 0;
+    let totalAfterVoucher = 0;
+    let minTime = null;
+    let maxTime = null;
+    for (const r of records) {
+      inputTokens += r.inputUsageQuantity || 0;
+      outputTokens += r.outputUsageQuantity || 0;
+      totalTokens += r.totalUsageQuantity || 0;
+      totalSpent += r.amountSpent || 0;
+      totalAfterVoucher += r.amountAfterVoucher || 0;
+      const t = r.consumptionTime;
+      if (t) {
+        if (minTime === null || t < minTime) minTime = t;
+        if (maxTime === null || t > maxTime) maxTime = t;
+      }
     }
+
+    // Get date range
+    const dateRange = (records.length > 0 && minTime !== null)
+      ? { start: minTime.slice(0, 10), end: maxTime.slice(0, 10) }
+      : { start: null, end: null };
     
     // Cache analysis
     const cache = this.calculateCacheHitRate(records);
@@ -160,21 +168,25 @@ class TokenAnalyzer {
    */
   getModelDistribution(records = null) {
     if (!records) records = this.getRecords();
-    const grouped = this.groupBy(records, 'consumedModel');
-    const total = this.sum(records, 'totalUsageQuantity');
-    
+    let grandTotal = 0;
     const result = {};
-    Object.entries(grouped).forEach(([model, recs]) => {
-      const tokens = this.sum(recs, 'totalUsageQuantity');
-      result[model] = {
-        tokens,
-        count: recs.length,
-        inputTokens: this.sum(recs, 'inputUsageQuantity'),
-        outputTokens: this.sum(recs, 'outputUsageQuantity'),
-        percentage: total > 0 ? `${(tokens / total * 100).toFixed(1)}%` : '0.0%'
-      };
-    });
-    
+    for (const r of records) {
+      const model = r.consumedModel;
+      const total = r.totalUsageQuantity || 0;
+      grandTotal += total;
+      if (!result[model]) {
+        result[model] = { tokens: 0, count: 0, inputTokens: 0, outputTokens: 0, percentage: '0.0%' };
+      }
+      result[model].tokens += total;
+      result[model].count++;
+      result[model].inputTokens += r.inputUsageQuantity || 0;
+      result[model].outputTokens += r.outputUsageQuantity || 0;
+    }
+    if (grandTotal > 0) {
+      for (const model of Object.keys(result)) {
+        result[model].percentage = `${(result[model].tokens / grandTotal * 100).toFixed(1)}%`;
+      }
+    }
     return result;
   }
 
@@ -183,21 +195,25 @@ class TokenAnalyzer {
    */
   getApiDistribution(records = null) {
     if (!records) records = this.getRecords();
-    const grouped = this.groupBy(records, 'consumedApi');
-    const total = this.sum(records, 'totalUsageQuantity');
-    
+    let grandTotal = 0;
     const result = {};
-    Object.entries(grouped).forEach(([api, recs]) => {
-      const tokens = this.sum(recs, 'totalUsageQuantity');
-      result[api] = {
-        tokens,
-        count: recs.length,
-        inputTokens: this.sum(recs, 'inputUsageQuantity'),
-        outputTokens: this.sum(recs, 'outputUsageQuantity'),
-        percentage: total > 0 ? `${(tokens / total * 100).toFixed(1)}%` : '0.0%'
-      };
-    });
-    
+    for (const r of records) {
+      const api = r.consumedApi;
+      const total = r.totalUsageQuantity || 0;
+      grandTotal += total;
+      if (!result[api]) {
+        result[api] = { tokens: 0, count: 0, inputTokens: 0, outputTokens: 0, percentage: '0.0%' };
+      }
+      result[api].tokens += total;
+      result[api].count++;
+      result[api].inputTokens += r.inputUsageQuantity || 0;
+      result[api].outputTokens += r.outputUsageQuantity || 0;
+    }
+    if (grandTotal > 0) {
+      for (const api of Object.keys(result)) {
+        result[api].percentage = `${(result[api].tokens / grandTotal * 100).toFixed(1)}%`;
+      }
+    }
     return result;
   }
 
@@ -207,26 +223,28 @@ class TokenAnalyzer {
   getTrends(records = null, period = 'daily') {
     if (!records) records = this.getRecords();
     
-    const grouped = this.groupBy(records, r => {
+    const groups = {};
+    for (const r of records) {
       const date = new Date(r.consumptionTime);
+      let key;
       if (period === 'hourly') {
-        return `${date.toISOString().slice(0, 13)}:00`;
+        key = `${date.toISOString().slice(0, 13)}:00`;
       } else if (period === 'weekly') {
         const weekStart = this.getWeekStart(date);
-        return weekStart.toISOString().slice(0, 10);
+        key = weekStart.toISOString().slice(0, 10);
+      } else {
+        key = date.toISOString().slice(0, 10);
       }
-      return date.toISOString().slice(0, 10);
-    });
+      if (!groups[key]) {
+        groups[key] = { period: key, inputTokens: 0, outputTokens: 0, totalTokens: 0, recordCount: 0 };
+      }
+      groups[key].inputTokens += r.inputUsageQuantity || 0;
+      groups[key].outputTokens += r.outputUsageQuantity || 0;
+      groups[key].totalTokens += r.totalUsageQuantity || 0;
+      groups[key].recordCount++;
+    }
     
-    return Object.entries(grouped)
-      .map(([key, vals]) => ({
-        period: key,
-        inputTokens: this.sum(vals, 'inputUsageQuantity'),
-        outputTokens: this.sum(vals, 'outputUsageQuantity'),
-        totalTokens: this.sum(vals, 'totalUsageQuantity'),
-        recordCount: vals.length
-      }))
-      .sort((a, b) => a.period.localeCompare(b.period));
+    return Object.values(groups).sort((a, b) => a.period.localeCompare(b.period));
   }
 
   /**
@@ -353,10 +371,14 @@ class TokenAnalyzer {
       .map(([date, data]) => ({ date, ...data }))
       .sort((a, b) => a.date.localeCompare(b.date));
     
-    // Date range
-    const sorted = [...vlmRecords].sort((a, b) => 
-      new Date(a.consumptionTime) - new Date(b.consumptionTime)
-    );
+    // Date range via single O(n) scan
+    let firstUse = null;
+    let lastUse = null;
+    for (const r of vlmRecords) {
+      const t = r.consumptionTime;
+      if (firstUse === null || t < firstUse) firstUse = t;
+      if (lastUse === null || t > lastUse) lastUse = t;
+    }
     
     return {
       totalCalls: vlmRecords.length,
@@ -364,8 +386,8 @@ class TokenAnalyzer {
       totalInputTokens: totalInput,
       totalOutputTokens: totalOutput,
       avgTokensPerCall: Math.round(totalTokens / vlmRecords.length),
-      firstUse: sorted[0]?.consumptionTime || null,
-      lastUse: sorted[sorted.length - 1]?.consumptionTime || null,
+      firstUse,
+      lastUse,
       hourlyDistribution: hourlyDist,
       peakHour,
       peakHourCount: peakCount,
@@ -379,19 +401,29 @@ class TokenAnalyzer {
   buildDailySummaries(records = null) {
     if (!records) records = this.getRecords();
     
+    // Pre-group all records by date in a single O(n) pass to avoid O(n×m) re-filtering
+    const recordsByDate = {};
+    for (const r of records) {
+      const date = r.consumptionTime.slice(0, 10);
+      if (!recordsByDate[date]) recordsByDate[date] = [];
+      recordsByDate[date].push(r);
+    }
+    
     const dailyData = this.getDailyDistribution(records);
     const summaries = {};
     
     dailyData.forEach(day => {
-      const dayRecords = records.filter(r => r.consumptionTime.slice(0, 10) === day.date);
+      const dayRecords = recordsByDate[day.date] || [];
       
       // Cache for this day
-      const cacheRead = dayRecords
-        .filter(r => r.consumedApi && r.consumedApi.includes('cache-read'))
-        .reduce((sum, r) => sum + r.totalUsageQuantity, 0);
-      const cacheCreate = dayRecords
-        .filter(r => r.consumedApi && r.consumedApi.includes('cache-create'))
-        .reduce((sum, r) => sum + r.totalUsageQuantity, 0);
+      let cacheRead = 0;
+      let cacheCreate = 0;
+      for (const r of dayRecords) {
+        if (r.consumedApi) {
+          if (r.consumedApi.includes('cache-read')) cacheRead += r.totalUsageQuantity;
+          if (r.consumedApi.includes('cache-create')) cacheCreate += r.totalUsageQuantity;
+        }
+      }
       const cacheTotal = cacheRead + cacheCreate;
       
       // By API
