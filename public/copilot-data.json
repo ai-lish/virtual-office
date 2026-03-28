@@ -1,0 +1,162 @@
+{
+  "_generatedAt": "2026-03-28T16:18:35.585Z",
+  "quota": {
+    "total": 500,
+    "used": 17,
+    "remaining": 483,
+    "usedPercent": 3.4,
+    "dailyBudget": 16.1,
+    "daysRemaining": 30,
+    "resetDate": "2026-04-27",
+    "warningLevel": "normal",
+    "modelPreference": "balanced",
+    "providerUsage": {
+      "claude": 29,
+      "openai": 1.32,
+      "gemini": 3,
+      "unknown": 7
+    },
+    "recommendation": {
+      "level": "comfortable",
+      "emoji": "🟢",
+      "label": "配額充裕",
+      "message": "配額充足，可自由使用高階模型",
+      "suggestedModel": "claude-sonnet-4",
+      "color": "#2ecc71"
+    }
+  },
+  "analysis": {
+    "summary": {
+      "today": {
+        "count": 0,
+        "premiumCost": 0
+      },
+      "week": {
+        "count": 28,
+        "premiumCost": 42.32
+      },
+      "total": {
+        "count": 28,
+        "premiumCost": 42.32
+      }
+    },
+    "modelDistribution": {
+      "claude-sonnet-4": {
+        "count": 6,
+        "premiumCost": 6
+      },
+      "gpt-4.1-mini": {
+        "count": 3,
+        "premiumCost": 0
+      },
+      "o4-mini": {
+        "count": 4,
+        "premiumCost": 1.32
+      },
+      "gemini-2.5-pro": {
+        "count": 3,
+        "premiumCost": 3
+      },
+      "claude-opus-4": {
+        "count": 5,
+        "premiumCost": 25
+      },
+      "claude-sonnet-4-5": {
+        "count": 2,
+        "premiumCost": 2
+      },
+      "code-review": {
+        "count": 1,
+        "premiumCost": 1
+      },
+      "coding-agent": {
+        "count": 2,
+        "premiumCost": 2
+      },
+      "gpt-5.4-mini": {
+        "count": 1,
+        "premiumCost": 1
+      },
+      "gemini-3.1-pro": {
+        "count": 1,
+        "premiumCost": 1
+      }
+    },
+    "featureDistribution": {
+      "chat": {
+        "count": 21,
+        "premiumCost": 38
+      },
+      "completion": {
+        "count": 4,
+        "premiumCost": 1.32
+      },
+      "vision": {
+        "count": 3,
+        "premiumCost": 3
+      }
+    },
+    "providerDistribution": {
+      "unknown": {
+        "count": 9,
+        "premiumCost": 9
+      },
+      "claude": {
+        "count": 9,
+        "premiumCost": 29
+      },
+      "openai": {
+        "count": 7,
+        "premiumCost": 1.32
+      },
+      "gemini": {
+        "count": 3,
+        "premiumCost": 3
+      }
+    },
+    "trend7Days": [
+      {
+        "date": "2026-03-22",
+        "count": 0,
+        "premiumCost": 0
+      },
+      {
+        "date": "2026-03-23",
+        "count": 0,
+        "premiumCost": 0
+      },
+      {
+        "date": "2026-03-24",
+        "count": 0,
+        "premiumCost": 0
+      },
+      {
+        "date": "2026-03-25",
+        "count": 0,
+        "premiumCost": 0
+      },
+      {
+        "date": "2026-03-26",
+        "count": 0,
+        "premiumCost": 0
+      },
+      {
+        "date": "2026-03-27",
+        "count": 0,
+        "premiumCost": 0
+      },
+      {
+        "date": "2026-03-28",
+        "count": 28,
+        "premiumCost": 42.32
+      }
+    ],
+    "providerUsage": {
+      "claude": 29,
+      "openai": 1.32,
+      "gemini": 3,
+      "unknown": 7
+    },
+    "lastUpdated": "2026-03-28T15:50:50.164Z"
+  }
+}

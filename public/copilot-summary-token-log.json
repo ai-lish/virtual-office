@@ -1,34 +1,32 @@
 {
   "meta": {
-    "generatedAt": "2026-03-27T20:52:00Z",
-    "totalSuggestions": 1200,
-    "totalUsers": 24,
-    "dateRange": { "start": "2026-03-20", "end": "2026-03-27" }
+    "generatedAt": "2026-03-28T16:18:06.986Z",
+    "totalRecords": 28,
+    "source": "GitHub Copilot premiumRequestUsageReport + manual import"
   },
-  "metrics": {
-    "totalSuggestions": 1200,
-    "acceptedSuggestions": 720,
-    "acceptanceRate": 0.6,
-    "totalInputTokens": 450000,
-    "totalOutputTokens": 1550000,
-    "totalTokens": 2000000,
-    "avgTokensPerSuggestion": 166
+  "quota": {
+    "total": 500,
+    "used": 17,
+    "remaining": 483,
+    "usedPercent": 3.4,
+    "dailyBudget": 16.1,
+    "daysRemaining": 30,
+    "resetDate": "2026-04-27",
+    "warningLevel": "normal"
   },
-  "daily": [
-    { "date": "2026-03-20", "suggestions": 120, "tokens": 200000 },
-    { "date": "2026-03-21", "suggestions": 140, "tokens": 220000 },
-    { "date": "2026-03-22", "suggestions": 130, "tokens": 210000 },
-    { "date": "2026-03-23", "suggestions": 150, "tokens": 240000 },
-    { "date": "2026-03-24", "suggestions": 170, "tokens": 280000 },
-    { "date": "2026-03-25", "suggestions": 190, "tokens": 300000 },
-    { "date": "2026-03-26", "suggestions": 200, "tokens": 350000 },
-    { "date": "2026-03-27", "suggestions": 200, "tokens": 400000 }
-  ],
-  "byUser": {
-    "alice": { "suggestions": 240, "accepted": 140, "tokens": 420000 },
-    "bob": { "suggestions": 180, "accepted": 120, "tokens": 300000 },
-    "carol": { "suggestions": 150, "accepted": 90, "tokens": 240000 },
-    "dave": { "suggestions": 120, "accepted": 80, "tokens": 200000 },
-    "others": { "suggestions": 510, "accepted": 290, "tokens": 840000 }
+  "modelPreference": "balanced",
+  "providerUsage": {
+    "claude": 29,
+    "openai": 1.32,
+    "gemini": 3,
+    "unknown": 7
+  },
+  "recommendation": {
+    "level": "comfortable",
+    "emoji": "🟢",
+    "label": "配額充裕",
+    "message": "配額充足，可自由使用高階模型",
+    "suggestedModel": "claude-sonnet-4",
+    "color": "#2ecc71"
   }
 }

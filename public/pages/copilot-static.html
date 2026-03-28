@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Copilot 用量 - 虛擬辦公室</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Noto Sans SC', sans-serif; background: #0f0f23; color: #fff; padding: 20px; }
+    .card { background: #1a1a2e; border-radius: 16px; padding: 24px; max-width: 500px; margin: 0 auto; }
+    h1 { text-align: center; margin-bottom: 24px; }
+    .gauge-wrap { display: flex; justify-content: center; margin-bottom: 20px; }
+    .gauge-wrap svg { width: 180px; height: 180px; }
+    .gauge-track { fill: none; stroke: #2a2a4a; stroke-width: 12; }
+    .gauge-fill { fill: none; stroke-width: 12; stroke-linecap: round;
+      stroke-dasharray: 440; stroke-dashoffset: 440;
+      transform: rotate(-90deg); transform-origin: center; }
+    .gauge-fill.high { stroke: #e74c3c; }
+    .gauge-fill.medium { stroke: #f39c12; }
+    .gauge-fill.low { stroke: #2ecc71; }
+    .gauge-center { text-align: center; }
+    .gauge-pct { font-size: 2em; font-weight: 700; }
+    .gauge-label { font-size: 0.9em; color: #888; }
+    .meta { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+    .meta-item { background: #16213e; padding: 12px; border-radius: 8px; }
+    .meta-item .label { font-size: 0.8em; color: #888; }
+    .meta-item .value { font-size: 1.2em; font-weight: 600; }
+    .providers { margin-bottom: 16px; }
+    .providers h3 { font-size: 0.9em; color: #888; margin-bottom: 8px; }
+    .provider-bar { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
+    .provider-name { width: 70px; font-size: 0.85em; }
+    .provider-track { flex: 1; height: 8px; background: #2a2a4a; border-radius: 4px; }
+    .provider-fill { height: 100%; border-radius: 4px; }
+    .provider-fill.claude { background: #e67e22; }
+    .provider-fill.openai { background: #27ae60; }
+    .provider-fill.gemini { background: #2980b9; }
+    .provider-fill.unknown { background: #8e44ad; }
+    .rec { background: #16213e; padding: 14px; border-radius: 10px; text-align: center; }
+    .rec .emoji { font-size: 1.5em; }
+    .rec .label { font-weight: 600; }
+    .rec .message { font-size: 0.9em; color: #aaa; margin-top: 4px; }
+    .updated { text-align: center; font-size: 0.75em; color: #555; margin-top: 20px; }
+    .loading { text-align: center; color: #888; padding: 40px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>🤖 Copilot 用量</h1>
+    <div id="app"><div class="loading">載入中...</div></div>
+    <div class="updated" id="updated"></div>
+  </div>
+  <script>
+    async function load() {
+      try {
+        const res = await fetch('../copilot-data.json');
+        const data = await res.json();
+        const q = data.quota;
+        const usedPct = q.usedPercent || (q.used / q.total * 100);
+        const offset = 440 - (440 * usedPct / 100);
+        const level = usedPct > 80 ? 'high' : usedPct > 50 ? 'medium' : 'low';
+        const colors = { high: '#e74c3c', medium: '#f39c12', low: '#2ecc71' };
+        const color = colors[level];
+        document.getElementById('updated').textContent = '更新: ' + (data._generatedAt || '').slice(0, 16);
+        let providersHtml = '';
+        const total = (q.providerUsage.claude || 0) + (q.providerUsage.openai || 0) + (q.providerUsage.gemini || 0) + (q.providerUsage.unknown || 0);
+        for (const [p, v] of Object.entries(q.providerUsage || {})) {
+          const pct = total > 0 ? (v / total * 100).toFixed(0) : 0;
+          providersHtml += '<div class="provider-bar">' +
+            '<span class="provider-name">' + p + '</span>' +
+            '<div class="provider-track"><div class="provider-fill ' + p + '" style="width:' + pct + '%"></div></div>' +
+            '<span>' + v.toFixed(1) + '</span>' +
+          '</div>';
+        }
+        document.getElementById('app').innerHTML =
+          '<div class="gauge-wrap">' +
+            '<svg viewBox="0 0 160 160"><circle class="gauge-track" cx="80" cy="80" r="70"/>' +
+            '<circle class="gauge-fill ' + level + '" cx="80" cy="80" r="70"' +
+            ' stroke="' + color + '" style="stroke-dashoffset:' + offset + '"/>' +
+            '<text x="80" y="75" text-anchor="middle" fill="#fff" font-size="2em" font-weight="700">' + usedPct.toFixed(1) + '%</text>' +
+            '<text x="80" y="95" text-anchor="middle" fill="#888" font-size="0.8em">已用</text></svg>' +
+          '</div>' +
+          '<div class="meta">' +
+            '<div class="meta-item"><div class="label">已用</div><div class="value">' + q.used + '</div></div>' +
+            '<div class="meta-item"><div class="label">剩餘</div><div class="value">' + q.remaining + '</div></div>' +
+            '<div class="meta-item"><div class="label">總配額</div><div class="value">' + q.total + '</div></div>' +
+            '<div class="meta-item"><div class="label">重置日</div><div class="value">' + (q.resetDate || '-') + '</div></div>' +
+          '</div>' +
+          '<div class="providers"><h3>Provider 用量</h3>' + providersHtml + '</div>' +
+          '<div class="rec">' +
+            '<div class="emoji">' + (q.recommendation?.emoji || '✅') + '</div>' +
+            '<div class="label">' + (q.recommendation?.label || '正常') + '</div>' +
+            '<div class="message">' + (q.recommendation?.message || '') + '</div>' +
+          '</div>';
+      } catch(e) {
+        document.getElementById('app').innerHTML = '<div class="loading">無法載入數據</div>';
+        console.error(e);
+      }
+    }
+    load();
+  </script>
+</body>
+</html>

@@ -1,25 +1,234 @@
 {
   "meta": {
-    "totalRecords": 1354,
+    "generatedAt": "2026-03-28T16:17:24.469Z",
+    "totalRecords": 2957,
     "dateRange": {
       "start": "2026-03-03",
-      "end": "2026-03-22"
+      "end": "2026-03-27"
     },
-    "lastUpdated": "2026-03-23T14:07:21.016Z"
+    "sourceFile": "export_bill_1774710399.csv"
   },
-  "metrics": {
-    "totalInputTokens": 2536074687,
-    "totalOutputTokens": 6339027,
-    "totalTokens": 2542413714,
-    "avgTokensPerRecord": 1877706
+  "totals": {
+    "inputTokens": 5493962536,
+    "outputTokens": 13753625,
+    "totalTokens": 5507716161
   },
-  "cache": {
-    "cacheRead": 494535424,
-    "cacheCreate": 252102537,
-    "hitRate": 0.6623496926645014,
-    "hitRatePercentage": "66.2%",
-    "savingsTokens": 0
-  },
-  "byModel": {},
-  "byApi": {}
+  "byModel": [
+    {
+      "model": "MiniMax-M2.5",
+      "input": 4804260594,
+      "output": 11801556,
+      "total": 4816062150,
+      "count": 2288,
+      "percentage": "87.4%"
+    },
+    {
+      "model": "MiniMax-M2.7",
+      "input": 689701010,
+      "output": 1952069,
+      "total": 691653079,
+      "count": 489,
+      "percentage": "12.6%"
+    },
+    {
+      "model": "coding-plan-vlm",
+      "input": 932,
+      "output": 0,
+      "total": 932,
+      "count": 177,
+      "percentage": "0.0%"
+    },
+    {
+      "model": "subscribe",
+      "input": 0,
+      "output": 0,
+      "total": 0,
+      "count": 3,
+      "percentage": "0.0%"
+    }
+  ],
+  "byApi": [
+    {
+      "api": "chatcompletion-v2(Text API)",
+      "input": 3855028210,
+      "output": 13753625,
+      "total": 3868781835
+    },
+    {
+      "api": "cache-read(Text API)",
+      "input": 1086779931,
+      "output": 0,
+      "total": 1086779931
+    },
+    {
+      "api": "cache-create(Text API)",
+      "input": 552153463,
+      "output": 0,
+      "total": 552153463
+    },
+    {
+      "api": "code_plan_resource_package",
+      "input": 932,
+      "output": 0,
+      "total": 932
+    },
+    {
+      "api": "code_plan_purchase",
+      "input": 0,
+      "output": 0,
+      "total": 0
+    }
+  ],
+  "byDay": [
+    {
+      "date": "2026-03-03",
+      "input": 2,
+      "output": 0,
+      "total": 2
+    },
+    {
+      "date": "2026-03-04",
+      "input": 93505584,
+      "output": 353370,
+      "total": 93858954
+    },
+    {
+      "date": "2026-03-05",
+      "input": 301864084,
+      "output": 1058160,
+      "total": 302922244
+    },
+    {
+      "date": "2026-03-06",
+      "input": 455023180,
+      "output": 631060,
+      "total": 455654240
+    },
+    {
+      "date": "2026-03-07",
+      "input": 265092042,
+      "output": 722556,
+      "total": 265814598
+    },
+    {
+      "date": "2026-03-08",
+      "input": 285454718,
+      "output": 766398,
+      "total": 286221116
+    },
+    {
+      "date": "2026-03-09",
+      "input": 352135364,
+      "output": 704140,
+      "total": 352839504
+    },
+    {
+      "date": "2026-03-10",
+      "input": 497080628,
+      "output": 1409490,
+      "total": 498490118
+    },
+    {
+      "date": "2026-03-11",
+      "input": 305569156,
+      "output": 631680,
+      "total": 306200836
+    },
+    {
+      "date": "2026-03-12",
+      "input": 290188420,
+      "output": 679550,
+      "total": 290867970
+    },
+    {
+      "date": "2026-03-13",
+      "input": 265475624,
+      "output": 491894,
+      "total": 265967518
+    },
+    {
+      "date": "2026-03-14",
+      "input": 253114242,
+      "output": 526612,
+      "total": 253640854
+    },
+    {
+      "date": "2026-03-15",
+      "input": 328661160,
+      "output": 712458,
+      "total": 329373618
+    },
+    {
+      "date": "2026-03-16",
+      "input": 186778148,
+      "output": 407906,
+      "total": 187186054
+    },
+    {
+      "date": "2026-03-17",
+      "input": 244153092,
+      "output": 753926,
+      "total": 244907018
+    },
+    {
+      "date": "2026-03-18",
+      "input": 145639774,
+      "output": 263634,
+      "total": 145903408
+    },
+    {
+      "date": "2026-03-19",
+      "input": 180195530,
+      "output": 365770,
+      "total": 180561300
+    },
+    {
+      "date": "2026-03-20",
+      "input": 138365730,
+      "output": 747966,
+      "total": 139113696
+    },
+    {
+      "date": "2026-03-21",
+      "input": 103795246,
+      "output": 451724,
+      "total": 104246970
+    },
+    {
+      "date": "2026-03-22",
+      "input": 380057650,
+      "output": 999760,
+      "total": 381057410
+    },
+    {
+      "date": "2026-03-23",
+      "input": 143151671,
+      "output": 451275,
+      "total": 143602946
+    },
+    {
+      "date": "2026-03-24",
+      "input": 154762283,
+      "output": 304750,
+      "total": 155067033
+    },
+    {
+      "date": "2026-03-25",
+      "input": 58387049,
+      "output": 149410,
+      "total": 58536459
+    },
+    {
+      "date": "2026-03-26",
+      "input": 27358770,
+      "output": 59101,
+      "total": 27417871
+    },
+    {
+      "date": "2026-03-27",
+      "input": 38153389,
+      "output": 111035,
+      "total": 38264424
+    }
+  ]
 }
