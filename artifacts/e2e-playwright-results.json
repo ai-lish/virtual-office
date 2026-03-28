@@ -1,0 +1,61 @@
+{
+  "console": [
+    {
+      "type": "log",
+      "text": "Initializing Token Dashboard..."
+    },
+    {
+      "type": "error",
+      "text": "Error loading data: TypeError: this.api.getSummaryQuick is not a function\n    at TokenDashboard.loadAllData (https://ai-lish.github.io/virtual-office/public/js/token-dashboard.js:90:43)\n    at TokenDashboard.init (https://ai-lish.github.io/virtual-office/public/js/token-dashboard.js:27:16)\n    at HTMLDocument.<anonymous> (https://ai-lish.github.io/virtual-office/public/js/token-dashboard.js:409:20)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 ()"
+    }
+  ],
+  "requests": [
+    {
+      "url": "https://ai-lish.github.io/virtual-office/public/pages/token-analysis.html",
+      "method": "GET",
+      "started": 1774624068602
+    },
+    {
+      "url": "https://ai-lish.github.io/virtual-office/public/css/token-dashboard.css",
+      "method": "GET",
+      "started": 1774624068768
+    },
+    {
+      "url": "https://ai-lish.github.io/virtual-office/public/js/token-api.js",
+      "method": "GET",
+      "started": 1774624068768
+    },
+    {
+      "url": "https://ai-lish.github.io/virtual-office/public/js/token-charts.js",
+      "method": "GET",
+      "started": 1774624068768
+    },
+    {
+      "url": "https://ai-lish.github.io/virtual-office/public/js/token-dashboard.js",
+      "method": "GET",
+      "started": 1774624068768
+    },
+    {
+      "url": "https://ai-lish.github.io/virtual-office/public/pages/token-log.json",
+      "method": "GET",
+      "started": 1774624071200
+    },
+    {
+      "url": "https://ai-lish.github.io/virtual-office/public/token-log.json",
+      "method": "GET",
+      "started": 1774624071254
+    }
+  ],
+  "screenshots": [
+    "/Users/zachli/.openclaw/workspace/artifacts/token-analysis.png"
+  ],
+  "downloads": [
+    "/Users/zachli/.openclaw/workspace/artifacts/token-export.json"
+  ],
+  "errors": [],
+  "httpStatus": 200
+}

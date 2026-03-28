@@ -1,0 +1,49 @@
+OpenClaw Workspace File Audit - 20260327T120512Z
+
+Location: /Users/zachli/.openclaw/workspace
+
+Top files:
+
+--- TOP 30 largest files ---
+555M	.
+401M	./ai-learning
+267M	./ai-learning/hkdse
+266M	./ai-learning/hkdse/ocr-output
+130M	./ai-learning/.git/objects
+130M	./ai-learning/.git
+105M	./ai-learning/hkdse/ocr-output/images-simple
+ 88M	./virtual-office
+ 76M	./virtual-office/node_modules
+ 76M	./ai-learning/hkdse/ocr-output/preprocessed-p1
+ 76M	./ai-learning/hkdse/ocr-output/images-simple/p1
+ 51M	./ai-learning/hkdse/ocr-output/rescan_probability
+ 43M	./ai-learning/hkdse/ocr-output/rescan_probability/fraction_optimized
+ 37M	./lsc-ole-s1-2026
+ 32M	./ai-learning/hkdse/ocr-output/images
+ 32M	./ai-learning/.git/objects/pack
+ 24M	./ai-learning/.git/objects/pack/pack-800c817ef536f9a309f3c3cbfc749703f3dfbd4d.pack
+ 18M	./ai-learning/hkdse/ocr-output/images/p2
+ 18M	./ClawTeam
+ 16M	./ai-learning/hkdse/ocr-output/images-simple/p2
+ 14M	./lsc-ole-s1-2026/node_modules
+ 14M	./ai-learning/hkdse/ocr-output/images/p1
+ 13M	./ai-learning/hkdse/ocr-output/images-simple/p1_original_backup
+ 11M	./lsc-ole-s1-2026/.git
+ 11M	./ai-learning/hkdse/ocr-output/rescan_probability/fraction_optimized/2019Q42_enhanced.jpg
+ 10M	./lsc-ole-s1-2026/.git/objects/pack/pack-6a9f50b782b04429c18960be07ad603c043b8b08.pack
+ 10M	./lsc-ole-s1-2026/.git/objects/pack
+ 10M	./lsc-ole-s1-2026/.git/objects
+9.7M	./virtual-office/node_modules/puppeteer-core
+9.6M	./virtual-office/node_modules/playwright-core
+
+Sensitive grep results:
+
+--- SENSITIVE STRINGS (grep) ---
+
+Gitleaks summary:
+
+--- GITLEAKS REPORT SUMMARY ---
+{
+  "leaks_count": 0,
+  "leaks": []
+}

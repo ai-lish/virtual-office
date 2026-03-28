@@ -1,17 +1,17 @@
 {
   "title": "🧑💻 虛擬辦公室 - Virtual Office",
-  "timestamp": 1774618617088,
+  "timestamp": 1774636126578,
   "agents": [
     {
       "id": "main",
       "name": "大腦 🧠",
       "sprite": "agent-tech",
       "role": "AI助手",
-      "status": "offline",
-      "task": "等待中...",
-      "lastActive": -1,
-      "session": null,
-      "tokens": 0
+      "status": "idle",
+      "task": "工作中...",
+      "lastActive": 10,
+      "session": "agent:main:main",
+      "tokens": 33213
     },
     {
       "id": "tester",

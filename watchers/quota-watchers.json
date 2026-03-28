@@ -1,0 +1,28 @@
+{
+  "watchers": [
+    {
+      "id": "minimax_renewal",
+      "type": "reminder",
+      "title": "MiniMax renewal decision",
+      "dates": ["2026-03-25","2026-03-30"],
+      "message": "MiniMax subscription decision due 2026-04-01. Please confirm whether to renew $10/month.",
+      "notify_channel": "discord:總辦公室"
+    },
+    {
+      "id": "copilot_trial_expiry",
+      "type": "reminder",
+      "title": "Copilot trial expiry",
+      "dates": ["2026-04-20"],
+      "message": "GitHub Copilot trial ends 2026-04-27. Prepare billing decision or education plan follow-up.",
+      "notify_channel": "discord:總辦公室"
+    },
+    {
+      "id": "copilot_usage_thresholds",
+      "type": "threshold",
+      "title": "Copilot usage thresholds",
+      "thresholds": [50,75,90],
+      "message_template": "Copilot usage reached {pct}% of 300/month (used {used}). Consider action.",
+      "notify_channel": "discord:總辦公室"
+    }
+  ]
+}

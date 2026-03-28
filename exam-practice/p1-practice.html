@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025-26 中一第二學期 數學科考試 - 個人改正</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans TC', sans-serif; background: #f5f5f5; color: #333; padding-bottom: 300px; }
+        
+        /* 頂部導覽列 */
+        .top-nav { position: fixed; top: 0; left: 0; width: 100%; background: #2c3e50; color: white; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 10px rgba(0,0,0,0.2); z-index: 1000; }
+        .nav-left, .nav-right { display: flex; align-items: center; gap: 15px; }
+        .hamburger { cursor: pointer; padding: 5px; }
+        .hamburger span { display: block; width: 25px; height: 3px; background: white; margin: 5px 0; border-radius: 2px; }
+        .back-btn { color: white; text-decoration: none; font-size: 0.95em; padding: 6px 12px; background: rgba(255,255,255,0.1); border-radius: 5px; }
+        .back-btn:hover { background: rgba(255,255,255,0.2); }
+        .nav-title { font-size: 1.1em; font-weight: bold; }
+        .progress-btn { background: #27ae60; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+
+        .container { max-width: 900px; margin: 70px auto 20px auto; padding: 0 15px; }
+        
+        /* 試卷標題 */
+        .header { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .header h1 { color: #e74c3c; margin-bottom: 10px; }
+        .header p { color: #666; }
+        
+        /* 題目區域 */
+        .question-card { background: white; padding: 20px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .question-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; cursor: pointer; }
+        .question-num { font-weight: bold; color: #3498db; font-size: 1.1em; }
+        .question-marks { background: #ecf0f1; padding: 4px 10px; border-radius: 15px; font-size: 0.85em; }
+        .question-text { line-height: 1.6; margin-bottom: 15px; }
+        .section-title { background: #34495e; color: white; padding: 12px 15px; border-radius: 5px; margin: 20px 0 15px 0; cursor: pointer; font-weight: bold; }
+        .section-content { display: none; }
+        .section-content.open { display: block; }
+        
+        /* 輸入區域 */
+        .input-area { display: none; padding: 20px; background: #f8f9fa; border-radius: 8px; margin-top: 15px; border: 2px solid #3498db; }
+        .input-area.active { display: block; }
+        
+        .step-input-container { margin-bottom: 15px; }
+        .step-label { font-weight: bold; margin-bottom: 8px; color: #2c3e50; }
+        .step-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+        .step-input { flex: 1; padding: 12px; font-size: 1em; border: 1px solid #ddd; border-radius: 5px; font-family: 'Courier New', monospace; }
+        .step-input:focus { outline: none; border-color: #3498db; }
+        .step-number { font-weight: bold; color: #3498db; min-width: 30px; }
+        .delete-step { background: #e74c3c; color: white; border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 1.2em; }
+        .add-step-btn { background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 0.9em; }
+        
+        .answer-input-container { margin-bottom: 15px; }
+        .answer-input { width: 100%; padding: 12px; font-size: 1em; border: 1px solid #ddd; border-radius: 5px; font-family: 'Courier New', monospace; }
+        .answer-input:focus { outline: none; border-color: #3498db; }
+        
+        .action-buttons { display: flex; gap: 10px; }
+        .submit-btn { background: #3498db; color: white; border: none; padding: 12px 24px; border-radius: 5px; cursor: pointer; font-size: 1em; font-weight: bold; }
+        .show-answer-btn { background: #95a5a6; color: white; border: none; padding: 12px 24px; border-radius: 5px; cursor: pointer; font-size: 1em; }
+        
+        /* 結果顯示 */
+        .result-area { display: none; margin-top: 20px; padding: 20px; background: white; border-radius: 8px; border: 2px solid #ddd; }
+        .result-area.show { display: block; }
+        .result-correct { border-color: #27ae60; background: #e8f5e9; }
+        .result-wrong { border-color: #e74c3c; background: #fdeaea; }
+        
+        .student-answer { margin-bottom: 15px; }
+        .student-answer h4 { margin-bottom: 10px; color: #2c3e50; }
+        .answer-row { display: flex; align-items: center; gap: 10px; padding: 8px; background: #f8f9fa; border-radius: 5px; margin-bottom: 5px; }
+        .answer-row.correct { background: #d4edda; }
+        .answer-row.wrong { background: #f8d7da; }
+        .answer-icon { font-size: 1.2em; }
+        
+        .divider { height: 2px; background: #ddd; margin: 20px 0; }
+        
+        .standard-answer h4 { margin-bottom: 10px; color: #2c3e50; }
+        .standard-steps { background: #f8f9fa; padding: 15px; border-radius: 5px; }
+        .standard-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
+        .standard-row:last-child { border-bottom: none; }
+        .mark-tag { background: #3498db; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.8em; margin-right: 10px; }
+        .mark-correct { background: #27ae60; }
+        .mark-wrong { background: #e74c3c; }
+        
+        .score-display { text-align: center; padding: 15px; font-size: 1.2em; font-weight: bold; margin-top: 15px; border-radius: 5px; }
+        .score-full { background: #d4edda; color: #155724; }
+        .score-zero { background: #f8d7da; color: #721c24; }
+        .score-partial { background: #fff3cd; color: #856404; }
+        
+        .warning-msg { background: #fff3cd; color: #856404; padding: 10px; border-radius: 5px; margin: 10px 0; font-size: 0.9em; }
+        
+        /* 鍵盤 */
+        .keyboard { position: fixed; bottom: 0; left: 0; width: 100%; background: #2c3e50; padding: 10px; z-index: 1000; display: none; }
+        .keyboard.show { display: block; }
+        .keyboard-row { display: flex; justify-content: center; gap: 5px; margin-bottom: 5px; flex-wrap: wrap; }
+        .key { background: #ecf0f1; border: none; padding: 10px 12px; border-radius: 5px; cursor: pointer; font-size: 0.9em; font-weight: bold; min-width: 45px; color: #2c3e50; }
+        .key:hover { background: #bdc3c7; }
+        .key:active { background: #95a5a6; }
+        .key.operator { background: #3498db; color: white; }
+        .key.function { background: #9b59b6; color: white; }
+        .key-number { background: #34495e; color: white; }
+        .keyboard-toggle { position: fixed; bottom: 20px; right: 20px; background: #3498db; color: white; border: none; width: 60px; height: 60px; border-radius: 50%; font-size: 1.5em; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 999; }
+        .keyboard-toggle:hover { background: #2980b9; }
+        
+        /* 隱藏元素 */
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <!-- 頂部導覽列 -->
+    <div class="top-nav">
+        <div class="nav-left">
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span><span></span><span></span>
+            </div>
+            <a href="exam-2025-26-s1-term2.html" class="back-btn">← 返回考試主頁</a>
+        </div>
+        <div class="nav-title" id="navTitle">卷一練習 | 個人改正</div>
+        <div class="nav-right">
+            <button class="progress-btn" onclick="showProgress()">進度</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>📝 卷一 (70分) - 個人改正</h1>
+            <p>2025-26 中一第二學期數學科考試 | 中華聖潔會靈風中學</p>
+            <p style="margin-top: 10px; color: #666; font-size: 0.9em;">
+                請逐題作答，完成後點擊「提交」核對答案。2分或以上題目需要輸入解題步驟。
+            </p>
+        </div>
+
+        <!-- 題目區域將由 JavaScript 生成 -->
+        <div id="questionsContainer"></div>
+    </div>
+
+    <!-- 虛擬鍵盤 - 簡化版 -->
+    <button class="keyboard-toggle" onclick="toggleKeyboard()">⌨️</button>
+    <div class="keyboard" id="keyboard">
+        <div class="keyboard-row">
+            <button class="key key-number" onclick="insertText('7')">7</button>
+            <button class="key key-number" onclick="insertText('8')">8</button>
+            <button class="key key-number" onclick="insertText('9')">9</button>
+            <button class="key operator" onclick="insertText('×')">×</button>
+            <button class="key" onclick="insertText('(')">(</button>
+            <button class="key" onclick="insertText(')')">)</button>
+        </div>
+        <div class="keyboard-row">
+            <button class="key key-number" onclick="insertText('4')">4</button>
+            <button class="key key-number" onclick="insertText('5')">5</button>
+            <button class="key key-number" onclick="insertText('6')">6</button>
+            <button class="key operator" onclick="insertText('÷')">÷</button>
+            <button class="key" onclick="insertText('^')">^</button>
+            <button class="key" onclick="insertText('√(')">√</button>
+        </div>
+        <div class="keyboard-row">
+            <button class="key key-number" onclick="insertText('1')">1</button>
+            <button class="key key-number" onclick="insertText('2')">2</button>
+            <button class="key key-number" onclick="insertText('3')">3</button>
+            <button class="key operator" onclick="insertText('-')">−</button>
+            <button class="key" onclick="insertText('(-)')">(-)</button>
+            <button class="key" onclick="insertText('π')">π</button>
+        </div>
+        <div class="keyboard-row">
+            <button class="key key-number" onclick="insertText('0')">0</button>
+            <button class="key key-number" onclick="insertText('00')">00</button>
+            <button class="key key-number" onclick="insertText('.')">.</button>
+            <button class="key operator" onclick="insertText('+')">+</button>
+            <button class="key operator" onclick="insertText('=')">=</button>
+            <button class="key" onclick="insertText('x')">x</button>
+        </div>
+        <div class="keyboard-row">
+            <button class="key" onclick="insertText('cm')">cm</button>
+            <button class="key" onclick="insertText('cm²')">cm²</button>
+            <button class="key" onclick="insertText('cm³')">cm³</button>
+            <button class="key" onclick="insertText('「')">「</button>
+            <button class="key" onclick="insertText('」')">」</button>
+            <button class="key operator" onclick="clearInput()">C</button>
+        </div>
+    </div>
+
+    <script src="js/question-data.js"></script>
+    <script>
+        // 全域變數
+        let currentInput = null;
+        let currentQuestion = null;
+        let studentAnswers = {};
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            renderQuestions();
+        });
+
+        // 渲染題目
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            const data = examData.p1;
+            
+            let html = '';
+            let currentSection = '';
+            
+            data.questions.forEach((q, index) => {
+                // 區段標題
+                if (q.section !== currentSection) {
+                    currentSection = q.section;
+                    html += `<div class="section-title" onclick="toggleSection('section-${q.section}')">${q.section} - 按下展開/收起</div>`;
+                    html += `<div id="section-${q.section}" class="section-content open">`;
+                }
+                
+                html += `
+                    <div class="question-card" id="card-${q.id}">
+                        <div class="question-header" onclick="toggleQuestion('${q.id}')">
+                            <span class="question-num">${q.id}</span>
+                            <span class="question-marks">${q.totalMarks} 分</span>
+                        </div>
+                        <div class="question-text">${q.text}</div>
+                        <div class="input-area" id="input-${q.id}">
+                            ${q.requireSteps ? `
+                                <div class="step-input-container">
+                                    <div class="step-label">解題步驟（最後一行為答案）：</div>
+                                    <div id="steps-${q.id}">
+                                        <div class="step-row">
+                                            <span class="step-number">①</span>
+                                            <input type="text" class="step-input" id="step-${q.id}-1" placeholder="輸入第一步..." onfocus="setCurrentInput('step-${q.id}-1', '${q.id}')">
+                                            <button class="delete-step" onclick="deleteStep('${q.id}', 1)" style="visibility:hidden">×</button>
+                                        </div>
+                                    </div>
+                                    <button class="add-step-btn" onclick="addStep('${q.id}')">＋ 新增一行</button>
+                                </div>
+                            ` : ''}
+                            <div class="answer-input-container">
+                                <div class="step-label">答案：</div>
+                                <input type="text" class="answer-input" id="answer-${q.id}" placeholder="輸入答案..." onfocus="setCurrentInput('answer-${q.id}', '${q.id}')">
+                            </div>
+                            <div class="action-buttons">
+                                <button class="submit-btn" onclick="submitAnswer('${q.id}')">提交</button>
+                                <button class="show-answer-btn" onclick="showAnswer('${q.id}')">顯示答案</button>
+                            </div>
+                        </div>
+                        <div class="result-area" id="result-${q.id}"></div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>'; // 結束最後區段
+            container.innerHTML = html;
+            
+            // 重新渲染 MathJax
+            if (window.MathJax) {
+                MathJax.typesetPromise();
+            }
+        }
+
+        // 切換區段
+        function toggleSection(id) {
+            const section = document.getElementById(id);
+            section.classList.toggle('open');
+        }
+
+        // 切換題目輸入區
+        function toggleQuestion(id) {
+            const inputArea = document.getElementById(`input-${id}`);
+            inputArea.classList.toggle('active');
+        }
+
+        // 新增步驟
+        function addStep(qId) {
+            const stepsContainer = document.getElementById(`steps-${qId}`);
+            const stepCount = stepsContainer.children.length + 1;
+            
+            const stepNumber = getStepNumber(stepCount);
+            
+            const div = document.createElement('div');
+            div.className = 'step-row';
+            div.innerHTML = `
+                <span class="step-number">${stepNumber}</span>
+                <input type="text" class="step-input" id="step-${qId}-${stepCount}" placeholder="輸入第 ${stepCount} 步..." onfocus="setCurrentInput('step-${qId}-${stepCount}', '${qId}')">
+                <button class="delete-step" onclick="deleteStep('${qId}', ${stepCount})">×</button>
+            `;
+            stepsContainer.appendChild(div);
+        }
+
+        // 刪除步驟
+        function deleteStep(qId, stepNum) {
+            const stepsContainer = document.getElementById(`steps-${qId}`);
+            if (stepsContainer.children.length > 1) {
+                const input = document.getElementById(`step-${qId}-${stepNum}`);
+                if (input) {
+                    input.parentElement.remove();
+                    // 重新編號
+                    Array.from(stepsContainer.children).forEach((row, i) => {
+                        const numSpan = row.querySelector('.step-number');
+                        const input = row.querySelector('input');
+                        numSpan.textContent = getStepNumber(i + 1);
+                        input.id = `step-${qId}-${i + 1}`;
+                        input.onfocus = `setCurrentInput('step-${qId}-${i + 1}', '${qId}')`;
+                    });
+                }
+            }
+        }
+
+        // 獲取步驟編號
+        function getStepNumber(n) {
+            const numbers = ['①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨', '⑩'];
+            return numbers[n - 1] || n;
+        }
+
+        // 清除輸入框
+        function clearInput() {
+            if (currentInput) {
+                const input = document.getElementById(currentInput);
+                if (input) input.value = '';
+            }
+        }
+
+        // 設置當前輸入框
+        function setCurrentInput(inputId, qId) {
+            currentInput = inputId;
+            currentQuestion = qId;
+            document.getElementById('keyboard').classList.add('show');
+        }
+
+        // 切換鍵盤
+        function toggleKeyboard() {
+            document.getElementById('keyboard').classList.toggle('show');
+        }
+
+        // 插入文字
+        function insertText(text) {
+            if (!currentInput) return;
+            
+            const input = document.getElementById(currentInput);
+            if (!input) return;
+            
+            const start = input.selectionStart;
+            const end = input.selectionEnd;
+            const value = input.value;
+            
+            input.value = value.substring(0, start) + text + value.substring(end);
+            input.selectionStart = input.selectionEnd = start + text.length;
+            input.focus();
+        }
+
+        // 提交答案
+        function submitAnswer(qId) {
+            const data = examData.p1.questions.find(q => q.id === qId);
+            const resultArea = document.getElementById(`result-${qId}`);
+            
+            // 獲取學生答案
+            let studentSteps = [];
+            if (data.requireSteps) {
+                const stepsContainer = document.getElementById(`steps-${qId}`);
+                Array.from(stepsContainer.querySelectorAll('input')).forEach(input => {
+                    studentSteps.push(input.value.trim());
+                });
+            }
+            const studentAnswer = document.getElementById(`answer-${qId}`).value.trim();
+            
+            // 儲存答案
+            studentAnswers[qId] = {
+                steps: studentSteps,
+                answer: studentAnswer,
+                submitted: true
+            };
+            
+            // 評分
+            const result = gradeAnswer(data, studentSteps, studentAnswer);
+            
+            // 顯示結果
+            let html = '';
+            
+            // 學生答案
+            html += '<div class="student-answer">';
+            html += '<h4>你的作答：</h4>';
+            
+            if (data.requireSteps && studentSteps.length > 0) {
+                studentSteps.forEach((step, i) => {
+                    const isLast = i === studentSteps.length - 1;
+                    const isCorrect = isLast ? result.answerCorrect : (result.stepResults && result.stepResults[i]);
+                    html += `
+                        <div class="answer-row ${isCorrect ? 'correct' : 'wrong'}">
+                            <span class="answer-icon">${isCorrect ? '✓' : '✗'}</span>
+                            <span>${getStepNumber(i + 1)} ${step || '(空)'}</span>
+                        </div>
+                    `;
+                });
+            } else {
+                html += `
+                    <div class="answer-row ${result.answerCorrect ? 'correct' : 'wrong'}">
+                        <span class="answer-icon">${result.answerCorrect ? '✓' : '✗'}</span>
+                        <span>${studentAnswer || '(空)'}</span>
+                    </div>
+                `;
+            }
+            html += '</div>';
+            
+            // 分隔線
+            html += '<div class="divider"></div>';
+            
+            // 標準答案
+            html += '<div class="standard-answer">';
+            html += '<h4>標準答案：</h4>';
+            html += '<div class="standard-steps">';
+            
+            // 步驟評分
+            if (data.steps) {
+                html += '<div style="margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #ddd;">';
+                html += '<strong>步驟評分：</strong><br>';
+                data.steps.forEach((step, i) => {
+                    const isCorrect = result.stepResults && result.stepResults[i];
+                    html += `<span class="mark-tag ${isCorrect ? 'mark-correct' : 'mark-wrong'}">${step.mark}</span>`;
+                    html += `${step.desc} ${isCorrect ? '✓' : '✗'}<br>`;
+                });
+                html += '</div>';
+            }
+            
+            // 答案
+            html += '<div><strong>答案：</strong> ';
+            if (data.answer && data.answer.keywords) {
+                html += data.answer.keywords[0];
+                if (data.answer.unit) html += ' ' + data.answer.unit;
+            }
+            html += '</div>';
+            
+            html += '</div></div>';
+            
+            // 警告訊息
+            if (data.requireSteps && result.answerCorrect && !result.allStepsCorrect) {
+                html += '<div class="warning-msg">⚠️ 雖然答案正確，但步驟有錯，仍獲得 0 分</div>';
+            }
+            
+            // 得分顯示
+            const scoreClass = result.score === data.totalMarks ? 'score-full' : (result.score === 0 ? 'score-zero' : 'score-partial');
+            html += `<div class="score-display ${scoreClass}">本題得分：${result.score} / ${data.totalMarks}</div>`;
+            
+            resultArea.innerHTML = html;
+            resultArea.className = 'result-area show ' + (result.score === data.totalMarks ? 'result-correct' : 'result-wrong');
+            
+            // 滾動到結果
+            resultArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // 評分邏輯
+        function gradeAnswer(question, studentSteps, studentAnswer) {
+            const result = {
+                stepResults: [],
+                answerCorrect: false,
+                score: 0,
+                allStepsCorrect: true
+            };
+            
+            // 檢查答案（最後一行）
+            if (question.answer && question.answer.keywords) {
+                const answerText = studentAnswer.toLowerCase().replace(/\s/g, '');
+                result.answerCorrect = question.answer.keywords.some(kw => 
+                    answerText.includes(kw.toLowerCase().replace(/\s/g, ''))
+                );
+            }
+            
+            // 檢查步驟
+            if (question.steps && question.steps.length > 0) {
+                question.steps.forEach((step, i) => {
+                    // 檢查學生步驟是否包含關鍵詞
+                    const studentStepText = studentSteps[i] ? studentSteps[i].toLowerCase().replace(/\s/g, '') : '';
+                    const isCorrect = step.keywords.some(kw => 
+                        studentStepText.includes(kw.toLowerCase().replace(/\s/g, ''))
+                    );
+                    result.stepResults.push(isCorrect);
+                    if (!isCorrect) result.allStepsCorrect = false;
+                    
+                    // 提取分數
+                    const markValue = parseInt(step.mark);
+                    if (isCorrect) result.score += markValue;
+                });
+            }
+            
+            // 如果答案啱，加答案分（1分題直接加總分）
+            if (result.answerCorrect) {
+                if (!question.steps || question.steps.length === 0) {
+                    // 1分題，冇步驟，直接加總分
+                    result.score = question.totalMarks;
+                }
+            }
+            
+            // 如果需要步驟但步驟有錯，即使答案對也要扣分
+            if (question.requireSteps && !result.allStepsCorrect) {
+                // 扣掉答案分
+                if (question.answer && question.answer.keywords) {
+                    result.score = 0;
+                }
+            }
+            
+            return result;
+        }
+
+        // 顯示答案（不評分）
+        function showAnswer(qId) {
+            const data = examData.p1.questions.find(q => q.id === qId);
+            const resultArea = document.getElementById(`result-${qId}`);
+            
+            let html = '<div class="student-answer">';
+            html += '<h4>標準答案：</h4>';
+            
+            if (data.steps) {
+                html += '<div style="margin-bottom: 15px;">';
+                html += '<strong>評分準則：</strong><br>';
+                data.steps.forEach(step => {
+                    html += `<span class="mark-tag">${step.mark}</span> ${step.desc}<br>`;
+                });
+                html += '</div>';
+            }
+            
+            html += '<strong>答案：</strong> ';
+            if (data.answer && data.answer.keywords) {
+                html += data.answer.keywords[0];
+                if (data.answer.unit) html += ' ' + data.answer.unit;
+            }
+            html += '</div>';
+            
+            resultArea.innerHTML = html;
+            resultArea.className = 'result-area show';
+            resultArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // 顯示進度
+        function showProgress() {
+            const total = examData.p1.questions.length;
+            const answered = Object.keys(studentAnswers).length;
+            alert(`進度：${answered} / ${total} 題已作答`);
+        }
+
+        // 菜單
+        function toggleMenu() {
+            alert('功能開發中...');
+        }
+    </script>
+</body>
+</html>

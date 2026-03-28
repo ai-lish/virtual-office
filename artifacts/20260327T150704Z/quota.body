@@ -1,0 +1,1 @@
+{"success":true,"data":{"total":300,"used":0,"remaining":300,"usedPercent":0,"dailyBudget":10,"daysRemaining":30,"resetDate":null,"warningLevel":"normal","modelPreference":"auto","recommendation":{"level":"comfortable","emoji":"🟢","label":"配額充裕","message":"配額充足，可自由使用高階模型","suggestedModel":"claude-sonnet-4","color":"#2ecc71"}}}
