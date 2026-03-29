@@ -792,15 +792,11 @@
             display: block;
         }
 
-        /* Agents View */
+        /* Agents View — hidden, replaced by inline home section */
         .agents-view {
             display: none;
             padding: 40px;
             min-height: 100%;
-        }
-
-        .agents-view.active {
-            display: block;
         }
 
         .view-title {
@@ -1515,14 +1511,6 @@
                     <span>🏠</span>
                     <span>首頁</span>
                 </div>
-                <div class="nav-item" data-view="agents">
-                    <span>🤖</span>
-                    <span>Agent</span>
-                </div>
-                <div class="nav-item" id="skillsNavItem">
-                    <span>🛠️</span>
-                    <span>Skills</span>
-                </div>
             </nav>
 
             <div class="sidebar-content">
@@ -1696,6 +1684,18 @@
                     </div>
                 </div>
                 
+                <!-- Agent Workflow Section -->
+                <div id="home-agents-section" style="margin-top: 30px; max-width: 900px;">
+                    <h2 style="margin-bottom: 15px;">🤖 Agent 工作流程</h2>
+                    <div id="homeAgentsGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;"></div>
+                </div>
+
+                <!-- Skills Section -->
+                <div id="home-skills-section" style="margin-top: 30px; max-width: 900px;">
+                    <h2 style="margin-bottom: 15px;">🛠️ Skills</h2>
+                    <div id="homeSkillsList"></div>
+                </div>
+
                 <!-- Floating Secretary Avatar (Draggable) -->
                 <div class="floating-secretary" id="floatingSecretary" onclick="showSecretaryInfo()" style="cursor:move;" title="可以拖曳移動">
                     <span class="secretary-avatar-large">🦀</span>
@@ -2428,6 +2428,8 @@
             document.getElementById('agentsView').classList.remove('active');
             homeViewEl.style.display = 'flex';
             renderProjects();
+            renderHomeAgents();
+            renderHomeSkills();
             
             // Show secretary section when returning to home
             const secretarySection = document.getElementById('secretarySection');
@@ -2440,6 +2442,38 @@
             // Update nav active state
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.querySelector('.nav-item[data-view="home"]').classList.add('active');
+        }
+
+        function renderHomeAgents() {
+            const grid = document.getElementById('homeAgentsGrid');
+            if (!grid || !workflowData) return;
+            grid.innerHTML = workflowData.map(a => `
+                <div class="workflow-agent">
+                    <div class="agent-header">
+                        <span class="agent-icon">${a.avatar}</span>
+                        <span class="agent-name">${a.name}</span>
+                    </div>
+                    <div class="agent-steps">
+                        ${a.steps.map(s => `<div class="step"><span class="step-title">${s.title}</span><span class="step-desc">${s.desc}</span></div>`).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderHomeSkills() {
+            const list = document.getElementById('homeSkillsList');
+            if (!list || !skillsData) return;
+            let html = '';
+            for (const [cat, skills] of Object.entries(skillsData)) {
+                const labels = { office: '📂 辦公室', production: '🛠️ 生產', testing: '🧪 測試' };
+                html += '<div style="margin-bottom:16px;"><div style="font-size:0.85em;color:#888;margin-bottom:8px;">' + (labels[cat] || cat) + '</div>';
+                html += '<div style="display:flex;flex-wrap:wrap;gap:8px;">';
+                skills.forEach(s => {
+                    html += '<div style="background:#16213e;padding:8px 12px;border-radius:8px;font-size:0.85em;">' + s.icon + ' ' + s.name + '</div>';
+                });
+                html += '</div></div>';
+            }
+            list.innerHTML = html;
         }
 
         function showAgents() {
@@ -4672,6 +4706,8 @@
             setInterval(updateSecretaryMood, 60000);
             loadTimelineOrder();
             updatePermissionUI();
+            renderHomeAgents();
+            renderHomeSkills();
             
             // Add sample notifications
             addNotification('系統就緒', '虛擬辦公室已啟動', 'system');
