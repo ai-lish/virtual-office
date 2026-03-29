@@ -86,6 +86,7 @@ echo "$$" > "$LOCK_FILE"
 # Track consecutive failures
 FAIL_COUNT_FILE="/Users/zachli/.openclaw/workspace/virtual-office/scripts/site-monitor.failcount"
 FAIL_COUNT=$(cat "$FAIL_COUNT_FILE" 2>/dev/null || echo 0)
+COPILOT_OK=0
 
 log "=== Starting site check ==="
 log "URL: $GITHUB_PAGES_URL"
@@ -113,8 +114,10 @@ else
     COPILOT_CHECK=$(curl -s --max-time 30 -L "$COPILOT_PAGE" 2>&1)
     if echo "$COPILOT_CHECK" | grep -q "Copilot\|copilot\|用量"; then
         log "copilot-static.html: OK (data detected)"
+        COPILOT_OK=1
     else
         log "copilot-static.html: loaded but no expected content found"
+        COPILOT_OK=0
     fi
 
     # Recovery notification if we were previously failing
@@ -127,6 +130,61 @@ fi
 
 log "=== Check complete ==="
 log ""
+
+# ============================================================
+# Generate monitoring-status.json for GitHub Pages
+# ============================================================
+STATUS_FILE="/Users/zachli/.openclaw/workspace/virtual-office/monitoring-status.json"
+REPO_DIR="/Users/zachli/.openclaw/workspace/virtual-office"
+
+# Read existing stats or initialize
+if [ -f "$STATUS_FILE" ]; then
+    TOTAL=$(node -e "try{const j=require('$STATUS_FILE');console.log(j.totalChecks||0)}catch(e){console.log(0)}" 2>/dev/null || echo 0)
+    UOK=$(node -e "try{const j=require('$STATUS_FILE');console.log(j.uptime||100)}catch(e){console.log(100)}" 2>/dev/null || echo 100)
+else
+    TOTAL=0
+    UPOK=100
+fi
+
+TOTAL=$((TOTAL + 1))
+CHECK_TIME=$(date '+%H:%M')
+CHECK_DATE=$(date '+%Y-%m-%d %H:%M')
+
+if [ "$HTTP_STATUS" = "200" ]; then
+    SITE_STATUS="ok"
+    NEW_UPOK=$UPOK
+else
+    SITE_STATUS="error"
+fi
+
+# Build JSON
+node -e "
+const fs = require('fs');
+const path = '$STATUS_FILE';
+let data = { generatedAt: '$CHECK_DATE', url: '$GITHUB_PAGES_URL', siteStatus: '$SITE_STATUS', lastCheck: '$CHECK_TIME', uptime: $UPOK, totalChecks: $TOTAL, checks: [] };
+try {
+    const existing = JSON.parse(fs.readFileSync(path, 'utf8'));
+    if (existing.checks) {
+        data.checks = existing.checks.slice(-4);
+    }
+} catch(e) {}
+data.checks.unshift({ name: '主頁 HTTP', status: $HTTP_STATUS, time: '$CHECK_TIME' });
+const copilotOk = '$COPILOT_OK';
+data.checks.unshift({ name: 'Copilot 數據', status: copilotOk === '1' ? 200 : 404, time: '$CHECK_TIME' });
+data.uptime = Math.round(data.checks.filter(c => c.status === 200).length / data.checks.length * 100);
+fs.writeFileSync(path, JSON.stringify(data, null, 2));
+" 2>/dev/null
+
+log "monitoring-status.json updated"
+
+# Auto-push to GitHub (if changes detected)
+cd "$REPO_DIR" && git diff --quiet monitoring-status.json 2>/dev/null
+if [ $? -ne 0 ]; then
+    git add monitoring-status.json 2>/dev/null
+    git commit -m "chore: auto-update monitoring status [ci skip]" 2>/dev/null
+    GIT_TERMINAL_PROMPT=0 git push origin main 2>/dev/null
+    log "monitoring-status.json pushed to GitHub"
+fi
 
 # Clean up lock
 rm -f "$LOCK_FILE"

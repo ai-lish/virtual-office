@@ -1888,7 +1888,7 @@
                     <button class="detail-tab active" data-tab="info">📋 項目資訊</button>
                     <button class="detail-tab" data-tab="manual">📖 使用手冊</button>
                     <button class="detail-tab" data-tab="test">🧪 測試備忘</button>
-                    <button class="detail-tab" data-tab="svg">🎨 SVG比對</button>
+                    <button class="detail-tab" data-tab="svg">📡 監控</button>
                 </div>
 
                 <div id="tabInfo">
@@ -1949,13 +1949,10 @@
                 <!-- SVG Comparison Tab -->
                 <div id="tabSvg" style="display:none;">
                     <div class="info-card">
-                        <div class="info-label">🎨 SVG 圖像比對</div>
-                        <div class="info-value" id="svgContent">
-                            <p style="color: var(--text-secondary); margin-bottom: 15px;">
-                                比較 AI 生成既 SVG 圖像與原始 PDF 圖像，確認正確後點擊 ✅ 或 ❌ 記錄結果。
-                            </p>
-                            <div id="svgCompareArea">
-                                <p style="color: var(--text-secondary);">選擇試卷進行比對...</p>
+                        <div class="info-label">📡 網站監控狀態</div>
+                        <div class="info-value" id="monitoringStatus">
+                            <div id="monitoringContent">
+                                <p style="color: var(--text-secondary);">載入中...</p>
                             </div>
                         </div>
                     </div>
@@ -3955,7 +3952,7 @@
                         document.getElementById('tabTest').style.display = 'block';
                     } else if (currentTab === 'svg') {
                         document.getElementById('tabSvg').style.display = 'block';
-                        loadSvgCompare();
+                        loadMonitoringStatus();
                     }
                     
                     // Save tab state
@@ -4045,28 +4042,67 @@
         
         var currentSvgCompare = null;
         
-        function loadSvgCompare() {
-            var area = document.getElementById('svgCompareArea');
-            if (!currentProjectName) {
-                area.innerHTML = '<p style="color:var(--text-secondary)">請先選擇一個項目</p>';
-                return;
-            }
+        function loadMonitoringStatus() {
+            var area = document.getElementById('monitoringContent');
+            if (!area) return;
             
-            // Check if project has exam images
-            var examData = svgCompareData[currentProjectName];
-            if (!examData) {
-                area.innerHTML = '<p style="color:var(--text-secondary)">呢個項目暫時未有試卷比對功能</p>';
-                return;
-            }
-            
-            var html = '<div style="margin-bottom: 20px;">';
-            html += '<h4 style="margin-bottom:10px">選擇試卷：</h4>';
-            examData.exams.forEach(function(exam, idx) {
-                html += '<button onclick="showSvgExam(' + idx + ')" style="margin:5px;padding:8px 16px;background:var(--japanese-red);color:white;border:none;border-radius:5px;cursor:pointer;">' + exam.name + '</button>';
-            });
-            html += '</div>';
-            html += '<div id="svgExamDetail"></div>';
-            area.innerHTML = html;
+            // Fetch monitoring status from GitHub Pages
+            var base = 'https://ai-lish.github.io/virtual-office';
+            fetch(base + '/monitoring-status.json?' + Date.now())
+                .then(function(r) { return r.ok ? r.json() : null; })
+                .then(function(data) {
+                    if (!data) {
+                        area.innerHTML = '<p style="color:var(--text-secondary)">無法載入監控狀態</p>';
+                        return;
+                    }
+                    var html = '';
+                    
+                    // Site status
+                    var ok = data.siteStatus === 'ok';
+                    var badge = ok ? '🟢 正常' : '🔴 異常';
+                    var badgeColor = ok ? '#2ecc71' : '#e74c3c';
+                    html += '<div style="background:rgba(255,255,255,0.05);padding:12px;border-radius:8px;margin-bottom:12px;">';
+                    html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">';
+                    html += '<span style="font-size:1.5em;">' + (ok ? '✅' : '❌') + '</span>';
+                    html += '<span style="font-weight:600;font-size:1.1em;">' + badge + '</span>';
+                    html += '</div>';
+                    html += '<div style="font-size:0.85em;color:#888;">檢查時間：' + (data.lastCheck || '-') + '</div>';
+                    html += '<div style="font-size:0.85em;color:#888;">網址：' + (data.url || '-') + '</div>';
+                    html += '</div>';
+                    
+                    // Check results
+                    if (data.checks && data.checks.length > 0) {
+                        html += '<div style="margin-bottom:12px;"><div style="font-size:0.85em;color:#888;margin-bottom:8px;">最近檢查：</div>';
+                        data.checks.forEach(function(c) {
+                            var icon = c.status === 200 ? '✅' : '❌';
+                            html += '<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:0.9em;">';
+                            html += '<span>' + icon + ' ' + c.name + '</span>';
+                            html += '<span style="color:#888;">' + c.time + '</span>';
+                            html += '</div>';
+                        });
+                        html += '</div>';
+                    }
+                    
+                    // Stats
+                    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">';
+                    html += '<div style="background:rgba(255,255,255,0.05);padding:10px;border-radius:8px;text-align:center;">';
+                    html += '<div style="font-size:1.5em;font-weight:700;">' + (data.uptime || '?') + '%</div>';
+                    html += '<div style="font-size:0.8em;color:#888;">可用率</div>';
+                    html += '</div>';
+                    html += '<div style="background:rgba(255,255,255,0.05);padding:10px;border-radius:8px;text-align:center;">';
+                    html += '<div style="font-size:1.5em;font-weight:700;">' + (data.totalChecks || 0) + '</div>';
+                    html += '<div style="font-size:0.8em;color:#888;">總檢查次數</div>';
+                    html += '</div>';
+                    html += '</div>';
+                    
+                    // Frequency note
+                    html += '<div style="margin-top:12px;font-size:0.8em;color:#666;text-align:center;">每15分鐘自動檢查</div>';
+                    
+                    area.innerHTML = html;
+                })
+                .catch(function() {
+                    area.innerHTML = '<p style="color:var(--text-secondary)">無法連接監控服務</p>';
+                });
         }
         
         function showSvgExam(idx) {
