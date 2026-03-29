@@ -1094,6 +1094,8 @@
                 transform: translateX(-100%);
                 z-index: 999;
                 transition: transform 0.3s ease-in-out;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
             }
 
             .sidebar.open {
@@ -1103,6 +1105,7 @@
             .main-content {
                 margin-left: 0;
                 width: 100%;
+                padding-top: 70px;
                 transition: margin-left 0.3s ease-in-out;
             }
 
@@ -1131,9 +1134,37 @@
                 grid-template-columns: 1fr;
             }
 
-            /* Hide floating secretary on mobile */
+            /* Hide floating elements on mobile */
             .floating-secretary {
                 display: none;
+            }
+
+            /* Notification bell: move to bottom-left to avoid content overlap */
+            .notification-bell {
+                bottom: 20px;
+                right: 20px;
+                width: 44px;
+                height: 44px;
+                font-size: 1.1rem;
+            }
+
+            /* Working bubble: move to top-left, below top-bar */
+            .working-bubble {
+                top: 70px;
+                right: 10px;
+                left: 10px;
+                max-width: calc(100vw - 20px);
+                font-size: 0.8rem;
+                padding: 10px 14px;
+            }
+
+            /* Notification dropdown: full-width bottom sheet on mobile */
+            .notification-dropdown {
+                bottom: 80px;
+                right: 10px;
+                left: 10px;
+                width: auto;
+                max-height: 50vh;
             }
 
             /* Adjust theme toggle for mobile */
@@ -1156,6 +1187,80 @@
 
             .detail-title {
                 font-size: 1.3rem;
+            }
+
+            /* Copilot dashboard: stack grids vertically */
+            #copilot-dashboard > div[style*="grid-template-columns: repeat(3"] {
+                grid-template-columns: 1fr !important;
+            }
+            #copilot-dashboard > div[style*="grid-template-columns: 1fr 1fr"] {
+                grid-template-columns: 1fr !important;
+            }
+            #copilot-dashboard {
+                max-width: 100% !important;
+                padding: 0 10px;
+            }
+            #copilot-dashboard h2 {
+                font-size: 1.1rem;
+            }
+            #copilot-trend-chart {
+                height: 60px !important;
+            }
+
+            /* Agent workflow & Skills: stack cards */
+            #homeAgentsGrid {
+                grid-template-columns: 1fr 1fr !important;
+            }
+            #home-skills-section > div {
+                grid-template-columns: 1fr !important;
+            }
+
+            /* Token stats: stack the home view cards */
+            #token-home-stats {
+                grid-template-columns: 1fr 1fr !important;
+            }
+
+            /* Detail tabs: scroll horizontally */
+            .detail-tabs {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                -webkit-overflow-scrolling: touch;
+            }
+            .detail-tab {
+                white-space: nowrap;
+                flex-shrink: 0;
+            }
+
+            /* Hide notification badge when too many */
+            .notification-badge {
+                font-size: 0.6rem;
+                width: 16px;
+                height: 16px;
+            }
+
+            /* Back to top button: smaller on mobile */
+            .back-to-top {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
+                bottom: 15px;
+                right: 15px;
+            }
+
+            /* Ensure modals don't overflow viewport */
+            .modal-content {
+                max-height: 80vh;
+                overflow-y: auto;
+                margin: 10vh 10px !important;
+                width: calc(100vw - 20px) !important;
+            }
+
+            /* Timeline items in detail view */
+            .timeline {
+                padding-left: 10px;
+            }
+            .timeline-item {
+                padding-left: 20px;
             }
         }
 
