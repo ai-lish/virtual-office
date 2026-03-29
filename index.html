@@ -1262,6 +1262,37 @@
             .timeline-item {
                 padding-left: 20px;
             }
+
+            /* Sidebar backdrop overlay */
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                top: 60px;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0,0,0,0.5);
+                z-index: 998;
+            }
+            .sidebar-overlay.active {
+                display: block;
+            }
+
+            /* Copilot inner grids: force single-column */
+            #copilot-dashboard div[style*="grid-template-columns: repeat(3"] {
+                grid-template-columns: 1fr !important;
+            }
+            #copilot-dashboard div[style*="grid-template-columns: 1fr 1fr"] {
+                grid-template-columns: 1fr !important;
+            }
+
+            /* Detail view inner grids: stack on mobile */
+            #projectDetail div[style*="grid-template-columns:repeat(2"] {
+                grid-template-columns: 1fr !important;
+            }
+            #projectDetail div[style*="grid-template-columns:1fr 1fr"] {
+                grid-template-columns: 1fr !important;
+            }
         }
 
         @media (min-width: 769px) and (max-width: 1024px) {
@@ -1564,7 +1595,7 @@
 </head>
 <body>
     <!-- Mobile Menu Button -->
-    <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleSidebar();" ontouchstart="toggleSidebar();">
+    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
         <span></span>
         <span></span>
         <span></span>
@@ -1603,6 +1634,7 @@
     <!-- App Container -->
     <div class="app-container">
         <!-- Sidebar -->
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="logo" id="logoBtn">
@@ -2422,6 +2454,8 @@
             // Close sidebar on mobile
             if (window.innerWidth < 768) {
                 sidebarEl.classList.remove('open');
+                const overlay = document.getElementById('sidebarOverlay');
+                if (overlay) overlay.classList.remove('active');
             }
         }
 
@@ -2626,11 +2660,11 @@
             
             renderProjects();
             
-            // Force close sidebar on mobile and desktop
-            if (sidebarEl) {
+            // Close sidebar on mobile after selecting project
+            if (sidebarEl && window.innerWidth <= 768) {
                 sidebarEl.classList.remove('open');
-                sidebarEl.style.transform = 'translateX(-100%)';
-                sidebarEl.style.left = '-280px';
+                const overlay = document.getElementById('sidebarOverlay');
+                if (overlay) overlay.classList.remove('active');
             }
             
             showProjectDetail(index);
@@ -2658,6 +2692,11 @@
             // Clear inline styles that may block reopening
             sidebarEl.style.transform = '';
             sidebarEl.style.left = '';
+            // Toggle overlay on mobile
+            const overlay = document.getElementById('sidebarOverlay');
+            if (overlay) {
+                overlay.classList.toggle('active', sidebarEl.classList.contains('open'));
+            }
         }
 
         // ===============================

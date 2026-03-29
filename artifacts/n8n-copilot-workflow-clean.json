@@ -1,0 +1,139 @@
+{
+  "name": "Copilot Usage API",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "GET",
+        "path": "copilot-quota",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Webhook Quota",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ],
+      "webhookId": "copilot-quota"
+    },
+    {
+      "parameters": {
+        "url": "http://127.0.0.1:18899/api/copilot/quota",
+        "options": {}
+      },
+      "name": "GET Copilot Quota",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [
+        500,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "name": "Respond Quota",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        750,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "GET",
+        "path": "copilot-analysis",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Webhook Analysis",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        500
+      ],
+      "webhookId": "copilot-analysis"
+    },
+    {
+      "parameters": {
+        "url": "http://127.0.0.1:18899/api/copilot/analysis",
+        "options": {}
+      },
+      "name": "GET Copilot Analysis",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [
+        500,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "name": "Respond Analysis",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        750,
+        500
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook Quota": {
+      "main": [
+        [
+          {
+            "node": "GET Copilot Quota",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET Copilot Quota": {
+      "main": [
+        [
+          {
+            "node": "Respond Quota",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook Analysis": {
+      "main": [
+        [
+          {
+            "node": "GET Copilot Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET Copilot Analysis": {
+      "main": [
+        [
+          {
+            "node": "Respond Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "id": "copilot-api-v3"
+}

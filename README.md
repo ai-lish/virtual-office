@@ -1,22 +1,24 @@
 # 虛擬辦公室 (Virtual Office)
 
-** Live:** https://math-lish.github.io/virtual-office/
+**Live:** https://math-lish.github.io/virtual-office/
 
 A real-time AI assistant work-status monitoring and management dashboard, styled with a Japanese-corporate aesthetic (深紅 + 深藍).
 
 ---
 
-## 🗺️ 網站架構
+## 🗺️ Architecture
 
-### Views / Sections
+Single-file app: `index.html` (~4800 lines) contains all HTML, CSS, and JS. No build step.
+
+### Views
 | View | ID | Description |
 |------|----|-------------|
-| Home | `#homeView` | Hero, token stats, Copilot dashboard, agent grid, skills |
+| Home | `#homeView` | Hero, token stats, Copilot usage dashboard, agent grid, skills |
 | Agents | `#agentsView` | Full agent workflow diagram |
-| Detail | `#detailView` | Per-project: info, manual, test notes, SVG compare, secretary summary |
+| Detail | `#detailView` | Per-project info, manual, test notes, SVG compare, secretary summary |
 
 ### Navigation
-- **Sidebar** (`#sidebar`) — fixed left on desktop, hamburger overlay on mobile
+- **Sidebar** (`#sidebar`) — fixed left on desktop; hamburger overlay with backdrop on mobile (≤768px)
   - Project list (collapsible)
   - Project timeline mini (collapsible)
   - Schedule mini (collapsible)
@@ -24,106 +26,74 @@ A real-time AI assistant work-status monitoring and management dashboard, styled
 - **Top bar** — agent status dots (🧠 brain, 🧪 tester, 💻 dev, 📝 secretary) + online mode badge
 
 ### Floating Elements
-| Element | Purpose |
-|---------|---------|
-| Floating Secretary (`#floatingSecretary`) | Draggable avatar, shows weather + mood. Hidden on mobile. |
-| Notification Bell (`#notificationBell`) | Bottom-right. Opens notification dropdown. |
-| Working Bubble (`#workingBubble`) | Top-right. Shows current task + animated status. |
+| Element | Behavior |
+|---------|----------|
+| Floating Secretary (`#floatingSecretary`) | Draggable avatar + weather/mood. **Hidden on mobile.** |
+| Notification Bell (`#notificationBell`) | Bottom-right. Opens notification dropdown (bottom-sheet on mobile). |
+| Working Bubble (`#workingBubble`) | Top-right. Shows current task. Full-width on mobile. |
 | Theme Toggle | 🌙/☀️ toggle, bottom-right above bell |
 
 ### Modals
-- **Skills Modal** (`#skillsModal`) — grouped skill list (office / production / testing)
-- **Workflow Modal** (`#workflowModal`) — full agent step-by-step flows
+- **Skills Modal** (`#skillsModal`) — grouped skill list
+- **Workflow Modal** (`#workflowModal`) — agent step-by-step flows
 
 ---
 
-## ✅ 功能列表
+## 📱 Mobile (≤768px)
 
-### 書記浮動頭像 🦀
-- 右側浮動顯示，可拖曳移動位置
-- 點擊顯示書記資訊 (天氣 + 心情)
-- 根據時間顯示不同狀態
-
-### 主題切換 🌙/☀️
-- 點擊切換日夜主題，自動記住偏好 (localStorage)
-- 5種自訂主題 (ocean, forest, sunset, etc.)
-
-### 通知中心 🔔
-- 系統通知列表，支援已讀/清除
-- 任務倒數顯示
-- 通知訂閱功能
-
-### 工作氣泡 💬
-- 右上角浮動，顯示當前任務
-- 每10秒自動更新
-- 狀態動畫：工作中(綠)、打字中、思考中(橙)、已完成(綠)、閒置(藍)
-
-### 項目時序 📊 / 工作排程 📅
-- 左側邊欄摺疊顯示
-- Timeline 圖示化
-
-### 項目詳情
-- GitHub Stats (stars/forks)
-- Commit 歷史
-- PDF 圖像庫
-- SVG 比對工具
-
-### 統計圖表 📈
-- Token 通過率、題目數據
-- GitHub Copilot Premium 用量儀表板（配額/趨勢/模型分佈）
-- 可導出報告
-
-### 其他
-- Tab 狀態記憶 (localStorage)
-- 快速返回頂部按鈕
-- 項目搜索
-- 數據緩存優化
-- 導出功能 (PDF/Markdown)
-- 權限管理 (admin/user/guest)
-
----
-
-## 📱 Mobile UX (≤768px)
-
-- Sidebar collapses to hamburger button (slides in as full-screen overlay)
-- Floating secretary hidden
-- Notification bell moved to bottom-right (away from content)
+- Sidebar collapses to hamburger; slides in as full-screen overlay with backdrop
+- Tapping backdrop or selecting a project auto-closes sidebar
+- Floating secretary hidden; notification bell repositioned
 - Working bubble spans full width below top-bar
-- Notification dropdown becomes bottom-sheet (full-width)
-- Copilot dashboard grids stack to single column
+- All grid layouts (Copilot dashboard, token stats, agent grid, detail grids) stack to single column
 - Detail tabs scroll horizontally
 - Modals constrained to 80vh with internal scroll
+- Touch targets enlarged (44px minimum)
 
 ---
 
-## 🛠️ 技術棧
+## ✅ Features
 
-- **Pure HTML/CSS/JS** — no build step required
+- **書記浮動頭像** 🦀 — draggable, time-aware status
+- **Theme toggle** 🌙/☀️ — light/dark + 5 custom themes (localStorage)
+- **Notification center** 🔔 — system notifications, task countdown, subscriptions
+- **Working bubble** 💬 — auto-refreshing current task with animated status
+- **Project timeline** 📊 / **Schedule** 📅 — collapsible sidebar sections
+- **Project detail** — GitHub stats, commit history, PDF gallery, SVG compare
+- **Token & Copilot dashboards** 📈 — usage charts, quota tracking, model distribution, exportable reports
+- **Tab state memory** — localStorage persistence
+- **Search, export (PDF/MD), permissions** (admin/user/guest)
+
+---
+
+## 🛠️ Tech Stack
+
+- **Pure HTML/CSS/JS** — no framework, no build
 - Fonts: Noto Sans SC + Zen Maru Gothic (Google Fonts)
 - Themes: CSS custom properties (`:root`)
-- Storage: localStorage (preferences, tab state, test status, theme)
+- Storage: localStorage
 
 ---
 
-## 🚀 啟動
+## 🚀 Run
 
 ```bash
-# 本地預覽 (任意靜態服務器)
 npx serve .
-# 或
+# or
 python3 -m http.server 8080
 ```
 
 ---
 
-## 📁 主要檔案
+## 📁 Key Files
 
-| 檔案 | 用途 |
-|------|------|
-| `index.html` | 主頁面 (~4800 lines, 單檔包含所有 HTML/CSS/JS) |
-| `project-records.json` | 項目元數據 |
-| `project-timeline.json` | 項目時序 |
-| `project-manuals.json` | 項目手冊 |
-| `token-log.json` | Token 使用日誌 |
-| `copilot-usage-db.json` | Copilot 用量數據 |
-| `vo-*.json` | 各模組數據 (status, standup, pomodoro, reminder…) |
+| File | Purpose |
+|------|---------|
+| `index.html` | Single-file app (HTML + CSS + JS) |
+| `project-records.json` | Project metadata |
+| `project-timeline.json` | Timeline data |
+| `project-manuals.json` | Project manuals |
+| `token-log.json` | Token usage log |
+| `copilot-usage-db.json` | Copilot usage data |
+| `vo-*.json` | Module data (status, standup, pomodoro, etc.) |
+| `server.js` | Optional Node.js API server |

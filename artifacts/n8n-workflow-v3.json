@@ -1,0 +1,50 @@
+{
+  "id": "copilot-quota-wf",
+  "name": "Copilot Quota Webhook",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "GET",
+        "path": "copilot-quota",
+        "responseMode": "responseNode"
+      },
+      "id": "wh-quota",
+      "name": "Webhook Quota",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [250, 300],
+      "webhookId": "copilot-quota"
+    },
+    {
+      "parameters": {
+        "url": "http://localhost:18899/api/copilot/quota"
+      },
+      "id": "http-quota",
+      "name": "GET Copilot Quota",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [500, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "allEntries"
+      },
+      "id": "respond-quota",
+      "name": "Respond Quota",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [750, 300]
+    }
+  ],
+  "connections": {
+    "Webhook Quota": {
+      "main": [[{ "node": "GET Copilot Quota", "type": "main", "index": 0 }]]
+    },
+    "GET Copilot Quota": {
+      "main": [[{ "node": "Respond Quota", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {},
+  "staticData": null,
+  "tags": []
+}

@@ -1,0 +1,33 @@
+{
+  "id": "testwh001",
+  "name": "Test Webhook",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "GET",
+        "path": "test-webhook"
+      },
+      "id": "test-wh",
+      "name": "Test Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "onReceived",
+        "responseBody": "{\"status\":\"ok\"}"
+      },
+      "id": "test-respond",
+      "name": "Respond OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [500, 300]
+    }
+  ],
+  "connections": {
+    "Test Webhook": {
+      "main": [[{ "node": "Respond OK", "type": "main", "index": 0 }]]
+    }
+  }
+}

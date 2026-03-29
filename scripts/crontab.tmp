@@ -1,0 +1,2 @@
+0 7 * * * cd /Users/zachli/.openclaw/workspace && /usr/bin/python3 apple_notes_wrapper.py sync "每日數學趣題" "$(/usr/bin/python3 daily_math_story_generator.py)"
+*/15 * * * * /Users/zachli/.openclaw/workspace/virtual-office/scripts/site-monitor.sh >> /Users/zachli/.openclaw/workspace/virtual-office/scripts/site-monitor.log 2>&1
