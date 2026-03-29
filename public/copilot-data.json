@@ -1,5 +1,5 @@
 {
-  "_generatedAt": "2026-03-29T00:31:37.132Z",
+  "_generatedAt": "2026-03-29T00:37:48.514Z",
   "quota": {
     "total": 300,
     "used": 74.58,
@@ -26,100 +26,14 @@
     }
   },
   "analysis": {
-    "summary": {
-      "today": {
-        "count": 0,
-        "premiumCost": 0
-      },
-      "week": {
-        "count": 9,
-        "premiumCost": 266.58
-      },
-      "total": {
-        "count": 9,
-        "premiumCost": 266.58
-      }
-    },
-    "modelDistribution": {
-      "claude-opus-4": {
-        "count": 2,
-        "premiumCost": 240
-      },
-      "claude-sonnet-4-5": {
-        "count": 2,
-        "premiumCost": 5
-      },
-      "code-review": {
-        "count": 1,
-        "premiumCost": 1
-      },
-      "coding-agent": {
-        "count": 2,
-        "premiumCost": 7
-      },
-      "gpt-5.4-mini": {
-        "count": 1,
-        "premiumCost": 8.58
-      },
-      "gemini-3.1-pro": {
-        "count": 1,
-        "premiumCost": 5
-      }
-    },
-    "featureDistribution": {
-      "chat": {
-        "count": 9,
-        "premiumCost": 266.58
-      }
-    },
-    "providerDistribution": {
-      "unknown": {
-        "count": 9,
-        "premiumCost": 266.58
-      }
-    },
-    "trend7Days": [
-      {
-        "date": "2026-03-23",
-        "count": 0,
-        "premiumCost": 0
-      },
-      {
-        "date": "2026-03-24",
-        "count": 0,
-        "premiumCost": 0
-      },
-      {
-        "date": "2026-03-25",
-        "count": 0,
-        "premiumCost": 0
-      },
-      {
-        "date": "2026-03-26",
-        "count": 0,
-        "premiumCost": 0
-      },
-      {
-        "date": "2026-03-27",
-        "count": 5,
-        "premiumCost": 195.58
-      },
-      {
-        "date": "2026-03-28",
-        "count": 4,
-        "premiumCost": 71
-      },
-      {
-        "date": "2026-03-29",
-        "count": 0,
-        "premiumCost": 0
-      }
-    ],
-    "providerUsage": {
-      "claude": 245,
-      "unknown": 8,
-      "openai": 8.58,
-      "gemini": 5
+    "totalRequests": 74.58,
+    "byModel": {
+      "claude-opus-4": 48,
+      "claude-sonnet-4-5": 5,
+      "code-review": 1,
+      "coding-agent": 7,
+      "gpt-5.4-mini": 8.58,
+      "gemini-3.1-pro": 5
     }
   }
 }

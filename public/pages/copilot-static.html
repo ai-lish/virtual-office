@@ -7,7 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Noto Sans SC', sans-serif; background: #0f0f23; color: #fff; padding: 20px; }
-    .card { background: #1a1a2e; border-radius: 16px; padding: 24px; max-width: 500px; margin: 0 auto; }
+    .card { background: #1a1a2e; border-radius: 16px; padding: 24px; max-width: 560px; margin: 0 auto; }
     h1 { text-align: center; margin-bottom: 24px; }
     .gauge-wrap { display: flex; justify-content: center; margin-bottom: 20px; }
     .gauge-wrap svg { width: 180px; height: 180px; }
@@ -15,9 +15,6 @@
     .gauge-fill { fill: none; stroke-width: 12; stroke-linecap: round;
       stroke-dasharray: 440; stroke-dashoffset: 440;
       transform: rotate(-90deg); transform-origin: center; }
-    .gauge-fill.high { stroke: #e74c3c; }
-    .gauge-fill.medium { stroke: #f39c12; }
-    .gauge-fill.low { stroke: #2ecc71; }
     .gauge-center { text-align: center; }
     .gauge-pct { font-size: 2em; font-weight: 700; }
     .gauge-label { font-size: 0.9em; color: #888; }
@@ -25,16 +22,17 @@
     .meta-item { background: #16213e; padding: 12px; border-radius: 8px; }
     .meta-item .label { font-size: 0.8em; color: #888; }
     .meta-item .value { font-size: 1.2em; font-weight: 600; }
-    .providers { margin-bottom: 16px; }
-    .providers h3 { font-size: 0.9em; color: #888; margin-bottom: 8px; }
-    .provider-bar { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
-    .provider-name { width: 70px; font-size: 0.85em; }
-    .provider-track { flex: 1; height: 8px; background: #2a2a4a; border-radius: 4px; }
-    .provider-fill { height: 100%; border-radius: 4px; }
-    .provider-fill.claude { background: #e67e22; }
-    .provider-fill.openai { background: #27ae60; }
-    .provider-fill.gemini { background: #2980b9; }
-    .provider-fill.unknown { background: #8e44ad; }
+    .section { margin-bottom: 16px; }
+    .section h3 { font-size: 0.9em; color: #888; margin-bottom: 8px; }
+    .bar { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
+    .bar-name { width: 140px; font-size: 0.85em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .bar-track { flex: 1; height: 8px; background: #2a2a4a; border-radius: 4px; }
+    .bar-fill { height: 100%; border-radius: 4px; }
+    .bar-fill.claude { background: #e67e22; }
+    .bar-fill.openai { background: #27ae60; }
+    .bar-fill.gemini { background: #2980b9; }
+    .bar-fill.unknown { background: #8e44ad; }
+    .bar-value { width: 50px; text-align: right; font-size: 0.85em; font-variant-numeric: tabular-nums; }
     .rec { background: #16213e; padding: 14px; border-radius: 10px; text-align: center; }
     .rec .emoji { font-size: 1.5em; }
     .rec .label { font-weight: 600; }
@@ -54,24 +52,56 @@
       try {
         const res = await fetch('../copilot-data.json');
         const data = await res.json();
-        const q = data.quota;
+        const q = data.quota || {};
+        const analysis = data.analysis || {};
         const usedPct = q.usedPercent || (q.used / q.total * 100);
         const offset = 440 - (440 * usedPct / 100);
         const level = usedPct > 80 ? 'high' : usedPct > 50 ? 'medium' : 'low';
         const colors = { high: '#e74c3c', medium: '#f39c12', low: '#2ecc71' };
         const color = colors[level];
+
         document.getElementById('updated').textContent = '更新: ' + (data._generatedAt || '').slice(0, 16);
+
+        // Provider bars
+        const providerMap = { claude: 'Claude', openai: 'OpenAI', gemini: 'Gemini', unknown: 'Other' };
+        const total = (q.providerUsage?.claude || 0) + (q.providerUsage?.openai || 0) + (q.providerUsage?.gemini || 0) + (q.providerUsage?.unknown || 0);
         let providersHtml = '';
-        const total = (q.providerUsage.claude || 0) + (q.providerUsage.openai || 0) + (q.providerUsage.gemini || 0) + (q.providerUsage.unknown || 0);
         for (const [p, v] of Object.entries(q.providerUsage || {})) {
           const pct = total > 0 ? (v / total * 100).toFixed(0) : 0;
-          providersHtml += '<div class="provider-bar">' +
-            '<span class="provider-name">' + p + '</span>' +
-            '<div class="provider-track"><div class="provider-fill ' + p + '" style="width:' + pct + '%"></div></div>' +
-            '<span>' + v.toFixed(1) + '</span>' +
+          providersHtml += '<div class="bar">' +
+            '<span class="bar-name">' + (providerMap[p] || p) + '</span>' +
+            '<div class="bar-track"><div class="bar-fill ' + p + '" style="width:' + pct + '%"></div></div>' +
+            '<span class="bar-value">' + v.toFixed(1) + '</span>' +
           '</div>';
         }
-        document.getElementById('app').innerHTML =
+
+        // Model bars
+        const modelNames = {
+          'claude-opus-4': 'Claude Opus 4.6',
+          'claude-sonnet-4-5': 'Claude Sonnet 4.6',
+          'code-review': 'Code Review',
+          'coding-agent': 'Coding Agent',
+          'gpt-5.4-mini': 'GPT-5.4 mini',
+          'gemini-3.1-pro': 'Gemini 3.1 Pro'
+        };
+        const byModel = analysis.byModel || {};
+        let totalModel = Object.values(byModel).reduce((s, v) => s + v, 0);
+        let modelsHtml = '';
+        for (const [key, name] of Object.entries(modelNames)) {
+          const val = byModel[key] || 0;
+          if (val > 0) {
+            const pct = totalModel > 0 ? (val / totalModel * 100).toFixed(0) : 0;
+            const prov = key.includes('claude') ? 'claude' : key.includes('gpt') ? 'openai' : key.includes('gemini') ? 'gemini' : 'unknown';
+            modelsHtml += '<div class="bar">' +
+              '<span class="bar-name">' + name + '</span>' +
+              '<div class="bar-track"><div class="bar-fill ' + prov + '" style="width:' + pct + '%"></div></div>' +
+              '<span class="bar-value">' + val.toFixed(2) + '</span>' +
+            '</div>';
+          }
+        }
+
+        const rec = q.recommendation || {};
+        const html =
           '<div class="gauge-wrap">' +
             '<svg viewBox="0 0 160 160"><circle class="gauge-track" cx="80" cy="80" r="70"/>' +
             '<circle class="gauge-fill ' + level + '" cx="80" cy="80" r="70"' +
@@ -85,12 +115,15 @@
             '<div class="meta-item"><div class="label">總配額</div><div class="value">' + q.total + '</div></div>' +
             '<div class="meta-item"><div class="label">重置日</div><div class="value">' + (q.resetDate || '-') + '</div></div>' +
           '</div>' +
-          '<div class="providers"><h3>Provider 用量</h3>' + providersHtml + '</div>' +
+          '<div class="section"><h3>Provider 用量（requests）</h3>' + providersHtml + '</div>' +
+          '<div class="section"><h3>模型用量（requests）</h3>' + modelsHtml + '</div>' +
           '<div class="rec">' +
-            '<div class="emoji">' + (q.recommendation?.emoji || '✅') + '</div>' +
-            '<div class="label">' + (q.recommendation?.label || '正常') + '</div>' +
-            '<div class="message">' + (q.recommendation?.message || '') + '</div>' +
+            '<div class="emoji">' + (rec.emoji || '✅') + '</div>' +
+            '<div class="label">' + (rec.label || '正常') + '</div>' +
+            '<div class="message">' + (rec.message || '') + '</div>' +
           '</div>';
+
+        document.getElementById('app').innerHTML = html;
       } catch(e) {
         document.getElementById('app').innerHTML = '<div class="loading">無法載入數據</div>';
         console.error(e);
