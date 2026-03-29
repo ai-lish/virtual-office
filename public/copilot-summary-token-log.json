@@ -27,10 +27,10 @@
   },
   "modelPreference": "balanced",
   "providerUsage": {
-    "claude": 245,
-    "unknown": 8,
+    "claude": 53,
     "openai": 8.58,
-    "gemini": 5
+    "gemini": 5,
+    "unknown": 8
   },
   "recommendation": {
     "level": "comfortable",
