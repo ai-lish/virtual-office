@@ -1,28 +1,43 @@
 {
-  "meta": "2026-03-28T16:49:01.064Z",
+  "meta": "2026-03-29T00:26:27.509Z",
   "quota": {
     "total": 300,
     "used": 74.58,
     "remaining": 225.42,
     "usedPercent": 24.9,
-    "dailyBudget": 56.35,
-    "daysRemaining": 4,
+    "dailyBudget": 75.14,
+    "daysRemaining": 3,
     "resetDate": "2026-04-01",
-    "warningLevel": "normal"
+    "warningLevel": "normal",
+    "modelPreference": "balanced",
+    "providerUsage": {
+      "claude": 245,
+      "unknown": 8,
+      "openai": 8.58,
+      "gemini": 5
+    },
+    "recommendation": {
+      "level": "comfortable",
+      "emoji": "🟢",
+      "label": "配額充裕",
+      "message": "配額充足，可自由使用高階模型",
+      "suggestedModel": "claude-sonnet-4",
+      "color": "#2ecc71"
+    }
   },
   "modelPreference": "balanced",
   "providerUsage": {
     "claude": 245,
+    "unknown": 8,
     "openai": 8.58,
-    "gemini": 5,
-    "unknown": 8
+    "gemini": 5
   },
   "recommendation": {
     "level": "comfortable",
     "emoji": "🟢",
     "label": "配額充裕",
     "message": "配額充足，可自由使用高階模型",
-    "suggestedModel": "claude-sonnet-4",
-    "color": "#2ecc71"
+    "color": "#2ecc71",
+    "suggestedModel": "claude-sonnet-4"
   }
 }
