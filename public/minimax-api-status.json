@@ -1,0 +1,12 @@
+{
+  "_generatedAt": "2026-03-31T00:30:00.000Z",
+  "quota": {
+    "total": 30000,
+    "used": 1549,
+    "remaining": 28451,
+    "usedPercent": 5.2,
+    "resetDate": "2026-04-01",
+    "warningLevel": "normal"
+  },
+  "source": "Minimax API cron (ai.openclaw.minimax-cron)"
+}
