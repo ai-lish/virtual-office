@@ -1,0 +1,26 @@
+{
+  "week": 1,
+  "days": {
+    "day1": {
+      "theme": "認識自己 + 顏色",
+      "activities": ["d1-age-tap", "d1-colour-rb"]
+    },
+    "day2": {
+      "theme": "自己介紹 + 黃色",
+      "activities": ["d2-colour-ry", "d2-body-parts"]
+    },
+    "day3": {
+      "theme": "三原色 + 配對",
+      "activities": ["d3-colour-3", "d3-colour-match"]
+    },
+    "day4": {
+      "theme": "數數 + 形狀",
+      "activities": ["d4-count-1", "d4-shape-circle"]
+    },
+    "day5": {
+      "theme": "綜合回顧",
+      "activities": ["d5-review"]
+    }
+  },
+  "activityDefinitions": {}
+}

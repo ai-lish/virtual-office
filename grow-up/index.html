@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>🌱 成長學習</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+    <!-- ========== 主頁面 ========== -->
+    <div id="app-home" class="screen active">
+        <div class="home-container">
+            <h1 class="app-title">🌱 成長學習</h1>
+            <p class="app-subtitle">一齊嚟玩啦！</p>
+            
+            <!-- Day 導航 -->
+            <div class="day-nav">
+                <div class="day-header">
+                    <h2>📅 第 1 週</h2>
+                    <span class="day-progress">已玩 0/5 日</span>
+                </div>
+                
+                <div class="day-grid">
+                    <!-- Day 1 -->
+                    <button class="day-btn" onclick="openSession('day1')">
+                        <span class="day-emoji">🌟</span>
+                        <span class="day-label">Day 1</span>
+                        <span class="day-status" id="day1-status"></span>
+                    </button>
+                    
+                    <!-- Day 2 -->
+                    <button class="day-btn" onclick="openSession('day2')">
+                        <span class="day-emoji">🌟</span>
+                        <span class="day-label">Day 2</span>
+                        <span class="day-status" id="day2-status"></span>
+                    </button>
+                    
+                    <!-- Day 3 -->
+                    <button class="day-btn" onclick="openSession('day3')">
+                        <span class="day-emoji">🌟</span>
+                        <span class="day-label">Day 3</span>
+                        <span class="day-status" id="day3-status"></span>
+                    </button>
+                    
+                    <!-- Day 4 -->
+                    <button class="day-btn" onclick="openSession('day4')">
+                        <span class="day-emoji">🌟</span>
+                        <span class="day-label">Day 4</span>
+                        <span class="day-status" id="day4-status"></span>
+                    </button>
+                    
+                    <!-- Day 5 -->
+                    <button class="day-btn" onclick="openSession('day5')">
+                        <span class="day-emoji">🌟</span>
+                        <span class="day-label">Day 5</span>
+                        <span class="day-status" id="day5-status"></span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 家長按鈕 -->
+            <button class="parent-gate" onclick="showParentInfo()">
+                <span class="parent-icon">👨‍👩‍👧</span>
+                <span class="parent-label">家長專區</span>
+            </button>
+        </div>
+    </div>
+    
+    <!-- ========== 活動頁面 ========== -->
+    <div id="app-session" class="screen">
+        <div class="session-header">
+            <button class="back-btn" onclick="goHome()">← 返回</button>
+            <div class="session-info">
+                <span class="session-title" id="session-title">Day 1</span>
+                <span class="session-progress" id="session-progress">1/4</span>
+            </div>
+            <!-- 家長資訊按鈕 -->
+            <button class="info-btn" onclick="showActivityInfo()" title="家長資訊">ℹ️</button>
+        </div>
+        
+        <div class="activity-container" id="activity-container">
+            <!-- 活動內容會動態插入 -->
+        </div>
+        
+        <!-- 導航按鈕 -->
+        <div class="session-nav">
+            <button class="nav-btn prev-btn" id="prev-btn" onclick="prevActivity()" style="display:none;">← 上一個</button>
+            <button class="nav-btn next-btn" id="next-btn" onclick="nextActivity()" style="display:none;">下一個 →</button>
+        </div>
+    </div>
+    
+    <!-- ========== 完成頁面 ========== -->
+    <div id="app-complete" class="screen">
+        <div class="complete-container">
+            <div class="complete-emoji">🎉</div>
+            <h2 class="complete-title">你做得好好！</h2>
+            <p class="complete-message">今日嘅學習完成晒啦！</p>
+            
+            <div class="complete-stars" id="complete-stars">
+                <!-- 星星動畫 -->
+            </div>
+            
+            <button class="btn-primary" onclick="goHome()">再玩一次</button>
+        </div>
+    </div>
+    
+    <!-- ========== 家長資訊 Modal ========== -->
+    <div id="parent-modal" class="modal">
+        <div class="modal-backdrop" onclick="hideParentModal()"></div>
+        <div class="modal-content">
+            <button class="modal-close" onclick="hideParentModal()">×</button>
+            <div class="modal-header">
+                <h2>👶 發展心理學話你知</h2>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- 動態內容 -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- ========== 休息提示 ========== -->
+    <div id="break-screen" class="screen">
+        <div class="break-container">
+            <div class="break-emoji">☕</div>
+            <h2>休息一下！</h2>
+            <p>休息幾分鐘，等大腦吸收下嘢。</p>
+            <button class="btn-primary" onclick="continueSession()">繼續！</button>
+        </div>
+    </div>
+    
+    <!-- ========== 設置頁面（家長） ========== -->
+    <div id="app-settings" class="screen">
+        <div class="settings-container">
+            <h2>⚙️ 設置</h2>
+            
+            <div class="setting-item">
+                <label>小朋友名字</label>
+                <input type="text" id="setting-name" placeholder="例如：BB" maxlength="10">
+            </div>
+            
+            <div class="setting-item">
+                <label>年齡</label>
+                <select id="setting-age">
+                    <option value="3">3 歲</option>
+                    <option value="4">4 歲</option>
+                    <option value="5">5 歲</option>
+                </select>
+            </div>
+            
+            <div class="setting-item">
+                <label>音量</label>
+                <input type="range" id="setting-volume" min="0" max="100" value="80">
+            </div>
+            
+            <button class="btn-primary" onclick="saveSettings()">保存設置</button>
+            <button class="btn-secondary" onclick="resetProgress()">重置進度</button>
+            <button class="btn-secondary" onclick="goHome()">返回主頁</button>
+            
+            <!-- 進度概覽 -->
+            <div class="progress-overview">
+                <h3>📊 學習進度</h3>
+                <div id="progress-summary">
+                    <!-- 動態內容 -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ========== 成功動畫 ========== -->
+    <div id="success-overlay" class="success-overlay">
+        <div class="success-content">
+            <div class="success-stars">⭐⭐⭐</div>
+            <div class="success-text">叻叻！</div>
+        </div>
+    </div>
+    
+    <!-- ========== 再試一次提示 ========== -->
+    <div id="retry-overlay" class="retry-overlay">
+        <div class="retry-content">
+            <div class="retry-text">再試一次！</div>
+        </div>
+    </div>
+    
+    <script src="js/progress.js"></script>
+    <script src="js/activities.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

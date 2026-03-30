@@ -1,0 +1,754 @@
+/* ==========================================
+   K1 Learning Platform - Main Styles
+   ========================================== */
+
+/* ========== CSS Variables ========== */
+:root {
+    /* Colours */
+    --bg: #FFF8F0;
+    --card-bg: #FFFFFF;
+    --primary: #4ECDC4;
+    --secondary: #FFE66D;
+    --success: #7BC67E;
+    --retry: #FFB347;
+    --text: #2C3E50;
+    --text-light: #6B7B8A;
+    --disabled: #D5DBDB;
+    
+    /* Activity Colours */
+    --red: #FF6B6B;
+    --blue: #4ECDC4;
+    --yellow: #FFE66D;
+    --green: #7BC67E;
+    --orange: #FFB347;
+    --purple: #A78BFA;
+    
+    /* Sizes */
+    --tap-target: 80px;
+    --tap-target-lg: 100px;
+    --radius: 20px;
+    --radius-sm: 12px;
+    
+    /* Spacing */
+    --safe-top: env(safe-area-inset-top, 20px);
+    --safe-bottom: env(safe-area-inset-bottom, 20px);
+}
+
+/* ========== Reset ========== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: "Comic Sans MS", "Helvetica Neue", "Noto Sans TC", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* ========== Screens ========== */
+.screen {
+    display: none;
+    height: 100vh;
+    height: 100dvh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: var(--safe-top) 20px var(--safe-bottom);
+}
+
+.screen.active {
+    display: flex;
+    flex-direction: column;
+}
+
+/* ========== Home Screen ========== */
+.home-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
+    gap: 30px;
+}
+
+.app-title {
+    font-size: 36px;
+    color: var(--primary);
+    text-align: center;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+}
+
+.app-subtitle {
+    font-size: 20px;
+    color: var(--text-light);
+    margin-top: -20px;
+}
+
+/* Day Navigation */
+.day-nav {
+    width: 100%;
+    max-width: 400px;
+}
+
+.day-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.day-header h2 {
+    font-size: 24px;
+    color: var(--text);
+}
+
+.day-progress {
+    font-size: 14px;
+    color: var(--text-light);
+}
+
+.day-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.day-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.day-btn {
+    background: var(--card-bg);
+    border: 3px solid transparent;
+    border-radius: var(--radius);
+    padding: 15px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.2s, border-color 0.2s;
+    min-height: var(--tap-target);
+}
+
+.day-btn:active {
+    transform: scale(0.95);
+}
+
+.day-btn.completed {
+    border-color: var(--success);
+    background: #E8F5E9;
+}
+
+.day-emoji {
+    font-size: 32px;
+}
+
+.day-label {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--text);
+}
+
+.day-status {
+    font-size: 12px;
+}
+
+.day-status.done::after {
+    content: '✅';
+}
+
+.day-status.locked::after {
+    content: '🔒';
+}
+
+/* Parent Gate Button */
+.parent-gate {
+    background: transparent;
+    border: none;
+    padding: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-light);
+    font-size: 14px;
+    margin-top: 20px;
+}
+
+.parent-icon {
+    font-size: 24px;
+}
+
+/* ========== Session Screen ========== */
+.session-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    margin-bottom: 20px;
+}
+
+.back-btn {
+    background: var(--card-bg);
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.back-btn:active {
+    transform: scale(0.95);
+}
+
+.session-info {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.session-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--text);
+}
+
+.session-progress {
+    font-size: 14px;
+    color: var(--text-light);
+}
+
+.info-btn {
+    background: var(--card-bg);
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ========== Activity Container ========== */
+.activity-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* ========== Activity Type 1: Tap Choose ========== */
+.tap-question {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.tap-question-icon {
+    font-size: 60px;
+    margin-bottom: 10px;
+}
+
+.tap-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    width: 100%;
+    max-width: 350px;
+}
+
+.tap-option {
+    background: var(--card-bg);
+    border: 4px solid transparent;
+    border-radius: var(--radius);
+    padding: 20px;
+    min-height: var(--tap-target);
+    min-width: var(--tap-target);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.tap-option:active {
+    transform: scale(0.95);
+}
+
+.tap-option.selected {
+    border-color: var(--primary);
+}
+
+.tap-option.correct {
+    border-color: var(--success);
+    background: #E8F5E9;
+}
+
+.tap-option.incorrect {
+    border-color: var(--retry);
+    background: #FFF3E0;
+}
+
+.tap-option-icon {
+    font-size: 50px;
+}
+
+/* ========== Activity Type 2: Drag & Drop ========== */
+.drag-instruction {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.drag-area {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.drag-source {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    padding: 15px;
+    background: rgba(255,255,255,0.8);
+    border-radius: var(--radius);
+    flex-wrap: wrap;
+}
+
+.drag-item {
+    background: var(--card-bg);
+    border-radius: var(--radius-sm);
+    padding: 15px;
+    min-width: var(--tap-target);
+    min-height: var(--tap-target);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: grab;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    font-size: 40px;
+    touch-action: none;
+}
+
+.drag-item:active {
+    cursor: grabbing;
+}
+
+.drag-item.dragging {
+    opacity: 0.5;
+    transform: scale(1.1);
+}
+
+.drag-item.used {
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.drop-targets {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.drop-target {
+    background: var(--card-bg);
+    border: 4px dashed var(--disabled);
+    border-radius: var(--radius);
+    padding: 20px;
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.drop-target.drag-over {
+    border-color: var(--primary);
+    background: rgba(78, 205, 196, 0.1);
+}
+
+.drop-target.filled {
+    border-style: solid;
+    border-color: var(--success);
+    background: #E8F5E9;
+}
+
+.drop-target.incorrect {
+    border-color: var(--retry);
+    animation: shake 0.5s;
+}
+
+.drop-target-label {
+    font-size: 14px;
+    color: var(--text-light);
+}
+
+.drop-target-icon {
+    font-size: 40px;
+}
+
+/* ========== Session Navigation ========== */
+.session-nav {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px 0;
+    margin-top: auto;
+}
+
+.nav-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+    transition: transform 0.2s;
+}
+
+.nav-btn:active {
+    transform: scale(0.95);
+}
+
+.nav-btn:disabled {
+    background: var(--disabled);
+    box-shadow: none;
+}
+
+/* ========== Complete Screen ========== */
+.complete-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
+    text-align: center;
+    gap: 20px;
+}
+
+.complete-emoji {
+    font-size: 80px;
+    animation: bounce 1s infinite;
+}
+
+.complete-title {
+    font-size: 32px;
+    color: var(--success);
+}
+
+.complete-message {
+    font-size: 18px;
+    color: var(--text-light);
+}
+
+.complete-stars {
+    font-size: 40px;
+    margin: 20px 0;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 15px 40px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+}
+
+.btn-primary:active {
+    transform: scale(0.95);
+}
+
+.btn-secondary {
+    background: var(--card-bg);
+    color: var(--text);
+    border: 2px solid var(--disabled);
+    border-radius: 25px;
+    padding: 12px 30px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* ========== Modal ========== */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    position: relative;
+    background: var(--card-bg);
+    width: 100%;
+    max-width: 450px;
+    max-height: 80vh;
+    border-radius: var(--radius) var(--radius) 0 0;
+    padding: 25px;
+    overflow-y: auto;
+    animation: slideUp 0.3s ease-out;
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+    color: var(--text-light);
+    width: 40px;
+    height: 40px;
+}
+
+.modal-header h2 {
+    font-size: 20px;
+    color: var(--primary);
+    margin-bottom: 15px;
+    padding-right: 40px;
+}
+
+.modal-body {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text);
+}
+
+.modal-body h3 {
+    font-size: 16px;
+    color: var(--text);
+    margin: 15px 0 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.modal-body h3:first-child {
+    margin-top: 0;
+}
+
+.modal-body ul {
+    padding-left: 20px;
+}
+
+.modal-body li {
+    margin: 5px 0;
+}
+
+/* ========== Break Screen ========== */
+.break-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
+    text-align: center;
+    gap: 20px;
+}
+
+.break-emoji {
+    font-size: 80px;
+}
+
+.break-container h2 {
+    font-size: 28px;
+    color: var(--text);
+}
+
+.break-container p {
+    font-size: 16px;
+    color: var(--text-light);
+}
+
+/* ========== Settings Screen ========== */
+.settings-container {
+    max-width: 400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.settings-container h2 {
+    font-size: 24px;
+    color: var(--primary);
+    text-align: center;
+}
+
+.setting-item {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.setting-item label {
+    font-size: 14px;
+    color: var(--text-light);
+}
+
+.setting-item input[type="text"],
+.setting-item select {
+    font-size: 18px;
+    padding: 10px;
+    border: 2px solid var(--disabled);
+    border-radius: var(--radius-sm);
+    background: white;
+    font-family: inherit;
+}
+
+.setting-item input[type="range"] {
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    background: var(--disabled);
+    appearance: none;
+}
+
+.setting-item input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--primary);
+    cursor: pointer;
+}
+
+.progress-overview {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.progress-overview h3 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: var(--text);
+}
+
+/* ========== Overlays ========== */
+.success-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255,255,255,0.95);
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+}
+
+.success-overlay.active {
+    display: flex;
+}
+
+.success-content {
+    text-align: center;
+    animation: successPop 0.5s ease-out;
+}
+
+.success-stars {
+    font-size: 60px;
+    animation: spin 0.5s ease-out;
+}
+
+.success-text {
+    font-size: 36px;
+    color: var(--success);
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.retry-overlay {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 500;
+}
+
+.retry-overlay.active {
+    display: block;
+}
+
+.retry-text {
+    font-size: 28px;
+    color: var(--retry);
+    animation: wobble 0.5s ease-out;
+}
+
+/* ========== Responsive ========== */
+@media (max-width: 400px) {
+    .app-title { font-size: 28px; }
+    .day-grid { gap: 10px; }
+    .tap-option-icon { font-size: 40px; }
+    .tap-options { gap: 12px; }
+}
+
+@media (min-width: 768px) {
+    .day-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+    .tap-options {
+        grid-template-columns: repeat(4, 1fr);
+        max-width: 500px;
+    }
+}

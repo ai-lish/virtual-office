@@ -1,0 +1,190 @@
+/* ==========================================
+   K1 Learning Platform - Animations
+   ========================================== */
+
+/* ========== Core Animations ========== */
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-8px); }
+    75% { transform: translateX(8px); }
+}
+
+@keyframes wobble {
+    0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+    25% { transform: translate(-50%, -50%) rotate(-3deg); }
+    75% { transform: translate(-50%, -50%) rotate(3deg); }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateX(-20px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes pop {
+    0% { transform: scale(0.8); opacity: 0; }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* ========== Success Animation ========== */
+@keyframes successPop {
+    0% { transform: scale(0); opacity: 0; }
+    50% { transform: scale(1.2); }
+    70% { transform: scale(0.9); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes starBurst {
+    0% { transform: scale(0) rotate(0deg); opacity: 1; }
+    100% { transform: scale(1.5) rotate(180deg); opacity: 0; }
+}
+
+/* ========== Idle Animations ========== */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes breathe {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.02); opacity: 1; }
+}
+
+/* ========== Drag & Drop ========== */
+@keyframes dragStart {
+    from { transform: scale(1); }
+    to { transform: scale(1.1); opacity: 0.8; }
+}
+
+@keyframes dropTarget {
+    0% { border-color: var(--primary); background: rgba(78, 205, 196, 0.1); }
+    100% { border-color: var(--success); background: rgba(123, 198, 126, 0.2); }
+}
+
+/* ========== Page Transitions ========== */
+.screen-enter {
+    animation: slideIn 0.3s ease-out;
+}
+
+.screen-exit {
+    animation: fadeIn 0.2s ease-out reverse;
+}
+
+/* ========== Element Animations ========== */
+.animate-bounce {
+    animation: bounce 1s infinite;
+}
+
+.animate-float {
+    animation: float 2s ease-in-out infinite;
+}
+
+.animate-pulse {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.animate-shake {
+    animation: shake 0.5s ease-out;
+}
+
+.animate-pop {
+    animation: pop 0.4s ease-out;
+}
+
+.animate-success {
+    animation: successPop 0.5s ease-out;
+}
+
+/* ========== Stagger Animations ========== */
+.stagger-item {
+    opacity: 0;
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+.stagger-item:nth-child(1) { animation-delay: 0ms; }
+.stagger-item:nth-child(2) { animation-delay: 100ms; }
+.stagger-item:nth-child(3) { animation-delay: 200ms; }
+.stagger-item:nth-child(4) { animation-delay: 300ms; }
+.stagger-item:nth-child(5) { animation-delay: 400ms; }
+.stagger-item:nth-child(6) { animation-delay: 500ms; }
+
+/* ========== Particle Effects ========== */
+@keyframes particleFloat {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+}
+
+.particle {
+    position: fixed;
+    pointer-events: none;
+    animation: particleFloat 1s ease-out forwards;
+}
+
+/* ========== Loading ========== */
+@keyframes loadingDots {
+    0%, 20% { content: '.'; }
+    40% { content: '..'; }
+    60%, 100% { content: '...'; }
+}
+
+.loading::after {
+    content: '.';
+    animation: loadingDots 1.5s infinite;
+}
+
+/* ========== Confetti ========== */
+@keyframes confettiFall {
+    0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+.confetti {
+    position: fixed;
+    top: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    animation: confettiFall 3s ease-out forwards;
+}
+
+/* ========== Transition Utilities ========== */
+.transition-all {
+    transition: all 0.3s ease;
+}
+
+.transition-transform {
+    transition: transform 0.2s ease;
+}
+
+.transition-opacity {
+    transition: opacity 0.2s ease;
+}
+
+.transition-colors {
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
