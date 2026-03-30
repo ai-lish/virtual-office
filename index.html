@@ -1702,9 +1702,58 @@
                 <p class="hero-subtitle">實時監控 AI 助手工作狀態</p>
                 <p style="color: var(--text-secondary);">從左側選擇項目以查看詳情</p>
                 
-                <!-- Token Analytics Inline -->
-                <div style="margin-top: 30px; max-width: 900px;">
-                    <h2 style="margin-bottom: 15px;">📊 Token 使用統計</h2>
+                <!-- ===== 3-Panel Dashboard ===== -->
+                <div id="dashboard-panels" style="margin-top: 30px; max-width: 900px; width: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
+                    <!-- Panel 1: GitHub Copilot -->
+                    <div style="background: #16213e; border-radius: 12px; padding: 24px; border-left: 4px solid #2ecc71; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform=''">
+                        <div style="font-size: 1.6rem; margin-bottom: 8px;">🤖</div>
+                        <div style="font-size: 0.8em; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">GitHub Copilot</div>
+                        <div id="copilot-panel-number" style="font-size: 2rem; font-weight: 700; margin-bottom: 4px;">—/300</div>
+                        <div style="font-size: 0.85em; color: #aaa;">requests used</div>
+                        <div style="margin-top: 12px; height: 6px; background: #0f3460; border-radius: 3px; overflow: hidden;">
+                            <div id="copilot-panel-bar" style="height: 100%; width: 0%; border-radius: 3px; background: #2ecc71; transition: width 0.6s;"></div>
+                        </div>
+                        <div id="copilot-panel-status" style="margin-top: 8px; font-size: 0.78em; color: #888;">載入中…</div>
+                    </div>
+                    <!-- Panel 2: Minimax Quota -->
+                    <div style="background: #16213e; border-radius: 12px; padding: 24px; border-left: 4px solid #3498db; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform=''">
+                        <div style="font-size: 1.6rem; margin-bottom: 8px;">⚡</div>
+                        <div style="font-size: 0.8em; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Minimax Quota</div>
+                        <div id="minimax-panel-number" style="font-size: 2rem; font-weight: 700; margin-bottom: 4px;">—</div>
+                        <div style="font-size: 0.85em; color: #aaa;">tokens remaining</div>
+                        <div style="margin-top: 12px; height: 6px; background: #0a1628; border-radius: 3px; overflow: hidden;">
+                            <div id="minimax-panel-bar" style="height: 100%; width: 0%; border-radius: 3px; background: #3498db; transition: width 0.6s;"></div>
+                        </div>
+                        <div id="minimax-panel-status" style="margin-top: 8px; font-size: 0.78em; color: #888;">載入中…</div>
+                    </div>
+                    <!-- Panel 3: Minimax Usage -->
+                    <div style="background: #16213e; border-radius: 12px; padding: 24px; border-left: 4px solid #e67e22; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform=''">
+                        <div style="font-size: 1.6rem; margin-bottom: 8px;">📊</div>
+                        <div style="font-size: 0.8em; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Minimax Usage</div>
+                        <div id="minimax-usage-number" style="font-size: 2rem; font-weight: 700; margin-bottom: 4px;">—</div>
+                        <div style="font-size: 0.85em; color: #aaa;">input / output tokens</div>
+                        <div style="margin-top: 12px; display: flex; gap: 8px; align-items: center;">
+                            <span style="font-size: 0.78em; color: #888;">總費用:</span>
+                            <span id="minimax-usage-cost" style="font-size: 0.85em; font-weight: 600; color: #e67e22;">—</span>
+                        </div>
+                        <div id="minimax-usage-status" style="margin-top: 8px; font-size: 0.78em; color: #888;">載入中…</div>
+                    </div>
+                </div>
+
+                <!-- Hidden compat elements for existing JS -->
+                <div style="display:none;">
+                    <span id="copilot-quota-label"></span><span id="copilot-remaining"></span><span id="copilot-daily-budget"></span><span id="copilot-reset-date"></span>
+                    <span id="copilot-today-cost"></span><span id="copilot-today-count"></span><span id="copilot-week-cost"></span><span id="copilot-week-count"></span>
+                    <span id="copilot-total-cost"></span><span id="copilot-total-count"></span><span id="copilot-rec-label"></span><span id="copilot-rec-model"></span><span id="copilot-rec-message"></span>
+                    <div id="copilot-quota-bar"></div><div id="copilot-recommendation-card"></div><div id="copilot-trend-chart"></div><div id="copilot-trend-labels"></div><div id="copilot-model-dist"></div>
+                    <span id="minimax-quota-label"></span><span id="minimax-remaining"></span><span id="minimax-used"></span><span id="minimax-reset-date"></span><div id="minimax-quota-bar"></div><div id="minimax-source"></div>
+                    <span id="token-total-records"></span><span id="token-cache-rate"></span><span id="token-top-model"></span><span id="token-last-update"></span>
+                    <input type="file" id="csvFileInput" accept=".csv"><input type="file" id="minimaxCsvInput" accept=".csv">
+                    <div id="token-home-stats"></div><div id="copilot-dashboard"></div><div id="minimax-dashboard"></div>
+                </div>
+
+                <!-- Old sections removed - replaced by 3-panel dashboard above -->
+                <div style="display:none;"><h2>📊 Token 使用統計</h2>
                     <div id="token-home-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px;">
                         <div class="info-card">
                             <div style="font-size: 0.85em; color: var(--text-secondary);">總記錄</div>
@@ -1856,7 +1905,7 @@
                         </div>
                         <div id="minimax-source" style="text-align: right; font-size: 0.7em; color: #555; margin-top: 8px;"></div>
                     </div>
-                </div>
+                </div></div><!-- end hidden old sections -->
 
                 <!-- Agent Workflow Section -->
                 <div id="home-agents-section" style="margin-top: 30px; max-width: 900px;">
@@ -3590,6 +3639,85 @@
         }
 
         // ===============================
+        // 3-PANEL DASHBOARD LOADER
+        // ===============================
+        async function loadDashboardPanels() {
+            // Panel 1: Copilot from static JSON
+            try {
+                const base = window.location.pathname.includes('/virtual-office') ? '' : '/virtual-office';
+                const res = await fetch(base + '/public/copilot-data.json?' + Date.now());
+                if (res.ok) {
+                    const data = await res.json();
+                    const q = data.quota || {};
+                    const used = Math.round(q.used || 0);
+                    const total = q.total || 300;
+                    const pct = q.usedPercent || Math.round((used/total)*100);
+                    const barColor = pct >= 80 ? '#e74c3c' : pct >= 50 ? '#f39c12' : '#2ecc71';
+                    document.getElementById('copilot-panel-number').textContent = used + '/' + total;
+                    document.getElementById('copilot-panel-bar').style.width = pct + '%';
+                    document.getElementById('copilot-panel-bar').style.background = barColor;
+                    const rec = q.recommendation || {};
+                    document.getElementById('copilot-panel-status').textContent = (rec.emoji||'') + ' ' + (rec.label||'') + ' · 重置 ' + (q.resetDate||'—');
+                    // Update border color
+                    document.getElementById('copilot-panel-number').closest('div[style*="border-left"]').style.borderLeftColor = barColor;
+                }
+            } catch(e) { console.log('Panel copilot error:', e); }
+
+            // Panel 2: Minimax Quota
+            try {
+                let data = null;
+                const base = window.location.pathname.includes('/virtual-office') ? '' : '/virtual-office';
+                // Try minimax-status.json (from auto-sync)
+                try {
+                    const res = await fetch(base + '/public/minimax-status.json?' + Date.now());
+                    if (res.ok) data = await res.json();
+                } catch(e) {}
+                // Fallback to minimax-quota.json
+                if (!data) {
+                    try {
+                        const res = await fetch(base + '/public/minimax-quota.json?' + Date.now());
+                        if (res.ok) data = await res.json();
+                    } catch(e) {}
+                }
+                if (data) {
+                    const remains = data.remains ?? (data.total - (data.used || 0));
+                    const total = data.total || 1;
+                    const used = data.used || 0;
+                    const pct = Math.round((used/total)*100);
+                    const barColor = pct >= 80 ? '#e74c3c' : pct >= 50 ? '#f39c12' : '#3498db';
+                    document.getElementById('minimax-panel-number').textContent = remains != null ? Number(remains).toLocaleString() : '—';
+                    document.getElementById('minimax-panel-bar').style.width = pct + '%';
+                    document.getElementById('minimax-panel-bar').style.background = barColor;
+                    document.getElementById('minimax-panel-status').textContent = '已用 ' + pct + '% · 重置 ' + (data.resetDate ? data.resetDate.slice(0,10) : '—');
+                    document.getElementById('minimax-panel-number').closest('div[style*="border-left"]').style.borderLeftColor = barColor;
+                }
+            } catch(e) { console.log('Panel minimax quota error:', e); }
+
+            // Panel 3: Minimax Usage from token-log.json
+            try {
+                const base = window.location.pathname.includes('/virtual-office') ? '' : '/virtual-office';
+                const res = await fetch(base + '/public/token-log.json?' + Date.now());
+                if (res.ok) {
+                    const data = await res.json();
+                    let totalInput = 0, totalOutput = 0, totalCost = 0;
+                    if (data.records) {
+                        data.records.forEach(r => {
+                            totalInput += r.inputUsageQuantity || 0;
+                            totalOutput += r.outputUsageQuantity || 0;
+                            totalCost += r.amountAfterVoucher || r.amountSpent || 0;
+                        });
+                    }
+                    const fmtM = (n) => (n/1000000).toFixed(2) + 'M';
+                    document.getElementById('minimax-usage-number').textContent = fmtM(totalInput) + ' / ' + fmtM(totalOutput);
+                    document.getElementById('minimax-usage-cost').textContent = '¥' + totalCost.toFixed(2);
+                    const totalRecords = data.records ? data.records.length : 0;
+                    const updated = data.meta ? new Date(data.meta.lastUpdated).toLocaleDateString('zh-HK') : '—';
+                    document.getElementById('minimax-usage-status').textContent = totalRecords + ' 筆記錄 · 更新 ' + updated;
+                }
+            } catch(e) { console.log('Panel minimax usage error:', e); }
+        }
+
+        // ===============================
         // COPILOT USAGE DASHBOARD (Phase 12)
         // ===============================
         async function loadCopilotDashboard() {
@@ -3989,6 +4117,7 @@
             renderScheduleMini();
             loadTokenStats();
             loadCopilotDashboard();
+            loadDashboardPanels();
             updateWorkingStatus();
             checkMobile();
             
@@ -4049,6 +4178,7 @@
             }
             loadMinimaxDashboard();
             setInterval(loadMinimaxDashboard, 300000); // every 5 min
+            setInterval(loadDashboardPanels, 300000); // refresh panels every 5 min
             
             // Listen for window resize
             window.addEventListener('resize', checkMobile);
