@@ -1772,6 +1772,8 @@
                         <div style="margin-top: 12px;">
                             <button id="copilot-csv-upload" onclick="triggerCsvUpload()" style="width: 100%; padding: 10px; border-radius: 8px; border: none; background: #16213e; color: #aaa; cursor: pointer; font-size: 0.85em;">📤 更新 Copilot 用量（CSV）</button>
                             <input type="file" id="csvFileInput" accept=".csv" style="display:none" onchange="handleCsvFile(this.files[0])">
+                            <button id="minimax-csv-upload" onclick="triggerMinimaxCsvUpload()" style="width: 100%; padding: 10px; border-radius: 8px; border: none; background: #16213e; color: #aaa; cursor: pointer; font-size: 0.85em; margin-top: 8px;">📊 更新 Minimax 用量（CSV）</button>
+                            <input type="file" id="minimaxCsvInput" accept=".csv" style="display:none" onchange="handleMinimaxCsvFile(this.files[0])">
                         </div>
 
                         <!-- Strategy Buttons -->
@@ -3722,9 +3724,6 @@
                         btn.textContent = '📤 更新 Copilot 用量（CSV）';
                         btn.disabled = false;
                     }, 2000);
-                    if (data.commitUrl) {
-                        alert('已更新！ Commit: ' + data.commitUrl);
-                    }
                 } else {
                     btn.textContent = '❌ 失敗：' + (data.error || '未知錯誤');
                     setTimeout(() => {
@@ -3736,6 +3735,47 @@
                 btn.textContent = '❌ 網絡錯誤';
                 setTimeout(() => {
                     btn.textContent = '📤 更新 Copilot 用量（CSV）';
+                    btn.disabled = false;
+                }, 3000);
+            }
+        }
+
+        function triggerMinimaxCsvUpload() {
+            document.getElementById('minimaxCsvInput').click();
+        }
+
+        async function handleMinimaxCsvFile(file) {
+            if (!file) return;
+            const btn = document.getElementById('minimax-csv-upload');
+            btn.textContent = '⏳ 處理中…';
+            btn.disabled = true;
+
+            const formData = new FormData();
+            formData.append('csv', file);
+
+            try {
+                const res = await fetch('/api/minimax/upload-csv', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+                if (data.success) {
+                    btn.textContent = '✅ 更新成功！';
+                    setTimeout(() => {
+                        btn.textContent = '📊 更新 Minimax 用量（CSV）';
+                        btn.disabled = false;
+                    }, 2000);
+                } else {
+                    btn.textContent = '❌ 失敗：' + (data.error || '未知錯誤');
+                    setTimeout(() => {
+                        btn.textContent = '📊 更新 Minimax 用量（CSV）';
+                        btn.disabled = false;
+                    }, 3000);
+                }
+            } catch (e) {
+                btn.textContent = '❌ 網絡錯誤';
+                setTimeout(() => {
+                    btn.textContent = '📊 更新 Minimax 用量（CSV）';
                     btn.disabled = false;
                 }, 3000);
             }

@@ -1032,6 +1032,108 @@ const server = http.createServer(async (req, res) => {
         return;
       }
 
+      // POST /api/minimax/upload-csv — handle Minimax token CSV upload
+      if (req.method === 'POST' && filePath === '/api/minimax/upload-csv') {
+        const chunks = [];
+        req.on('data', c => chunks.push(c));
+        req.on('end', async () => {
+          const boundary = req.headers['content-type']?.match(/boundary=(.+)/)?.[1];
+          if (!boundary) { sendErr('No boundary', 'BAD_REQUEST', 400); return; }
+          const body = Buffer.concat(chunks).toString('binary');
+          let csvContent = null;
+          const parts = body.split(`--${boundary}`);
+          for (const part of parts) {
+            const match = part.match(/filename="([^"]+)"[\s\S]*?\r\n\r\n([\s\S]*?)\r\n$/);
+            if (match) csvContent = match[2];
+          }
+          if (!csvContent) { sendErr('No CSV file found', 'BAD_REQUEST', 400); return; }
+
+          try {
+            const lines = csvContent.trim().split('\n');
+            function parseCsvLine(line) {
+              const result = [], current = '';
+              let inQuote = false;
+              for (let i = 0; i < line.length; i++) {
+                const ch = line[i];
+                if (ch === '"') inQuote = !inQuote;
+                else if (ch === ',' && !inQuote) { result.push(current.trim()); current = ''; }
+                else current += ch;
+              }
+              result.push(current.trim());
+              return result;
+            }
+            const headers = lines[0].split(',').map(h => h.replace(/"/g, ''));
+            const records = [];
+            for (let i = 1; i < lines.length; i++) {
+              const vals = parseCsvLine(lines[i]);
+              if (vals.length < headers.length) continue;
+              const row = {};
+              headers.forEach((h, idx) => row[h] = vals[idx] || '');
+              if (row['Consumption time(UTC)'] && row['Consumption time(UTC)'] !== '<nil>') {
+                records.push(row);
+              }
+            }
+
+            // Compute summary stats
+            let totalInput = 0, totalOutput = 0, totalTokens = 0;
+            records.forEach(r => {
+              totalInput += parseInt(r['Input usage quantity']) || 0;
+              totalOutput += parseInt(r['Output usage quantity']) || 0;
+              totalTokens += parseInt(r['Total usage quantity']) || 0;
+            });
+
+            // Save full records to token-log.json
+            const tokenLogPath = path.join(BASE_DIR, 'public', 'token-log.json');
+            let existingRecords = [];
+            try { existingRecords = JSON.parse(fs.readFileSync(tokenLogPath, 'utf8')).records || []; } catch(e) {}
+            
+            const existingKeys = new Set(existingRecords.map(r => `${r.consumedModel}-${r.consumptionTime}-${r.totalUsageQuantity}`));
+            let newCount = 0;
+            let maxId = 0;
+            existingRecords.forEach(r => { const m = r.id?.match(/\d+/); if (m) maxId = Math.max(maxId, parseInt(m[0])); });
+            
+            const mapped = records.map((r, idx) => {
+              const key = `${r['Consumed model']}-${r['Consumption time(UTC)']}-${r['Total usage quantity']}`;
+              if (existingKeys.has(key)) return null;
+              newCount++;
+              maxId++;
+              return {
+                id: `tl_${String(maxId).padStart(4, '0')}`,
+                secretKeyName: r['Secret key name'],
+                consumedApi: r['Consumed API'],
+                consumedModel: r['Consumed model'],
+                amountSpent: parseFloat(r['Amount spent']) || 0,
+                amountAfterVoucher: parseFloat(r['Amount After Voucher']) || 0,
+                inputUsageQuantity: parseInt(r['Input usage quantity']) || 0,
+                outputUsageQuantity: parseInt(r['Output usage quantity']) || 0,
+                totalUsageQuantity: parseInt(r['Total usage quantity']) || 0,
+                consumptionTime: r['Consumption time(UTC)'],
+                consumptionStatus: r['Consumption status']
+              };
+            }).filter(Boolean);
+
+            existingRecords = [...existingRecords, ...mapped];
+            const tokenLog = { meta: { lastUpdated: new Date().toISOString(), lastCsvImport: new Date().toISOString(), sourceFile: file.name || 'export_bill.csv', totalRecords: existingRecords.length }, records: existingRecords };
+            fs.writeFileSync(tokenLogPath, JSON.stringify(tokenLog, null, 2));
+
+            // Update summary
+            const summaryPath = path.join(BASE_DIR, 'public', 'summary-token-log.json');
+            const times = existingRecords.map(r => r.consumptionTime).filter(Boolean).sort();
+            const summary = {
+              meta: { generatedAt: new Date().toISOString(), totalRecords: existingRecords.length, dateRange: times.length > 0 ? { start: times[0].slice(0,10), end: times[times.length-1].slice(0,10) } : null },
+              totals: { inputTokens: totalInput, outputTokens: totalOutput, totalTokens },
+              totalRecords: existingRecords.length
+            };
+            fs.writeFileSync(summaryPath, JSON.stringify(summary, null, 2));
+
+            sendOk({ success: true, message: 'Minimax CSV processed', records: records.length, newRecords: newCount, totalRecords: existingRecords.length });
+          } catch(e) {
+            sendErr('Processing error: ' + e.message, 'PROCESSING_ERROR', 500);
+          }
+        });
+        return;
+      }
+
       sendErr('Copilot endpoint not found', 'NOT_FOUND', 404);
       return;
     } catch (err) {
