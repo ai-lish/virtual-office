@@ -3696,7 +3696,7 @@
             // Panel 3: Minimax Usage from token-log.json
             try {
                 const base = window.location.pathname.includes('/virtual-office') ? '' : '/virtual-office';
-                const res = await fetch(base + '/public/token-log.json?' + Date.now());
+                const res = await fetch('https://ai-lish.github.io/virtual-office/public/summary-token-log.json?' + ts)' + Date.now());
                 if (res.ok) {
                     const data = await res.json();
                     let totalInput = 0, totalOutput = 0, totalCost = 0;
