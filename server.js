@@ -484,7 +484,7 @@ const MIME = {
   '.svg': 'image/svg+xml', '.ico': 'image/x-icon',
 };
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
   let filePath = req.url.split('?')[0];
   if (filePath === '/') filePath = '/index.html';
   
@@ -547,6 +547,63 @@ const server = http.createServer((req, res) => {
     const activity = getClawTeamActivity();
     res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
     res.end(JSON.stringify(activity));
+    return;
+  }
+
+  // ============================================
+  // MiniMax Quota API (secure proxy)
+  // ============================================
+
+  if (filePath === '/api/minimax/quota') {
+    const MINIMAX_KEY_FILE = path.join(process.env.HOME || '/Users/zachli', '.minimax-api-key');
+    const MINIMAX_STATUS_FILE = path.join(BASE_DIR, 'public', 'minimax-status.json');
+    const headers = { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' };
+
+    // Try live fetch first, fall back to cached file
+    try {
+      if (fs.existsSync(MINIMAX_KEY_FILE)) {
+        const apiKey = fs.readFileSync(MINIMAX_KEY_FILE, 'utf8').trim();
+        const apiRes = await fetch('https://www.minimax.io/v1/api/openplatform/coding_plan/remains', {
+          headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+        });
+        if (apiRes.ok) {
+          const raw = await apiRes.json();
+          const d = raw.data || raw;
+          const status = {
+            remains: d.remains ?? d.remaining ?? null,
+            used: d.used ?? null,
+            total: d.total ?? null,
+            resetDate: d.resetDate ?? d.reset_date ?? null,
+            updatedAt: new Date().toISOString(),
+            provider: 'minimax',
+            source: 'live',
+          };
+          // Cache it
+          const pubDir = path.join(BASE_DIR, 'public');
+          if (!fs.existsSync(pubDir)) fs.mkdirSync(pubDir, { recursive: true });
+          fs.writeFileSync(MINIMAX_STATUS_FILE, JSON.stringify(status, null, 2));
+          res.writeHead(200, headers);
+          res.end(JSON.stringify({ success: true, data: status }));
+          return;
+        }
+      }
+    } catch (e) {
+      console.error('[MiniMax API] Live fetch error:', e.message);
+    }
+
+    // Fallback: serve cached status file
+    try {
+      if (fs.existsSync(MINIMAX_STATUS_FILE)) {
+        const cached = JSON.parse(fs.readFileSync(MINIMAX_STATUS_FILE, 'utf8'));
+        cached.source = 'cached';
+        res.writeHead(200, headers);
+        res.end(JSON.stringify({ success: true, data: cached }));
+        return;
+      }
+    } catch (e) {}
+
+    res.writeHead(200, headers);
+    res.end(JSON.stringify({ success: false, error: { message: 'No API key and no cached data', code: 'NOT_CONFIGURED' } }));
     return;
   }
 
@@ -885,6 +942,93 @@ const server = http.createServer((req, res) => {
         const provider = params.provider;
         if (!provider) { sendErr('provider query param required', 'BAD_REQUEST'); return; }
         sendOk(tracker.removeApiKey(provider));
+        return;
+      }
+
+      // POST /api/copilot/upload-csv — handle CSV file upload
+      if (req.method === 'POST' && filePath === '/api/copilot/upload-csv') {
+        const chunks = [];
+        req.on('data', c => chunks.push(c));
+        req.on('end', async () => {
+          const boundary = req.headers['content-type']?.match(/boundary=(.+)/)?.[1];
+          if (!boundary) { sendErr('No boundary', 'BAD_REQUEST', 400); return; }
+          const body = Buffer.concat(chunks).toString('binary');
+          const parts = body.split(`--${boundary}`);
+          let csvContent = null;
+          for (const part of parts) {
+            const match = part.match(/filename="([^"]+)"[\s\S]*?\r\n\r\n([\s\S]*?)\r\n$/);
+            if (match) csvContent = match[2];
+          }
+          if (!csvContent) { sendErr('No CSV file found', 'BAD_REQUEST', 400); return; }
+
+          // Parse CSV and update files
+          try {
+            const lines = csvContent.trim().split('\n');
+            function parseCsvLine(line) {
+              const result = [], current = '';
+              let inQuote = false;
+              for (let i = 0; i < line.length; i++) {
+                const ch = line[i];
+                if (ch === '"') inQuote = !inQuote;
+                else if (ch === ',' && !inQuote) { result.push(current.trim()); current = ''; }
+                else current += ch;
+              }
+              result.push(current.trim());
+              return result;
+            }
+            const headers = lines[0].split(',').map(h => h.replace(/"/g, ''));
+            const rows = [];
+            for (let i = 1; i < lines.length; i++) {
+              const vals = parseCsvLine(lines[i]);
+              if (vals.length < headers.length) continue;
+              const row = {};
+              headers.forEach((h, idx) => row[h] = vals[idx] || '');
+              rows.push(row);
+            }
+
+            const modelMap = { 'Claude Opus 4.6': 'claude-opus-4', 'Claude Sonnet 4.6': 'claude-sonnet-4-5', 'Code Review model': 'code-review', 'Coding Agent model': 'coding-agent', 'GPT-5.4 mini': 'gpt-5.4-mini', 'Gemini 3.1 Pro': 'gemini-3.1-pro' };
+            const COSTS = { 'claude-opus-4': 5, 'claude-sonnet-4-5': 1, 'code-review': 1, 'coding-agent': 1, 'gpt-5.4-mini': 1, 'gemini-3.1-pro': 1 };
+            const byModel = {}, byDate = {};
+            let totalRequests = 0;
+            rows.forEach(r => {
+              const model = modelMap[r.model] || r.model.toLowerCase().replace(/\s+/g, '-');
+              const qty = parseFloat(r.quantity) || 0;
+              totalRequests += qty;
+              byModel[model] = (byModel[model] || 0) + qty;
+              byDate[r.date] = (byDate[r.date] || 0) + qty;
+            });
+            const totalPremiumCost = Object.entries(byModel).reduce((s, [m, qty]) => s + qty * (COSTS[m] || 1), 0);
+            const providerUsage = { claude: 0, openai: 0, gemini: 0, unknown: 0 };
+            Object.entries(byModel).forEach(([m, qty]) => {
+              const p = m.includes('claude') ? 'claude' : m.includes('gpt') ? 'openai' : m.includes('gemini') ? 'gemini' : 'unknown';
+              providerUsage[p] += qty * (COSTS[m] || 1);
+            });
+
+            // Update copilot-usage-db.json
+            const dbPath = path.join(BASE_DIR, 'copilot-usage-db.json');
+            let db = { quota: { total: 300, used: totalRequests, resetDate: '2026-04-01' }, history: [], modelPreference: 'balanced', providerUsage };
+            try { db = JSON.parse(fs.readFileSync(dbPath, 'utf8')); } catch(e) {}
+            const entries = rows.map((r, i) => {
+              const model = modelMap[r.model] || r.model.toLowerCase().replace(/\s+/g, '-');
+              const qty = parseFloat(r.quantity) || 0;
+              return { id: 'g' + Date.now() + i, timestamp: new Date(r.date + 'T00:00:00Z').toISOString(), model, feature: 'chat', tokens: Math.round(qty * 1000), multiplier: COSTS[model] || 1, premiumCost: qty * (COSTS[model] || 1) };
+            });
+            db.history = entries;
+            db.quota.used = totalRequests;
+            db.quota.providerUsage = providerUsage;
+            fs.writeFileSync(dbPath, JSON.stringify(db, null, 2));
+
+            // Update public/copilot-data.json
+            const pubDataPath = path.join(BASE_DIR, 'public', 'copilot-data.json');
+            const usedPct = (totalRequests / 300 * 100).toFixed(1);
+            const pubData = { _generatedAt: new Date().toISOString(), quota: { total: 300, used: totalRequests, remaining: parseFloat((300 - totalRequests).toFixed(2)), usedPercent: parseFloat(usedPct), dailyBudget: parseFloat(((300 - totalRequests) / 4).toFixed(2)), daysRemaining: 4, resetDate: '2026-04-01', warningLevel: 'normal', providerUsage }, analysis: { totalRequests, totalPremiumCost: parseFloat(totalPremiumCost.toFixed(2)), byModel, byDate, providerUsage } };
+            fs.writeFileSync(pubDataPath, JSON.stringify(pubData, null, 2));
+
+            sendOk({ success: true, message: 'CSV uploaded and processed', records: rows.length, totalRequests });
+          } catch(e) {
+            sendErr('Processing error: ' + e.message, 'PROCESSING_ERROR', 500);
+          }
+        });
         return;
       }
 

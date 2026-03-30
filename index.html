@@ -1768,6 +1768,12 @@
                             <div id="copilot-rec-model" style="font-size: 0.85em; color: #aaa;">推薦模型：-</div>
                             <div id="copilot-rec-message" style="font-size: 0.8em; color: #888; margin-top: 6px;">-</div>
                         </div>
+                        <!-- CSV Upload Button -->
+                        <div style="margin-top: 12px;">
+                            <button id="copilot-csv-upload" onclick="triggerCsvUpload()" style="width: 100%; padding: 10px; border-radius: 8px; border: none; background: #16213e; color: #aaa; cursor: pointer; font-size: 0.85em;">📤 更新 Copilot 用量（CSV）</button>
+                            <input type="file" id="csvFileInput" accept=".csv" style="display:none" onchange="handleCsvFile(this.files[0])">
+                        </div>
+
                         <!-- Strategy Buttons -->
                         <div style="background: #16213e; border-radius: 8px; padding: 16px;">
                             <div style="font-size: 0.78em; color: #888; margin-bottom: 8px;">模型策略</div>
@@ -1821,6 +1827,35 @@
                     </div>
                 </div>
                 
+                <!-- MiniMax API Quota Dashboard -->
+                <div id="minimax-dashboard" style="margin-top: 30px; max-width: 900px;">
+                    <h2 style="margin-bottom: 15px;">🧠 MiniMax API 用量</h2>
+                    <div style="background: #16213e; border-radius: 8px; padding: 16px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <span style="font-size: 0.85em; color: #aaa;">MiniMax Coding Plan</span>
+                            <span id="minimax-quota-label" style="font-size: 0.9em; color: #888;">載入中…</span>
+                        </div>
+                        <div style="height: 12px; background: #0a1628; border-radius: 6px; overflow: hidden; margin-bottom: 12px;">
+                            <div id="minimax-quota-bar" style="height: 100%; width: 0%; border-radius: 6px; background: #3498db; transition: width 0.4s, background 0.4s;"></div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; text-align: center;">
+                            <div>
+                                <div style="font-size: 0.75em; color: #888;">剩餘</div>
+                                <div id="minimax-remaining" style="font-weight: bold; font-size: 1.1em;">-</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.75em; color: #888;">已用</div>
+                                <div id="minimax-used" style="font-weight: bold; font-size: 1.1em;">-</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.75em; color: #888;">重設日</div>
+                                <div id="minimax-reset-date" style="font-weight: bold; font-size: 1.1em;">-</div>
+                            </div>
+                        </div>
+                        <div id="minimax-source" style="text-align: right; font-size: 0.7em; color: #555; margin-top: 8px;"></div>
+                    </div>
+                </div>
+
                 <!-- Agent Workflow Section -->
                 <div id="home-agents-section" style="margin-top: 30px; max-width: 900px;">
                     <h2 style="margin-bottom: 15px;">🤖 Agent 工作流程</h2>
@@ -3662,6 +3697,50 @@
             }
         }
 
+        function triggerCsvUpload() {
+            document.getElementById('csvFileInput').click();
+        }
+
+        async function handleCsvFile(file) {
+            if (!file) return;
+            const btn = document.getElementById('copilot-csv-upload');
+            btn.textContent = '⏳ 處理中…';
+            btn.disabled = true;
+
+            const formData = new FormData();
+            formData.append('csv', file);
+
+            try {
+                const res = await fetch('/api/copilot/upload-csv', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+                if (data.success) {
+                    btn.textContent = '✅ 更新成功！';
+                    setTimeout(() => {
+                        btn.textContent = '📤 更新 Copilot 用量（CSV）';
+                        btn.disabled = false;
+                    }, 2000);
+                    if (data.commitUrl) {
+                        alert('已更新！ Commit: ' + data.commitUrl);
+                    }
+                } else {
+                    btn.textContent = '❌ 失敗：' + (data.error || '未知錯誤');
+                    setTimeout(() => {
+                        btn.textContent = '📤 更新 Copilot 用量（CSV）';
+                        btn.disabled = false;
+                    }, 3000);
+                }
+            } catch (e) {
+                btn.textContent = '❌ 網絡錯誤';
+                setTimeout(() => {
+                    btn.textContent = '📤 更新 Copilot 用量（CSV）';
+                    btn.disabled = false;
+                }, 3000);
+            }
+        }
+
         function renderNotifications() {
             const list = document.getElementById('notificationList');
             const badge = document.getElementById('notificationBadge');
@@ -3884,6 +3963,52 @@
 
             // Refresh Copilot dashboard every 60 seconds
             setInterval(loadCopilotDashboard, 60000);
+
+            // MiniMax quota loader
+            async function loadMinimaxDashboard() {
+                try {
+                    // Try local server first, fall back to static JSON
+                    let data = null;
+                    try {
+                        const res = await fetch('/api/minimax/quota');
+                        if (res.ok) {
+                            const json = await res.json();
+                            if (json.success) data = json.data;
+                        }
+                    } catch (e) {}
+                    if (!data) {
+                        // GitHub Pages fallback: static file
+                        try {
+                            const res2 = await fetch('/virtual-office/public/minimax-status.json');
+                            if (res2.ok) data = await res2.json();
+                        } catch (e) {}
+                    }
+                    if (!data) return;
+
+                    const setEl = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
+                    const total = data.total ?? 0;
+                    const used = data.used ?? 0;
+                    const remains = data.remains ?? (total - used);
+                    const pct = total > 0 ? Math.round((used / total) * 100) : 0;
+                    const barColor = pct >= 95 ? '#e74c3c' : pct >= 80 ? '#f39c12' : '#3498db';
+
+                    const bar = document.getElementById('minimax-quota-bar');
+                    if (bar) { bar.style.width = Math.min(pct, 100) + '%'; bar.style.background = barColor; }
+
+                    setEl('minimax-quota-label', total > 0 ? `${used} / ${total} (${pct}%)` : '未設定');
+                    setEl('minimax-remaining', remains != null ? remains : '-');
+                    setEl('minimax-used', used != null ? used : '-');
+                    setEl('minimax-reset-date', data.resetDate ? data.resetDate.slice(0, 10) : '-');
+
+                    const srcEl = document.getElementById('minimax-source');
+                    if (srcEl && data.updatedAt) {
+                        const src = data.source === 'live' ? '🟢 即時' : '📦 快取';
+                        srcEl.textContent = `${src} · ${new Date(data.updatedAt).toLocaleString('zh-HK')}`;
+                    }
+                } catch (e) { console.log('MiniMax dashboard error:', e); }
+            }
+            loadMinimaxDashboard();
+            setInterval(loadMinimaxDashboard, 300000); // every 5 min
             
             // Listen for window resize
             window.addEventListener('resize', checkMobile);
