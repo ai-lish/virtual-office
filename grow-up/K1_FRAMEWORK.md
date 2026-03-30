@@ -338,7 +338,8 @@ grow-up/
 ├── K1_FRAMEWORK.md          ← this document
 ├── index.html               ← main entry (activity launcher)
 ├── css/
-│   └── style.css
+│   ├── style.css
+│   └── animations.css        ← activity transitions & feedback animations
 ├── js/
 │   ├── app.js               ← router, state management
 │   ├── activities.js         ← activity engine (renders types 1-8)
@@ -359,6 +360,7 @@ grow-up/
 ```jsonc
 {
   "childName": "BB",
+  "childAge": 3,                // for age-specific activities (e.g. 你幾歲？)
   "startDate": "2026-03-30",
   "currentWeek": 1,
   "sessions": [
