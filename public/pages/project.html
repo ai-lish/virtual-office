@@ -122,9 +122,15 @@ if (repo) linksEl.innerHTML += `<a href="https://github.com/${repo}" target="_bl
   const el = document.getElementById('readmeContent');
   if (!repo) { el.textContent = '無法載入：缺少 repo 參數'; return; }
   try {
-    const res = await fetch(`https://api.github.com/repos/${repo}/readme`, {
-      headers: { Accept: 'application/vnd.github.v3.raw' }
-    });
+    // Try raw GitHub content first (no rate limit)
+    const rawUrl = `https://raw.githubusercontent.com/${repo}/main/README.md`;
+    let res = await fetch(rawUrl).catch(() => null);
+    if (!res || !res.ok) {
+      // Fallback to API
+      res = await fetch(`https://api.github.com/repos/${repo}/readme`, {
+        headers: { Accept: 'application/vnd.github.v3.raw' }
+      });
+    }
     if (!res.ok) { el.textContent = res.status === 404 ? '此專案暫無 README' : '載入失敗 (' + res.status + ')'; return; }
     const md = await res.text();
     el.className = 'readme-content';
