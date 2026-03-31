@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - 虛擬辦公室</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        :root {
+            --bg: #0f0f23; --card: #16213e; --card-hover: #1a2744;
+            --bar-bg: #0a1628; --text: #eee; --text2: #888; --red: #bc002d;
+            --blue: #3498db; --green: #2ecc71; --orange: #e67e22; --danger: #e74c3c; --warn: #f39c12;
+        }
+        body { font-family:'Noto Sans SC',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; padding:0; }
+
+        /* Top nav */
+        .top-nav { position:sticky; top:0; z-index:100; background:linear-gradient(90deg,#1a1a2e,#16213e); border-bottom:2px solid var(--red); padding:14px 24px; display:flex; justify-content:space-between; align-items:center; }
+        .top-nav h1 { font-size:1.15rem; font-weight:700; display:flex; align-items:center; gap:8px; }
+        .top-nav a { color:var(--text2); text-decoration:none; font-size:0.85em; padding:6px 14px; border:1px solid rgba(255,255,255,0.1); border-radius:20px; transition:all 0.2s; }
+        .top-nav a:hover { color:#fff; border-color:var(--red); }
+        .last-update { font-size:0.75em; color:var(--text2); }
+
+        .container { max-width:960px; margin:0 auto; padding:24px 16px 60px; display:flex; flex-direction:column; gap:20px; }
+
+        /* Cards */
+        .card { background:var(--card); border-radius:14px; padding:24px; border:1px solid rgba(255,255,255,0.06); transition:border-color 0.2s; }
+        .card:hover { border-color:rgba(255,255,255,0.12); }
+        .card-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; }
+        .card-title { display:flex; align-items:center; gap:10px; font-size:1.1rem; font-weight:700; }
+        .badge { padding:3px 10px; border-radius:10px; font-size:0.72em; font-weight:500; }
+
+        /* Progress bar */
+        .progress-row { margin-bottom:14px; }
+        .progress-label { display:flex; justify-content:space-between; font-size:0.82em; margin-bottom:5px; color:var(--text2); }
+        .progress-label strong { color:var(--text); }
+        .progress-track { height:8px; background:var(--bar-bg); border-radius:4px; overflow:hidden; }
+        .progress-fill { height:100%; border-radius:4px; transition:width 0.6s ease; }
+
+        /* Model tag colors */
+        .tag { display:inline-block; padding:2px 8px; border-radius:6px; font-size:0.72em; font-weight:500; margin-right:4px; }
+        .tag-text { background:rgba(52,152,219,0.2); color:var(--blue); }
+        .tag-speech { background:rgba(155,89,182,0.2); color:#9b59b6; }
+        .tag-image { background:rgba(230,126,34,0.2); color:var(--orange); }
+
+        /* Stats row */
+        .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:10px; }
+        .stat-box { background:var(--bar-bg); border-radius:8px; padding:12px; text-align:center; }
+        .stat-box .label { font-size:0.7em; color:var(--text2); margin-bottom:4px; }
+        .stat-box .value { font-size:1.2rem; font-weight:700; }
+
+        /* Copilot model breakdown */
+        .model-row { display:flex; align-items:center; gap:10px; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.04); font-size:0.82em; }
+        .model-row:last-child { border-bottom:none; }
+        .model-name { flex:1; color:var(--text); }
+        .model-val { color:var(--text2); min-width:60px; text-align:right; }
+        .model-bar-wrap { width:120px; height:6px; background:var(--bar-bg); border-radius:3px; overflow:hidden; }
+        .model-bar-fill { height:100%; border-radius:3px; }
+
+        /* Table */
+        .data-table { width:100%; border-collapse:collapse; font-size:0.8em; }
+        .data-table th { padding:8px 6px; text-align:left; color:var(--text2); border-bottom:1px solid rgba(255,255,255,0.1); font-weight:500; }
+        .data-table td { padding:7px 6px; border-bottom:1px solid rgba(255,255,255,0.04); color:var(--text); }
+        .data-table .num { text-align:right; font-variant-numeric:tabular-nums; }
+        .data-table tbody tr:hover { background:rgba(255,255,255,0.03); }
+
+        /* Pagination */
+        .pagination { display:flex; justify-content:center; align-items:center; gap:8px; margin-top:14px; }
+        .pagination button { padding:6px 12px; border:1px solid rgba(255,255,255,0.15); border-radius:6px; background:transparent; color:var(--text2); cursor:pointer; font-size:0.82em; transition:all 0.2s; }
+        .pagination button:hover:not(:disabled) { border-color:var(--blue); color:var(--blue); }
+        .pagination button:disabled { opacity:0.3; cursor:default; }
+        .pagination button.active { background:var(--blue); color:#fff; border-color:var(--blue); }
+        .pagination .info { font-size:0.78em; color:var(--text2); }
+
+        /* Refresh button */
+        .btn-refresh { padding:5px 14px; background:rgba(52,152,219,0.15); color:var(--blue); border:1px solid rgba(52,152,219,0.3); border-radius:14px; cursor:pointer; font-size:0.78em; transition:all 0.2s; }
+        .btn-refresh:hover { background:rgba(52,152,219,0.3); }
+        .btn-refresh:disabled { opacity:0.5; cursor:default; }
+
+        /* Responsive */
+        @media(max-width:600px) {
+            .container { padding:16px 10px 40px; }
+            .card { padding:16px; }
+            .stats-grid { grid-template-columns:repeat(2,1fr); }
+            .model-bar-wrap { width:60px; }
+            .data-table { font-size:0.72em; }
+            .data-table th:nth-child(6), .data-table td:nth-child(6) { display:none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-nav">
+        <h1>📊 Dashboard</h1>
+        <div style="display:flex;align-items:center;gap:14px;">
+            <span class="last-update" id="lastUpdate"></span>
+            <a href="index.html">← 返回辦公室</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- ===== MiniMax Quota Card ===== -->
+        <div class="card" id="minimax-card">
+            <div class="card-header">
+                <div class="card-title">⚡ MiniMax 配額</div>
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <span id="mm-source" class="badge" style="background:rgba(52,152,219,0.15);color:var(--blue);"></span>
+                    <button class="btn-refresh" id="mm-refresh" onclick="refreshMinimax()">🔄 Refresh</button>
+                </div>
+            </div>
+            <div id="mm-models">
+                <div style="color:var(--text2);font-size:0.85em;">載入中…</div>
+            </div>
+            <div id="mm-interval" style="margin-top:12px;font-size:0.75em;color:var(--text2);"></div>
+        </div>
+
+        <!-- ===== Copilot Card ===== -->
+        <div class="card" id="copilot-card">
+            <div class="card-header">
+                <div class="card-title">🤖 GitHub Copilot Premium</div>
+                <span id="cp-badge" class="badge"></span>
+            </div>
+            <!-- Total bar -->
+            <div class="progress-row">
+                <div class="progress-label">
+                    <span>Premium 請求</span>
+                    <strong id="cp-total-label">—</strong>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill" id="cp-bar" style="width:0%;background:var(--green);"></div>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-top:5px;font-size:0.72em;color:var(--text2);">
+                    <span>剩餘: <strong id="cp-remain" style="color:var(--text);">—</strong></span>
+                    <span>重置: <strong id="cp-reset" style="color:var(--text);">—</strong></span>
+                </div>
+            </div>
+            <!-- Model breakdown -->
+            <div style="font-size:0.78em;color:var(--text2);margin:12px 0 8px;">模型用量</div>
+            <div id="cp-models">
+                <div style="color:var(--text2);font-size:0.82em;">載入中…</div>
+            </div>
+        </div>
+
+        <!-- ===== MiniMax Detailed Usage Card ===== -->
+        <div class="card" id="token-card">
+            <div class="card-header">
+                <div class="card-title">📊 MiniMax 使用明細</div>
+                <span id="tk-range" class="badge" style="background:rgba(230,126,34,0.15);color:var(--orange);"></span>
+            </div>
+            <!-- Summary stats -->
+            <div class="stats-grid" id="tk-stats" style="margin-bottom:16px;">
+                <div class="stat-box"><div class="label">記錄數</div><div class="value" id="tk-count">—</div></div>
+                <div class="stat-box"><div class="label">Input Tokens</div><div class="value" id="tk-input" style="color:var(--blue);">—</div></div>
+                <div class="stat-box"><div class="label">Output Tokens</div><div class="value" id="tk-output" style="color:var(--green);">—</div></div>
+                <div class="stat-box"><div class="label">主要模型</div><div class="value" id="tk-model" style="color:var(--orange);">—</div></div>
+            </div>
+            <!-- Table -->
+            <div style="overflow-x:auto;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>時間</th>
+                            <th>模型</th>
+                            <th class="num">Input</th>
+                            <th class="num">Output</th>
+                            <th class="num">Total</th>
+                            <th>API</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tk-body">
+                        <tr><td colspan="6" style="text-align:center;color:var(--text2);padding:24px;">載入中…</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination" id="tk-pagination"></div>
+        </div>
+    </div>
+
+    <script>
+    // Helpers
+    const $ = id => document.getElementById(id);
+    const fmtNum = n => n >= 1e9 ? (n/1e9).toFixed(2)+'B' : n >= 1e6 ? (n/1e6).toFixed(1)+'M' : n >= 1e3 ? (n/1e3).toFixed(1)+'K' : String(n);
+    const pctColor = pct => pct >= 90 ? 'var(--danger)' : pct >= 70 ? 'var(--warn)' : 'var(--blue)';
+    const basePath = location.pathname.includes('/virtual-office') ? '' : '/virtual-office';
+
+    // ===== 1. MiniMax Quota =====
+    async function loadMinimax() {
+        try {
+            const res = await fetch(basePath + '/public/minimax-api-status.json?' + Date.now());
+            if (!res.ok) return;
+            const data = await res.json();
+
+            const models = (data.allModels || []).filter(m => m.total > 0);
+            const raw = data.raw?.model_remains || [];
+
+            const source = data._source === 'github-actions-live-api' ? '🟢 即時 API' : '📦 快取';
+            $('mm-source').textContent = source;
+
+            let html = '';
+            const typeMap = { 'MiniMax-M*': ['tag-text','文字'], 'speech-hd': ['tag-speech','語音'], 'image-01': ['tag-image','圖像'] };
+
+            models.forEach(m => {
+                const pct = m.total > 0 ? Math.round(m.used / m.total * 100) : 0;
+                const color = pctColor(pct);
+                const [tagClass, tagLabel] = typeMap[m.model] || ['tag-text', '其他'];
+                html += `
+                <div class="progress-row">
+                    <div class="progress-label">
+                        <span><span class="tag ${tagClass}">${tagLabel}</span> ${m.model}</span>
+                        <strong>${m.remaining} / ${m.total}</strong>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-fill" style="width:${pct}%;background:${color};"></div>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;font-size:0.7em;color:var(--text2);margin-top:3px;">
+                        <span>已用 ${pct}%</span>
+                        ${m.weeklyTotal > 0 ? `<span>週配額: ${m.weeklyUsed}/${m.weeklyTotal}</span>` : ''}
+                    </div>
+                </div>`;
+            });
+            $('mm-models').innerHTML = html;
+
+            // Interval info from raw data
+            if (raw.length > 0) {
+                const r = raw[0];
+                const resetTime = new Date(r.end_time);
+                const remainMs = r.remains_time;
+                const remainH = Math.floor(remainMs / 3600000);
+                const remainM = Math.floor((remainMs % 3600000) / 60000);
+                $('mm-interval').innerHTML = `重置時間: <strong style="color:var(--text);">${resetTime.toLocaleString('zh-HK')}</strong> · 剩餘 ${remainH}小時${remainM}分`;
+            }
+
+            $('lastUpdate').textContent = '更新: ' + new Date(data._generatedAt).toLocaleString('zh-HK');
+        } catch(e) { console.log('MiniMax load error:', e); }
+    }
+
+    async function refreshMinimax() {
+        const btn = $('mm-refresh');
+        btn.disabled = true; btn.textContent = '⏳ Refreshing…';
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxLmw7-GKmdeW6L1V7imB-ed6lCDV3WjYKxC-GW44UDUCFVJR7eyAtmWs3z20CoRt8E/exec';
+        try {
+            const res = await fetch(APPS_SCRIPT_URL);
+            const d = await res.json();
+            if (d.success) {
+                btn.textContent = '✅ Triggered!';
+                setTimeout(async () => { await loadMinimax(); btn.textContent = '🔄 Refresh'; btn.disabled = false; }, 35000);
+            } else throw new Error();
+        } catch(e) {
+            await loadMinimax();
+            btn.textContent = '🔄 Refresh'; btn.disabled = false;
+        }
+    }
+
+    // ===== 2. Copilot =====
+    async function loadCopilot() {
+        try {
+            const res = await fetch(basePath + '/public/copilot-data.json?' + Date.now());
+            if (!res.ok) return;
+            const data = await res.json();
+            const q = data.quota || {};
+            const a = data.analysis || {};
+
+            const used = Math.round((q.used || 0) * 100) / 100;
+            const total = q.total || 300;
+            const pct = q.usedPercent || Math.round(used/total*100);
+            const barColor = pct >= 80 ? 'var(--danger)' : pct >= 50 ? 'var(--warn)' : 'var(--green)';
+
+            $('cp-total-label').textContent = `${used} / ${total} (${pct}%)`;
+            $('cp-bar').style.width = pct + '%';
+            $('cp-bar').style.background = barColor;
+            $('cp-remain').textContent = q.remaining != null ? q.remaining : '—';
+            $('cp-reset').textContent = q.resetDate || '—';
+
+            // Recommendation badge
+            const recRes = await fetch(basePath + '/public/copilot-summary-token-log.json?' + Date.now());
+            if (recRes.ok) {
+                const recData = await recRes.json();
+                const rec = recData.recommendation || recData.quota?.recommendation || {};
+                $('cp-badge').textContent = (rec.emoji || '🟢') + ' ' + (rec.label || '');
+                $('cp-badge').style.background = rec.color ? rec.color + '33' : 'rgba(46,204,113,0.2)';
+                $('cp-badge').style.color = rec.color || 'var(--green)';
+            }
+
+            // Model breakdown
+            const byModel = a.byModel || {};
+            const entries = Object.entries(byModel).sort((a,b) => b[1] - a[1]);
+            const maxVal = entries.length > 0 ? entries[0][1] : 1;
+
+            if (entries.length === 0) {
+                $('cp-models').innerHTML = '<div style="color:var(--text2);font-size:0.82em;">暫無模型資料</div>';
+                return;
+            }
+
+            const colors = ['#e74c3c','#3498db','#2ecc71','#e67e22','#9b59b6','#1abc9c','#f1c40f','#e91e63'];
+            $('cp-models').innerHTML = entries.map(([model, val], i) => {
+                const w = Math.round(val / maxVal * 100);
+                const c = colors[i % colors.length];
+                return `<div class="model-row">
+                    <span class="model-name">${model}</span>
+                    <div class="model-bar-wrap"><div class="model-bar-fill" style="width:${w}%;background:${c};"></div></div>
+                    <span class="model-val">${val}</span>
+                </div>`;
+            }).join('');
+        } catch(e) { console.log('Copilot load error:', e); }
+    }
+
+    // ===== 3. Token Detail (Paginated) =====
+    let tokenRecords = [];
+    let tokenPage = 1;
+    const PAGE_SIZE = 50;
+
+    async function loadTokenDetail() {
+        try {
+            const res = await fetch(basePath + '/public/token-log.json?' + Date.now());
+            if (!res.ok) return;
+            const data = await res.json();
+            tokenRecords = (data.records || []).slice().reverse(); // newest first
+
+            // Summary
+            const meta = data.meta || {};
+            $('tk-count').textContent = fmtNum(meta.totalRecords || tokenRecords.length);
+
+            const summaryRes = await fetch(basePath + '/public/summary-token-log.json?' + Date.now());
+            if (summaryRes.ok) {
+                const s = await summaryRes.json();
+                $('tk-input').textContent = fmtNum(s.totals?.inputTokens || 0);
+                $('tk-output').textContent = fmtNum(s.totals?.outputTokens || 0);
+                if (s.byModel && s.byModel.length > 0) {
+                    $('tk-model').textContent = s.byModel[0].model.replace('MiniMax-','');
+                }
+                if (s.meta?.dateRange) {
+                    $('tk-range').textContent = s.meta.dateRange.start + ' → ' + s.meta.dateRange.end;
+                }
+            }
+
+            renderTokenPage();
+        } catch(e) { console.log('Token detail load error:', e); }
+    }
+
+    function renderTokenPage() {
+        const start = (tokenPage - 1) * PAGE_SIZE;
+        const end = start + PAGE_SIZE;
+        const page = tokenRecords.slice(start, end);
+        const totalPages = Math.ceil(tokenRecords.length / PAGE_SIZE);
+
+        const tbody = $('tk-body');
+        if (page.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text2);padding:24px;">無資料</td></tr>';
+        } else {
+            tbody.innerHTML = page.map(r => {
+                const time = r.consumptionTime ? new Date(r.consumptionTime).toLocaleString('zh-HK', {month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}) : '—';
+                const model = (r.consumedModel || '').replace('MiniMax-','');
+                const api = (r.consumedApi || '').replace('(Text API)','').trim();
+                return `<tr>
+                    <td>${time}</td>
+                    <td>${model}</td>
+                    <td class="num">${fmtNum(r.inputUsageQuantity || 0)}</td>
+                    <td class="num">${fmtNum(r.outputUsageQuantity || 0)}</td>
+                    <td class="num">${fmtNum(r.totalUsageQuantity || 0)}</td>
+                    <td style="color:var(--text2);font-size:0.9em;">${api}</td>
+                </tr>`;
+            }).join('');
+        }
+
+        // Pagination
+        const pg = $('tk-pagination');
+        let pgHtml = `<button onclick="goPage(1)" ${tokenPage===1?'disabled':''}>«</button>`;
+        pgHtml += `<button onclick="goPage(${tokenPage-1})" ${tokenPage===1?'disabled':''}>‹</button>`;
+
+        // Show page numbers (max 7)
+        const range = [];
+        let pStart = Math.max(1, tokenPage - 3);
+        let pEnd = Math.min(totalPages, pStart + 6);
+        if (pEnd - pStart < 6) pStart = Math.max(1, pEnd - 6);
+        for (let i = pStart; i <= pEnd; i++) range.push(i);
+
+        range.forEach(p => {
+            pgHtml += `<button onclick="goPage(${p})" class="${p===tokenPage?'active':''}">${p}</button>`;
+        });
+
+        pgHtml += `<button onclick="goPage(${tokenPage+1})" ${tokenPage===totalPages?'disabled':''}>›</button>`;
+        pgHtml += `<button onclick="goPage(${totalPages})" ${tokenPage===totalPages?'disabled':''}>»</button>`;
+        pgHtml += `<span class="info">${start+1}-${Math.min(end,tokenRecords.length)} / ${tokenRecords.length}</span>`;
+        pg.innerHTML = pgHtml;
+    }
+
+    function goPage(p) {
+        const totalPages = Math.ceil(tokenRecords.length / PAGE_SIZE);
+        tokenPage = Math.max(1, Math.min(p, totalPages));
+        renderTokenPage();
+        $('token-card').scrollIntoView({behavior:'smooth', block:'start'});
+    }
+
+    // ===== Init =====
+    loadMinimax();
+    loadCopilot();
+    loadTokenDetail();
+    // Auto-refresh every 5 min
+    setInterval(() => { loadMinimax(); loadCopilot(); }, 300000);
+    </script>
+</body>
+</html>
