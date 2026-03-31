@@ -3687,7 +3687,7 @@ async function loadQuotaOverview() {
         const res = await fetch(base + '/public/minimax-api-status.json?' + ts);
         if (res.ok) {
             const apiData = await res.json();
-            const models = apiData.allModels || [];
+            const models = (apiData.allModels) || (apiData.raw && apiData.raw.model_remains ? apiData.raw.model_remains.map(m => ({model: m.model_name || m.model, total: m.current_interval_total_count, used: m.current_interval_usage_count})) : []);
             const m2 = models.find(m => m.model && m.model.includes('MiniMax-M')) || {};
             const speech = models.find(m => m.model && m.model.includes('speech')) || {};
             const image = models.find(m => m.model && m.model.includes('image')) || {};
