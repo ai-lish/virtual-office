@@ -3709,7 +3709,7 @@ async function loadQuotaOverview() {
                 const used = speech.total - remaining;
                 const pct = Math.round((used/speech.total)*100);
                 const barColor = pct >= 80 ? '#e74c3c' : pct >= 50 ? '#f39c12' : '#e74c3c';
-                document.getElementById('minimax-speech-used').textContent = remaining.toLocaleString();
+                document.getElementById('minimax-speech-used').textContent = used.toLocaleString();
                 document.getElementById('minimax-speech-total').textContent = speech.total.toLocaleString();
                 document.getElementById('minimax-speech-bar').style.width = pct + '%';
                 document.getElementById('minimax-speech-bar').style.background = barColor;
@@ -3721,7 +3721,7 @@ async function loadQuotaOverview() {
                 const used = image.total - remaining;
                 const pct = Math.round((used/image.total)*100);
                 const barColor = pct >= 80 ? '#e74c3c' : pct >= 50 ? '#f39c12' : '#f39c12';
-                document.getElementById('minimax-image-used').textContent = remaining;
+                document.getElementById('minimax-image-used').textContent = used;
                 document.getElementById('minimax-image-total').textContent = image.total;
                 document.getElementById('minimax-image-bar').style.width = pct + '%';
                 document.getElementById('minimax-image-bar').style.background = barColor;
