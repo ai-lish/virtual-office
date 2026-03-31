@@ -141,6 +141,7 @@ projects.forEach((p, i) => {
       <span class="icon">${statusIcon[p.status] || p.icon}</span>
       <span class="name">${p.name} <span class="expand-icon" id="expand-${i}">▶</span></span>
       <span class="meta">${p.date}</span>
+      <a class="link" href="public/pages/project.html?repo=${encodeURIComponent(p.repo)}&name=${encodeURIComponent(p.name)}&desc=${encodeURIComponent(p.desc)}&status=${p.status}&date=${p.date}&link=${encodeURIComponent(p.link)}" onclick="event.stopPropagation()">詳情 →</a>
       <a class="link" href="${p.link}" target="_blank" onclick="event.stopPropagation()">開啟 →</a>
     </div>
     <div class="project-preview" id="preview-${i}">

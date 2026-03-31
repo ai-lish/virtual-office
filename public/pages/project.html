@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>專案詳情 — 虛擬辦公室</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f0f23;--card:#16213e;--text:#eee;--dim:#888;--red:#bc002d;--blue:#3498db;--green:#2ecc71;--warn:#f39c12;--danger:#e74c3c}
+body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+.header{position:sticky;top:0;z-index:10;background:linear-gradient(90deg,#1a1a2e,#16213e);border-bottom:2px solid var(--red);padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
+.header h1{font-size:1.1rem;display:flex;align-items:center;gap:8px}
+.back{color:var(--dim);text-decoration:none;font-size:.82em;padding:5px 14px;border:1px solid rgba(255,255,255,.12);border-radius:18px;transition:all .2s}
+.back:hover{color:#fff;border-color:var(--red)}
+
+.container{max-width:800px;margin:0 auto;padding:24px 16px 60px}
+
+.meta-card{background:var(--card);border-radius:12px;padding:20px;margin-bottom:24px;border-left:4px solid var(--blue)}
+.meta-card h2{font-size:1.2rem;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.meta-card .desc{color:var(--dim);font-size:.88em;margin-bottom:10px}
+.meta-row{display:flex;gap:16px;flex-wrap:wrap;font-size:.78em;color:var(--dim)}
+.meta-row span{display:flex;align-items:center;gap:4px}
+.badge{display:inline-block;padding:2px 10px;border-radius:10px;font-size:.72em;font-weight:600}
+.badge-active{background:rgba(46,204,113,.15);color:var(--green)}
+.badge-completed{background:rgba(52,152,219,.15);color:var(--blue)}
+.badge-pending{background:rgba(243,156,18,.15);color:var(--warn)}
+
+.readme-card{background:var(--card);border-radius:12px;padding:24px;min-height:200px}
+.readme-card .loading{color:var(--dim);font-size:.9em}
+
+/* Markdown styles */
+.readme-content h1{font-size:1.4rem;margin:20px 0 12px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.1)}
+.readme-content h1:first-child{margin-top:0}
+.readme-content h2{font-size:1.15rem;margin:18px 0 10px;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,.06)}
+.readme-content h3{font-size:1rem;margin:14px 0 8px}
+.readme-content p{margin:8px 0;line-height:1.7;font-size:.9em}
+.readme-content a{color:var(--blue);text-decoration:none}
+.readme-content a:hover{text-decoration:underline}
+.readme-content ul,.readme-content ol{margin:8px 0 8px 20px;font-size:.9em;line-height:1.7}
+.readme-content li{margin:4px 0}
+.readme-content code{background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;font-size:.88em;font-family:'SF Mono',Monaco,monospace}
+.readme-content pre{background:#0a1628;border-radius:8px;padding:16px;overflow-x:auto;margin:12px 0;font-size:.85em;line-height:1.5}
+.readme-content pre code{background:none;padding:0}
+.readme-content blockquote{border-left:3px solid var(--dim);padding-left:14px;color:var(--dim);margin:10px 0;font-size:.9em}
+.readme-content img{max-width:100%;border-radius:8px;margin:10px 0}
+.readme-content table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.85em}
+.readme-content th,.readme-content td{border:1px solid rgba(255,255,255,.1);padding:8px 12px;text-align:left}
+.readme-content th{background:rgba(255,255,255,.05)}
+.readme-content hr{border:none;border-top:1px solid rgba(255,255,255,.1);margin:16px 0}
+
+.links{margin-top:16px;display:flex;gap:12px;flex-wrap:wrap}
+.links a{color:var(--blue);font-size:.82em;text-decoration:none;padding:6px 14px;border:1px solid rgba(52,152,219,.3);border-radius:16px;transition:all .2s}
+.links a:hover{background:rgba(52,152,219,.15)}
+
+@media(max-width:600px){
+  .header{padding:12px 14px}
+  .header h1{font-size:.95rem}
+  .readme-card{padding:16px}
+  .meta-row{flex-direction:column;gap:6px}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1 id="pageTitle">🏢 專案詳情</h1>
+  <a class="back" href="../../index.html">← 返回辦公室</a>
+</div>
+
+<div class="container">
+  <div class="meta-card" id="metaCard">
+    <h2 id="projectName">載入中…</h2>
+    <div class="desc" id="projectDesc"></div>
+    <div class="meta-row">
+      <span id="projectStatus"></span>
+      <span id="projectDate"></span>
+      <span id="projectRepo"></span>
+    </div>
+  </div>
+
+  <div class="readme-card">
+    <div id="readmeContent" class="loading">📄 正在載入 README…</div>
+  </div>
+
+  <div class="links" id="projectLinks"></div>
+</div>
+
+<script>
+const params = new URLSearchParams(location.search);
+const repo = params.get('repo') || '';
+const name = params.get('name') || repo.split('/').pop() || '未知專案';
+const desc = params.get('desc') || '';
+const status = params.get('status') || 'active';
+const date = params.get('date') || '';
+const link = params.get('link') || '';
+
+const statusMap = {
+  active: { label:'進行中', cls:'badge-active', icon:'🔄' },
+  completed: { label:'已完成', cls:'badge-completed', icon:'✅' },
+  pending: { label:'待開始', cls:'badge-pending', icon:'⏳' }
+};
+const s = statusMap[status] || statusMap.active;
+
+document.title = name + ' — 虛擬辦公室';
+document.getElementById('pageTitle').innerHTML = `${s.icon} ${name}`;
+document.getElementById('projectName').textContent = name;
+document.getElementById('projectDesc').textContent = desc;
+document.getElementById('projectStatus').innerHTML = `<span class="badge ${s.cls}">${s.label}</span>`;
+document.getElementById('projectDate').textContent = date ? `📅 ${date}` : '';
+document.getElementById('projectRepo').innerHTML = repo ? `📦 <a href="https://github.com/${repo}" target="_blank" style="color:var(--blue)">${repo}</a>` : '';
+
+// Links
+const linksEl = document.getElementById('projectLinks');
+if (link) linksEl.innerHTML += `<a href="${link}" target="_blank">🌐 開啟網站</a>`;
+if (repo) linksEl.innerHTML += `<a href="https://github.com/${repo}" target="_blank">📂 GitHub Repo</a>`;
+
+// Fetch README
+(async () => {
+  const el = document.getElementById('readmeContent');
+  if (!repo) { el.textContent = '無法載入：缺少 repo 參數'; return; }
+  try {
+    const res = await fetch(`https://api.github.com/repos/${repo}/readme`, {
+      headers: { Accept: 'application/vnd.github.v3.raw' }
+    });
+    if (!res.ok) { el.textContent = res.status === 404 ? '此專案暫無 README' : '載入失敗 (' + res.status + ')'; return; }
+    const md = await res.text();
+    el.className = 'readme-content';
+    el.innerHTML = marked.parse(md);
+    // Fix relative image URLs to point to GitHub
+    el.querySelectorAll('img').forEach(img => {
+      const src = img.getAttribute('src');
+      if (src && !src.startsWith('http')) {
+        img.src = `https://raw.githubusercontent.com/${repo}/main/${src}`;
+      }
+    });
+  } catch(e) { el.textContent = '載入失敗'; }
+})();
+</script>
+</body>
+</html>
