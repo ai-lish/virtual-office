@@ -212,7 +212,7 @@ function setQuota(id, remaining, total, baseColor) {
 // ── Load Data ──
 async function loadData() {
   const ts = Date.now();
-  const base = location.pathname.includes('/virtual-office') ? '' : '/virtual-office';
+  const base = location.pathname.includes('/virtual-office') ? '/virtual-office' : '';
   let lastTime = null;
 
   // Copilot
