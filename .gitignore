@@ -3,3 +3,5 @@ node_modules/
 *.log
 copilot-usage-db.json
 copilot-api-keys.json
+public/minimax-status.json
+.copilot-token.json

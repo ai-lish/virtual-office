@@ -37,7 +37,7 @@ class MinimaxCsvImporter {
     // Lazy load googleapis only when needed
     let google;
     try {
-      google = require('googleapis');
+      ({ google } = require('googleapis'));
     } catch (e) {
       throw new Error('googleapis module not installed. Run: npm install googleapis');
     }

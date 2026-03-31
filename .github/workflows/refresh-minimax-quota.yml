@@ -1,0 +1,59 @@
+name: Refresh MiniMax Quota
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */6 * * *'  # Every 6 hours
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch MiniMax Quota
+        env:
+          MINIMAX_API_KEY: ${{ secrets.MINIMAX_API_KEY }}
+        run: |
+          RESPONSE=$(curl -s 'https://api.minimax.io/v1/api/openplatform/coding_plan/remains' \
+            -H "Authorization: Bearer $MINIMAX_API_KEY")
+          
+          echo "Raw response: $RESPONSE"
+          
+          # Parse with jq
+          NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          
+          # Build the status JSON
+          cat <<EOF > public/minimax-api-status.json
+          {
+            "_generatedAt": "$NOW",
+            "_source": "github-actions-live-api",
+            "raw": $RESPONSE,
+            "summary": {
+          $(echo "$RESPONSE" | jq -r '
+            .model_remains | map(select(.model_name == "MiniMax-M*")) | .[0] |
+            "    \"model\": \"MiniMax-M*\",\n    \"total\": \(.current_interval_total_count),\n    \"used\": \(.current_interval_usage_count),\n    \"remaining\": \(.current_interval_total_count - .current_interval_usage_count),\n    \"usedPercent\": \((.current_interval_usage_count * 100 / (if .current_interval_total_count == 0 then 1 else .current_interval_total_count end)) | floor)"
+          '),
+              "resetTime": "$(echo "$RESPONSE" | jq -r '.model_remains | map(select(.model_name == "MiniMax-M*")) | .[0] | .end_time / 1000 | todate')"
+            },
+            "allModels": $(echo "$RESPONSE" | jq '[.model_remains[] | {model: .model_name, total: .current_interval_total_count, used: .current_interval_usage_count, remaining: (.current_interval_total_count - .current_interval_usage_count), weeklyTotal: .current_weekly_total_count, weeklyUsed: .current_weekly_usage_count}]')
+          }
+          EOF
+          
+          # Pretty print
+          cat public/minimax-api-status.json | jq . > /tmp/formatted.json && mv /tmp/formatted.json public/minimax-api-status.json
+          
+          echo "Generated minimax-api-status.json"
+          cat public/minimax-api-status.json
+
+      - name: Commit and Push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/minimax-api-status.json
+          git diff --cached --quiet && echo "No changes" && exit 0
+          git commit -m "Auto-update MiniMax quota $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git push

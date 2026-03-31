@@ -1718,7 +1718,10 @@
                     <!-- Panel 2: Minimax Quota -->
                     <div style="background: #16213e; border-radius: 12px; padding: 24px; border-left: 4px solid #3498db; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform=''">
                         <div style="font-size: 1.6rem; margin-bottom: 8px;">⚡</div>
-                        <div style="font-size: 0.8em; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Minimax Quota</div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+                            <div style="font-size: 0.8em; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Minimax Quota</div>
+                            <button id="refresh-minimax-btn" onclick="refreshMinimaxQuota()" style="padding:4px 10px;background:rgba(52,152,219,0.3);color:#3498db;border:1px solid #3498db;border-radius:12px;cursor:pointer;font-size:0.72em;transition:all 0.2s;" onmouseover="this.style.background='rgba(52,152,219,0.5)'" onmouseout="this.style.background='rgba(52,152,219,0.3)'">🔄 Refresh</button>
+                        </div>
                         <div id="minimax-panel-number" style="font-size: 2rem; font-weight: 700; margin-bottom: 4px;">—</div>
                         <div style="font-size: 0.85em; color: #aaa;">tokens remaining</div>
                         <div style="margin-top: 12px; height: 6px; background: #0a1628; border-radius: 3px; overflow: hidden;">
@@ -3667,20 +3670,36 @@
             try {
                 let data = null;
                 const base = window.location.pathname.includes('/virtual-office') ? '' : '/virtual-office';
-                // Try minimax-status.json (from auto-sync)
+                // Try minimax-api-status.json first (live API data from GitHub Actions)
                 try {
-                    const res = await fetch(base + '/public/minimax-status.json?' + Date.now());
-                    if (res.ok) data = await res.json();
+                    const res = await fetch(base + '/public/minimax-api-status.json?' + Date.now());
+                    if (res.ok) {
+                        const apiData = await res.json();
+                        if (apiData.summary) {
+                            data = {
+                                total: apiData.summary.total,
+                                used: apiData.summary.used,
+                                remaining: apiData.summary.remaining,
+                                resetDate: apiData.summary.resetTime,
+                                updatedAt: apiData._generatedAt,
+                                source: apiData._source || 'api',
+                                allModels: apiData.allModels
+                            };
+                        } else if (apiData.quota) {
+                            // Legacy format
+                            data = apiData.quota;
+                        }
+                    }
                 } catch(e) {}
-                // Fallback to minimax-quota.json
+                // Fallback to minimax-status.json
                 if (!data) {
                     try {
-                        const res = await fetch(base + '/public/minimax-quota.json?' + Date.now());
+                        const res = await fetch(base + '/public/minimax-status.json?' + Date.now());
                         if (res.ok) data = await res.json();
                     } catch(e) {}
                 }
                 if (data) {
-                    const remains = data.remains ?? (data.total - (data.used || 0));
+                    const remains = data.remaining ?? data.remains ?? (data.total - (data.used || 0));
                     const total = data.total || 1;
                     const used = data.used || 0;
                     const pct = Math.round((used/total)*100);
@@ -3688,8 +3707,21 @@
                     document.getElementById('minimax-panel-number').textContent = remains != null ? Number(remains).toLocaleString() : '—';
                     document.getElementById('minimax-panel-bar').style.width = pct + '%';
                     document.getElementById('minimax-panel-bar').style.background = barColor;
-                    document.getElementById('minimax-panel-status').textContent = '已用 ' + pct + '% · 重置 ' + (data.resetDate ? data.resetDate.slice(0,10) : '—');
+                    const resetStr = data.resetDate ? data.resetDate.slice(0,10) : '—';
+                    const sourceStr = data.source === 'github-actions-live-api' ? '🟢 即時' : '📦 快取';
+                    document.getElementById('minimax-panel-status').textContent = sourceStr + ' · 已用 ' + pct + '% · 重置 ' + resetStr;
                     document.getElementById('minimax-panel-number').closest('div[style*="border-left"]').style.borderLeftColor = barColor;
+                    
+                    // Show all models breakdown if available
+                    if (data.allModels && data.allModels.length > 0) {
+                        let modelsHtml = '<div style="margin-top:8px;font-size:0.72em;color:#666;">';
+                        data.allModels.filter(m => m.total > 0).forEach(m => {
+                            modelsHtml += m.model + ': ' + m.remaining + '/' + m.total + ' · ';
+                        });
+                        modelsHtml = modelsHtml.replace(/ · $/, '') + '</div>';
+                        const statusEl = document.getElementById('minimax-panel-status');
+                        statusEl.innerHTML = statusEl.textContent + modelsHtml;
+                    }
                 }
             } catch(e) { console.log('Panel minimax quota error:', e); }
 
@@ -5173,6 +5205,75 @@
         function filterStatsByDateRange(start, end) {
             console.log('Filtering stats from', start, 'to', end);
             // Implementation would filter the statistics data
+        }
+
+        // Refresh MiniMax Quota via GitHub Actions
+        async function refreshMinimaxQuota() {
+            const btn = document.getElementById('refresh-minimax-btn');
+            const origText = btn.textContent;
+            btn.textContent = '⏳ Refreshing…';
+            btn.disabled = true;
+            btn.style.opacity = '0.6';
+
+            try {
+                // Trigger GitHub Actions workflow_dispatch
+                const res = await fetch('https://api.github.com/repos/ai-lish/virtual-office/actions/workflows/refresh-minimax-quota.yml/dispatches', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/vnd.github+json',
+                        'Authorization': 'Bearer ' + atob('Z2l0aHViX3BhdF8=' + localStorage.getItem('gh_pat') || '')
+                    },
+                    body: JSON.stringify({ ref: 'main' })
+                });
+
+                if (res.status === 204 || res.ok) {
+                    btn.textContent = '✅ Triggered!';
+                    btn.style.background = 'rgba(46,204,113,0.3)';
+                    btn.style.borderColor = '#2ecc71';
+                    btn.style.color = '#2ecc71';
+
+                    // Poll for updated data after ~30s
+                    setTimeout(async () => {
+                        await loadDashboardPanels();
+                        btn.textContent = '✅ Updated!';
+                        setTimeout(() => {
+                            btn.textContent = origText;
+                            btn.disabled = false;
+                            btn.style.opacity = '1';
+                            btn.style.background = 'rgba(52,152,219,0.3)';
+                            btn.style.borderColor = '#3498db';
+                            btn.style.color = '#3498db';
+                        }, 2000);
+                    }, 35000);
+                } else {
+                    // Fallback: fetch directly from API via local proxy or just reload cached data
+                    throw new Error('GitHub dispatch failed: ' + res.status);
+                }
+            } catch (e) {
+                console.log('GitHub Actions dispatch failed, trying direct fetch...', e);
+                // Direct fetch fallback (works when accessed from local/same machine)
+                try {
+                    const base = window.location.pathname.includes('/virtual-office') ? '' : '/virtual-office';
+                    const res = await fetch(base + '/public/minimax-api-status.json?' + Date.now());
+                    if (res.ok) {
+                        await loadDashboardPanels();
+                        btn.textContent = '✅ Loaded cache';
+                    } else {
+                        btn.textContent = '⚠️ Use Actions';
+                    }
+                } catch(e2) {
+                    btn.textContent = '❌ Failed';
+                }
+                
+                setTimeout(() => {
+                    btn.textContent = origText;
+                    btn.disabled = false;
+                    btn.style.opacity = '1';
+                    btn.style.background = 'rgba(52,152,219,0.3)';
+                    btn.style.borderColor = '#3498db';
+                    btn.style.color = '#3498db';
+                }, 3000);
+            }
         }
 
         // Initialize all features

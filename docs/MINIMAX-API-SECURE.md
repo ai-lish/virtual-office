@@ -1,114 +1,106 @@
 # MiniMax API 安全架構設計
 
-## 核心原則
-- API Key 永遠唔存入 Git
-- API Key 唔喺 Discord 對話出現
-- API Key 唔寫入任何前端代碼
-- 所有 API 調用經過本地 server
-
----
-
-## 架構
+## 架構概覽
 
 ```
-~/.minimax-api-key          ← API key（600 權限，隔離）
+~/.minimax-api-key (chmod 600)     ← 唯一存放 API key 的地方
         │
         ▼
-server.js (讀取key，唔暴露)
+┌─ server.js ─────────────────┐
+│  GET /api/minimax/quota     │    ← 即時 proxy（讀 key → call API → 返回乾淨 JSON）
+│  自動快取到:                  │
+│  public/minimax-status.json │    ← 靜態快取（.gitignore 排除）
+└─────────────────────────────┘
         │
-        ├── GET /api/minimax/quota
-        │       │
-        │       └── curl MiniMax API
-        │               │
-        │               ▼
-        │       只返回：{ remains, used, total, resetDate }
-        │
-        └── public/minimax-status.json（自動更新，commit到GitHub）
-                │
-                ▼
-        網站 fetch 只睇到乾淨的數據
+        ├── GitHub Pages 靜態 fallback（public/minimax-status.json）
+        └── index.html fetch → 顯示 quota bar
+
+┌─ scripts/update-minimax.js ──┐
+│  Cron: 03:00 07:00 12:00     │   ← 定期更新快取
+│        17:00 22:00           │
+│  --commit: git push 到 Pages │
+└──────────────────────────────┘
 ```
 
----
+## 安全設計
 
-## 實施步驟
+| 層級 | 設計 |
+|------|------|
+| API Key 儲存 | `~/.minimax-api-key`（600 權限，不在 repo 內） |
+| Server 端 | 讀取本地檔案，永不回傳 key，只回傳 quota 數據 |
+| 前端 | 只 fetch `/api/minimax/quota` 或靜態 JSON，零機密資訊 |
+| Git | `.gitignore` 排除 `public/minimax-status.json` |
+| Cron | 用 `--commit` 時只 push 公開 JSON，不含 key |
 
-### Step 1: 安全儲存 API Key
+## 設定步驟
+
+### 1. 儲存 API Key
 
 ```bash
-# 本地檔案（推薦）
-echo "your-api-key-here" > ~/.minimax-api-key
+echo "你的-minimax-api-key" > ~/.minimax-api-key
 chmod 600 ~/.minimax-api-key
-
-# 或 macOS Keychain
-security add-generic-password -s "minimax-api" -a "zachli" -w "your-api-key-here"
 ```
 
-### Step 2: Server endpoint（server.js 新增）
+### 2. 測試
 
-```javascript
-// GET /api/minimax/quota
-// Reads key from ~/.minimax-api-key — never exposed to frontend
-app.get('/api/minimax/quota', async (req, res) => {
-  const key = fs.readFileSync(process.env.HOME + '/.minimax-api-key', 'utf8').trim();
-  
-  const response = await fetch('https://www.minimax.io/v1/api/openplatform/coding_plan/remains', {
-    headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' }
-  });
-  
-  const data = await response.json();
-  
-  // 只返回必要資訊，唔暴露 key
-  res.json({
-    remains: data.remains || (data.total - data.used),
-    used: data.used,
-    total: data.total,
-    resetDate: data.resetDate,
-    provider: 'minimax'
-  });
-});
+```bash
+# 測試 cron script
+node scripts/update-minimax.js --dry-run
+
+# 測試 server endpoint
+curl http://localhost:18899/api/minimax/quota
 ```
 
-### Step 3: 前端顯示
+### 3. 設定 Cron（5 次/日）
 
-```javascript
-// 網站只需要 fetch 呢個（無 key）
-fetch('http://localhost:18899/api/minimax/quota')
-  .then(r => r.json())
-  .then(d => {
-    document.getElementById('minimax-quota').innerText = 
-      `${d.used} / ${d.total} remaining: ${d.remains}`;
-  });
+```bash
+crontab -e
+# 加入：
+0 3,7,12,17,22 * * * cd /Users/zachli/.openclaw/workspace/virtual-office && /usr/local/bin/node scripts/update-minimax.js --commit >> /tmp/minimax-cron.log 2>&1
 ```
 
-### Step 4: Cron Job 更新（書記agent）
+## API Endpoint
 
+### `GET /api/minimax/quota`
+
+回傳（success case）：
+```json
+{
+  "success": true,
+  "data": {
+    "remains": 850,
+    "used": 150,
+    "total": 1000,
+    "resetDate": "2026-04-01",
+    "updatedAt": "2026-03-29T11:40:00.000Z",
+    "provider": "minimax",
+    "source": "live"
+  }
+}
 ```
-時間：03:00, 07:00, 12:00, 17:00, 22:00
-    │
-    ├── 讀取 ~/.minimax-api-key
-    ├── curl MiniMax API
-    ├── 更新 public/minimax-status.json
-    ├── Commit + Push
-    └── Discord 通知（如有問題）
-```
 
----
+- `source: "live"` = 即時從 MiniMax API 取得
+- `source: "cached"` = 從 `public/minimax-status.json` 讀取
 
-## 安全檢查清單
+### Fallback 邏輯
 
-- [ ] API key 檔案 600 權限
-- [ ] API key 唔喺 .gitignore（確保唔 commit）
-- [ ] server.js 唔包含 key（只讀取檔案）
-- [ ] 前端只 fetch public endpoint
-- [ ] API response 只包含必要欄位
+1. 有 `~/.minimax-api-key` → 即時 call API → 回傳 + 快取
+2. API 失敗 → 回傳快取檔案
+3. 無 key 且無快取 → 回傳 `NOT_CONFIGURED` error
 
----
+## 前端顯示
 
-## 下一步
+MiniMax quota 顯示在 Copilot dashboard 下方，包括：
+- 用量進度條（藍色/黃色/紅色）
+- 剩餘 / 已用 / 重設日
+- 數據來源標記（即時 / 快取 + 更新時間）
 
-1. 提供 MiniMax API key（透過安全渠道）
-2. 設定 ~/.minimax-api-key
-3. 修改 server.js 新增 endpoint
-4. 更新 cron jobs
-5. 創建顯示頁面
+## 檔案清單
+
+| 檔案 | 用途 |
+|------|------|
+| `server.js` | `/api/minimax/quota` endpoint |
+| `scripts/update-minimax.js` | Cron 更新腳本 |
+| `index.html` | 前端 dashboard 顯示 |
+| `public/minimax-status.json` | 快取（.gitignore） |
+| `docs/MINIMAX-API-SECURE.md` | 本文件 |
