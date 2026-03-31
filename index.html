@@ -3693,9 +3693,11 @@ async function loadQuotaOverview() {
             const image = models.find(m => m.model && m.model.includes('image')) || {};
             
             if (m2.total) {
-                const pct = Math.round((m2.used/m2.total)*100);
+                const remaining = m2.used; // API returns remaining, not used
+                const used = m2.total - remaining;
+                const pct = Math.round((used/m2.total)*100);
                 const barColor = pct >= 80 ? '#e74c3c' : pct >= 50 ? '#f39c12' : '#9b59b6';
-                document.getElementById('minimax-text-used').textContent = m2.used.toLocaleString();
+                document.getElementById('minimax-text-used').textContent = remaining.toLocaleString();
                 document.getElementById('minimax-text-total').textContent = m2.total.toLocaleString();
                 document.getElementById('minimax-text-bar').style.width = pct + '%';
                 document.getElementById('minimax-text-bar').style.background = barColor;
@@ -3703,9 +3705,11 @@ async function loadQuotaOverview() {
                 document.getElementById('minimax-text-last-update').textContent = fmtTime();
             }
             if (speech.total) {
-                const pct = Math.round((speech.used/speech.total)*100);
+                const remaining = speech.used; // API returns remaining
+                const used = speech.total - remaining;
+                const pct = Math.round((used/speech.total)*100);
                 const barColor = pct >= 80 ? '#e74c3c' : pct >= 50 ? '#f39c12' : '#e74c3c';
-                document.getElementById('minimax-speech-used').textContent = speech.used.toLocaleString();
+                document.getElementById('minimax-speech-used').textContent = remaining.toLocaleString();
                 document.getElementById('minimax-speech-total').textContent = speech.total.toLocaleString();
                 document.getElementById('minimax-speech-bar').style.width = pct + '%';
                 document.getElementById('minimax-speech-bar').style.background = barColor;
@@ -3713,9 +3717,11 @@ async function loadQuotaOverview() {
                 document.getElementById('minimax-speech-last-update').textContent = fmtTime();
             }
             if (image.total) {
-                const pct = Math.round((image.used/image.total)*100);
+                const remaining = image.used; // API returns remaining
+                const used = image.total - remaining;
+                const pct = Math.round((used/image.total)*100);
                 const barColor = pct >= 80 ? '#e74c3c' : pct >= 50 ? '#f39c12' : '#f39c12';
-                document.getElementById('minimax-image-used').textContent = image.used;
+                document.getElementById('minimax-image-used').textContent = remaining;
                 document.getElementById('minimax-image-total').textContent = image.total;
                 document.getElementById('minimax-image-bar').style.width = pct + '%';
                 document.getElementById('minimax-image-bar').style.background = barColor;
