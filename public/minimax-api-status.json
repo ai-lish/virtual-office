@@ -1,12 +1,13 @@
 {
-  "_generatedAt": "2026-03-31T06:40:00.000Z",
+  "_generatedAt": "2026-03-30T18:18:00.000Z",
   "quota": {
     "total": 1500,
-    "used": 1549,
-    "remaining": -49,
-    "usedPercent": 103.3,
-    "resetDate": "2026-04-01",
-    "warningLevel": "high"
+    "used": 147,
+    "remaining": 1353,
+    "usedPercent": 9.8,
+    "resetDate": "2026-04-05",
+    "warningLevel": "normal",
+    "intervalHours": 5
   },
-  "source": "Minimax API cron (ai.openclaw.minimax-cron)"
+  "source": "MiniMax-API-remains-2026-03-30.csv (MacD Files)"
 }
