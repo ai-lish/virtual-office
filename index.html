@@ -5215,24 +5215,21 @@
             btn.disabled = true;
             btn.style.opacity = '0.6';
 
-            try {
-                // Trigger GitHub Actions workflow_dispatch
-                const res = await fetch('https://api.github.com/repos/ai-lish/virtual-office/actions/workflows/refresh-minimax-quota.yml/dispatches', {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/vnd.github+json',
-                        'Authorization': 'Bearer ' + atob('Z2l0aHViX3BhdF8=' + localStorage.getItem('gh_pat') || '')
-                    },
-                    body: JSON.stringify({ ref: 'main' })
-                });
+            // Google Apps Script Web App URL (proxies GitHub Actions trigger securely)
+            const APPS_SCRIPT_URL = 'REPLACE_WITH_APPS_SCRIPT_WEB_APP_URL';
 
-                if (res.status === 204 || res.ok) {
+            try {
+                // Call Google Apps Script which triggers GitHub Actions workflow_dispatch
+                const res = await fetch(APPS_SCRIPT_URL);
+                const data = await res.json();
+
+                if (data.success) {
                     btn.textContent = '✅ Triggered!';
                     btn.style.background = 'rgba(46,204,113,0.3)';
                     btn.style.borderColor = '#2ecc71';
                     btn.style.color = '#2ecc71';
 
-                    // Poll for updated data after ~30s
+                    // Poll for updated data after ~35s (GitHub Actions takes time)
                     setTimeout(async () => {
                         await loadDashboardPanels();
                         btn.textContent = '✅ Updated!';
@@ -5246,12 +5243,10 @@
                         }, 2000);
                     }, 35000);
                 } else {
-                    // Fallback: fetch directly from API via local proxy or just reload cached data
-                    throw new Error('GitHub dispatch failed: ' + res.status);
+                    throw new Error(data.error || 'Apps Script trigger failed');
                 }
             } catch (e) {
-                console.log('GitHub Actions dispatch failed, trying direct fetch...', e);
-                // Direct fetch fallback (works when accessed from local/same machine)
+                console.log('Apps Script trigger failed, loading cached data...', e);
                 try {
                     const base = window.location.pathname.includes('/virtual-office') ? '' : '/virtual-office';
                     const res = await fetch(base + '/public/minimax-api-status.json?' + Date.now());
