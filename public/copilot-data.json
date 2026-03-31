@@ -1,12 +1,12 @@
 {
-  "_generatedAt": "2026-03-31T12:54:15.641Z",
+  "_generatedAt": "2026-03-31T13:34:09.346Z",
   "_source": "google-drive-csv",
   "quota": {
     "total": 300,
     "used": 9.1,
     "remaining": 290.9,
     "usedPercent": 3,
-    "resetDate": "2026-03-31",
+    "resetDate": "2026-04-01",
     "warningLevel": "normal"
   },
   "analysis": {
