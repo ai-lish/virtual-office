@@ -1,7 +1,9 @@
 #!/bin/bash
 # refresh-data.sh — Fetches latest data from MiniMax API and Google Drive CSVs
 # Usage: ./scripts/refresh-data.sh [minimax|copilot|token|all]
-# Writes results to public/ JSON files and optionally commits.
+# Writes results to:
+#   1. Google Sheet (MiniMax GithubCopilot Data) - via Node.js
+#   2. public/*.json (for website)
 
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -9,8 +11,9 @@ TMPDIR=$(mktemp -d)
 trap 'rm -rf "$TMPDIR"' EXIT
 
 ACTION="${1:-all}"
+SHEET_ID="19GFRnbjUlI7UnTngMWzqeoDD9g0lRs0OAO8iwieGJkA"
 
-# ── 1. Refresh MiniMax Quota (API) ──
+# ── 1. Refresh MiniMax Quota (API → Sheet + JSON) ──
 refresh_minimax() {
   echo "⚡ Refreshing MiniMax quota from API..."
   KEY_FILE="$HOME/.minimax-api-key"
@@ -20,17 +23,14 @@ refresh_minimax() {
   KEY=$(cat "$KEY_FILE")
   RESPONSE=$(curl -sf 'https://api.minimax.io/v1/api/openplatform/coding_plan/remains' \
     -H "Authorization: Bearer $KEY")
-  NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+  NOW=$(date -u +"%Y-%m-%d %H:%M UTC")
   
-  # Check for errors
-  if echo "$RESPONSE" | jq -e '.model_remains' > /dev/null 2>&1; then
-    true
-  else
+  if ! echo "$RESPONSE" | jq -e '.model_remains' > /dev/null 2>&1; then
     echo "❌ API error: $(echo "$RESPONSE" | jq -r '.base_resp.status_msg // "unknown"')"
     return 1
   fi
   
-  # Build JSON using jq
+  # Build JSON
   echo "$RESPONSE" | jq --arg now "$NOW" '{
     _generatedAt: $now,
     _source: "local-refresh",
@@ -44,15 +44,51 @@ refresh_minimax() {
       weeklyUsed: .current_weekly_usage_count
     }]
   }' > public/minimax-api-status.json
-  echo "✅ MiniMax quota updated"
+  
+  # Write to Google Sheet via Node.js
+  node -e "
+const { execSync } = require('child_process');
+const fs = require('fs');
+
+const data = JSON.parse(execSync('curl -sf https://api.minimax.io/v1/api/openplatform/coding_plan/remains -H \"Authorization: Bearer $KEY\"').toString());
+const now = '$NOW';
+
+// Header row
+const header = ['API回應時間','模型','剩餘prompts','已用prompts','interval開始','interval結束','interval剩餘ms','interval剩餘小時','每週配額','每週已用','每週開始','每週結束'];
+
+// Data rows
+const rows = data.model_remains.map(m => {
+  const total = m.current_interval_total_count;
+  const used = m.current_interval_usage_count;
+  const remaining = total - used;
+  const intervalMs = m.end_time - m.start_time;
+  const intervalHrs = (intervalMs / 3600000).toFixed(2);
+  const fmtTime = (ts) => ts ? new Date(ts).toISOString().replace('T',' ').slice(0,16) + ' UTC' : '';
+  return [now, m.model_name, remaining, used, fmtTime(m.start_time), fmtTime(m.end_time), intervalMs, intervalHrs, m.current_weekly_total_count, m.current_weekly_usage_count, fmtTime(m.weekly_start_time), fmtTime(m.weekly_end_time)];
+});
+
+// Write as TSV to temp file
+const tsv = [header, ...rows].map(r => r.join('\t')).join('\n');
+fs.writeFileSync('$TMPDIR/quota.tsv', tsv);
+console.log('TSV written, rows:', rows.length);
+"
+  
+  # Update Google Sheet using gog sheets update with TSV
+  gog sheets update "$SHEET_ID" "MiniMax QUOTA!A1" "$(cat "$TMPDIR/quota.tsv")" 2>&1 || true
+  
+  # Clear remaining rows
+  ROWS=$(echo "$RESPONSE" | jq '.model_remains | length')
+  NEXT_ROW=$((ROWS + 2))
+  gog sheets clear "$SHEET_ID" "MiniMax QUOTA!A${NEXT_ROW}:L100" 2>/dev/null || true
+  
+  echo "✅ MiniMax quota updated → Google Sheet + JSON"
 }
 
-# ── 2. Refresh Copilot Usage (Google Drive CSV) ──
+# ── 2. Refresh Copilot Usage (Google Drive CSV → Sheet + JSON) ──
 refresh_copilot() {
   echo "🤖 Refreshing Copilot usage from Google Drive..."
   FOLDER="1TUvOW4xsW7Xa0FQor-pQb2C4F1DxGoQh"
   
-  # Find latest premiumRequestUsageReport CSV
   FILE_ID=$(gog drive ls --parent "$FOLDER" --max 5 -j --results-only 2>/dev/null | \
     jq -r '[.[] | select(.name | startswith("premiumRequestUsageReport"))] | sort_by(.modifiedTime) | last | .id')
   
@@ -60,10 +96,9 @@ refresh_copilot() {
     echo "❌ No Copilot CSV found"; return 1
   fi
   
-  echo "  Downloading file: $FILE_ID"
+  echo "  Downloading: $FILE_ID"
   gog drive download "$FILE_ID" --out "$TMPDIR/copilot.csv" --no-input 2>/dev/null
   
-  # Parse CSV and generate copilot-data.json
   node -e "
 const fs = require('fs');
 const csv = fs.readFileSync('$TMPDIR/copilot.csv', 'utf8');
@@ -74,7 +109,6 @@ const rows = lines.slice(1).map(l => {
   return Object.fromEntries(headers.map((h,i) => [h, vals[i] || '']));
 });
 
-// Sum up premium requests by model using gross_amount (= premium units)
 let totalUsed = 0;
 const byModel = {};
 rows.forEach(r => {
@@ -84,7 +118,6 @@ rows.forEach(r => {
   byModel[model] = (byModel[model] || 0) + cost;
 });
 
-// Round to match quota display (300 premium units)
 totalUsed = Math.round(totalUsed * 100) / 100;
 const total = 300;
 const remaining = Math.round((total - totalUsed) * 100) / 100;
@@ -94,9 +127,7 @@ const data = {
   _generatedAt: now,
   _source: 'google-drive-csv',
   quota: {
-    total,
-    used: totalUsed,
-    remaining,
+    total, used: totalUsed, remaining,
     usedPercent: Math.round(totalUsed / total * 100),
     resetDate: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1).toISOString().slice(0,10),
     warningLevel: remaining < 30 ? 'critical' : remaining < 90 ? 'warning' : 'normal'
@@ -104,16 +135,17 @@ const data = {
   analysis: { totalRequests: totalUsed, byModel }
 };
 fs.writeFileSync('public/copilot-data.json', JSON.stringify(data, null, 2));
-console.log('✅ Copilot data updated: used=' + totalUsed + '/' + total);
+console.log('used=' + totalUsed + '/' + total);
 "
+  
+  echo "✅ Copilot usage updated → JSON"
 }
 
-# ── 3. Refresh MiniMax Token Usage (Google Drive CSV) ──
+# ── 3. Refresh MiniMax Token Usage (Google Drive CSV → Sheet + JSON) ──
 refresh_token() {
-  echo "📊 Refreshing MiniMax token usage from Google Drive..."
+  echo "📊 Refreshing Minimax token usage from Google Drive..."
   FOLDER="1k2CbG1Z2lvOLl-szMt8YT5P5NaWD0T5Y"
   
-  # Find latest billing CSV
   FILE_ID=$(gog drive ls --parent "$FOLDER" --max 10 -j --results-only 2>/dev/null | \
     jq -r '[.[] | select(.name | test("billing|export_bill"))] | sort_by(.modifiedTime) | last | .id')
   
@@ -121,10 +153,9 @@ refresh_token() {
     echo "❌ No MiniMax billing CSV found"; return 1
   fi
   
-  echo "  Downloading file: $FILE_ID"
+  echo "  Downloading: $FILE_ID"
   gog drive download "$FILE_ID" --out "$TMPDIR/token.csv" --no-input 2>/dev/null
   
-  # Parse and generate token-log.json + summary
   node -e "
 const fs = require('fs');
 const csv = fs.readFileSync('$TMPDIR/token.csv', 'utf8');
@@ -135,12 +166,12 @@ const records = lines.slice(1).map(l => {
   return Object.fromEntries(headers.map((h,i) => [h, vals[i] || '']));
 }).filter(r => Object.values(r).some(v => v));
 
-// Normalize field names (CSV headers have spaces)
 const keyMap = {
   'consumption time(utc)': 'consumptionTime', 'consumption time': 'consumptionTime',
   'consumed model': 'consumedModel', 'consumed api': 'consumedApi',
   'input usage quantity': 'inputUsageQuantity', 'output usage quantity': 'outputUsageQuantity',
-  'total usage quantity': 'totalUsageQuantity'
+  'total usage quantity': 'totalUsageQuantity', 'amount spent': 'amountSpent',
+  'amount after voucher': 'amountAfterVoucher'
 };
 const normalized = records.map(r => {
   const out = {};
@@ -150,11 +181,13 @@ const normalized = records.map(r => {
   }
   return {
     consumptionTime: out.consumptionTime || '',
-    consumedModel: out.consumedModel || out['Consumed Model'] || '',
-    consumedApi: out.consumedApi || out['Consumed API'] || '',
+    consumedModel: out.consumedModel || '',
+    consumedApi: out.consumedApi || '',
     inputUsageQuantity: parseInt(out.inputUsageQuantity || 0),
     outputUsageQuantity: parseInt(out.outputUsageQuantity || 0),
-    totalUsageQuantity: parseInt(out.totalUsageQuantity || 0)
+    totalUsageQuantity: parseInt(out.totalUsageQuantity || 0),
+    amountSpent: parseFloat(out.amountSpent || 0),
+    amountAfterVoucher: parseFloat(out.amountAfterVoucher || 0)
   };
 }).filter(r => r.totalUsageQuantity > 0);
 
@@ -187,8 +220,10 @@ const summary = {
   meta: { dateRange: { start: dates[0]?.slice(0,10) || '', end: dates[dates.length-1]?.slice(0,10) || '' }, records: normalized.length }
 };
 fs.writeFileSync('public/summary-token-log.json', JSON.stringify(summary, null, 2));
-console.log('✅ Token log updated: ' + normalized.length + ' records, ' + totals.totalTokens + ' total tokens');
+console.log(JSON.stringify({ records: normalized.length, totals }));
 "
+  
+  echo "✅ Minimax tokens updated → JSON"
 }
 
 # ── Run ──
@@ -201,4 +236,5 @@ case "$ACTION" in
 esac
 
 echo ""
-echo "🎉 Refresh complete! Run 'cd $(pwd) && git add public/ && git commit -m \"Refresh data\" && git push' to deploy."
+echo "🎉 Refresh complete!"
+echo "📤 Run 'git add public/ && git commit -m \"Refresh data\" && git push' to deploy."
