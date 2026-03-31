@@ -1,28 +1,23 @@
 {
-  "_generatedAt": "2026-03-31T00:30:00.000Z",
+  "_generatedAt": "2026-03-31T12:54:15.641Z",
+  "_source": "google-drive-csv",
   "quota": {
     "total": 300,
-    "used": 74.58,
-    "remaining": 225.42,
-    "usedPercent": 24.9,
-    "resetDate": "2026-04-01",
+    "used": 9.1,
+    "remaining": 290.9,
+    "usedPercent": 3,
+    "resetDate": "2026-03-31",
     "warningLevel": "normal"
   },
   "analysis": {
-    "totalRequests": 74.58,
+    "totalRequests": 9.1,
     "byModel": {
-      "claude-opus-4": 48,
-      "gpt-5.4-mini": 8.58,
-      "coding-agent": 7,
-      "claude-sonnet-4-5": 5,
-      "gemini-3.1-pro": 5,
-      "code-review": 1
-    },
-    "providerUsage": {
-      "claude": 53,
-      "openai": 8.58,
-      "gemini": 5,
-      "unknown": 8
+      "Claude Opus 4.6": 6.120000000000002,
+      "Claude Sonnet 4.6": 1.5600000000000005,
+      "Code Review model": 0.08,
+      "Coding Agent model": 0.8000000000000002,
+      "GPT-5.4 mini": 0.34319999999999984,
+      "Gemini 3.1 Pro": 0.2
     }
   }
 }

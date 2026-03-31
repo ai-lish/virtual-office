@@ -31,16 +31,28 @@ body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:
 .quota-card .fill{height:100%;border-radius:4px;transition:width .6s ease,background .3s}
 .quota-card .pct{font-size:.72em;color:var(--dim)}
 
+/* ── Refresh Button ── */
+.btn-refresh{padding:6px 16px;background:rgba(52,152,219,0.15);color:var(--blue);border:1px solid rgba(52,152,219,0.3);border-radius:16px;cursor:pointer;font-size:.78em;transition:all .2s;font-family:inherit}
+.btn-refresh:hover{background:rgba(52,152,219,0.3)}
+.btn-refresh:disabled{opacity:.5;cursor:default}
+
 /* ── Projects ── */
-.section-title{font-size:.78em;color:var(--dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+.section-title{font-size:.78em;color:var(--dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:10px}
 .project-list{display:flex;flex-direction:column;gap:8px}
-.project-card{background:var(--card);border-radius:10px;padding:14px 18px;cursor:pointer;transition:background .2s;display:flex;align-items:center;gap:12px}
+.project-card{background:var(--card);border-radius:10px;padding:14px 18px;cursor:pointer;transition:background .2s}
 .project-card:hover{background:#1a2744}
+.project-header{display:flex;align-items:center;gap:12px}
 .project-card .icon{font-size:1.1rem;flex-shrink:0}
 .project-card .name{flex:1;font-weight:600;font-size:.92em}
 .project-card .meta{font-size:.72em;color:var(--dim);text-align:right}
 .project-card .link{font-size:.72em;color:var(--blue);text-decoration:none;margin-left:8px}
 .project-card .link:hover{text-decoration:underline}
+.project-preview{max-height:0;overflow:hidden;transition:max-height .3s ease;font-size:.82em;color:var(--dim);line-height:1.5}
+.project-preview.open{max-height:300px;overflow-y:auto}
+.project-preview-inner{padding:10px 0 4px 28px;border-top:1px solid rgba(255,255,255,.06);margin-top:10px}
+.project-preview-inner p{margin-bottom:6px}
+.project-preview-inner code{background:rgba(255,255,255,.08);padding:1px 5px;border-radius:3px;font-size:.9em}
+.expand-icon{font-size:.7em;color:var(--dim);transition:transform .2s;margin-left:4px}
 
 /* ── Mobile ── */
 @media(max-width:600px){
@@ -63,6 +75,12 @@ body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:
 </div>
 
 <div class="container">
+
+  <!-- Quota Header -->
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+    <div class="section-title" style="margin-bottom:0">⚡ 配額總覽</div>
+    <button class="btn-refresh" id="btn-refresh-quotas" onclick="refreshQuotas()">🔄 Refresh Quotas</button>
+  </div>
 
   <!-- Quota Bars -->
   <div class="quota-grid">
@@ -101,30 +119,77 @@ body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:
 <script>
 // ── Data ──
 const projects = [
-  { name:'Song-of-Songs', icon:'🎵', status:'active', link:'https://github.com/ai-lish/Song-of-Songs', date:'2026-03-28' },
-  { name:'虛擬辦公室', icon:'🏢', status:'active', link:'https://ai-lish.github.io/virtual-office/', date:'2026-03-05' },
-  { name:'全方位學習日', icon:'✅', status:'completed', link:'https://ai-lish.github.io/lsc-ole-s1-2026/', date:'2026-03-26' },
-  { name:'晞霖學習網站', icon:'✅', status:'completed', link:'https://ai-lish.github.io/preschool/', date:'2026-03-08' },
-  { name:'少康教學網站', icon:'⏳', status:'pending', link:'https://ai-lish.github.io/ai-learning/', date:'2026-03-01' },
-  { name:'數學週 2026', icon:'⏳', status:'pending', link:'https://ai-lish.github.io/math-week-2026/', date:'2026-02-20' },
-  { name:'欠交功課系統', icon:'⏳', status:'pending', link:'https://ai-lish.github.io/homework-duty-system/', date:'2026-03-07' },
-  { name:'教師發展日', icon:'✅', status:'completed', link:'https://ai-lish.github.io/teacher-dev-day/', date:'2026-01-15' }
+  { name:'Song-of-Songs', icon:'🎵', status:'active', link:'https://github.com/ai-lish/Song-of-Songs', date:'2026-03-28', repo:'ai-lish/Song-of-Songs', desc:'歌詞影片製作專案 — Song of Songs 系列' },
+  { name:'虛擬辦公室', icon:'🏢', status:'active', link:'https://ai-lish.github.io/virtual-office/', date:'2026-03-05', repo:'ai-lish/virtual-office', desc:'AI 助手工作狀態監控儀表板' },
+  { name:'全方位學習日', icon:'✅', status:'completed', link:'https://ai-lish.github.io/lsc-ole-s1-2026/', date:'2026-03-26', repo:'ai-lish/lsc-ole-s1-2026', desc:'S1 全方位學習日活動網站' },
+  { name:'晞霖學習網站', icon:'✅', status:'completed', link:'https://ai-lish.github.io/preschool/', date:'2026-03-08', repo:'ai-lish/preschool', desc:'幼兒教育互動學習平台' },
+  { name:'少康教學網站', icon:'⏳', status:'pending', link:'https://ai-lish.github.io/ai-learning/', date:'2026-03-01', repo:'ai-lish/ai-learning', desc:'HKDSE 數學教學資源網站' },
+  { name:'數學週 2026', icon:'⏳', status:'pending', link:'https://ai-lish.github.io/math-week-2026/', date:'2026-02-20', repo:'ai-lish/math-week-2026', desc:'2026 數學週活動網站' },
+  { name:'欠交功課系統', icon:'⏳', status:'pending', link:'https://ai-lish.github.io/homework-duty-system/', date:'2026-03-07', repo:'ai-lish/homework-duty-system', desc:'學生功課追蹤管理系統' },
+  { name:'教師發展日', icon:'✅', status:'completed', link:'https://ai-lish.github.io/teacher-dev-day/', date:'2026-01-15', repo:'ai-lish/teacher-dev-day', desc:'教師專業發展日活動' }
 ];
 
 // ── Render Projects ──
 const listEl = document.getElementById('projectList');
 const statusIcon = { active:'🔄', completed:'✅', pending:'⏳' };
-projects.forEach(p => {
+const statusLabel = { active:'進行中', completed:'已完成', pending:'待開始' };
+projects.forEach((p, i) => {
   const card = document.createElement('div');
   card.className = 'project-card';
   card.innerHTML = `
-    <span class="icon">${statusIcon[p.status] || p.icon}</span>
-    <span class="name">${p.name}</span>
-    <span class="meta">${p.date}</span>
-    <a class="link" href="${p.link}" target="_blank" onclick="event.stopPropagation()">開啟 →</a>
+    <div class="project-header" onclick="togglePreview(${i})">
+      <span class="icon">${statusIcon[p.status] || p.icon}</span>
+      <span class="name">${p.name} <span class="expand-icon" id="expand-${i}">▶</span></span>
+      <span class="meta">${p.date}</span>
+      <a class="link" href="${p.link}" target="_blank" onclick="event.stopPropagation()">開啟 →</a>
+    </div>
+    <div class="project-preview" id="preview-${i}">
+      <div class="project-preview-inner">
+        <p><strong>狀態:</strong> ${statusLabel[p.status] || p.status}</p>
+        <p>${p.desc}</p>
+        <p id="readme-${i}" style="color:var(--dim);font-size:.9em;">載入 README…</p>
+      </div>
+    </div>
   `;
   listEl.appendChild(card);
 });
+
+// ── Toggle Preview ──
+function togglePreview(i) {
+  const el = document.getElementById('preview-' + i);
+  const icon = document.getElementById('expand-' + i);
+  const isOpen = el.classList.toggle('open');
+  icon.textContent = isOpen ? '▼' : '▶';
+  if (isOpen && !el.dataset.loaded) {
+    el.dataset.loaded = '1';
+    loadReadme(i);
+  }
+}
+
+// ── Load README snippet from GitHub API ──
+const readmeCache = {};
+async function loadReadme(i) {
+  const p = projects[i];
+  if (!p.repo) return;
+  const el = document.getElementById('readme-' + i);
+  try {
+    if (readmeCache[p.repo]) { el.innerHTML = readmeCache[p.repo]; return; }
+    const res = await fetch(`https://api.github.com/repos/${p.repo}/readme`, { headers: { Accept: 'application/vnd.github.v3.raw' } });
+    if (!res.ok) { el.textContent = '無法載入 README'; return; }
+    const text = await res.text();
+    // Show first ~500 chars, strip markdown headers/links
+    let snippet = text.slice(0, 600)
+      .replace(/^#+\s*/gm, '')
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+      .replace(/!\[.*?\]\(.*?\)/g, '')
+      .replace(/\n{3,}/g, '\n\n')
+      .trim();
+    if (text.length > 600) snippet += '…';
+    const html = snippet.split('\n').map(l => `<p>${l || '&nbsp;'}</p>`).join('');
+    readmeCache[p.repo] = html;
+    el.innerHTML = html;
+  } catch(e) { el.textContent = '載入失敗'; }
+}
 
 // ── Quota Helpers ──
 function setQuota(id, remaining, total, baseColor) {
@@ -190,6 +255,32 @@ async function loadData() {
 loadData();
 // Refresh every 5 minutes
 setInterval(loadData, 300000);
+
+// ── Refresh Quotas (triggers GitHub Actions or Apps Script) ──
+async function refreshQuotas() {
+  const btn = document.getElementById('btn-refresh-quotas');
+  btn.disabled = true; btn.textContent = '⏳ Refreshing…';
+  
+  // Try Apps Script endpoint first (triggers MiniMax API refresh)
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxLmw7-GKmdeW6L1V7imB-ed6lCDV3WjYKxC-GW44UDUCFVJR7eyAtmWs3z20CoRt8E/exec';
+  try {
+    const res = await fetch(APPS_SCRIPT_URL);
+    const d = await res.json();
+    if (d.success) {
+      btn.textContent = '⏳ 等待更新…';
+      // Wait for GitHub Actions to push new data
+      setTimeout(async () => {
+        await loadData();
+        btn.textContent = '🔄 Refresh Quotas'; btn.disabled = false;
+      }, 35000);
+      return;
+    }
+  } catch(e) { console.log('Apps Script error:', e); }
+  
+  // Fallback: just reload cached data
+  await loadData();
+  btn.textContent = '🔄 Refresh Quotas'; btn.disabled = false;
+}
 </script>
 </body>
 </html>
