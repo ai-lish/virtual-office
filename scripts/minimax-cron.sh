@@ -1,77 +1,68 @@
 #!/bin/bash
-# MiniMax Token API Cron - 每個5小時interval的最後1小時監控
-# Appends API data to Google Sheet: 19GFRnbjUlI7UnTngMWzqeoDD9g0lRs0OAO8iwieGJkA
+# MiniMax Token Cron - 從 MacD Files 下載最新 quota CSV，更新到 GitHub Pages
+# MacD Files: 1GUZ0C-grqBdtWGBB0mgO9izuN7Qrs-Gb
+# Script ID: 15CalUd1p4yyzTbWpdIOZPCbKShmWEsui
 
 set -e
 
-API_KEY="sk-cp-CNrQtXcYz6dieW7vUVGQY7iZA8L2SE37Dz3jtH6J9b2LkgwXvwGZM8EP-L8eiBx3r7UWwulYCS9v3eKkKO3Fb2TVJHH3-nujRXEZz1_oEGVaS_rnrWg8_gU"
-SHEET_ID="19GFRnbjUlI7UnTngMWzqeoDD9g0lRs0OAO8iwieGJkA"
+WORKDIR="/Users/zachli/.openclaw/workspace/virtual-office"
+TEMP_CSV="/tmp/minimax-remains-cron.csv"
+LOG="/Users/zachli/.openclaw/workspace/logs/minimax-cron.log"
 
-# Fetch API data
-RAW=$(curl -s --location 'https://api.minimax.io/v1/api/openplatform/coding_plan/remains' \
-  --header "Authorization: Bearer $API_KEY" \
-  --header 'Content-Type: application/json' \
-  --header 'User-Agent: Mozilla/5.0')
+echo "[$(date)] MiniMax cron started" >> "$LOG"
 
-# Check if API call succeeded
-STATUS=$(echo "$RAW" | jq -r '.base_resp.status_code // "error"')
-if [ "$STATUS" != "0" ]; then
-  echo "API Error: $(echo "$RAW" | jq -r '.base_resp.status_msg')"
-  exit 1
+# 1. 下載最新 quota CSV
+gog drive download 15CalUd1p4yyzTbWpdIOZPCbKShmWEsui --out "$TEMP_CSV" 2>&1 | head -1 >> "$LOG"
+
+# 2. 解析 CSV - 取第一行數據 (M2.7 model)
+# 欄位: API回應時間,模型,interval配額,剩餘prompts,已用prompts,...
+# 跳過 header，取第一行
+ROW=$(tail -n +2 "$TEMP_CSV" | head -1 2>/dev/null || echo "")
+if [ -z "$ROW" ]; then
+    echo "[$(date)] No data downloaded" >> "$LOG"
+    exit 1
 fi
 
-# Timestamp
-TIMESTAMP=$(date -u +"%Y-%m-%d %H:%M UTC")
+# Parse CSV fields (comma separated, no quotes)
+INTERVAL_QUOTA=$(echo "$ROW" | awk -F',' '{print $3}')
+REMAIN_PROMPTS=$(echo "$ROW" | awk -F',' '{print $4}')
+USED_PROMPTS=$(echo "$ROW" | awk -F',' '{print $5}')
 
-# Extract common times (all models share same interval start/end)
-START_TIME=$(echo "$RAW" | jq -r '.model_remains[0].start_time')
-END_TIME=$(echo "$RAW" | jq -r '.model_remains[0].end_time')
-START_HKT=$(date -j -f %s $((START_TIME/1000)) +"%Y-%m-%d %H:%M" 2>/dev/null || date -u -d @$((START_TIME/1000)) +"%Y-%m-%d %H:%M")
-END_HKT=$(date -j -f %s $((END_TIME/1000)) +"%Y-%m-%d %H:%M" 2>/dev/null || date -u -d @$((END_TIME/1000)) +"%Y-%m-%d %H:%M")
+echo "[$(date)] M2.7: used=$USED_PROMPTS total=$INTERVAL_QUOTA remaining=$REMAIN_PROMPTS" >> "$LOG"
 
-# Weekly times
-WEEKLY_START=$(echo "$RAW" | jq -r '.model_remains[0].weekly_start_time')
-WEEKLY_END=$(echo "$RAW" | jq -r '.model_remains[0].weekly_end_time')
-WEEKLY_START_HKT=$(date -j -f %s $((WEEKLY_START/1000)) +"%Y-%m-%d %H:%M" 2>/dev/null || date -u -d @$((WEEKLY_START/1000)) +"%Y-%m-%d %H:%M")
-WEEKLY_END_HKT=$(date -j -f %s $((WEEKLY_END/1000)) +"%Y-%m-%d %H:%M" 2>/dev/null || date -u -d @$((WEEKLY_END/1000)) +"%Y-%m-%d %H:%M")
+# 3. 驗證數值
+if [ "$INTERVAL_QUOTA" = "" ] || [ "$INTERVAL_QUOTA" = "0" ]; then
+    echo "[$(date)] Invalid quota value" >> "$LOG"
+    exit 1
+fi
 
-# Process each model
-for i in 0 1 2 3 4 5; do
-  MODEL=$(echo "$RAW" | jq -r ".model_remains[$i].model_name")
-  INTERVAL_TOTAL=$(echo "$RAW" | jq -r ".model_remains[$i].current_interval_total_count")
-  USAGE_COUNT=$(echo "$RAW" | jq -r ".model_remains[$i].current_interval_usage_count")
-  REMAINS_MS=$(echo "$RAW" | jq -r ".model_remains[$i].remains_time")
-  REMAINS_H=$(echo "$RAW" | jq -r "(${REMAINS_MS}/1000/3600)")
-  WEEKLY_TOTAL=$(echo "$RAW" | jq -r ".model_remains[$i].current_weekly_total_count")
-  WEEKLY_USAGE=$(echo "$RAW" | jq -r ".model_remains[$i].current_weekly_usage_count")
+# 4. 計算
+REMAINING=$((INTERVAL_QUOTA - USED_PROMPTS))
+PERCENT=$(awk -v used="$USED_PROMPTS" -v total="$INTERVAL_QUOTA" 'BEGIN {printf "%.1f", (used/total)*100}')
 
-  # Calculate actual usage and remaining
-  if [ "$INTERVAL_TOTAL" != "0" ] && [ "$INTERVAL_TOTAL" != "null" ]; then
-    ACTUAL_USED=$((INTERVAL_TOTAL - USAGE_COUNT))
-    ACTUAL_REMAIN=$USAGE_COUNT
-  else
-    ACTUAL_USED="0"
-    ACTUAL_REMAIN="$REMAINS_MS ms"
-  fi
+# 5. 生成 JSON
+cat > "$WORKDIR/public/minimax-api-status.json" << EOF
+{
+  "_generatedAt": "$(date -u +"%Y-%m-%dT%H:%M:%S.000Z")",
+  "quota": {
+    "total": $INTERVAL_QUOTA,
+    "used": $USED_PROMPTS,
+    "remaining": $REMAINING,
+    "usedPercent": $PERCENT,
+    "resetDate": "2026-04-05",
+    "warningLevel": "normal",
+    "intervalHours": 5
+  },
+  "source": "MacD Files: MiniMax-API-remains CSV (gog drive)"
+}
+EOF
 
-  # Append to Google Sheet (use full path for launchd compatibility)
-  /opt/homebrew/bin/gog sheets append "$SHEET_ID" "A100" \
-    "$TIMESTAMP" \
-    "$MODEL" \
-    "$INTERVAL_TOTAL" \
-    "$ACTUAL_REMAIN" \
-    "$ACTUAL_USED" \
-    "$START_HKT" \
-    "$END_HKT" \
-    "$REMAINS_MS" \
-    "$REMAINS_H" \
-    "$WEEKLY_TOTAL" \
-    "$WEEKLY_USAGE" \
-    "$WEEKLY_START_HKT" \
-    "$WEEKLY_END_HKT" \
-    2>&1
+echo "[$(date)] JSON updated: $USED_PROMPTS/$INTERVAL_QUOTA ($PERCENT%)" >> "$LOG"
 
-  echo "[$(date)] Appended row for $MODEL"
-done
+# 6. Commit & push
+cd "$WORKDIR"
+git add public/minimax-api-status.json
+git commit -m "chore: update Minimax quota $USED_PROMPTS/$INTERVAL_QUOTA (cron)" >> "$LOG" 2>&1
+git push origin main >> "$LOG" 2>&1
 
-echo "[$(date)] MiniMax cron completed successfully"
+echo "[$(date)] Done!" >> "$LOG"

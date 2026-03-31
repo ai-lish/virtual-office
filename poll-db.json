@@ -1,9 +1,0 @@
-{
-  "polls": [],
-  "defaultDuration": 3600,
-  "quickOptions": {
-    "yesno": ["✅ 係", "❌ 唔係"],
-    "priority": ["🔴 緊急", "🟡 中等", "🟢 唔急"],
-    "status": ["✅ 進行中", "⏸️ 暂停", "❌ 取消"]
-  }
-}

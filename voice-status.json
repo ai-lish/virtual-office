@@ -1,9 +1,0 @@
-{
-  "timestamp": 0,
-  "channels": {
-    "design": { "name": "設計組", "members": [], "count": 0 },
-    "dev": { "name": "開發組", "members": [], "count": 0 },
-    "support": { "name": "客服組", "members": [], "count": 0 }
-  },
-  "total": 0
-}

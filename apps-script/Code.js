@@ -258,3 +258,69 @@ function testGetAnnouncements() {
   const result = getAnnouncements();
   console.log('Get result:', result);
 }
+
+// ============================================
+// GitHub Actions Workflow Trigger
+// ============================================
+
+/**
+ * Trigger GitHub Actions Workflow for refreshing Minimax Quota
+ * GET/POST to this script triggers the workflow
+ */
+function triggerMinimaxWorkflow(e) {
+  var pat = PropertiesService.getScriptProperties().getProperty('GITHUB_PAT');
+  
+  if (!pat) {
+    return ContentService.createTextOutput(JSON.stringify({
+      success: false,
+      error: 'GITHUB_PAT not configured in Script Properties'
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
+  
+  var githubRepo = 'ai-lish/virtual-office';
+  var workflowFile = 'refresh-minimax-quota.yml';
+  var url = 'https://api.github.com/repos/' + githubRepo + '/actions/workflows/' + workflowFile + '/dispatches';
+  
+  var options = {
+    method: 'post',
+    headers: {
+      'Accept': 'application/vnd.github+json',
+      'Authorization': 'Bearer ' + pat,
+      'X-GitHub-Api-Version': '2022-11-28'
+    },
+    payload: JSON.stringify({ ref: 'main' }),
+    contentType: 'application/json',
+    muteHttpExceptions: true
+  };
+  
+  try {
+    var response = UrlFetchApp.fetch(url, options);
+    var code = response.getResponseCode();
+    
+    if (code === 204) {
+      return ContentService.createTextOutput(JSON.stringify({
+        success: true,
+        message: 'Workflow triggered'
+      })).setMimeType(ContentService.MimeType.JSON);
+    } else {
+      return ContentService.createTextOutput(JSON.stringify({
+        success: false,
+        error: 'GitHub API returned ' + code,
+        body: response.getContentText()
+      })).setMimeType(ContentService.MimeType.JSON);
+    }
+  } catch (e) {
+    return ContentService.createTextOutput(JSON.stringify({
+      success: false,
+      error: e.toString()
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function doGet(e) {
+  return triggerMinimaxWorkflow(e);
+}
+
+function doPost(e) {
+  return triggerMinimaxWorkflow(e);
+}

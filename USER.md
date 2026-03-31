@@ -19,10 +19,11 @@
 
 ## 專案優先序
 
-1. HKDSE OCR 審核系統（P1完成，P2待續）
-2. Virtual Office（Level 3目標）
-3. Song of Songs 歌詞影片（blocked，等音頻）
-4. 幼兒語文網站
+1. ai-learning（HKDSE 數學教學）— 唯一活躍進行中
+2. 幼兒語文網站 preschool — 架構完成，無 blocker
+3. Virtual Office（Level 3 目標）— n8n workflow JSON 阻斷
+4. Song of Songs 歌詞影片 — 等插畫/音頻
+5. ~~HKDSE OCR 審核系統~~ — ✅ 已完成（P1+P2 100%），歸檔維護
 
 ## 工作風格
 

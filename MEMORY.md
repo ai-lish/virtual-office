@@ -97,6 +97,14 @@ _Last updated: 2026-03-29 16:14 by MiniMax-M2.7_
 - **用途：** HKUDS 多代理協調框架，可作為 OpenClaw agents worker
 - **功能：** spawn workers、git worktrees、任務追蹤、inbox messaging、board monitoring
 
+## 2026-03-31 MiniMax 粵語語音發現
+
+- **重要發現**：MiniMax 官方「粵語音色」(ID 59-64) **並非真正 Cantonese TTS**，而是 Mandarin TTS + 港式口音
+- **實測驗證**：用 Whisper 識別輸出，發現大部分輸出為普通話或走音
+- **唯一可用**：`Cantonese_ProfessionalHost（M)`（ID 61 男聲）勉強接近粵語
+- **建議**：短期繼續用 ID 61；中期研究 Voice Clone；長期搵其他真正支援粵語的 TTS
+- **Skill 已更新**：包含質量警告、檢查流程、測試記錄
+
 ## 技術環境
 
 - **硬件：** Mac mini (arm64), macOS 25.2.0, Node v25.6.1
@@ -152,8 +160,8 @@ _Last updated: 2026-03-29 16:14 by MiniMax-M2.7_
 
 ## P0 阻斷
 
-1. n8n workflow JSON 格式錯誤
-2. ngrok authtoken 未認證
+1. ~~n8n workflow JSON 格式錯誤~~ → ❌ 唔需要，已刪除整個 workflow（2026-03-31）
+2. ~~ngrok authtoken 未認證~~ → ❌ 不需要，已刪除 ngrok/cloudflared（2026-03-31）
 3. Song of Songs 音頻檔案未提供 (Step1_latest.m4a + LRC)
 4. Copilot token 安全存儲未完成
 
