@@ -1703,48 +1703,61 @@
                 <p style="color: var(--text-secondary);">從左側選擇項目以查看詳情</p>
                 <a href="dashboard.html" style="display:inline-block;margin-top:16px;padding:12px 28px;background:var(--japanese-red);color:#fff;text-decoration:none;border-radius:10px;font-size:1rem;font-weight:600;transition:transform 0.2s,box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(188,0,45,0.4)'" onmouseout="this.style.transform='';this.style.boxShadow=''">📊 開啟 Dashboard</a>
                 
-                <!-- ===== 3-Panel Dashboard ===== -->
-                <div id="dashboard-panels" style="margin-top: 30px; max-width: 900px; width: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
-                    <!-- Panel 1: GitHub Copilot -->
-                    <div style="background: #16213e; border-radius: 12px; padding: 24px; border-left: 4px solid #2ecc71; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform=''">
-                        <div style="font-size: 1.6rem; margin-bottom: 8px;">🤖</div>
-                        <div style="font-size: 0.8em; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">GitHub Copilot</div>
-                        <div id="copilot-panel-number" style="font-size: 2rem; font-weight: 700; margin-bottom: 4px;">—/300</div>
-                        <div style="font-size: 0.85em; color: #aaa;">requests used</div>
-                        <div style="margin-top: 12px; height: 6px; background: #0f3460; border-radius: 3px; overflow: hidden;">
-                            <div id="copilot-panel-bar" style="height: 100%; width: 0%; border-radius: 3px; background: #2ecc71; transition: width 0.6s;"></div>
+                <!-- ===== Quota Overview ===== -->
+                <div id="quota-overview" style="margin-top: 30px; max-width: 900px; width: 100%; display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
+                    <!-- Copilot -->
+                    <div style="background: #16213e; border-radius: 12px; padding: 20px; border-left: 4px solid #2ecc71;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                            <div style="font-size:0.75em;color:#888;text-transform:uppercase;letter-spacing:1px;">🤖 Copilot</div>
+                            <span id="copilot-last-update" style="font-size:0.7em;color:#666;"></span>
                         </div>
-                        <div id="copilot-panel-status" style="margin-top: 8px; font-size: 0.78em; color: #888;">載入中…</div>
+                        <div style="font-size:1.1rem;font-weight:700;margin-bottom:8px;"><span id="copilot-used">—</span> / <span id="copilot-total">300</span></div>
+                        <div style="height:8px;background:#0f3460;border-radius:4px;overflow:hidden;margin-bottom:6px;">
+                            <div id="copilot-bar" style="height:100%;width:0%;border-radius:4px;background:#2ecc71;transition:width 0.6s;"></div>
+                        </div>
+                        <div style="font-size:0.75em;color:#888;" id="copilot-pct">—%</div>
                     </div>
-                    <!-- Panel 2: Minimax Quota -->
-                    <div style="background: #16213e; border-radius: 12px; padding: 24px; border-left: 4px solid #3498db; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform=''">
-                        <div style="font-size: 1.6rem; margin-bottom: 8px;">⚡</div>
-                        <div style="display:flex;justify-content:space-between;align-items:center;">
-                            <div style="font-size: 0.8em; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Minimax Quota</div>
-                            <button id="refresh-minimax-btn" onclick="refreshMinimaxQuota()" style="padding:4px 10px;background:rgba(52,152,219,0.3);color:#3498db;border:1px solid #3498db;border-radius:12px;cursor:pointer;font-size:0.72em;transition:all 0.2s;" onmouseover="this.style.background='rgba(52,152,219,0.5)'" onmouseout="this.style.background='rgba(52,152,219,0.3)'">🔄 Refresh</button>
+                    <!-- Minimax M* -->
+                    <div style="background: #16213e; border-radius: 12px; padding: 20px; border-left: 4px solid #9b59b6;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                            <div style="font-size:0.75em;color:#888;text-transform:uppercase;letter-spacing:1px;">📝 M* Text</div>
+                            <span id="minimax-text-last-update" style="font-size:0.7em;color:#666;"></span>
                         </div>
-                        <div id="minimax-panel-number" style="font-size: 2rem; font-weight: 700; margin-bottom: 4px;">—</div>
-                        <div style="font-size: 0.85em; color: #aaa;">tokens remaining</div>
-                        <div style="margin-top: 12px; height: 6px; background: #0a1628; border-radius: 3px; overflow: hidden;">
-                            <div id="minimax-panel-bar" style="height: 100%; width: 0%; border-radius: 3px; background: #3498db; transition: width 0.6s;"></div>
+                        <div style="font-size:1.1rem;font-weight:700;margin-bottom:8px;"><span id="minimax-text-used">—</span> / <span id="minimax-text-total">4,500</span></div>
+                        <div style="height:8px;background:#0f3460;border-radius:4px;overflow:hidden;margin-bottom:6px;">
+                            <div id="minimax-text-bar" style="height:100%;width:0%;border-radius:4px;background:#9b59b6;transition:width 0.6s;"></div>
                         </div>
-                        <div id="minimax-panel-status" style="margin-top: 8px; font-size: 0.78em; color: #888;">載入中…</div>
+                        <div style="font-size:0.75em;color:#888;" id="minimax-text-pct">—%</div>
                     </div>
-                    <!-- Panel 3: Minimax Usage -->
-                    <div style="background: #16213e; border-radius: 12px; padding: 24px; border-left: 4px solid #e67e22; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform=''">
-                        <div style="font-size: 1.6rem; margin-bottom: 8px;">📊</div>
-                        <div style="font-size: 0.8em; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Minimax Usage</div>
-                        <div id="minimax-usage-number" style="font-size: 2rem; font-weight: 700; margin-bottom: 4px;">—</div>
-                        <div style="font-size: 0.85em; color: #aaa;">input / output tokens</div>
-                        <div style="margin-top: 12px; display: flex; gap: 8px; align-items: center;">
-                            <span style="font-size: 0.78em; color: #888;">總費用:</span>
-                            <span id="minimax-usage-cost" style="font-size: 0.85em; font-weight: 600; color: #e67e22;">—</span>
+                    <!-- Minimax Speech -->
+                    <div style="background: #16213e; border-radius: 12px; padding: 20px; border-left: 4px solid #e74c3c;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                            <div style="font-size:0.75em;color:#888;text-transform:uppercase;letter-spacing:1px;">🎤 Speech</div>
+                            <span id="minimax-speech-last-update" style="font-size:0.7em;color:#666;"></span>
                         </div>
-                        <div id="minimax-usage-status" style="margin-top: 8px; font-size: 0.78em; color: #888;">載入中…</div>
+                        <div style="font-size:1.1rem;font-weight:700;margin-bottom:8px;"><span id="minimax-speech-used">—</span> / <span id="minimax-speech-total">4,000</span></div>
+                        <div style="height:8px;background:#0f3460;border-radius:4px;overflow:hidden;margin-bottom:6px;">
+                            <div id="minimax-speech-bar" style="height:100%;width:0%;border-radius:4px;background:#e74c3c;transition:width 0.6s;"></div>
+                        </div>
+                        <div style="font-size:0.75em;color:#888;" id="minimax-speech-pct">—%</div>
+                    </div>
+                    <!-- Minimax Image -->
+                    <div style="background: #16213e; border-radius: 12px; padding: 20px; border-left: 4px solid #f39c12;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                            <div style="font-size:0.75em;color:#888;text-transform:uppercase;letter-spacing:1px;">🖼️ Image</div>
+                            <span id="minimax-image-last-update" style="font-size:0.7em;color:#666;"></span>
+                        </div>
+                        <div style="font-size:1.1rem;font-weight:700;margin-bottom:8px;"><span id="minimax-image-used">—</span> / <span id="minimax-image-total">50</span></div>
+                        <div style="height:8px;background:#0f3460;border-radius:4px;overflow:hidden;margin-bottom:6px;">
+                            <div id="minimax-image-bar" style="height:100%;width:0%;border-radius:4px;background:#f39c12;transition:width 0.6s;"></div>
+                        </div>
+                        <div style="font-size:0.75em;color:#888;" id="minimax-image-pct">—%</div>
                     </div>
                 </div>
+                <div style="margin-top:12px;font-size:0.7em;color:#555;text-align:center;">📊 <span id="overall-last-update">最近更新: —</span> · <a href="dashboard.html" style="color:#3498db;">詳情 →</a></div>
 
                 <!-- Hidden compat elements for existing JS -->
+    <!-- Hidden compat elements for existing JS -->
                 <div style="display:none;">
                     <span id="copilot-quota-label"></span><span id="copilot-remaining"></span><span id="copilot-daily-budget"></span><span id="copilot-reset-date"></span>
                     <span id="copilot-today-cost"></span><span id="copilot-today-count"></span><span id="copilot-week-cost"></span><span id="copilot-week-count"></span>
@@ -3645,112 +3658,78 @@
         // ===============================
         // 3-PANEL DASHBOARD LOADER
         // ===============================
-        async function loadDashboardPanels() {
-            // Panel 1: Copilot from static JSON
-            try {
-                const base = window.location.pathname.includes('/virtual-office') ? '' : '/virtual-office';
-                const res = await fetch(base + '/public/copilot-data.json?' + Date.now());
-                if (res.ok) {
-                    const data = await res.json();
-                    const q = data.quota || {};
-                    const used = Math.round(q.used || 0);
-                    const total = q.total || 300;
-                    const pct = q.usedPercent || Math.round((used/total)*100);
-                    const barColor = pct >= 80 ? '#e74c3c' : pct >= 50 ? '#f39c12' : '#2ecc71';
-                    document.getElementById('copilot-panel-number').textContent = used + '/' + total;
-                    document.getElementById('copilot-panel-bar').style.width = pct + '%';
-                    document.getElementById('copilot-panel-bar').style.background = barColor;
-                    const rec = q.recommendation || {};
-                    document.getElementById('copilot-panel-status').textContent = (rec.emoji||'') + ' ' + (rec.label||'') + ' · 重置 ' + (q.resetDate||'—');
-                    // Update border color
-                    document.getElementById('copilot-panel-number').closest('div[style*="border-left"]').style.borderLeftColor = barColor;
-                }
-            } catch(e) { console.log('Panel copilot error:', e); }
-
-            // Panel 2: Minimax Quota
-            try {
-                let data = null;
-                const base = window.location.pathname.includes('/virtual-office') ? '' : '/virtual-office';
-                // Try minimax-api-status.json first (live API data from GitHub Actions)
-                try {
-                    const res = await fetch(base + '/public/minimax-api-status.json?' + Date.now());
-                    if (res.ok) {
-                        const apiData = await res.json();
-                        if (apiData.summary) {
-                            data = {
-                                total: apiData.summary.total,
-                                used: apiData.summary.used,
-                                remaining: apiData.summary.remaining,
-                                resetDate: apiData.summary.resetTime,
-                                updatedAt: apiData._generatedAt,
-                                source: apiData._source || 'api',
-                                allModels: apiData.allModels
-                            };
-                        } else if (apiData.quota) {
-                            // Legacy format
-                            data = apiData.quota;
-                        }
-                    }
-                } catch(e) {}
-                // Fallback to minimax-status.json
-                if (!data) {
-                    try {
-                        const res = await fetch(base + '/public/minimax-status.json?' + Date.now());
-                        if (res.ok) data = await res.json();
-                    } catch(e) {}
-                }
-                if (data) {
-                    const remains = data.remaining ?? data.remains ?? (data.total - (data.used || 0));
-                    const total = data.total || 1;
-                    const used = data.used || 0;
-                    const pct = Math.round((used/total)*100);
-                    const barColor = pct >= 80 ? '#e74c3c' : pct >= 50 ? '#f39c12' : '#3498db';
-                    document.getElementById('minimax-panel-number').textContent = remains != null ? Number(remains).toLocaleString() : '—';
-                    document.getElementById('minimax-panel-bar').style.width = pct + '%';
-                    document.getElementById('minimax-panel-bar').style.background = barColor;
-                    const resetStr = data.resetDate ? data.resetDate.slice(0,10) : '—';
-                    const sourceStr = data.source === 'github-actions-live-api' ? '🟢 即時' : '📦 快取';
-                    document.getElementById('minimax-panel-status').textContent = sourceStr + ' · 已用 ' + pct + '% · 重置 ' + resetStr;
-                    document.getElementById('minimax-panel-number').closest('div[style*="border-left"]').style.borderLeftColor = barColor;
-                    
-                    // Show all models breakdown if available
-                    if (data.allModels && data.allModels.length > 0) {
-                        let modelsHtml = '<div style="margin-top:8px;font-size:0.72em;color:#666;">';
-                        data.allModels.filter(m => m.total > 0).forEach(m => {
-                            modelsHtml += m.model + ': ' + m.remaining + '/' + m.total + ' · ';
-                        });
-                        modelsHtml = modelsHtml.replace(/ · $/, '') + '</div>';
-                        const statusEl = document.getElementById('minimax-panel-status');
-                        statusEl.innerHTML = statusEl.textContent + modelsHtml;
-                    }
-                }
-            } catch(e) { console.log('Panel minimax quota error:', e); }
-
-            // Panel 3: Minimax Usage from token-log.json
-            try {
-                const base = window.location.pathname.includes('/virtual-office') ? '' : '/virtual-office';
-                const res = await fetch('https://ai-lish.github.io/virtual-office/public/summary-token-log.json?' + ts)' + Date.now());
-                if (res.ok) {
-                    const data = await res.json();
-                    let totalInput = 0, totalOutput = 0, totalCost = 0;
-                    if (data.records) {
-                        data.records.forEach(r => {
-                            totalInput += r.inputUsageQuantity || 0;
-                            totalOutput += r.outputUsageQuantity || 0;
-                            totalCost += r.amountAfterVoucher || r.amountSpent || 0;
-                        });
-                    }
-                    const fmtM = (n) => (n/1000000).toFixed(2) + 'M';
-                    document.getElementById('minimax-usage-number').textContent = fmtM(totalInput) + ' / ' + fmtM(totalOutput);
-                    document.getElementById('minimax-usage-cost').textContent = '¥' + totalCost.toFixed(2);
-                    const totalRecords = data.records ? data.records.length : 0;
-                    const updated = data.meta ? new Date(data.meta.lastUpdated).toLocaleDateString('zh-HK') : '—';
-                    document.getElementById('minimax-usage-status').textContent = totalRecords + ' 筆記錄 · 更新 ' + updated;
-                }
-            } catch(e) { console.log('Panel minimax usage error:', e); }
+async function loadQuotaOverview() {
+    const ts = Date.now();
+    const base = window.location.pathname.includes('/virtual-office') ? '' : '/virtual-office';
+    const fmtTime = () => new Date().toLocaleTimeString('zh-HK', {hour:'2-digit', minute:'2-digit'});
+    
+    // Copilot
+    try {
+        const res = await fetch(base + '/public/copilot-data.json?' + ts);
+        if (res.ok) {
+            const d = await res.json();
+            const q = d.quota || {};
+            const used = Math.round(q.used || 0);
+            const total = q.total || 300;
+            const pct = Math.round((used/total)*100);
+            const barColor = pct >= 80 ? '#e74c3c' : pct >= 50 ? '#f39c12' : '#2ecc71';
+            document.getElementById('copilot-used').textContent = used;
+            document.getElementById('copilot-total').textContent = total;
+            document.getElementById('copilot-bar').style.width = pct + '%';
+            document.getElementById('copilot-bar').style.background = barColor;
+            document.getElementById('copilot-pct').textContent = pct + '% remaining';
+            document.getElementById('copilot-last-update').textContent = fmtTime();
         }
+    } catch(e) {}
+    
+    // Minimax from API status
+    try {
+        const res = await fetch(base + '/public/minimax-api-status.json?' + ts);
+        if (res.ok) {
+            const apiData = await res.json();
+            const models = apiData.allModels || [];
+            const m2 = models.find(m => m.model && m.model.includes('MiniMax-M')) || {};
+            const speech = models.find(m => m.model && m.model.includes('speech')) || {};
+            const image = models.find(m => m.model && m.model.includes('image')) || {};
+            
+            if (m2.total) {
+                const pct = Math.round((m2.used/m2.total)*100);
+                const barColor = pct >= 80 ? '#e74c3c' : pct >= 50 ? '#f39c12' : '#9b59b6';
+                document.getElementById('minimax-text-used').textContent = m2.used.toLocaleString();
+                document.getElementById('minimax-text-total').textContent = m2.total.toLocaleString();
+                document.getElementById('minimax-text-bar').style.width = pct + '%';
+                document.getElementById('minimax-text-bar').style.background = barColor;
+                document.getElementById('minimax-text-pct').textContent = pct + '% remaining';
+                document.getElementById('minimax-text-last-update').textContent = fmtTime();
+            }
+            if (speech.total) {
+                const pct = Math.round((speech.used/speech.total)*100);
+                const barColor = pct >= 80 ? '#e74c3c' : pct >= 50 ? '#f39c12' : '#e74c3c';
+                document.getElementById('minimax-speech-used').textContent = speech.used.toLocaleString();
+                document.getElementById('minimax-speech-total').textContent = speech.total.toLocaleString();
+                document.getElementById('minimax-speech-bar').style.width = pct + '%';
+                document.getElementById('minimax-speech-bar').style.background = barColor;
+                document.getElementById('minimax-speech-pct').textContent = pct + '% remaining';
+                document.getElementById('minimax-speech-last-update').textContent = fmtTime();
+            }
+            if (image.total) {
+                const pct = Math.round((image.used/image.total)*100);
+                const barColor = pct >= 80 ? '#e74c3c' : pct >= 50 ? '#f39c12' : '#f39c12';
+                document.getElementById('minimax-image-used').textContent = image.used;
+                document.getElementById('minimax-image-total').textContent = image.total;
+                document.getElementById('minimax-image-bar').style.width = pct + '%';
+                document.getElementById('minimax-image-bar').style.background = barColor;
+                document.getElementById('minimax-image-pct').textContent = pct + '% remaining';
+                document.getElementById('minimax-image-last-update').textContent = fmtTime();
+            }
+            if (apiData._generatedAt) {
+                const d = new Date(apiData._generatedAt);
+                document.getElementById('overall-last-update').textContent = '最近更新: ' + d.toLocaleTimeString('zh-HK', {hour:'2-digit', minute:'2-digit'});
+            }
+        }
+    } catch(e) { console.log('Minimax quota error:', e); }
+}
 
-        // ===============================
         // COPILOT USAGE DASHBOARD (Phase 12)
         // ===============================
         async function loadCopilotDashboard() {
@@ -4150,7 +4129,7 @@
             renderScheduleMini();
             loadTokenStats();
             loadCopilotDashboard();
-            loadDashboardPanels();
+            loadQuotaOverview();
             updateWorkingStatus();
             checkMobile();
             
@@ -5232,7 +5211,7 @@
 
                     // Poll for updated data after ~35s (GitHub Actions takes time)
                     setTimeout(async () => {
-                        await loadDashboardPanels();
+                        await loadQuotaOverview();
                         btn.textContent = '✅ Updated!';
                         setTimeout(() => {
                             btn.textContent = origText;
@@ -5252,7 +5231,7 @@
                     const base = window.location.pathname.includes('/virtual-office') ? '' : '/virtual-office';
                     const res = await fetch(base + '/public/minimax-api-status.json?' + Date.now());
                     if (res.ok) {
-                        await loadDashboardPanels();
+                        await loadQuotaOverview();
                         btn.textContent = '✅ Loaded cache';
                     } else {
                         btn.textContent = '⚠️ Use Actions';
