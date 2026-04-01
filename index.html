@@ -10,7 +10,6 @@
 :root{--bg:#0f0f23;--card:#16213e;--bar-bg:#0a1628;--text:#eee;--dim:#888;--red:#bc002d;--green:#2ecc71;--warn:#f39c12;--danger:#e74c3c;--blue:#3498db;--purple:#9b59b6}
 body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 
-/* ── Header ── */
 .header{position:sticky;top:0;z-index:10;background:linear-gradient(90deg,#1a1a2e,#16213e);border-bottom:2px solid var(--red);padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
 .header h1{font-size:1.1rem;display:flex;align-items:center;gap:8px}
 .header-right{display:flex;align-items:center;gap:14px}
@@ -18,25 +17,18 @@ body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:
 .header-right a{color:var(--dim);text-decoration:none;font-size:.82em;padding:5px 14px;border:1px solid rgba(255,255,255,.12);border-radius:18px;transition:all .2s}
 .header-right a:hover{color:#fff;border-color:var(--red)}
 
-/* ── Container ── */
 .container{max-width:800px;margin:0 auto;padding:24px 16px 60px}
 
-/* ── Quota Grid ── */
 .quota-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:32px}
 .quota-card{background:var(--card);border-radius:12px;padding:20px;border-left:4px solid var(--green);transition:border-color .3s}
 .quota-card .label{font-size:.72em;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.quota-card .period{font-size:.65em;color:var(--dim);font-weight:400;text-transform:none;letter-spacing:0}
 .quota-card .numbers{font-size:1.15rem;font-weight:700;margin-bottom:10px}
 .quota-card .numbers .remaining{color:var(--green)}
 .quota-card .track{height:7px;background:var(--bar-bg);border-radius:4px;overflow:hidden;margin-bottom:6px}
 .quota-card .fill{height:100%;border-radius:4px;transition:width .6s ease,background .3s}
 .quota-card .pct{font-size:.72em;color:var(--dim)}
 
-/* ── Refresh Button ── */
-.btn-refresh{padding:6px 16px;background:rgba(52,152,219,0.15);color:var(--blue);border:1px solid rgba(52,152,219,0.3);border-radius:16px;cursor:pointer;font-size:.78em;transition:all .2s;font-family:inherit}
-.btn-refresh:hover{background:rgba(52,152,219,0.3)}
-.btn-refresh:disabled{opacity:.5;cursor:default}
-
-/* ── Projects ── */
 .section-title{font-size:.78em;color:var(--dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:10px}
 .project-list{display:flex;flex-direction:column;gap:8px}
 .project-card{background:var(--card);border-radius:10px;padding:14px 18px;cursor:pointer;transition:background .2s}
@@ -54,7 +46,6 @@ body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:
 .project-preview-inner code{background:rgba(255,255,255,.08);padding:1px 5px;border-radius:3px;font-size:.9em}
 .expand-icon{font-size:.7em;color:var(--dim);transition:transform .2s;margin-left:4px}
 
-/* ── Mobile ── */
 @media(max-width:600px){
   .header{padding:12px 14px}
   .header h1{font-size:.95rem}
@@ -76,48 +67,41 @@ body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:
 
 <div class="container">
 
-  <!-- Quota Header -->
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-    <div class="section-title" style="margin-bottom:0">⚡ 配額總覽</div>
-    <button class="btn-refresh" id="btn-refresh-quotas" onclick="refreshQuotas()">🔄 Refresh Quotas</button>
-  </div>
+  <div class="section-title" style="margin-bottom:14px">⚡ 配額總覽</div>
 
-  <!-- Quota Bars -->
   <div class="quota-grid">
-    <div class="quota-card" id="q-copilot" style="border-left-color:var(--green)">
-      <div class="label">🤖 Copilot</div>
+    <div class="quota-card" id="q-copilot">
+      <div class="label">🤖 Copilot <span class="period">/ 每月</span></div>
       <div class="numbers"><span class="remaining">—</span> / <span class="total">300</span> remaining</div>
       <div class="track"><div class="fill" style="width:0%;background:var(--green)"></div></div>
       <div class="pct">—</div>
     </div>
-    <div class="quota-card" id="q-text" style="border-left-color:var(--purple)">
-      <div class="label">📝 M* Text</div>
+    <div class="quota-card" id="q-text">
+      <div class="label">📝 M* Text <span class="period">/ 每 5 小時</span></div>
       <div class="numbers"><span class="remaining">—</span> / <span class="total">4,500</span> remaining</div>
       <div class="track"><div class="fill" style="width:0%;background:var(--purple)"></div></div>
       <div class="pct">—</div>
     </div>
-    <div class="quota-card" id="q-speech" style="border-left-color:var(--danger)">
-      <div class="label">🎤 Speech</div>
+    <div class="quota-card" id="q-speech">
+      <div class="label">🎤 Speech <span class="period">/ 每日</span></div>
       <div class="numbers"><span class="remaining">—</span> / <span class="total">4,000</span> remaining</div>
       <div class="track"><div class="fill" style="width:0%;background:var(--danger)"></div></div>
       <div class="pct">—</div>
     </div>
-    <div class="quota-card" id="q-image" style="border-left-color:var(--warn)">
-      <div class="label">🖼️ Image</div>
+    <div class="quota-card" id="q-image">
+      <div class="label">🖼️ Image <span class="period">/ 每日</span></div>
       <div class="numbers"><span class="remaining">—</span> / <span class="total">50</span> remaining</div>
       <div class="track"><div class="fill" style="width:0%;background:var(--warn)"></div></div>
       <div class="pct">—</div>
     </div>
   </div>
 
-  <!-- Projects -->
   <div class="section-title">📋 Projects</div>
   <div class="project-list" id="projectList"></div>
 
 </div>
 
 <script>
-// ── Data ──
 const projects = [
   { name:'Song-of-Songs', icon:'🎵', status:'active', link:'https://github.com/ai-lish/Song-of-Songs', date:'2026-03-28', repo:'ai-lish/Song-of-Songs', desc:'歌詞影片製作專案 — Song of Songs 系列' },
   { name:'虛擬辦公室', icon:'🏢', status:'active', link:'https://ai-lish.github.io/virtual-office/', date:'2026-03-05', repo:'ai-lish/virtual-office', desc:'AI 助手工作狀態監控儀表板' },
@@ -129,7 +113,6 @@ const projects = [
   { name:'教師發展日', icon:'✅', status:'completed', link:'https://ai-lish.github.io/teacher-dev-day/', date:'2026-01-15', repo:'ai-lish/teacher-dev-day', desc:'教師專業發展日活動' }
 ];
 
-// ── Render Projects ──
 const listEl = document.getElementById('projectList');
 const statusIcon = { active:'🔄', completed:'✅', pending:'⏳' };
 const statusLabel = { active:'進行中', completed:'已完成', pending:'待開始' };
@@ -155,7 +138,6 @@ projects.forEach((p, i) => {
   listEl.appendChild(card);
 });
 
-// ── Toggle Preview ──
 function togglePreview(i) {
   const el = document.getElementById('preview-' + i);
   const icon = document.getElementById('expand-' + i);
@@ -167,7 +149,6 @@ function togglePreview(i) {
   }
 }
 
-// ── Load README snippet from GitHub API ──
 const readmeCache = {};
 async function loadReadme(i) {
   const p = projects[i];
@@ -178,7 +159,6 @@ async function loadReadme(i) {
     const res = await fetch(`https://api.github.com/repos/${p.repo}/readme`, { headers: { Accept: 'application/vnd.github.v3.raw' } });
     if (!res.ok) { el.textContent = '無法載入 README'; return; }
     const text = await res.text();
-    // Show first ~500 chars, strip markdown headers/links
     let snippet = text.slice(0, 600)
       .replace(/^#+\s*/gm, '')
       .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
@@ -192,24 +172,22 @@ async function loadReadme(i) {
   } catch(e) { el.textContent = '載入失敗'; }
 }
 
-// ── Quota Helpers ──
-function setQuota(id, remaining, total, baseColor) {
+// ── Quota Display ──
+function setQuota(id, remaining, total) {
   const card = document.getElementById(id);
   if (!card) return;
-  const used = total - remaining;
-  const pctRemaining = Math.round((remaining / total) * 100);
+  const pctRemaining = total > 0 ? Math.round((remaining / total) * 100) : 0;
   const pctUsed = 100 - pctRemaining;
-  // Color based on remaining %
   const color = pctRemaining > 50 ? 'var(--green)' : pctRemaining > 20 ? 'var(--warn)' : 'var(--danger)';
   card.style.borderLeftColor = color;
-  card.querySelector('.remaining').textContent = remaining.toLocaleString();
+  card.querySelector('.remaining').textContent = typeof remaining === 'number' && remaining % 1 !== 0 ? remaining.toFixed(1) : remaining.toLocaleString();
   card.querySelector('.total').textContent = total.toLocaleString();
   card.querySelector('.fill').style.width = pctUsed + '%';
   card.querySelector('.fill').style.background = color;
   card.querySelector('.pct').textContent = pctRemaining + '% remaining';
 }
 
-// ── Load Data ──
+// ── Load Data on page load ──
 async function loadData() {
   const ts = Date.now();
   const base = location.pathname.includes('/virtual-office') ? '/virtual-office' : '';
@@ -221,7 +199,7 @@ async function loadData() {
     if (res.ok) {
       const d = await res.json();
       const q = d.quota || {};
-      setQuota('q-copilot', Math.round(q.remaining || 0), q.total || 300, 'green');
+      setQuota('q-copilot', q.remaining != null ? Math.round(q.remaining * 100) / 100 : 0, q.total || 300);
       if (d._generatedAt) lastTime = new Date(d._generatedAt);
     }
   } catch(e) { console.log('Copilot fetch error', e); }
@@ -231,57 +209,52 @@ async function loadData() {
     const res = await fetch(base + '/public/minimax-api-status.json?' + ts);
     if (res.ok) {
       const d = await res.json();
+
+      // Support two formats:
+      // Format A: raw.model_remains[] with per-model data
+      // Format B: simple quota object (aggregate)
       const models = (d.raw && d.raw.model_remains) || [];
 
-      // MiniMax API: current_interval_usage_count = REMAINING count
-      const text = models.find(m => m.model_name === 'MiniMax-M*');
-      if (text) setQuota('q-text', text.current_interval_usage_count, text.current_interval_total_count, 'purple');
+      if (models.length > 0) {
+        // Format A: per-model breakdown
+        // current_interval_usage_count = REMAINING (not used!)
+        const text = models.find(m => m.model_name === 'MiniMax-M*');
+        if (text) setQuota('q-text', text.current_interval_usage_count, text.current_interval_total_count);
 
-      const speech = models.find(m => m.model_name === 'speech-hd');
-      if (speech) setQuota('q-speech', speech.current_interval_usage_count, speech.current_interval_total_count, 'red');
+        const speech = models.find(m => m.model_name === 'speech-hd');
+        if (speech) setQuota('q-speech', speech.current_interval_usage_count, speech.current_interval_total_count);
 
-      const image = models.find(m => m.model_name === 'image-01');
-      if (image) setQuota('q-image', image.current_interval_usage_count, image.current_interval_total_count, 'orange');
+        const image = models.find(m => m.model_name === 'image-01');
+        if (image) setQuota('q-image', image.current_interval_usage_count, image.current_interval_total_count);
+      } else if (d.quota) {
+        // Format B: aggregate quota — show on text card, mark others as N/A
+        const q = d.quota;
+        // remaining = q.remaining (already the remaining count)
+        setQuota('q-text', q.remaining || 0, q.total || 4500);
+        // No per-model data for speech/image — show as unavailable
+        setQuotaNA('q-speech');
+        setQuotaNA('q-image');
+      }
 
       if (d._generatedAt) lastTime = new Date(d._generatedAt);
     }
   } catch(e) { console.log('MiniMax fetch error', e); }
 
-  // Update timestamp
   if (lastTime) {
     document.getElementById('lastUpdate').textContent = '更新: ' + lastTime.toLocaleTimeString('zh-HK', {hour:'2-digit', minute:'2-digit'});
   }
 }
 
-loadData();
-// Refresh every 5 minutes
-setInterval(loadData, 300000);
-
-// ── Refresh Quotas (triggers GitHub Actions or Apps Script) ──
-async function refreshQuotas() {
-  const btn = document.getElementById('btn-refresh-quotas');
-  btn.disabled = true; btn.textContent = '⏳ Refreshing…';
-  
-  // Try Apps Script endpoint first (triggers MiniMax API refresh)
-  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxLmw7-GKmdeW6L1V7imB-ed6lCDV3WjYKxC-GW44UDUCFVJR7eyAtmWs3z20CoRt8E/exec';
-  try {
-    const res = await fetch(APPS_SCRIPT_URL);
-    const d = await res.json();
-    if (d.success) {
-      btn.textContent = '⏳ 等待更新…';
-      // Wait for GitHub Actions to push new data
-      setTimeout(async () => {
-        await loadData();
-        btn.textContent = '🔄 Refresh Quotas'; btn.disabled = false;
-      }, 35000);
-      return;
-    }
-  } catch(e) { console.log('Apps Script error:', e); }
-  
-  // Fallback: just reload cached data
-  await loadData();
-  btn.textContent = '🔄 Refresh Quotas'; btn.disabled = false;
+function setQuotaNA(id) {
+  const card = document.getElementById(id);
+  if (!card) return;
+  card.style.borderLeftColor = 'var(--dim)';
+  card.querySelector('.remaining').textContent = '—';
+  card.querySelector('.pct').textContent = '無數據';
 }
+
+loadData();
+setInterval(loadData, 300000);
 </script>
 </body>
 </html>

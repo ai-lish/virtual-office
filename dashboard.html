@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - 虛擬辦公室</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
@@ -13,72 +12,49 @@
             --bar-bg: #0a1628; --text: #eee; --text2: #888; --red: #bc002d;
             --blue: #3498db; --green: #2ecc71; --orange: #e67e22; --danger: #e74c3c; --warn: #f39c12;
         }
-        body { font-family:'Noto Sans SC',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; padding:0; }
-
-        /* Top nav */
+        body { font-family:'Noto Sans SC',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
         .top-nav { position:sticky; top:0; z-index:100; background:linear-gradient(90deg,#1a1a2e,#16213e); border-bottom:2px solid var(--red); padding:14px 24px; display:flex; justify-content:space-between; align-items:center; }
         .top-nav h1 { font-size:1.15rem; font-weight:700; display:flex; align-items:center; gap:8px; }
         .top-nav a { color:var(--text2); text-decoration:none; font-size:0.85em; padding:6px 14px; border:1px solid rgba(255,255,255,0.1); border-radius:20px; transition:all 0.2s; }
         .top-nav a:hover { color:#fff; border-color:var(--red); }
         .last-update { font-size:0.75em; color:var(--text2); }
-
         .container { max-width:960px; margin:0 auto; padding:24px 16px 60px; display:flex; flex-direction:column; gap:20px; }
-
-        /* Cards */
-        .card { background:var(--card); border-radius:14px; padding:24px; border:1px solid rgba(255,255,255,0.06); transition:border-color 0.2s; }
-        .card:hover { border-color:rgba(255,255,255,0.12); }
-        .card-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; }
+        .card { background:var(--card); border-radius:14px; padding:24px; border:1px solid rgba(255,255,255,0.06); }
+        .card-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:10px; }
         .card-title { display:flex; align-items:center; gap:10px; font-size:1.1rem; font-weight:700; }
         .badge { padding:3px 10px; border-radius:10px; font-size:0.72em; font-weight:500; }
-
-        /* Progress bar */
         .progress-row { margin-bottom:14px; }
         .progress-label { display:flex; justify-content:space-between; font-size:0.82em; margin-bottom:5px; color:var(--text2); }
         .progress-label strong { color:var(--text); }
         .progress-track { height:8px; background:var(--bar-bg); border-radius:4px; overflow:hidden; }
         .progress-fill { height:100%; border-radius:4px; transition:width 0.6s ease; }
-
-        /* Model tag colors */
         .tag { display:inline-block; padding:2px 8px; border-radius:6px; font-size:0.72em; font-weight:500; margin-right:4px; }
         .tag-text { background:rgba(52,152,219,0.2); color:var(--blue); }
         .tag-speech { background:rgba(155,89,182,0.2); color:#9b59b6; }
         .tag-image { background:rgba(230,126,34,0.2); color:var(--orange); }
-
-        /* Stats row */
         .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:10px; }
         .stat-box { background:var(--bar-bg); border-radius:8px; padding:12px; text-align:center; }
         .stat-box .label { font-size:0.7em; color:var(--text2); margin-bottom:4px; }
         .stat-box .value { font-size:1.2rem; font-weight:700; }
-
-        /* Copilot model breakdown */
         .model-row { display:flex; align-items:center; gap:10px; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.04); font-size:0.82em; }
         .model-row:last-child { border-bottom:none; }
         .model-name { flex:1; color:var(--text); }
         .model-val { color:var(--text2); min-width:60px; text-align:right; }
         .model-bar-wrap { width:120px; height:6px; background:var(--bar-bg); border-radius:3px; overflow:hidden; }
         .model-bar-fill { height:100%; border-radius:3px; }
-
-        /* Table */
         .data-table { width:100%; border-collapse:collapse; font-size:0.8em; }
         .data-table th { padding:8px 6px; text-align:left; color:var(--text2); border-bottom:1px solid rgba(255,255,255,0.1); font-weight:500; }
-        .data-table td { padding:7px 6px; border-bottom:1px solid rgba(255,255,255,0.04); color:var(--text); }
+        .data-table td { padding:7px 6px; border-bottom:1px solid rgba(255,255,255,0.04); }
         .data-table .num { text-align:right; font-variant-numeric:tabular-nums; }
         .data-table tbody tr:hover { background:rgba(255,255,255,0.03); }
-
-        /* Pagination */
         .pagination { display:flex; justify-content:center; align-items:center; gap:8px; margin-top:14px; }
         .pagination button { padding:6px 12px; border:1px solid rgba(255,255,255,0.15); border-radius:6px; background:transparent; color:var(--text2); cursor:pointer; font-size:0.82em; transition:all 0.2s; }
         .pagination button:hover:not(:disabled) { border-color:var(--blue); color:var(--blue); }
         .pagination button:disabled { opacity:0.3; cursor:default; }
         .pagination button.active { background:var(--blue); color:#fff; border-color:var(--blue); }
         .pagination .info { font-size:0.78em; color:var(--text2); }
-
-        /* Refresh button */
-        .btn-refresh { padding:5px 14px; background:rgba(52,152,219,0.15); color:var(--blue); border:1px solid rgba(52,152,219,0.3); border-radius:14px; cursor:pointer; font-size:0.78em; transition:all 0.2s; }
-        .btn-refresh:hover { background:rgba(52,152,219,0.3); }
-        .btn-refresh:disabled { opacity:0.5; cursor:default; }
-
-        /* Responsive */
+        .month-select { padding:6px 12px; background:var(--bar-bg); color:var(--text); border:1px solid rgba(255,255,255,0.15); border-radius:8px; font-size:0.85em; font-family:inherit; cursor:pointer; }
+        .month-select:focus { outline:none; border-color:var(--blue); }
         @media(max-width:600px) {
             .container { padding:16px 10px 40px; }
             .card { padding:16px; }
@@ -99,36 +75,11 @@
     </div>
 
     <div class="container">
-        <!-- ===== Refresh Controls Card ===== -->
-        <div class="card" style="border:1px solid rgba(52,152,219,0.2);">
-            <div class="card-header">
-                <div class="card-title">🔄 數據更新</div>
-                <span style="font-size:0.72em;color:var(--text2);" id="refresh-status"></span>
-            </div>
-            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;">
-                <button class="btn-refresh" style="padding:12px 16px;border-radius:10px;text-align:left;font-size:0.82em;" id="btn-r-minimax" onclick="doRefresh('minimax')">
-                    ⚡ Refresh MiniMax Quota<br><span style="font-size:0.85em;color:var(--text2);">API → JSON</span>
-                </button>
-                <button class="btn-refresh" style="padding:12px 16px;border-radius:10px;text-align:left;font-size:0.82em;" id="btn-r-copilot" onclick="doRefresh('copilot')">
-                    🤖 Refresh Copilot Usage<br><span style="font-size:0.85em;color:var(--text2);">Google Drive CSV → JSON</span>
-                </button>
-                <button class="btn-refresh" style="padding:12px 16px;border-radius:10px;text-align:left;font-size:0.82em;" id="btn-r-token" onclick="doRefresh('token')">
-                    📊 Refresh MiniMax Tokens<br><span style="font-size:0.85em;color:var(--text2);">Google Drive CSV → JSON</span>
-                </button>
-            </div>
-            <div style="margin-top:10px;font-size:0.72em;color:var(--text2);">
-                💡 MiniMax Quota 可直接從瀏覽器更新。Copilot 和 Token 數據需要在本機執行 <code style="background:rgba(255,255,255,.08);padding:1px 5px;border-radius:3px;">scripts/refresh-data.sh</code>
-            </div>
-        </div>
-
         <!-- ===== MiniMax Quota Card ===== -->
         <div class="card" id="minimax-card">
             <div class="card-header">
                 <div class="card-title">⚡ MiniMax 配額</div>
-                <div style="display:flex;align-items:center;gap:8px;">
-                    <span id="mm-source" class="badge" style="background:rgba(52,152,219,0.15);color:var(--blue);"></span>
-                    <button class="btn-refresh" id="mm-refresh" onclick="refreshMinimax()">🔄 Refresh</button>
-                </div>
+                <span id="mm-source" class="badge" style="background:rgba(52,152,219,0.15);color:var(--blue);"></span>
             </div>
             <div id="mm-models">
                 <div style="color:var(--text2);font-size:0.85em;">載入中…</div>
@@ -142,7 +93,6 @@
                 <div class="card-title">🤖 GitHub Copilot Premium</div>
                 <span id="cp-badge" class="badge"></span>
             </div>
-            <!-- Total bar -->
             <div class="progress-row">
                 <div class="progress-label">
                     <span>Premium 請求</span>
@@ -156,7 +106,6 @@
                     <span>重置: <strong id="cp-reset" style="color:var(--text);">—</strong></span>
                 </div>
             </div>
-            <!-- Model breakdown -->
             <div style="font-size:0.78em;color:var(--text2);margin:12px 0 8px;">模型用量</div>
             <div id="cp-models">
                 <div style="color:var(--text2);font-size:0.82em;">載入中…</div>
@@ -167,16 +116,19 @@
         <div class="card" id="token-card">
             <div class="card-header">
                 <div class="card-title">📊 MiniMax 使用明細</div>
-                <span id="tk-range" class="badge" style="background:rgba(230,126,34,0.15);color:var(--orange);"></span>
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <select class="month-select" id="month-select" onchange="filterByMonth()">
+                        <option value="all">全部月份</option>
+                    </select>
+                    <span id="tk-range" class="badge" style="background:rgba(230,126,34,0.15);color:var(--orange);"></span>
+                </div>
             </div>
-            <!-- Summary stats -->
             <div class="stats-grid" id="tk-stats" style="margin-bottom:16px;">
                 <div class="stat-box"><div class="label">記錄數</div><div class="value" id="tk-count">—</div></div>
                 <div class="stat-box"><div class="label">Input Tokens</div><div class="value" id="tk-input" style="color:var(--blue);">—</div></div>
                 <div class="stat-box"><div class="label">Output Tokens</div><div class="value" id="tk-output" style="color:var(--green);">—</div></div>
                 <div class="stat-box"><div class="label">主要模型</div><div class="value" id="tk-model" style="color:var(--orange);">—</div></div>
             </div>
-            <!-- Table -->
             <div style="overflow-x:auto;">
                 <table class="data-table">
                     <thead>
@@ -199,13 +151,12 @@
     </div>
 
     <script>
-    // Helpers
     const $ = id => document.getElementById(id);
     const fmtNum = n => n >= 1e9 ? (n/1e9).toFixed(2)+'B' : n >= 1e6 ? (n/1e6).toFixed(1)+'M' : n >= 1e3 ? (n/1e3).toFixed(1)+'K' : String(n);
     const pctColor = pct => pct >= 90 ? 'var(--danger)' : pct >= 70 ? 'var(--warn)' : 'var(--blue)';
     const basePath = location.pathname.includes('/virtual-office') ? '' : '/virtual-office';
 
-    // ===== 1. MiniMax Quota =====
+    // ===== MiniMax Quota =====
     async function loadMinimax() {
         try {
             const res = await fetch(basePath + '/public/minimax-api-status.json?' + Date.now());
@@ -221,28 +172,44 @@
             let html = '';
             const typeMap = { 'MiniMax-M*': ['tag-text','文字'], 'speech-hd': ['tag-speech','語音'], 'image-01': ['tag-image','圖像'] };
 
-            models.forEach(m => {
-                const pct = m.total > 0 ? Math.round(m.used / m.total * 100) : 0;
+            if (models.length > 0) {
+                models.forEach(m => {
+                    const pct = m.total > 0 ? Math.round(m.used / m.total * 100) : 0;
+                    const color = pctColor(pct);
+                    const [tagClass, tagLabel] = typeMap[m.model] || ['tag-text', '其他'];
+                    html += `
+                    <div class="progress-row">
+                        <div class="progress-label">
+                            <span><span class="tag ${tagClass}">${tagLabel}</span> ${m.model}</span>
+                            <strong>${m.remaining} / ${m.total}</strong>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-fill" style="width:${pct}%;background:${color};"></div>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;font-size:0.7em;color:var(--text2);margin-top:3px;">
+                            <span>已用 ${pct}%</span>
+                        </div>
+                    </div>`;
+                });
+            } else if (data.quota) {
+                // Aggregate format
+                const q = data.quota;
+                const pct = q.usedPercent || Math.round((q.used / q.total) * 100);
                 const color = pctColor(pct);
-                const [tagClass, tagLabel] = typeMap[m.model] || ['tag-text', '其他'];
-                html += `
+                html = `
                 <div class="progress-row">
                     <div class="progress-label">
-                        <span><span class="tag ${tagClass}">${tagLabel}</span> ${m.model}</span>
-                        <strong>${m.remaining} / ${m.total}</strong>
+                        <span><span class="tag tag-text">總計</span> 所有模型</span>
+                        <strong>${q.remaining} / ${q.total}</strong>
                     </div>
                     <div class="progress-track">
                         <div class="progress-fill" style="width:${pct}%;background:${color};"></div>
                     </div>
-                    <div style="display:flex;justify-content:space-between;font-size:0.7em;color:var(--text2);margin-top:3px;">
-                        <span>已用 ${pct}%</span>
-                        ${m.weeklyTotal > 0 ? `<span>週配額: ${m.weeklyUsed}/${m.weeklyTotal}</span>` : ''}
-                    </div>
+                    <div style="font-size:0.7em;color:var(--text2);margin-top:3px;">已用 ${pct}% · 重置: ${q.resetDate || '—'}</div>
                 </div>`;
-            });
-            $('mm-models').innerHTML = html;
+            }
+            $('mm-models').innerHTML = html || '<div style="color:var(--text2);font-size:0.85em;">無配額數據</div>';
 
-            // Interval info from raw data
             if (raw.length > 0) {
                 const r = raw[0];
                 const resetTime = new Date(r.end_time);
@@ -256,24 +223,7 @@
         } catch(e) { console.log('MiniMax load error:', e); }
     }
 
-    async function refreshMinimax() {
-        const btn = $('mm-refresh');
-        btn.disabled = true; btn.textContent = '⏳ Refreshing…';
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxLmw7-GKmdeW6L1V7imB-ed6lCDV3WjYKxC-GW44UDUCFVJR7eyAtmWs3z20CoRt8E/exec';
-        try {
-            const res = await fetch(APPS_SCRIPT_URL);
-            const d = await res.json();
-            if (d.success) {
-                btn.textContent = '✅ Triggered!';
-                setTimeout(async () => { await loadMinimax(); btn.textContent = '🔄 Refresh'; btn.disabled = false; }, 35000);
-            } else throw new Error();
-        } catch(e) {
-            await loadMinimax();
-            btn.textContent = '🔄 Refresh'; btn.disabled = false;
-        }
-    }
-
-    // ===== 2. Copilot =====
+    // ===== Copilot =====
     async function loadCopilot() {
         try {
             const res = await fetch(basePath + '/public/copilot-data.json?' + Date.now());
@@ -293,17 +243,17 @@
             $('cp-remain').textContent = q.remaining != null ? q.remaining : '—';
             $('cp-reset').textContent = q.resetDate || '—';
 
-            // Recommendation badge
-            const recRes = await fetch(basePath + '/public/copilot-summary-token-log.json?' + Date.now());
-            if (recRes.ok) {
-                const recData = await recRes.json();
-                const rec = recData.recommendation || recData.quota?.recommendation || {};
-                $('cp-badge').textContent = (rec.emoji || '🟢') + ' ' + (rec.label || '');
-                $('cp-badge').style.background = rec.color ? rec.color + '33' : 'rgba(46,204,113,0.2)';
-                $('cp-badge').style.color = rec.color || 'var(--green)';
-            }
+            try {
+                const recRes = await fetch(basePath + '/public/copilot-summary-token-log.json?' + Date.now());
+                if (recRes.ok) {
+                    const recData = await recRes.json();
+                    const rec = recData.recommendation || recData.quota?.recommendation || {};
+                    $('cp-badge').textContent = (rec.emoji || '🟢') + ' ' + (rec.label || '');
+                    $('cp-badge').style.background = rec.color ? rec.color + '33' : 'rgba(46,204,113,0.2)';
+                    $('cp-badge').style.color = rec.color || 'var(--green)';
+                }
+            } catch(e) {}
 
-            // Model breakdown
             const byModel = a.byModel || {};
             const entries = Object.entries(byModel).sort((a,b) => b[1] - a[1]);
             const maxVal = entries.length > 0 ? entries[0][1] : 1;
@@ -326,8 +276,9 @@
         } catch(e) { console.log('Copilot load error:', e); }
     }
 
-    // ===== 3. Token Detail (Paginated) =====
-    let tokenRecords = [];
+    // ===== Token Detail with Month Filter =====
+    let allRecords = [];
+    let filteredRecords = [];
     let tokenPage = 1;
     const PAGE_SIZE = 50;
 
@@ -336,34 +287,79 @@
             const res = await fetch(basePath + '/public/token-log.json?' + Date.now());
             if (!res.ok) return;
             const data = await res.json();
-            tokenRecords = (data.records || []).slice().reverse(); // newest first
+            allRecords = (data.records || []).slice().reverse(); // newest first
 
-            // Summary
-            const meta = data.meta || {};
-            $('tk-count').textContent = fmtNum(meta.totalRecords || tokenRecords.length);
-
-            const summaryRes = await fetch(basePath + '/public/summary-token-log.json?' + Date.now());
-            if (summaryRes.ok) {
-                const s = await summaryRes.json();
-                $('tk-input').textContent = fmtNum(s.totals?.inputTokens || 0);
-                $('tk-output').textContent = fmtNum(s.totals?.outputTokens || 0);
-                if (s.byModel && s.byModel.length > 0) {
-                    $('tk-model').textContent = s.byModel[0].model.replace('MiniMax-','');
+            // Build month selector
+            const months = new Set();
+            allRecords.forEach(r => {
+                if (r.consumptionTime) {
+                    const d = new Date(r.consumptionTime);
+                    const key = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0');
+                    months.add(key);
                 }
-                if (s.meta?.dateRange) {
-                    $('tk-range').textContent = s.meta.dateRange.start + ' → ' + s.meta.dateRange.end;
-                }
-            }
+            });
+            const sortedMonths = [...months].sort().reverse();
+            const sel = $('month-select');
+            sel.innerHTML = '<option value="all">全部月份</option>';
+            sortedMonths.forEach(m => {
+                const opt = document.createElement('option');
+                opt.value = m;
+                opt.textContent = m;
+                sel.appendChild(opt);
+            });
 
-            renderTokenPage();
+            filterByMonth();
         } catch(e) { console.log('Token detail load error:', e); }
+    }
+
+    function filterByMonth() {
+        const month = $('month-select').value;
+        tokenPage = 1;
+
+        if (month === 'all') {
+            filteredRecords = allRecords;
+        } else {
+            filteredRecords = allRecords.filter(r => {
+                if (!r.consumptionTime) return false;
+                const d = new Date(r.consumptionTime);
+                const key = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0');
+                return key === month;
+            });
+        }
+
+        // Update stats for filtered data
+        $('tk-count').textContent = fmtNum(filteredRecords.length);
+        let totalInput = 0, totalOutput = 0;
+        const modelCount = {};
+        filteredRecords.forEach(r => {
+            totalInput += r.inputUsageQuantity || 0;
+            totalOutput += r.outputUsageQuantity || 0;
+            const m = r.consumedModel || 'unknown';
+            modelCount[m] = (modelCount[m] || 0) + 1;
+        });
+        $('tk-input').textContent = fmtNum(totalInput);
+        $('tk-output').textContent = fmtNum(totalOutput);
+
+        const topModel = Object.entries(modelCount).sort((a,b) => b[1] - a[1])[0];
+        $('tk-model').textContent = topModel ? topModel[0].replace('MiniMax-','') : '—';
+
+        if (filteredRecords.length > 0) {
+            const first = filteredRecords[filteredRecords.length - 1];
+            const last = filteredRecords[0];
+            const fmt = d => new Date(d).toLocaleDateString('zh-HK');
+            $('tk-range').textContent = (first.consumptionTime ? fmt(first.consumptionTime) : '') + ' → ' + (last.consumptionTime ? fmt(last.consumptionTime) : '');
+        } else {
+            $('tk-range').textContent = '';
+        }
+
+        renderTokenPage();
     }
 
     function renderTokenPage() {
         const start = (tokenPage - 1) * PAGE_SIZE;
         const end = start + PAGE_SIZE;
-        const page = tokenRecords.slice(start, end);
-        const totalPages = Math.ceil(tokenRecords.length / PAGE_SIZE);
+        const page = filteredRecords.slice(start, end);
+        const totalPages = Math.ceil(filteredRecords.length / PAGE_SIZE) || 1;
 
         const tbody = $('tk-body');
         if (page.length === 0) {
@@ -384,30 +380,25 @@
             }).join('');
         }
 
-        // Pagination
         const pg = $('tk-pagination');
         let pgHtml = `<button onclick="goPage(1)" ${tokenPage===1?'disabled':''}>«</button>`;
         pgHtml += `<button onclick="goPage(${tokenPage-1})" ${tokenPage===1?'disabled':''}>‹</button>`;
-
-        // Show page numbers (max 7)
         const range = [];
         let pStart = Math.max(1, tokenPage - 3);
         let pEnd = Math.min(totalPages, pStart + 6);
         if (pEnd - pStart < 6) pStart = Math.max(1, pEnd - 6);
         for (let i = pStart; i <= pEnd; i++) range.push(i);
-
         range.forEach(p => {
             pgHtml += `<button onclick="goPage(${p})" class="${p===tokenPage?'active':''}">${p}</button>`;
         });
-
-        pgHtml += `<button onclick="goPage(${tokenPage+1})" ${tokenPage===totalPages?'disabled':''}>›</button>`;
-        pgHtml += `<button onclick="goPage(${totalPages})" ${tokenPage===totalPages?'disabled':''}>»</button>`;
-        pgHtml += `<span class="info">${start+1}-${Math.min(end,tokenRecords.length)} / ${tokenRecords.length}</span>`;
+        pgHtml += `<button onclick="goPage(${tokenPage+1})" ${tokenPage>=totalPages?'disabled':''}>›</button>`;
+        pgHtml += `<button onclick="goPage(${totalPages})" ${tokenPage>=totalPages?'disabled':''}>»</button>`;
+        pgHtml += `<span class="info">${filteredRecords.length > 0 ? (start+1)+'-'+Math.min(end,filteredRecords.length)+' / '+filteredRecords.length : '0'}</span>`;
         pg.innerHTML = pgHtml;
     }
 
     function goPage(p) {
-        const totalPages = Math.ceil(tokenRecords.length / PAGE_SIZE);
+        const totalPages = Math.ceil(filteredRecords.length / PAGE_SIZE) || 1;
         tokenPage = Math.max(1, Math.min(p, totalPages));
         renderTokenPage();
         $('token-card').scrollIntoView({behavior:'smooth', block:'start'});
@@ -417,49 +408,7 @@
     loadMinimax();
     loadCopilot();
     loadTokenDetail();
-    // Auto-refresh every 5 min
     setInterval(() => { loadMinimax(); loadCopilot(); }, 300000);
-
-    // ===== Refresh Buttons =====
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxLmw7-GKmdeW6L1V7imB-ed6lCDV3WjYKxC-GW44UDUCFVJR7eyAtmWs3z20CoRt8E/exec';
-    
-    async function doRefresh(type) {
-      const btn = $('btn-r-' + type);
-      const status = $('refresh-status');
-      btn.disabled = true;
-      const origHTML = btn.innerHTML;
-      btn.innerHTML = '⏳ 更新中…';
-      
-      try {
-        if (type === 'minimax') {
-          // Trigger Apps Script → MiniMax API → GitHub commit
-          status.textContent = '正在觸發 MiniMax API 查詢…';
-          const res = await fetch(APPS_SCRIPT_URL);
-          const d = await res.json();
-          if (d.success) {
-            status.textContent = '✅ 已觸發，等待數據更新…';
-            setTimeout(async () => {
-              await loadMinimax();
-              btn.innerHTML = origHTML; btn.disabled = false;
-              status.textContent = '✅ MiniMax 配額已更新';
-            }, 35000);
-            return;
-          }
-        } else if (type === 'copilot') {
-          status.textContent = '⚠️ 請在本機執行: scripts/refresh-data.sh copilot';
-          // Can't do Drive access from browser; reload cached data
-          await loadCopilot();
-        } else if (type === 'token') {
-          status.textContent = '⚠️ 請在本機執行: scripts/refresh-data.sh token';
-          await loadTokenDetail();
-        }
-      } catch(e) {
-        status.textContent = '❌ 更新失敗: ' + e.message;
-        console.log('Refresh error:', e);
-      }
-      
-      btn.innerHTML = origHTML; btn.disabled = false;
-    }
     </script>
 </body>
 </html>
