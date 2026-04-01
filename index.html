@@ -274,15 +274,15 @@ async function loadData() {
 
       if (models.length > 0) {
         // Format A: per-model breakdown
-        // current_interval_usage_count = REMAINING (not used!)
+        // current_interval_usage_count = USED (not remaining!)
         const text = models.find(m => m.model_name === 'MiniMax-M*');
-        if (text) setQuota('q-text', text.current_interval_usage_count, text.current_interval_total_count, { type: '5h', data: { startTime: text.start_time, endTime: text.end_time } });
+        if (text) setQuota('q-text', text.current_interval_total_count - text.current_interval_usage_count, text.current_interval_total_count, { type: '5h', data: { startTime: text.start_time, endTime: text.end_time } });
 
         const speech = models.find(m => m.model_name === 'speech-hd');
-        if (speech) setQuota('q-speech', speech.current_interval_usage_count, speech.current_interval_total_count, { type: 'daily', data: { startTime: speech.start_time, endTime: speech.end_time } });
+        if (speech) setQuota('q-speech', speech.current_interval_total_count - speech.current_interval_usage_count, speech.current_interval_total_count, { type: 'daily', data: { startTime: speech.start_time, endTime: speech.end_time } });
 
         const image = models.find(m => m.model_name === 'image-01');
-        if (image) setQuota('q-image', image.current_interval_usage_count, image.current_interval_total_count, { type: 'daily', data: { startTime: image.start_time, endTime: image.end_time } });
+        if (image) setQuota('q-image', image.current_interval_total_count - image.current_interval_usage_count, image.current_interval_total_count, { type: 'daily', data: { startTime: image.start_time, endTime: image.end_time } });
       } else if (d.quota) {
         // Format B: aggregate quota — show on text card, mark others as N/A
         const q = d.quota;
