@@ -173,7 +173,60 @@ async function loadReadme(i) {
 }
 
 // ── Quota Display ──
-function setQuota(id, remaining, total) {
+const MONTH_NAMES_ZH = ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
+
+function formatPeriod(type, data) {
+  // type: 'monthly' | 'daily' | '5h'
+  // data: { startTime, endTime, resetDate }
+  const now = new Date();
+  if (type === 'monthly') {
+    // Show Chinese month name from resetDate or current month
+    if (data && data.resetDate) {
+      // resetDate is the START of next period, so current period is the month before or current month
+      const rd = new Date(data.resetDate + 'T00:00:00+08:00');
+      // If resetDate is in current month, we're in previous month's period
+      // Usually resetDate = first of next month, so current period = current month
+      return MONTH_NAMES_ZH[now.getMonth()];
+    }
+    return MONTH_NAMES_ZH[now.getMonth()];
+  }
+  if (type === 'daily') {
+    // Show day/month
+    if (data && data.startTime) {
+      const st = new Date(data.startTime);
+      return st.getDate() + '/' + (st.getMonth() + 1);
+    }
+    return now.getDate() + '/' + (now.getMonth() + 1);
+  }
+  if (type === '5h') {
+    // Show remaining time until endTime
+    if (data && data.endTime) {
+      const end = new Date(data.endTime);
+      const diff = end - now;
+      if (diff > 0) {
+        const h = Math.floor(diff / 3600000);
+        const m = Math.floor((diff % 3600000) / 60000);
+        return h > 0 ? h + 'h ' + m + 'm' : m + 'm';
+      }
+      return '已重置';
+    }
+    // Fallback: calculate from resetDate (next reset)
+    if (data && data.resetDate) {
+      const end = new Date(data.resetDate);
+      const diff = end - now;
+      if (diff > 0) {
+        const h = Math.floor(diff / 3600000);
+        const m = Math.floor((diff % 3600000) / 60000);
+        return h > 0 ? h + 'h ' + m + 'm' : m + 'm';
+      }
+      return '已重置';
+    }
+    return '';
+  }
+  return '';
+}
+
+function setQuota(id, remaining, total, periodInfo) {
   const card = document.getElementById(id);
   if (!card) return;
   const pctRemaining = total > 0 ? Math.round((remaining / total) * 100) : 0;
@@ -185,6 +238,16 @@ function setQuota(id, remaining, total) {
   card.querySelector('.fill').style.width = pctUsed + '%';
   card.querySelector('.fill').style.background = color;
   card.querySelector('.pct').textContent = pctRemaining + '% remaining';
+  // Update period display
+  if (periodInfo) {
+    const periodEl = card.querySelector('.period');
+    if (periodEl) {
+      const periodText = formatPeriod(periodInfo.type, periodInfo.data);
+      if (periodText) {
+        periodEl.textContent = '/ ' + periodText;
+      }
+    }
+  }
 }
 
 // ── Load Data on page load ──
@@ -199,7 +262,7 @@ async function loadData() {
     if (res.ok) {
       const d = await res.json();
       const q = d.quota || {};
-      setQuota('q-copilot', q.remaining != null ? Math.round(q.remaining * 100) / 100 : 0, q.total || 300);
+      setQuota('q-copilot', q.remaining != null ? Math.round(q.remaining * 100) / 100 : 0, q.total || 300, { type: 'monthly', data: { resetDate: q.resetDate } });
       if (d._generatedAt) lastTime = new Date(d._generatedAt);
     }
   } catch(e) { console.log('Copilot fetch error', e); }
@@ -219,18 +282,18 @@ async function loadData() {
         // Format A: per-model breakdown
         // current_interval_usage_count = REMAINING (not used!)
         const text = models.find(m => m.model_name === 'MiniMax-M*');
-        if (text) setQuota('q-text', text.current_interval_usage_count, text.current_interval_total_count);
+        if (text) setQuota('q-text', text.current_interval_usage_count, text.current_interval_total_count, { type: '5h', data: { startTime: text.start_time, endTime: text.end_time } });
 
         const speech = models.find(m => m.model_name === 'speech-hd');
-        if (speech) setQuota('q-speech', speech.current_interval_usage_count, speech.current_interval_total_count);
+        if (speech) setQuota('q-speech', speech.current_interval_usage_count, speech.current_interval_total_count, { type: 'daily', data: { startTime: speech.start_time, endTime: speech.end_time } });
 
         const image = models.find(m => m.model_name === 'image-01');
-        if (image) setQuota('q-image', image.current_interval_usage_count, image.current_interval_total_count);
+        if (image) setQuota('q-image', image.current_interval_usage_count, image.current_interval_total_count, { type: 'daily', data: { startTime: image.start_time, endTime: image.end_time } });
       } else if (d.quota) {
         // Format B: aggregate quota — show on text card, mark others as N/A
         const q = d.quota;
         // remaining = q.remaining (already the remaining count)
-        setQuota('q-text', q.remaining || 0, q.total || 4500);
+        setQuota('q-text', q.remaining || 0, q.total || 4500, { type: '5h', data: { resetDate: q.resetDate } });
         // No per-model data for speech/image — show as unavailable
         setQuotaNA('q-speech');
         setQuotaNA('q-image');
