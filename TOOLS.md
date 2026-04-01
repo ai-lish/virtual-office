@@ -71,10 +71,31 @@ Add whatever helps you do your job. This is your cheat sheet.
 - Plus Plan: 50 張/日
 
 ### 用量查詢
+
+**⚠️ API 需要 cookie 認證**，純 API Key 無法使用（返回 `status_code:1004`）
+
+**✅ 實際方案：CSV Cron（已實現）**
+1. 每5小時（03/07/12/17/22 UTC）cron 觸發
+2. 從 Google Drive 下載 `export_bill_*.csv`
+3. 解析並寫入 `virtual-office/public/minimax-api-status.json`
+4. Dashboard 讀取該 JSON 顯示配額
+
+**❌ 已放棄方案：**
+- MiniMax API 直接查詢（需要登入 cookie）
+- gog sheets 直接讀取（API 限制）
+
+**API Endpoint（需 cookie）：**
 ```bash
 curl -s --location 'https://api.minimax.io/v1/api/openplatform/coding_plan/remains' \
 --header 'Authorization: Bearer <API_KEY>'
 ```
+
+**Plus Plan 配額：**
+| Model | 限額 | 重置 |
+|-------|------|------|
+| M2.7 (5h window) | 1,500 req/5hrs | 滚动窗口 |
+| Speech 2.8 | 4,000 字/日 | UTC 00:00 |
+| Image-01 | 50 張/日 | UTC 00:00 |
 
 ## 現有 Skills (OpenClaw)
 

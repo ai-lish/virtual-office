@@ -1,6 +1,23 @@
 # MEMORY.md — Zach Li 長期記憶
 
-_Last updated: 2026-03-29 16:14 by MiniMax-M2.7_
+_Last updated: 2026-04-01 by Boss + Opus review_
+
+## 記憶指引
+
+- 👤 Zach 偏好/資料
+- 💡 經驗教訓  
+- 📦 項目狀態
+- 🔧 工具/參考
+- 軟上限：總長度 ≤150 行（超過就歸檔到 memory/archive/）
+- 分類 prefix 係 optional hint，唔好為咗分類而停低
+- 主動回顧 daily logs，每週日 08:00 更新呢個檔案
+
+## 2026-04-01 架構更新
+
+- **Memory System Phase 1 完成**：加入 emoji taxonomy + size control
+- Claude Code Auto Dream 研究完成，決定採用簡化版 Weekly Memory Review
+- Topic files：`memory/topic-projects.md` + `memory/topic-active-issues.md`
+- Opus 建議：唔好 over-engineer，vector search 已經幫你兜底
 
 ## 2026-03-29 重大進展
 

@@ -14,6 +14,18 @@
    - 新的經驗教訓
 4. 清理或合併過時的內容
 
+### 每週日 10:00 — Weekly Memory Review（Cron: Claude Sonnet）
+
+用 Claude Sonnet 執行（唔用 M2.7，需要推理能力）：
+1. 讀本週所有 memory/YYYY-MM-DD.md
+2. 識別值得長期記住的內容
+3. 更新 MEMORY.md（去重、去過時、相對日期轉 absolute）
+4. 輸出簡短 diff 報告 → 發 Telegram 通知 Zach
+
+### 每週六 20:00 — Memory Archive Check（如需要）
+
+如果 MEMORY.md 超過 150 行，將舊內容歸檔到 memory/archive/MEMORY-YYYY-QUARTER.md
+
 ## 每日心跳（默認）
 
 ### 早晨簡報（每日 08:00）

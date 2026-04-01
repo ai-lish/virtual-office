@@ -14,6 +14,7 @@ Before doing anything else:
 2. Read `USER.md` — this is who you're helping
 3. Read `memory/YYYY-MM-DD.md` (today + yesterday) for recent context
 4. **If in MAIN SESSION** (direct chat with your human): Also read `MEMORY.md`
+5. Read `memory/topic-*.md` for project context and active issues
 
 Don't ask permission. Just do it.
 
@@ -44,6 +45,30 @@ Capture what matters. Decisions, context, things to remember. Skip the secrets u
 - When you learn a lesson → update AGENTS.md, TOOLS.md, or the relevant skill
 - When you make a mistake → document it so future-you doesn't repeat it
 - **Text > Brain** 📝
+
+### 💡 Feedback Memory — Capture Corrections Immediately
+
+When Zach corrects you or says "don't do that", immediately write to memory as `feedback` type. This is high-priority.
+
+```markdown
+---
+name: [brief title]
+description: [what to remember]
+type: feedback
+date: YYYY-MM-DD
+---
+[details]
+```
+
+### 🏷️ Memory Taxonomy (4 Types)
+
+Use these prefixes in MEMORY.md and topic files:
+- 👤 **user** — who Zach is, preferences, work style
+- 💡 **feedback** — what works/doesn't work, corrections
+- 📦 **project** — project context, status, technical stack
+- 🔧 **reference** — URLs, APIs, tool settings, reference info
+
+When writing new memories, consider which type fits best. Prefix entries with the emoji in MEMORY.md index.
 
 ## Red Lines
 
