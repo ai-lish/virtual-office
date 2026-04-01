@@ -225,7 +225,8 @@ function setQuota(id, remaining, total, periodInfo) {
   const pctUsed = total > 0 ? Math.round(((total - remaining) / total) * 100) : 0;
   const color = pctUsed < 50 ? 'var(--green)' : pctUsed < 80 ? 'var(--warn)' : 'var(--danger)';
   card.style.borderLeftColor = color;
-  card.querySelector('.remaining').textContent = typeof remaining === 'number' && remaining % 1 !== 0 ? remaining.toFixed(1) : remaining.toLocaleString();
+  const used = total - remaining;
+  card.querySelector('.remaining').textContent = typeof used === 'number' && used % 1 !== 0 ? used.toFixed(1) : used.toLocaleString();
   card.querySelector('.total').textContent = total.toLocaleString();
   card.querySelector('.fill').style.width = pctUsed + '%';
   card.querySelector('.fill').style.background = color;
