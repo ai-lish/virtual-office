@@ -228,7 +228,7 @@ function setQuota(id, remaining, total, periodInfo) {
   card.style.borderLeftColor = color;
   card.querySelector('.remaining').textContent = typeof remaining === 'number' && remaining % 1 !== 0 ? remaining.toFixed(1) : remaining.toLocaleString();
   card.querySelector('.total').textContent = total.toLocaleString();
-  card.querySelector('.fill').style.width = pctUsed + '%';
+  card.querySelector('.fill').style.width = pctRemaining + '%';
   card.querySelector('.fill').style.background = color;
   card.querySelector('.pct').textContent = pctRemaining + '% remaining';
   // Update period display
