@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>虛擬辦公室</title>
+<title>🏢 虛擬辦公室</title>
+    <link rel="icon" href="images/logo.png" type="image/png">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -12,6 +13,7 @@ body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:
 
 .header{position:sticky;top:0;z-index:10;background:linear-gradient(90deg,#1a1a2e,#16213e);border-bottom:2px solid var(--red);padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
 .header h1{font-size:1.1rem;display:flex;align-items:center;gap:8px}
+.header-logo{width:32px;height:32px;border-radius:6px;vertical-align:middle}
 .header-right{display:flex;align-items:center;gap:14px}
 .header-right .update{font-size:.72em;color:var(--dim)}
 .header-right a{color:var(--dim);text-decoration:none;font-size:.82em;padding:5px 14px;border:1px solid rgba(255,255,255,.12);border-radius:18px;transition:all .2s}
@@ -58,7 +60,7 @@ body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:
 <body>
 
 <div class="header">
-  <h1>🏢 虛擬辦公室</h1>
+  <h1><img src="images/logo.png" alt="Logo" class="header-logo">虛擬辦公室</h1>
   <div class="header-right">
     <span class="update" id="lastUpdate">更新: —</span>
     <a href="dashboard.html">📊 Dashboard →</a>
@@ -213,9 +215,6 @@ function formatPeriod(type, data) {
     else if (h >= 16 && h < 21) { windowStartH = 16; windowEndH = 21; }
     else { windowStartH = 21; windowEndH = 24; } // 21:00 - 00:00
     return fmtT(windowStartH, 0) + ' - ' + (windowEndH === 24 ? '00:00' : fmtT(windowEndH, 0));
-  }
-  return '';
-}
   }
   return '';
 }
