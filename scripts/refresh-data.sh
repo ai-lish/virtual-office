@@ -23,7 +23,7 @@ refresh_minimax() {
   KEY=$(cat "$KEY_FILE")
   RESPONSE=$(curl -sf 'https://api.minimax.io/v1/api/openplatform/coding_plan/remains' \
     -H "Authorization: Bearer $KEY")
-  NOW=$(date -u +"%Y-%m-%d %H:%M UTC")
+  NOW=$(date -u +"%Y-%m-%dT%H:%M:00Z")
   
   if ! echo "$RESPONSE" | jq -e '.model_remains' > /dev/null 2>&1; then
     echo "❌ API error: $(echo "$RESPONSE" | jq -r '.base_resp.status_msg // "unknown"')"
@@ -83,6 +83,9 @@ console.log('TSV written, rows:', rows.length);
   gog sheets clear "$SHEET_ID" "MiniMax QUOTA!A${NEXT_ROW}:L100" 2>/dev/null || true
   
   echo "✅ MiniMax quota updated → Google Sheet + JSON"
+
+  # Update quota history (dedup by date+window)
+  bash "$(dirname "$0")/update-quota-history.sh" || echo "⚠️  History update failed (non-fatal)"
 }
 
 # ── 2. Refresh Copilot Usage (Google Drive CSV → Sheet + JSON) ──
