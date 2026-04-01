@@ -55,6 +55,15 @@
         .pagination .info { font-size:0.78em; color:var(--text2); }
         .month-select { padding:6px 12px; background:var(--bar-bg); color:var(--text); border:1px solid rgba(255,255,255,0.15); border-radius:8px; font-size:0.85em; font-family:inherit; cursor:pointer; }
         .month-select:focus { outline:none; border-color:var(--blue); }
+        .filter-row { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+        .compare-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:16px; }
+        .compare-col { background:var(--bar-bg); border-radius:8px; padding:12px; }
+        .compare-col.active { border:1px solid var(--blue); }
+        .compare-col .col-title { font-size:0.75em; color:var(--text2); margin-bottom:8px; text-align:center; font-weight:600; }
+        .compare-col .col-stats { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+        .compare-col .col-stat .label { font-size:0.65em; color:var(--text2); }
+        .compare-col .col-stat .value { font-size:0.95rem; font-weight:700; }
+        @media(max-width:600px) { .compare-grid { grid-template-columns:1fr; } .compare-col .col-stats { grid-template-columns:repeat(2,1fr); } }
         @media(max-width:600px) {
             .container { padding:16px 10px 40px; }
             .card { padding:16px; }
@@ -172,13 +181,21 @@
         <div class="card" id="token-card">
             <div class="card-header">
                 <div class="card-title">📊 MiniMax 使用明細</div>
-                <div style="display:flex;align-items:center;gap:10px;">
-                    <select class="month-select" id="month-select" onchange="filterByMonth()">
-                        <option value="all">全部月份</option>
-                    </select>
-                    <span id="tk-range" class="badge" style="background:rgba(230,126,34,0.15);color:var(--orange);"></span>
-                </div>
+                <span id="tk-range" class="badge" style="background:rgba(230,126,34,0.15);color:var(--orange);"></span>
             </div>
+            <div class="filter-row" style="margin-bottom:14px;">
+                <select class="month-select" id="tk-filter-mode" onchange="tkFilterModeChanged()">
+                    <option value="month">全部月份</option>
+                    <option value="date">按日期</option>
+                    <option value="week">按星期</option>
+                </select>
+                <select class="month-select" id="month-select" onchange="applyTokenFilter()" style="display:inline-block;">
+                    <option value="all">全部月份</option>
+                </select>
+                <input type="date" class="month-select" id="tk-date-picker" onchange="applyTokenFilter()" style="display:none;">
+                <input type="week" class="month-select" id="tk-week-picker" onchange="applyTokenFilter()" style="display:none;">
+            </div>
+            <div id="tk-compare" style="display:none;"></div>
             <div class="stats-grid" id="tk-stats" style="margin-bottom:16px;">
                 <div class="stat-box"><div class="label">記錄數</div><div class="value" id="tk-count">—</div></div>
                 <div class="stat-box"><div class="label">Input Tokens</div><div class="value" id="tk-input" style="color:var(--blue);">—</div></div>
@@ -332,97 +349,157 @@
         } catch(e) { console.log('Copilot load error:', e); }
     }
 
-    // ===== Token Detail with Month Filter =====
+    // ===== Token Detail with Filter Modes =====
     let allRecords = [];
     let filteredRecords = [];
     let tokenPage = 1;
-    const PAGE_SIZE = 50;
+    let tkPageSize = 50;
+
+    function recDate(r) { return r.consumptionTime ? r.consumptionTime.substring(0, 10) : null; }
+    function recMonth(r) { const d = recDate(r); return d ? d.substring(0, 7) : null; }
+    function dateToWeek(dateStr) {
+        const d = new Date(dateStr + 'T00:00:00');
+        const tmp = new Date(d);
+        tmp.setDate(tmp.getDate() + 3 - ((tmp.getDay() + 6) % 7));
+        const jan4 = new Date(tmp.getFullYear(), 0, 4);
+        const wk = 1 + Math.round(((tmp - jan4) / 86400000 - 3 + ((jan4.getDay() + 6) % 7)) / 7);
+        return tmp.getFullYear() + '-W' + String(wk).padStart(2, '0');
+    }
+    function weekToRange(weekStr) {
+        const [y, w] = weekStr.split('-W').map(Number);
+        const jan4 = new Date(y, 0, 4);
+        const mon = new Date(jan4);
+        mon.setDate(jan4.getDate() - ((jan4.getDay() + 6) % 7) + (w - 1) * 7);
+        const sun = new Date(mon); sun.setDate(mon.getDate() + 6);
+        const fmt = d => d.toISOString().substring(0, 10);
+        return { start: fmt(mon), end: fmt(sun) };
+    }
+    function addDays(dateStr, n) {
+        const d = new Date(dateStr + 'T00:00:00');
+        d.setDate(d.getDate() + n);
+        return d.toISOString().substring(0, 10);
+    }
+    function calcStats(records) {
+        let input = 0, output = 0, total = 0;
+        records.forEach(r => { input += r.inputUsageQuantity||0; output += r.outputUsageQuantity||0; total += r.totalUsageQuantity||0; });
+        return { input, output, total, count: records.length };
+    }
+    function filterRecordsByDateRange(start, end) {
+        return allRecords.filter(r => { const d = recDate(r); return d && d >= start && d <= end; });
+    }
 
     async function loadTokenDetail() {
         try {
             const res = await fetch(basePath + '/public/token-log.json?' + Date.now());
             if (!res.ok) return;
             const data = await res.json();
-            allRecords = (data.records || []).slice().reverse(); // newest first
+            allRecords = (data.records || []).slice().reverse();
 
-            // Build month selector
             const months = new Set();
-            allRecords.forEach(r => {
-                if (r.consumptionTime) {
-                    const d = new Date(r.consumptionTime);
-                    const key = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0');
-                    months.add(key);
-                }
-            });
-            const sortedMonths = [...months].sort().reverse();
+            allRecords.forEach(r => { const m = recMonth(r); if (m) months.add(m); });
             const sel = $('month-select');
             sel.innerHTML = '<option value="all">全部月份</option>';
-            sortedMonths.forEach(m => {
-                const opt = document.createElement('option');
-                opt.value = m;
-                opt.textContent = m;
-                sel.appendChild(opt);
-            });
+            [...months].sort().reverse().forEach(m => { const o = document.createElement('option'); o.value = m; o.textContent = m; sel.appendChild(o); });
 
-            filterByMonth();
+            const latestDate = recDate(allRecords[0]);
+            if (latestDate) { $('tk-date-picker').value = latestDate; $('tk-week-picker').value = dateToWeek(latestDate); }
+
+            applyTokenFilter();
         } catch(e) { console.log('Token detail load error:', e); }
     }
 
-    function filterByMonth() {
-        const month = $('month-select').value;
+    function tkFilterModeChanged() {
+        const mode = $('tk-filter-mode').value;
+        $('month-select').style.display = mode === 'month' ? '' : 'none';
+        $('tk-date-picker').style.display = mode === 'date' ? '' : 'none';
+        $('tk-week-picker').style.display = mode === 'week' ? '' : 'none';
+        applyTokenFilter();
+    }
+
+    function applyTokenFilter() {
+        const mode = $('tk-filter-mode').value;
         tokenPage = 1;
 
-        if (month === 'all') {
-            filteredRecords = allRecords;
-        } else {
-            filteredRecords = allRecords.filter(r => {
-                if (!r.consumptionTime) return false;
-                const d = new Date(r.consumptionTime);
-                const key = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0');
-                return key === month;
-            });
+        if (mode === 'month') {
+            tkPageSize = 50;
+            const month = $('month-select').value;
+            filteredRecords = month === 'all' ? allRecords : allRecords.filter(r => recMonth(r) === month);
+            $('tk-compare').style.display = 'none';
+            $('tk-stats').style.display = '';
+        } else if (mode === 'date') {
+            tkPageSize = 10;
+            const picked = $('tk-date-picker').value;
+            if (!picked) { filteredRecords = []; renderTokenPage(); return; }
+            const prev = addDays(picked, -1), next = addDays(picked, 1);
+            filteredRecords = filterRecordsByDateRange(picked, picked);
+            renderCompare([
+                { title: '前一天 ' + prev, records: filterRecordsByDateRange(prev, prev) },
+                { title: '📍 ' + picked, records: filterRecordsByDateRange(picked, picked), active: true },
+                { title: '後一天 ' + next, records: filterRecordsByDateRange(next, next) }
+            ]);
+            $('tk-stats').style.display = 'none';
+        } else if (mode === 'week') {
+            tkPageSize = 20;
+            const picked = $('tk-week-picker').value;
+            if (!picked) { filteredRecords = []; renderTokenPage(); return; }
+            const cur = weekToRange(picked);
+            const prevStart = addDays(cur.start, -7), prevEnd = addDays(cur.start, -1);
+            const nextStart = addDays(cur.end, 1), nextEnd = addDays(cur.end, 7);
+            filteredRecords = filterRecordsByDateRange(cur.start, cur.end);
+            renderCompare([
+                { title: '前一週 ' + prevStart + '~' + prevEnd, records: filterRecordsByDateRange(prevStart, prevEnd) },
+                { title: '📍 ' + cur.start + '~' + cur.end, records: filterRecordsByDateRange(cur.start, cur.end), active: true },
+                { title: '後一週 ' + nextStart + '~' + nextEnd, records: filterRecordsByDateRange(nextStart, nextEnd) }
+            ]);
+            $('tk-stats').style.display = 'none';
         }
 
-        // Update stats for filtered data
-        $('tk-count').textContent = fmtNum(filteredRecords.length);
-        let totalInput = 0, totalOutput = 0;
-        const modelCount = {};
-        filteredRecords.forEach(r => {
-            totalInput += r.inputUsageQuantity || 0;
-            totalOutput += r.outputUsageQuantity || 0;
-            const m = r.consumedModel || 'unknown';
-            modelCount[m] = (modelCount[m] || 0) + 1;
-        });
-        $('tk-input').textContent = fmtNum(totalInput);
-        $('tk-output').textContent = fmtNum(totalOutput);
-
-        const topModel = Object.entries(modelCount).sort((a,b) => b[1] - a[1])[0];
-        $('tk-model').textContent = topModel ? topModel[0].replace('MiniMax-','') : '—';
+        if (mode === 'month') {
+            const s = calcStats(filteredRecords);
+            $('tk-count').textContent = fmtNum(s.count);
+            $('tk-input').textContent = fmtNum(s.input);
+            $('tk-output').textContent = fmtNum(s.output);
+            const mc = {}; filteredRecords.forEach(r => { const m = r.consumedModel||'unknown'; mc[m]=(mc[m]||0)+1; });
+            const top = Object.entries(mc).sort((a,b)=>b[1]-a[1])[0];
+            $('tk-model').textContent = top ? top[0].replace('MiniMax-','') : '—';
+        }
 
         if (filteredRecords.length > 0) {
-            const first = filteredRecords[filteredRecords.length - 1];
-            const last = filteredRecords[0];
-            const fmt = d => new Date(d).toLocaleDateString('zh-HK');
-            $('tk-range').textContent = (first.consumptionTime ? fmt(first.consumptionTime) : '') + ' → ' + (last.consumptionTime ? fmt(last.consumptionTime) : '');
-        } else {
-            $('tk-range').textContent = '';
-        }
+            const first = filteredRecords[filteredRecords.length - 1], last = filteredRecords[0];
+            $('tk-range').textContent = (recDate(first)||'') + ' → ' + (recDate(last)||'');
+        } else { $('tk-range').textContent = ''; }
 
         renderTokenPage();
     }
 
+    function renderCompare(periods) {
+        const c = $('tk-compare'); c.style.display = '';
+        c.innerHTML = '<div class="compare-grid">' + periods.map(p => {
+            const s = calcStats(p.records);
+            return `<div class="compare-col${p.active?' active':''}">
+                <div class="col-title">${p.title}</div>
+                <div class="col-stats">
+                    <div class="col-stat"><div class="label">Input Tokens</div><div class="value" style="color:var(--blue);">${fmtNum(s.input)}</div></div>
+                    <div class="col-stat"><div class="label">Output Tokens</div><div class="value" style="color:var(--green);">${fmtNum(s.output)}</div></div>
+                    <div class="col-stat"><div class="label">Total Tokens</div><div class="value" style="color:var(--orange);">${fmtNum(s.total)}</div></div>
+                    <div class="col-stat"><div class="label">Records</div><div class="value">${s.count}</div></div>
+                </div>
+            </div>`;
+        }).join('') + '</div>';
+    }
+
     function renderTokenPage() {
-        const start = (tokenPage - 1) * PAGE_SIZE;
-        const end = start + PAGE_SIZE;
+        const start = (tokenPage - 1) * tkPageSize;
+        const end = start + tkPageSize;
         const page = filteredRecords.slice(start, end);
-        const totalPages = Math.ceil(filteredRecords.length / PAGE_SIZE) || 1;
+        const totalPages = Math.ceil(filteredRecords.length / tkPageSize) || 1;
 
         const tbody = $('tk-body');
         if (page.length === 0) {
             tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text2);padding:24px;">無資料</td></tr>';
         } else {
             tbody.innerHTML = page.map(r => {
-                const time = r.consumptionTime ? new Date(r.consumptionTime).toLocaleString('zh-HK', {month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}) : '—';
+                const time = r.consumptionTime || '—';
                 const model = (r.consumedModel || '').replace('MiniMax-','');
                 const api = (r.consumedApi || '').replace('(Text API)','').trim();
                 return `<tr>
@@ -439,14 +516,9 @@
         const pg = $('tk-pagination');
         let pgHtml = `<button onclick="goPage(1)" ${tokenPage===1?'disabled':''}>«</button>`;
         pgHtml += `<button onclick="goPage(${tokenPage-1})" ${tokenPage===1?'disabled':''}>‹</button>`;
-        const range = [];
-        let pStart = Math.max(1, tokenPage - 3);
-        let pEnd = Math.min(totalPages, pStart + 6);
+        let pStart = Math.max(1, tokenPage - 3), pEnd = Math.min(totalPages, pStart + 6);
         if (pEnd - pStart < 6) pStart = Math.max(1, pEnd - 6);
-        for (let i = pStart; i <= pEnd; i++) range.push(i);
-        range.forEach(p => {
-            pgHtml += `<button onclick="goPage(${p})" class="${p===tokenPage?'active':''}">${p}</button>`;
-        });
+        for (let i = pStart; i <= pEnd; i++) pgHtml += `<button onclick="goPage(${i})" class="${i===tokenPage?'active':''}">${i}</button>`;
         pgHtml += `<button onclick="goPage(${tokenPage+1})" ${tokenPage>=totalPages?'disabled':''}>›</button>`;
         pgHtml += `<button onclick="goPage(${totalPages})" ${tokenPage>=totalPages?'disabled':''}>»</button>`;
         pgHtml += `<span class="info">${filteredRecords.length > 0 ? (start+1)+'-'+Math.min(end,filteredRecords.length)+' / '+filteredRecords.length : '0'}</span>`;
@@ -454,7 +526,7 @@
     }
 
     function goPage(p) {
-        const totalPages = Math.ceil(filteredRecords.length / PAGE_SIZE) || 1;
+        const totalPages = Math.ceil(filteredRecords.length / tkPageSize) || 1;
         tokenPage = Math.max(1, Math.min(p, totalPages));
         renderTokenPage();
         $('token-card').scrollIntoView({behavior:'smooth', block:'start'});
