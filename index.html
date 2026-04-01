@@ -178,50 +178,40 @@ const MONTH_NAMES_ZH = ['一月','二月','三月','四月','五月','六月','�
 function formatPeriod(type, data) {
   // type: 'monthly' | 'daily' | '5h'
   // data: { startTime, endTime, resetDate }
-  const now = new Date();
   if (type === 'monthly') {
-    // Show Chinese month name from resetDate or current month
+    // Show month range: "1/4 - 30/4"
+    const fmtD = (d) => d.getDate() + '/' + (d.getMonth() + 1);
     if (data && data.resetDate) {
-      // resetDate is the START of next period, so current period is the month before or current month
       const rd = new Date(data.resetDate + 'T00:00:00+08:00');
-      // If resetDate is in current month, we're in previous month's period
-      // Usually resetDate = first of next month, so current period = current month
-      return MONTH_NAMES_ZH[now.getMonth()];
+      const start = new Date(rd); start.setDate(1);
+      const end = new Date(rd); end.setDate(0);
+      return fmtD(start) + ' - ' + fmtD(end);
     }
-    return MONTH_NAMES_ZH[now.getMonth()];
+    const y = new Date().getFullYear(), m = new Date().getMonth();
+    return fmtD(new Date(y, m, 1)) + ' - ' + fmtD(new Date(y, m + 1, 0));
   }
   if (type === 'daily') {
-    // Show day/month
-    if (data && data.startTime) {
-      const st = new Date(data.startTime);
-      return st.getDate() + '/' + (st.getMonth() + 1);
+    // Show full day range: "00:00 - 23:59"
+    const fmtT = (d) => d.toLocaleTimeString('zh-HK', {hour:'2-digit', minute:'2-digit', hour12:false});
+    if (data && data.startTime && data.endTime) {
+      return fmtT(new Date(data.startTime)) + ' - ' + fmtT(new Date(data.endTime));
     }
-    return now.getDate() + '/' + (now.getMonth() + 1);
+    const s = new Date(); s.setHours(0,0,0,0);
+    const e = new Date(); e.setHours(23,59,59,999);
+    return fmtT(s) + ' - ' + fmtT(e);
   }
   if (type === '5h') {
-    // Show remaining time until endTime
-    if (data && data.endTime) {
-      const end = new Date(data.endTime);
-      const diff = end - now;
-      if (diff > 0) {
-        const h = Math.floor(diff / 3600000);
-        const m = Math.floor((diff % 3600000) / 60000);
-        return h > 0 ? h + 'h ' + m + 'm' : m + 'm';
-      }
-      return '已重置';
+    // Show 5h window as time range: "10:00 - 15:00"
+    const fmtT = (d) => d.toLocaleTimeString('zh-HK', {hour:'2-digit', minute:'2-digit', hour12:false});
+    if (data && data.startTime && data.endTime) {
+      const st = new Date(data.startTime);
+      const en = new Date(data.endTime);
+      return fmtT(st) + ' - ' + fmtT(en);
     }
-    // Fallback: calculate from resetDate (next reset)
-    if (data && data.resetDate) {
-      const end = new Date(data.resetDate);
-      const diff = end - now;
-      if (diff > 0) {
-        const h = Math.floor(diff / 3600000);
-        const m = Math.floor((diff % 3600000) / 60000);
-        return h > 0 ? h + 'h ' + m + 'm' : m + 'm';
-      }
-      return '已重置';
-    }
-    return '';
+    return '--';
+  }
+  return '';
+}
   }
   return '';
 }
