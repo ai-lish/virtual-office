@@ -1,0 +1,1 @@
+0 7,12,17,22 * * * TZ=Asia/Hong_Kong /Users/zachli/.openclaw/workspace/scripts/minimax-cron.sh >> /Users/zachli/.openclaw/workspace/logs/minimax-cron.log 2>&1

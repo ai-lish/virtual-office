@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏢 虛擬辦公室</title>
+    <link rel="icon" href="images/logo.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f0f23;--card:#16213e;--bar-bg:#0a1628;--text:#eee;--dim:#888;--red:#bc002d;--green:#2ecc71;--warn:#f39c12;--danger:#e74c3c;--blue:#3498db;--purple:#9b59b6}
+body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+.header{position:sticky;top:0;z-index:10;background:linear-gradient(90deg,#1a1a2e,#16213e);border-bottom:2px solid var(--red);padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
+.header h1{font-size:1.1rem;display:flex;align-items:center;gap:8px}
+.header-logo{width:32px;height:32px;border-radius:6px;vertical-align:middle}
+.header-right{display:flex;align-items:center;gap:14px}
+.header-right .update{font-size:.72em;color:var(--dim)}
+.header-right a{color:var(--dim);text-decoration:none;font-size:.82em;padding:5px 14px;border:1px solid rgba(255,255,255,.12);border-radius:18px;transition:all .2s}
+.header-right a:hover{color:#fff;border-color:var(--red)}
+
+.container{max-width:800px;margin:0 auto;padding:24px 16px 60px}
+
+.quota-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:32px}
+.quota-card{background:var(--card);border-radius:12px;padding:20px;border-left:4px solid var(--green);transition:border-color .3s}
+.quota-card .label{font-size:.72em;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.quota-card .period{font-size:.65em;color:var(--dim);font-weight:400;text-transform:none;letter-spacing:0}
+.quota-card .numbers{font-size:1.15rem;font-weight:700;margin-bottom:10px}
+.quota-card .numbers .remaining{color:var(--green)}
+.quota-card .track{height:7px;background:var(--bar-bg);border-radius:4px;overflow:hidden;margin-bottom:6px}
+.quota-card .fill{height:100%;border-radius:4px;transition:width .6s ease,background .3s}
+.quota-card .pct{font-size:.72em;color:var(--dim)}
+
+.section-title{font-size:.78em;color:var(--dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.project-list{display:flex;flex-direction:column;gap:8px}
+.project-card{background:var(--card);border-radius:10px;padding:14px 18px;cursor:pointer;transition:background .2s}
+.project-card:hover{background:#1a2744}
+.project-header{display:flex;align-items:center;gap:12px}
+.project-card .icon{font-size:1.1rem;flex-shrink:0}
+.project-card .name{flex:1;font-weight:600;font-size:.92em}
+.project-card .meta{font-size:.72em;color:var(--dim);text-align:right}
+.project-card .link{font-size:.72em;color:var(--blue);text-decoration:none;margin-left:8px}
+.project-card .link:hover{text-decoration:underline}
+.project-preview{max-height:0;overflow:hidden;transition:max-height .3s ease;font-size:.82em;color:var(--dim);line-height:1.5}
+.project-preview.open{max-height:300px;overflow-y:auto}
+.project-preview-inner{padding:10px 0 4px 28px;border-top:1px solid rgba(255,255,255,.06);margin-top:10px}
+.project-preview-inner p{margin-bottom:6px}
+.project-preview-inner code{background:rgba(255,255,255,.08);padding:1px 5px;border-radius:3px;font-size:.9em}
+.expand-icon{font-size:.7em;color:var(--dim);transition:transform .2s;margin-left:4px}
+
+@media(max-width:600px){
+  .header{padding:12px 14px}
+  .header h1{font-size:.95rem}
+  .quota-grid{grid-template-columns:1fr;gap:10px}
+  .quota-card{padding:16px}
+  .quota-card .numbers{font-size:1rem}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1><img src="images/logo.png" alt="Logo" class="header-logo">虛擬辦公室</h1>
+  <div class="header-right">
+    <span class="update" id="lastUpdate">更新: —</span>
+    <a href="dashboard.html">📊 Dashboard →</a>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="section-title" style="margin-bottom:14px">⚡ 配額總覽</div>
+
+  <div class="quota-grid">
+    <div class="quota-card" id="q-copilot">
+      <div class="label">🤖 Copilot <span class="period">/ 每月</span></div>
+      <div class="numbers"><span class="remaining">—</span> used</div>
+      <div class="track"><div class="fill" style="width:0%;background:var(--green)"></div></div>
+      <div class="pct">—</div>
+    </div>
+    <div class="quota-card" id="q-text">
+      <div class="label">📝 M* Text <span class="period">/ 每 5 小時</span></div>
+      <div class="numbers"><span class="remaining">—</span> used</div>
+      <div class="track"><div class="fill" style="width:0%;background:var(--purple)"></div></div>
+      <div class="pct">—</div>
+    </div>
+    <div class="quota-card" id="q-speech">
+      <div class="label">🎤 Speech <span class="period">/ 每日</span></div>
+      <div class="numbers"><span class="remaining">—</span> used</div>
+      <div class="track"><div class="fill" style="width:0%;background:var(--danger)"></div></div>
+      <div class="pct">—</div>
+    </div>
+    <div class="quota-card" id="q-image">
+      <div class="label">🖼️ Image <span class="period">/ 每日</span></div>
+      <div class="numbers"><span class="remaining">—</span> used</div>
+      <div class="track"><div class="fill" style="width:0%;background:var(--warn)"></div></div>
+      <div class="pct">—</div>
+    </div>
+  </div>
+
+  <div class="section-title">📋 Projects</div>
+  <div class="project-list" id="projectList"></div>
+
+</div>
+
+<script>
+const projects = [
+  { name:'Song-of-Songs', icon:'🎵', status:'active', link:'https://github.com/ai-lish/Song-of-Songs', date:'2026-03-28', repo:'ai-lish/Song-of-Songs', desc:'歌詞影片製作專案 — Song of Songs 系列' },
+  { name:'虛擬辦公室', icon:'🏢', status:'active', link:'https://ai-lish.github.io/virtual-office/', date:'2026-03-05', repo:'ai-lish/virtual-office', desc:'AI 助手工作狀態監控儀表板' },
+  { name:'全方位學習日', icon:'✅', status:'completed', link:'https://ai-lish.github.io/lsc-ole-s1-2026/', date:'2026-03-26', repo:'ai-lish/lsc-ole-s1-2026', desc:'S1 全方位學習日活動網站' },
+  { name:'晞霖學習網站', icon:'✅', status:'completed', link:'https://ai-lish.github.io/preschool/', date:'2026-03-08', repo:'ai-lish/preschool', desc:'幼兒教育互動學習平台' },
+  { name:'少康教學網站', icon:'⏳', status:'pending', link:'https://ai-lish.github.io/ai-learning/', date:'2026-03-01', repo:'ai-lish/ai-learning', desc:'HKDSE 數學教學資源網站' },
+  { name:'數學週 2026', icon:'⏳', status:'pending', link:'https://ai-lish.github.io/math-week-2026/', date:'2026-02-20', repo:'ai-lish/math-week-2026', desc:'2026 數學週活動網站' },
+  { name:'欠交功課系統', icon:'⏳', status:'pending', link:'https://ai-lish.github.io/homework-duty-system/', date:'2026-03-07', repo:'ai-lish/homework-duty-system', desc:'學生功課追蹤管理系統' },
+  { name:'教師發展日', icon:'✅', status:'completed', link:'https://ai-lish.github.io/teacher-dev-day/', date:'2026-01-15', repo:'ai-lish/teacher-dev-day', desc:'教師專業發展日活動' }
+];
+
+const listEl = document.getElementById('projectList');
+const statusIcon = { active:'🔄', completed:'✅', pending:'⏳' };
+const statusLabel = { active:'進行中', completed:'已完成', pending:'待開始' };
+projects.forEach((p, i) => {
+  const card = document.createElement('div');
+  card.className = 'project-card';
+  card.innerHTML = `
+    <div class="project-header" onclick="togglePreview(${i})">
+      <span class="icon">${statusIcon[p.status] || p.icon}</span>
+      <span class="name">${p.name} <span class="expand-icon" id="expand-${i}">▶</span></span>
+      <span class="meta">${p.date}</span>
+      <a class="link" href="public/pages/project.html?repo=${encodeURIComponent(p.repo)}&name=${encodeURIComponent(p.name)}&desc=${encodeURIComponent(p.desc)}&status=${p.status}&date=${p.date}&link=${encodeURIComponent(p.link)}" onclick="event.stopPropagation()">詳情 →</a>
+      <a class="link" href="${p.link}" target="_blank" onclick="event.stopPropagation()">開啟 →</a>
+    </div>
+    <div class="project-preview" id="preview-${i}">
+      <div class="project-preview-inner">
+        <p><strong>狀態:</strong> ${statusLabel[p.status] || p.status}</p>
+        <p>${p.desc}</p>
+        <p id="readme-${i}" style="color:var(--dim);font-size:.9em;">載入 README…</p>
+      </div>
+    </div>
+  `;
+  listEl.appendChild(card);
+});
+
+function togglePreview(i) {
+  const el = document.getElementById('preview-' + i);
+  const icon = document.getElementById('expand-' + i);
+  const isOpen = el.classList.toggle('open');
+  icon.textContent = isOpen ? '▼' : '▶';
+  if (isOpen && !el.dataset.loaded) {
+    el.dataset.loaded = '1';
+    loadReadme(i);
+  }
+}
+
+const readmeCache = {};
+async function loadReadme(i) {
+  const p = projects[i];
+  if (!p.repo) return;
+  const el = document.getElementById('readme-' + i);
+  try {
+    if (readmeCache[p.repo]) { el.innerHTML = readmeCache[p.repo]; return; }
+    const res = await fetch(`https://api.github.com/repos/${p.repo}/readme`, { headers: { Accept: 'application/vnd.github.v3.raw' } });
+    if (!res.ok) { el.textContent = '無法載入 README'; return; }
+    const text = await res.text();
+    let snippet = text.slice(0, 600)
+      .replace(/^#+\s*/gm, '')
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+      .replace(/!\[.*?\]\(.*?\)/g, '')
+      .replace(/\n{3,}/g, '\n\n')
+      .trim();
+    if (text.length > 600) snippet += '…';
+    const html = snippet.split('\n').map(l => `<p>${l || '&nbsp;'}</p>`).join('');
+    readmeCache[p.repo] = html;
+    el.innerHTML = html;
+  } catch(e) { el.textContent = '載入失敗'; }
+}
+
+// ── Quota Display ──
+const MONTH_NAMES_ZH = ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
+
+function formatPeriod(type, data) {
+  // type: 'monthly' | 'daily' | '5h'
+  // data: { startTime, endTime, resetDate }
+  if (type === 'monthly') {
+    // Show month range: "1/4 - 30/4"
+    const fmtD = (d) => d.getDate() + '/' + (d.getMonth() + 1);
+    if (data && data.resetDate) {
+      const rd = new Date(data.resetDate + 'T00:00:00+08:00');
+      const start = new Date(rd); start.setDate(1);
+      const end = new Date(rd); end.setDate(0);
+      return fmtD(start) + ' - ' + fmtD(end);
+    }
+    const y = new Date().getFullYear(), m = new Date().getMonth();
+    return fmtD(new Date(y, m, 1)) + ' - ' + fmtD(new Date(y, m + 1, 0));
+  }
+  if (type === 'daily') {
+    // Show full day range: "00:00 - 23:59"
+    const fmtT = (d) => d.toLocaleTimeString('zh-HK', {hour:'2-digit', minute:'2-digit', hour12:false});
+    if (data && data.startTime && data.endTime) {
+      return fmtT(new Date(data.startTime)) + ' - ' + fmtT(new Date(data.endTime));
+    }
+    const s = new Date(); s.setHours(0,0,0,0);
+    const e = new Date(); e.setHours(23,59,59,999);
+    return fmtT(s) + ' - ' + fmtT(e);
+  }
+  if (type === '5h') {
+    // Fixed 5h windows: 01:00-06:00, 06:00-11:00, 11:00-16:00, 16:00-21:00, 21:00-00:00
+    const fmtT = (h, m) => String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0');
+    const now = new Date();
+    const h = now.getHours();
+    // Determine which window we're in
+    let windowStartH, windowEndH;
+    if (h >= 1 && h < 6) { windowStartH = 1; windowEndH = 6; }
+    else if (h >= 6 && h < 11) { windowStartH = 6; windowEndH = 11; }
+    else if (h >= 11 && h < 16) { windowStartH = 11; windowEndH = 16; }
+    else if (h >= 16 && h < 21) { windowStartH = 16; windowEndH = 21; }
+    else { windowStartH = 21; windowEndH = 24; } // 21:00 - 00:00
+    return fmtT(windowStartH, 0) + ' - ' + (windowEndH === 24 ? '00:00' : fmtT(windowEndH, 0));
+  }
+  return '';
+}
+
+function setQuota(id, remaining, total, periodInfo) {
+  const card = document.getElementById(id);
+  if (!card) return;
+  const pctUsed = total > 0 ? Math.round(((total - remaining) / total) * 100) : 0;
+  const color = pctUsed < 50 ? 'var(--green)' : pctUsed < 80 ? 'var(--warn)' : 'var(--danger)';
+  card.style.borderLeftColor = color;
+  const used = total - remaining;
+  card.querySelector('.remaining').textContent = typeof used === 'number' && used % 1 !== 0 ? used.toFixed(1) : used.toLocaleString();
+  card.querySelector('.total').textContent = total.toLocaleString();
+  card.querySelector('.fill').style.width = pctUsed + '%';
+  card.querySelector('.fill').style.background = color;
+  card.querySelector('.pct').textContent = pctUsed + '% used';
+  // Update period display
+  if (periodInfo) {
+    const periodEl = card.querySelector('.period');
+    if (periodEl) {
+      const periodText = formatPeriod(periodInfo.type, periodInfo.data);
+      if (periodText) {
+        periodEl.textContent = '/ ' + periodText;
+      }
+    }
+  }
+}
+
+// ── Load Data on page load ──
+async function loadData() {
+  const ts = Date.now();
+  const base = location.pathname.includes('/virtual-office') ? '/virtual-office' : '';
+  let lastTime = null;
+
+  // Copilot
+  try {
+    const res = await fetch(base + '/public/copilot-data.json?' + ts);
+    if (res.ok) {
+      const d = await res.json();
+      const q = d.quota || {};
+      setQuota('q-copilot', q.remaining != null ? Math.round(q.remaining * 100) / 100 : 0, q.total || 300, { type: 'monthly', data: { resetDate: q.resetDate } });
+      if (d._generatedAt) lastTime = new Date(d._generatedAt);
+    }
+  } catch(e) { console.log('Copilot fetch error', e); }
+
+  // MiniMax
+  try {
+    const res = await fetch(base + '/public/minimax-api-status.json?' + ts);
+    if (res.ok) {
+      const d = await res.json();
+
+      // Support two formats:
+      // Format A: raw.model_remains[] with per-model data
+      // Format B: simple quota object (aggregate)
+      const models = (d.raw && d.raw.model_remains) || [];
+
+      if (models.length > 0) {
+        // Format A: per-model breakdown
+        // current_interval_usage_count = USED (not remaining!)
+        const text = models.find(m => m.model_name === 'MiniMax-M*');
+        if (text) setQuota('q-text', text.current_interval_total_count - text.current_interval_usage_count, text.current_interval_total_count, { type: '5h', data: { startTime: text.start_time, endTime: text.end_time } });
+
+        const speech = models.find(m => m.model_name === 'speech-hd');
+        if (speech) setQuota('q-speech', speech.current_interval_total_count - speech.current_interval_usage_count, speech.current_interval_total_count, { type: 'daily', data: { startTime: speech.start_time, endTime: speech.end_time } });
+
+        const image = models.find(m => m.model_name === 'image-01');
+        if (image) setQuota('q-image', image.current_interval_total_count - image.current_interval_usage_count, image.current_interval_total_count, { type: 'daily', data: { startTime: image.start_time, endTime: image.end_time } });
+      } else if (d.quota) {
+        // Format B: aggregate quota — show on text card, mark others as N/A
+        const q = d.quota;
+        // remaining = q.remaining (already the remaining count)
+        setQuota('q-text', q.remaining || 0, q.total || 4500, { type: '5h', data: { resetDate: q.resetDate } });
+        // No per-model data for speech/image — show as unavailable
+        setQuotaNA('q-speech');
+        setQuotaNA('q-image');
+      }
+
+      if (d._generatedAt) lastTime = new Date(d._generatedAt);
+    }
+  } catch(e) { console.log('MiniMax fetch error', e); }
+
+  if (lastTime) {
+    document.getElementById('lastUpdate').textContent = '更新: ' + lastTime.toLocaleTimeString('zh-HK', {hour:'2-digit', minute:'2-digit'});
+  }
+}
+
+function setQuotaNA(id) {
+  const card = document.getElementById(id);
+  if (!card) return;
+  card.style.borderLeftColor = 'var(--dim)';
+  card.querySelector('.remaining').textContent = '—';
+  card.querySelector('.pct').textContent = '無數據';
+}
+
+loadData();
+setInterval(loadData, 300000);
+</script>
+</body>
+</html>

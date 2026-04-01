@@ -87,6 +87,62 @@
             <div id="mm-interval" style="margin-top:12px;font-size:0.75em;color:var(--text2);"></div>
         </div>
 
+        <!-- ===== Quota History Card ===== -->
+        <div class="card" id="history-card">
+            <div class="card-header">
+                <div class="card-title">📜 配額歷史記錄</div>
+                <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+                    <select class="month-select" id="hist-date-filter" onchange="renderHistory()">
+                        <option value="all">全部日期</option>
+                    </select>
+                    <span id="hist-badge" class="badge" style="background:rgba(46,204,113,0.15);color:var(--green);"></span>
+                </div>
+            </div>
+            <!-- Average Stats -->
+            <div class="stats-grid" id="hist-stats" style="margin-bottom:16px;">
+                <div class="stat-box">
+                    <div class="label">平均 M* 用量</div>
+                    <div class="value" id="hist-avg-mstar" style="color:var(--blue);">—</div>
+                    <div style="font-size:0.65em;color:var(--text2);margin-top:2px;">/ 窗口</div>
+                </div>
+                <div class="stat-box">
+                    <div class="label">平均 M* 使用率</div>
+                    <div class="value" id="hist-avg-mstar-pct" style="color:var(--orange);">—</div>
+                </div>
+                <div class="stat-box">
+                    <div class="label">平均 Speech 用量</div>
+                    <div class="value" id="hist-avg-speech" style="color:#9b59b6;">—</div>
+                    <div style="font-size:0.65em;color:var(--text2);margin-top:2px;">/ 日</div>
+                </div>
+                <div class="stat-box">
+                    <div class="label">平均 Image 用量</div>
+                    <div class="value" id="hist-avg-image" style="color:var(--orange);">—</div>
+                    <div style="font-size:0.65em;color:var(--text2);margin-top:2px;">/ 日</div>
+                </div>
+            </div>
+            <!-- History Table -->
+            <div style="overflow-x:auto;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>日期</th>
+                            <th>時段</th>
+                            <th class="num">M* 已用</th>
+                            <th class="num">M* 總計</th>
+                            <th class="num">M* %</th>
+                            <th class="num">Speech 已用</th>
+                            <th class="num">Image 已用</th>
+                            <th style="font-size:0.8em;color:var(--text2);">擷取時間</th>
+                        </tr>
+                    </thead>
+                    <tbody id="hist-body">
+                        <tr><td colspan="8" style="text-align:center;color:var(--text2);padding:24px;">載入中…</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination" id="hist-pagination"></div>
+        </div>
+
         <!-- ===== Copilot Card ===== -->
         <div class="card" id="copilot-card">
             <div class="card-header">
@@ -404,11 +460,124 @@
         $('token-card').scrollIntoView({behavior:'smooth', block:'start'});
     }
 
+    // ===== Quota History =====
+    let histEntries = [];
+    let histFiltered = [];
+    let histPage = 1;
+    const HIST_PAGE_SIZE = 20;
+
+    async function loadQuotaHistory() {
+        try {
+            const res = await fetch(basePath + '/public/quota-history.json?' + Date.now());
+            if (!res.ok) { $('hist-body').innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text2);padding:24px;">暫無歷史資料 — 請先執行 refresh-data.sh</td></tr>'; return; }
+            const data = await res.json();
+            histEntries = data.entries || [];
+
+            // Build date filter options
+            const dates = new Set(histEntries.map(e => e.date));
+            const sortedDates = [...dates].sort().reverse();
+            const sel = $('hist-date-filter');
+            sel.innerHTML = '<option value="all">全部日期</option>';
+            sortedDates.forEach(d => {
+                const opt = document.createElement('option');
+                opt.value = d; opt.textContent = d; sel.appendChild(opt);
+            });
+
+            $('hist-badge').textContent = histEntries.length + ' 條記錄';
+            renderHistory();
+        } catch(e) { console.log('Quota history load error:', e); }
+    }
+
+    function renderHistory() {
+        const dateFilter = $('hist-date-filter').value;
+        histPage = 1;
+        histFiltered = dateFilter === 'all' ? histEntries : histEntries.filter(e => e.date === dateFilter);
+
+        // Compute averages
+        const mStarEntries = histFiltered.filter(e => e.mStar?.total > 0);
+        const speechDays = {}; // dedupe by date for speech (daily quota)
+        const imageDays  = {};
+        histFiltered.forEach(e => {
+            if (e.speech?.used > 0 && !speechDays[e.date]) speechDays[e.date] = e.speech.used;
+            if (e.image?.used  > 0 && !imageDays[e.date])  imageDays[e.date]  = e.image.used;
+        });
+
+        const avgMStar    = mStarEntries.length ? Math.round(mStarEntries.reduce((s,e) => s + e.mStar.used, 0) / mStarEntries.length) : 0;
+        const avgMStarPct = mStarEntries.length ? Math.round(mStarEntries.reduce((s,e) => s + e.mStar.usedPct, 0) / mStarEntries.length) : 0;
+        const speechVals  = Object.values(speechDays);
+        const imageVals   = Object.values(imageDays);
+        const avgSpeech   = speechVals.length ? Math.round(speechVals.reduce((s,v) => s+v,0) / speechVals.length) : 0;
+        const avgImage    = imageVals.length  ? Math.round(imageVals.reduce((s,v) => s+v,0)  / imageVals.length)  : 0;
+
+        $('hist-avg-mstar').textContent     = avgMStar || '—';
+        $('hist-avg-mstar-pct').textContent = avgMStarPct ? avgMStarPct + '%' : '—';
+        $('hist-avg-speech').textContent    = avgSpeech || '—';
+        $('hist-avg-image').textContent     = avgImage || '—';
+
+        renderHistPage();
+    }
+
+    function renderHistPage() {
+        const start = (histPage - 1) * HIST_PAGE_SIZE;
+        const end = start + HIST_PAGE_SIZE;
+        const page = histFiltered.slice(start, end);
+        const totalPages = Math.ceil(histFiltered.length / HIST_PAGE_SIZE) || 1;
+
+        const WINDOWS = ['01-06','06-11','11-16','16-21','21-01'];
+        const winColors = { '01-06':'#3498db','06-11':'#2ecc71','11-16':'#e67e22','16-21':'#e74c3c','21-01':'#9b59b6' };
+
+        const tbody = $('hist-body');
+        if (page.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text2);padding:24px;">無資料</td></tr>';
+        } else {
+            tbody.innerHTML = page.map(e => {
+                const wc = winColors[e.window] || '#888';
+                const mUsed = e.mStar?.used ?? '—';
+                const mTotal = e.mStar?.total ?? '—';
+                const mPct = e.mStar?.usedPct != null ? e.mStar.usedPct + '%' : '—';
+                const pctColor2 = e.mStar?.usedPct >= 90 ? 'var(--danger)' : e.mStar?.usedPct >= 70 ? 'var(--warn)' : 'var(--green)';
+                const sUsed = e.speech?.used ?? '—';
+                const iUsed = e.image?.used ?? '—';
+                const captTime = e.capturedAt ? new Date(e.capturedAt).toLocaleString('zh-HK',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}) : '—';
+                return `<tr>
+                    <td>${e.date}</td>
+                    <td><span style="color:${wc};font-weight:600;">${e.window}</span></td>
+                    <td class="num">${mUsed}</td>
+                    <td class="num" style="color:var(--text2);">${mTotal}</td>
+                    <td class="num" style="color:${pctColor2};">${mPct}</td>
+                    <td class="num" style="color:#9b59b6;">${sUsed}</td>
+                    <td class="num" style="color:var(--orange);">${iUsed}</td>
+                    <td style="color:var(--text2);font-size:0.85em;">${captTime}</td>
+                </tr>`;
+            }).join('');
+        }
+
+        const pg = $('hist-pagination');
+        if (totalPages <= 1) { pg.innerHTML = ''; return; }
+        let pgHtml = `<button onclick="histGoPage(1)" ${histPage===1?'disabled':''}>«</button>`;
+        pgHtml += `<button onclick="histGoPage(${histPage-1})" ${histPage===1?'disabled':''}>‹</button>`;
+        for (let p = Math.max(1,histPage-3); p <= Math.min(totalPages,Math.max(1,histPage-3)+6); p++) {
+            pgHtml += `<button onclick="histGoPage(${p})" class="${p===histPage?'active':''}">${p}</button>`;
+        }
+        pgHtml += `<button onclick="histGoPage(${histPage+1})" ${histPage>=totalPages?'disabled':''}>›</button>`;
+        pgHtml += `<button onclick="histGoPage(${totalPages})" ${histPage>=totalPages?'disabled':''}>»</button>`;
+        pgHtml += `<span class="info">${histFiltered.length > 0 ? (start+1)+'-'+Math.min(end,histFiltered.length)+' / '+histFiltered.length : '0'}</span>`;
+        pg.innerHTML = pgHtml;
+    }
+
+    function histGoPage(p) {
+        const totalPages = Math.ceil(histFiltered.length / HIST_PAGE_SIZE) || 1;
+        histPage = Math.max(1, Math.min(p, totalPages));
+        renderHistPage();
+        $('history-card').scrollIntoView({behavior:'smooth', block:'start'});
+    }
+
     // ===== Init =====
     loadMinimax();
     loadCopilot();
     loadTokenDetail();
-    setInterval(() => { loadMinimax(); loadCopilot(); }, 300000);
+    loadQuotaHistory();
+    setInterval(() => { loadMinimax(); loadCopilot(); loadQuotaHistory(); }, 300000);
     </script>
 </body>
 </html>
