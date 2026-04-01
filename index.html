@@ -222,8 +222,7 @@ function formatPeriod(type, data) {
 function setQuota(id, remaining, total, periodInfo) {
   const card = document.getElementById(id);
   if (!card) return;
-  const pctUsed = total > 0 ? Math.round((remaining / total) * 100) : 0;
-  const pctRemaining = 100 - pctUsed;
+  const pctUsed = total > 0 ? Math.round(((total - remaining) / total) * 100) : 0;
   const color = pctUsed < 50 ? 'var(--green)' : pctUsed < 80 ? 'var(--warn)' : 'var(--danger)';
   card.style.borderLeftColor = color;
   card.querySelector('.remaining').textContent = typeof remaining === 'number' && remaining % 1 !== 0 ? remaining.toFixed(1) : remaining.toLocaleString();
