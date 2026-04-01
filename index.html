@@ -201,14 +201,14 @@ function formatPeriod(type, data) {
     return fmtT(s) + ' - ' + fmtT(e);
   }
   if (type === '5h') {
-    // Show 5h window as time range: "10:00 - 15:00"
+    // Show 5h window as time range based on current time and intervalHours
     const fmtT = (d) => d.toLocaleTimeString('zh-HK', {hour:'2-digit', minute:'2-digit', hour12:false});
-    if (data && data.startTime && data.endTime) {
-      const st = new Date(data.startTime);
-      const en = new Date(data.endTime);
-      return fmtT(st) + ' - ' + fmtT(en);
-    }
-    return '--';
+    const now = new Date();
+    // Calculate 5h window: floor to nearest interval start
+    const intervalMs = (data && data.intervalHours) ? data.intervalHours * 3600000 : 5 * 3600000;
+    const windowStart = new Date(Math.floor(now.getTime() / intervalMs) * intervalMs);
+    const windowEnd = new Date(windowStart.getTime() + intervalMs);
+    return fmtT(windowStart) + ' - ' + fmtT(windowEnd);
   }
   return '';
 }
