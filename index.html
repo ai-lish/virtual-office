@@ -222,13 +222,13 @@ function formatPeriod(type, data) {
 function setQuota(id, remaining, total, periodInfo) {
   const card = document.getElementById(id);
   if (!card) return;
-  const pctRemaining = total > 0 ? Math.round((remaining / total) * 100) : 0;
-  const pctUsed = 100 - pctRemaining;
+  const pctUsed = total > 0 ? Math.round((remaining / total) * 100) : 0;
+  const pctRemaining = 100 - pctUsed;
   const color = pctUsed < 50 ? 'var(--green)' : pctUsed < 80 ? 'var(--warn)' : 'var(--danger)';
   card.style.borderLeftColor = color;
   card.querySelector('.remaining').textContent = typeof remaining === 'number' && remaining % 1 !== 0 ? remaining.toFixed(1) : remaining.toLocaleString();
   card.querySelector('.total').textContent = total.toLocaleString();
-  card.querySelector('.fill').style.width = pctRemaining + '%';
+  card.querySelector('.fill').style.width = pctUsed + '%';
   card.querySelector('.fill').style.background = color;
   card.querySelector('.pct').textContent = pctUsed + '% used';
   // Update period display
