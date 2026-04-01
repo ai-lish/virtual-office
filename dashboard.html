@@ -181,7 +181,7 @@
                     <div class="progress-row">
                         <div class="progress-label">
                             <span><span class="tag ${tagClass}">${tagLabel}</span> ${m.model}</span>
-                            <strong>${m.remaining} / ${m.total}</strong>
+                            <strong>${m.total - m.remaining} / ${m.total}</strong>
                         </div>
                         <div class="progress-track">
                             <div class="progress-fill" style="width:${pct}%;background:${color};"></div>
@@ -200,7 +200,7 @@
                 <div class="progress-row">
                     <div class="progress-label">
                         <span><span class="tag tag-text">總計</span> 所有模型</span>
-                        <strong>${q.remaining} / ${q.total}</strong>
+                        <strong>${q.used} / ${q.total}</strong>
                     </div>
                     <div class="progress-track">
                         <div class="progress-fill" style="width:${pct}%;background:${color};"></div>
