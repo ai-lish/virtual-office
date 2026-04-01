@@ -201,14 +201,18 @@ function formatPeriod(type, data) {
     return fmtT(s) + ' - ' + fmtT(e);
   }
   if (type === '5h') {
-    // Show 5h window as time range based on current time and intervalHours
-    const fmtT = (d) => d.toLocaleTimeString('zh-HK', {hour:'2-digit', minute:'2-digit', hour12:false});
+    // Fixed 5h windows: 01:00-06:00, 06:00-11:00, 11:00-16:00, 16:00-21:00, 21:00-00:00
+    const fmtT = (h, m) => String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0');
     const now = new Date();
-    // Calculate 5h window: floor to nearest interval start
-    const intervalMs = (data && data.intervalHours) ? data.intervalHours * 3600000 : 5 * 3600000;
-    const windowStart = new Date(Math.floor(now.getTime() / intervalMs) * intervalMs);
-    const windowEnd = new Date(windowStart.getTime() + intervalMs);
-    return fmtT(windowStart) + ' - ' + fmtT(windowEnd);
+    const h = now.getHours();
+    // Determine which window we're in
+    let windowStartH, windowEndH;
+    if (h >= 1 && h < 6) { windowStartH = 1; windowEndH = 6; }
+    else if (h >= 6 && h < 11) { windowStartH = 6; windowEndH = 11; }
+    else if (h >= 11 && h < 16) { windowStartH = 11; windowEndH = 16; }
+    else if (h >= 16 && h < 21) { windowStartH = 16; windowEndH = 21; }
+    else { windowStartH = 21; windowEndH = 24; } // 21:00 - 00:00
+    return fmtT(windowStartH, 0) + ' - ' + (windowEndH === 24 ? '00:00' : fmtT(windowEndH, 0));
   }
   return '';
 }
