@@ -1,10 +1,5520 @@
 {
-  "_generatedAt": "2026-04-01T07:26:20.244Z",
+  "_generatedAt": "2026-04-01T15:21:18.800Z",
   "_source": "google-drive-csv",
   "meta": {
-    "totalRecords": 1353
+    "totalRecords": 1904
   },
   "records": [
+    {
+      "consumptionTime": "2026-03-31 23:00-24:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 475733,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 475733,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 23:00-24:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 1095410,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1095410,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 23:00-24:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 5391115,
+      "outputUsageQuantity": 8842,
+      "totalUsageQuantity": 5399957,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 23:00-24:00",
+      "consumedModel": "coding-plan-vlm",
+      "consumedApi": "code_plan_resource_package",
+      "inputUsageQuantity": 4,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 4,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 23:00-24:00",
+      "consumedModel": "image-01",
+      "consumedApi": "image-generation",
+      "inputUsageQuantity": 21,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 21,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 22:00-23:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 42390,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 42390,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 22:00-23:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 20632,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 20632,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 22:00-23:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 1060,
+      "outputUsageQuantity": 532,
+      "totalUsageQuantity": 1592,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 21:00-22:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 42390,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 42390,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 21:00-22:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 172,
+      "outputUsageQuantity": 125,
+      "totalUsageQuantity": 297,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 20:00-21:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 41951,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 41951,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 20:00-21:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 20632,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 20632,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 20:00-21:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 714,
+      "outputUsageQuantity": 205,
+      "totalUsageQuantity": 919,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 19:00-20:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 366945,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 366945,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 19:00-20:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 84371,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 84371,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 19:00-20:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 182726,
+      "outputUsageQuantity": 3391,
+      "totalUsageQuantity": 186117,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 18:00-19:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 20836,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 20836,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 18:00-19:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 318618,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 318618,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 18:00-19:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 139067,
+      "outputUsageQuantity": 453,
+      "totalUsageQuantity": 139520,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 17:00-18:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 318618,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 318618,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 17:00-18:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 41672,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 41672,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 17:00-18:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 277955,
+      "outputUsageQuantity": 459,
+      "totalUsageQuantity": 278414,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 16:00-17:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 20836,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 20836,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 16:00-17:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 318618,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 318618,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 16:00-17:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 139062,
+      "outputUsageQuantity": 691,
+      "totalUsageQuantity": 139753,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 15:00-16:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 345036,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 345036,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 15:00-16:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 155893,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 155893,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 15:00-16:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 167519,
+      "outputUsageQuantity": 1622,
+      "totalUsageQuantity": 169141,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 14:00-15:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 7758562,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 7758562,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 14:00-15:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 3501975,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 3501975,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 14:00-15:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 32667202,
+      "outputUsageQuantity": 86504,
+      "totalUsageQuantity": 32753706,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 14:00-15:00",
+      "consumedModel": "speech-2.8-hd",
+      "consumedApi": "t2a-v2",
+      "inputUsageQuantity": 600,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 600,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 13:00-14:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 3081890,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 3081890,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 13:00-14:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 6264190,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 6264190,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 13:00-14:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 23458773,
+      "outputUsageQuantity": 78456,
+      "totalUsageQuantity": 23537229,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 13:00-14:00",
+      "consumedModel": "coding-plan-vlm",
+      "consumedApi": "code_plan_resource_package",
+      "inputUsageQuantity": 1,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 13:00-14:00",
+      "consumedModel": "image-01",
+      "consumedApi": "image-generation",
+      "inputUsageQuantity": 19,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 19,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 13:00-14:00",
+      "consumedModel": "speech-2.8-hd",
+      "consumedApi": "t2a-v2",
+      "inputUsageQuantity": 80,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 80,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 12:00-13:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 3707170,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 3707170,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 12:00-13:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 4375094,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 4375094,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 12:00-13:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 14561358,
+      "outputUsageQuantity": 38000,
+      "totalUsageQuantity": 14599358,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 12:00-13:00",
+      "consumedModel": "image-01",
+      "consumedApi": "image-generation",
+      "inputUsageQuantity": 17,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 17,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 11:00-12:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 2512889,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 2512889,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 11:00-12:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 3386429,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 3386429,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 11:00-12:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 11579810,
+      "outputUsageQuantity": 43285,
+      "totalUsageQuantity": 11623095,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 11:00-12:00",
+      "consumedModel": "image-01",
+      "consumedApi": "image-generation",
+      "inputUsageQuantity": 1,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 11:00-12:00",
+      "consumedModel": "speech-2.8-hd",
+      "consumedApi": "t2a-v2",
+      "inputUsageQuantity": 1068,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1068,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 10:00-11:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 4271267,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 4271267,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 10:00-11:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 2847967,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 2847967,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 10:00-11:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 12202662,
+      "outputUsageQuantity": 55978,
+      "totalUsageQuantity": 12258640,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 10:00-11:00",
+      "consumedModel": "image-01",
+      "consumedApi": "image-generation",
+      "inputUsageQuantity": 3,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 3,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 10:00-11:00",
+      "consumedModel": "speech-2.8-hd",
+      "consumedApi": "t2a-v2",
+      "inputUsageQuantity": 895,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 895,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 09:00-10:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 172110,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 172110,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 09:00-10:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 172,
+      "outputUsageQuantity": 612,
+      "totalUsageQuantity": 784,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 08:00-09:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 449253,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 449253,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 08:00-09:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 969500,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 969500,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 08:00-09:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 2894400,
+      "outputUsageQuantity": 7273,
+      "totalUsageQuantity": 2901673,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 08:00-09:00",
+      "consumedModel": "speech-2.8-hd",
+      "consumedApi": "t2a-v2",
+      "inputUsageQuantity": 324,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 324,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 07:00-08:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 2993420,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 2993420,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 07:00-08:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 1991826,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1991826,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 07:00-08:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 13960132,
+      "outputUsageQuantity": 30578,
+      "totalUsageQuantity": 13990710,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 07:00-08:00",
+      "consumedModel": "image-01",
+      "consumedApi": "image-generation",
+      "inputUsageQuantity": 1,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 07:00-08:00",
+      "consumedModel": "speech-2.8-hd",
+      "consumedApi": "t2a-v2",
+      "inputUsageQuantity": 176,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 176,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 06:00-07:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 1054211,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1054211,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 06:00-07:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 1175675,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1175675,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 06:00-07:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 6180912,
+      "outputUsageQuantity": 11696,
+      "totalUsageQuantity": 6192608,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 06:00-07:00",
+      "consumedModel": "image-01",
+      "consumedApi": "image-generation",
+      "inputUsageQuantity": 6,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 6,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 05:00-06:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 242250,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 242250,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 05:00-06:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 19603,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 19603,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 05:00-06:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 100500,
+      "outputUsageQuantity": 706,
+      "totalUsageQuantity": 101206,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 04:00-05:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 242250,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 242250,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 04:00-05:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 39206,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 39206,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 04:00-05:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 199742,
+      "outputUsageQuantity": 639,
+      "totalUsageQuantity": 200381,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 03:00-04:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 811841,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 811841,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 03:00-04:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 694840,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 694840,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 03:00-04:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 3596571,
+      "outputUsageQuantity": 7299,
+      "totalUsageQuantity": 3603870,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 03:00-04:00",
+      "consumedModel": "coding-plan-vlm",
+      "consumedApi": "code_plan_resource_package",
+      "inputUsageQuantity": 1,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 03:00-04:00",
+      "consumedModel": "image-01",
+      "consumedApi": "image-generation",
+      "inputUsageQuantity": 3,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 3,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 02:00-03:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 1250360,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1250360,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 02:00-03:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 1098717,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1098717,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 02:00-03:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 4690192,
+      "outputUsageQuantity": 21776,
+      "totalUsageQuantity": 4711968,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 01:00-02:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 462913,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 462913,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 01:00-02:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 789270,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 789270,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 01:00-02:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 1049112,
+      "outputUsageQuantity": 7615,
+      "totalUsageQuantity": 1056727,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 00:00-01:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 297688,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 297688,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 00:00-01:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 441538,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 441538,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-31 00:00-01:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 723877,
+      "outputUsageQuantity": 3198,
+      "totalUsageQuantity": 727075,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 23:00-24:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 452503,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 452503,
+      "amountSpent": 0.0001,
+      "amountAfterVoucher": 0.0001
+    },
+    {
+      "consumptionTime": "2026-03-30 23:00-24:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 1785422,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1785422,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 23:00-24:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 2535118,
+      "outputUsageQuantity": 14729,
+      "totalUsageQuantity": 2549847,
+      "amountSpent": 0.0006,
+      "amountAfterVoucher": 0.0006
+    },
+    {
+      "consumptionTime": "2026-03-30 22:00-23:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 231838,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 231838,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 22:00-23:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 134312,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 134312,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 22:00-23:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 10473,
+      "outputUsageQuantity": 1719,
+      "totalUsageQuantity": 12192,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 21:00-22:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 39722,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 39722,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 21:00-22:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 172,
+      "outputUsageQuantity": 101,
+      "totalUsageQuantity": 273,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 20:00-21:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 39588,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 39588,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 20:00-21:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 172,
+      "outputUsageQuantity": 192,
+      "totalUsageQuantity": 364,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 19:00-20:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 75970,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 75970,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 19:00-20:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 320186,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 320186,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 19:00-20:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 32326,
+      "outputUsageQuantity": 2689,
+      "totalUsageQuantity": 35015,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 18:00-19:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 19603,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 19603,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 18:00-19:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 277931,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 277931,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 18:00-19:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 119606,
+      "outputUsageQuantity": 129,
+      "totalUsageQuantity": 119735,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 17:00-18:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 209382,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 209382,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 17:00-18:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 277492,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 277492,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 17:00-18:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 239228,
+      "outputUsageQuantity": 445,
+      "totalUsageQuantity": 239673,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 16:00-17:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 237062,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 237062,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 16:00-17:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 5760445,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 5760445,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 16:00-17:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 1891693,
+      "outputUsageQuantity": 8691,
+      "totalUsageQuantity": 1900384,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 15:00-16:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 432843,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 432843,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 15:00-16:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 876971,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 876971,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 15:00-16:00",
+      "consumedModel": "MiniMax-M2.5",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 38,
+      "outputUsageQuantity": 8,
+      "totalUsageQuantity": 46,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 15:00-16:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 1188486,
+      "outputUsageQuantity": 7660,
+      "totalUsageQuantity": 1196146,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 14:00-15:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 275067,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 275067,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 14:00-15:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 495026,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 495026,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 14:00-15:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 793141,
+      "outputUsageQuantity": 1608,
+      "totalUsageQuantity": 794749,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 13:00-14:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 1288404,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1288404,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 13:00-14:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 484945,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 484945,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 13:00-14:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 634016,
+      "outputUsageQuantity": 5024,
+      "totalUsageQuantity": 639040,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 12:00-13:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 1108776,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1108776,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 12:00-13:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 391665,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 391665,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 12:00-13:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 651987,
+      "outputUsageQuantity": 5414,
+      "totalUsageQuantity": 657401,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 11:00-12:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 2609264,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 2609264,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 11:00-12:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 1318592,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1318592,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 11:00-12:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 2706778,
+      "outputUsageQuantity": 12547,
+      "totalUsageQuantity": 2719325,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 10:00-11:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 961254,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 961254,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 10:00-11:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 745221,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 745221,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 10:00-11:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 5891492,
+      "outputUsageQuantity": 20486,
+      "totalUsageQuantity": 5911978,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 09:00-10:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 847726,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 847726,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 09:00-10:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 412726,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 412726,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 09:00-10:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 2595521,
+      "outputUsageQuantity": 4140,
+      "totalUsageQuantity": 2599661,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 08:00-09:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 652729,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 652729,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 08:00-09:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 796565,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 796565,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 08:00-09:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 3063037,
+      "outputUsageQuantity": 6036,
+      "totalUsageQuantity": 3069073,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 07:00-08:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 1649076,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1649076,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 07:00-08:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 2570447,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 2570447,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 07:00-08:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 14886198,
+      "outputUsageQuantity": 40816,
+      "totalUsageQuantity": 14927014,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 06:00-07:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 1258724,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1258724,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 06:00-07:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 3413666,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 3413666,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 06:00-07:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 16620650,
+      "outputUsageQuantity": 29883,
+      "totalUsageQuantity": 16650533,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 05:00-06:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 39206,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 39206,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 05:00-06:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 201045,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 201045,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 05:00-06:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 162981,
+      "outputUsageQuantity": 667,
+      "totalUsageQuantity": 163648,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 04:00-05:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 1967412,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1967412,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 04:00-05:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 807889,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 807889,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 04:00-05:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 7814289,
+      "outputUsageQuantity": 86159,
+      "totalUsageQuantity": 7900448,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 04:00-05:00",
+      "consumedModel": "coding-plan-vlm",
+      "consumedApi": "code_plan_resource_package",
+      "inputUsageQuantity": 17,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 17,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 03:00-04:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 2789017,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 2789017,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 03:00-04:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 5289146,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 5289146,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 03:00-04:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 9717957,
+      "outputUsageQuantity": 110968,
+      "totalUsageQuantity": 9828925,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 03:00-04:00",
+      "consumedModel": "coding-plan-vlm",
+      "consumedApi": "code_plan_resource_package",
+      "inputUsageQuantity": 153,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 153,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 02:00-03:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 398327,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 398327,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 02:00-03:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 690970,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 690970,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 02:00-03:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 2199454,
+      "outputUsageQuantity": 11795,
+      "totalUsageQuantity": 2211249,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 01:00-02:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 2114484,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 2114484,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 01:00-02:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 1457400,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1457400,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 01:00-02:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 4590023,
+      "outputUsageQuantity": 22862,
+      "totalUsageQuantity": 4612885,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 00:00-01:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 369818,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 369818,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 00:00-01:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 439308,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 439308,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-30 00:00-01:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 604446,
+      "outputUsageQuantity": 6768,
+      "totalUsageQuantity": 611214,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 23:00-24:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 854131,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 854131,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 23:00-24:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 67903,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 67903,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 23:00-24:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 926063,
+      "outputUsageQuantity": 10521,
+      "totalUsageQuantity": 936584,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 22:00-23:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 215633,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 215633,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 22:00-23:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 39722,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 39722,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 22:00-23:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 33518,
+      "outputUsageQuantity": 2531,
+      "totalUsageQuantity": 36049,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 21:00-22:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 39722,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 39722,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 21:00-22:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 172,
+      "outputUsageQuantity": 223,
+      "totalUsageQuantity": 395,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 20:00-21:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 39588,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 39588,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 20:00-21:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 172,
+      "outputUsageQuantity": 161,
+      "totalUsageQuantity": 333,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 19:00-20:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 769589,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 769589,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 19:00-20:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 316057,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 316057,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 19:00-20:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 2367559,
+      "outputUsageQuantity": 14227,
+      "totalUsageQuantity": 2381786,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 18:00-19:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 257540,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 257540,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 18:00-19:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 172,
+      "outputUsageQuantity": 135,
+      "totalUsageQuantity": 307,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 17:00-18:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 19039,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 19039,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 17:00-18:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 257540,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 257540,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 17:00-18:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 110348,
+      "outputUsageQuantity": 207,
+      "totalUsageQuantity": 110555,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 16:00-17:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 257540,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 257540,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 16:00-17:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 172,
+      "outputUsageQuantity": 323,
+      "totalUsageQuantity": 495,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 15:00-16:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 165996,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 165996,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 15:00-16:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 279979,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 279979,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 15:00-16:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 228600,
+      "outputUsageQuantity": 2159,
+      "totalUsageQuantity": 230759,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 14:00-15:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 692306,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 692306,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 14:00-15:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 272289,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 272289,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 14:00-15:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 1021482,
+      "outputUsageQuantity": 9381,
+      "totalUsageQuantity": 1030863,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 13:00-14:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 319676,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 319676,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 13:00-14:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 257847,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 257847,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 13:00-14:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 430749,
+      "outputUsageQuantity": 1789,
+      "totalUsageQuantity": 432538,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 12:00-13:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 2105230,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 2105230,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 12:00-13:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 536520,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 536520,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 12:00-13:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 2417954,
+      "outputUsageQuantity": 10683,
+      "totalUsageQuantity": 2428637,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 11:00-12:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 2835146,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 2835146,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 11:00-12:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 2349407,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 2349407,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 11:00-12:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 11685139,
+      "outputUsageQuantity": 24373,
+      "totalUsageQuantity": 11709512,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 10:00-11:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 73545,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 73545,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 10:00-11:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 234755,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 234755,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 10:00-11:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 5569,
+      "outputUsageQuantity": 1598,
+      "totalUsageQuantity": 7167,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 09:00-10:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 1234133,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1234133,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 09:00-10:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 1175037,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1175037,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 09:00-10:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 5989944,
+      "outputUsageQuantity": 22812,
+      "totalUsageQuantity": 6012756,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 08:00-09:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 2025381,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 2025381,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 08:00-09:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 1403900,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1403900,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 08:00-09:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 10210804,
+      "outputUsageQuantity": 19853,
+      "totalUsageQuantity": 10230657,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 07:00-08:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 178544,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 178544,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 07:00-08:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 162,
+      "outputUsageQuantity": 259,
+      "totalUsageQuantity": 421,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 06:00-07:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 34283,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 34283,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 06:00-07:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 271625,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 271625,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 06:00-07:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 172079,
+      "outputUsageQuantity": 1540,
+      "totalUsageQuantity": 173619,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 05:00-06:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 2210626,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 2210626,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 05:00-06:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 978456,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 978456,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 05:00-06:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 6230525,
+      "outputUsageQuantity": 28336,
+      "totalUsageQuantity": 6258861,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 04:00-05:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 67092,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 67092,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 04:00-05:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 81,
+      "outputUsageQuantity": 27,
+      "totalUsageQuantity": 108,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 03:00-04:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 1061013,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1061013,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 03:00-04:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 1100220,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1100220,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 03:00-04:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 2107405,
+      "outputUsageQuantity": 19574,
+      "totalUsageQuantity": 2126979,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 02:00-03:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 3169721,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 3169721,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 02:00-03:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 1684757,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1684757,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 02:00-03:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 8316941,
+      "outputUsageQuantity": 45566,
+      "totalUsageQuantity": 8362507,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 02:00-03:00",
+      "consumedModel": "coding-plan-vlm",
+      "consumedApi": "code_plan_resource_package",
+      "inputUsageQuantity": 1,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 01:00-02:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 53758,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 53758,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 01:00-02:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 162,
+      "outputUsageQuantity": 88,
+      "totalUsageQuantity": 250,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 00:00-01:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 2805678,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 2805678,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 00:00-01:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 1555396,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1555396,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-29 00:00-01:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 11940828,
+      "outputUsageQuantity": 36444,
+      "totalUsageQuantity": 11977272,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 23:00-24:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 32080,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 32080,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 23:00-24:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 162,
+      "outputUsageQuantity": 75,
+      "totalUsageQuantity": 237,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 22:00-23:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 16040,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 16040,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 22:00-23:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 81,
+      "outputUsageQuantity": 26,
+      "totalUsageQuantity": 107,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 21:00-22:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 32080,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 32080,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 21:00-22:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 162,
+      "outputUsageQuantity": 56,
+      "totalUsageQuantity": 218,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 20:00-21:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 50052,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 50052,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 20:00-21:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 49200,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 49200,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 20:00-21:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 2344,
+      "outputUsageQuantity": 627,
+      "totalUsageQuantity": 2971,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 19:00-20:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 244779,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 244779,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 19:00-20:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 77881,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 77881,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 19:00-20:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 118484,
+      "outputUsageQuantity": 2730,
+      "totalUsageQuantity": 121214,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 18:00-19:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 109150,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 109150,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 18:00-19:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 162195,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 162195,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 18:00-19:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 356040,
+      "outputUsageQuantity": 416,
+      "totalUsageQuantity": 356456,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 17:00-18:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 688706,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 688706,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 17:00-18:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 374074,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 374074,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 17:00-18:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 2430268,
+      "outputUsageQuantity": 6645,
+      "totalUsageQuantity": 2436913,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 17:00-18:00",
+      "consumedModel": "coding-plan-vlm",
+      "consumedApi": "code_plan_resource_package",
+      "inputUsageQuantity": 1,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 16:00-17:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 3248529,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 3248529,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 16:00-17:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 1483462,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1483462,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 16:00-17:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 10626521,
+      "outputUsageQuantity": 44267,
+      "totalUsageQuantity": 10670788,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 16:00-17:00",
+      "consumedModel": "coding-plan-vlm",
+      "consumedApi": "code_plan_resource_package",
+      "inputUsageQuantity": 5,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 5,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 15:00-16:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 1126727,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1126727,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 15:00-16:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 4496958,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 4496958,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 15:00-16:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 5825851,
+      "outputUsageQuantity": 80993,
+      "totalUsageQuantity": 5906844,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 15:00-16:00",
+      "consumedModel": "coding-plan-vlm",
+      "consumedApi": "code_plan_resource_package",
+      "inputUsageQuantity": 116,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 116,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 14:00-15:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 4926111,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 4926111,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 14:00-15:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 2169420,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 2169420,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 14:00-15:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 11619463,
+      "outputUsageQuantity": 209955,
+      "totalUsageQuantity": 11829418,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 14:00-15:00",
+      "consumedModel": "coding-plan-vlm",
+      "consumedApi": "code_plan_resource_package",
+      "inputUsageQuantity": 295,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 295,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 13:00-14:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 5430727,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 5430727,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 13:00-14:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 1450565,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1450565,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 13:00-14:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 15099112,
+      "outputUsageQuantity": 103188,
+      "totalUsageQuantity": 15202300,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 13:00-14:00",
+      "consumedModel": "coding-plan-vlm",
+      "consumedApi": "code_plan_resource_package",
+      "inputUsageQuantity": 208,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 208,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 12:00-13:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 1149241,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1149241,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 12:00-13:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 2499508,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 2499508,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 12:00-13:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 6687468,
+      "outputUsageQuantity": 27837,
+      "totalUsageQuantity": 6715305,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 11:00-12:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 1004918,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1004918,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 11:00-12:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 2660805,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 2660805,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 11:00-12:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 4471360,
+      "outputUsageQuantity": 37444,
+      "totalUsageQuantity": 4508804,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 11:00-12:00",
+      "consumedModel": "coding-plan-vlm",
+      "consumedApi": "code_plan_resource_package",
+      "inputUsageQuantity": 20,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 20,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 10:00-11:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 884963,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 884963,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 10:00-11:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 1316585,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1316585,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 10:00-11:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 4736143,
+      "outputUsageQuantity": 22010,
+      "totalUsageQuantity": 4758153,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 09:00-10:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 15626,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 15626,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 09:00-10:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 110546,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 110546,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 09:00-10:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 95211,
+      "outputUsageQuantity": 98,
+      "totalUsageQuantity": 95309,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 08:00-09:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 15626,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 15626,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 08:00-09:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 110546,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 110546,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 08:00-09:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 95198,
+      "outputUsageQuantity": 86,
+      "totalUsageQuantity": 95284,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 07:00-08:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 836934,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 836934,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 07:00-08:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 571708,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 571708,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 07:00-08:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 2301975,
+      "outputUsageQuantity": 10016,
+      "totalUsageQuantity": 2311991,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 06:00-07:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 458779,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 458779,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 06:00-07:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 258889,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 258889,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 06:00-07:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 1031993,
+      "outputUsageQuantity": 9938,
+      "totalUsageQuantity": 1041931,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 06:00-07:00",
+      "consumedModel": "coding-plan-vlm",
+      "consumedApi": "code_plan_resource_package",
+      "inputUsageQuantity": 12,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 12,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 05:00-06:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 794892,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 794892,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 05:00-06:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 4623815,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 4623815,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 05:00-06:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 5327707,
+      "outputUsageQuantity": 108096,
+      "totalUsageQuantity": 5435803,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 05:00-06:00",
+      "consumedModel": "coding-plan-vlm",
+      "consumedApi": "code_plan_resource_package",
+      "inputUsageQuantity": 397,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 397,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 04:00-05:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 1537887,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1537887,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 04:00-05:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 1099040,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1099040,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 04:00-05:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 4636450,
+      "outputUsageQuantity": 45673,
+      "totalUsageQuantity": 4682123,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 03:00-04:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 298194,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 298194,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 03:00-04:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 636073,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 636073,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 03:00-04:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 884959,
+      "outputUsageQuantity": 4436,
+      "totalUsageQuantity": 889395,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 02:00-03:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 1707708,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1707708,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 02:00-03:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 2364057,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 2364057,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 02:00-03:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 7514390,
+      "outputUsageQuantity": 37856,
+      "totalUsageQuantity": 7552246,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 01:00-02:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 598518,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 598518,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 01:00-02:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 2981404,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 2981404,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 01:00-02:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 4197941,
+      "outputUsageQuantity": 72906,
+      "totalUsageQuantity": 4270847,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 00:00-01:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 155400,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 155400,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 00:00-01:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 688001,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 688001,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-28 00:00-01:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 505097,
+      "outputUsageQuantity": 12016,
+      "totalUsageQuantity": 517113,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 20:00-21:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 34366,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 34366,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 20:00-21:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 17350,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 17350,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 20:00-21:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 1897,
+      "outputUsageQuantity": 518,
+      "totalUsageQuantity": 2415,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 17:00-18:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 4176211,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 4176211,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 17:00-18:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 1133502,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1133502,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 17:00-18:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 14632612,
+      "outputUsageQuantity": 65618,
+      "totalUsageQuantity": 14698230,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 16:00-17:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 364547,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 364547,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 16:00-17:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 451286,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 451286,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 16:00-17:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 2133828,
+      "outputUsageQuantity": 12013,
+      "totalUsageQuantity": 2145841,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 15:00-16:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 17351,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 17351,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 15:00-16:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 68732,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 68732,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 15:00-16:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 3500,
+      "outputUsageQuantity": 1110,
+      "totalUsageQuantity": 4610,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 12:00-13:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 371393,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 371393,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 12:00-13:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 58143,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 58143,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 12:00-13:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 952672,
+      "outputUsageQuantity": 17689,
+      "totalUsageQuantity": 970361,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 10:00-11:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 34366,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 34366,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 10:00-11:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 17351,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 17351,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 10:00-11:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 1841,
+      "outputUsageQuantity": 549,
+      "totalUsageQuantity": 2390,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 08:00-09:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 82672,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 82672,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 08:00-09:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 56049,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 56049,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 08:00-09:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 30318,
+      "outputUsageQuantity": 672,
+      "totalUsageQuantity": 30990,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 07:00-08:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 275783,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 275783,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 07:00-08:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 167418,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 167418,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 07:00-08:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 901496,
+      "outputUsageQuantity": 947,
+      "totalUsageQuantity": 902443,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 05:00-06:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 509585,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 509585,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 05:00-06:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 518815,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 518815,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 05:00-06:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 2197900,
+      "outputUsageQuantity": 5101,
+      "totalUsageQuantity": 2203001,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 04:00-05:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 169333,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 169333,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 04:00-05:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 90935,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 90935,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 04:00-05:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 721707,
+      "outputUsageQuantity": 678,
+      "totalUsageQuantity": 722385,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 03:00-04:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 336853,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 336853,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 03:00-04:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 277108,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 277108,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 03:00-04:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 901421,
+      "outputUsageQuantity": 957,
+      "totalUsageQuantity": 902378,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 02:00-03:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 328438,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 328438,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 02:00-03:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 693797,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 693797,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 02:00-03:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 4198831,
+      "outputUsageQuantity": 2756,
+      "totalUsageQuantity": 4201587,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 00:00-01:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 185041,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 185041,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 00:00-01:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 209754,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 209754,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-27 00:00-01:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 829187,
+      "outputUsageQuantity": 2427,
+      "totalUsageQuantity": 831614,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 23:00-24:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 164921,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 164921,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 23:00-24:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 200996,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 200996,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 23:00-24:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 278034,
+      "outputUsageQuantity": 810,
+      "totalUsageQuantity": 278844,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 20:00-21:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 237034,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 237034,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 20:00-21:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 492833,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 492833,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 20:00-21:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 7599,
+      "outputUsageQuantity": 2452,
+      "totalUsageQuantity": 10051,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 19:00-20:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 813901,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 813901,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 19:00-20:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 2162513,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 2162513,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 19:00-20:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 461229,
+      "outputUsageQuantity": 9724,
+      "totalUsageQuantity": 470953,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 15:00-16:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 41795,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 41795,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 15:00-16:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 180515,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 180515,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 15:00-16:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 9213,
+      "outputUsageQuantity": 1947,
+      "totalUsageQuantity": 11160,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 13:00-14:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 1823463,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1823463,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 13:00-14:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 1376591,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1376591,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 13:00-14:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 2519021,
+      "outputUsageQuantity": 11853,
+      "totalUsageQuantity": 2530874,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 12:00-13:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 497636,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 497636,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 12:00-13:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 462180,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 462180,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 12:00-13:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 271550,
+      "outputUsageQuantity": 1368,
+      "totalUsageQuantity": 272918,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 10:00-11:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 152324,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 152324,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 10:00-11:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 31632,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 31632,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 10:00-11:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 13527,
+      "outputUsageQuantity": 1609,
+      "totalUsageQuantity": 15136,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 09:00-10:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 960389,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 960389,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 09:00-10:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 454920,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 454920,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 09:00-10:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 396470,
+      "outputUsageQuantity": 2684,
+      "totalUsageQuantity": 399154,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 08:00-09:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 2293283,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 2293283,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 08:00-09:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 592322,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 592322,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 08:00-09:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 1635973,
+      "outputUsageQuantity": 5220,
+      "totalUsageQuantity": 1641193,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 07:00-08:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 833940,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 833940,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 07:00-08:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 1255351,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1255351,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 07:00-08:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 1051220,
+      "outputUsageQuantity": 4738,
+      "totalUsageQuantity": 1055958,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 06:00-07:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 286519,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 286519,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 06:00-07:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 561052,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 561052,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 06:00-07:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 1318528,
+      "outputUsageQuantity": 5952,
+      "totalUsageQuantity": 1324480,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 05:00-06:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 33880,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 33880,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 05:00-06:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 94155,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 94155,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 05:00-06:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 2031,
+      "outputUsageQuantity": 1708,
+      "totalUsageQuantity": 3739,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 03:00-04:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 1193303,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1193303,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 03:00-04:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 619099,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 619099,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 03:00-04:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 1294844,
+      "outputUsageQuantity": 5280,
+      "totalUsageQuantity": 1300124,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 00:00-01:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 31519,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 31519,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 00:00-01:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 204332,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 204332,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-26 00:00-01:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 47133,
+      "outputUsageQuantity": 3756,
+      "totalUsageQuantity": 50889,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 23:00-24:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 682978,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 682978,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 23:00-24:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 778553,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 778553,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 23:00-24:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 2440693,
+      "outputUsageQuantity": 6991,
+      "totalUsageQuantity": 2447684,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 22:00-23:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 415763,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 415763,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 22:00-23:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 661028,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 661028,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 22:00-23:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 1778299,
+      "outputUsageQuantity": 9405,
+      "totalUsageQuantity": 1787704,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 20:00-21:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 33880,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 33880,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 20:00-21:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 17107,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 17107,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 20:00-21:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 1858,
+      "outputUsageQuantity": 582,
+      "totalUsageQuantity": 2440,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 19:00-20:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 119857,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 119857,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 19:00-20:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 46926,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 46926,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 19:00-20:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 24232,
+      "outputUsageQuantity": 2755,
+      "totalUsageQuantity": 26987,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 15:00-16:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 1311793,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1311793,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 15:00-16:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 777730,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 777730,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 15:00-16:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 5975993,
+      "outputUsageQuantity": 18520,
+      "totalUsageQuantity": 5994513,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 14:00-15:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 285071,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 285071,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 14:00-15:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 154545,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 154545,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 14:00-15:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 743571,
+      "outputUsageQuantity": 2382,
+      "totalUsageQuantity": 745953,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 14:00-15:00",
+      "consumedModel": "coding-plan-vlm",
+      "consumedApi": "code_plan_resource_package",
+      "inputUsageQuantity": 1,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 10:00-11:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 519017,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 519017,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 10:00-11:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 168973,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 168973,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 10:00-11:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 2869707,
+      "outputUsageQuantity": 4327,
+      "totalUsageQuantity": 2874034,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 07:00-08:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 491436,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 491436,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 07:00-08:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 265256,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 265256,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 07:00-08:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 1182062,
+      "outputUsageQuantity": 6839,
+      "totalUsageQuantity": 1188901,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 06:00-07:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 2772282,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 2772282,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 06:00-07:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 1062215,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1062215,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 06:00-07:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 6798012,
+      "outputUsageQuantity": 39930,
+      "totalUsageQuantity": 6837942,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 05:00-06:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 760169,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 760169,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 05:00-06:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 202535,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 202535,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 05:00-06:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 1251989,
+      "outputUsageQuantity": 17415,
+      "totalUsageQuantity": 1269404,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 04:00-05:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 1783359,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1783359,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 04:00-05:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 811366,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 811366,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 04:00-05:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 5423096,
+      "outputUsageQuantity": 18155,
+      "totalUsageQuantity": 5441251,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 04:00-05:00",
+      "consumedModel": "coding-plan-vlm",
+      "consumedApi": "code_plan_resource_package",
+      "inputUsageQuantity": 3,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 3,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 03:00-04:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 1386920,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1386920,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 03:00-04:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 707928,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 707928,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 03:00-04:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 8106765,
+      "outputUsageQuantity": 11305,
+      "totalUsageQuantity": 8118070,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 02:00-03:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 530691,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 530691,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 02:00-03:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 180970,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 180970,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 02:00-03:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 2241751,
+      "outputUsageQuantity": 3019,
+      "totalUsageQuantity": 2244770,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 00:00-01:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 559024,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 559024,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 00:00-01:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 391650,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 391650,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-25 00:00-01:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 1669995,
+      "outputUsageQuantity": 7785,
+      "totalUsageQuantity": 1677780,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 23:00-24:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 1903751,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1903751,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 23:00-24:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 617640,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 617640,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 23:00-24:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 6248204,
+      "outputUsageQuantity": 13206,
+      "totalUsageQuantity": 6261410,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 22:00-23:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 1396331,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1396331,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 22:00-23:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 1789013,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1789013,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 22:00-23:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 7455838,
+      "outputUsageQuantity": 14388,
+      "totalUsageQuantity": 7470226,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 21:00-22:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 57909,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 57909,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 21:00-22:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 145712,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 145712,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 21:00-22:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 376078,
+      "outputUsageQuantity": 1002,
+      "totalUsageQuantity": 377080,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 20:00-21:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 33880,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 33880,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 20:00-21:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 17107,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 17107,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 20:00-21:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 1966,
+      "outputUsageQuantity": 739,
+      "totalUsageQuantity": 2705,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 19:00-20:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 46483,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 46483,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 19:00-20:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 182701,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 182701,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 19:00-20:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 39085,
+      "outputUsageQuantity": 3475,
+      "totalUsageQuantity": 42560,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 17:00-18:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 231636,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 231636,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 17:00-18:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 1509663,
+      "outputUsageQuantity": 3106,
+      "totalUsageQuantity": 1512769,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 16:00-17:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 1113281,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1113281,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 16:00-17:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 3509374,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 3509374,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 16:00-17:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 11607022,
+      "outputUsageQuantity": 27665,
+      "totalUsageQuantity": 11634687,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 15:00-16:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 758303,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 758303,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 15:00-16:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 4063445,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 4063445,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 15:00-16:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 8583145,
+      "outputUsageQuantity": 51254,
+      "totalUsageQuantity": 8634399,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 14:00-15:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 1252483,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1252483,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 14:00-15:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 2948835,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 2948835,
+      "amountSpent": 0.0026,
+      "amountAfterVoucher": 0.0026
+    },
+    {
+      "consumptionTime": "2026-03-24 14:00-15:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 7220164,
+      "outputUsageQuantity": 31426,
+      "totalUsageQuantity": 7251590,
+      "amountSpent": 0.0227,
+      "amountAfterVoucher": 0.0227
+    },
+    {
+      "consumptionTime": "2026-03-24 13:00-14:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 155626,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 155626,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 13:00-14:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 472334,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 472334,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 13:00-14:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 359958,
+      "outputUsageQuantity": 6729,
+      "totalUsageQuantity": 366687,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 12:00-13:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 191898,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 191898,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 12:00-13:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 70362,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 70362,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 12:00-13:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 160834,
+      "outputUsageQuantity": 1836,
+      "totalUsageQuantity": 162670,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 11:00-12:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 139540,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 139540,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 11:00-12:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 77564,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 77564,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 11:00-12:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 15525,
+      "outputUsageQuantity": 2795,
+      "totalUsageQuantity": 18320,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 10:00-11:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 2348712,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 2348712,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 10:00-11:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 1138556,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1138556,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 10:00-11:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 3022146,
+      "outputUsageQuantity": 9142,
+      "totalUsageQuantity": 3031288,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 09:00-10:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 107260,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 107260,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 09:00-10:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 79417,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 79417,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 09:00-10:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 30525,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 30525,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 08:00-09:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 825947,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 825947,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 08:00-09:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 493514,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 493514,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 08:00-09:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 2823856,
+      "outputUsageQuantity": 13507,
+      "totalUsageQuantity": 2837363,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 07:00-08:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 172874,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 172874,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 07:00-08:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 157499,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 157499,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 07:00-08:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 136999,
+      "outputUsageQuantity": 256,
+      "totalUsageQuantity": 137255,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 06:00-07:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 320847,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 320847,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 06:00-07:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 36822,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 36822,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 06:00-07:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 250284,
+      "outputUsageQuantity": 255,
+      "totalUsageQuantity": 250539,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 05:00-06:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 5354990,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 5354990,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 05:00-06:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 1511941,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1511941,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 05:00-06:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 10946324,
+      "outputUsageQuantity": 21438,
+      "totalUsageQuantity": 10967762,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 04:00-05:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 4128865,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 4128865,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 04:00-05:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 1180590,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1180590,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 04:00-05:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 16373456,
+      "outputUsageQuantity": 34952,
+      "totalUsageQuantity": 16408408,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 03:00-04:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 868649,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 868649,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 03:00-04:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 5287197,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 5287197,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 03:00-04:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 18664539,
+      "outputUsageQuantity": 44140,
+      "totalUsageQuantity": 18708679,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 02:00-03:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 378152,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 378152,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 02:00-03:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 1012624,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1012624,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 02:00-03:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 3609171,
+      "outputUsageQuantity": 10256,
+      "totalUsageQuantity": 3619427,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 00:00-01:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 279215,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 279215,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 00:00-01:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 1391371,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1391371,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-24 00:00-01:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 7077251,
+      "outputUsageQuantity": 13183,
+      "totalUsageQuantity": 7090434,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 23:00-24:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 190764,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 190764,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 23:00-24:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 281113,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 281113,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 23:00-24:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 1048320,
+      "outputUsageQuantity": 10241,
+      "totalUsageQuantity": 1058561,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 22:00-23:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 148372,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 148372,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 22:00-23:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 120560,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 120560,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 22:00-23:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 731999,
+      "outputUsageQuantity": 1427,
+      "totalUsageQuantity": 733426,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 20:00-21:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 33305,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 33305,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 20:00-21:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 712,
+      "outputUsageQuantity": 187,
+      "totalUsageQuantity": 899,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 16:00-17:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 241032,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 241032,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 16:00-17:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 1745660,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1745660,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 16:00-17:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 4474328,
+      "outputUsageQuantity": 32334,
+      "totalUsageQuantity": 4506662,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 15:00-16:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 5008091,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 5008091,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 15:00-16:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 2203557,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 2203557,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 15:00-16:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 12637758,
+      "outputUsageQuantity": 38869,
+      "totalUsageQuantity": 12676627,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 14:00-15:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 5176402,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 5176402,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 14:00-15:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 3109381,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 3109381,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 14:00-15:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 19233912,
+      "outputUsageQuantity": 45697,
+      "totalUsageQuantity": 19279609,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 13:00-14:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 2065349,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 2065349,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 13:00-14:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 2104043,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 2104043,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 13:00-14:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 5552147,
+      "outputUsageQuantity": 15394,
+      "totalUsageQuantity": 5567541,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 12:00-13:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 4258088,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 4258088,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 12:00-13:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 2385681,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 2385681,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 12:00-13:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 11778718,
+      "outputUsageQuantity": 101898,
+      "totalUsageQuantity": 11880616,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 11:00-12:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 2628558,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 2628558,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 11:00-12:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 5243441,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 5243441,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 11:00-12:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 10242875,
+      "outputUsageQuantity": 38630,
+      "totalUsageQuantity": 10281505,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 10:00-11:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 2218082,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 2218082,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 10:00-11:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 1103982,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1103982,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 10:00-11:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 8876351,
+      "outputUsageQuantity": 25775,
+      "totalUsageQuantity": 8902126,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 10:00-11:00",
+      "consumedModel": "coding-plan-vlm",
+      "consumedApi": "code_plan_resource_package",
+      "inputUsageQuantity": 7,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 7,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 08:00-09:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 300288,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 300288,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 08:00-09:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 394668,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 394668,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 08:00-09:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 2437107,
+      "outputUsageQuantity": 3354,
+      "totalUsageQuantity": 2440461,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 07:00-08:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 451821,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 451821,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 07:00-08:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 735681,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 735681,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 07:00-08:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 1918436,
+      "outputUsageQuantity": 6202,
+      "totalUsageQuantity": 1924638,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 07:00-08:00",
+      "consumedModel": "coding-plan-vlm",
+      "consumedApi": "code_plan_resource_package",
+      "inputUsageQuantity": 3,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 3,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 06:00-07:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 415660,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 415660,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 06:00-07:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 300478,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 300478,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 06:00-07:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 1702775,
+      "outputUsageQuantity": 5417,
+      "totalUsageQuantity": 1708192,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 06:00-07:00",
+      "consumedModel": "coding-plan-vlm",
+      "consumedApi": "code_plan_resource_package",
+      "inputUsageQuantity": 2,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 2,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 05:00-06:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 511184,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 511184,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 05:00-06:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 1201763,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1201763,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 05:00-06:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 2058794,
+      "outputUsageQuantity": 11263,
+      "totalUsageQuantity": 2070057,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 03:00-04:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 235,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 235,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 03:00-04:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 267151,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 267151,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 03:00-04:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 708808,
+      "outputUsageQuantity": 724,
+      "totalUsageQuantity": 709532,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 02:00-03:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 1127192,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1127192,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 02:00-03:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 2157936,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 2157936,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 02:00-03:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 6336878,
+      "outputUsageQuantity": 36744,
+      "totalUsageQuantity": 6373622,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 02:00-03:00",
+      "consumedModel": "coding-plan-vlm",
+      "consumedApi": "code_plan_resource_package",
+      "inputUsageQuantity": 1,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 01:00-02:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 878758,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 878758,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 01:00-02:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 304670,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 304670,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 01:00-02:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 1050334,
+      "outputUsageQuantity": 13919,
+      "totalUsageQuantity": 1064253,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 01:00-02:00",
+      "consumedModel": "coding-plan-vlm",
+      "consumedApi": "code_plan_resource_package",
+      "inputUsageQuantity": 1,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 00:00-01:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-read(Text API)",
+      "inputUsageQuantity": 1136684,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 1136684,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 00:00-01:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "cache-create(Text API)",
+      "inputUsageQuantity": 379993,
+      "outputUsageQuantity": 0,
+      "totalUsageQuantity": 379993,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
+    {
+      "consumptionTime": "2026-03-23 00:00-01:00",
+      "consumedModel": "MiniMax-M2.7",
+      "consumedApi": "chatcompletion-v2(Text API)",
+      "inputUsageQuantity": 1531782,
+      "outputUsageQuantity": 63200,
+      "totalUsageQuantity": 1594982,
+      "amountSpent": 0,
+      "amountAfterVoucher": 0
+    },
     {
       "consumptionTime": "2026-03-22 20:00-21:00",
       "consumedModel": "MiniMax-M2.7",

@@ -1,29 +1,37 @@
 {
-  "_generatedAt": "2026-04-01T07:26:20.248Z",
+  "_generatedAt": "2026-04-01T15:21:18.807Z",
   "totals": {
-    "inputTokens": 2536074687,
-    "outputTokens": 6339027,
-    "totalTokens": 2542413714
+    "inputTokens": 3523231730,
+    "outputTokens": 9316269,
+    "totalTokens": 3532547999
   },
   "byModel": [
     {
       "model": "MiniMax-M2.5",
-      "tokens": 2408031075
+      "tokens": 2408031121
     },
     {
       "model": "MiniMax-M2.7",
-      "tokens": 134382182
+      "tokens": 1124511958
+    },
+    {
+      "model": "speech-2.8-hd",
+      "tokens": 3143
     },
     {
       "model": "coding-plan-vlm",
-      "tokens": 457
+      "tokens": 1706
+    },
+    {
+      "model": "image-01",
+      "tokens": 71
     }
   ],
   "meta": {
     "dateRange": {
       "start": "2026-03-03",
-      "end": "2026-03-22"
+      "end": "2026-03-31"
     },
-    "records": 1353
+    "records": 1904
   }
 }
