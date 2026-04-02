@@ -52,29 +52,44 @@ const image   = raw.find(m => m.model_name === 'image-01');
 if (!mStar) { console.log('No MiniMax-M* data, skipping'); process.exit(0); }
 
 // ── Determine window key (HKT = UTC+8) ──
-// HKT windows are based on Hong Kong local time (UTC+8)
-// Windows 21-01, 16-21, 11-16 start in the evening HKT of "day X" and end in early HKT of "day X+1"
-// When UTC hour >= 20, the HKT date is "tomorrow" relative to UTC date
-// So for windows captured during these hours, subtract 1 day
-const startMs = mStar.start_time;
-const startDate = new Date(startMs);
-const utcHour = startDate.getUTCHours();
+// Use CURRENT TIME to determine which window just ended
+// Cron runs at: 21, 01, 06, 11, 16 UTC
+// At each run, we capture the window that JUST CLOSED (not the one we're in)
+const now = new Date();
+const cronHour = now.getUTCHours();
 
-// HKT hour: (UTC + 8) % 24
-const hktHour = (utcHour + 8) % 24;
-
-// Determine window label from UTC hour (cron runs at fixed UTC hours: 01, 06, 11, 16, 21)
-let window;
-if      (utcHour >= 1  && utcHour < 6)  window = '01-06';
-else if (utcHour >= 6  && utcHour < 11) window = '06-11';
-else if (utcHour >= 11 && utcHour < 16) window = '11-16';
-else if (utcHour >= 16 && utcHour < 21) window = '16-21';
-else                                     window = '21-01'; // utcHour >= 21
-
-// Compute HKT date: if UTC hour >= 20, HKT date is "tomorrow", so subtract 1 day
-const hktDate = new Date(startDate.getTime() + 8 * 3600 * 1000);
-if (utcHour >= 20) hktDate.setDate(hktDate.getDate() - 1);
-const dateStr = hktDate.toISOString().slice(0, 10); // YYYY-MM-DD in HKT
+// Determine window label and date based on WHEN the cron runs (not API start_time)
+// Cron at UTC 21: captures 21-01 window from PREVIOUS HKT day (evening of day-1)
+// Cron at UTC 01: captures 01-06 window from SAME HKT day (early morning)
+// Cron at UTC 06: captures 06-11 window from SAME HKT day
+// Cron at UTC 11: captures 11-16 window from SAME HKT day
+// Cron at UTC 16: captures 16-21 window from SAME HKT day
+let window, dateStr;
+if (cronHour >= 21 || cronHour < 1) {
+    // Captures 21-01 window. Window starts at 21:00 HKT yesterday, ends at 01:00 HKT today.
+    window = '21-01';
+    // HKT date of "now" is tomorrow, but the window is from yesterday
+    const hktNow = new Date(now.getTime() + 8 * 3600 * 1000);
+    hktNow.setDate(hktNow.getDate() - 1); // Go back to yesterday HKT
+    dateStr = hktNow.toISOString().slice(0, 10);
+} else if (cronHour >= 1 && cronHour < 6) {
+    window = '01-06';
+    const hktNow = new Date(now.getTime() + 8 * 3600 * 1000);
+    dateStr = hktNow.toISOString().slice(0, 10);
+} else if (cronHour >= 6 && cronHour < 11) {
+    window = '06-11';
+    const hktNow = new Date(now.getTime() + 8 * 3600 * 1000);
+    dateStr = hktNow.toISOString().slice(0, 10);
+} else if (cronHour >= 11 && cronHour < 16) {
+    window = '11-16';
+    const hktNow = new Date(now.getTime() + 8 * 3600 * 1000);
+    dateStr = hktNow.toISOString().slice(0, 10);
+} else {
+    // cronHour >= 16 && cronHour < 21
+    window = '16-21';
+    const hktNow = new Date(now.getTime() + 8 * 3600 * 1000);
+    dateStr = hktNow.toISOString().slice(0, 10);
+}
 
 const windowKey = dateStr + '_' + window; // e.g. 2026-04-01_21-01
 
