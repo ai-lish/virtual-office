@@ -93,54 +93,116 @@
 
     <!-- ===== Tab Navigation ===== -->
     <div class="tab-nav" id="tab-nav">
-        <button class="tab-btn active" onclick="switchTab('overview')">📊 配額總覽</button>
-        <button class="tab-btn" onclick="switchTab('history')">📜 配額歷史</button>
-        <button class="tab-btn" onclick="switchTab('detail')">🤖 使用明細</button>
+        <button class="tab-btn active" onclick="switchTab('history')">📜 配額歷史</button>
+        <button class="tab-btn" onclick="switchTab('copilot')">🤖 Copilot 使用明細</button>
+        <button class="tab-btn" onclick="switchTab('minimax')">📊 MiniMax 使用明細</button>
     </div>
 
     <div class="container">
-        <!-- ===== Tab: 配額總覽 ===== -->
-        <div class="tab-panel active" id="tab-overview">
-        <!-- MiniMax Quota Card -->
-        <div class="card" id="minimax-card">
-            <div class="card-header">
-                <div class="card-title">⚡ MiniMax 配額</div>
-                <span id="mm-source" class="badge" style="background:rgba(52,152,219,0.15);color:var(--blue);"></span>
-            </div>
-            <div id="mm-models">
-                <div style="color:var(--text2);font-size:0.85em;">載入中…</div>
-            </div>
-            <div id="mm-interval" style="margin-top:12px;font-size:0.75em;color:var(--text2);"></div>
-        </div>
-        <!-- Copilot Quota Card -->
-        <div class="card" id="copilot-card">
-            <div class="card-header">
-                <div class="card-title">🤖 GitHub Copilot Premium</div>
-                <span id="cp-badge" class="badge"></span>
-            </div>
-            <div class="progress-row">
-                <div class="progress-label">
-                    <span>Premium 請求</span>
-                    <strong id="cp-total-label">—</strong>
-                </div>
-                <div class="progress-track">
-                    <div class="progress-fill" id="cp-bar" style="width:0%;background:var(--green);"></div>
-                </div>
-                <div style="display:flex;justify-content:space-between;margin-top:5px;font-size:0.72em;color:var(--text2);">
-                    <span>剩餘: <strong id="cp-remain" style="color:var(--text);">—</strong></span>
-                    <span>重置: <strong id="cp-reset" style="color:var(--text);">—</strong></span>
-                </div>
-            </div>
-            <div style="font-size:0.78em;color:var(--text2);margin:12px 0 8px;">模型用量</div>
-            <div id="cp-models">
-                <div style="color:var(--text2);font-size:0.82em;">載入中…</div>
-            </div>
-        </div>
-        </div><!-- /tab-overview -->
 
-        <!-- ===== Tab: 使用明細 ===== -->
-        <div class="tab-panel" id="tab-detail">
-        <!-- MiniMax Detailed Usage Card -->
+        <!-- ===== Tab: 配額歷史 ===== -->
+        <div class="tab-panel active" id="tab-history">
+        <div class="card" id="history-card">
+            <div class="card-header">
+                <div class="card-title">📜 配額歷史記錄</div>
+                <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+                    <select class="month-select" id="hist-date-filter" onchange="renderHistory()">
+                        <option value="all">全部日期</option>
+                    </select>
+                    <span id="hist-badge" class="badge" style="background:rgba(46,204,113,0.15);color:var(--green);"></span>
+                </div>
+            </div>
+            <div class="stats-grid" id="hist-stats" style="margin-bottom:16px;">
+                <div class="stat-box">
+                    <div class="label">平均 M* 用量</div>
+                    <div class="value" id="hist-avg-mstar" style="color:var(--blue);">—</div>
+                    <div style="font-size:0.65em;color:var(--text2);margin-top:2px;">/ 窗口</div>
+                </div>
+                <div class="stat-box">
+                    <div class="label">平均 M* 使用率</div>
+                    <div class="value" id="hist-avg-mstar-pct" style="color:var(--orange);">—</div>
+                </div>
+                <div class="stat-box">
+                    <div class="label">平均 Speech 用量</div>
+                    <div class="value" id="hist-avg-speech" style="color:#9b59b6;">—</div>
+                    <div style="font-size:0.65em;color:var(--text2);margin-top:2px;">/ 日</div>
+                </div>
+                <div class="stat-box">
+                    <div class="label">平均 Image 用量</div>
+                    <div class="value" id="hist-avg-image" style="color:var(--orange);">—</div>
+                    <div style="font-size:0.65em;color:var(--text2);margin-top:2px;">/ 日</div>
+                </div>
+            </div>
+            <div style="overflow-x:auto;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>日期</th>
+                            <th>時段</th>
+                            <th class="num">M* 已用</th>
+                            <th class="num">M* 總計</th>
+                            <th class="num">M* %</th>
+                            <th class="num">Speech 已用</th>
+                            <th class="num">Image 已用</th>
+                            <th style="font-size:0.8em;color:var(--text2);">擷取時間</th>
+                        </tr>
+                    </thead>
+                    <tbody id="hist-body">
+                        <tr><td colspan="8" style="text-align:center;color:var(--text2);padding:24px;">載入中…</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination" id="hist-pagination"></div>
+        </div>
+        </div><!-- /tab-history -->
+
+        <!-- ===== Tab: Copilot 使用明細 ===== -->
+        <div class="tab-panel" id="tab-copilot">
+        <div class="card" id="copilot-detail-card">
+            <div class="card-header">
+                <div class="card-title">🤖 Copilot 使用明細</div>
+                <span id="cp-range" class="badge" style="background:rgba(52,152,219,0.15);color:var(--blue);"></span>
+            </div>
+            <div class="filter-row" style="margin-bottom:14px;">
+                <select class="month-select" id="cp-filter-mode" onchange="cpFilterModeChanged()">
+                    <option value="month">全部月份</option>
+                    <option value="date">按日期</option>
+                    <option value="week">按星期</option>
+                </select>
+                <select class="month-select" id="cp-month-select" onchange="applyCopilotFilter()" style="display:inline-block;">
+                    <option value="all">全部月份</option>
+                </select>
+                <input type="date" class="month-select" id="cp-date-picker" onchange="applyCopilotFilter()" style="display:none;">
+                <input type="week" class="month-select" id="cp-week-picker" onchange="applyCopilotFilter()" style="display:none;">
+            </div>
+            <div id="cp-compare" style="display:none;"></div>
+            <div class="stats-grid" id="cp-stats" style="margin-bottom:16px;">
+                <div class="stat-box"><div class="label">總 Requests</div><div class="value" id="cp-total-req">—</div></div>
+                <div class="stat-box"><div class="label">Opus</div><div class="value" id="cp-opus" style="color:var(--danger);">—</div></div>
+                <div class="stat-box"><div class="label">Sonnet</div><div class="value" id="cp-sonnet" style="color:var(--blue);">—</div></div>
+                <div class="stat-box"><div class="label">其他模型</div><div class="value" id="cp-other" style="color:var(--orange);">—</div></div>
+            </div>
+            <div style="overflow-x:auto;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>日期</th>
+                            <th>模型</th>
+                            <th class="num">Requests</th>
+                            <th>類型</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cp-body">
+                        <tr><td colspan="4" style="text-align:center;color:var(--text2);padding:24px;">載入中…</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination" id="cp-pagination"></div>
+        </div>
+        </div><!-- /tab-copilot -->
+
+        <!-- ===== Tab: MiniMax 使用明細 ===== -->
+        <div class="tab-panel" id="tab-minimax">
         <div class="card" id="token-card">
             <div class="card-header">
                 <div class="card-title">📊 MiniMax 使用明細</div>
@@ -184,108 +246,8 @@
             </div>
             <div class="pagination" id="tk-pagination"></div>
         </div>
-        <!-- Copilot Detail Card -->
-        <div class="card" id="copilot-detail-card">
-            <div class="card-header">
-                <div class="card-title">🤖 Copilot 使用明細</div>
-                <span id="cp-range" class="badge" style="background:rgba(52,152,219,0.15);color:var(--blue);"></span>
-            </div>
-            <div class="filter-row" style="margin-bottom:14px;">
-                <select class="month-select" id="cp-filter-mode" onchange="cpFilterModeChanged()">
-                    <option value="month">全部月份</option>
-                    <option value="date">按日期</option>
-                    <option value="week">按星期</option>
-                </select>
-                <select class="month-select" id="cp-month-select" onchange="applyCopilotFilter()" style="display:inline-block;">
-                    <option value="all">全部月份</option>
-                </select>
-                <input type="date" class="month-select" id="cp-date-picker" onchange="applyCopilotFilter()" style="display:none;">
-                <input type="week" class="month-select" id="cp-week-picker" onchange="applyCopilotFilter()" style="display:none;">
-            </div>
-            <div id="cp-compare" style="display:none;"></div>
-            <div class="stats-grid" id="cp-stats" style="margin-bottom:16px;">
-                <div class="stat-box"><div class="label">總 Requests</div><div class="value" id="cp-total-req">—</div></div>
-                <div class="stat-box"><div class="label">Opus</div><div class="value" id="cp-opus" style="color:var(--danger);">—</div></div>
-                <div class="stat-box"><div class="label">Sonnet</div><div class="value" id="cp-sonnet" style="color:var(--blue);">—</div></div>
-                <div class="stat-box"><div class="label">其他模型</div><div class="value" id="cp-other" style="color:var(--orange);">—</div></div>
-            </div>
-            <div style="overflow-x:auto;">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>日期</th>
-                            <th>模型</th>
-                            <th class="num">Requests</th>
-                            <th>類型</th>
-                        </tr>
-                    </thead>
-                    <tbody id="cp-body">
-                        <tr><td colspan="4" style="text-align:center;color:var(--text2);padding:24px;">載入中…</td></tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="pagination" id="cp-pagination"></div>
-        </div>
-        </div><!-- /tab-detail -->
+        </div><!-- /tab-minimax -->
 
-        <!-- ===== Tab: 歷史記錄 ===== -->
-        <div class="tab-panel" id="tab-history">
-        <!-- Quota History Card -->
-        <div class="card" id="history-card">
-            <div class="card-header">
-                <div class="card-title">📜 配額歷史記錄</div>
-                <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-                    <select class="month-select" id="hist-date-filter" onchange="renderHistory()">
-                        <option value="all">全部日期</option>
-                    </select>
-                    <span id="hist-badge" class="badge" style="background:rgba(46,204,113,0.15);color:var(--green);"></span>
-                </div>
-            </div>
-            <!-- Average Stats -->
-            <div class="stats-grid" id="hist-stats" style="margin-bottom:16px;">
-                <div class="stat-box">
-                    <div class="label">平均 M* 用量</div>
-                    <div class="value" id="hist-avg-mstar" style="color:var(--blue);">—</div>
-                    <div style="font-size:0.65em;color:var(--text2);margin-top:2px;">/ 窗口</div>
-                </div>
-                <div class="stat-box">
-                    <div class="label">平均 M* 使用率</div>
-                    <div class="value" id="hist-avg-mstar-pct" style="color:var(--orange);">—</div>
-                </div>
-                <div class="stat-box">
-                    <div class="label">平均 Speech 用量</div>
-                    <div class="value" id="hist-avg-speech" style="color:#9b59b6;">—</div>
-                    <div style="font-size:0.65em;color:var(--text2);margin-top:2px;">/ 日</div>
-                </div>
-                <div class="stat-box">
-                    <div class="label">平均 Image 用量</div>
-                    <div class="value" id="hist-avg-image" style="color:var(--orange);">—</div>
-                    <div style="font-size:0.65em;color:var(--text2);margin-top:2px;">/ 日</div>
-                </div>
-            </div>
-            <!-- History Table -->
-            <div style="overflow-x:auto;">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>日期</th>
-                            <th>時段</th>
-                            <th class="num">M* 已用</th>
-                            <th class="num">M* 總計</th>
-                            <th class="num">M* %</th>
-                            <th class="num">Speech 已用</th>
-                            <th class="num">Image 已用</th>
-                            <th style="font-size:0.8em;color:var(--text2);">擷取時間</th>
-                        </tr>
-                    </thead>
-                    <tbody id="hist-body">
-                        <tr><td colspan="8" style="text-align:center;color:var(--text2);padding:24px;">載入中…</td></tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="pagination" id="hist-pagination"></div>
-        </div>
-        </div><!-- /tab-history -->
     </div><!-- /container -->
 
     <script>
@@ -293,126 +255,6 @@
     const fmtNum = n => n >= 1e9 ? (n/1e9).toFixed(2)+'B' : n >= 1e6 ? (n/1e6).toFixed(1)+'M' : n >= 1e3 ? (n/1e3).toFixed(1)+'K' : String(n);
     const pctColor = pct => pct >= 90 ? 'var(--danger)' : pct >= 70 ? 'var(--warn)' : 'var(--blue)';
     const basePath = location.pathname.includes('/virtual-office') ? '/virtual-office' : '';
-
-    // ===== MiniMax Quota =====
-    async function loadMinimax() {
-        try {
-            const res = await fetch(basePath + '/public/minimax-api-status.json?' + Date.now());
-            if (!res.ok) return;
-            const data = await res.json();
-
-            const models = (data.allModels || []).filter(m => m.total > 0);
-            const raw = data.raw?.model_remains || [];
-
-            const source = data._source === 'github-actions-live-api' ? '🟢 即時 API' : '📦 快取';
-            $('mm-source').textContent = source;
-
-            let html = '';
-            const typeMap = { 'MiniMax-M*': ['tag-text','文字'], 'speech-hd': ['tag-speech','語音'], 'image-01': ['tag-image','圖像'] };
-
-            if (models.length > 0) {
-                models.forEach(m => {
-                    const pct = m.total > 0 ? Math.round(m.used / m.total * 100) : 0;
-                    const color = pctColor(pct);
-                    const [tagClass, tagLabel] = typeMap[m.model] || ['tag-text', '其他'];
-                    html += `
-                    <div class="progress-row">
-                        <div class="progress-label">
-                            <span><span class="tag ${tagClass}">${tagLabel}</span> ${m.model}</span>
-                            <strong>${m.total - m.remaining} / ${m.total}</strong>
-                        </div>
-                        <div class="progress-track">
-                            <div class="progress-fill" style="width:${pct}%;background:${color};"></div>
-                        </div>
-                        <div style="display:flex;justify-content:space-between;font-size:0.7em;color:var(--text2);margin-top:3px;">
-                            <span>已用 ${pct}%</span>
-                        </div>
-                    </div>`;
-                });
-            } else if (data.quota) {
-                // Aggregate format
-                const q = data.quota;
-                const pct = q.usedPercent || Math.round((q.used / q.total) * 100);
-                const color = pctColor(pct);
-                html = `
-                <div class="progress-row">
-                    <div class="progress-label">
-                        <span><span class="tag tag-text">總計</span> 所有模型</span>
-                        <strong>${q.used} / ${q.total}</strong>
-                    </div>
-                    <div class="progress-track">
-                        <div class="progress-fill" style="width:${pct}%;background:${color};"></div>
-                    </div>
-                    <div style="font-size:0.7em;color:var(--text2);margin-top:3px;">已用 ${pct}% · 重置: ${q.resetDate || '—'}</div>
-                </div>`;
-            }
-            $('mm-models').innerHTML = html || '<div style="color:var(--text2);font-size:0.85em;">無配額數據</div>';
-
-            if (raw.length > 0) {
-                const r = raw[0];
-                const resetTime = new Date(r.end_time);
-                const remainMs = r.remains_time;
-                const remainH = Math.floor(remainMs / 3600000);
-                const remainM = Math.floor((remainMs % 3600000) / 60000);
-                $('mm-interval').innerHTML = `重置時間: <strong style="color:var(--text);">${resetTime.toLocaleString('zh-HK')}</strong> · 剩餘 ${remainH}小時${remainM}分`;
-            }
-
-            $('lastUpdate').textContent = '更新: ' + new Date(data._generatedAt).toLocaleString('zh-HK');
-        } catch(e) { console.log('MiniMax load error:', e); }
-    }
-
-    // ===== Copilot =====
-    async function loadCopilot() {
-        try {
-            const res = await fetch(basePath + '/public/copilot-data.json?' + Date.now());
-            if (!res.ok) return;
-            const data = await res.json();
-            const q = data.quota || {};
-            const a = data.analysis || {};
-
-            const used = Math.round((q.used || 0) * 100) / 100;
-            const total = q.total || 300;
-            const pct = q.usedPercent || Math.round(used/total*100);
-            const barColor = pct >= 80 ? 'var(--danger)' : pct >= 50 ? 'var(--warn)' : 'var(--green)';
-
-            $('cp-total-label').textContent = `${used} / ${total} (${pct}%)`;
-            $('cp-bar').style.width = pct + '%';
-            $('cp-bar').style.background = barColor;
-            $('cp-remain').textContent = q.remaining != null ? q.remaining : '—';
-            $('cp-reset').textContent = q.resetDate || '—';
-
-            try {
-                const recRes = await fetch(basePath + '/public/copilot-summary-token-log.json?' + Date.now());
-                if (recRes.ok) {
-                    const recData = await recRes.json();
-                    const rec = recData.recommendation || recData.quota?.recommendation || {};
-                    $('cp-badge').textContent = (rec.emoji || '🟢') + ' ' + (rec.label || '');
-                    $('cp-badge').style.background = rec.color ? rec.color + '33' : 'rgba(46,204,113,0.2)';
-                    $('cp-badge').style.color = rec.color || 'var(--green)';
-                }
-            } catch(e) {}
-
-            const byModel = a.byModel || {};
-            const entries = Object.entries(byModel).sort((a,b) => b[1] - a[1]);
-            const maxVal = entries.length > 0 ? entries[0][1] : 1;
-
-            if (entries.length === 0) {
-                $('cp-models').innerHTML = '<div style="color:var(--text2);font-size:0.82em;">暫無模型資料</div>';
-                return;
-            }
-
-            const colors = ['#e74c3c','#3498db','#2ecc71','#e67e22','#9b59b6','#1abc9c','#f1c40f','#e91e63'];
-            $('cp-models').innerHTML = entries.map(([model, val], i) => {
-                const w = Math.round(val / maxVal * 100);
-                const c = colors[i % colors.length];
-                return `<div class="model-row">
-                    <span class="model-name">${model}</span>
-                    <div class="model-bar-wrap"><div class="model-bar-fill" style="width:${w}%;background:${c};"></div></div>
-                    <span class="model-val">${val}</span>
-                </div>`;
-            }).join('');
-        } catch(e) { console.log('Copilot load error:', e); }
-    }
 
     // ===== Copilot Detail with Filter Modes =====
     let cpAllRecords = [];
@@ -445,14 +287,10 @@
             const text = await res.text();
             const lines = text.trim().split('\n').filter(l => l.trim());
 
-            // Parse CSV with header detection
-            // Format: date, username, product, sku, model, quantity, unit_type, ...
             let startIdx = 0;
-            // Check if first line is header
             if (lines[0] && !lines[0].startsWith('"2026')) startIdx = 1;
 
             cpAllRecords = lines.slice(startIdx).map(line => {
-                // Handle quoted CSV
                 const cols = line.split(',').map(c => c.replace(/^"|"$/g, '').trim());
                 return {
                     date: cols[0],
@@ -465,13 +303,8 @@
                 };
             }).filter(r => r.date && r.model);
 
-            // Merge with current month data from copilot-data.json
-            // (current month data is already summarized; CSV is the detail source)
-
-            // Sort by date desc
             cpAllRecords.sort((a,b) => b.date.localeCompare(a.date));
 
-            // Build month options
             const months = new Set();
             cpAllRecords.forEach(r => { const m = cpRecMonth(r); if (m) months.add(m); });
             const sel = $('cp-month-select');
@@ -809,7 +642,6 @@
             const data = await res.json();
             histEntries = data.entries || [];
 
-            // Build date filter options
             const dates = new Set(histEntries.map(e => e.date));
             const sortedDates = [...dates].sort().reverse();
             const sel = $('hist-date-filter');
@@ -829,9 +661,8 @@
         histPage = 1;
         histFiltered = dateFilter === 'all' ? histEntries : histEntries.filter(e => e.date === dateFilter);
 
-        // Compute averages
         const mStarEntries = histFiltered.filter(e => e.mStar?.total > 0);
-        const speechDays = {}; // dedupe by date for speech (daily quota)
+        const speechDays = {};
         const imageDays  = {};
         histFiltered.forEach(e => {
             if (e.speech?.used > 0 && !speechDays[e.date]) speechDays[e.date] = e.speech.used;
@@ -859,7 +690,6 @@
         const page = histFiltered.slice(start, end);
         const totalPages = Math.ceil(histFiltered.length / HIST_PAGE_SIZE) || 1;
 
-        const WINDOWS = ['01-06','06-11','11-16','16-21','21-01'];
         const winColors = { '01-06':'#3498db','06-11':'#2ecc71','11-16':'#e67e22','16-21':'#e74c3c','21-01':'#9b59b6' };
 
         const tbody = $('hist-body');
@@ -909,26 +739,24 @@
     }
 
     // ===== Tab Switching =====
-    let activeTab = 'overview';
+    let activeTab = 'history';
     function switchTab(tab) {
         activeTab = tab;
         document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         const panel = document.getElementById('tab-' + tab);
         if (panel) panel.classList.add('active');
-        const idx = ['overview','history','detail'].indexOf(tab);
+        const idx = ['history','copilot','minimax'].indexOf(tab);
         const btns = document.querySelectorAll('.tab-btn');
         if (btns[idx]) btns[idx].classList.add('active');
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     // ===== Init =====
-    loadMinimax();
-    loadCopilot();
     loadCopilotDetail();
     loadTokenDetail();
     loadQuotaHistory();
-    setInterval(() => { loadMinimax(); loadCopilot(); loadQuotaHistory(); }, 300000);
+    setInterval(() => { loadQuotaHistory(); }, 300000);
     </script>
 </body>
 </html>
