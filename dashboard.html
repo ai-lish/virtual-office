@@ -177,6 +177,49 @@
             </div>
         </div>
 
+        <!-- ===== Copilot Detail Card ===== -->
+        <div class="card" id="copilot-detail-card">
+            <div class="card-header">
+                <div class="card-title">🤖 Copilot 使用明細</div>
+                <span id="cp-range" class="badge" style="background:rgba(52,152,219,0.15);color:var(--blue);"></span>
+            </div>
+            <div class="filter-row" style="margin-bottom:14px;">
+                <select class="month-select" id="cp-filter-mode" onchange="cpFilterModeChanged()">
+                    <option value="month">全部月份</option>
+                    <option value="date">按日期</option>
+                    <option value="week">按星期</option>
+                </select>
+                <select class="month-select" id="cp-month-select" onchange="applyCopilotFilter()" style="display:inline-block;">
+                    <option value="all">全部月份</option>
+                </select>
+                <input type="date" class="month-select" id="cp-date-picker" onchange="applyCopilotFilter()" style="display:none;">
+                <input type="week" class="month-select" id="cp-week-picker" onchange="applyCopilotFilter()" style="display:none;">
+            </div>
+            <div id="cp-compare" style="display:none;"></div>
+            <div class="stats-grid" id="cp-stats" style="margin-bottom:16px;">
+                <div class="stat-box"><div class="label">總 Requests</div><div class="value" id="cp-total-req">—</div></div>
+                <div class="stat-box"><div class="label">Opus</div><div class="value" id="cp-opus" style="color:var(--danger);">—</div></div>
+                <div class="stat-box"><div class="label">Sonnet</div><div class="value" id="cp-sonnet" style="color:var(--blue);">—</div></div>
+                <div class="stat-box"><div class="label">其他模型</div><div class="value" id="cp-other" style="color:var(--orange);">—</div></div>
+            </div>
+            <div style="overflow-x:auto;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>日期</th>
+                            <th>模型</th>
+                            <th class="num">Requests</th>
+                            <th>類型</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cp-body">
+                        <tr><td colspan="4" style="text-align:center;color:var(--text2);padding:24px;">載入中…</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination" id="cp-pagination"></div>
+        </div>
+
         <!-- ===== MiniMax Detailed Usage Card ===== -->
         <div class="card" id="token-card">
             <div class="card-header">
@@ -347,6 +390,205 @@
                 </div>`;
             }).join('');
         } catch(e) { console.log('Copilot load error:', e); }
+    }
+
+    // ===== Copilot Detail with Filter Modes =====
+    let cpAllRecords = [];
+    let cpFilteredRecords = [];
+    let cpPage = 1;
+    let cpPageSize = 50;
+
+    function cpRecDate(r) { return r.date || null; }
+    function cpRecMonth(r) { const d = cpRecDate(r); return d ? d.substring(0,7) : null; }
+    function cpFilterByDateRange(start, end) {
+        return cpAllRecords.filter(r => { const d = cpRecDate(r); return d && d >= start && d <= end; });
+    }
+    function cpCalcStats(records) {
+        let total = 0, opus = 0, sonnet = 0, other = 0;
+        records.forEach(r => {
+            const qty = parseFloat(r.quantity) || 0;
+            total += qty;
+            const m = (r.model || '').toLowerCase();
+            if (m.includes('opus')) opus += qty;
+            else if (m.includes('sonnet')) sonnet += qty;
+            else other += qty;
+        });
+        return { total, opus, sonnet, other };
+    }
+
+    async function loadCopilotDetail() {
+        try {
+            const res = await fetch(basePath + '/public/copilot-march-2026.csv?' + Date.now());
+            if (!res.ok) return;
+            const text = await res.text();
+            const lines = text.trim().split('\n').filter(l => l.trim());
+
+            // Parse CSV with header detection
+            // Format: date, username, product, sku, model, quantity, unit_type, ...
+            let startIdx = 0;
+            // Check if first line is header
+            if (lines[0] && !lines[0].startsWith('"2026')) startIdx = 1;
+
+            cpAllRecords = lines.slice(startIdx).map(line => {
+                // Handle quoted CSV
+                const cols = line.split(',').map(c => c.replace(/^"|"$/g, '').trim());
+                return {
+                    date: cols[0],
+                    username: cols[1],
+                    product: cols[2],
+                    sku: cols[3],
+                    model: cols[4],
+                    quantity: cols[5],
+                    unit_type: cols[6]
+                };
+            }).filter(r => r.date && r.model);
+
+            // Merge with current month data from copilot-data.json
+            // (current month data is already summarized; CSV is the detail source)
+
+            // Sort by date desc
+            cpAllRecords.sort((a,b) => b.date.localeCompare(a.date));
+
+            // Build month options
+            const months = new Set();
+            cpAllRecords.forEach(r => { const m = cpRecMonth(r); if (m) months.add(m); });
+            const sel = $('cp-month-select');
+            sel.innerHTML = '<option value="all">全部月份</option>';
+            [...months].sort().reverse().forEach(m => {
+                const o = document.createElement('option'); o.value = m; o.textContent = m; sel.appendChild(o);
+            });
+
+            const latestDate = cpRecDate(cpAllRecords[0]);
+            if (latestDate) {
+                $('cp-date-picker').value = latestDate;
+                $('cp-week-picker').value = dateToWeek(latestDate);
+            }
+
+            applyCopilotFilter();
+        } catch(e) { console.log('Copilot detail load error:', e); }
+    }
+
+    function cpFilterModeChanged() {
+        const mode = $('cp-filter-mode').value;
+        $('cp-month-select').style.display = mode === 'month' ? '' : 'none';
+        $('cp-date-picker').style.display = mode === 'date' ? '' : 'none';
+        $('cp-week-picker').style.display = mode === 'week' ? '' : 'none';
+        applyCopilotFilter();
+    }
+
+    function applyCopilotFilter() {
+        const mode = $('cp-filter-mode').value;
+        cpPage = 1;
+
+        if (mode === 'month') {
+            cpPageSize = 50;
+            const month = $('cp-month-select').value;
+            cpFilteredRecords = month === 'all' ? cpAllRecords : cpAllRecords.filter(r => cpRecMonth(r) === month);
+            $('cp-compare').style.display = 'none';
+            $('cp-stats').style.display = '';
+        } else if (mode === 'date') {
+            cpPageSize = 10;
+            const picked = $('cp-date-picker').value;
+            if (!picked) { cpFilteredRecords = []; renderCopilotPage(); return; }
+            const prev = addDays(picked, -1), next = addDays(picked, 1);
+            cpFilteredRecords = cpFilterByDateRange(picked, picked);
+            renderCopilotCompare([
+                { title: '前一天 ' + prev, records: cpFilterByDateRange(prev, prev) },
+                { title: '📍 ' + picked, records: cpFilterByDateRange(picked, picked), active: true },
+                { title: '後一天 ' + next, records: cpFilterByDateRange(next, next) }
+            ]);
+            $('cp-stats').style.display = 'none';
+        } else if (mode === 'week') {
+            cpPageSize = 20;
+            const picked = $('cp-week-picker').value;
+            if (!picked) { cpFilteredRecords = []; renderCopilotPage(); return; }
+            const cur = weekToRange(picked);
+            const prevStart = addDays(cur.start, -7), prevEnd = addDays(cur.start, -1);
+            const nextStart = addDays(cur.end, 1), nextEnd = addDays(cur.end, 7);
+            cpFilteredRecords = cpFilterByDateRange(cur.start, cur.end);
+            renderCopilotCompare([
+                { title: '前一週 ' + prevStart + '~' + prevEnd, records: cpFilterByDateRange(prevStart, prevEnd) },
+                { title: '📍 ' + cur.start + '~' + cur.end, records: cpFilterByDateRange(cur.start, cur.end), active: true },
+                { title: '後一週 ' + nextStart + '~' + nextEnd, records: cpFilterByDateRange(nextStart, nextEnd) }
+            ]);
+            $('cp-stats').style.display = 'none';
+        }
+
+        if (mode === 'month') {
+            const s = cpCalcStats(cpFilteredRecords);
+            $('cp-total-req').textContent = s.total.toFixed(2);
+            $('cp-opus').textContent = s.opus.toFixed(2);
+            $('cp-sonnet').textContent = s.sonnet.toFixed(2);
+            $('cp-other').textContent = s.other.toFixed(2);
+        }
+
+        if (cpFilteredRecords.length > 0) {
+            const dates = cpFilteredRecords.map(r => r.date).filter(Boolean);
+            const minD = [...dates].sort()[0], maxD = [...dates].sort().reverse()[0];
+            $('cp-range').textContent = minD === maxD ? minD : minD + ' → ' + maxD;
+        } else { $('cp-range').textContent = ''; }
+
+        renderCopilotPage();
+    }
+
+    function renderCopilotCompare(periods) {
+        const c = $('cp-compare'); c.style.display = '';
+        c.innerHTML = '<div class="compare-grid">' + periods.map(p => {
+            const s = cpCalcStats(p.records);
+            return `<div class="compare-col${p.active?' active':''}">
+                <div class="col-title">${p.title}</div>
+                <div class="col-stats">
+                    <div class="col-stat"><div class="label">總 Requests</div><div class="value" style="color:var(--text);">${s.total.toFixed(2)}</div></div>
+                    <div class="col-stat"><div class="label">Opus</div><div class="value" style="color:var(--danger);">${s.opus.toFixed(2)}</div></div>
+                    <div class="col-stat"><div class="label">Sonnet</div><div class="value" style="color:var(--blue);">${s.sonnet.toFixed(2)}</div></div>
+                    <div class="col-stat"><div class="label">其他</div><div class="value" style="color:var(--orange);">${s.other.toFixed(2)}</div></div>
+                </div>
+            </div>`;
+        }).join('') + '</div>';
+    }
+
+    function renderCopilotPage() {
+        const start = (cpPage - 1) * cpPageSize;
+        const end = start + cpPageSize;
+        const page = cpFilteredRecords.slice(start, end);
+        const totalPages = Math.ceil(cpFilteredRecords.length / cpPageSize) || 1;
+
+        const tbody = $('cp-body');
+        if (page.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--text2);padding:24px;">無資料</td></tr>';
+        } else {
+            tbody.innerHTML = page.map(r => {
+                const m = r.model || '—';
+                const qty = parseFloat(r.quantity) || 0;
+                const ml = m.toLowerCase();
+                const color = ml.includes('opus') ? 'var(--danger)' : ml.includes('sonnet') ? 'var(--blue)' : 'var(--text)';
+                const skuLabel = (r.sku || '').replace('copilot_premium_request','premium').replace('coding_agent_premium_request','agent');
+                return `<tr>
+                    <td>${r.date}</td>
+                    <td style="color:${color};">${m}</td>
+                    <td class="num">${qty.toFixed(2)}</td>
+                    <td style="color:var(--text2);font-size:0.85em;">${skuLabel}</td>
+                </tr>`;
+            }).join('');
+        }
+
+        const pg = $('cp-pagination');
+        let pgHtml = `<button onclick="cpGoPage(1)" ${cpPage===1?'disabled':''}>«</button>`;
+        pgHtml += `<button onclick="cpGoPage(${cpPage-1})" ${cpPage===1?'disabled':''}>‹</button>`;
+        let pStart = Math.max(1, cpPage-3), pEnd = Math.min(totalPages, pStart+6);
+        if (pEnd - pStart < 6) pStart = Math.max(1, pEnd-6);
+        for (let i = pStart; i <= pEnd; i++) pgHtml += `<button onclick="cpGoPage(${i})" class="${i===cpPage?'active':''}">${i}</button>`;
+        pgHtml += `<button onclick="cpGoPage(${cpPage+1})" ${cpPage>=totalPages?'disabled':''}>›</button>`;
+        pgHtml += `<button onclick="cpGoPage(${totalPages})" ${cpPage>=totalPages?'disabled':''}>»</button>`;
+        pgHtml += `<span class="info">${cpFilteredRecords.length > 0 ? (start+1)+'-'+Math.min(end,cpFilteredRecords.length)+' / '+cpFilteredRecords.length : '0'}</span>`;
+        pg.innerHTML = pgHtml;
+    }
+
+    function cpGoPage(p) {
+        const totalPages = Math.ceil(cpFilteredRecords.length / cpPageSize) || 1;
+        cpPage = Math.max(1, Math.min(p, totalPages));
+        renderCopilotPage();
+        $('copilot-detail-card').scrollIntoView({behavior:'smooth', block:'start'});
     }
 
     // ===== Token Detail with Filter Modes =====
@@ -647,6 +889,7 @@
     // ===== Init =====
     loadMinimax();
     loadCopilot();
+    loadCopilotDetail();
     loadTokenDetail();
     loadQuotaHistory();
     setInterval(() => { loadMinimax(); loadCopilot(); loadQuotaHistory(); }, 300000);
