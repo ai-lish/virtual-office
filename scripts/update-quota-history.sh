@@ -51,24 +51,28 @@ const image   = raw.find(m => m.model_name === 'image-01');
 
 if (!mStar) { console.log('No MiniMax-M* data, skipping'); process.exit(0); }
 
-// ── Determine window key ──
+// ── Determine window key (HKT = UTC+8) ──
 const startMs = mStar.start_time;
-const utcDate = new Date(startMs).toISOString().slice(0, 10); // YYYY-MM-DD
-const utcHour = new Date(startMs).getUTCHours();
+const startDate = new Date(startMs);
+// HKT = UTC + 8, so add 8 hours to get Hong Kong local time
+const hktHour = (startDate.getUTCHours() + 8) % 24;
+const hktDate = new Date(startDate.getTime() + 8 * 3600 * 1000);
+// Use HKT date for window identification (21-01 window starts at 21:00 HKT)
+const dateStr = hktDate.toISOString().slice(0, 10); // YYYY-MM-DD in HKT
 
 let window;
-if      (utcHour >= 1  && utcHour < 6)  window = '01-06';
-else if (utcHour >= 6  && utcHour < 11) window = '06-11';
-else if (utcHour >= 11 && utcHour < 16) window = '11-16';
-else if (utcHour >= 16 && utcHour < 21) window = '16-21';
+if      (hktHour >= 1  && hktHour < 6)  window = '01-06';
+else if (hktHour >= 6  && hktHour < 11) window = '06-11';
+else if (hktHour >= 11 && hktHour < 16) window = '11-16';
+else if (hktHour >= 16 && hktHour < 21) window = '16-21';
 else                                     window = '21-01';
 
-const windowKey = utcDate + '_' + window; // e.g. 2026-04-01_06-11
+const windowKey = dateStr + '_' + window; // e.g. 2026-04-01_21-01
 
 // ── Build snapshot entry ──
 const snapshot = {
   windowKey,
-  date: utcDate,
+  date: dateStr,
   window,
   windowStart: new Date(mStar.start_time).toISOString(),
   windowEnd:   new Date(mStar.end_time).toISOString(),
