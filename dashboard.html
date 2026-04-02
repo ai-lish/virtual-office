@@ -69,8 +69,10 @@
             .card { padding:16px; }
             .stats-grid { grid-template-columns:repeat(2,1fr); }
             .model-bar-wrap { width:60px; }
-            .data-table { font-size:0.72em; }
+            .data-table { font-size:0.72em; min-width:520px; }
             .data-table th:nth-child(6), .data-table td:nth-child(6) { display:none; }
+            [style*="overflow-x:auto"], div[style*="overflow-x: auto"] { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+            .tab-btn { flex:0 0 auto; font-size:0.75em; padding:10px 8px; }
         }
         /* ===== Tab Nav ===== */
         .tab-nav { display:flex; background:#0d1b30; border-bottom:1px solid rgba(255,255,255,0.08); position:sticky; top:55px; z-index:90; overflow-x:auto; scrollbar-width:none; }
@@ -79,7 +81,7 @@
         .tab-btn:hover { color:var(--text); background:rgba(255,255,255,0.04); }
         .tab-btn.active { color:#fff; border-bottom-color:var(--red); background:rgba(188,0,45,0.08); }
         .tab-panel { display:none; }
-        .tab-panel.active { display:contents; }
+        .tab-panel.active { display:block; }
     </style>
 </head>
 <body>
