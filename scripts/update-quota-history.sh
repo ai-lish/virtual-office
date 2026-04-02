@@ -52,20 +52,29 @@ const image   = raw.find(m => m.model_name === 'image-01');
 if (!mStar) { console.log('No MiniMax-M* data, skipping'); process.exit(0); }
 
 // ── Determine window key (HKT = UTC+8) ──
+// HKT windows are based on Hong Kong local time (UTC+8)
+// Windows 21-01, 16-21, 11-16 start in the evening HKT of "day X" and end in early HKT of "day X+1"
+// When UTC hour >= 20, the HKT date is "tomorrow" relative to UTC date
+// So for windows captured during these hours, subtract 1 day
 const startMs = mStar.start_time;
 const startDate = new Date(startMs);
-// HKT = UTC + 8, so add 8 hours to get Hong Kong local time
-const hktHour = (startDate.getUTCHours() + 8) % 24;
-const hktDate = new Date(startDate.getTime() + 8 * 3600 * 1000);
-// Use HKT date for window identification (21-01 window starts at 21:00 HKT)
-const dateStr = hktDate.toISOString().slice(0, 10); // YYYY-MM-DD in HKT
+const utcHour = startDate.getUTCHours();
 
+// HKT hour: (UTC + 8) % 24
+const hktHour = (utcHour + 8) % 24;
+
+// Determine window label from UTC hour (cron runs at fixed UTC hours: 01, 06, 11, 16, 21)
 let window;
-if      (hktHour >= 1  && hktHour < 6)  window = '01-06';
-else if (hktHour >= 6  && hktHour < 11) window = '06-11';
-else if (hktHour >= 11 && hktHour < 16) window = '11-16';
-else if (hktHour >= 16 && hktHour < 21) window = '16-21';
-else                                     window = '21-01';
+if      (utcHour >= 1  && utcHour < 6)  window = '01-06';
+else if (utcHour >= 6  && utcHour < 11) window = '06-11';
+else if (utcHour >= 11 && utcHour < 16) window = '11-16';
+else if (utcHour >= 16 && utcHour < 21) window = '16-21';
+else                                     window = '21-01'; // utcHour >= 21
+
+// Compute HKT date: if UTC hour >= 20, HKT date is "tomorrow", so subtract 1 day
+const hktDate = new Date(startDate.getTime() + 8 * 3600 * 1000);
+if (utcHour >= 20) hktDate.setDate(hktDate.getDate() - 1);
+const dateStr = hktDate.toISOString().slice(0, 10); // YYYY-MM-DD in HKT
 
 const windowKey = dateStr + '_' + window; // e.g. 2026-04-01_21-01
 
