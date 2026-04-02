@@ -72,6 +72,14 @@
             .data-table { font-size:0.72em; }
             .data-table th:nth-child(6), .data-table td:nth-child(6) { display:none; }
         }
+        /* ===== Tab Nav ===== */
+        .tab-nav { display:flex; background:#0d1b30; border-bottom:1px solid rgba(255,255,255,0.08); position:sticky; top:55px; z-index:90; overflow-x:auto; scrollbar-width:none; }
+        .tab-nav::-webkit-scrollbar { display:none; }
+        .tab-btn { flex:1; min-width:90px; padding:11px 10px; text-align:center; font-size:0.82em; font-weight:600; color:var(--text2); background:transparent; border:none; border-bottom:2px solid transparent; cursor:pointer; white-space:nowrap; transition:all 0.2s; font-family:inherit; }
+        .tab-btn:hover { color:var(--text); background:rgba(255,255,255,0.04); }
+        .tab-btn.active { color:#fff; border-bottom-color:var(--red); background:rgba(188,0,45,0.08); }
+        .tab-panel { display:none; }
+        .tab-panel.active { display:contents; }
     </style>
 </head>
 <body>
@@ -83,8 +91,17 @@
         </div>
     </div>
 
+    <!-- ===== Tab Navigation ===== -->
+    <div class="tab-nav" id="tab-nav">
+        <button class="tab-btn active" onclick="switchTab('overview')">⚡ 配額總覽</button>
+        <button class="tab-btn" onclick="switchTab('detail')">📊 使用明細</button>
+        <button class="tab-btn" onclick="switchTab('history')">📜 歷史記錄</button>
+    </div>
+
     <div class="container">
-        <!-- ===== MiniMax Quota Card ===== -->
+        <!-- ===== Tab: 配額總覽 ===== -->
+        <div class="tab-panel active" id="tab-overview">
+        <!-- MiniMax Quota Card -->
         <div class="card" id="minimax-card">
             <div class="card-header">
                 <div class="card-title">⚡ MiniMax 配額</div>
@@ -95,8 +112,125 @@
             </div>
             <div id="mm-interval" style="margin-top:12px;font-size:0.75em;color:var(--text2);"></div>
         </div>
+        <!-- Copilot Quota Card -->
+        <div class="card" id="copilot-card">
+            <div class="card-header">
+                <div class="card-title">🤖 GitHub Copilot Premium</div>
+                <span id="cp-badge" class="badge"></span>
+            </div>
+            <div class="progress-row">
+                <div class="progress-label">
+                    <span>Premium 請求</span>
+                    <strong id="cp-total-label">—</strong>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill" id="cp-bar" style="width:0%;background:var(--green);"></div>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-top:5px;font-size:0.72em;color:var(--text2);">
+                    <span>剩餘: <strong id="cp-remain" style="color:var(--text);">—</strong></span>
+                    <span>重置: <strong id="cp-reset" style="color:var(--text);">—</strong></span>
+                </div>
+            </div>
+            <div style="font-size:0.78em;color:var(--text2);margin:12px 0 8px;">模型用量</div>
+            <div id="cp-models">
+                <div style="color:var(--text2);font-size:0.82em;">載入中…</div>
+            </div>
+        </div>
+        </div><!-- /tab-overview -->
 
-        <!-- ===== Quota History Card ===== -->
+        <!-- ===== Tab: 使用明細 ===== -->
+        <div class="tab-panel" id="tab-detail">
+        <!-- MiniMax Detailed Usage Card -->
+        <div class="card" id="token-card">
+            <div class="card-header">
+                <div class="card-title">📊 MiniMax 使用明細</div>
+                <span id="tk-range" class="badge" style="background:rgba(230,126,34,0.15);color:var(--orange);"></span>
+            </div>
+            <div class="filter-row" style="margin-bottom:14px;">
+                <select class="month-select" id="tk-filter-mode" onchange="tkFilterModeChanged()">
+                    <option value="month">全部月份</option>
+                    <option value="date">按日期</option>
+                    <option value="week">按星期</option>
+                </select>
+                <select class="month-select" id="month-select" onchange="applyTokenFilter()" style="display:inline-block;">
+                    <option value="all">全部月份</option>
+                </select>
+                <input type="date" class="month-select" id="tk-date-picker" onchange="applyTokenFilter()" style="display:none;">
+                <input type="week" class="month-select" id="tk-week-picker" onchange="applyTokenFilter()" style="display:none;">
+            </div>
+            <div id="tk-compare" style="display:none;"></div>
+            <div class="stats-grid" id="tk-stats" style="margin-bottom:16px;">
+                <div class="stat-box"><div class="label">記錄數</div><div class="value" id="tk-count">—</div></div>
+                <div class="stat-box"><div class="label">Input Tokens</div><div class="value" id="tk-input" style="color:var(--blue);">—</div></div>
+                <div class="stat-box"><div class="label">Output Tokens</div><div class="value" id="tk-output" style="color:var(--green);">—</div></div>
+                <div class="stat-box"><div class="label">主要模型</div><div class="value" id="tk-model" style="color:var(--orange);">—</div></div>
+            </div>
+            <div style="overflow-x:auto;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>時間</th>
+                            <th>模型</th>
+                            <th class="num">Input</th>
+                            <th class="num">Output</th>
+                            <th class="num">Total</th>
+                            <th>API</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tk-body">
+                        <tr><td colspan="6" style="text-align:center;color:var(--text2);padding:24px;">載入中…</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination" id="tk-pagination"></div>
+        </div>
+        <!-- Copilot Detail Card -->
+        <div class="card" id="copilot-detail-card">
+            <div class="card-header">
+                <div class="card-title">🤖 Copilot 使用明細</div>
+                <span id="cp-range" class="badge" style="background:rgba(52,152,219,0.15);color:var(--blue);"></span>
+            </div>
+            <div class="filter-row" style="margin-bottom:14px;">
+                <select class="month-select" id="cp-filter-mode" onchange="cpFilterModeChanged()">
+                    <option value="month">全部月份</option>
+                    <option value="date">按日期</option>
+                    <option value="week">按星期</option>
+                </select>
+                <select class="month-select" id="cp-month-select" onchange="applyCopilotFilter()" style="display:inline-block;">
+                    <option value="all">全部月份</option>
+                </select>
+                <input type="date" class="month-select" id="cp-date-picker" onchange="applyCopilotFilter()" style="display:none;">
+                <input type="week" class="month-select" id="cp-week-picker" onchange="applyCopilotFilter()" style="display:none;">
+            </div>
+            <div id="cp-compare" style="display:none;"></div>
+            <div class="stats-grid" id="cp-stats" style="margin-bottom:16px;">
+                <div class="stat-box"><div class="label">總 Requests</div><div class="value" id="cp-total-req">—</div></div>
+                <div class="stat-box"><div class="label">Opus</div><div class="value" id="cp-opus" style="color:var(--danger);">—</div></div>
+                <div class="stat-box"><div class="label">Sonnet</div><div class="value" id="cp-sonnet" style="color:var(--blue);">—</div></div>
+                <div class="stat-box"><div class="label">其他模型</div><div class="value" id="cp-other" style="color:var(--orange);">—</div></div>
+            </div>
+            <div style="overflow-x:auto;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>日期</th>
+                            <th>模型</th>
+                            <th class="num">Requests</th>
+                            <th>類型</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cp-body">
+                        <tr><td colspan="4" style="text-align:center;color:var(--text2);padding:24px;">載入中…</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination" id="cp-pagination"></div>
+        </div>
+        </div><!-- /tab-detail -->
+
+        <!-- ===== Tab: 歷史記錄 ===== -->
+        <div class="tab-panel" id="tab-history">
+        <!-- Quota History Card -->
         <div class="card" id="history-card">
             <div class="card-header">
                 <div class="card-title">📜 配額歷史記錄</div>
@@ -151,120 +285,8 @@
             </div>
             <div class="pagination" id="hist-pagination"></div>
         </div>
-
-        <!-- ===== Copilot Card ===== -->
-        <div class="card" id="copilot-card">
-            <div class="card-header">
-                <div class="card-title">🤖 GitHub Copilot Premium</div>
-                <span id="cp-badge" class="badge"></span>
-            </div>
-            <div class="progress-row">
-                <div class="progress-label">
-                    <span>Premium 請求</span>
-                    <strong id="cp-total-label">—</strong>
-                </div>
-                <div class="progress-track">
-                    <div class="progress-fill" id="cp-bar" style="width:0%;background:var(--green);"></div>
-                </div>
-                <div style="display:flex;justify-content:space-between;margin-top:5px;font-size:0.72em;color:var(--text2);">
-                    <span>剩餘: <strong id="cp-remain" style="color:var(--text);">—</strong></span>
-                    <span>重置: <strong id="cp-reset" style="color:var(--text);">—</strong></span>
-                </div>
-            </div>
-            <div style="font-size:0.78em;color:var(--text2);margin:12px 0 8px;">模型用量</div>
-            <div id="cp-models">
-                <div style="color:var(--text2);font-size:0.82em;">載入中…</div>
-            </div>
-        </div>
-
-        <!-- ===== Copilot Detail Card ===== -->
-        <div class="card" id="copilot-detail-card">
-            <div class="card-header">
-                <div class="card-title">🤖 Copilot 使用明細</div>
-                <span id="cp-range" class="badge" style="background:rgba(52,152,219,0.15);color:var(--blue);"></span>
-            </div>
-            <div class="filter-row" style="margin-bottom:14px;">
-                <select class="month-select" id="cp-filter-mode" onchange="cpFilterModeChanged()">
-                    <option value="month">全部月份</option>
-                    <option value="date">按日期</option>
-                    <option value="week">按星期</option>
-                </select>
-                <select class="month-select" id="cp-month-select" onchange="applyCopilotFilter()" style="display:inline-block;">
-                    <option value="all">全部月份</option>
-                </select>
-                <input type="date" class="month-select" id="cp-date-picker" onchange="applyCopilotFilter()" style="display:none;">
-                <input type="week" class="month-select" id="cp-week-picker" onchange="applyCopilotFilter()" style="display:none;">
-            </div>
-            <div id="cp-compare" style="display:none;"></div>
-            <div class="stats-grid" id="cp-stats" style="margin-bottom:16px;">
-                <div class="stat-box"><div class="label">總 Requests</div><div class="value" id="cp-total-req">—</div></div>
-                <div class="stat-box"><div class="label">Opus</div><div class="value" id="cp-opus" style="color:var(--danger);">—</div></div>
-                <div class="stat-box"><div class="label">Sonnet</div><div class="value" id="cp-sonnet" style="color:var(--blue);">—</div></div>
-                <div class="stat-box"><div class="label">其他模型</div><div class="value" id="cp-other" style="color:var(--orange);">—</div></div>
-            </div>
-            <div style="overflow-x:auto;">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>日期</th>
-                            <th>模型</th>
-                            <th class="num">Requests</th>
-                            <th>類型</th>
-                        </tr>
-                    </thead>
-                    <tbody id="cp-body">
-                        <tr><td colspan="4" style="text-align:center;color:var(--text2);padding:24px;">載入中…</td></tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="pagination" id="cp-pagination"></div>
-        </div>
-
-        <!-- ===== MiniMax Detailed Usage Card ===== -->
-        <div class="card" id="token-card">
-            <div class="card-header">
-                <div class="card-title">📊 MiniMax 使用明細</div>
-                <span id="tk-range" class="badge" style="background:rgba(230,126,34,0.15);color:var(--orange);"></span>
-            </div>
-            <div class="filter-row" style="margin-bottom:14px;">
-                <select class="month-select" id="tk-filter-mode" onchange="tkFilterModeChanged()">
-                    <option value="month">全部月份</option>
-                    <option value="date">按日期</option>
-                    <option value="week">按星期</option>
-                </select>
-                <select class="month-select" id="month-select" onchange="applyTokenFilter()" style="display:inline-block;">
-                    <option value="all">全部月份</option>
-                </select>
-                <input type="date" class="month-select" id="tk-date-picker" onchange="applyTokenFilter()" style="display:none;">
-                <input type="week" class="month-select" id="tk-week-picker" onchange="applyTokenFilter()" style="display:none;">
-            </div>
-            <div id="tk-compare" style="display:none;"></div>
-            <div class="stats-grid" id="tk-stats" style="margin-bottom:16px;">
-                <div class="stat-box"><div class="label">記錄數</div><div class="value" id="tk-count">—</div></div>
-                <div class="stat-box"><div class="label">Input Tokens</div><div class="value" id="tk-input" style="color:var(--blue);">—</div></div>
-                <div class="stat-box"><div class="label">Output Tokens</div><div class="value" id="tk-output" style="color:var(--green);">—</div></div>
-                <div class="stat-box"><div class="label">主要模型</div><div class="value" id="tk-model" style="color:var(--orange);">—</div></div>
-            </div>
-            <div style="overflow-x:auto;">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>時間</th>
-                            <th>模型</th>
-                            <th class="num">Input</th>
-                            <th class="num">Output</th>
-                            <th class="num">Total</th>
-                            <th>API</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tk-body">
-                        <tr><td colspan="6" style="text-align:center;color:var(--text2);padding:24px;">載入中…</td></tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="pagination" id="tk-pagination"></div>
-        </div>
-    </div>
+        </div><!-- /tab-history -->
+    </div><!-- /container -->
 
     <script>
     const $ = id => document.getElementById(id);
@@ -884,6 +906,20 @@
         histPage = Math.max(1, Math.min(p, totalPages));
         renderHistPage();
         $('history-card').scrollIntoView({behavior:'smooth', block:'start'});
+    }
+
+    // ===== Tab Switching =====
+    let activeTab = 'overview';
+    function switchTab(tab) {
+        activeTab = tab;
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        const panel = document.getElementById('tab-' + tab);
+        if (panel) panel.classList.add('active');
+        const idx = ['overview','detail','history'].indexOf(tab);
+        const btns = document.querySelectorAll('.tab-btn');
+        if (btns[idx]) btns[idx].classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     // ===== Init =====
