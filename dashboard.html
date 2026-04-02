@@ -93,9 +93,9 @@
 
     <!-- ===== Tab Navigation ===== -->
     <div class="tab-nav" id="tab-nav">
-        <button class="tab-btn active" onclick="switchTab('overview')">⚡ 配額總覽</button>
-        <button class="tab-btn" onclick="switchTab('detail')">📊 使用明細</button>
-        <button class="tab-btn" onclick="switchTab('history')">📜 歷史記錄</button>
+        <button class="tab-btn active" onclick="switchTab('overview')">📊 配額總覽</button>
+        <button class="tab-btn" onclick="switchTab('history')">📜 配額歷史</button>
+        <button class="tab-btn" onclick="switchTab('detail')">🤖 使用明細</button>
     </div>
 
     <div class="container">
@@ -916,7 +916,7 @@
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         const panel = document.getElementById('tab-' + tab);
         if (panel) panel.classList.add('active');
-        const idx = ['overview','detail','history'].indexOf(tab);
+        const idx = ['overview','history','detail'].indexOf(tab);
         const btns = document.querySelectorAll('.tab-btn');
         if (btns[idx]) btns[idx].classList.add('active');
         window.scrollTo({ top: 0, behavior: 'smooth' });
