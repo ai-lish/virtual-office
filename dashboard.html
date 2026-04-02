@@ -42,9 +42,9 @@
         .model-val { color:var(--text2); min-width:60px; text-align:right; }
         .model-bar-wrap { width:120px; height:6px; background:var(--bar-bg); border-radius:3px; overflow:hidden; }
         .model-bar-fill { height:100%; border-radius:3px; }
-        .data-table { width:100%; border-collapse:collapse; font-size:0.8em; }
-        .data-table th { padding:8px 6px; text-align:left; color:var(--text2); border-bottom:1px solid rgba(255,255,255,0.1); font-weight:500; }
-        .data-table td { padding:7px 6px; border-bottom:1px solid rgba(255,255,255,0.04); }
+        .data-table { width:100%; border-collapse:collapse; font-size:0.8em; table-layout:fixed; }
+        .data-table th { padding:8px 6px; text-align:left; color:var(--text2); border-bottom:1px solid rgba(255,255,255,0.1); font-weight:500; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+        .data-table td { padding:7px 6px; border-bottom:1px solid rgba(255,255,255,0.04); overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
         .data-table .num { text-align:right; font-variant-numeric:tabular-nums; }
         .data-table tbody tr:hover { background:rgba(255,255,255,0.03); }
         .pagination { display:flex; justify-content:center; align-items:center; gap:8px; margin-top:14px; }
@@ -136,6 +136,16 @@
             </div>
             <div style="overflow-x:auto;">
                 <table class="data-table">
+                    <colgroup>
+                        <col style="width:80px;">
+                        <col style="width:60px;">
+                        <col style="width:70px;">
+                        <col style="width:70px;">
+                        <col style="width:50px;">
+                        <col style="width:70px;">
+                        <col style="width:70px;">
+                        <col style="width:100px;">
+                    </colgroup>
                     <thead>
                         <tr>
                             <th>日期</th>
