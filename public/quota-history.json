@@ -1,12 +1,42 @@
 {
   "_version": 1,
-  "_updatedAt": "2026-04-03T04:55:25.892Z",
-  "_totalEntries": 9,
+  "_updatedAt": "2026-04-03T09:55:31.622Z",
+  "_totalEntries": 10,
   "entries": [
     {
-      "windowKey": "2026-04-03_16-21",
+      "windowKey": "2026-04-03_06-11",
       "date": "2026-04-03",
-      "window": "16-21",
+      "window": "06-11",
+      "windowStart": "2026-04-03T05:00:00.000Z",
+      "windowEnd": "2026-04-03T10:00:00.000Z",
+      "capturedAt": "2026-04-03T09:55:31.609Z",
+      "mStar": {
+        "total": 4500,
+        "used": 387,
+        "remaining": 4113,
+        "usedPct": 9
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 18170
+      },
+      "image": {
+        "total": 50,
+        "used": 4,
+        "remaining": 46,
+        "usedPct": 8,
+        "weeklyTotal": 350,
+        "weeklyUsed": 204
+      }
+    },
+    {
+      "windowKey": "2026-04-03_01-06",
+      "date": "2026-04-03",
+      "window": "01-06",
       "windowStart": "2026-04-02T15:00:00.000Z",
       "windowEnd": "2026-04-02T20:00:00.000Z",
       "capturedAt": "2026-04-02T19:55:25.971Z",
@@ -37,14 +67,14 @@
       "windowKey": "2026-04-03_01-06",
       "date": "2026-04-03",
       "window": "01-06",
-      "windowStart": "2026-04-03T00:00:00.000Z",
-      "windowEnd": "2026-04-03T05:00:00.000Z",
-      "capturedAt": "2026-04-03T04:55:25.870Z",
+      "windowStart": "2026-04-03T05:00:00.000Z",
+      "windowEnd": "2026-04-03T10:00:00.000Z",
+      "capturedAt": "2026-04-03T08:48:46.181Z",
       "mStar": {
         "total": 4500,
-        "used": 338,
-        "remaining": 4162,
-        "usedPct": 8
+        "used": 305,
+        "remaining": 4195,
+        "usedPct": 7
       },
       "speech": {
         "total": 4000,
@@ -56,11 +86,11 @@
       },
       "image": {
         "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
+        "used": 4,
+        "remaining": 46,
+        "usedPct": 8,
         "weeklyTotal": 350,
-        "weeklyUsed": 208
+        "weeklyUsed": 204
       }
     },
     {
