@@ -1,25 +1,25 @@
 {
-  "_generatedAt": "2026-04-03T14:55:00Z",
+  "_generatedAt": "2026-04-03T19:55:00Z",
   "_source": "local-refresh",
   "raw": {
     "model_remains": [
       {
-        "start_time": 1775210400000,
-        "end_time": 1775228400000,
-        "remains_time": 281891,
+        "start_time": 1775228400000,
+        "end_time": 1775246400000,
+        "remains_time": 283428,
         "current_interval_total_count": 4500,
-        "current_interval_usage_count": 4129,
+        "current_interval_usage_count": 3706,
         "model_name": "MiniMax-M*",
         "current_weekly_total_count": 0,
         "current_weekly_usage_count": 0,
         "weekly_start_time": 1774828800000,
         "weekly_end_time": 1775433600000,
-        "weekly_remains_time": 205481891
+        "weekly_remains_time": 187483428
       },
       {
         "start_time": 1775174400000,
         "end_time": 1775260800000,
-        "remains_time": 32681891,
+        "remains_time": 14683428,
         "current_interval_total_count": 4000,
         "current_interval_usage_count": 4000,
         "model_name": "speech-hd",
@@ -27,12 +27,12 @@
         "current_weekly_usage_count": 18170,
         "weekly_start_time": 1774828800000,
         "weekly_end_time": 1775433600000,
-        "weekly_remains_time": 205481891
+        "weekly_remains_time": 187483428
       },
       {
         "start_time": 1775174400000,
         "end_time": 1775260800000,
-        "remains_time": 32681891,
+        "remains_time": 14683428,
         "current_interval_total_count": 0,
         "current_interval_usage_count": 0,
         "model_name": "MiniMax-Hailuo-2.3-Fast-6s-768p",
@@ -40,12 +40,12 @@
         "current_weekly_usage_count": 0,
         "weekly_start_time": 1774828800000,
         "weekly_end_time": 1775433600000,
-        "weekly_remains_time": 205481891
+        "weekly_remains_time": 187483428
       },
       {
         "start_time": 1775174400000,
         "end_time": 1775260800000,
-        "remains_time": 32681891,
+        "remains_time": 14683428,
         "current_interval_total_count": 0,
         "current_interval_usage_count": 0,
         "model_name": "MiniMax-Hailuo-2.3-6s-768p",
@@ -53,12 +53,12 @@
         "current_weekly_usage_count": 0,
         "weekly_start_time": 1774828800000,
         "weekly_end_time": 1775433600000,
-        "weekly_remains_time": 205481891
+        "weekly_remains_time": 187483428
       },
       {
         "start_time": 1775174400000,
         "end_time": 1775260800000,
-        "remains_time": 32681891,
+        "remains_time": 14683428,
         "current_interval_total_count": 0,
         "current_interval_usage_count": 0,
         "model_name": "music-2.5",
@@ -66,20 +66,20 @@
         "current_weekly_usage_count": 0,
         "weekly_start_time": 1774828800000,
         "weekly_end_time": 1775433600000,
-        "weekly_remains_time": 205481891
+        "weekly_remains_time": 187483428
       },
       {
         "start_time": 1775174400000,
         "end_time": 1775260800000,
-        "remains_time": 32681891,
+        "remains_time": 14683428,
         "current_interval_total_count": 50,
-        "current_interval_usage_count": 46,
+        "current_interval_usage_count": 42,
         "model_name": "image-01",
         "current_weekly_total_count": 350,
-        "current_weekly_usage_count": 204,
+        "current_weekly_usage_count": 196,
         "weekly_start_time": 1774828800000,
         "weekly_end_time": 1775433600000,
-        "weekly_remains_time": 205481891
+        "weekly_remains_time": 187483428
       }
     ],
     "base_resp": {
@@ -91,8 +91,8 @@
     {
       "model": "MiniMax-M*",
       "total": 4500,
-      "used": 371,
-      "remaining": 4129,
+      "used": 794,
+      "remaining": 3706,
       "weeklyTotal": 0,
       "weeklyUsed": 0
     },
@@ -131,10 +131,10 @@
     {
       "model": "image-01",
       "total": 50,
-      "used": 4,
-      "remaining": 46,
+      "used": 8,
+      "remaining": 42,
       "weeklyTotal": 350,
-      "weeklyUsed": 204
+      "weeklyUsed": 196
     }
   ]
 }
