@@ -52,52 +52,63 @@ const image   = raw.find(m => m.model_name === 'image-01');
 if (!mStar) { console.log('No MiniMax-M* data, skipping'); process.exit(0); }
 
 // ── Determine window key (HKT = UTC+8) ──
-// Use CURRENT TIME to determine which window just ended
-// Cron runs at: 21, 01, 06, 11, 16 UTC
-// At each run, we capture the window that JUST CLOSED (not the one we're in)
-const now = new Date();
-const cronHour = now.getUTCHours();
+// CRON SCHEDULE: runs at 04:55, 09:55, 14:55, 19:55, 23:55 UTC (may delay to 05:13, 10:13, 15:13, 20:13, 00:13)
+// We use FIXED window mapping based on the SCHEDULED hour (4, 9, 14, 19, 23), NOT the actual execution hour.
+// Cron schedule hour -> window mapping (UTC 04:55, 09:55, 14:55, 19:55, 23:55):
+//   04:55 UTC = 12:55 HKT -> captures '01-06' window of same HKT day
+//   09:55 UTC = 17:55 HKT -> captures '06-11' window of same HKT day
+//   14:55 UTC = 22:55 HKT -> captures '11-16' window of same HKT day
+//   19:55 UTC = 03:55 HKT(next day) -> captures '01-06' window of previous HKT day
+//   23:55 UTC = 07:55 HKT(next day) -> captures '21-01' window of previous HKT day
+const SCHEDULED_WINDOWS = {
+  4:  { window: '01-06', dateOffset: 0 },
+  9:  { window: '06-11', dateOffset: 0 },
+  14: { window: '11-16', dateOffset: 0 },
+  19: { window: '01-06', dateOffset: -1 },  // UTC 19:55 = HKT 03:55(next day) -> 01-06 prev day
+  23: { window: '21-01', dateOffset: -1 }    // UTC 23:55 = HKT 07:55(next day) -> 21-01 prev day
+};
 
-// Determine window label and date based on WHEN the cron runs (not API start_time)
-// Cron at UTC 21: captures 21-01 window from PREVIOUS HKT day (evening of day-1)
-// Cron at UTC 01: captures 01-06 window from SAME HKT day (early morning)
-// Cron at UTC 06: captures 06-11 window from SAME HKT day
-// Cron at UTC 11: captures 11-16 window from SAME HKT day
-// Cron at UTC 16: captures 16-21 window from SAME HKT day
-let window, dateStr;
-if (cronHour >= 21 || cronHour < 1) {
-    // Captures 21-01 window. Window starts at 21:00 HKT yesterday, ends at 01:00 HKT today.
-    window = '21-01';
-    // HKT date of "now" is tomorrow, but the window is from yesterday
-    const hktNow = new Date(now.getTime() + 8 * 3600 * 1000);
-    hktNow.setDate(hktNow.getDate() - 1); // Go back to yesterday HKT
-    dateStr = hktNow.toISOString().slice(0, 10);
-} else if (cronHour >= 1 && cronHour < 6) {
-    window = '01-06';
-    const hktNow = new Date(now.getTime() + 8 * 3600 * 1000);
-    dateStr = hktNow.toISOString().slice(0, 10);
-} else if (cronHour >= 6 && cronHour < 11) {
-    window = '06-11';
-    const hktNow = new Date(now.getTime() + 8 * 3600 * 1000);
-    dateStr = hktNow.toISOString().slice(0, 10);
-} else if (cronHour >= 11 && cronHour < 16) {
-    window = '11-16';
-    const hktNow = new Date(now.getTime() + 8 * 3600 * 1000);
-    dateStr = hktNow.toISOString().slice(0, 10);
-} else {
-    // cronHour >= 16 && cronHour < 21
-    window = '16-21';
-    const hktNow = new Date(now.getTime() + 8 * 3600 * 1000);
-    dateStr = hktNow.toISOString().slice(0, 10);
+// Determine which scheduled window this is from the actual cron execution hour
+// Cron delays ~18min, so actual hours are approx [5, 10, 15, 20, 0]
+const actualHour = new Date().getUTCHours();
+let scheduledHour, dateStr, windowKey;
+
+if      (actualHour >= 4  && actualHour < 7)  scheduledHour = 4;   // ~05:13
+else if (actualHour >= 9  && actualHour < 12) scheduledHour = 9;   // ~10:13
+else if (actualHour >= 14 && actualHour < 17) scheduledHour = 14;  // ~15:13
+else if (actualHour >= 19 && actualHour < 22) scheduledHour = 19;  // ~20:13
+else if (actualHour >= 23 || actualHour < 1) scheduledHour = 23;  // ~00:13
+else {
+    // Fallback: manual run - use HKT current time to determine window
+    const hktHour = (actualHour + 8) % 24;
+    const hktDateRaw = new Date(Date.now() + 8*3600*1000);
+    if      (hktHour >= 21 || hktHour < 1) { scheduledHour = 23; hktDateRaw.setDate(hktDateRaw.getDate()-1); }
+    else if (hktHour >= 1  && hktHour < 6)  scheduledHour = 4;
+    else if (hktHour >= 6  && hktHour < 11) scheduledHour = 9;
+    else if (hktHour >= 11 && hktHour < 16) scheduledHour = 14;
+    else                                     scheduledHour = 19;
+    const hktDate = new Date(Date.now() + 8*3600*1000 + (scheduledHour === 23 ? -1 : 0)*86400000);
+    dateStr = hktDateRaw.toISOString().slice(0, 10);
+    windowKey = dateStr + '_' + SCHEDULED_WINDOWS[scheduledHour].window;
+    console.log('Manual run ->', windowKey, '(hktHour=' + hktHour + ')');
 }
 
-const windowKey = dateStr + '_' + window; // e.g. 2026-04-01_21-01
+// Compute dateStr and windowKey from scheduledHour (used by both cron + fallback paths)
+const info = SCHEDULED_WINDOWS[scheduledHour];
+if (!dateStr) {
+    // Cron path: compute from cronTime
+    const cronTime = new Date();
+    const hktDate = new Date(cronTime.getTime() + 8 * 3600 * 1000);
+    hktDate.setDate(hktDate.getDate() + info.dateOffset);
+    dateStr = hktDate.toISOString().slice(0, 10);
+    windowKey = dateStr + '_' + info.window;
+}
 
 // ── Build snapshot entry ──
 const snapshot = {
   windowKey,
   date: dateStr,
-  window,
+  window: info.window,
   windowStart: new Date(mStar.start_time).toISOString(),
   windowEnd:   new Date(mStar.end_time).toISOString(),
   capturedAt:  new Date().toISOString(),
