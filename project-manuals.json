@@ -54,6 +54,50 @@
         {
           "title": "AI助手狀態",
           "content": "頂部顯示三個AI助手：大腦(分析規劃)、師弟(開發製作)、tester(測試驗證)"
+        },
+        {
+          "title": "ClawTeam 多智能體協調系統",
+          "content": "ClawTeam 是用於協調多個 CLI 編碼智能體的框架，支持 Claude Code、Codex、OpenClaw 等。"
+        },
+        {
+          "title": "ClawTeam 安裝與配置",
+          "content": "pip install clawteam (需 Python 3.10+)\n\n配置文件位於 ~/.clawteam/config.json\n\n團隊數據位於 ~/.clawteam/teams/"
+        },
+        {
+          "title": "ClawTeam 常用命令",
+          "content": "# 查看團隊狀態\nclawteam team status <team-name>\n\n# 創建新團隊\nclawteam team spawn-team <team-name>\n\n# Spawn 智能體\nclawteam spawn --team <team-name> --agent-name <name> --profile minimax-m27 --task \"任務描述\"\n\n# 查看收件箱\nclawteam inbox peek <team-name>\n\n# 發送消息\nclawteam inbox send <team-name> <agent-name> \"消息內容\"\n\n# 查看任務面板\nclawteam board show <team-name>\n\n# 附加到 tmux 會話（查看所有智能體窗口）\nclawteam board attach <team-name>"
+        },
+        {
+          "title": "ClawTeam 團隊架構",
+          "content": "zach-team 團隊成員：\n- commander：領導者，負責任務規劃和協調\n- 師弟 (Builder)：負責代碼開發和執行\n- T仔 (Reviewer)：負責測試和代碼審查\n- 小詩 (Research)：負責研究和分析"
+        },
+        {
+          "title": "ClawTeam 後端配置",
+          "content": "推薦使用 tmux 後端以便查看智能體輸出：\n\n# 查看當前後端設置\nclawteam config show\n\n# 設置默認後端為 tmux\nclawteam config set default_backend tmux\n\n# subprocess 後端會將輸出發送到 /dev/null（fire-and-forget 模式）"
+        },
+        {
+          "title": "ClawTeam Profile 配置示例",
+          "content": "minimax-m27 profile 配置：\n{\n  \"agent\": \"claude\",\n  \"command\": [\"claude\"],\n  \"model\": \"MiniMax-M2.7\",\n  \"base_url\": \"https://api.minimax.io/anthropic\",\n  \"api_key_env\": \"ANTHROPIC_AUTH_TOKEN\",\n  \"env\": {\n    \"ANTHROPIC_MODEL\": \"MiniMax-M2.7\"\n  }\n}"
+        },
+        {
+          "title": "ClawTeam 工作流程",
+          "content": "1. Boss（大腦）接收任務\n2. Boss 分析任務並確定複雜度\n3. 簡單任務 → Boss 直接處理\n4. 複雜任務 → Spawn Commander 進行規劃\n5. Commander 協調多個 Worker 執行\n6. 結果通過 inbox 匯報給 Commander\n7. Commander 整合結果回報給 Boss"
+        },
+        {
+          "title": "ClawTeam tmux 模式特點",
+          "content": "tmux 後端允許實時監控智能體的輸出。每個智能體在其自己的 tmux 窗口中運行。\n\n查看所有智能體窗口：\nclawteam board attach <team-name>\n\n退出 attach 模式：Ctrl+B 然後按 D\n\n查看特定智能體輸出：\ntmux capture-pane -t <team-name>:<agent-name> -p"
+        },
+        {
+          "title": "ClawTeam 任務管理",
+          "content": "# 創建任務\nclawteam task create <team-name> \"任務標題\" -d \"任務描述\"\n\n# 查看任務列表\nclawteam task list <team-name>\n\n# 更新任務狀態\nclawteam task update <team-name> <task-id> --status in_progress\nclawteam task update <team-name> <task-id> --status completed\n\n# 領取任務（Worker）\nclawteam task accept <team-name> <task-id>"
+        },
+        {
+          "title": "常見問題排查",
+          "content": "Q: 智能體沒有回應？\nA: 檢查 tmux 後端是否正確配置，嘗試使用 clawteam board show 查看團隊狀態\n\nQ: subprocess 後端看不到輸出？\nA: 這是預期行為，subprocess 是 fire-and-forget 模式。切換到 tmux 後端：clawteam config set default_backend tmux\n\nQ: API 認證失敗？\nA: 確保 ANTHROPIC_AUTH_TOKEN 環境變量已正確設置在 config.json 的 profile env 中"
+        },
+        {
+          "title": "相關資源",
+          "content": "- ClawTeam GitHub: https://github.com/HKUDS/ClawTeam\n- OpenClaw 文檔: https://docs.openclaw.ai\n- MiniMax API: https://api.minimax.io"
         }
       ]
     }
