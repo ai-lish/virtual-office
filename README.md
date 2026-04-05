@@ -8,7 +8,7 @@ A real-time MiniMax quota dashboard with Japanese-corporate aesthetic (深紅 + 
 
 ## 🗺️ Architecture
 
-Single-file app: `index.html` (~16KB) contains all HTML, CSS, and JS. No build step.
+Two single-file apps (HTML + CSS + JS). No build step.
 
 ### Layout
 - **Header** — sticky top bar with title, last update time, and GitHub link
@@ -18,14 +18,55 @@ Single-file app: `index.html` (~16KB) contains all HTML, CSS, and JS. No build s
 
 ---
 
+## 📄 Pages
+
+| Page | URL | Purpose |
+|------|-----|---------|
+| `index.html` | / | Live quota dashboard |
+| `dashboard.html` | /dashboard.html | Historical analysis & Copilot details |
+
+---
+
 ## ✅ Features
 
+### index.html — Live Dashboard
 - **Live quota cards** — M2.7, Speech 2.8-HD, Image-01, Copilot usage
 - **Progress bars** — visual fill for each quota with color-coded status
 - **Model detail sections** — expandable per-model breakdown
 - **Project list** — links to managed projects
 - **Mobile responsive** — single column on small screens
-- **Auto-refresh** — cron updates JSON every ~5hrs; page reads JSON
+- **Auto-refresh** — page fetches JSON every 5 minutes
+
+### dashboard.html — Analysis Dashboard
+
+**Tab: 配額歷史 (Quota History)**
+- Date filter (全部日期)
+- Stats summary:
+  - 平均 M* 用量 (per window)
+  - 平均 M* 使用率 (%)
+  - 平均 Speech 用量 (per day)
+  - 平均 Image 用量 (per day)
+- History table with columns: 日期, 時段, M* 已用, M* 總計, M* %, Speech 已用, Image 已用, 擷取時間
+- Pagination support
+
+**Tab: Copilot 使用明細 (Copilot Details)**
+- Filter modes: 按日期 / 按星期
+- Month selector
+- Date picker / Week picker
+- Compare toggle
+- Stats cards: 總 Requests, Opus, Sonnet, 其他模型
+- Detailed breakdown table
+- Pagination
+
+**Tab: MiniMax 使用明細 (MiniMax Details)**
+- Token usage analysis
+- Per-model breakdown
+
+**Data Sources:**
+- `/public/quota-history.json` — window snapshots
+- `/public/copilot-march-2026.csv` — raw Copilot CSV
+- `/public/token-log.json` — token usage log
+
 
 ---
 
