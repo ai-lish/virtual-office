@@ -293,34 +293,24 @@
 
     async function loadCopilotDetail() {
         try {
-            const res = await fetch(basePath + '/public/copilot-march-2026.csv?' + Date.now());
+            const res = await fetch(basePath + '/public/copilot-summary.json?' + Date.now());
             if (!res.ok) return;
-            const text = await res.text();
-            const lines = text.trim().split('\n').filter(l => l.trim());
+            const data = await res.json();
 
-            let startIdx = 0;
-            if (lines[0] && !lines[0].startsWith('"2026')) startIdx = 1;
-
-            cpAllRecords = lines.slice(startIdx).map(line => {
-                const cols = line.split(',').map(c => c.replace(/^"|"$/g, '').trim());
-                return {
-                    date: cols[0],
-                    username: cols[1],
-                    product: cols[2],
-                    sku: cols[3],
-                    model: cols[4],
-                    quantity: cols[5],
-                    unit_type: cols[6]
-                };
-            }).filter(r => r.date && r.model);
+            // Load records from unified JSON
+            cpAllRecords = data.records.map(r => ({
+                date: r.date,
+                model: r.model,
+                quantity: r.quantity,
+                unit_type: r.unit_type
+            }));
 
             cpAllRecords.sort((a,b) => b.date.localeCompare(a.date));
 
-            const months = new Set();
-            cpAllRecords.forEach(r => { const m = cpRecMonth(r); if (m) months.add(m); });
+            // Build month options from available months
             const sel = $('cp-month-select');
             sel.innerHTML = '<option value="all">全部月份</option>';
-            [...months].sort().reverse().forEach(m => {
+            [...data.months].sort().reverse().forEach(m => {
                 const o = document.createElement('option'); o.value = m; o.textContent = m; sel.appendChild(o);
             });
 

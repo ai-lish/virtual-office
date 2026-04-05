@@ -113,9 +113,14 @@ const rows = lines.slice(1).map(l => {
   return Object.fromEntries(headers.map((h,i) => [h, vals[i] || '']));
 });
 
+// ── Aggregate for current month (for index.html) ──
+const now = new Date();
+const currentMonth = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+const currentMonthRows = rows.filter(r => r.date?.startsWith(currentMonth));
+
 let totalUsed = 0;
 const byModel = {};
-rows.forEach(r => {
+currentMonthRows.forEach(r => {
   const model = r.model || 'unknown';
   const qty = parseInt(r.quantity || 0);
   const cost = parseFloat(r.gross_amount || 0);
@@ -125,18 +130,18 @@ rows.forEach(r => {
   byModel[model].cost += cost;
 });
 
-// total_monthly_quota from first row (all rows have same quota)
 const total = parseInt(rows[0]?.total_monthly_quota || 300);
 const remaining = total - totalUsed;
-const now = new Date().toISOString();
 
-const data = {
-  _generatedAt: now,
+// ── 1. copilot-data.json — for index.html (current month summary) ──
+const summary = {
+  _generatedAt: now.toISOString(),
   _source: 'google-drive-csv',
+  _currentMonth: currentMonth,
   quota: {
     total, used: totalUsed, remaining,
     usedPercent: total > 0 ? Math.round(totalUsed / total * 100) : 0,
-    resetDate: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1).toISOString().slice(0,10),
+    resetDate: new Date(now.getFullYear(), now.getMonth() + 1, 1).toISOString().slice(0,10),
     warningLevel: remaining < 30 ? 'critical' : remaining < 90 ? 'warning' : 'normal'
   },
   analysis: {
@@ -144,8 +149,57 @@ const data = {
     byModel: Object.fromEntries(Object.entries(byModel).map(([m, v]) => [m, v.qty]))
   }
 };
-fs.writeFileSync('public/copilot-data.json', JSON.stringify(data, null, 2));
-console.log('used=' + totalUsed + '/' + total + ' requests');
+fs.writeFileSync('public/copilot-data.json', JSON.stringify(summary, null, 2));
+
+// ── 2. copilot-summary.json — for dashboard.html (all records) ──
+const allRecords = rows.map(r => ({
+  date: r.date,
+  model: r.model,
+  quantity: parseInt(r.quantity || 0),
+  gross_amount: parseFloat(r.gross_amount || 0),
+  sku: r.sku,
+  unit_type: r.unit_type
+}));
+
+// Group by month
+const monthSet = {};
+rows.forEach(r => { if (r.date) { const m = r.date.slice(0,7); monthSet[m] = true; } });
+const months = Object.keys(monthSet).sort();
+
+const fullSummary = {
+  _generatedAt: now.toISOString(),
+  _source: 'google-drive-csv',
+  months,
+  records: allRecords,
+  analysis: {
+    byMonth: {},
+    byModel: {}
+  }
+};
+
+// Pre-compute by-month aggregations
+months.forEach(m => {
+  const monthRows = rows.filter(r => r.date?.startsWith(m));
+  let mTotal = 0;
+  const mModels = {};
+  monthRows.forEach(r => {
+    const qty = parseInt(r.quantity || 0);
+    const cost = parseFloat(r.gross_amount || 0);
+    mTotal += qty;
+    mModels[r.model] = (mModels[r.model] || 0) + qty;
+  });
+  fullSummary.analysis.byMonth[m] = { total: mTotal, byModel: mModels };
+});
+
+// Overall by model
+rows.forEach(r => {
+  const qty = parseInt(r.quantity || 0);
+  fullSummary.analysis.byModel[r.model] = (fullSummary.analysis.byModel[r.model] || 0) + qty;
+});
+
+fs.writeFileSync('public/copilot-summary.json', JSON.stringify(fullSummary, null, 2));
+console.log('used=' + totalUsed + '/' + total + ' requests (' + currentMonth + ')');
+console.log('months available: ' + months.join(', '));
 "
   
   echo "✅ Copilot usage updated → JSON"
