@@ -284,6 +284,15 @@
     function cpFilterByDateRange(start, end) {
         return cpAllRecords.filter(r => { const d = cpRecDate(r); return d && d >= start && d <= end; });
     }
+    function updateCpRangeBadge(records) {
+        if (records.length > 0) {
+            const first = records[records.length - 1];
+            const last  = records[0];
+            $('cp-range').textContent = (cpRecDate(first)||'') + ' → ' + (cpRecDate(last)||'');
+        } else {
+            $('cp-range').textContent = '';
+        }
+    }
     function cpCalcStats(records) {
         let total = 0, opus = 0, sonnet = 0, other = 0;
         records.forEach(r => {
@@ -360,9 +369,7 @@
                 } else {
                     $('cp-stats').style.display = 'none';
                 }
-                const first = cpFilteredRecords[cpFilteredRecords.length - 1];
-                const last  = cpFilteredRecords[0];
-                $('cp-range').textContent = cpFilteredRecords.length > 0 ? (cpRecDate(first)||'') + ' → ' + (cpRecDate(last)||'') : '';
+                updateCpRangeBadge(cpFilteredRecords);
                 renderCopilotPage();
                 return;
             }
@@ -436,9 +443,7 @@
                 else if (mode === 'week') cpFilteredRecords = cpFilterByDateRange(p.range[0], p.range[1]);
                 else cpFilteredRecords = recs;
 
-                const first = cpFilteredRecords[cpFilteredRecords.length - 1];
-                const last  = cpFilteredRecords[0];
-                $('cp-range').textContent = cpFilteredRecords.length > 0 ? (cpRecDate(first)||'') + ' → ' + (cpRecDate(last)||'') : '';
+                updateCpRangeBadge(cpFilteredRecords);
             }
         }
 
