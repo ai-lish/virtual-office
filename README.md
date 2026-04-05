@@ -50,22 +50,23 @@ Two single-file apps (HTML + CSS + JS). No build step.
 - Pagination support
 
 **Tab: Copilot 使用明細 (Copilot Details)**
-- Filter modes: 按日期 / 按星期
-- Month selector
-- Date picker / Week picker
-- Compare toggle
-- Stats cards: 總 Requests, Opus, Sonnet, 其他模型
-- Detailed breakdown table
-- Pagination
+- Filter 順序：按月份 → 按星期 → 按日期
+- **按月份**：
+  - 全部月份 = 顯示所有記錄（paginated）
+  - 選擇某月 = 顯示 3 行 x 4 欄比較表格（上月 / 今月★ / 下月）
+- **按星期**：顯示 3 行 x 4 欄比較表格（上週 / 本週★ / 下週）
+- **按日期**：顯示 3 行 x 4 欄比較表格（上日 / 今日★ / 下日）
+- 比較表格：每行顯示 總 / Opus / Sonnet / 其他
+- Pagination（每頁 20 項）
 
 **Tab: MiniMax 使用明細 (MiniMax Details)**
 - Token usage analysis
 - Per-model breakdown
 
 **Data Sources:**
-- `/public/quota-history.json` — window snapshots
-- `/public/copilot-march-2026.csv` — raw Copilot CSV
-- `/public/token-log.json` — token usage log
+- `/public/quota-history.json` — MiniMax window snapshots
+- `/public/copilot-summary.json` — Copilot 所有月份記錄（統一數據源）
+- `/public/token-log.json` — MiniMax token usage log
 
 
 ---
@@ -84,8 +85,10 @@ Two single-file apps (HTML + CSS + JS). No build step.
 | File | Purpose |
 |------|---------|
 | `index.html` | Single-file app (HTML + CSS + JS) |
+| `dashboard.html` | Analysis dashboard (HTML + CSS + JS) |
 | `public/minimax-api-status.json` | Live MiniMax quota snapshot |
 | `public/quota-history.json` | Historical quota snapshots (window-based, 90-day retention) |
+| `public/copilot-summary.json` | Copilot unified data (all months, unified source for index+dashboard) |
 
 ---
 
