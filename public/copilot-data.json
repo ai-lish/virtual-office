@@ -1,21 +1,21 @@
 {
-  "_generatedAt": "2026-04-01T16:30:09.996Z",
+  "_generatedAt": "2026-04-05T13:50:46.896Z",
   "_source": "google-drive-csv",
   "quota": {
     "total": 300,
-    "used": 0.68,
-    "remaining": 299.32,
-    "usedPercent": 0,
+    "used": 1.72,
+    "remaining": 298.28,
+    "usedPercent": 1,
     "resetDate": "2026-04-30",
     "warningLevel": "normal"
   },
   "analysis": {
-    "totalRequests": 0.68,
+    "totalRequests": 1.72,
     "byModel": {
-      "Claude Opus 4.6": 0.36,
-      "Claude Sonnet 4.6": 0.24000000000000002,
+      "Claude Opus 4.6": 0.6,
+      "Claude Sonnet 4.6": 0.96,
       "Code Review model": 0.04,
-      "Coding Agent model": 0.04
+      "Coding Agent model": 0.12
     }
   }
 }
