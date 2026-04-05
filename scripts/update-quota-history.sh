@@ -54,43 +54,42 @@ if (!mStar) { console.log('No MiniMax-M* data, skipping'); process.exit(0); }
 // ── Determine window key (HKT = UTC+8) ──
 // CRON SCHEDULE: runs at 04:55, 09:55, 14:55, 19:55, 23:55 UTC (may delay to 05:13, 10:13, 15:13, 20:13, 00:13)
 // We use FIXED window mapping based on the SCHEDULED hour (4, 9, 14, 19, 23), NOT the actual execution hour.
-// Cron schedule hour -> window mapping (UTC 04:55, 09:55, 14:55, 19:55, 23:55):
-//   04:55 UTC = 12:55 HKT -> captures '01-06' window of same HKT day
-//   09:55 UTC = 17:55 HKT -> captures '06-11' window of same HKT day
-//   14:55 UTC = 22:55 HKT -> captures '11-16' window of same HKT day
-//   19:55 UTC = 03:55 HKT(next day) -> captures '01-06' window of previous HKT day
-//   23:55 UTC = 07:55 HKT(next day) -> captures '21-01' window of previous HKT day
+// Cron schedule: UTC 23:55, 04:55, 09:55, 14:55, 19:55 (~18min delay → actualHour 0, 5, 10, 15, 20)
+// Cron schedule hour -> window mapping (UTC, no TZ needed):
+//   UTC 23:55 → actualHour=0  → window '21-01'
+//   UTC 04:55 → actualHour=5  → window '01-06'
+//   UTC 09:55 → actualHour=10 → window '06-11'
+//   UTC 14:55 → actualHour=15 → window '11-16'
+//   UTC 19:55 → actualHour=20 → window '16-21'
 const SCHEDULED_WINDOWS = {
-  4:  { window: '01-06', dateOffset: 0 },
-  9:  { window: '06-11', dateOffset: 0 },
-  14: { window: '11-16', dateOffset: 0 },
-  19: { window: '01-06', dateOffset: -1 },  // UTC 19:55 = HKT 03:55(next day) -> 01-06 prev day
-  23: { window: '21-01', dateOffset: -1 }    // UTC 23:55 = HKT 07:55(next day) -> 21-01 prev day
+  0:  { window: '21-01', dateOffset:  0 },
+  5:  { window: '01-06', dateOffset:  0 },
+  10: { window: '06-11', dateOffset:  0 },
+  15: { window: '11-16', dateOffset:  0 },
+  20: { window: '16-21', dateOffset:  0 }
 };
 
 // Determine which scheduled window this is from the actual cron execution hour
-// Cron delays ~18min, so actual hours are approx [5, 10, 15, 20, 0]
 const actualHour = new Date().getUTCHours();
 let scheduledHour, dateStr, windowKey;
 
-if      (actualHour >= 4  && actualHour < 7)  scheduledHour = 4;   // ~05:13
-else if (actualHour >= 9  && actualHour < 12) scheduledHour = 9;   // ~10:13
-else if (actualHour >= 14 && actualHour < 17) scheduledHour = 14;  // ~15:13
-else if (actualHour >= 19 && actualHour < 22) scheduledHour = 19;  // ~20:13
-else if (actualHour >= 23 || actualHour < 1) scheduledHour = 23;  // ~00:13
+if      (actualHour >= 0  && actualHour < 3)  scheduledHour = 0;
+else if (actualHour >= 5  && actualHour < 8)  scheduledHour = 5;
+else if (actualHour >= 10 && actualHour < 13) scheduledHour = 10;
+else if (actualHour >= 15 && actualHour < 18) scheduledHour = 15;
+else if (actualHour >= 20 && actualHour < 23) scheduledHour = 20;
 else {
     // Fallback: manual run - use HKT current time to determine window
     const hktHour = (actualHour + 8) % 24;
     const hktDateRaw = new Date(Date.now() + 8*3600*1000);
-    if      (hktHour >= 21 || hktHour < 1) { scheduledHour = 23; hktDateRaw.setDate(hktDateRaw.getDate()-1); }
-    else if (hktHour >= 1  && hktHour < 6)  scheduledHour = 4;
-    else if (hktHour >= 6  && hktHour < 11) scheduledHour = 9;
-    else if (hktHour >= 11 && hktHour < 16) scheduledHour = 14;
-    else                                     scheduledHour = 19;
-    const hktDate = new Date(Date.now() + 8*3600*1000 + (scheduledHour === 23 ? -1 : 0)*86400000);
+    if      (hktHour >= 21 || hktHour < 1)  { scheduledHour = 0; }
+    else if (hktHour >= 1  && hktHour < 6)   scheduledHour = 5;
+    else if (hktHour >= 6  && hktHour < 11) scheduledHour = 10;
+    else if (hktHour >= 11 && hktHour < 16) scheduledHour = 15;
+    else                                    scheduledHour = 20;
     dateStr = hktDateRaw.toISOString().slice(0, 10);
     windowKey = dateStr + '_' + SCHEDULED_WINDOWS[scheduledHour].window;
-    console.log('Manual run ->', windowKey, '(hktHour=' + hktHour + ')');
+    console.log('Manual run ->', windowKey, '(actualHour=' + actualHour + ', hktHour=' + hktHour + ')');
 }
 
 // Compute dateStr and windowKey from scheduledHour (used by both cron + fallback paths)
