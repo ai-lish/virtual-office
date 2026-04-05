@@ -97,3 +97,47 @@ python3 -m http.server 8080
 | `copilot-usage-db.json` | Copilot usage data |
 | `vo-*.json` | Module data (status, standup, pomodoro, etc.) |
 | `server.js` | Optional Node.js API server |
+| `public/minimax-api-status.json` | Live MiniMax quota (M2.7/Speech/Image) |
+| `public/quota-history.json` | Historical quota snapshots (18 windows, 90-day retention) |
+
+## 🤖 MiniMax Quota Monitoring
+
+### Data Flow
+```
+launchctl cron (HKT 07:55/12:55/17:55/22:55/03:55)
+  → scripts/minimax-cron.sh
+    → scripts/refresh-data.sh minimax
+      → MiniMax API /v1/api/openplatform/coding_plan/remains
+      → public/minimax-api-status.json (live)
+      → Google Sheet (MiniMax QUOTA)
+      → scripts/update-quota-history.sh
+        → public/quota-history.json (history)
+    → git commit + push
+```
+
+### Cron Schedule (HKT)
+| HKT | UTC | Window |
+|-----|-----|--------|
+| 07:55 | 23:55 | 21-01 |
+| 12:55 | 04:55 | 01-06 |
+| 17:55 | 09:55 | 06-11 |
+| 22:55 | 14:55 | 11-16 |
+| 03:55 | 19:55 | 16-21 |
+
+### launchctl
+```bash
+launchctl list | grep minimax  # check status
+launchctl unload/load ~/Library/LaunchAgents/ai.openclaw.minimax-cron.plist  # reload
+```
+
+### Manual Refresh
+```bash
+cd virtual-office && bash scripts/refresh-data.sh minimax
+```
+
+### Key Scripts
+| Script | Purpose |
+|--------|---------|
+| `scripts/refresh-data.sh` | Fetches API, writes JSON + Sheet |
+| `scripts/update-quota-history.sh` | Deduplicates + appends to history |
+| `scripts/minimax-cron.sh` | Cron wrapper: refresh + git commit/push |
