@@ -341,19 +341,37 @@
     function applyCopilotFilter() {
         const mode = $('cp-filter-mode').value;
         cpPage = 1;
-        cpPageSize = 20;
+        if (mode === 'month') cpPageSize = 50;
+        else if (mode === 'week') cpPageSize = 20;
+        else cpPageSize = 10;
 
         if (mode === 'month') {
             const month = $('cp-month-select').value;
             if (month === 'all') {
                 cpFilteredRecords = cpAllRecords;
                 $('cp-compare').style.display = 'none';
-                $('cp-stats').style.display = 'none';
+                if (cpFilteredRecords.length > 0) {
+                    const s = cpCalcStats(cpFilteredRecords);
+                    $('cp-total-req').textContent = s.total.toFixed(0);
+                    $('cp-opus').textContent = s.opus.toFixed(0);
+                    $('cp-sonnet').textContent = s.sonnet.toFixed(0);
+                    $('cp-other').textContent = s.other.toFixed(0);
+                    $('cp-stats').style.display = '';
+                } else {
+                    $('cp-stats').style.display = 'none';
+                }
+                const first = cpFilteredRecords[cpFilteredRecords.length - 1];
+                const last  = cpFilteredRecords[0];
+                $('cp-range').textContent = cpFilteredRecords.length > 0 ? (cpRecDate(first)||'') + ' → ' + (cpRecDate(last)||'') : '';
                 renderCopilotPage();
                 return;
             }
             const [y, m] = month.split('-').map(Number);
-            const getMonthStr = (yy, mm) => String(yy) + '-' + String(mm).padStart(2, '0');
+            const getMonthStr = (yy, mm) => {
+                if (mm < 1) { yy--; mm += 12; }
+                else if (mm > 12) { yy++; mm -= 12; }
+                return String(yy) + '-' + String(mm).padStart(2, '0');
+            };
             renderCopilotCompare3(
                 month,
                 [
@@ -404,7 +422,7 @@
 
             const s = cpCalcStats(recs);
             const isActive = p.isCurrent || p.key === activeKey;
-            const style = ' style="border-left:3px solid var(--green);font-weight:bold;"' if isActive else '';
+            const style = isActive ? ' style="border-left:3px solid var(--green);font-weight:bold;"' : '';
             rows += '<tr' + style + '>' + 
                 '<td>' + p.label + (isActive ? ' ★' : '') + '</td>' +
                 '<td>' + s.total.toFixed(0) + '</td>' +
@@ -417,6 +435,10 @@
                 if (mode === 'month') cpFilteredRecords = cpAllRecords.filter(r => cpRecMonth(r) === p.key);
                 else if (mode === 'week') cpFilteredRecords = cpFilterByDateRange(p.range[0], p.range[1]);
                 else cpFilteredRecords = recs;
+
+                const first = cpFilteredRecords[cpFilteredRecords.length - 1];
+                const last  = cpFilteredRecords[0];
+                $('cp-range').textContent = cpFilteredRecords.length > 0 ? (cpRecDate(first)||'') + ' → ' + (cpRecDate(last)||'') : '';
             }
         }
 
