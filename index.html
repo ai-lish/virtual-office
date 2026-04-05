@@ -248,35 +248,27 @@ async function loadData() {
 
   // Copilot
   try {
-    const res = await fetch(base + '/public/copilot-data.json?' + ts);
+    const res = await fetch(base + '/public/copilot-summary.json?' + ts);
     if (res.ok) {
       const d = await res.json();
-      const q = d.quota || {};
-      const a = d.analysis || {};
+      // Get current month data
+      const now = new Date();
+      const currentMonth = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+      const monthData = d.analysis?.byMonth?.[currentMonth] || { total: 0, byModel: {} };
+      const byModel = monthData.byModel || {};
 
-      const used = Math.round((q.used || 0) * 100) / 100;
-      const total = q.total || 300;
-      const pct = q.usedPercent || Math.round(used / total * 100);
+      const used = monthData.total || 0;
+      const total = 300;
+      const pct = total > 0 ? Math.round(used / total * 100) : 0;
+      const remaining = total - used;
       const barColor = pct >= 80 ? 'var(--danger)' : pct >= 50 ? 'var(--warn)' : 'var(--green)';
 
       document.getElementById('cp-label-idx').textContent = `${used} / ${total} (${pct}%)`;
       document.getElementById('cp-bar-idx').style.width = pct + '%';
       document.getElementById('cp-bar-idx').style.background = barColor;
-      document.getElementById('cp-remain-idx').textContent = q.remaining != null ? q.remaining : '—';
-      document.getElementById('cp-reset-idx').textContent = q.resetDate || '—';
+      document.getElementById('cp-remain-idx').textContent = remaining;
+      document.getElementById('cp-reset-idx').textContent = new Date(now.getFullYear(), now.getMonth() + 1, 1).toISOString().slice(0,10);
 
-      try {
-        const recRes = await fetch(base + '/public/copilot-summary-token-log.json?' + ts);
-        if (recRes.ok) {
-          const recData = await recRes.json();
-          const rec = recData.recommendation || recData.quota?.recommendation || {};
-          const badge = document.getElementById('cp-badge-idx');
-          badge.textContent = (rec.emoji || '') + ' ' + (rec.label || '');
-          badge.style.color = rec.color || 'var(--green)';
-        }
-      } catch(e) {}
-
-      const byModel = a.byModel || {};
       const entries = Object.entries(byModel).sort((a,b) => b[1] - a[1]);
       const maxVal = entries.length > 0 ? entries[0][1] : 1;
       const colors = ['#e74c3c','#3498db','#2ecc71','#e67e22','#9b59b6','#1abc9c'];
