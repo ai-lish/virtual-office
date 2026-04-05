@@ -105,104 +105,102 @@ refresh_copilot() {
   
   node -e "
 const fs = require('fs');
-const csv = fs.readFileSync('$TMPDIR/copilot.csv', 'utf8');
-const lines = csv.trim().split('\n');
-const headers = lines[0].split(',').map(h => h.trim().replace(/\"/g,''));
-const rows = lines.slice(1).map(l => {
-  const vals = l.match(/\"[^\"]*\"|[^,]+/g)?.map(v => v.trim().replace(/^\"|\"$/g,'')) || [];
-  return Object.fromEntries(headers.map((h,i) => [h, vals[i] || '']));
-});
+const https = require('https');
 
-// ── Aggregate for current month (for index.html) ──
-const now = new Date();
-const currentMonth = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
-const currentMonthRows = rows.filter(r => r.date?.startsWith(currentMonth));
-
-let totalUsed = 0;
-const byModel = {};
-currentMonthRows.forEach(r => {
-  const model = r.model || 'unknown';
-  const qty = parseInt(r.quantity || 0);
-  const cost = parseFloat(r.gross_amount || 0);
-  totalUsed += qty;
-  byModel[model] = byModel[model] || { qty: 0, cost: 0 };
-  byModel[model].qty += qty;
-  byModel[model].cost += cost;
-});
-
-const total = parseInt(rows[0]?.total_monthly_quota || 300);
-const remaining = total - totalUsed;
-
-// ── 1. copilot-data.json — for index.html (current month summary) ──
-const summary = {
-  _generatedAt: now.toISOString(),
-  _source: 'google-drive-csv',
-  _currentMonth: currentMonth,
-  quota: {
-    total, used: totalUsed, remaining,
-    usedPercent: total > 0 ? Math.round(totalUsed / total * 100) : 0,
-    resetDate: new Date(now.getFullYear(), now.getMonth() + 1, 1).toISOString().slice(0,10),
-    warningLevel: remaining < 30 ? 'critical' : remaining < 90 ? 'warning' : 'normal'
-  },
-  analysis: {
-    totalRequests: totalUsed,
-    byModel: Object.fromEntries(Object.entries(byModel).map(([m, v]) => [m, v.qty]))
-  }
-};
-fs.writeFileSync('public/copilot-data.json', JSON.stringify(summary, null, 2));
-
-// ── 2. copilot-summary.json — for dashboard.html (all records) ──
-const allRecords = rows.map(r => ({
-  date: r.date,
-  model: r.model,
-  quantity: parseInt(r.quantity || 0),
-  gross_amount: parseFloat(r.gross_amount || 0),
-  sku: r.sku,
-  unit_type: r.unit_type
-}));
-
-// Group by month
-const monthSet = {};
-rows.forEach(r => { if (r.date) { const m = r.date.slice(0,7); monthSet[m] = true; } });
-const months = Object.keys(monthSet).sort();
-
-const fullSummary = {
-  _generatedAt: now.toISOString(),
-  _source: 'google-drive-csv',
-  months,
-  records: allRecords,
-  analysis: {
-    byMonth: {},
-    byModel: {}
-  }
-};
-
-// Pre-compute by-month aggregations
-months.forEach(m => {
-  const monthRows = rows.filter(r => r.date?.startsWith(m));
-  let mTotal = 0;
-  const mModels = {};
-  monthRows.forEach(r => {
-    const qty = parseInt(r.quantity || 0);
-    const cost = parseFloat(r.gross_amount || 0);
-    mTotal += qty;
-    mModels[r.model] = (mModels[r.model] || 0) + qty;
+function fetchUrl(url) {
+  return new Promise((resolve, reject) => {
+    https.get(url, res => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => resolve(data));
+      res.on('error', reject);
+    }).on('error', reject);
   });
-  fullSummary.analysis.byMonth[m] = { total: mTotal, byModel: mModels };
-});
+}
 
-// Overall by model
-rows.forEach(r => {
-  const qty = parseInt(r.quantity || 0);
-  fullSummary.analysis.byModel[r.model] = (fullSummary.analysis.byModel[r.model] || 0) + qty;
-});
+async function main() {
+  // Parse latest CSV from Google Drive
+  const latestCsv = fs.readFileSync('$TMPDIR/copilot.csv', 'utf8');
+  const latestLines = latestCsv.trim().split('\n');
+  const headers = latestLines[0].split(',').map(h => h.trim().replace(/\"/g,''));
+  const latestRows = latestLines.slice(1).map(l => {
+    const vals = l.match(/\"[^\"]*\"|[^,]+/g)?.map(v => v.trim().replace(/^\"|\"$/g,'')) || [];
+    return Object.fromEntries(headers.map((h,i) => [h, vals[i] || '']));
+  });
 
-fs.writeFileSync('public/copilot-summary.json', JSON.stringify(fullSummary, null, 2));
-console.log('used=' + totalUsed + '/' + total + ' requests (' + currentMonth + ')');
-console.log('months available: ' + months.join(', '));
+  // Fetch historical March CSV from GitHub
+  let allRows = [...latestRows];
+  try {
+    const marchCsv = await fetchUrl('https://raw.githubusercontent.com/ai-lish/virtual-office/main/public/copilot-march-2026.csv');
+    if (marchCsv && marchCsv.trim()) {
+      const marchLines = marchCsv.trim().split('\n');
+      const marchRows = marchLines.slice(1).map(l => {
+        const vals = l.match(/\"[^\"]*\"|[^,]+/g)?.map(v => v.trim().replace(/^\"|\"$/g,'')) || [];
+        return Object.fromEntries(headers.map((h,i) => [h, vals[i] || '']));
+      });
+      allRows = [...latestRows, ...marchRows];
+      console.log('Merged ' + marchRows.length + ' March + ' + latestRows.length + ' April records');
+    } else {
+      console.log('No March CSV, using April only: ' + latestRows.length + ' records');
+    }
+  } catch(e) {
+    console.log('March CSV not available: ' + latestRows.length + ' April records');
+  }
+
+  const now = new Date();
+  const currentMonth = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+
+  // Group by month
+  const monthSet = {};
+  allRows.forEach(r => { if (r.date) { const m = r.date.slice(0,7); monthSet[m] = true; } });
+  const months = Object.keys(monthSet).sort();
+
+  const allRecords = allRows.map(r => ({
+    date: r.date,
+    model: r.model,
+    quantity: parseInt(r.quantity || 0),
+    gross_amount: parseFloat(r.gross_amount || 0),
+    sku: r.sku,
+    unit_type: r.unit_type
+  }));
+
+  const fullSummary = {
+    _generatedAt: now.toISOString(),
+    _source: 'google-drive-csv + github',
+    months,
+    records: allRecords,
+    analysis: {
+      byMonth: {},
+      byModel: {}
+    }
+  };
+
+  months.forEach(m => {
+    const monthRows = allRows.filter(r => r.date?.startsWith(m));
+    let mTotal = 0;
+    const mModels = {};
+    monthRows.forEach(r => {
+      const qty = parseInt(r.quantity || 0);
+      mTotal += qty;
+      mModels[r.model] = (mModels[r.model] || 0) + qty;
+    });
+    fullSummary.analysis.byMonth[m] = { total: mTotal, byModel: mModels };
+  });
+
+  allRows.forEach(r => {
+    const qty = parseInt(r.quantity || 0);
+    fullSummary.analysis.byModel[r.model] = (fullSummary.analysis.byModel[r.model] || 0) + qty;
+  });
+
+  fs.writeFileSync('public/copilot-summary.json', JSON.stringify(fullSummary, null, 2));
+  console.log('months: ' + months.join(', '));
+  console.log('total records: ' + allRecords.length);
+}
+
+main().catch(e => console.error('Error:', e));
 "
   
-  echo "✅ Copilot usage updated → JSON"
+  echo "✅ Copilot usage updated → copilot-summary.json"
 }
 
 # ── 3. Refresh MiniMax Token Usage (Google Drive CSV → Sheet + JSON) ──

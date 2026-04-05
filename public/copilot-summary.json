@@ -1,7 +1,8 @@
 {
-  "_generatedAt": "2026-04-05T15:05:39.232Z",
-  "_source": "google-drive-csv",
+  "_generatedAt": "2026-04-05T15:34:12.652Z",
+  "_source": "google-drive-csv + github",
   "months": [
+    "2026-03",
     "2026-04"
   ],
   "records": [
@@ -84,10 +85,189 @@
       "gross_amount": 0.12,
       "sku": "copilot_premium_request",
       "unit_type": "requests"
+    },
+    {
+      "date": "2026-03-27",
+      "model": "Claude Opus 4.6",
+      "quantity": 36,
+      "gross_amount": 1.4400000000000004,
+      "sku": "copilot_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-03-27",
+      "model": "Claude Sonnet 4.6",
+      "quantity": 1,
+      "gross_amount": 0.04,
+      "sku": "copilot_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-03-27",
+      "model": "Code Review model",
+      "quantity": 1,
+      "gross_amount": 0.04,
+      "sku": "copilot_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-03-27",
+      "model": "GPT-5.4 mini",
+      "quantity": 8,
+      "gross_amount": 0.34319999999999984,
+      "sku": "copilot_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-03-28",
+      "model": "Coding Agent model",
+      "quantity": 2,
+      "gross_amount": 0.08,
+      "sku": "coding_agent_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-03-28",
+      "model": "Coding Agent model",
+      "quantity": 5,
+      "gross_amount": 0.2,
+      "sku": "coding_agent_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-03-28",
+      "model": "Claude Opus 4.6",
+      "quantity": 12,
+      "gross_amount": 0.48,
+      "sku": "copilot_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-03-28",
+      "model": "Claude Sonnet 4.6",
+      "quantity": 4,
+      "gross_amount": 0.16,
+      "sku": "copilot_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-03-28",
+      "model": "Gemini 3.1 Pro",
+      "quantity": 5,
+      "gross_amount": 0.2,
+      "sku": "copilot_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-03-29",
+      "model": "Coding Agent model",
+      "quantity": 5,
+      "gross_amount": 0.2,
+      "sku": "coding_agent_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-03-29",
+      "model": "Claude Opus 4.6",
+      "quantity": 18,
+      "gross_amount": 0.72,
+      "sku": "copilot_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-03-29",
+      "model": "Claude Sonnet 4.6",
+      "quantity": 2,
+      "gross_amount": 0.08,
+      "sku": "copilot_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-03-29",
+      "model": "Code Review model",
+      "quantity": 1,
+      "gross_amount": 0.04,
+      "sku": "copilot_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-03-30",
+      "model": "Coding Agent model",
+      "quantity": 4,
+      "gross_amount": 0.16,
+      "sku": "coding_agent_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-03-30",
+      "model": "Claude Opus 4.6",
+      "quantity": 63,
+      "gross_amount": 2.5200000000000014,
+      "sku": "copilot_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-03-30",
+      "model": "Claude Sonnet 4.6",
+      "quantity": 32,
+      "gross_amount": 1.2800000000000005,
+      "sku": "copilot_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-03-31",
+      "model": "Coding Agent model",
+      "quantity": 1,
+      "gross_amount": 0.04,
+      "sku": "coding_agent_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-03-31",
+      "model": "Coding Agent model",
+      "quantity": 2,
+      "gross_amount": 0.08,
+      "sku": "coding_agent_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-03-31",
+      "model": "Claude Opus 4.6",
+      "quantity": 24,
+      "gross_amount": 0.96,
+      "sku": "copilot_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-03-31",
+      "model": "Claude Opus 4.6",
+      "quantity": 92,
+      "gross_amount": 3.6968000000000023,
+      "sku": "copilot_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-03-31",
+      "model": "Claude Sonnet 4.6",
+      "quantity": 3,
+      "gross_amount": 0.12,
+      "sku": "copilot_premium_request",
+      "unit_type": "requests"
     }
   ],
   "analysis": {
     "byMonth": {
+      "2026-03": {
+        "total": 321,
+        "byModel": {
+          "Claude Opus 4.6": 245,
+          "Claude Sonnet 4.6": 42,
+          "Code Review model": 2,
+          "GPT-5.4 mini": 8,
+          "Coding Agent model": 19,
+          "Gemini 3.1 Pro": 5
+        }
+      },
       "2026-04": {
         "total": 43,
         "byModel": {
@@ -99,10 +279,12 @@
       }
     },
     "byModel": {
-      "Claude Opus 4.6": 15,
-      "Claude Sonnet 4.6": 24,
-      "Code Review model": 1,
-      "Coding Agent model": 3
+      "Claude Opus 4.6": 260,
+      "Claude Sonnet 4.6": 66,
+      "Code Review model": 3,
+      "Coding Agent model": 22,
+      "GPT-5.4 mini": 8,
+      "Gemini 3.1 Pro": 5
     }
   }
 }
