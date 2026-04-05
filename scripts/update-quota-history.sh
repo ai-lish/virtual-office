@@ -51,63 +51,27 @@ const image   = raw.find(m => m.model_name === 'image-01');
 
 if (!mStar) { console.log('No MiniMax-M* data, skipping'); process.exit(0); }
 
-// ── Determine window key (HKT = UTC+8) ──
-// CRON SCHEDULE: runs at 04:55, 09:55, 14:55, 19:55, 23:55 UTC (may delay to 05:13, 10:13, 15:13, 20:13, 00:13)
-// We use FIXED window mapping based on the SCHEDULED hour (4, 9, 14, 19, 23), NOT the actual execution hour.
-// Cron schedule: UTC 23:55, 04:55, 09:55, 14:55, 19:55 (~18min delay → actualHour 0, 5, 10, 15, 20)
-// Cron schedule hour -> window mapping (UTC, no TZ needed):
-//   UTC 23:55 → actualHour=0  → window '21-01'
-//   UTC 04:55 → actualHour=5  → window '01-06'
-//   UTC 09:55 → actualHour=10 → window '06-11'
-//   UTC 14:55 → actualHour=15 → window '11-16'
-//   UTC 19:55 → actualHour=20 → window '16-21'
-const SCHEDULED_WINDOWS = {
-  0:  { window: '21-01', dateOffset:  0 },
-  5:  { window: '01-06', dateOffset:  0 },
-  10: { window: '06-11', dateOffset:  0 },
-  15: { window: '11-16', dateOffset:  0 },
-  20: { window: '16-21', dateOffset:  0 }
-};
+// ── Determine window key directly from mStar.start_time (API-provided UTC window start) ──
+// This is the most reliable approach — use the window boundaries from the API itself.
+const startUtc = new Date(mStar.start_time);
+const startHour = startUtc.getUTCHours();
+let windowLabel;
+if      (startHour >=  1 && startHour <  6) windowLabel = '01-06';
+else if (startHour >=  6 && startHour < 11) windowLabel = '06-11';
+else if (startHour >= 11 && startHour < 16) windowLabel = '11-16';
+else if (startHour >= 16 && startHour < 21) windowLabel = '16-21';
+else                                   windowLabel = '21-01';
 
-// Determine which scheduled window this is from the actual cron execution hour
-const actualHour = new Date().getUTCHours();
-let scheduledHour, dateStr, windowKey;
-
-if      (actualHour >= 0  && actualHour < 3)  scheduledHour = 0;
-else if (actualHour >= 5  && actualHour < 8)  scheduledHour = 5;
-else if (actualHour >= 10 && actualHour < 13) scheduledHour = 10;
-else if (actualHour >= 15 && actualHour < 18) scheduledHour = 15;
-else if (actualHour >= 20 && actualHour < 23) scheduledHour = 20;
-else {
-    // Fallback: manual run - use HKT current time to determine window
-    const hktHour = (actualHour + 8) % 24;
-    const hktDateRaw = new Date(Date.now() + 8*3600*1000);
-    if      (hktHour >= 21 || hktHour < 1)  { scheduledHour = 0; }
-    else if (hktHour >= 1  && hktHour < 6)   scheduledHour = 5;
-    else if (hktHour >= 6  && hktHour < 11) scheduledHour = 10;
-    else if (hktHour >= 11 && hktHour < 16) scheduledHour = 15;
-    else                                    scheduledHour = 20;
-    dateStr = hktDateRaw.toISOString().slice(0, 10);
-    windowKey = dateStr + '_' + SCHEDULED_WINDOWS[scheduledHour].window;
-    console.log('Manual run ->', windowKey, '(actualHour=' + actualHour + ', hktHour=' + hktHour + ')');
-}
-
-// Compute dateStr and windowKey from scheduledHour (used by both cron + fallback paths)
-const info = SCHEDULED_WINDOWS[scheduledHour];
-if (!dateStr) {
-    // Cron path: compute from cronTime
-    const cronTime = new Date();
-    const hktDate = new Date(cronTime.getTime() + 8 * 3600 * 1000);
-    hktDate.setDate(hktDate.getDate() + info.dateOffset);
-    dateStr = hktDate.toISOString().slice(0, 10);
-    windowKey = dateStr + '_' + info.window;
-}
+const dateStr = startUtc.toISOString().slice(0, 10);  // UTC date of window start
+const windowKey = dateStr + '_' + windowLabel;
+const windowStart = startUtc.toISOString();
+const windowEnd   = new Date(mStar.end_time).toISOString();
 
 // ── Build snapshot entry ──
 const snapshot = {
   windowKey,
   date: dateStr,
-  window: info.window,
+  window: windowLabel,
   windowStart: new Date(mStar.start_time).toISOString(),
   windowEnd:   new Date(mStar.end_time).toISOString(),
   capturedAt:  new Date().toISOString(),
