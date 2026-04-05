@@ -117,14 +117,17 @@ let totalUsed = 0;
 const byModel = {};
 rows.forEach(r => {
   const model = r.model || 'unknown';
+  const qty = parseInt(r.quantity || 0);
   const cost = parseFloat(r.gross_amount || 0);
-  totalUsed += cost;
-  byModel[model] = (byModel[model] || 0) + cost;
+  totalUsed += qty;
+  byModel[model] = byModel[model] || { qty: 0, cost: 0 };
+  byModel[model].qty += qty;
+  byModel[model].cost += cost;
 });
 
-totalUsed = Math.round(totalUsed * 100) / 100;
-const total = 300;
-const remaining = Math.round((total - totalUsed) * 100) / 100;
+// total_monthly_quota from first row (all rows have same quota)
+const total = parseInt(rows[0]?.total_monthly_quota || 300);
+const remaining = total - totalUsed;
 const now = new Date().toISOString();
 
 const data = {
@@ -132,14 +135,17 @@ const data = {
   _source: 'google-drive-csv',
   quota: {
     total, used: totalUsed, remaining,
-    usedPercent: Math.round(totalUsed / total * 100),
+    usedPercent: total > 0 ? Math.round(totalUsed / total * 100) : 0,
     resetDate: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1).toISOString().slice(0,10),
     warningLevel: remaining < 30 ? 'critical' : remaining < 90 ? 'warning' : 'normal'
   },
-  analysis: { totalRequests: totalUsed, byModel }
+  analysis: {
+    totalRequests: totalUsed,
+    byModel: Object.fromEntries(Object.entries(byModel).map(([m, v]) => [m, v.qty]))
+  }
 };
 fs.writeFileSync('public/copilot-data.json', JSON.stringify(data, null, 2));
-console.log('used=' + totalUsed + '/' + total);
+console.log('used=' + totalUsed + '/' + total + ' requests');
 "
   
   echo "✅ Copilot usage updated → JSON"
