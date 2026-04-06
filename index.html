@@ -70,8 +70,8 @@ body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:
 @media(max-width:600px){
   .header{padding:12px 14px}
   .header h1{font-size:.95rem}
-  .quota-grid{grid-template-columns:1fr;gap:10px}
-  .quota-card{padding:14px}
+  .detail-quota-grid{grid-template-columns:1fr;gap:10px}
+  .detail-quota-card{padding:14px}
 }
 </style>
 </head>
@@ -89,30 +89,26 @@ body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:
 
   <div class="section-title" style="margin-bottom:14px">⚡ 配額總覽</div>
 
-  <div class="quota-grid">
-    <div class="quota-card" id="card-copilot">
-      <div class="label">🤖 Copilot <span class="period">本月</span></div>
-      <div class="numbers"><span class="remaining" id="copilot-remaining">—</span> / <span id="copilot-total">300</span></div>
-      <div class="track"><div class="fill" id="copilot-bar" style="width:0%"></div></div>
-      <div class="pct" id="copilot-pct">剩餘 —%</div>
+  <div class="detail-quota-grid">
+    <!-- MiniMax Card -->
+    <div class="detail-quota-card">
+      <div class="card-label">⚡ MiniMax 配額 <span class="source-badge" id="mm-source-idx">—</span></div>
+      <div id="mm-models-idx"><div style="color:var(--dim);font-size:.8em;">載入中…</div></div>
+      <div class="quota-footer" id="mm-reset-idx"></div>
     </div>
-    <div class="quota-card" id="card-text">
-      <div class="label">⚡ M* Text <span class="period">每日</span></div>
-      <div class="numbers"><span class="remaining" id="text-remaining">—</span> / <span id="text-total">4500</span></div>
-      <div class="track"><div class="fill" id="text-bar" style="width:0%"></div></div>
-      <div class="pct" id="text-pct">剩餘 —%</div>
-    </div>
-    <div class="quota-card" id="card-speech">
-      <div class="label">🔊 Speech <span class="period">每日</span></div>
-      <div class="numbers"><span class="remaining" id="speech-remaining">—</span> / <span id="speech-total">4000</span></div>
-      <div class="track"><div class="fill" id="speech-bar" style="width:0%"></div></div>
-      <div class="pct" id="speech-pct">剩餘 —%</div>
-    </div>
-    <div class="quota-card" id="card-image">
-      <div class="label">🖼️ Image <span class="period">每日</span></div>
-      <div class="numbers"><span class="remaining" id="image-remaining">—</span> / <span id="image-total">50</span></div>
-      <div class="track"><div class="fill" id="image-bar" style="width:0%"></div></div>
-      <div class="pct" id="image-pct">剩餘 —%</div>
+    <!-- Copilot Card -->
+    <div class="detail-quota-card">
+      <div class="card-label">🤖 Copilot Premium <span class="source-badge" id="cp-badge-idx"></span></div>
+      <div class="progress-row">
+        <div class="progress-label"><span>Premium 請求</span><strong id="cp-label-idx">—</strong></div>
+        <div class="progress-track"><div class="progress-fill" id="cp-bar-idx" style="width:0%;background:var(--green)"></div></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:.7em;color:var(--dim);margin-bottom:10px">
+        <span>剩餘: <strong id="cp-remain-idx" style="color:var(--text)">—</strong></span>
+        <span>重置: <strong id="cp-reset-idx" style="color:var(--text)">—</strong></span>
+      </div>
+      <div style="font-size:.72em;color:var(--dim);margin-bottom:6px">模型用量</div>
+      <div id="cp-models-idx"><div style="color:var(--dim);font-size:.8em;">載入中…</div></div>
     </div>
   </div>
 
@@ -193,45 +189,59 @@ async function loadReadme(i) {
 }
 
 // ── Load Data on page load ──
-const remainColor = pct => pct > 50 ? 'var(--green)' : pct > 20 ? 'var(--warn)' : 'var(--danger)';
-
-function setQuotaCard(prefix, remaining, total) {
-  const used = total - remaining;
-  const usedPct = total > 0 ? Math.round(used / total * 100) : 0;
-  const remPct = total > 0 ? Math.round(remaining / total * 100) : 0;
-  const color = remainColor(remPct);
-  document.getElementById(prefix + '-remaining').textContent = remaining;
-  document.getElementById(prefix + '-total').textContent = total;
-  document.getElementById(prefix + '-bar').style.width = usedPct + '%';
-  document.getElementById(prefix + '-bar').style.background = color;
-  document.getElementById(prefix + '-pct').textContent = '剩餘 ' + remPct + '%';
-  document.getElementById(prefix + '-pct').style.color = color;
-  document.getElementById('card-' + prefix).style.borderLeftColor = color;
-}
+const pctColor = pct => pct >= 90 ? 'var(--danger)' : pct >= 70 ? 'var(--warn)' : 'var(--green)';
+const typeMap = { 'MiniMax-M*': ['tag-text','文字'], 'speech-hd': ['tag-speech','語音'], 'image-01': ['tag-image','圖像'] };
 
 async function loadData() {
   const ts = Date.now();
   const base = location.pathname.includes('/virtual-office') ? '/virtual-office' : '';
   let lastTime = null;
 
-  // MiniMax — ⚠️ current_interval_usage_count = REMAINING (field name is misleading;
-  //   it counts how many calls remain in the interval, not how many were used)
+  // MiniMax
   try {
     const res = await fetch(base + '/public/minimax-api-status.json?' + ts);
     if (res.ok) {
       const d = await res.json();
-      const models = d.raw?.model_remains || [];
-      const find = name => models.find(m => m.model_name === name);
+      const source = d._source === 'github-actions-live-api' ? '🟢 即時' : '📦 快取';
+      document.getElementById('mm-source-idx').textContent = source;
 
-      const text = find('MiniMax-M*');
-      if (text) setQuotaCard('text', text.current_interval_usage_count, text.current_interval_total_count);
+      const models = (d.allModels || []).filter(m => m.total > 0);
+      const raw = d.raw?.model_remains || [];
+      let html = '';
 
-      const speech = find('speech-hd');
-      if (speech) setQuotaCard('speech', speech.current_interval_usage_count, speech.current_interval_total_count);
+      if (models.length > 0) {
+        models.forEach(m => {
+          const pct = m.total > 0 ? Math.round(m.used / m.total * 100) : 0;
+          const color = pctColor(pct);
+          const [tagClass, tagLabel] = typeMap[m.model] || ['tag-text','其他'];
+          html += `<div class="progress-row">
+            <div class="progress-label">
+              <span><span class="tag ${tagClass}">${tagLabel}</span> ${m.model}</span>
+              <strong>${m.used} / ${m.total}</strong>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" style="width:${pct}%;background:${color}"></div>
+            </div>
+          </div>`;
+        });
+      } else if (d.quota) {
+        const q = d.quota;
+        const pct = q.usedPercent || Math.round((q.used / q.total) * 100);
+        const color = pctColor(pct);
+        html = `<div class="progress-row">
+          <div class="progress-label"><span><span class="tag tag-text">總計</span> 所有模型</span><strong>${q.used} / ${q.total}</strong></div>
+          <div class="progress-track"><div class="progress-fill" style="width:${pct}%;background:${color}"></div></div>
+        </div>`;
+      }
+      document.getElementById('mm-models-idx').innerHTML = html || '<div style="color:var(--dim);font-size:.8em;">無配額數據</div>';
 
-      const image = find('image-01');
-      if (image) setQuotaCard('image', image.current_interval_usage_count, image.current_interval_total_count);
-
+      if (raw.length > 0) {
+        const r = raw[0];
+        const resetTime = new Date(r.end_time);
+        const remainH = Math.floor(r.remains_time / 3600000);
+        const remainM = Math.floor((r.remains_time % 3600000) / 60000);
+        document.getElementById('mm-reset-idx').textContent = `重置: ${resetTime.toLocaleTimeString('zh-HK',{hour:'2-digit',minute:'2-digit'})} · 剩餘 ${remainH}h${remainM}m`;
+      }
       if (d._generatedAt) lastTime = new Date(d._generatedAt);
     }
   } catch(e) { console.log('MiniMax fetch error', e); }
@@ -241,12 +251,38 @@ async function loadData() {
     const res = await fetch(base + '/public/copilot-summary.json?' + ts);
     if (res.ok) {
       const d = await res.json();
+      // Get current month data
       const now = new Date();
       const currentMonth = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
-      const monthData = d.analysis?.byMonth?.[currentMonth] || { total: 0 };
+      const monthData = d.analysis?.byMonth?.[currentMonth] || { total: 0, byModel: {} };
+      const byModel = monthData.byModel || {};
+
       const used = monthData.total || 0;
       const total = 300;
-      setQuotaCard('copilot', total - used, total);
+      const pct = total > 0 ? Math.round(used / total * 100) : 0;
+      const remaining = total - used;
+      const barColor = pct >= 80 ? 'var(--danger)' : pct >= 50 ? 'var(--warn)' : 'var(--green)';
+
+      document.getElementById('cp-label-idx').textContent = `${used} / ${total} (${pct}%)`;
+      document.getElementById('cp-bar-idx').style.width = pct + '%';
+      document.getElementById('cp-bar-idx').style.background = barColor;
+      document.getElementById('cp-remain-idx').textContent = remaining;
+      document.getElementById('cp-reset-idx').textContent = new Date(now.getFullYear(), now.getMonth() + 1, 1).toISOString().slice(0,10);
+
+      const entries = Object.entries(byModel).sort((a,b) => b[1] - a[1]);
+      const maxVal = entries.length > 0 ? entries[0][1] : 1;
+      const colors = ['#e74c3c','#3498db','#2ecc71','#e67e22','#9b59b6','#1abc9c'];
+      document.getElementById('cp-models-idx').innerHTML = entries.length === 0
+        ? '<div style="color:var(--dim);font-size:.8em;">暫無模型資料</div>'
+        : entries.map(([model, val], i) => {
+            const w = Math.round(val / maxVal * 100);
+            return `<div class="model-row">
+              <span class="model-name">${model}</span>
+              <div class="model-bar-wrap"><div class="model-bar-fill" style="width:${w}%;background:${colors[i%colors.length]}"></div></div>
+              <span class="model-val">${val}</span>
+            </div>`;
+          }).join('');
+
       if (d._generatedAt) lastTime = new Date(d._generatedAt);
     }
   } catch(e) { console.log('Copilot fetch error', e); }
