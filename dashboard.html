@@ -269,19 +269,15 @@
             <!-- Model Filter Tabs -->
             <div class="model-filter-tabs">
                 <button class="model-filter-btn active" data-filter="all" onclick="setModelFilter('all')">全部</button>
-                <button class="model-filter-btn" data-filter="M2.7" onclick="setModelFilter('M2.7')">M2.7</button>
+                <button class="model-filter-btn" data-filter="M2.7" onclick="setModelFilter('M2.7')">M2.5/M2.7</button>
                 <button class="model-filter-btn" data-filter="Image-01" onclick="setModelFilter('Image-01')">Image-01</button>
                 <button class="model-filter-btn" data-filter="Hailuo" onclick="setModelFilter('Hailuo')">Hailuo</button>
                 <button class="model-filter-btn" data-filter="Speech" onclick="setModelFilter('Speech')">Speech</button>
             </div>
             <!-- Charts -->
             <div class="charts-row" id="tk-charts">
-                <div class="chart-box">
-                    <div class="chart-title">🏆 Top Models</div>
-                    <div id="tk-model-chart"></div>
-                </div>
-                <div class="chart-box">
-                    <div class="chart-title">📈 Daily Trend (Last 7 Days)</div>
+                <div class="chart-box" style="flex:1;">
+                    <div class="chart-title">📈 Trend</div>
                     <div class="trend-wrap">
                         <div class="trend-bars" id="tk-trend-bars"></div>
                         <div class="trend-labels" id="tk-trend-labels"></div>
@@ -300,6 +296,7 @@
                     <button class="agg-btn" id="agg-hourly" onclick="setAggMode('hourly')">Hourly</button>
                     <button class="agg-btn active" id="agg-daily" onclick="setAggMode('daily')">Daily</button>
                     <button class="agg-btn" id="agg-weekly" onclick="setAggMode('weekly')">Weekly</button>
+                    <button class="agg-btn" id="agg-monthly" onclick="setAggMode('monthly')">Monthly</button>
                 </div>
             </div>
             <div style="overflow-x:auto;">
@@ -573,6 +570,7 @@
     let tkPageSize = 50;
     let tkModelFilter = 'all';
     let tkAggMode = (localStorage.getItem('tkAggMode') || 'daily');
+    const AGG_MODES = ['hourly','daily','weekly','monthly'];
 
     function recDate(r) { return r.consumptionTime ? r.consumptionTime.substring(0, 10) : null; }
     function recMonth(r) { const d = recDate(r); return d ? d.substring(0, 7) : null; }
@@ -691,7 +689,7 @@
     function setAggMode(mode) {
         tkAggMode = mode;
         localStorage.setItem('tkAggMode', mode);
-        ['hourly','daily','weekly'].forEach(m => $('agg-'+m).classList.toggle('active', m === mode));
+        AGG_MODES.forEach(m => $('agg-'+m).classList.toggle('active', m === mode));
         tokenPage = 1;
         applyModelAndAgg();
     }
@@ -715,7 +713,16 @@
         records.forEach(r => {
             const date = recDate(r);
             const model = (r.consumedModel || 'unknown').replace('MiniMax-','');
-            const groupDate = mode === 'daily' ? (date || 'unknown') : (date ? dateToWeek(date) : 'unknown');
+            let groupDate;
+            if (mode === 'daily') {
+                groupDate = date || 'unknown';
+            } else if (mode === 'weekly') {
+                groupDate = date ? dateToWeek(date) : 'unknown';
+            } else if (mode === 'monthly') {
+                groupDate = date ? (date.substring(0,7)) : 'unknown';
+            } else {
+                groupDate = date || 'unknown';
+            }
             const key = groupDate + '|' + model;
             if (!grouped[key]) {
                 grouped[key] = { _date: groupDate, _model: model, inputUsageQuantity: 0, outputUsageQuantity: 0, totalUsageQuantity: 0, _apis: new Set(), _count: 0 };
@@ -1002,7 +1009,7 @@
 
     // ===== Init =====
     // Restore saved aggregation mode button state
-    ['hourly','daily','weekly'].forEach(m => { const b = $('agg-'+m); if (b) b.classList.toggle('active', m === tkAggMode); });
+    AGG_MODES.forEach(m => { const b = $('agg-'+m); if (b) b.classList.toggle('active', m === tkAggMode); });
     loadCopilotDetail();
     loadTokenDetail();
     loadQuotaHistory();
