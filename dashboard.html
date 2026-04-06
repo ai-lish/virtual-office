@@ -887,18 +887,8 @@
             const data = await res.json();
             histEntries = data.entries || [];
 
-            // Sort by actual window time: 21-01 window belongs to its START date
-            // Use windowStart (which is in UTC) for proper chronological sorting
-            const WINDOW_ORDER = { '01-06': 1, '06-11': 2, '11-16': 3, '16-21': 4, '21-01': 5 };
-            histEntries.sort((a, b) => {
-                // Primary: date descending
-                const dateCmp = b.date.localeCompare(a.date);
-                if (dateCmp !== 0) return dateCmp;
-                // Secondary: window order (21-01 first within same date, as it starts in the evening)
-                const wA = WINDOW_ORDER[a.window] || 0;
-                const wB = WINDOW_ORDER[b.window] || 0;
-                return wB - wA; // 21-01 before 16-21 before ... before 01-06
-            });
+            // Sort by capturedAt descending — most recently captured = most relevant
+            histEntries.sort((a, b) => new Date(b.capturedAt) - new Date(a.capturedAt));
 
             const dates = new Set(histEntries.map(e => e.date));
             const sortedDates = [...dates].sort().reverse();
