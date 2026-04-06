@@ -79,6 +79,35 @@
             [style*="overflow-x:auto"], div[style*="overflow-x: auto"] { overflow-x:auto; -webkit-overflow-scrolling:touch; }
             .tab-btn { flex:0 0 auto; font-size:0.75em; padding:10px 8px; }
         }
+        /* ===== Model Filter Tabs ===== */
+        .model-filter-tabs { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; }
+        .model-filter-btn { padding:5px 14px; border-radius:20px; border:1px solid rgba(255,255,255,0.15); background:transparent; color:var(--text2); font-size:0.78em; font-weight:500; cursor:pointer; font-family:inherit; transition:all 0.2s; }
+        .model-filter-btn:hover { border-color:var(--orange); color:var(--orange); }
+        .model-filter-btn.active { background:var(--orange); color:#fff; border-color:var(--orange); }
+        /* ===== Aggregation Toggle ===== */
+        .agg-toggle { display:flex; border:1px solid rgba(255,255,255,0.15); border-radius:8px; overflow:hidden; }
+        .agg-btn { padding:5px 12px; background:transparent; color:var(--text2); border:none; border-right:1px solid rgba(255,255,255,0.1); font-size:0.78em; font-weight:500; cursor:pointer; font-family:inherit; transition:all 0.2s; }
+        .agg-btn:last-child { border-right:none; }
+        .agg-btn:hover { color:var(--text); background:rgba(255,255,255,0.04); }
+        .agg-btn.active { background:rgba(52,152,219,0.2); color:var(--blue); }
+        /* ===== Charts ===== */
+        .charts-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:16px; }
+        @media(max-width:600px) { .charts-row { grid-template-columns:1fr; } }
+        .chart-box { background:var(--bar-bg); border-radius:10px; padding:14px; }
+        .chart-title { font-size:0.75em; color:var(--text2); font-weight:600; margin-bottom:10px; text-transform:uppercase; letter-spacing:0.5px; }
+        .hbar-row { display:flex; align-items:center; gap:8px; margin-bottom:7px; font-size:0.75em; }
+        .hbar-label { min-width:70px; max-width:70px; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .hbar-track { flex:1; height:8px; background:rgba(255,255,255,0.06); border-radius:4px; overflow:hidden; }
+        .hbar-fill { height:100%; border-radius:4px; transition:width 0.5s ease; }
+        .hbar-val { min-width:42px; text-align:right; color:var(--text2); font-variant-numeric:tabular-nums; }
+        .trend-wrap { position:relative; }
+        .trend-bars { display:flex; align-items:flex-end; gap:3px; height:68px; }
+        .trend-bar { flex:1; border-radius:3px 3px 0 0; min-width:6px; position:relative; cursor:default; transition:opacity 0.2s; }
+        .trend-bar:hover { opacity:1 !important; }
+        .trend-bar::after { content:attr(data-tip); display:none; position:absolute; bottom:calc(100% + 5px); left:50%; transform:translateX(-50%); background:#1a2744; border:1px solid rgba(255,255,255,0.15); color:#fff; padding:3px 8px; border-radius:5px; font-size:0.68em; white-space:nowrap; z-index:10; pointer-events:none; }
+        .trend-bar:hover::after { display:block; }
+        .trend-labels { display:flex; gap:3px; margin-top:4px; }
+        .trend-label-item { flex:1; text-align:center; font-size:0.6em; color:var(--text2); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
         /* ===== Tab Nav ===== */
         .tab-nav { display:flex; background:#0d1b30; border-bottom:1px solid rgba(255,255,255,0.08); position:sticky; top:55px; z-index:90; overflow-x:auto; scrollbar-width:none; }
         .tab-nav::-webkit-scrollbar { display:none; }
@@ -225,7 +254,7 @@
                 <div class="card-title">📊 MiniMax 使用明細</div>
                 <span id="tk-range" class="badge" style="background:rgba(230,126,34,0.15);color:var(--orange);"></span>
             </div>
-            <div class="filter-row" style="margin-bottom:14px;">
+            <div class="filter-row" style="margin-bottom:10px;">
                 <select class="month-select" id="tk-filter-mode" onchange="tkFilterModeChanged()">
                     <option value="month">按月份</option>
                     <option value="week">按星期</option>
@@ -236,6 +265,33 @@
                 </select>
                 <input type="date" class="month-select" id="tk-date-picker" onchange="applyTokenFilter()" style="display:none;">
                 <input type="week" class="month-select" id="tk-week-picker" onchange="applyTokenFilter()" style="display:none;">
+                <div class="agg-toggle">
+                    <button class="agg-btn" id="agg-hourly" onclick="setAggMode('hourly')">Hourly</button>
+                    <button class="agg-btn active" id="agg-daily" onclick="setAggMode('daily')">Daily</button>
+                    <button class="agg-btn" id="agg-weekly" onclick="setAggMode('weekly')">Weekly</button>
+                </div>
+            </div>
+            <!-- Model Filter Tabs -->
+            <div class="model-filter-tabs">
+                <button class="model-filter-btn active" data-filter="all" onclick="setModelFilter('all')">全部</button>
+                <button class="model-filter-btn" data-filter="M2.7" onclick="setModelFilter('M2.7')">M2.7</button>
+                <button class="model-filter-btn" data-filter="Image-01" onclick="setModelFilter('Image-01')">Image-01</button>
+                <button class="model-filter-btn" data-filter="Hailuo" onclick="setModelFilter('Hailuo')">Hailuo</button>
+                <button class="model-filter-btn" data-filter="Speech" onclick="setModelFilter('Speech')">Speech</button>
+            </div>
+            <!-- Charts -->
+            <div class="charts-row" id="tk-charts">
+                <div class="chart-box">
+                    <div class="chart-title">🏆 Top Models</div>
+                    <div id="tk-model-chart"></div>
+                </div>
+                <div class="chart-box">
+                    <div class="chart-title">📈 Daily Trend (Last 7 Days)</div>
+                    <div class="trend-wrap">
+                        <div class="trend-bars" id="tk-trend-bars"></div>
+                        <div class="trend-labels" id="tk-trend-labels"></div>
+                    </div>
+                </div>
             </div>
             <div id="tk-compare" style="display:none;"></div>
             <div class="stats-grid" id="tk-stats" style="margin-bottom:16px;">
@@ -246,7 +302,7 @@
             </div>
             <div style="overflow-x:auto;">
                 <table class="data-table">
-                    <thead>
+                    <thead id="tk-thead">
                         <tr>
                             <th>時間</th>
                             <th>模型</th>
@@ -508,9 +564,13 @@
 
     // ===== Token Detail with Filter Modes =====
     let allRecords = [];
-    let filteredRecords = [];
+    let baseFilteredRecords = []; // records after date/period filter only
+    let filteredRecords = [];     // records after date/period + model filter (raw)
+    let displayRecords = [];      // records after aggregation (for table display)
     let tokenPage = 1;
     let tkPageSize = 50;
+    let tkModelFilter = 'all';
+    let tkAggMode = (localStorage.getItem('tkAggMode') || 'daily');
 
     function recDate(r) { return r.consumptionTime ? r.consumptionTime.substring(0, 10) : null; }
     function recMonth(r) { const d = recDate(r); return d ? d.substring(0, 7) : null; }
@@ -580,53 +640,147 @@
         if (mode === 'month') {
             tkPageSize = 50;
             const month = $('month-select').value;
-            filteredRecords = month === 'all' ? allRecords : allRecords.filter(r => recMonth(r) === month);
+            baseFilteredRecords = month === 'all' ? allRecords : allRecords.filter(r => recMonth(r) === month);
             $('tk-compare').style.display = 'none';
             $('tk-stats').style.display = '';
         } else if (mode === 'date') {
             tkPageSize = 10;
             const picked = $('tk-date-picker').value;
-            if (!picked) { filteredRecords = []; renderTokenPage(); return; }
+            if (!picked) { baseFilteredRecords = []; applyModelAndAgg(); return; }
             const prev = addDays(picked, -1), next = addDays(picked, 1);
-            filteredRecords = filterRecordsByDateRange(picked, picked);
+            baseFilteredRecords = filterRecordsByDateRange(picked, picked);
             renderCompare([
-                { title: '前一天 ' + prev, records: filterRecordsByDateRange(prev, prev) },
-                { title: '📍 ' + picked, records: filterRecordsByDateRange(picked, picked), active: true },
-                { title: '後一天 ' + next, records: filterRecordsByDateRange(next, next) }
+                { title: '前一天 ' + prev, records: applyModelFilter(filterRecordsByDateRange(prev, prev)) },
+                { title: '📍 ' + picked, records: applyModelFilter(filterRecordsByDateRange(picked, picked)), active: true },
+                { title: '後一天 ' + next, records: applyModelFilter(filterRecordsByDateRange(next, next)) }
             ]);
             $('tk-stats').style.display = 'none';
         } else if (mode === 'week') {
             tkPageSize = 20;
             const picked = $('tk-week-picker').value;
-            if (!picked) { filteredRecords = []; renderTokenPage(); return; }
+            if (!picked) { baseFilteredRecords = []; applyModelAndAgg(); return; }
             const cur = weekToRange(picked);
             const prevStart = addDays(cur.start, -7), prevEnd = addDays(cur.start, -1);
             const nextStart = addDays(cur.end, 1), nextEnd = addDays(cur.end, 7);
-            filteredRecords = filterRecordsByDateRange(cur.start, cur.end);
+            baseFilteredRecords = filterRecordsByDateRange(cur.start, cur.end);
             renderCompare([
-                { title: '前一週 ' + prevStart + '~' + prevEnd, records: filterRecordsByDateRange(prevStart, prevEnd) },
-                { title: '📍 ' + cur.start + '~' + cur.end, records: filterRecordsByDateRange(cur.start, cur.end), active: true },
-                { title: '後一週 ' + nextStart + '~' + nextEnd, records: filterRecordsByDateRange(nextStart, nextEnd) }
+                { title: '前一週 ' + prevStart + '~' + prevEnd, records: applyModelFilter(filterRecordsByDateRange(prevStart, prevEnd)) },
+                { title: '📍 ' + cur.start + '~' + cur.end, records: applyModelFilter(filterRecordsByDateRange(cur.start, cur.end)), active: true },
+                { title: '後一週 ' + nextStart + '~' + nextEnd, records: applyModelFilter(filterRecordsByDateRange(nextStart, nextEnd)) }
             ]);
             $('tk-stats').style.display = 'none';
         }
 
-        if (mode === 'month') {
-            const s = calcStats(filteredRecords);
-            $('tk-count').textContent = fmtNum(s.count);
-            $('tk-input').textContent = fmtNum(s.input);
-            $('tk-output').textContent = fmtNum(s.output);
-            const mc = {}; filteredRecords.forEach(r => { const m = r.consumedModel||'unknown'; mc[m]=(mc[m]||0)+1; });
-            const top = Object.entries(mc).sort((a,b)=>b[1]-a[1])[0];
-            $('tk-model').textContent = top ? top[0].replace('MiniMax-','') : '—';
-        }
-
-        if (filteredRecords.length > 0) {
-            const first = filteredRecords[filteredRecords.length - 1], last = filteredRecords[0];
+        if (baseFilteredRecords.length > 0) {
+            const first = baseFilteredRecords[baseFilteredRecords.length - 1], last = baseFilteredRecords[0];
             $('tk-range').textContent = (recDate(first)||'') + ' → ' + (recDate(last)||'');
         } else { $('tk-range').textContent = ''; }
 
+        applyModelAndAgg();
+    }
+
+    function setModelFilter(f) {
+        tkModelFilter = f;
+        document.querySelectorAll('.model-filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === f));
+        tokenPage = 1;
+        applyModelAndAgg();
+    }
+
+    function setAggMode(mode) {
+        tkAggMode = mode;
+        localStorage.setItem('tkAggMode', mode);
+        ['hourly','daily','weekly'].forEach(m => $('agg-'+m).classList.toggle('active', m === mode));
+        tokenPage = 1;
+        applyModelAndAgg();
+    }
+
+    function applyModelFilter(records) {
+        if (tkModelFilter === 'all') return records;
+        const f = tkModelFilter.toLowerCase();
+        return records.filter(r => {
+            const model = (r.consumedModel || '').toLowerCase();
+            const api = (r.consumedApi || '').toLowerCase();
+            if (f === 'speech') return model.includes('speech') || api.includes('speech') || api.includes('audio');
+            if (f === 'hailuo') return model.includes('hailuo');
+            if (f === 'image-01') return model.includes('image') || model.includes('vlm') || api.includes('image');
+            return model.includes(f.replace('-',''));
+        });
+    }
+
+    function aggregateRecords(records, mode) {
+        if (mode === 'hourly') return records;
+        const grouped = {};
+        records.forEach(r => {
+            const date = recDate(r);
+            const model = (r.consumedModel || 'unknown').replace('MiniMax-','');
+            const groupDate = mode === 'daily' ? (date || 'unknown') : (date ? dateToWeek(date) : 'unknown');
+            const key = groupDate + '|' + model;
+            if (!grouped[key]) {
+                grouped[key] = { _date: groupDate, _model: model, inputUsageQuantity: 0, outputUsageQuantity: 0, totalUsageQuantity: 0, _apis: new Set(), _count: 0 };
+            }
+            const g = grouped[key];
+            g.inputUsageQuantity += r.inputUsageQuantity || 0;
+            g.outputUsageQuantity += r.outputUsageQuantity || 0;
+            g.totalUsageQuantity += r.totalUsageQuantity || 0;
+            if (r.consumedApi) g._apis.add(r.consumedApi.replace('(Text API)','').trim());
+            g._count++;
+        });
+        return Object.values(grouped).sort((a, b) => b._date.localeCompare(a._date));
+    }
+
+    function applyModelAndAgg() {
+        filteredRecords = applyModelFilter(baseFilteredRecords);
+        displayRecords = aggregateRecords(filteredRecords, tkAggMode);
+        updateTkStatsDisplay();
+        renderMiniMaxCharts(filteredRecords);
         renderTokenPage();
+    }
+
+    function updateTkStatsDisplay() {
+        if ($('tk-stats').style.display === 'none') return;
+        const s = calcStats(filteredRecords);
+        $('tk-count').textContent = fmtNum(s.count);
+        $('tk-input').textContent = fmtNum(s.input);
+        $('tk-output').textContent = fmtNum(s.output);
+        const mc = {};
+        filteredRecords.forEach(r => { const m = r.consumedModel||'unknown'; mc[m]=(mc[m]||0)+1; });
+        const top = Object.entries(mc).sort((a,b)=>b[1]-a[1])[0];
+        $('tk-model').textContent = top ? top[0].replace('MiniMax-','') : '—';
+    }
+
+    function renderMiniMaxCharts(records) {
+        // Top Models horizontal bar chart
+        const modelTotals = {};
+        records.forEach(r => {
+            const model = (r.consumedModel || 'unknown').replace('MiniMax-','');
+            modelTotals[model] = (modelTotals[model] || 0) + (r.totalUsageQuantity || 0);
+        });
+        const sortedModels = Object.entries(modelTotals).sort((a,b) => b[1]-a[1]).slice(0, 5);
+        const maxVal = sortedModels.length > 0 ? sortedModels[0][1] : 1;
+        const barColors = ['var(--orange)','var(--blue)','var(--green)','#9b59b6','var(--warn)'];
+        $('tk-model-chart').innerHTML = sortedModels.length === 0
+            ? '<div style="color:var(--text2);font-size:0.8em;padding:8px 0;">無資料</div>'
+            : sortedModels.map(([model, val], i) => `<div class="hbar-row">
+                <div class="hbar-label" title="${model}">${model}</div>
+                <div class="hbar-track"><div class="hbar-fill" style="width:${Math.round(val/maxVal*100)}%;background:${barColors[i%barColors.length]};"></div></div>
+                <div class="hbar-val">${fmtNum(val)}</div>
+            </div>`).join('');
+
+        // Daily Trend for last 7 days
+        const sortedDates = records.map(r => recDate(r)).filter(Boolean).sort();
+        const latestDate = sortedDates.length > 0 ? sortedDates[sortedDates.length-1] : new Date().toISOString().substring(0,10);
+        const days = [];
+        for (let i = 6; i >= 0; i--) days.push(addDays(latestDate, -i));
+        const dayTotals = {};
+        records.forEach(r => { const d = recDate(r); if (d) dayTotals[d] = (dayTotals[d]||0) + (r.totalUsageQuantity||0); });
+        const vals = days.map(d => dayTotals[d] || 0);
+        const maxDay = Math.max(...vals, 1);
+        $('tk-trend-bars').innerHTML = vals.map((v, i) => {
+            const heightPct = v > 0 ? Math.max(Math.round(v/maxDay*100), 6) : 2;
+            const opacity = v > 0 ? (0.35 + 0.65*(v/maxDay)).toFixed(2) : '0.15';
+            return `<div class="trend-bar" style="height:${heightPct}%;background:var(--blue);opacity:${opacity};" data-tip="${days[i]}: ${fmtNum(v)}"></div>`;
+        }).join('');
+        $('tk-trend-labels').innerHTML = days.map(d => `<div class="trend-label-item">${d.substring(5)}</div>`).join('');
     }
 
     function renderCompare(periods) {
@@ -648,26 +802,55 @@
     function renderTokenPage() {
         const start = (tokenPage - 1) * tkPageSize;
         const end = start + tkPageSize;
-        const page = filteredRecords.slice(start, end);
-        const totalPages = Math.ceil(filteredRecords.length / tkPageSize) || 1;
+        const page = displayRecords.slice(start, end);
+        const totalPages = Math.ceil(displayRecords.length / tkPageSize) || 1;
 
+        const thead = $('tk-thead');
         const tbody = $('tk-body');
-        if (page.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text2);padding:24px;">無資料</td></tr>';
+
+        if (tkAggMode === 'hourly') {
+            thead.innerHTML = `<tr>
+                <th>時間</th><th>模型</th>
+                <th class="num">Input</th><th class="num">Output</th><th class="num">Total</th>
+                <th>API</th>
+            </tr>`;
+            if (page.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text2);padding:24px;">無資料</td></tr>';
+            } else {
+                tbody.innerHTML = page.map(r => {
+                    const time = r.consumptionTime || '—';
+                    const model = (r.consumedModel || '').replace('MiniMax-','');
+                    const api = (r.consumedApi || '').replace('(Text API)','').trim();
+                    return `<tr>
+                        <td>${time}</td><td>${model}</td>
+                        <td class="num">${fmtNum(r.inputUsageQuantity || 0)}</td>
+                        <td class="num">${fmtNum(r.outputUsageQuantity || 0)}</td>
+                        <td class="num">${fmtNum(r.totalUsageQuantity || 0)}</td>
+                        <td style="color:var(--text2);font-size:0.9em;">${api}</td>
+                    </tr>`;
+                }).join('');
+            }
         } else {
-            tbody.innerHTML = page.map(r => {
-                const time = r.consumptionTime || '—';
-                const model = (r.consumedModel || '').replace('MiniMax-','');
-                const api = (r.consumedApi || '').replace('(Text API)','').trim();
-                return `<tr>
-                    <td>${time}</td>
-                    <td>${model}</td>
-                    <td class="num">${fmtNum(r.inputUsageQuantity || 0)}</td>
-                    <td class="num">${fmtNum(r.outputUsageQuantity || 0)}</td>
-                    <td class="num">${fmtNum(r.totalUsageQuantity || 0)}</td>
-                    <td style="color:var(--text2);font-size:0.9em;">${api}</td>
-                </tr>`;
-            }).join('');
+            const timeLabel = tkAggMode === 'weekly' ? '週次' : '日期';
+            thead.innerHTML = `<tr>
+                <th>${timeLabel}</th><th>模型</th>
+                <th class="num">Total Tokens</th><th class="num">Input</th><th class="num">Output</th>
+                <th>API Types</th>
+            </tr>`;
+            if (page.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text2);padding:24px;">無資料</td></tr>';
+            } else {
+                tbody.innerHTML = page.map(r => {
+                    const apis = [...(r._apis || [])].join(', ') || '—';
+                    return `<tr>
+                        <td>${r._date || '—'}</td><td>${r._model || '—'}</td>
+                        <td class="num" style="color:var(--orange);font-weight:600;">${fmtNum(r.totalUsageQuantity || 0)}</td>
+                        <td class="num" style="color:var(--blue);">${fmtNum(r.inputUsageQuantity || 0)}</td>
+                        <td class="num" style="color:var(--green);">${fmtNum(r.outputUsageQuantity || 0)}</td>
+                        <td style="color:var(--text2);font-size:0.85em;">${apis}</td>
+                    </tr>`;
+                }).join('');
+            }
         }
 
         const pg = $('tk-pagination');
@@ -678,12 +861,12 @@
         for (let i = pStart; i <= pEnd; i++) pgHtml += `<button onclick="goPage(${i})" class="${i===tokenPage?'active':''}">${i}</button>`;
         pgHtml += `<button onclick="goPage(${tokenPage+1})" ${tokenPage>=totalPages?'disabled':''}>›</button>`;
         pgHtml += `<button onclick="goPage(${totalPages})" ${tokenPage>=totalPages?'disabled':''}>»</button>`;
-        pgHtml += `<span class="info">${filteredRecords.length > 0 ? (start+1)+'-'+Math.min(end,filteredRecords.length)+' / '+filteredRecords.length : '0'}</span>`;
+        pgHtml += `<span class="info">${displayRecords.length > 0 ? (start+1)+'-'+Math.min(end,displayRecords.length)+' / '+displayRecords.length : '0'}</span>`;
         pg.innerHTML = pgHtml;
     }
 
     function goPage(p) {
-        const totalPages = Math.ceil(filteredRecords.length / tkPageSize) || 1;
+        const totalPages = Math.ceil(displayRecords.length / tkPageSize) || 1;
         tokenPage = Math.max(1, Math.min(p, totalPages));
         renderTokenPage();
         $('token-card').scrollIntoView({behavior:'smooth', block:'start'});
@@ -826,6 +1009,8 @@
     }
 
     // ===== Init =====
+    // Restore saved aggregation mode button state
+    ['hourly','daily','weekly'].forEach(m => { const b = $('agg-'+m); if (b) b.classList.toggle('active', m === tkAggMode); });
     loadCopilotDetail();
     loadTokenDetail();
     loadQuotaHistory();
