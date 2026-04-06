@@ -255,16 +255,6 @@
                 <span id="tk-range" class="badge" style="background:rgba(230,126,34,0.15);color:var(--orange);"></span>
             </div>
             <div class="filter-row" style="margin-bottom:10px;">
-                <select class="month-select" id="tk-filter-mode" onchange="tkFilterModeChanged()">
-                    <option value="month">按月份</option>
-                    <option value="week">按星期</option>
-                    <option value="date">按日期</option>
-                </select>
-                <select class="month-select" id="month-select" onchange="applyTokenFilter()" style="display:inline-block;">
-                    <option value="all">全部月份</option>
-                </select>
-                <input type="date" class="month-select" id="tk-date-picker" onchange="applyTokenFilter()" style="display:none;">
-                <input type="week" class="month-select" id="tk-week-picker" onchange="applyTokenFilter()" style="display:none;">
                 <div class="agg-toggle">
                     <button class="agg-btn" id="agg-hourly" onclick="setAggMode('hourly')">Hourly</button>
                     <button class="agg-btn active" id="agg-daily" onclick="setAggMode('daily')">Daily</button>
@@ -299,6 +289,18 @@
                 <div class="stat-box"><div class="label">Input Tokens</div><div class="value" id="tk-input" style="color:var(--blue);">—</div></div>
                 <div class="stat-box"><div class="label">Output Tokens</div><div class="value" id="tk-output" style="color:var(--green);">—</div></div>
                 <div class="stat-box"><div class="label">主要模型</div><div class="value" id="tk-model" style="color:var(--orange);">—</div></div>
+            </div>
+            <div class="filter-row" style="margin-bottom:10px;">
+                <select class="month-select" id="tk-filter-mode" onchange="tkFilterModeChanged()">
+                    <option value="month">按月份</option>
+                    <option value="week">按星期</option>
+                    <option value="date">按日期</option>
+                </select>
+                <select class="month-select" id="month-select" onchange="applyTokenFilter()" style="display:inline-block;">
+                    <option value="all">全部月份</option>
+                </select>
+                <input type="date" class="month-select" id="tk-date-picker" onchange="applyTokenFilter()" style="display:none;">
+                <input type="week" class="month-select" id="tk-week-picker" onchange="applyTokenFilter()" style="display:none;">
             </div>
             <div style="overflow-x:auto;">
                 <table class="data-table">
