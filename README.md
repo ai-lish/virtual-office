@@ -41,33 +41,25 @@ Two single-file apps (HTML + CSS + JS). No build step.
 
 **Tab: 配額歷史 (Quota History)**
 - Date filter (全部日期)
-- Stats summary:
-  - 平均 M* 用量 (per window)
-  - 平均 M* 使用率 (%)
-  - 平均 Speech 用量 (per day)
-  - 平均 Image 用量 (per day)
+- Stats summary: average usage and percentages per model
 - History table with columns: 日期, 時段, M* 已用, M* 總計, M* %, Speech 已用, Image 已用, 擷取時間
 - Pagination support
 
 **Tab: Copilot 使用明細 (Copilot Details)**
-- Filter 順序：按月份 → 按星期 → 按日期
-- **按月份**：
-  - 全部月份 = 顯示所有記錄（paginated）
-  - 選擇某月 = 顯示 3 行 x 4 欄比較表格（上月 / 今月★ / 下月）
-- **按星期**：顯示 3 行 x 4 欄比較表格（上週 / 本週★ / 下週）
-- **按日期**：顯示 3 行 x 4 欄比較表格（上日 / 今日★ / 下日）
-- 比較表格：每行顯示 總 / Opus / Sonnet / 其他
-- Pagination（每頁 20 項）
+- Filter: 按月份 / 按星期 / 按日期
+- Comparison table (上 / 今 / 下) for selected period
+- Pagination (page size configurable)
 
 **Tab: MiniMax 使用明細 (MiniMax Details)**
-- Token usage analysis
-- Per-model breakdown
+- Token usage analysis (aggregatable Hourly / Daily / Weekly)
+- Per-model breakdown; trend charts (daily/weekly/monthly) with one line per model
+- 上/今/下 比較表（table format）由 tk-filter-mode 控制
+- Detail table aggregation controlled by Hourly/Daily/Weekly toggle placed above the table
 
 **Data Sources:**
-- `/public/quota-history.json` — MiniMax window snapshots
-- `/public/copilot-summary.json` — Copilot 所有月份記錄（統一數據源）
-- `/public/token-log.json` — MiniMax token usage log
-
+- `public/minimax-api-status.json` — MiniMax API realtime snapshot
+- `public/token-log.json` — MiniMax token usage log (generated from CSV)
+- `public/copilot-summary.json` — Copilot unified data (for Copilot tab)
 
 ---
 
@@ -88,23 +80,50 @@ Two single-file apps (HTML + CSS + JS). No build step.
 | `dashboard.html` | Analysis dashboard (HTML + CSS + JS) |
 | `public/minimax-api-status.json` | Live MiniMax quota snapshot |
 | `public/quota-history.json` | Historical quota snapshots (window-based, 90-day retention) |
-| `public/copilot-summary.json` | Copilot unified data (all months, unified source for index+dashboard) |
+| `public/token-log.json` | MiniMax token usage log (CSV → JSON) |
+| `scripts/csv-to-token-log.js` | Convert export_bill_*.csv → public/token-log.json |
 
 ---
 
 ## 🤖 MiniMax Quota Monitoring
 
-### Data Flow
+### Data Flow (updated)
+```
+Google Drive (Minimax Token CSVs, export_bill_*.csv)
+    ↓  (gog drive download / manual drop to data/)
+virtual-office/data/export_bill_*.csv
+    ↓  node scripts/csv-to-token-log.js (merge + dedupe)
+public/token-log.json  ← dashboard.html 讀此檔顯示明細與趨勢
+
+miniMax API /v1/api/openplatform/coding_plan/remains
+    ↓  scripts/refresh-data.sh
+public/minimax-api-status.json (live quota snapshot)
+    ↓  scripts/update-quota-history.sh
+public/quota-history.json (history)
+```
+
+### Google Drive (Minimax Token folder)
+- Folder ID: `1k2CbG1Z2lvOLl-szMt8YT5P5NaWD0T5Y` (Minimax Token)
+- CSV files: `export_bill_*.csv` (hourly consumption rows)
+- Local storage: `virtual-office/data/`
+
+### CSV → JSON
+- Script: `node scripts/csv-to-token-log.js`
+- Behavior: reads all `data/export_bill_*.csv`, normalizes columns, deduplicates by `consumptionTime + consumedApi + consumedModel`, writes `public/token-log.json` with structure used by dashboard
+- Run manually: `node scripts/csv-to-token-log.js`
+
+---
+
+## 🔁 Refresh / Cron
+
+Cron (launchctl) triggers the data refresh and commit pipeline:
 ```
 launchctl cron (HKT 07:55/12:55/17:55/22:55/03:55)
   → scripts/minimax-cron.sh
     → scripts/refresh-data.sh minimax
-      → MiniMax API /v1/api/openplatform/coding_plan/remains
-      → public/minimax-api-status.json (live)
-      → Google Sheet (MiniMax QUOTA)
-      → scripts/update-quota-history.sh
-        → public/quota-history.json (history)
-    → git commit + push
+      → calls API, updates minimax-api-status.json
+      → downloads new CSVs to data/ and runs csv-to-token-log.js
+      → updates public/token-log.json and pushes to repo
 ```
 
 ### Cron Schedule (HKT)
@@ -116,30 +135,41 @@ launchctl cron (HKT 07:55/12:55/17:55/22:55/03:55)
 | 22:55 | 14:55 | 11-16 |
 | 03:55 | 19:55 | 16-21 |
 
-### launchctl
-```bash
-launchctl list | grep minimax  # check status
-launchctl unload/load ~/Library/LaunchAgents/ai.openclaw.minimax-cron.plist  # reload
-```
-
 ### Manual Refresh
 ```bash
 cd virtual-office && bash scripts/refresh-data.sh minimax
+# or: node scripts/csv-to-token-log.js
 ```
-
-### Key Scripts
-| Script | Purpose |
-|--------|---------|
-| `scripts/refresh-data.sh` | Fetches API, writes JSON + Sheet |
-| `scripts/update-quota-history.sh` | Deduplicates + appends to history |
-| `scripts/minimax-cron.sh` | Cron wrapper: refresh + git commit/push |
 
 ---
 
-## 🚀 Run
+## 🧪 Testing
 
+### Local smoke / E2E
+- Use Playwright to run smoke tests (script provided in `scripts/tests/` or spawn the tester skill)
+- Example (local):
 ```bash
-npx serve .
-# or
-python3 -m http.server 8080
+node scripts/tests/playwright-smoke.js
 ```
+
+### Tester Skill
+- `workspace/skills/minimax-test/SKILL.md` — instructions to spawn a tester subagent (T仔) to run CSV→JSON verification, Playwright smoke, and optional burst tests.
+
+---
+
+## ⚠️ Security & Notes
+
+- Do **NOT** commit API keys, Google Drive OAuth tokens, or private CSV files to the public repo.
+- Use local keychain or CI secrets for credentials used by `gog` and refresh scripts.
+- Fetching JSON files via `file://` will fail in browsers due to fetch security — use a local HTTP server for local testing (e.g., `python3 -m http.server` or `npx http-server`).
+
+---
+
+## Changelog (short)
+- `feat`: CSV→JSON pipeline added (scripts/csv-to-token-log.js) — generates `public/token-log.json`
+- `feat`: MiniMax tab enhancements — aggregation toggle, trend chart, model filter
+- `fix`: Homepage quota grid parsing (PR #10) — `current_interval_usage_count` interpreted as remaining quota
+
+---
+
+If you want I can create a small PR that only updates README.md with this content (so you can review). I can also commit directly to main if you prefer.
