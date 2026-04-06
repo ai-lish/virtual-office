@@ -207,6 +207,12 @@ main().catch(e => console.error('Error:', e));
 refresh_token() {
   echo "📊 Refreshing Minimax token usage from Google Drive..."
   FOLDER="1k2CbG1Z2lvOLl-szMt8YT5P5NaWD0T5Y"
+
+  # Also regenerate token-log.json from local data/*.csv (merge + dedupe)
+  if ls data/export_bill_*.csv 1>/dev/null 2>&1; then
+    echo "  Converting local CSVs → token-log.json..."
+    node scripts/csv-to-token-log.js
+  fi
   
   FILE_ID=$(gog drive ls --parent "$FOLDER" --max 10 -j --results-only 2>/dev/null | \
     jq -r '[.[] | select(.name | test("billing|export_bill"))] | sort_by(.modifiedTime) | last | .id')
@@ -285,7 +291,14 @@ fs.writeFileSync('public/summary-token-log.json', JSON.stringify(summary, null, 
 console.log(JSON.stringify({ records: normalized.length, totals }));
 "
   
-  echo "✅ Minimax tokens updated → JSON"
+  echo "✅ Minimax tokens updated → JSON (Drive CSV)"
+  # Merge Drive CSV into local data/ and re-run local conversion
+  if [ -f "$TMPDIR/token.csv" ]; then
+    DRIVE_NAME="export_bill_drive_latest.csv"
+    cp "$TMPDIR/token.csv" "data/$DRIVE_NAME"
+    echo "  Re-merging all local CSVs after Drive download..."
+    node scripts/csv-to-token-log.js
+  fi
 }
 
 # ── Run ──
