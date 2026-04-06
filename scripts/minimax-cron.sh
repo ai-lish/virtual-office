@@ -2,6 +2,7 @@
 # MiniMax Quota Cron — 直接 call MiniMax API 更新 JSON
 set -e
 WORKDIR="/Users/zachli/.openclaw/workspace/virtual-office"
+export PATH="/opt/homebrew/opt/node/bin:$PATH"
 LOG="/Users/zachli/.openclaw/workspace/logs/minimax-cron.log"
 
 echo "[$(date)] MiniMax cron started" >> "$LOG"
