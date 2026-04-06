@@ -70,8 +70,8 @@ body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:
 @media(max-width:600px){
   .header{padding:12px 14px}
   .header h1{font-size:.95rem}
-  .detail-quota-grid{grid-template-columns:1fr;gap:10px}
-  .detail-quota-card{padding:14px}
+  .quota-grid{grid-template-columns:1fr;gap:10px}
+  .quota-card{padding:14px}
 }
 </style>
 </head>
@@ -89,26 +89,34 @@ body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:
 
   <div class="section-title" style="margin-bottom:14px">⚡ 配額總覽</div>
 
-  <div class="detail-quota-grid">
-    <!-- MiniMax Card -->
-    <div class="detail-quota-card">
-      <div class="card-label">⚡ MiniMax 配額 <span class="source-badge" id="mm-source-idx">—</span></div>
-      <div id="mm-models-idx"><div style="color:var(--dim);font-size:.8em;">載入中…</div></div>
-      <div class="quota-footer" id="mm-reset-idx"></div>
+  <div class="quota-grid">
+    <!-- Copilot -->
+    <div class="quota-card" id="cp-card">
+      <div class="label">🤖 Copilot Premium <span class="period" id="cp-period"></span></div>
+      <div class="numbers"><span class="remaining" id="cp-remaining">—</span> / <span id="cp-total">300</span></div>
+      <div class="track"><div class="fill" id="cp-fill" style="width:0%"></div></div>
+      <div class="pct" id="cp-pct">剩餘 —</div>
     </div>
-    <!-- Copilot Card -->
-    <div class="detail-quota-card">
-      <div class="card-label">🤖 Copilot Premium <span class="source-badge" id="cp-badge-idx"></span></div>
-      <div class="progress-row">
-        <div class="progress-label"><span>Premium 請求</span><strong id="cp-label-idx">—</strong></div>
-        <div class="progress-track"><div class="progress-fill" id="cp-bar-idx" style="width:0%;background:var(--green)"></div></div>
-      </div>
-      <div style="display:flex;justify-content:space-between;font-size:.7em;color:var(--dim);margin-bottom:10px">
-        <span>剩餘: <strong id="cp-remain-idx" style="color:var(--text)">—</strong></span>
-        <span>重置: <strong id="cp-reset-idx" style="color:var(--text)">—</strong></span>
-      </div>
-      <div style="font-size:.72em;color:var(--dim);margin-bottom:6px">模型用量</div>
-      <div id="cp-models-idx"><div style="color:var(--dim);font-size:.8em;">載入中…</div></div>
+    <!-- MiniMax M* Text -->
+    <div class="quota-card" id="mm-text-card">
+      <div class="label">📝 MiniMax 文字 <span class="period" id="mm-source"></span></div>
+      <div class="numbers"><span class="remaining" id="mm-text-remaining">—</span> / <span id="mm-text-total">4500</span></div>
+      <div class="track"><div class="fill" id="mm-text-fill" style="width:0%"></div></div>
+      <div class="pct" id="mm-text-pct">剩餘 —</div>
+    </div>
+    <!-- Speech -->
+    <div class="quota-card" id="mm-speech-card">
+      <div class="label">🎙️ MiniMax 語音</div>
+      <div class="numbers"><span class="remaining" id="mm-speech-remaining">—</span> / <span id="mm-speech-total">4000</span></div>
+      <div class="track"><div class="fill" id="mm-speech-fill" style="width:0%"></div></div>
+      <div class="pct" id="mm-speech-pct">剩餘 —</div>
+    </div>
+    <!-- Image -->
+    <div class="quota-card" id="mm-image-card">
+      <div class="label">🖼️ MiniMax 圖像</div>
+      <div class="numbers"><span class="remaining" id="mm-image-remaining">—</span> / <span id="mm-image-total">50</span></div>
+      <div class="track"><div class="fill" id="mm-image-fill" style="width:0%"></div></div>
+      <div class="pct" id="mm-image-pct">剩餘 —</div>
     </div>
   </div>
 
@@ -189,8 +197,21 @@ async function loadReadme(i) {
 }
 
 // ── Load Data on page load ──
-const pctColor = pct => pct >= 90 ? 'var(--danger)' : pct >= 70 ? 'var(--warn)' : 'var(--green)';
-const typeMap = { 'MiniMax-M*': ['tag-text','文字'], 'speech-hd': ['tag-speech','語音'], 'image-01': ['tag-image','圖像'] };
+function remainColor(remainPct) {
+  return remainPct > 50 ? 'var(--green)' : remainPct > 20 ? 'var(--warn)' : 'var(--danger)';
+}
+
+function setCard(id, remaining, total) {
+  const usedPct = total > 0 ? Math.round((total - remaining) / total * 100) : 0;
+  const remainPct = total > 0 ? Math.round(remaining / total * 100) : 0;
+  const color = remainColor(remainPct);
+  document.getElementById(id + '-remaining').textContent = remaining;
+  document.getElementById(id + '-remaining').style.color = color;
+  document.getElementById(id + '-fill').style.width = usedPct + '%';
+  document.getElementById(id + '-fill').style.background = color;
+  document.getElementById(id + '-pct').textContent = remainPct + '% 剩餘';
+  document.getElementById(id + '-card').style.borderLeftColor = color;
+}
 
 async function loadData() {
   const ts = Date.now();
@@ -203,45 +224,26 @@ async function loadData() {
     if (res.ok) {
       const d = await res.json();
       const source = d._source === 'github-actions-live-api' ? '🟢 即時' : '📦 快取';
-      document.getElementById('mm-source-idx').textContent = source;
+      document.getElementById('mm-source').textContent = source;
 
-      const models = (d.allModels || []).filter(m => m.total > 0);
-      const raw = d.raw?.model_remains || [];
-      let html = '';
+      const models = d.allModels || [];
+      const textModel = models.find(m => m.model === 'MiniMax-M*');
+      const speechModel = models.find(m => m.model === 'speech-hd');
+      const imageModel = models.find(m => m.model === 'image-01');
 
-      if (models.length > 0) {
-        models.forEach(m => {
-          const pct = m.total > 0 ? Math.round(m.used / m.total * 100) : 0;
-          const color = pctColor(pct);
-          const [tagClass, tagLabel] = typeMap[m.model] || ['tag-text','其他'];
-          html += `<div class="progress-row">
-            <div class="progress-label">
-              <span><span class="tag ${tagClass}">${tagLabel}</span> ${m.model}</span>
-              <strong>${m.used} / ${m.total}</strong>
-            </div>
-            <div class="progress-track">
-              <div class="progress-fill" style="width:${pct}%;background:${color}"></div>
-            </div>
-          </div>`;
-        });
-      } else if (d.quota) {
-        const q = d.quota;
-        const pct = q.usedPercent || Math.round((q.used / q.total) * 100);
-        const color = pctColor(pct);
-        html = `<div class="progress-row">
-          <div class="progress-label"><span><span class="tag tag-text">總計</span> 所有模型</span><strong>${q.used} / ${q.total}</strong></div>
-          <div class="progress-track"><div class="progress-fill" style="width:${pct}%;background:${color}"></div></div>
-        </div>`;
+      if (textModel && textModel.total > 0) {
+        document.getElementById('mm-text-total').textContent = textModel.total;
+        setCard('mm-text', textModel.remaining, textModel.total);
       }
-      document.getElementById('mm-models-idx').innerHTML = html || '<div style="color:var(--dim);font-size:.8em;">無配額數據</div>';
-
-      if (raw.length > 0) {
-        const r = raw[0];
-        const resetTime = new Date(r.end_time);
-        const remainH = Math.floor(r.remains_time / 3600000);
-        const remainM = Math.floor((r.remains_time % 3600000) / 60000);
-        document.getElementById('mm-reset-idx').textContent = `重置: ${resetTime.toLocaleTimeString('zh-HK',{hour:'2-digit',minute:'2-digit'})} · 剩餘 ${remainH}h${remainM}m`;
+      if (speechModel && speechModel.total > 0) {
+        document.getElementById('mm-speech-total').textContent = speechModel.total;
+        setCard('mm-speech', speechModel.remaining, speechModel.total);
       }
+      if (imageModel && imageModel.total > 0) {
+        document.getElementById('mm-image-total').textContent = imageModel.total;
+        setCard('mm-image', imageModel.remaining, imageModel.total);
+      }
+
       if (d._generatedAt) lastTime = new Date(d._generatedAt);
     }
   } catch(e) { console.log('MiniMax fetch error', e); }
@@ -251,37 +253,18 @@ async function loadData() {
     const res = await fetch(base + '/public/copilot-summary.json?' + ts);
     if (res.ok) {
       const d = await res.json();
-      // Get current month data
       const now = new Date();
       const currentMonth = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
-      const monthData = d.analysis?.byMonth?.[currentMonth] || { total: 0, byModel: {} };
-      const byModel = monthData.byModel || {};
+      const monthData = d.analysis?.byMonth?.[currentMonth] || { total: 0 };
 
       const used = monthData.total || 0;
       const total = 300;
-      const pct = total > 0 ? Math.round(used / total * 100) : 0;
       const remaining = total - used;
-      const barColor = pct >= 80 ? 'var(--danger)' : pct >= 50 ? 'var(--warn)' : 'var(--green)';
+      const resetDate = new Date(now.getFullYear(), now.getMonth() + 1, 1).toISOString().slice(0, 10);
 
-      document.getElementById('cp-label-idx').textContent = `${used} / ${total} (${pct}%)`;
-      document.getElementById('cp-bar-idx').style.width = pct + '%';
-      document.getElementById('cp-bar-idx').style.background = barColor;
-      document.getElementById('cp-remain-idx').textContent = remaining;
-      document.getElementById('cp-reset-idx').textContent = new Date(now.getFullYear(), now.getMonth() + 1, 1).toISOString().slice(0,10);
-
-      const entries = Object.entries(byModel).sort((a,b) => b[1] - a[1]);
-      const maxVal = entries.length > 0 ? entries[0][1] : 1;
-      const colors = ['#e74c3c','#3498db','#2ecc71','#e67e22','#9b59b6','#1abc9c'];
-      document.getElementById('cp-models-idx').innerHTML = entries.length === 0
-        ? '<div style="color:var(--dim);font-size:.8em;">暫無模型資料</div>'
-        : entries.map(([model, val], i) => {
-            const w = Math.round(val / maxVal * 100);
-            return `<div class="model-row">
-              <span class="model-name">${model}</span>
-              <div class="model-bar-wrap"><div class="model-bar-fill" style="width:${w}%;background:${colors[i%colors.length]}"></div></div>
-              <span class="model-val">${val}</span>
-            </div>`;
-          }).join('');
+      document.getElementById('cp-total').textContent = total;
+      document.getElementById('cp-period').textContent = resetDate + ' 重置';
+      setCard('cp', remaining, total);
 
       if (d._generatedAt) lastTime = new Date(d._generatedAt);
     }
