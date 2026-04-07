@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="zh-HK">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>🌙 Dreams — 虛擬辦公室 Memory</title>
+<link rel="icon" href="/virtual-office/images/logo.png">
+<style>
+:root{--bg:#0f0f23;--card:#16213e;--bar-bg:#0a1628;--text:#eee;--dim:#888;--accent:#3498db;--muted:#666;--green:#2ecc71;--yellow:#f39c12;--red:#e74c3c}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans SC',system-ui,sans-serif;margin:0;padding:0}
+.header{background:linear-gradient(90deg,#1a1a2e,#16213e);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #bc002d}
+.container{max-width:1000px;margin:0 auto;padding:16px}
+.card{background:var(--card);border-radius:12px;padding:16px;margin-bottom:14px;border:1px solid rgba(255,255,255,.04)}
+.section-title{font-size:.9rem;color:var(--dim);margin-bottom:10px}
+.diary-card{background:rgba(255,255,255,.02);padding:12px;border-radius:8px;margin-bottom:8px}
+.stats-row{display:flex;gap:12px;flex-wrap:wrap}
+.stat{background:var(--bar-bg);padding:10px;border-radius:8px;min-width:120px;text-align:center}
+.stat .num{font-weight:700;color:var(--accent);font-size:1.2rem}
+.pulse{animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(52,152,219,.2)}50%{box-shadow:0 0 0 8px rgba(52,152,219,0)}100%{box-shadow:0 0 0 0 rgba(52,152,219,0)}}
+.timeline{display:flex;align-items:center;gap:12px;margin-top:12px}
+.node{padding:12px;border-radius:8px;background:rgba(255,255,255,.03);min-width:80px;text-align:center}
+.node.on{background:linear-gradient(180deg,rgba(52,152,219,.12),rgba(52,152,219,.06));border:1px solid rgba(52,152,219,.12)}
+.alert{background:rgba(231,76,60,.08);border-left:4px solid var(--red);padding:10px;border-radius:8px;margin-bottom:12px}
+.empty{color:var(--dim);padding:20px;text-align:center}
+pre{white-space:pre-wrap;font-family:inherit;color:var(--dim)}
+@media(max-width:600px){.timeline{flex-direction:column;align-items:stretch}}
+</style>
+</head>
+<body>
+<div class="header">
+  <div style="display:flex;gap:10px;align-items:center">
+    <img src="/virtual-office/images/logo.png" width="28" height="28" alt="logo">
+    <h1 style="font-size:1rem;font-weight:600;margin:0">🌙 Dreams Dashboard</h1>
+  </div>
+  <div style="display:flex;gap:8px">
+    <a class="btn" href="/virtual-office/memory/">← 回到 Memory</a>
+    <a class="btn" href="/virtual-office/">← 虛擬辦公室</a>
+  </div>
+</div>
+<div class="container">
+  <div id="alertArea"></div>
+  <div class="card">
+    <div class="section-title">📈 Dream Stats</div>
+    <div class="stats-row">
+      <div class="stat"><div class="num" id="totalDreams">0</div><div style="font-size:.8rem;color:var(--dim)">Total Dreams</div></div>
+      <div class="stat"><div class="num" id="promotedToday">0</div><div style="font-size:.8rem;color:var(--dim)">Promoted Today</div></div>
+      <div class="stat"><div class="num" id="avgScore">—</div><div style="font-size:.8rem;color:var(--dim)">Avg Score</div></div>
+      <div class="stat"><div class="num" id="lastDream">—</div><div style="font-size:.8rem;color:var(--dim)">Last Dream</div></div>
+    </div>
+    <div style="margin-top:12px" class="timeline">
+      <div class="node" id="node-light">Light</div>
+      <div style="width:40px;height:2px;background:rgba(255,255,255,.04)"></div>
+      <div class="node" id="node-rem">REM</div>
+      <div style="width:40px;height:2px;background:rgba(255,255,255,.04)"></div>
+      <div class="node" id="node-deep">Deep</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">📓 Dream Diary (latest entries)</div>
+    <div id="diaryList">
+      <div class="empty">No dreams yet — Dreaming runs at 03:00 HKT</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">🗂 Phase Reports (last 7 per phase)</div>
+    <div id="phaseReports">Loading...</div>
+  </div>
+
+  <footer style="margin-top:20px;color:var(--dim);font-size:.8rem">Dreams Dashboard · Mock data until Dreaming runs · Design matches Memory page</footer>
+</div>
+<script>
+const DATA_URL = 'data.json';
+
+function escapeHtml(s){ if(!s) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+async function load(){
+  let data;
+  try{ const r = await fetch(DATA_URL); if(!r.ok) throw new Error('HTTP '+r.status); data = await r.json(); } catch(e){ document.getElementById('diaryList').innerHTML = '<div class="empty">無法載入 data.json — '+e.message+'</div>'; return; }
+
+  const dreams = data.dreamsDiary || '';
+  const phaseReports = data.dreamPhaseReports || {};
+  const totalDreams = data.dreamsCount || 0;
+  document.getElementById('totalDreams').textContent = totalDreams;
+  document.getElementById('promotedToday').textContent = (data.promotedToday || 0);
+  document.getElementById('avgScore').textContent = (data.avgScore === null || data.avgScore === undefined) ? '—' : data.avgScore;
+  document.getElementById('lastDream').textContent = (data.lastDream || '—');
+
+  // Diary entries
+  if(!dreams){ document.getElementById('diaryList').innerHTML = '<div class="empty">🌙 Dreaming will begin at 03:00 HKT tonight</div>'; }
+  else{
+    const parts = dreams.split('\n\n').filter(Boolean).slice(0,7);
+    const list = document.getElementById('diaryList'); list.innerHTML='';
+    parts.slice(0,7).forEach((p, i)=>{
+      const el = document.createElement('div'); el.className='diary-card';
+      el.innerHTML = `<div style="font-weight:600;color:var(--accent)">Entry ${i+1}</div><pre>${escapeHtml(p)}</pre>`;
+      list.appendChild(el);
+    });
+  }
+
+  // Phase reports
+  const pr = document.getElementById('phaseReports'); pr.innerHTML='';
+  ['light','REM','deep'].forEach(phase =>{
+    const reports = phaseReports[phase] || {};
+    const card = document.createElement('div'); card.style.marginBottom='8px';
+    card.innerHTML = `<div style="font-weight:700;color:var(--accent)">Phase: ${phase}</div>`;
+    if(Object.keys(reports).length===0){ card.innerHTML += '<div style="color:var(--dim);margin-top:6px">— 無報告</div>'; }
+    else{
+      Object.keys(reports).slice(-7).forEach(fn=>{
+        const r = document.createElement('details'); r.style.marginTop='6px';
+        r.innerHTML = `<summary>${fn}</summary><pre>${escapeHtml(reports[fn])}</pre>`;
+        card.appendChild(r);
+      });
+    }
+    pr.appendChild(card);
+  });
+
+  // Urgent keyword scan
+  const urgentRE = /P0|P-0|blocker|urgent|critical|emergency/i;
+  const found = [];
+  if(urgentRE.test(dreams)) found.push('DREAMS.md');
+  Object.keys(phaseReports).forEach(phase=>{
+    Object.keys(phaseReports[phase]).forEach(fn=>{ if(urgentRE.test(phaseReports[phase][fn]||'')) found.push(phase+'/'+fn); });
+  });
+  if(found.length){ document.getElementById('alertArea').innerHTML = '<div class="alert">🚨 Dreaming detected urgent keywords in: '+found.join(', ')+'</div>'; }
+}
+
+load();
+</script>
+</body>
+</html>

@@ -80,6 +80,21 @@ footer{text-align:center;padding:16px;color:var(--muted);font-size:.7rem;border-
       </div>
     </div>
 
+    <!-- Dreaming Status -->
+    <div class="card">
+      <div class="section-title">🌙 Dreaming Status</div>
+      <div class="row" style="justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:1rem;font-weight:700">夢境日記預覽</div>
+          <div style="font-size:.82rem;color:var(--dim);margin-top:6px">最近三則日記與快速狀態</div>
+        </div>
+        <div>
+          <a class="btn" href="/virtual-office/memory/dreams.html">查看完整 Dreams 儀表板</a>
+        </div>
+      </div>
+      <div style="margin-top:12px" id="dreamsPreview">正在載入夢境資料…</div>
+    </div>
+
     <!-- Memory.md Preview -->
     <div class="card">
       <div class="section-title">📋 MEMORY.MD 預覽</div>
@@ -207,7 +222,8 @@ async function load() {
   addStats(
     data.totalFiles || 0, '總記憶檔案',
     Object.keys(data.dailyLogs || {}).length, '日誌檔案',
-    Object.keys(data.feedbackFiles || {}).length, 'Feedback'
+    Object.keys(data.feedbackFiles || {}).length, 'Feedback',
+    data.dreamsCount || 0, '夢境項目'
   );
 
   document.getElementById('memoryLines').textContent = (data.memoryMd || '').split('\n').length + ' 行';
@@ -289,7 +305,25 @@ async function load() {
   const todosSection = document.getElementById('todosSection');
   todosSection.innerHTML = '';
 
-  // P0 blockers
+  // Dreaming preview and alerts
+  const dreamsPreview = document.getElementById('dreamsPreview');
+  const dreamText = data.dreamsDiary || '';
+  const dreamLines = (dreamText || '').split('\n').filter(l => l.trim());
+  if (!dreamText) {
+    dreamsPreview.innerHTML = '<div style="color:var(--dim)">🌙 Dreaming will begin at 03:00 HKT tonight — 尚未有夢境日記。</div>';
+  } else {
+    const previewItems = dreamLines.slice(0, 120).join('\n').split('\n\n').slice(0,3);
+    dreamsPreview.innerHTML = '';
+    previewItems.forEach((p, idx) => {
+      const d = document.createElement('div');
+      d.style.padding = '8px';
+      d.style.borderBottom = '1px solid rgba(255,255,255,.03)';
+      d.innerHTML = `<div style="font-weight:600;color:var(--accent)">Entry ${idx+1}</div><div style="margin-top:6px;color:var(--dim);white-space:pre-wrap">${escapeHtml(p.slice(0,400))}</div>`;
+      dreamsPreview.appendChild(d);
+    });
+  }
+
+  // P0 blockers (from MEMORY.md)
   const p0match = mem.match(/P0[^]{0,500}/g);
   if (p0match && p0match.length) {
     const h = document.createElement('div');
@@ -302,6 +336,25 @@ async function load() {
       d.textContent = m.slice(0, 200);
       todosSection.appendChild(d);
     });
+  }
+
+  // Also scan dreams and phase reports for urgent keywords
+  const urgentRE = /P0|P-0|blocker|urgent|critical|emergency/i;
+  let urgentFound = [];
+  if (dreamText && urgentRE.test(dreamText)) urgentFound.push('Dreams.md');
+  const phaseReports = data.dreamPhaseReports || {};
+  Object.keys(phaseReports).forEach(phase => {
+    const reports = phaseReports[phase] || {};
+    Object.keys(reports).forEach(fn => {
+      if (urgentRE.test(reports[fn] || '')) urgentFound.push(phase + '/' + fn);
+    });
+  });
+  if (urgentFound.length) {
+    const warn = document.createElement('div');
+    warn.className = 'error';
+    warn.style.marginTop = '10px';
+    warn.textContent = '🚨 Dreaming found urgent keywords in: ' + urgentFound.join(', ');
+    dreamsPreview.insertBefore(warn, dreamsPreview.firstChild);
   }
 
   // Extract TODO lines from daily logs

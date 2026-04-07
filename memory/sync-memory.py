@@ -41,6 +41,23 @@ feedback = {}
 for f in sorted(MEMORY_DIR.glob("feedback-*.md")):
     feedback[f.name] = read_safe(f)
 
+# DREAMS.md (dream diary)
+dreams_md = read_safe(Path.home() / ".openclaw/workspace/DREAMS.md")
+
+# Dream phase reports (light / deep / REM subdirs)
+phase_reports = {}
+for phase in ['light', 'deep', 'REM']:
+    phase_dir = MEMORY_DIR / "dreaming" / phase
+    if phase_dir.exists():
+        reports = {}
+        for f in sorted(phase_dir.glob("*.md"))[-7:]:
+            reports[f.name] = read_safe(f)
+        phase_reports[phase] = reports
+
+# Count .dreams/ items if it exists
+dreams_dir = MEMORY_DIR / ".dreams"
+dreams_count = len(list(dreams_dir.glob("*"))) if dreams_dir.exists() else 0
+
 # Total file count
 total_files = len(list(MEMORY_DIR.glob("*.md")))
 
@@ -52,6 +69,9 @@ data = {
     "topicActive": topic_active,
     "dailyLogs": daily_logs,
     "feedbackFiles": feedback,
+    "dreamsDiary": dreams_md,
+    "dreamPhaseReports": phase_reports,
+    "dreamsCount": dreams_count,
 }
 
 OUT_FILE.parent.mkdir(parents=True, exist_ok=True)
