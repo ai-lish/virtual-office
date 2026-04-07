@@ -6,138 +6,329 @@
 <title>🧠 Memory System — 虛擬辦公室</title>
 <link rel="icon" href="/virtual-office/images/logo.png">
 <style>
-/* Reuse Virtual Office theme colors */
-:root{--bg:#0f0f23;--card:#16213e;--bar-bg:#0a1628;--text:#eee;--dim:#888;--accent:#3498db;--muted:#666}
-body{background:var(--bg);color:var(--text);font-family:'Noto Sans SC',system-ui, sans-serif;margin:0;padding:0}
-.header{background:linear-gradient(90deg,#1a1a2e,#16213e);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #bc002d}
-.container{max-width:980px;margin:20px auto;padding:18px}
+:root{--bg:#0f0f23;--card:#16213e;--bar-bg:#0a1628;--text:#eee;--dim:#888;--accent:#3498db;--muted:#666;--green:#2ecc71;--yellow:#f39c12;--red:#e74c3c}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans SC',system-ui,sans-serif;margin:0;padding:0}
+.header{background:linear-gradient(90deg,#1a1a2e,#16213e);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #bc002d;flex-wrap:wrap;gap:8px}
+.container{max-width:1000px;margin:0 auto;padding:16px}
 .card{background:var(--card);border-radius:12px;padding:16px;margin-bottom:14px;border:1px solid rgba(255,255,255,.04)}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.stat{font-size:1.8rem;font-weight:700}
-.label{font-size:.78rem;color:var(--dim)}
-.section-title{font-size:.9rem;color:var(--dim);margin-bottom:8px}
-.file-list{display:flex;flex-direction:column;gap:8px}
-.file-item{display:flex;justify-content:space-between;align-items:center;padding:8px;border-radius:8px;background:rgba(255,255,255,.02)}
-.accordion{margin-top:10px}
-.accordion summary{cursor:pointer;padding:8px;border-radius:8px;background:rgba(255,255,255,.02)}
-.code{font-family:monospace;background:rgba(255,255,255,.03);padding:8px;border-radius:6px;white-space:pre-wrap;max-height:320px;overflow:auto}
-.row{display:flex;gap:8px;align-items:center}
-.small{font-size:.82rem;color:var(--dim)}
-.nav{display:flex;gap:8px}
-button.link{background:none;border:1px solid rgba(255,255,255,.06);color:var(--dim);padding:6px 10px;border-radius:8px}
-.highlight{border-left:4px solid #2ecc71}
-.today{background:linear-gradient(90deg,rgba(46,204,113,.06),transparent)}
-@media(max-width:900px){.grid{grid-template-columns:1fr}} 
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:12px}
+.stat-box{background:var(--bar-bg);border-radius:8px;padding:12px;text-align:center}
+.stat-num{font-size:1.6rem;font-weight:700;color:var(--accent)}
+.stat-label{font-size:.72rem;color:var(--dim);margin-top:2px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.section-title{font-size:.8rem;color:var(--dim);margin-bottom:8px;letter-spacing:.5px}
+.log-list{display:flex;flex-direction:column;gap:6px}
+.log-item{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 10px;border-radius:8px;background:rgba(255,255,255,.02);cursor:pointer;transition:background .15s}
+.log-item:hover{background:rgba(255,255,255,.05)}
+.log-item.today{background:rgba(46,204,113,.08);border-left:3px solid var(--green)}
+.log-item.old{opacity:.5}
+.log-date{font-size:.78rem;font-weight:600;color:var(--accent)}
+.log-size{font-size:.7rem;color:var(--dim)}
+.log-preview{font-size:.72rem;color:var(--dim);margin-top:2px;overflow:hidden;max-height:0;transition:max-height .3s}
+.log-item.expanded .log-preview{max-height:80px}
+.accordion{display:flex;flex-direction:column;gap:6px}
+details{background:rgba(255,255,255,.02);border-radius:8px;overflow:hidden}
+summary{padding:10px 12px;cursor:pointer;font-size:.82rem;user-select:none;display:flex;justify-content:space-between;align-items:center}
+summary:hover{background:rgba(255,255,255,.03)}
+summary::after{content:'▶';font-size:.6rem;transition:transform .2s}
+details[open] summary::after{transform:rotate(90deg)}
+pre{font-family:'Fira Code','Consolas',monospace;font-size:.72rem;background:rgba(0,0,0,.3);padding:12px;border-radius:6px;white-space:pre-wrap;word-break:break-all;max-height:400px;overflow:auto;margin:8px 0 0;line-height:1.5}
+.btn{display:inline-block;padding:6px 12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:8px;color:var(--dim);text-decoration:none;font-size:.75rem;transition:all .15s}
+.btn:hover{background:rgba(255,255,255,.1);color:var(--text)}
+.badge{display:inline-block;padding:2px 7px;border-radius:10px;font-size:.65rem;font-weight:600}
+.badge-green{background:rgba(46,204,113,.2);color:var(--green)}
+.badge-yellow{background:rgba(243,156,18,.2);color:var(--yellow)}
+.badge-red{background:rgba(231,76,60,.2);color:var(--red)}
+.p0-item{background:rgba(231,76,60,.08);border-left:3px solid var(--red);padding:6px 10px;border-radius:4px;margin-bottom:6px;font-size:.78rem}
+.p0-title{font-weight:600;color:var(--red);margin-bottom:3px}
+.todo-item{font-size:.75rem;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.03);color:var(--dim)}
+.loading{text-align:center;padding:40px;color:var(--dim);font-size:.85rem}
+.error{background:rgba(231,76,60,.1);border:1px solid rgba(231,76,60,.3);border-radius:8px;padding:12px;color:var(--red);font-size:.8rem}
+footer{text-align:center;padding:16px;color:var(--muted);font-size:.7rem;border-top:1px solid rgba(255,255,255,.04);margin-top:20px}
+@media(max-width:600px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
-<div class="header"><div style="display:flex;gap:12px;align-items:center"><img src="/virtual-office/images/logo.png" width="28" height="28" alt="logo"><h1 style="font-size:1rem">虛擬辦公室 — Memory</h1></div>
-<div class="nav"><a class="link" href="/virtual-office/">← Home</a><a class="link" id="githubLink" href="#" target="_blank">Open in GitHub</a></div></div>
-<div class="container">
-  <div class="card">
-    <div class="section-title">Memory Stats Dashboard</div>
-    <div class="grid" id="statsGrid">
-      <div class="card" id="totalFilesCard"><div class="label">Total memory files</div><div class="stat" id="totalFiles">—</div></div>
-      <div class="card" id="dailyByMonthCard"><div class="label">Daily logs (by month)</div><div id="dailyByMonth" class="small">—</div></div>
-      <div class="card" id="lastUpdatedCard"><div class="label">Last updated file</div><div id="lastUpdated" class="small">—</div></div>
-    </div>
-    <div style="margin-top:12px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
-      <div class="small">MEMORY.md lines: <strong id="memoryLines">—</strong></div>
-      <div class="small">MEMORY.md last updated: <span id="memoryUpdated">—</span></div>
-    </div>
+<div class="header">
+  <div style="display:flex;gap:10px;align-items:center">
+    <img src="/virtual-office/images/logo.png" width="28" height="28" alt="logo">
+    <h1 style="font-size:.95rem;font-weight:600;margin:0">🧠 Memory System</h1>
   </div>
-
-  <div class="card">
-    <div class="section-title">Important Files (collapsible)</div>
-    <div class="accordion">
-      <details open><summary>MEMORY.md (preview)</summary><div id="memoryPreview" class="code">Loading…</div></details>
-      <details><summary>topic-projects.md</summary><div id="topicProjects" class="code">—</div></details>
-      <details><summary>topic-active-issues.md</summary><div id="topicActive" class="code">—</div></details>
-      <details><summary>Recent feedback files</summary><div id="feedbackFiles" class="code">—</div></details>
-    </div>
+  <div style="display:flex;gap:8px">
+    <a class="btn" href="/virtual-office/">← 虛擬辦公室</a>
+    <a class="btn" href="https://github.com/ai-lish/openclaw-backup/blob/main/MEMORY.md" target="_blank">MEMORY.md</a>
   </div>
-
-  <div class="card">
-    <div class="section-title">Memory Progress Tracker</div>
-    <div id="recentLogs" class="file-list">Loading…</div>
-  </div>
-
-  <div class="card">
-    <div class="section-title">Active Issues / TODOs</div>
-    <div id="todos" class="small">Loading…</div>
-  </div>
-
 </div>
 
+<div class="container">
+  <div id="loading" class="loading">正在載入記憶系統數據...</div>
+  <div id="error" class="error" style="display:none"></div>
+  <div id="content" style="display:none">
+
+    <!-- Stats Dashboard -->
+    <div class="card">
+      <div class="section-title">📊 MEMORY STATS</div>
+      <div class="stats-grid" id="statsGrid"></div>
+      <div class="row" style="margin-top:8px;font-size:.72rem;color:var(--dim)">
+        <span>📄 MEMORY.md:</span>
+        <span id="memoryLines">—</span>
+        <span style="margin-left:12px">🕐 Updated:</span>
+        <span id="memoryUpdated">—</span>
+        <span style="margin-left:12px">🔄 Generated:</span>
+        <span id="generatedAt">—</span>
+      </div>
+    </div>
+
+    <!-- Memory.md Preview -->
+    <div class="card">
+      <div class="section-title">📋 MEMORY.MD 預覽</div>
+      <div class="accordion">
+        <details open>
+          <summary>👤 用戶 & 偏好</summary>
+          <pre id="memUser">—</pre>
+        </details>
+        <details>
+          <summary>💡 Feedback 累積</summary>
+          <pre id="memFeedback">—</pre>
+        </details>
+        <details>
+          <summary>📦 活躍項目</summary>
+          <pre id="memProjects">—</pre>
+        </details>
+        <details>
+          <summary>🔧 技術 & 工具</summary>
+          <pre id="memTech">—</pre>
+        </details>
+        <details>
+          <summary>⚠️ P0 阻斷 & 待辨事項</summary>
+          <pre id="memP0">—</pre>
+        </details>
+      </div>
+    </div>
+
+    <!-- Topic Files -->
+    <div class="card">
+      <div class="section-title">📁 TOPIC FILES</div>
+      <div class="accordion">
+        <details>
+          <summary>📦 項目狀態 (topic-projects.md)</summary>
+          <pre id="topicProjects">—</pre>
+        </details>
+        <details>
+          <summary>🔥 活躍問題 (topic-active-issues.md)</summary>
+          <pre id="topicActive">—</pre>
+        </details>
+      </div>
+    </div>
+
+    <!-- Feedback Files -->
+    <div class="card">
+      <div class="section-title">💡 FEEDBACK 記錄</div>
+      <div class="accordion" id="feedbackAccordion"></div>
+    </div>
+
+    <!-- Daily Logs -->
+    <div class="card">
+      <div class="section-title">📝 最近日誌 (<span id="logCount">0</span> 個)</div>
+      <div class="log-list" id="logList"></div>
+    </div>
+
+    <!-- Active TODOs -->
+    <div class="card">
+      <div class="section-title">✅ ACTIVE TODOS & P0 BLOCKERS</div>
+      <div id="todosSection"></div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  Memory System · OpenClaw Workspace · <span id="footerNote"></span>
+</footer>
+
 <script>
-const RAW_BASE='https://raw.githubusercontent.com/ai-lish/openclaw-backup/main';
-const filesUrl=RAW_BASE+'/memory/';
-const memoryUrl=RAW_BASE+'/MEMORY.md';
+const DATA_URL = 'data.json';
+const TODAY = new Date().toISOString().slice(0,10);
 
-async function fetchText(url){try{const r=await fetch(url);if(!r.ok)throw new Error(r.status);return await r.text()}catch(e){return null}}
+function escapeHtml(s) {
+  if (!s) return '—';
+  return String(s)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
 
-function firstLines(text,n){if(!text) return '—';return text.split('\n').slice(0,n).join('\n')}
+function extract(lines, startPattern, endPattern) {
+  const start = startPattern ? lines.findIndex(l => startPattern.test(l)) : 0;
+  if (start === -1) return '';
+  const end = endPattern ? lines.slice(start+1).findIndex(l => endPattern.test(l)) : lines.length;
+  return lines.slice(start, end === -1 ? undefined : start + 1 + end).join('\n');
+}
 
-function formatDateFromMeta(meta){if(!meta) return '—';return meta}
+function showSection(id, text, maxLines) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  if (!text) { el.textContent = '—'; return; }
+  const lines = text.trim().split('\n');
+  el.textContent = (maxLines ? lines.slice(0, maxLines) : lines).join('\n');
+}
 
-async function load(){
-  // MEMORY.md
-  const mem=await fetchText(memoryUrl);
-  document.getElementById('memoryPreview').textContent = firstLines(mem,40);
-  document.getElementById('memoryLines').textContent = mem ? mem.split('\n').length : '—';
-
-  // topic files
-  const tp = await fetchText(RAW_BASE+'/memory/topic-projects.md');
-  if(tp) document.getElementById('topicProjects').textContent = firstLines(tp,40);
-  const ta = await fetchText(RAW_BASE+'/memory/topic-active-issues.md');
-  if(ta) document.getElementById('topicActive').textContent = firstLines(ta,40);
-
-  // feedback files: try known pattern list
-  const feedbackNames=['feedback-minimax-quota-field-2026-04-07.md','feedback-copilot-gist.md','feedback-ocr-cleanup.md','feedback-self-testing.md','feedback-timezone.md'];
-  let fbOut='';
-  for(const name of feedbackNames){const t=await fetchText(RAW_BASE+'/memory/'+name);if(t){fbOut+="--- "+name+"\n"+firstLines(t,30)+"\n\n"}}
-  document.getElementById('feedbackFiles').textContent = fbOut || 'No feedback files found.';
-
-  // list recent daily logs by fetching index listing is not allowed via raw; so use known filenames around 2026-04
-  const recentDates=['2026-04-07','2026-04-06','2026-04-05','2026-04-04','2026-04-03','2026-04-02','2026-04-01'];
-  const recentEl = document.getElementById('recentLogs'); recentEl.innerHTML='';
-  const todayStr=new Date().toISOString().slice(0,10);
-  let totalFiles=0; let lastUpdatedName='—'; let lastUpdatedDate=null; let dailyByMonthCount={};
-  for(const d of recentDates){
-    const name=`memory/${d}.md`;
-    const url=RAW_BASE+'/'+name;
-    const t=await fetchText(url);
-    if(t){totalFiles++; const size=t.length; const first=t.split('\n')[0]||'';
-      const div=document.createElement('div'); div.className='file-item'; if(d===todayStr) div.classList.add('today');
-      div.innerHTML=`<div><strong>${d}</strong><div class="small">${first}</div></div><div class="small">${(size/1024).toFixed(1)} KB</div>`;
-      recentEl.appendChild(div);
-      // monthly count
-      const month=d.slice(0,7); dailyByMonthCount[month]=(dailyByMonthCount[month]||0)+1;
-      // last updated heuristic: use date string
-      const dt=new Date(d);
-      if(!lastUpdatedDate||dt>lastUpdatedDate){lastUpdatedDate=dt; lastUpdatedName=name}
-    }
+function addStats() {
+  const grid = document.getElementById('statsGrid');
+  const args = arguments;
+  for (let i = 0; i < args.length; i += 2) {
+    const box = document.createElement('div');
+    box.className = 'stat-box';
+    box.innerHTML = `<div class="stat-num">${args[i]}</div><div class="stat-label">${args[i+1]}</div>`;
+    grid.appendChild(box);
   }
-  // fill stats
-  document.getElementById('totalFiles').textContent = totalFiles + ' (recent)
-';
-  let monthsHtml=''; for(const m in dailyByMonthCount) monthsHtml+=`${m}: ${dailyByMonthCount[m]}\n`;
-  document.getElementById('dailyByMonth').textContent = monthsHtml || '—';
-  document.getElementById('lastUpdated').textContent = lastUpdatedName + (lastUpdatedDate? ' — '+ lastUpdatedDate.toISOString().slice(0,10):'');
+}
 
-  // simple TODO extraction: look for lines starting with TODO or - [ ]
-  let todosArr=[];
-  // scan recent logs content for TODOs
-  for(const d of recentDates){const t=await fetchText(RAW_BASE+`/memory/${d}.md`); if(!t) continue; const lines=t.split('\n'); for(const l of lines){if(/TODO|\- \[ \]|\- \[x\]|\bTODO:\b/i.test(l)) todosArr.push(`${d}: ${l.trim()}`)}}
-  // P0 blockers from MEMORY.md: look for P0 or P-0
-  let p0s=[]; if(mem){const ml=mem.split('\n'); for(const l of ml){if(/P0|P-0|P0\b/i.test(l)) p0s.push(l.trim())}}
-  const todosEl=document.getElementById('todos'); todosEl.innerHTML='';
-  if(p0s.length){const h=document.createElement('div'); h.innerHTML='<strong>P0 blockers</strong>'; todosEl.appendChild(h); p0s.forEach(x=>{const p=document.createElement('div'); p.className='small'; p.textContent=x; todosEl.appendChild(p)})}
-  if(todosArr.length){const h2=document.createElement('div'); h2.style.marginTop='8px'; h2.innerHTML='<strong>Extracted TODOs</strong>'; todosEl.appendChild(h2); todosArr.slice(0,20).forEach(x=>{const p=document.createElement('div'); p.className='small'; p.textContent=x; todosEl.appendChild(p)})}
-  if(!p0s.length && !todosArr.length) todosEl.textContent='No TODOs or P0 blockers found in recent logs.';
+async function load() {
+  let data;
+  try {
+    const r = await fetch(DATA_URL);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    data = await r.json();
+  } catch(e) {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('error').style.display = 'block';
+    document.getElementById('error').textContent = '❌ 無法載入 data.json: ' + e.message + ' — 請確保已運行 sync-memory.py';
+    return;
+  }
 
-  // github links
-  document.getElementById('githubLink').href='https://github.com/ai-lish/openclaw-backup/blob/main/MEMORY.md';
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('content').style.display = 'block';
+
+  // Stats
+  addStats(
+    data.totalFiles || 0, '總記憶檔案',
+    Object.keys(data.dailyLogs || {}).length, '日誌檔案',
+    Object.keys(data.feedbackFiles || {}).length, 'Feedback'
+  );
+
+  document.getElementById('memoryLines').textContent = (data.memoryMd || '').split('\n').length + ' 行';
+  document.getElementById('memoryUpdated').textContent = new Date(data.generated || 0).toLocaleString('zh-HK', {timeZone:'Asia/Hong_Kong'});
+  document.getElementById('generatedAt').textContent = new Date(data.generated || 0).toLocaleString('zh-HK', {timeZone:'Asia/Hong_Kong'});
+  document.getElementById('footerNote').textContent = 'Generated: ' + data.generated;
+
+  // Parse MEMORY.md sections
+  const mem = (data.memoryMd || '').trim();
+  const memLines = mem.split('\n');
+  showSection('memUser', extract(memLines, /^## 👤 /, /^## /), 30);
+  showSection('memFeedback', extract(memLines, /^## 💡 /, /^## [^💡]/), 30);
+  showSection('memProjects', extract(memLines, /^## 📦 /, /^## [^📦]/), 50);
+  showSection('memTech', extract(memLines, /^## 🔧 /, /^## [^🔧]/), 50);
+  showSection('memP0', extract(memLines, /^## ⚠️ /, /^## [^⚠️]/), 40);
+
+  // Topic files
+  showSection('topicProjects', data.topicProjects, 60);
+  showSection('topicActive', data.topicActive, 40);
+
+  // Feedback files
+  const fbAccordion = document.getElementById('feedbackAccordion');
+  const fbFiles = data.feedbackFiles || {};
+  const fbNames = Object.keys(fbFiles).sort().reverse().slice(0, 5);
+  if (fbNames.length === 0) {
+    fbAccordion.innerHTML = '<div style="font-size:.8rem;color:var(--dim)">— 沒有反饋記錄</div>';
+  } else {
+    fbNames.forEach(name => {
+      const details = document.createElement('details');
+      const summary = document.createElement('summary');
+      summary.textContent = '📝 ' + name.replace('feedback-','').replace('.md','').replace(/-/g,' ');
+      details.appendChild(summary);
+      const pre = document.createElement('pre');
+      pre.textContent = fbFiles[name];
+      details.appendChild(pre);
+      fbAccordion.appendChild(details);
+    });
+  }
+
+  // Daily logs
+  const logList = document.getElementById('logList');
+  const logs = data.dailyLogs || {};
+  const logDates = Object.keys(logs).sort().reverse();
+  document.getElementById('logCount').textContent = logDates.length;
+  logDates.forEach(date => {
+    const content = logs[date] || '';
+    const lines = content.split('\n');
+    const firstLine = lines.find(l => l.trim()) || '';
+    const sizeKB = new Blob([content]).size / 1024;
+    const isToday = date === TODAY;
+    const isOld = !isToday && logDates.indexOf(date) > 6;
+
+    const item = document.createElement('div');
+    item.className = 'log-item' + (isToday ? ' today' : '') + (isOld ? ' old' : '');
+    item.innerHTML = `
+      <div style="flex:1">
+        <div class="row">
+          <span class="log-date">${date}</span>
+          ${isToday ? '<span class="badge badge-green">今日</span>' : ''}
+        </div>
+        <div class="log-preview">${escapeHtml(firstLine)}</div>
+      </div>
+      <div class="log-size">${sizeKB.toFixed(1)}KB</div>
+    `;
+    item.addEventListener('click', () => {
+      item.classList.toggle('expanded');
+      if (item.classList.contains('expanded')) {
+        const preview = item.querySelector('.log-preview');
+        preview.textContent = content.slice(0, 500);
+      } else {
+        const preview = item.querySelector('.log-preview');
+        preview.textContent = firstLine;
+      }
+    });
+    logList.appendChild(item);
+  });
+
+  // TODOs
+  const todosSection = document.getElementById('todosSection');
+  todosSection.innerHTML = '';
+
+  // P0 blockers
+  const p0match = mem.match(/P0[^]{0,500}/g);
+  if (p0match && p0match.length) {
+    const h = document.createElement('div');
+    h.style.marginBottom = '8px';
+    h.innerHTML = '<span class="badge badge-red">P0 阻斷</span>';
+    todosSection.appendChild(h);
+    p0match.slice(0,5).forEach(m => {
+      const d = document.createElement('div');
+      d.className = 'p0-item';
+      d.textContent = m.slice(0, 200);
+      todosSection.appendChild(d);
+    });
+  }
+
+  // Extract TODO lines from daily logs
+  const todoLines = [];
+  logDates.forEach(date => {
+    const content = logs[date] || '';
+    content.split('\n').forEach(l => {
+      if (/TODO|\- \[.?\]|\[P[012]\]/i.test(l) && l.trim()) {
+        todoLines.push(date + ': ' + l.trim().slice(0,120));
+      }
+    });
+  });
+  if (todoLines.length) {
+    const h2 = document.createElement('div');
+    h2.style.marginTop = '12px';
+    h2.innerHTML = '<span class="badge badge-yellow">待辨事項</span>';
+    todosSection.appendChild(h2);
+    todoLines.slice(0, 15).forEach(t => {
+      const d = document.createElement('div');
+      d.className = 'todo-item';
+      d.textContent = t;
+      todosSection.appendChild(d);
+    });
+  }
+
+  if (!p0match && !todoLines.length) {
+    todosSection.innerHTML = '<div style="font-size:.8rem;color:var(--dim)">✅ 沒有發現 P0 阻斷或待辨事項</div>';
+  }
 }
 
 load();
