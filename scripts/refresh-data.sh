@@ -38,8 +38,8 @@ refresh_minimax() {
     allModels: [.model_remains[] | {
       model: .model_name,
       total: .current_interval_total_count,
-      used: .current_interval_usage_count,
-      remaining: (.current_interval_total_count - .current_interval_usage_count),
+      remaining: .current_interval_usage_count,
+      used: (.current_interval_total_count - .current_interval_usage_count),
       weeklyTotal: .current_weekly_total_count,
       weeklyUsed: .current_weekly_usage_count
     }]
