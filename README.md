@@ -39,22 +39,54 @@ Two single-file apps (HTML + CSS + JS). No build step.
 
 ### dashboard.html — Analysis Dashboard
 
-**Tab: 配額歷史 (Quota History)**
-- Date filter (全部日期)
-- Stats summary: average usage and percentages per model
-- History table with columns: 日期, 時段, M* 已用, M* 總計, M* %, Speech 已用, Image 已用, 擷取時間
-- Pagination support
+#### Tab 1: 📜 配額歷史 (Quota History)
+- **來源：** `public/quota-history.json`（每 5 小時 cron snapshot）
+- **Stats 卡片：** 平均 M* 用量/使用率、平均 Speech 用量、平均 Image 用量
+- **篩選：** 全部日期 / 按月篩選
+- **表格欄位：**
+  | 欄 | 內容 |
+  |--|--|
+  | 日期 | Snapshot 日期 |
+  | 時段 | 5 小時窗口（01-06, 06-11, 11-16, 16-21, 21-01 UTC） |
+  | M* 已用 | M2.7 窗口已用 requests |
+  | M* 總計 | 窗口總配額（4500） |
+  | M* % | 使用率 % |
+  | Speech 已用 | 當日 Speech 已用（每日 4000 上限） |
+  | Image 已用 | 當日 Image 已用（每日 50 上限） |
+  | 擷取時間 | Cron 實際運行時間 |
+- **分頁：** 有
 
-**Tab: Copilot 使用明細 (Copilot Details)**
-- Filter: 按月份 / 按星期 / 按日期
-- Comparison table (上 / 今 / 下) for selected period
-- Pagination (page size configurable)
+#### Tab 2: 🤖 Copilot 使用明細 (Copilot Details)
+- **來源：** `public/copilot-summary.json`（Google Drive CSV）
+- **Stats 卡片：** 總 Requests、Opus、Sonnet、其他模型
+- **篩選模式：** 按月份 / 按星期 / 按日期
+- **Compare 功能：** 顯示「前一週 / 本週 / 後一週」對比
+- **表格欄位：**
+  | 欄 | 內容 |
+  |--|--|
+  | 日期 | 日期 / 週 / 月 |
+  | 模型 | 模型名稱（Opus / Sonnet / Sonnet 4 / Sonnet 4.6 等） |
+  | Requests | 請求數量 |
+  | 類型 | SKU 類型 |
+- **每頁：** 50 條記錄
 
-**Tab: MiniMax 使用明細 (MiniMax Details)**
-- Token usage analysis (aggregatable Hourly / Daily / Weekly)
-- Per-model breakdown; trend charts (daily/weekly/monthly) with one line per model
-- 上/今/下 比較表（table format）由 tk-filter-mode 控制
-- Detail table aggregation controlled by Hourly/Daily/Weekly toggle placed above the table
+#### Tab 3: 📊 MiniMax 使用明細 (MiniMax Details)
+- **來源：** `public/token-log.json`（Google Drive billing CSV）
+- **Stats 卡片：** 記錄數、Input Tokens、Output Tokens、主要模型
+- **Model 篩選 Tab：** 全部 / M2.5/M2.7 / Image-01 / Hailuo / Speech
+- **Aggregation 模式：** Hourly / Daily / Weekly / Monthly
+- **時間趨勢圖：** 每日 / 每週 / 每月用量趨勢
+- **Compare 功能：** 「前一天 / 當日 / 後一天」或「前一週 / 本週 / 後一週」對比
+- **表格欄位（取決於 Aggregation）：**
+  | 欄 | 內容 |
+  |--|--|
+  | 時間 | 小時 / 日期 / 週 / 月 |
+  | 模型 | 模型名稱 |
+  | Input | Input token 數 |
+  | Output | Output token 數 |
+  | Total | 總 token 數 |
+  | API | API 類型（chatcompletion / cache-read / cache-create / image-generation / t2a-v2） |
+- **分頁：** 月模式 50 條、週模式 20 條、日模式 10 條
 
 **Data Sources:**
 - `public/minimax-api-status.json` — MiniMax API realtime snapshot
