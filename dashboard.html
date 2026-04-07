@@ -142,7 +142,7 @@
             <div class="card-header">
                 <div class="card-title">📜 配額歷史記錄</div>
                 <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-                    <select class="month-select" id="hist-date-filter" onchange="renderHistory()">
+                    <select class="month-select" id="hist-date-filter" onchange="histPager.applyFilter()">
                         <option value="all">全部日期</option>
                     </select>
                     <span id="hist-badge" class="badge" style="background:rgba(46,204,113,0.15);color:var(--green);"></span>
@@ -210,16 +210,16 @@
                 <span id="cp-range" class="badge" style="background:rgba(52,152,219,0.15);color:var(--blue);"></span>
             </div>
             <div class="filter-row" style="margin-bottom:14px;">
-                <select class="month-select" id="cp-filter-mode" onchange="cpFilterModeChanged()">
+                <select class="month-select" id="cp-filter-mode" onchange="copilotPager.setFilterMode(this.value)">
                     <option value="month">按月份</option>
                     <option value="week">按星期</option>
                     <option value="date">按日期</option>
                 </select>
-                <select class="month-select" id="cp-month-select" onchange="applyCopilotFilter()" style="display:inline-block;">
+                <select class="month-select" id="cp-month-select" onchange="copilotPager.applyFilter()" style="display:inline-block;">
                     <option value="all">全部月份</option>
                 </select>
-                <input type="date" class="month-select" id="cp-date-picker" onchange="applyCopilotFilter()" style="display:none;">
-                <input type="week" class="month-select" id="cp-week-picker" onchange="applyCopilotFilter()" style="display:none;">
+                <input type="date" class="month-select" id="cp-date-picker" onchange="copilotPager.applyFilter()" style="display:none;">
+                <input type="week" class="month-select" id="cp-week-picker" onchange="copilotPager.applyFilter()" style="display:none;">
             </div>
             <div id="cp-compare" style="display:none;"></div>
             <div class="stats-grid" id="cp-stats" style="margin-bottom:16px;">
@@ -255,24 +255,24 @@
                 <span id="tk-range" class="badge" style="background:rgba(230,126,34,0.15);color:var(--orange);"></span>
             </div>
             <div class="filter-row" style="margin-bottom:10px;">
-                <select class="month-select" id="tk-filter-mode" onchange="tkFilterModeChanged()">
+                <select class="month-select" id="tk-filter-mode" onchange="tokenPager.setFilterMode(this.value)">
                     <option value="month">按月份</option>
                     <option value="week">按星期</option>
                     <option value="date">按日期</option>
                 </select>
-                <select class="month-select" id="month-select" onchange="applyTokenFilter()" style="display:inline-block;">
+                <select class="month-select" id="month-select" onchange="tokenPager.applyFilter()" style="display:inline-block;">
                     <option value="all">全部月份</option>
                 </select>
-                <input type="date" class="month-select" id="tk-date-picker" onchange="applyTokenFilter()" style="display:none;">
-                <input type="week" class="month-select" id="tk-week-picker" onchange="applyTokenFilter()" style="display:none;">
+                <input type="date" class="month-select" id="tk-date-picker" onchange="tokenPager.applyFilter()" style="display:none;">
+                <input type="week" class="month-select" id="tk-week-picker" onchange="tokenPager.applyFilter()" style="display:none;">
             </div>
             <!-- Model Filter Tabs -->
             <div class="model-filter-tabs">
-                <button class="model-filter-btn active" data-filter="all" onclick="setModelFilter('all')">全部</button>
-                <button class="model-filter-btn" data-filter="M2.7" onclick="setModelFilter('M2.7')">M2.5/M2.7</button>
-                <button class="model-filter-btn" data-filter="Image-01" onclick="setModelFilter('Image-01')">Image-01</button>
-                <button class="model-filter-btn" data-filter="Hailuo" onclick="setModelFilter('Hailuo')">Hailuo</button>
-                <button class="model-filter-btn" data-filter="Speech" onclick="setModelFilter('Speech')">Speech</button>
+                <button class="model-filter-btn active" data-filter="all" onclick="tokenPager.setModelFilter('all')">全部</button>
+                <button class="model-filter-btn" data-filter="M2.7" onclick="tokenPager.setModelFilter('M2.7')">M2.5/M2.7</button>
+                <button class="model-filter-btn" data-filter="Image-01" onclick="tokenPager.setModelFilter('Image-01')">Image-01</button>
+                <button class="model-filter-btn" data-filter="Hailuo" onclick="tokenPager.setModelFilter('Hailuo')">Hailuo</button>
+                <button class="model-filter-btn" data-filter="Speech" onclick="tokenPager.setModelFilter('Speech')">Speech</button>
             </div>
             <!-- Charts -->
             <div class="charts-row" id="tk-charts">
@@ -290,10 +290,10 @@
             </div>
             <div class="filter-row" style="margin-bottom:10px;">
                 <div class="agg-toggle">
-                    <button class="agg-btn" id="agg-hourly" onclick="setAggMode('hourly')">Hourly</button>
-                    <button class="agg-btn active" id="agg-daily" onclick="setAggMode('daily')">Daily</button>
-                    <button class="agg-btn" id="agg-weekly" onclick="setAggMode('weekly')">Weekly</button>
-                    <button class="agg-btn" id="agg-monthly" onclick="setAggMode('monthly')">Monthly</button>
+                    <button class="agg-btn" id="agg-hourly" onclick="tokenPager.setAggMode('hourly')">Hourly</button>
+                    <button class="agg-btn active" id="agg-daily" onclick="tokenPager.setAggMode('daily')">Daily</button>
+                    <button class="agg-btn" id="agg-weekly" onclick="tokenPager.setAggMode('weekly')">Weekly</button>
+                    <button class="agg-btn" id="agg-monthly" onclick="tokenPager.setAggMode('monthly')">Monthly</button>
                 </div>
             </div>
             <div style="overflow-x:auto;">
@@ -325,252 +325,6 @@
     const pctColor = pct => pct >= 90 ? 'var(--danger)' : pct >= 70 ? 'var(--warn)' : 'var(--blue)';
     const basePath = location.pathname.includes('/virtual-office') ? '/virtual-office' : '';
 
-    // ===== Copilot Detail with Filter Modes =====
-    let cpAllRecords = [];
-    let cpFilteredRecords = [];
-    let cpPage = 1;
-    let cpPageSize = 50;
-
-    function cpRecDate(r) { return r.date || null; }
-    function cpRecMonth(r) { const d = cpRecDate(r); return d ? d.substring(0,7) : null; }
-    function cpFilterByDateRange(start, end) {
-        return cpAllRecords.filter(r => { const d = cpRecDate(r); return d && d >= start && d <= end; });
-    }
-    function updateCpRangeBadge(records) {
-        if (records.length > 0) {
-            const first = records[records.length - 1];
-            const last  = records[0];
-            $('cp-range').textContent = (cpRecDate(first)||'') + ' → ' + (cpRecDate(last)||'');
-        } else {
-            $('cp-range').textContent = '';
-        }
-    }
-    function cpCalcStats(records) {
-        let total = 0, opus = 0, sonnet = 0, other = 0;
-        records.forEach(r => {
-            const qty = parseFloat(r.quantity) || 0;
-            total += qty;
-            const m = (r.model || '').toLowerCase();
-            if (m.includes('opus')) opus += qty;
-            else if (m.includes('sonnet')) sonnet += qty;
-            else other += qty;
-        });
-        return { total, opus, sonnet, other };
-    }
-
-    async function loadCopilotDetail() {
-        try {
-            const res = await fetch(basePath + '/public/copilot-summary.json?' + Date.now());
-            if (!res.ok) return;
-            const data = await res.json();
-
-            // Load records from unified JSON
-            cpAllRecords = data.records.map(r => ({
-                date: r.date,
-                model: r.model,
-                quantity: r.quantity,
-                unit_type: r.unit_type
-            }));
-
-            cpAllRecords.sort((a,b) => b.date.localeCompare(a.date));
-
-            // Build month options from available months
-            const sel = $('cp-month-select');
-            sel.innerHTML = '<option value="all">全部月份</option>';
-            [...data.months].sort().reverse().forEach(m => {
-                const o = document.createElement('option'); o.value = m; o.textContent = m; sel.appendChild(o);
-            });
-
-            const latestDate = cpRecDate(cpAllRecords[0]);
-            if (latestDate) {
-                $('cp-date-picker').value = latestDate;
-                $('cp-week-picker').value = dateToWeek(latestDate);
-            }
-
-            applyCopilotFilter();
-        } catch(e) { console.log('Copilot detail load error:', e); }
-    }
-
-    function cpFilterModeChanged() {
-        const mode = $('cp-filter-mode').value;
-        $('cp-month-select').style.display = mode === 'month' ? '' : 'none';
-        $('cp-date-picker').style.display = mode === 'date' ? '' : 'none';
-        $('cp-week-picker').style.display = mode === 'week' ? '' : 'none';
-        applyCopilotFilter();
-    }
-
-    function applyCopilotFilter() {
-        const mode = $('cp-filter-mode').value;
-        cpPage = 1;
-        if (mode === 'month') cpPageSize = 50;
-        else if (mode === 'week') cpPageSize = 20;
-        else cpPageSize = 10;
-
-        if (mode === 'month') {
-            const month = $('cp-month-select').value;
-            if (month === 'all') {
-                cpFilteredRecords = cpAllRecords;
-                $('cp-compare').style.display = 'none';
-                if (cpFilteredRecords.length > 0) {
-                    const s = cpCalcStats(cpFilteredRecords);
-                    $('cp-total-req').textContent = s.total.toFixed(0);
-                    $('cp-opus').textContent = s.opus.toFixed(0);
-                    $('cp-sonnet').textContent = s.sonnet.toFixed(0);
-                    $('cp-other').textContent = s.other.toFixed(0);
-                    $('cp-stats').style.display = '';
-                } else {
-                    $('cp-stats').style.display = 'none';
-                }
-                updateCpRangeBadge(cpFilteredRecords);
-                renderCopilotPage();
-                return;
-            }
-            const [y, m] = month.split('-').map(Number);
-            const getMonthStr = (yy, mm) => {
-                if (mm < 1) { yy--; mm += 12; }
-                else if (mm > 12) { yy++; mm -= 12; }
-                return String(yy) + '-' + String(mm).padStart(2, '0');
-            };
-            renderCopilotCompare3(
-                month,
-                [
-                    { label: '上月份',  key: getMonthStr(y, m - 1) },
-                    { label: '今月份',  key: month, isCurrent: true },
-                    { label: '下月份',  key: getMonthStr(y, m + 1) }
-                ]
-            );
-        } else if (mode === 'date') {
-            const picked = $('cp-date-picker').value;
-            if (!picked) { cpFilteredRecords = []; renderCopilotPage(); return; }
-            renderCopilotCompare3(
-                picked,
-                [
-                    { label: '上日', key: addDays(picked, -1) },
-                    { label: '今日', key: picked, isCurrent: true },
-                    { label: '下日', key: addDays(picked, 1) }
-                ]
-            );
-        } else if (mode === 'week') {
-            const picked = $('cp-week-picker').value;
-            if (!picked) { cpFilteredRecords = []; renderCopilotPage(); return; }
-            const cur = weekToRange(picked);
-            const prevStart = addDays(cur.start, -7), prevEnd = addDays(cur.start, -1);
-            const nextStart = addDays(cur.end, 1), nextEnd = addDays(cur.end, 7);
-            renderCopilotCompare3(
-                picked,
-                [
-                    { label: '上週', key: prevStart + '~' + prevEnd, range: [prevStart, prevEnd] },
-                    { label: '本週', key: cur.start + '~' + cur.end, range: [cur.start, cur.end], isCurrent: true },
-                    { label: '下週', key: nextStart + '~' + nextEnd, range: [nextStart, nextEnd] }
-                ]
-            );
-        }
-    }
-
-    function renderCopilotCompare3(activeKey, periods) {
-        const mode = $('cp-filter-mode').value;
-        const modeLabel = {month:'月份', week:'期間', date:'日期'}[mode];
-        const modeName = {month:'月', week:'週', date:'日'}[mode];
-
-        let rows = '';
-        for (const p of periods) {
-            let recs;
-            if (mode === 'month') recs = cpAllRecords.filter(r => cpRecMonth(r) === p.key);
-            else if (mode === 'week') recs = cpFilterByDateRange(p.range[0], p.range[1]);
-            else recs = cpFilterByDateRange(p.key, p.key);
-
-            const s = cpCalcStats(recs);
-            const isActive = p.isCurrent || p.key === activeKey;
-            const style = isActive ? ' style="border-left:3px solid var(--green);font-weight:bold;"' : '';
-            rows += '<tr' + style + '>' + 
-                '<td>' + p.label + (isActive ? ' ★' : '') + '</td>' +
-                '<td>' + s.total.toFixed(0) + '</td>' +
-                '<td>' + s.opus.toFixed(0) + '</td>' +
-                '<td>' + s.sonnet.toFixed(0) + '</td>' +
-                '<td>' + s.other.toFixed(0) + '</td>' +
-                '</tr>';
-
-            if (isActive) {
-                if (mode === 'month') cpFilteredRecords = cpAllRecords.filter(r => cpRecMonth(r) === p.key);
-                else if (mode === 'week') cpFilteredRecords = cpFilterByDateRange(p.range[0], p.range[1]);
-                else cpFilteredRecords = recs;
-
-                updateCpRangeBadge(cpFilteredRecords);
-            }
-        }
-
-        const c = $('cp-compare');
-        c.style.display = '';
-        c.innerHTML = '<table class="compare-table">' +
-            '<thead><tr><th>' + modeLabel + '</th><th>總</th><th>Opus</th><th>Sonnet</th><th>其他</th></tr></thead>' +
-            '<tbody>' + rows + '</tbody></table>';
-        $('cp-stats').style.display = 'none';
-        renderCopilotPage();
-    }
-
-    function renderCopilotCompare(periods) {
-        const active = periods.find(p => p.active);
-        const activeKey = active ? (active.title || '').replace('📍 ','') : '';
-        renderCopilotCompare3(activeKey, periods.map(p => ({ label: p.title, key: p.title })));
-    }
-
-    function renderCopilotPage() {
-        const start = (cpPage - 1) * cpPageSize;
-        const end = start + cpPageSize;
-        const page = cpFilteredRecords.slice(start, end);
-        const totalPages = Math.ceil(cpFilteredRecords.length / cpPageSize) || 1;
-
-        const tbody = $('cp-body');
-        if (page.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--text2);padding:24px;">無資料</td></tr>';
-        } else {
-            tbody.innerHTML = page.map(r => {
-                const m = r.model || '—';
-                const qty = parseFloat(r.quantity) || 0;
-                const ml = m.toLowerCase();
-                const color = ml.includes('opus') ? 'var(--danger)' : ml.includes('sonnet') ? 'var(--blue)' : 'var(--text)';
-                const skuLabel = (r.sku || '').replace('copilot_premium_request','premium').replace('coding_agent_premium_request','agent');
-                return `<tr>
-                    <td>${r.date}</td>
-                    <td style="color:${color};">${m}</td>
-                    <td class="num">${qty.toFixed(2)}</td>
-                    <td style="color:var(--text2);font-size:0.85em;">${skuLabel}</td>
-                </tr>`;
-            }).join('');
-        }
-
-        const pg = $('cp-pagination');
-        let pgHtml = `<button onclick="cpGoPage(1)" ${cpPage===1?'disabled':''}>«</button>`;
-        pgHtml += `<button onclick="cpGoPage(${cpPage-1})" ${cpPage===1?'disabled':''}>‹</button>`;
-        let pStart = Math.max(1, cpPage-3), pEnd = Math.min(totalPages, pStart+6);
-        if (pEnd - pStart < 6) pStart = Math.max(1, pEnd-6);
-        for (let i = pStart; i <= pEnd; i++) pgHtml += `<button onclick="cpGoPage(${i})" class="${i===cpPage?'active':''}">${i}</button>`;
-        pgHtml += `<button onclick="cpGoPage(${cpPage+1})" ${cpPage>=totalPages?'disabled':''}>›</button>`;
-        pgHtml += `<button onclick="cpGoPage(${totalPages})" ${cpPage>=totalPages?'disabled':''}>»</button>`;
-        pgHtml += `<span class="info">${cpFilteredRecords.length > 0 ? (start+1)+'-'+Math.min(end,cpFilteredRecords.length)+' / '+cpFilteredRecords.length : '0'}</span>`;
-        pg.innerHTML = pgHtml;
-    }
-
-    function cpGoPage(p) {
-        const totalPages = Math.ceil(cpFilteredRecords.length / cpPageSize) || 1;
-        cpPage = Math.max(1, Math.min(p, totalPages));
-        renderCopilotPage();
-        $('copilot-detail-card').scrollIntoView({behavior:'smooth', block:'start'});
-    }
-
-    // ===== Token Detail with Filter Modes =====
-    let allRecords = [];
-    let baseFilteredRecords = []; // records after date/period filter only
-    let filteredRecords = [];     // records after date/period + model filter (raw)
-    let displayRecords = [];      // records after aggregation (for table display)
-    let tokenPage = 1;
-    let tkPageSize = 50;
-    let tkModelFilter = 'all';
-    let tkAggMode = (localStorage.getItem('tkAggMode') || 'daily');
-    const AGG_MODES = ['hourly','daily','weekly','monthly'];
-
-    function recDate(r) { return r.consumptionTime ? r.consumptionTime.substring(0, 10) : null; }
-    function recMonth(r) { const d = recDate(r); return d ? d.substring(0, 7) : null; }
     function dateToWeek(dateStr) {
         const d = new Date(dateStr + 'T00:00:00');
         const tmp = new Date(d);
@@ -593,287 +347,708 @@
         d.setDate(d.getDate() + n);
         return d.toISOString().substring(0, 10);
     }
-    function calcStats(records) {
-        let input = 0, output = 0, total = 0;
-        records.forEach(r => { input += r.inputUsageQuantity||0; output += r.outputUsageQuantity||0; total += r.totalUsageQuantity||0; });
-        return { input, output, total, count: records.length };
-    }
-    function filterRecordsByDateRange(start, end) {
-        return allRecords.filter(r => { const d = recDate(r); return d && d >= start && d <= end; });
-    }
 
-    async function loadTokenDetail() {
-        try {
-            const res = await fetch(basePath + '/public/token-log.json?' + Date.now());
-            if (!res.ok) return;
-            const data = await res.json();
-            allRecords = (data.records || []).slice().reverse();
+    const AGG_MODES = ['hourly','daily','weekly','monthly'];
 
-            const months = new Set();
-            allRecords.forEach(r => { const m = recMonth(r); if (m) months.add(m); });
-            const sel = $('month-select');
-            sel.innerHTML = '<option value="all">全部月份</option>';
-            [...months].sort().reverse().forEach(m => { const o = document.createElement('option'); o.value = m; o.textContent = m; sel.appendChild(o); });
-
-            const latestDate = recDate(allRecords[0]);
-            if (latestDate) { $('tk-date-picker').value = latestDate; $('tk-week-picker').value = dateToWeek(latestDate); }
-
-            applyTokenFilter();
-        } catch(e) { console.log('Token detail load error:', e); }
-    }
-
-    function tkFilterModeChanged() {
-        const mode = $('tk-filter-mode').value;
-        $('month-select').style.display = mode === 'month' ? '' : 'none';
-        $('tk-date-picker').style.display = mode === 'date' ? '' : 'none';
-        $('tk-week-picker').style.display = mode === 'week' ? '' : 'none';
-        applyTokenFilter();
-    }
-
-    function applyTokenFilter() {
-        const mode = $('tk-filter-mode').value;
-        tokenPage = 1;
-
-        if (mode === 'month') {
-            tkPageSize = 50;
-            const month = $('month-select').value;
-            baseFilteredRecords = month === 'all' ? allRecords : allRecords.filter(r => recMonth(r) === month);
-            $('tk-compare').style.display = 'none';
-            $('tk-stats').style.display = '';
-        } else if (mode === 'date') {
-            tkPageSize = 10;
-            const picked = $('tk-date-picker').value;
-            if (!picked) { baseFilteredRecords = []; applyModelAndAgg(); return; }
-            const prev = addDays(picked, -1), next = addDays(picked, 1);
-            baseFilteredRecords = filterRecordsByDateRange(picked, picked);
-            renderCompare([
-                { title: '前一天 ' + prev, records: applyModelFilter(filterRecordsByDateRange(prev, prev)) },
-                { title: '📍 ' + picked, records: applyModelFilter(filterRecordsByDateRange(picked, picked)), active: true },
-                { title: '後一天 ' + next, records: applyModelFilter(filterRecordsByDateRange(next, next)) }
-            ]);
-            $('tk-stats').style.display = 'none';
-        } else if (mode === 'week') {
-            tkPageSize = 20;
-            const picked = $('tk-week-picker').value;
-            if (!picked) { baseFilteredRecords = []; applyModelAndAgg(); return; }
-            const cur = weekToRange(picked);
-            const prevStart = addDays(cur.start, -7), prevEnd = addDays(cur.start, -1);
-            const nextStart = addDays(cur.end, 1), nextEnd = addDays(cur.end, 7);
-            baseFilteredRecords = filterRecordsByDateRange(cur.start, cur.end);
-            renderCompare([
-                { title: '前一週 ' + prevStart + '~' + prevEnd, records: applyModelFilter(filterRecordsByDateRange(prevStart, prevEnd)) },
-                { title: '📍 ' + cur.start + '~' + cur.end, records: applyModelFilter(filterRecordsByDateRange(cur.start, cur.end)), active: true },
-                { title: '後一週 ' + nextStart + '~' + nextEnd, records: applyModelFilter(filterRecordsByDateRange(nextStart, nextEnd)) }
-            ]);
-            $('tk-stats').style.display = 'none';
+    // ===== TabPanel base class =====
+    class TabPanel {
+        constructor(id, opts = {}) {
+            this.id = id;
+            this.cardId = opts.cardId;
+            this.page = 1;
+            this.pageSize = opts.pageSize || 50;
         }
 
-        if (baseFilteredRecords.length > 0) {
-            const first = baseFilteredRecords[baseFilteredRecords.length - 1], last = baseFilteredRecords[0];
-            $('tk-range').textContent = (recDate(first)||'') + ' → ' + (recDate(last)||'');
-        } else { $('tk-range').textContent = ''; }
+        // Subclasses must implement: getDisplayRecords(), render()
 
-        applyModelAndAgg();
+        goPage(n) {
+            const records = this.getDisplayRecords();
+            const totalPages = Math.ceil(records.length / this.pageSize) || 1;
+            this.page = Math.max(1, Math.min(n, totalPages));
+            this.render();
+            if (this.cardId) $(this.cardId).scrollIntoView({behavior:'smooth', block:'start'});
+        }
+
+        renderPagination(records, pgId) {
+            const pg = $(pgId);
+            const totalPages = Math.ceil(records.length / this.pageSize) || 1;
+            const p = this.page;
+            const start = (p - 1) * this.pageSize;
+            const end = start + this.pageSize;
+            const ref = this.id + 'Pager';
+            let pStart = Math.max(1, p - 3), pEnd = Math.min(totalPages, pStart + 6);
+            if (pEnd - pStart < 6) pStart = Math.max(1, pEnd - 6);
+            let html = `<button onclick="${ref}.goPage(1)" ${p===1?'disabled':''}>«</button>`;
+            html += `<button onclick="${ref}.goPage(${p-1})" ${p===1?'disabled':''}>‹</button>`;
+            for (let i = pStart; i <= pEnd; i++) html += `<button onclick="${ref}.goPage(${i})" class="${i===p?'active':''}">${i}</button>`;
+            html += `<button onclick="${ref}.goPage(${p+1})" ${p>=totalPages?'disabled':''}>›</button>`;
+            html += `<button onclick="${ref}.goPage(${totalPages})" ${p>=totalPages?'disabled':''}>»</button>`;
+            html += `<span class="info">${records.length > 0 ? (start+1)+'-'+Math.min(end,records.length)+' / '+records.length : '0'}</span>`;
+            pg.innerHTML = html;
+        }
     }
 
-    function setModelFilter(f) {
-        tkModelFilter = f;
-        document.querySelectorAll('.model-filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === f));
-        tokenPage = 1;
-        applyModelAndAgg();
-    }
+    // ===== QuotaPanel =====
+    class QuotaPanel extends TabPanel {
+        constructor() {
+            super('hist', { cardId: 'history-card', pageSize: 20 });
+            this.entries = [];
+            this.filtered = [];
+        }
 
-    function setAggMode(mode) {
-        tkAggMode = mode;
-        localStorage.setItem('tkAggMode', mode);
-        AGG_MODES.forEach(m => $('agg-'+m).classList.toggle('active', m === mode));
-        tokenPage = 1;
-        applyModelAndAgg();
-    }
+        getDisplayRecords() { return this.filtered; }
 
-    function applyModelFilter(records) {
-        if (tkModelFilter === 'all') return records;
-        const f = tkModelFilter.toLowerCase();
-        return records.filter(r => {
-            const model = (r.consumedModel || '').toLowerCase();
-            const api = (r.consumedApi || '').toLowerCase();
-            if (f === 'speech') return model.includes('speech') || api.includes('speech') || api.includes('audio');
-            if (f === 'hailuo') return model.includes('hailuo');
-            if (f === 'image-01') return model.includes('image') || model.includes('vlm') || api.includes('image');
-            return model.includes(f.replace('-',''));
-        });
-    }
+        async loadData() {
+            try {
+                const res = await fetch(basePath + '/public/quota-history.json?' + Date.now());
+                if (!res.ok) {
+                    $('hist-body').innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text2);padding:24px;">暫無歷史資料 — 請先執行 refresh-data.sh</td></tr>';
+                    return;
+                }
+                const data = await res.json();
+                this.entries = data.entries || [];
+                this.entries.sort((a, b) => new Date(b.capturedAt) - new Date(a.capturedAt));
 
-    function aggregateRecords(records, mode) {
-        if (mode === 'hourly') return records;
-        const grouped = {};
-        records.forEach(r => {
-            const date = recDate(r);
-            const model = (r.consumedModel || 'unknown').replace('MiniMax-','');
-            let groupDate;
-            if (mode === 'daily') {
-                groupDate = date || 'unknown';
-            } else if (mode === 'weekly') {
-                groupDate = date ? dateToWeek(date) : 'unknown';
-            } else if (mode === 'monthly') {
-                groupDate = date ? (date.substring(0,7)) : 'unknown';
+                const dates = new Set(this.entries.map(e => e.date));
+                const sortedDates = [...dates].sort().reverse();
+                const sel = $('hist-date-filter');
+                sel.innerHTML = '<option value="all">全部日期</option>';
+                sortedDates.forEach(d => {
+                    const opt = document.createElement('option');
+                    opt.value = d; opt.textContent = d; sel.appendChild(opt);
+                });
+
+                $('hist-badge').textContent = this.entries.length + ' 條記錄';
+                this.applyFilter();
+            } catch(e) { console.log('Quota history load error:', e); }
+        }
+
+        applyFilter() {
+            const dateFilter = $('hist-date-filter').value;
+            this.page = 1;
+            this.filtered = dateFilter === 'all' ? this.entries : this.entries.filter(e => e.date === dateFilter);
+
+            const mStarEntries = this.filtered.filter(e => e.mStar?.total > 0);
+            const speechDays = {}, imageDays = {};
+            this.filtered.forEach(e => {
+                if (e.speech?.used > 0 && !speechDays[e.date]) speechDays[e.date] = e.speech.used;
+                if (e.image?.used  > 0 && !imageDays[e.date])  imageDays[e.date]  = e.image.used;
+            });
+
+            const avgMStar    = mStarEntries.length ? Math.round(mStarEntries.reduce((s,e) => s + e.mStar.used, 0) / mStarEntries.length) : 0;
+            const avgMStarPct = mStarEntries.length ? Math.round(mStarEntries.reduce((s,e) => s + e.mStar.usedPct, 0) / mStarEntries.length) : 0;
+            const speechVals  = Object.values(speechDays);
+            const imageVals   = Object.values(imageDays);
+            const avgSpeech   = speechVals.length ? Math.round(speechVals.reduce((s,v) => s+v,0) / speechVals.length) : 0;
+            const avgImage    = imageVals.length  ? Math.round(imageVals.reduce((s,v) => s+v,0)  / imageVals.length)  : 0;
+
+            $('hist-avg-mstar').textContent     = avgMStar || '—';
+            $('hist-avg-mstar-pct').textContent = avgMStarPct ? avgMStarPct + '%' : '—';
+            $('hist-avg-speech').textContent    = avgSpeech || '—';
+            $('hist-avg-image').textContent     = avgImage || '—';
+
+            this.render();
+        }
+
+        render() {
+            const start = (this.page - 1) * this.pageSize;
+            const end = start + this.pageSize;
+            const page = this.filtered.slice(start, end);
+            const totalPages = Math.ceil(this.filtered.length / this.pageSize) || 1;
+            const winColors = { '01-06':'#3498db','06-11':'#2ecc71','11-16':'#e67e22','16-21':'#e74c3c','21-01':'#9b59b6' };
+
+            const tbody = $('hist-body');
+            if (page.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text2);padding:24px;">無資料</td></tr>';
             } else {
-                groupDate = date || 'unknown';
+                tbody.innerHTML = page.map(e => {
+                    const wc = winColors[e.window] || '#888';
+                    const mUsed = e.mStar?.used ?? '—';
+                    const mTotal = e.mStar?.total ?? '—';
+                    const mPct = e.mStar?.usedPct != null ? e.mStar.usedPct + '%' : '—';
+                    const pctColor2 = e.mStar?.usedPct >= 90 ? 'var(--danger)' : e.mStar?.usedPct >= 70 ? 'var(--warn)' : 'var(--green)';
+                    const sUsed = e.speech?.used ?? '—';
+                    const iUsed = e.image?.used ?? '—';
+                    const captTime = e.capturedAt ? new Date(e.capturedAt).toLocaleString('zh-HK',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}) : '—';
+                    return `<tr>
+                        <td>${e.date}</td>
+                        <td><span style="color:${wc};font-weight:600;">${e.window}</span></td>
+                        <td class="num">${mUsed}</td>
+                        <td class="num" style="color:var(--text2);">${mTotal}</td>
+                        <td class="num" style="color:${pctColor2};">${mPct}</td>
+                        <td class="num" style="color:#9b59b6;">${sUsed}</td>
+                        <td class="num" style="color:var(--orange);">${iUsed}</td>
+                        <td style="color:var(--text2);font-size:0.85em;">${captTime}</td>
+                    </tr>`;
+                }).join('');
             }
-            const key = groupDate + '|' + model;
-            if (!grouped[key]) {
-                grouped[key] = { _date: groupDate, _model: model, inputUsageQuantity: 0, outputUsageQuantity: 0, totalUsageQuantity: 0, _apis: new Set(), _count: 0 };
-            }
-            const g = grouped[key];
-            g.inputUsageQuantity += r.inputUsageQuantity || 0;
-            g.outputUsageQuantity += r.outputUsageQuantity || 0;
-            g.totalUsageQuantity += r.totalUsageQuantity || 0;
-            if (r.consumedApi) g._apis.add(r.consumedApi.replace('(Text API)','').trim());
-            g._count++;
-        });
-        return Object.values(grouped).sort((a, b) => b._date.localeCompare(a._date));
+
+            const pg = $('hist-pagination');
+            if (totalPages <= 1) { pg.innerHTML = ''; return; }
+            this.renderPagination(this.filtered, 'hist-pagination');
+        }
     }
 
-    function applyModelAndAgg() {
-        filteredRecords = applyModelFilter(baseFilteredRecords);
-        displayRecords = aggregateRecords(filteredRecords, tkAggMode);
-        updateTkStatsDisplay();
-        renderMiniMaxCharts(filteredRecords);
-        renderTokenPage();
-    }
-
-    function updateTkStatsDisplay() {
-        if ($('tk-stats').style.display === 'none') return;
-        const s = calcStats(filteredRecords);
-        $('tk-count').textContent = fmtNum(s.count);
-        $('tk-input').textContent = fmtNum(s.input);
-        $('tk-output').textContent = fmtNum(s.output);
-        const mc = {};
-        filteredRecords.forEach(r => { const m = r.consumedModel||'unknown'; mc[m]=(mc[m]||0)+1; });
-        const top = Object.entries(mc).sort((a,b)=>b[1]-a[1])[0];
-        $('tk-model').textContent = top ? top[0].replace('MiniMax-','') : '—';
-    }
-
-    function modelColor(model) {
-        const m = model.toLowerCase();
-        if (m.includes('m2.7') || m.includes('m*')) return '#3498db';
-        if (m.includes('image') || m.includes('vlm')) return '#e67e22';
-        if (m.includes('hailuo')) return '#2ecc71';
-        if (m.includes('speech') || m.includes('audio')) return '#9b59b6';
-        return '#888';
-    }
-
-    function renderTrendChart(records) {
-        const filterMode = $('tk-filter-mode').value;
-        const chartTitle = {date:'Daily Trend', week:'Weekly Trend', month:'Monthly Trend'}[filterMode] || 'Trend';
-        $('tk-trend-title').textContent = '📈 ' + chartTitle;
-
-        const modelNames = new Set();
-        records.forEach(r => { const m = (r.consumedModel||'unknown').replace('MiniMax-',''); modelNames.add(m); });
-        const sortedModels = [...modelNames].sort();
-        if (sortedModels.length === 0 || records.length === 0) {
-            $('tk-trend-chart').innerHTML = '<div style="color:var(--text2);font-size:0.8em;padding:12px 0;">暫無數據</div>';
-            return;
+    // ===== CopilotPanel =====
+    class CopilotPanel extends TabPanel {
+        constructor() {
+            super('copilot', { cardId: 'copilot-detail-card', pageSize: 50 });
+            this.allRecords = [];
+            this.filteredRecords = [];
+            this.filterMode = 'month';
         }
 
-        const now = new Date();
-        let buckets = [], bucketMap = {};
+        getDisplayRecords() { return this.filteredRecords; }
 
-        if (filterMode === 'date') {
-            for (let i = 6; i >= 0; i--) {
-                const d = addDays(now.toISOString().substring(0,10), -i);
-                buckets.push(d);
-                bucketMap[d] = {};
-                sortedModels.forEach(m => bucketMap[d][m] = 0);
+        recDate(r) { return r.date || null; }
+        recMonth(r) { const d = this.recDate(r); return d ? d.substring(0,7) : null; }
+
+        filterByDateRange(start, end) {
+            return this.allRecords.filter(r => { const d = this.recDate(r); return d && d >= start && d <= end; });
+        }
+
+        updateRangeBadge(records) {
+            if (records.length > 0) {
+                const first = records[records.length - 1], last = records[0];
+                $('cp-range').textContent = (this.recDate(first)||'') + ' → ' + (this.recDate(last)||'');
+            } else {
+                $('cp-range').textContent = '';
             }
+        }
+
+        calcStats(records) {
+            let total = 0, opus = 0, sonnet = 0, other = 0;
             records.forEach(r => {
-                const d = recDate(r);
-                if (!d || !bucketMap[d]) return;
-                const m = (r.consumedModel||'unknown').replace('MiniMax-','');
-                bucketMap[d][m] = (bucketMap[d][m]||0) + (r.totalUsageQuantity||0);
+                const qty = parseFloat(r.quantity) || 0;
+                total += qty;
+                const m = (r.model || '').toLowerCase();
+                if (m.includes('opus')) opus += qty;
+                else if (m.includes('sonnet')) sonnet += qty;
+                else other += qty;
             });
-        } else if (filterMode === 'week') {
-            for (let i = 7; i >= 0; i--) {
-                const weekStart = addDays(now.toISOString().substring(0,10), -i*7);
-                const wk = dateToWeek(weekStart);
-                buckets.push(wk);
-                bucketMap[wk] = {};
-                sortedModels.forEach(m => bucketMap[wk][m] = 0);
+            return { total, opus, sonnet, other };
+        }
+
+        setFilterMode(mode) {
+            this.filterMode = mode;
+            $('cp-month-select').style.display = mode === 'month' ? '' : 'none';
+            $('cp-date-picker').style.display   = mode === 'date'  ? '' : 'none';
+            $('cp-week-picker').style.display   = mode === 'week'  ? '' : 'none';
+            this.applyFilter();
+        }
+
+        async loadData() {
+            try {
+                const res = await fetch(basePath + '/public/copilot-summary.json?' + Date.now());
+                if (!res.ok) return;
+                const data = await res.json();
+                this.allRecords = data.records.map(r => ({
+                    date: r.date, model: r.model, quantity: r.quantity, unit_type: r.unit_type
+                }));
+                this.allRecords.sort((a,b) => b.date.localeCompare(a.date));
+
+                const sel = $('cp-month-select');
+                sel.innerHTML = '<option value="all">全部月份</option>';
+                [...data.months].sort().reverse().forEach(m => {
+                    const o = document.createElement('option'); o.value = m; o.textContent = m; sel.appendChild(o);
+                });
+
+                const latestDate = this.recDate(this.allRecords[0]);
+                if (latestDate) {
+                    $('cp-date-picker').value = latestDate;
+                    $('cp-week-picker').value = dateToWeek(latestDate);
+                }
+
+                this.applyFilter();
+            } catch(e) { console.log('Copilot detail load error:', e); }
+        }
+
+        applyFilter() {
+            const mode = this.filterMode;
+            this.page = 1;
+            if (mode === 'month') this.pageSize = 50;
+            else if (mode === 'week') this.pageSize = 20;
+            else this.pageSize = 10;
+
+            if (mode === 'month') {
+                const month = $('cp-month-select').value;
+                if (month === 'all') {
+                    this.filteredRecords = this.allRecords;
+                    $('cp-compare').style.display = 'none';
+                    if (this.filteredRecords.length > 0) {
+                        const s = this.calcStats(this.filteredRecords);
+                        $('cp-total-req').textContent = s.total.toFixed(0);
+                        $('cp-opus').textContent = s.opus.toFixed(0);
+                        $('cp-sonnet').textContent = s.sonnet.toFixed(0);
+                        $('cp-other').textContent = s.other.toFixed(0);
+                        $('cp-stats').style.display = '';
+                    } else {
+                        $('cp-stats').style.display = 'none';
+                    }
+                    this.updateRangeBadge(this.filteredRecords);
+                    this.render();
+                    return;
+                }
+                const [y, m] = month.split('-').map(Number);
+                const getMonthStr = (yy, mm) => {
+                    if (mm < 1) { yy--; mm += 12; }
+                    else if (mm > 12) { yy++; mm -= 12; }
+                    return String(yy) + '-' + String(mm).padStart(2, '0');
+                };
+                this.renderCompare3(month, [
+                    { label: '上月份', key: getMonthStr(y, m - 1) },
+                    { label: '今月份', key: month, isCurrent: true },
+                    { label: '下月份', key: getMonthStr(y, m + 1) }
+                ]);
+            } else if (mode === 'date') {
+                const picked = $('cp-date-picker').value;
+                if (!picked) { this.filteredRecords = []; this.render(); return; }
+                this.renderCompare3(picked, [
+                    { label: '上日', key: addDays(picked, -1) },
+                    { label: '今日', key: picked, isCurrent: true },
+                    { label: '下日', key: addDays(picked, 1) }
+                ]);
+            } else if (mode === 'week') {
+                const picked = $('cp-week-picker').value;
+                if (!picked) { this.filteredRecords = []; this.render(); return; }
+                const cur = weekToRange(picked);
+                const prevStart = addDays(cur.start, -7), prevEnd = addDays(cur.start, -1);
+                const nextStart = addDays(cur.end, 1), nextEnd = addDays(cur.end, 7);
+                this.renderCompare3(picked, [
+                    { label: '上週', key: prevStart + '~' + prevEnd, range: [prevStart, prevEnd] },
+                    { label: '本週', key: cur.start + '~' + cur.end, range: [cur.start, cur.end], isCurrent: true },
+                    { label: '下週', key: nextStart + '~' + nextEnd, range: [nextStart, nextEnd] }
+                ]);
             }
-            records.forEach(r => {
-                const d = recDate(r);
-                if (!d) return;
-                const wk = dateToWeek(d);
-                if (!bucketMap[wk]) return;
-                const m = (r.consumedModel||'unknown').replace('MiniMax-','');
-                bucketMap[wk][m] = (bucketMap[wk][m]||0) + (r.totalUsageQuantity||0);
-            });
-        } else if (filterMode === 'month') {
-            for (let i = 5; i >= 0; i--) {
-                const d = new Date(now);
-                d.setMonth(d.getMonth() - i);
-                const mo = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0');
-                buckets.push(mo);
-                bucketMap[mo] = {};
-                sortedModels.forEach(m => bucketMap[mo][m] = 0);
+        }
+
+        renderCompare3(activeKey, periods) {
+            const mode = this.filterMode;
+            const modeLabel = {month:'月份', week:'期間', date:'日期'}[mode];
+            let rows = '';
+            for (const p of periods) {
+                let recs;
+                if (mode === 'month') recs = this.allRecords.filter(r => this.recMonth(r) === p.key);
+                else if (mode === 'week') recs = this.filterByDateRange(p.range[0], p.range[1]);
+                else recs = this.filterByDateRange(p.key, p.key);
+                const s = this.calcStats(recs);
+                const isActive = p.isCurrent || p.key === activeKey;
+                const style = isActive ? ' style="border-left:3px solid var(--green);font-weight:bold;"' : '';
+                rows += '<tr' + style + '>' +
+                    '<td>' + p.label + (isActive ? ' ★' : '') + '</td>' +
+                    '<td>' + s.total.toFixed(0) + '</td>' +
+                    '<td>' + s.opus.toFixed(0) + '</td>' +
+                    '<td>' + s.sonnet.toFixed(0) + '</td>' +
+                    '<td>' + s.other.toFixed(0) + '</td>' +
+                    '</tr>';
+                if (isActive) {
+                    if (mode === 'month') this.filteredRecords = this.allRecords.filter(r => this.recMonth(r) === p.key);
+                    else if (mode === 'week') this.filteredRecords = this.filterByDateRange(p.range[0], p.range[1]);
+                    else this.filteredRecords = recs;
+                    this.updateRangeBadge(this.filteredRecords);
+                }
             }
-            records.forEach(r => {
-                const d = recDate(r);
-                if (!d) return;
-                const mo = d.substring(0,7);
-                if (!bucketMap[mo]) return;
-                const m = (r.consumedModel||'unknown').replace('MiniMax-','');
-                bucketMap[mo][m] = (bucketMap[mo][m]||0) + (r.totalUsageQuantity||0);
+            const c = $('cp-compare');
+            c.style.display = '';
+            c.innerHTML = '<table class="compare-table">' +
+                '<thead><tr><th>' + modeLabel + '</th><th>總</th><th>Opus</th><th>Sonnet</th><th>其他</th></tr></thead>' +
+                '<tbody>' + rows + '</tbody></table>';
+            $('cp-stats').style.display = 'none';
+            this.render();
+        }
+
+        render() {
+            const start = (this.page - 1) * this.pageSize;
+            const end = start + this.pageSize;
+            const page = this.filteredRecords.slice(start, end);
+
+            const tbody = $('cp-body');
+            if (page.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--text2);padding:24px;">無資料</td></tr>';
+            } else {
+                tbody.innerHTML = page.map(r => {
+                    const m = r.model || '—';
+                    const qty = parseFloat(r.quantity) || 0;
+                    const ml = m.toLowerCase();
+                    const color = ml.includes('opus') ? 'var(--danger)' : ml.includes('sonnet') ? 'var(--blue)' : 'var(--text)';
+                    const skuLabel = (r.sku || '').replace('copilot_premium_request','premium').replace('coding_agent_premium_request','agent');
+                    return `<tr>
+                        <td>${r.date}</td>
+                        <td style="color:${color};">${m}</td>
+                        <td class="num">${qty.toFixed(2)}</td>
+                        <td style="color:var(--text2);font-size:0.85em;">${skuLabel}</td>
+                    </tr>`;
+                }).join('');
+            }
+
+            this.renderPagination(this.filteredRecords, 'cp-pagination');
+        }
+    }
+
+    // ===== MinimaxPanel =====
+    class MinimaxPanel extends TabPanel {
+        constructor() {
+            super('token', { cardId: 'token-card', pageSize: 50 });
+            this.allRecords = [];
+            this.baseFilteredRecords = [];
+            this.filteredRecords = [];
+            this.displayRecords = [];
+            this.filterMode = 'month';
+            this.modelFilter = 'all';
+            this.aggMode = localStorage.getItem('tkAggMode') || 'daily';
+        }
+
+        getDisplayRecords() { return this.displayRecords; }
+
+        recDate(r) { return r.consumptionTime ? r.consumptionTime.substring(0, 10) : null; }
+        recMonth(r) { const d = this.recDate(r); return d ? d.substring(0, 7) : null; }
+
+        filterRecordsByDateRange(start, end) {
+            return this.allRecords.filter(r => { const d = this.recDate(r); return d && d >= start && d <= end; });
+        }
+
+        calcStats(records) {
+            let input = 0, output = 0, total = 0;
+            records.forEach(r => { input += r.inputUsageQuantity||0; output += r.outputUsageQuantity||0; total += r.totalUsageQuantity||0; });
+            return { input, output, total, count: records.length };
+        }
+
+        setFilterMode(mode) {
+            this.filterMode = mode;
+            $('month-select').style.display   = mode === 'month' ? '' : 'none';
+            $('tk-date-picker').style.display = mode === 'date'  ? '' : 'none';
+            $('tk-week-picker').style.display = mode === 'week'  ? '' : 'none';
+            this.applyFilter();
+        }
+
+        setModelFilter(f) {
+            this.modelFilter = f;
+            document.querySelectorAll('.model-filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === f));
+            this.page = 1;
+            this.applyModelAndAgg();
+        }
+
+        setAggMode(mode) {
+            this.aggMode = mode;
+            localStorage.setItem('tkAggMode', mode);
+            AGG_MODES.forEach(m => $('agg-'+m).classList.toggle('active', m === mode));
+            this.page = 1;
+            this.applyModelAndAgg();
+        }
+
+        async loadData() {
+            try {
+                const res = await fetch(basePath + '/public/token-log.json?' + Date.now());
+                if (!res.ok) return;
+                const data = await res.json();
+                this.allRecords = (data.records || []).slice().reverse();
+
+                const months = new Set();
+                this.allRecords.forEach(r => { const m = this.recMonth(r); if (m) months.add(m); });
+                const sel = $('month-select');
+                sel.innerHTML = '<option value="all">全部月份</option>';
+                [...months].sort().reverse().forEach(m => { const o = document.createElement('option'); o.value = m; o.textContent = m; sel.appendChild(o); });
+
+                const latestDate = this.recDate(this.allRecords[0]);
+                if (latestDate) { $('tk-date-picker').value = latestDate; $('tk-week-picker').value = dateToWeek(latestDate); }
+
+                this.applyFilter();
+            } catch(e) { console.log('Token detail load error:', e); }
+        }
+
+        applyFilter() {
+            const mode = this.filterMode;
+            this.page = 1;
+
+            if (mode === 'month') {
+                this.pageSize = 50;
+                const month = $('month-select').value;
+                this.baseFilteredRecords = month === 'all' ? this.allRecords : this.allRecords.filter(r => this.recMonth(r) === month);
+                $('tk-compare').style.display = 'none';
+                $('tk-stats').style.display = '';
+            } else if (mode === 'date') {
+                this.pageSize = 10;
+                const picked = $('tk-date-picker').value;
+                if (!picked) { this.baseFilteredRecords = []; this.applyModelAndAgg(); return; }
+                const prev = addDays(picked, -1), next = addDays(picked, 1);
+                this.baseFilteredRecords = this.filterRecordsByDateRange(picked, picked);
+                this.renderCompare([
+                    { title: '前一天 ' + prev, records: this._applyModelFilter(this.filterRecordsByDateRange(prev, prev)) },
+                    { title: '📍 ' + picked, records: this._applyModelFilter(this.filterRecordsByDateRange(picked, picked)), active: true },
+                    { title: '後一天 ' + next, records: this._applyModelFilter(this.filterRecordsByDateRange(next, next)) }
+                ]);
+                $('tk-stats').style.display = 'none';
+            } else if (mode === 'week') {
+                this.pageSize = 20;
+                const picked = $('tk-week-picker').value;
+                if (!picked) { this.baseFilteredRecords = []; this.applyModelAndAgg(); return; }
+                const cur = weekToRange(picked);
+                const prevStart = addDays(cur.start, -7), prevEnd = addDays(cur.start, -1);
+                const nextStart = addDays(cur.end, 1), nextEnd = addDays(cur.end, 7);
+                this.baseFilteredRecords = this.filterRecordsByDateRange(cur.start, cur.end);
+                this.renderCompare([
+                    { title: '前一週 ' + prevStart + '~' + prevEnd, records: this._applyModelFilter(this.filterRecordsByDateRange(prevStart, prevEnd)) },
+                    { title: '📍 ' + cur.start + '~' + cur.end, records: this._applyModelFilter(this.filterRecordsByDateRange(cur.start, cur.end)), active: true },
+                    { title: '後一週 ' + nextStart + '~' + nextEnd, records: this._applyModelFilter(this.filterRecordsByDateRange(nextStart, nextEnd)) }
+                ]);
+                $('tk-stats').style.display = 'none';
+            }
+
+            if (this.baseFilteredRecords.length > 0) {
+                const first = this.baseFilteredRecords[this.baseFilteredRecords.length - 1];
+                const last  = this.baseFilteredRecords[0];
+                $('tk-range').textContent = (this.recDate(first)||'') + ' → ' + (this.recDate(last)||'');
+            } else { $('tk-range').textContent = ''; }
+
+            this.applyModelAndAgg();
+        }
+
+        _applyModelFilter(records) {
+            if (this.modelFilter === 'all') return records;
+            const f = this.modelFilter.toLowerCase();
+            return records.filter(r => {
+                const model = (r.consumedModel || '').toLowerCase();
+                const api = (r.consumedApi || '').toLowerCase();
+                if (f === 'speech') return model.includes('speech') || api.includes('speech') || api.includes('audio');
+                if (f === 'hailuo') return model.includes('hailuo');
+                if (f === 'image-01') return model.includes('image') || model.includes('vlm') || api.includes('image');
+                return model.includes(f.replace('-',''));
             });
         }
 
-        const series = {};
-        sortedModels.forEach(m => series[m] = []);
-        buckets.forEach(b => sortedModels.forEach(m => series[m].push(bucketMap[b]?.[m]||0)));
+        _aggregateRecords(records, mode) {
+            if (mode === 'hourly') return records;
+            const grouped = {};
+            records.forEach(r => {
+                const date = this.recDate(r);
+                const model = (r.consumedModel || 'unknown').replace('MiniMax-','');
+                let groupDate;
+                if (mode === 'daily') groupDate = date || 'unknown';
+                else if (mode === 'weekly') groupDate = date ? dateToWeek(date) : 'unknown';
+                else if (mode === 'monthly') groupDate = date ? date.substring(0,7) : 'unknown';
+                else groupDate = date || 'unknown';
+                const key = groupDate + '|' + model;
+                if (!grouped[key]) {
+                    grouped[key] = { _date: groupDate, _model: model, inputUsageQuantity: 0, outputUsageQuantity: 0, totalUsageQuantity: 0, _apis: new Set(), _count: 0 };
+                }
+                const g = grouped[key];
+                g.inputUsageQuantity += r.inputUsageQuantity || 0;
+                g.outputUsageQuantity += r.outputUsageQuantity || 0;
+                g.totalUsageQuantity += r.totalUsageQuantity || 0;
+                if (r.consumedApi) g._apis.add(r.consumedApi.replace('(Text API)','').trim());
+                g._count++;
+            });
+            return Object.values(grouped).sort((a, b) => b._date.localeCompare(a._date));
+        }
 
-        let maxVal = 1;
-        sortedModels.forEach(m => { const mx = Math.max(...series[m]); if (mx > maxVal) maxVal = mx; });
+        applyModelAndAgg() {
+            this.filteredRecords = this._applyModelFilter(this.baseFilteredRecords);
+            this.displayRecords = this._aggregateRecords(this.filteredRecords, this.aggMode);
+            this._updateStatsDisplay();
+            this._renderCharts(this.filteredRecords);
+            this.render();
+        }
 
-        const W = 400, H = 100, PAD = 20, LH = 20;
-        const chartW = W - PAD*2, chartH = H - PAD*2 - LH;
-        const xStep = buckets.length > 1 ? chartW / (buckets.length - 1) : chartW / 2;
-        const xPos = i => PAD + i * xStep;
-        const yPos = v => PAD + LH + chartH - (v / maxVal * chartH);
+        _updateStatsDisplay() {
+            if ($('tk-stats').style.display === 'none') return;
+            const s = this.calcStats(this.filteredRecords);
+            $('tk-count').textContent = fmtNum(s.count);
+            $('tk-input').textContent = fmtNum(s.input);
+            $('tk-output').textContent = fmtNum(s.output);
+            const mc = {};
+            this.filteredRecords.forEach(r => { const m = r.consumedModel||'unknown'; mc[m]=(mc[m]||0)+1; });
+            const top = Object.entries(mc).sort((a,b)=>b[1]-a[1])[0];
+            $('tk-model').textContent = top ? top[0].replace('MiniMax-','') : '—';
+        }
 
-        const polylines = sortedModels.map(m => {
-            const pts = series[m].map((v,i) => xPos(i)+','+yPos(v)).join(' ');
-            return `<polyline class="trend-line" points="${pts}" stroke="${modelColor(m)}" />`;
-        }).join('');
+        _modelColor(model) {
+            const m = model.toLowerCase();
+            if (m.includes('m2.7') || m.includes('m*')) return '#3498db';
+            if (m.includes('image') || m.includes('vlm')) return '#e67e22';
+            if (m.includes('hailuo')) return '#2ecc71';
+            if (m.includes('speech') || m.includes('audio')) return '#9b59b6';
+            return '#888';
+        }
 
-        const dots = sortedModels.map(m => {
-            return series[m].map((v,i) => {
-                if (v === 0) return '';
-                const label = filterMode==='week' ? buckets[i].slice(-5) : (buckets[i].length > 7 ? buckets[i].slice(5) : buckets[i]);
-                return `<circle class="trend-dot" cx="${xPos(i)}" cy="${yPos(v)}" r="3" fill="${modelColor(m)}" stroke="var(--bg)" stroke-width="1" data-tip="${m} ${label}: ${fmtNum(v)}" onmouseover="showTip(event,this)" onmouseout="hideTip()" />`;
+        _renderCharts(records) {
+            this._renderTrendChart(records);
+        }
+
+        _renderTrendChart(records) {
+            const filterMode = this.filterMode;
+            const chartTitle = {date:'Daily Trend', week:'Weekly Trend', month:'Monthly Trend'}[filterMode] || 'Trend';
+            $('tk-trend-title').textContent = '📈 ' + chartTitle;
+
+            const modelNames = new Set();
+            records.forEach(r => { const m = (r.consumedModel||'unknown').replace('MiniMax-',''); modelNames.add(m); });
+            const sortedModels = [...modelNames].sort();
+            if (sortedModels.length === 0 || records.length === 0) {
+                $('tk-trend-chart').innerHTML = '<div style="color:var(--text2);font-size:0.8em;padding:12px 0;">暫無數據</div>';
+                return;
+            }
+
+            const now = new Date();
+            let buckets = [], bucketMap = {};
+
+            if (filterMode === 'date') {
+                for (let i = 6; i >= 0; i--) {
+                    const d = addDays(now.toISOString().substring(0,10), -i);
+                    buckets.push(d); bucketMap[d] = {}; sortedModels.forEach(m => bucketMap[d][m] = 0);
+                }
+                records.forEach(r => {
+                    const d = this.recDate(r);
+                    if (!d || !bucketMap[d]) return;
+                    const m = (r.consumedModel||'unknown').replace('MiniMax-','');
+                    bucketMap[d][m] = (bucketMap[d][m]||0) + (r.totalUsageQuantity||0);
+                });
+            } else if (filterMode === 'week') {
+                for (let i = 7; i >= 0; i--) {
+                    const weekStart = addDays(now.toISOString().substring(0,10), -i*7);
+                    const wk = dateToWeek(weekStart);
+                    buckets.push(wk); bucketMap[wk] = {}; sortedModels.forEach(m => bucketMap[wk][m] = 0);
+                }
+                records.forEach(r => {
+                    const d = this.recDate(r); if (!d) return;
+                    const wk = dateToWeek(d);
+                    if (!bucketMap[wk]) return;
+                    const m = (r.consumedModel||'unknown').replace('MiniMax-','');
+                    bucketMap[wk][m] = (bucketMap[wk][m]||0) + (r.totalUsageQuantity||0);
+                });
+            } else if (filterMode === 'month') {
+                for (let i = 5; i >= 0; i--) {
+                    const d = new Date(now); d.setMonth(d.getMonth() - i);
+                    const mo = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0');
+                    buckets.push(mo); bucketMap[mo] = {}; sortedModels.forEach(m => bucketMap[mo][m] = 0);
+                }
+                records.forEach(r => {
+                    const d = this.recDate(r); if (!d) return;
+                    const mo = d.substring(0,7); if (!bucketMap[mo]) return;
+                    const m = (r.consumedModel||'unknown').replace('MiniMax-','');
+                    bucketMap[mo][m] = (bucketMap[mo][m]||0) + (r.totalUsageQuantity||0);
+                });
+            }
+
+            const series = {};
+            sortedModels.forEach(m => series[m] = []);
+            buckets.forEach(b => sortedModels.forEach(m => series[m].push(bucketMap[b]?.[m]||0)));
+
+            let maxVal = 1;
+            sortedModels.forEach(m => { const mx = Math.max(...series[m]); if (mx > maxVal) maxVal = mx; });
+
+            const W = 400, H = 100, PAD = 20, LH = 20;
+            const chartW = W - PAD*2, chartH = H - PAD*2 - LH;
+            const xStep = buckets.length > 1 ? chartW / (buckets.length - 1) : chartW / 2;
+            const xPos = i => PAD + i * xStep;
+            const yPos = v => PAD + LH + chartH - (v / maxVal * chartH);
+
+            const polylines = sortedModels.map(m => {
+                const pts = series[m].map((v,i) => xPos(i)+','+yPos(v)).join(' ');
+                return `<polyline class="trend-line" points="${pts}" stroke="${this._modelColor(m)}" />`;
             }).join('');
-        }).join('');
 
-        const labels = buckets.map((b,i) => {
-            const label = filterMode==='week' ? b.slice(-5) : (b.length > 7 ? b.slice(5) : b);
-            return `<text x="${xPos(i)}" y="${H-4}" text-anchor="middle" fill="var(--text2)" font-size="9">${label}</text>`;
-        }).join('');
+            const dots = sortedModels.map(m => {
+                return series[m].map((v,i) => {
+                    if (v === 0) return '';
+                    const label = filterMode==='week' ? buckets[i].slice(-5) : (buckets[i].length > 7 ? buckets[i].slice(5) : buckets[i]);
+                    return `<circle class="trend-dot" cx="${xPos(i)}" cy="${yPos(v)}" r="3" fill="${this._modelColor(m)}" stroke="var(--bg)" stroke-width="1" data-tip="${m} ${label}: ${fmtNum(v)}" onmouseover="showTip(event,this)" onmouseout="hideTip()" />`;
+                }).join('');
+            }).join('');
 
-        const legend = sortedModels.map(m =>
-            `<span style="display:inline-flex;align-items:center;gap:4px;margin-right:8px;font-size:0.68em;">
-                <span style="display:inline-block;width:18px;height:2px;background:${modelColor(m)};border-radius:1px;"></span>${m}
-            </span>`
-        ).join('');
+            const labels = buckets.map((b,i) => {
+                const label = filterMode==='week' ? b.slice(-5) : (b.length > 7 ? b.slice(5) : b);
+                return `<text x="${xPos(i)}" y="${H-4}" text-anchor="middle" fill="var(--text2)" font-size="9">${label}</text>`;
+            }).join('');
 
-        $('tk-trend-chart').innerHTML = `
-            <svg class="trend-svg" viewBox="0 0 ${W} ${H}" style="width:100%;max-width:100%;overflow:visible;">
-                ${polylines}
-                ${dots}
-                ${labels}
-            </svg>
-            <div style="margin-top:4px;">${legend}</div>
-            <div id="trend-tip" style="display:none;position:absolute;background:#1a2744;border:1px solid rgba(255,255,255,0.15);color:#fff;padding:4px 8px;border-radius:5px;font-size:0.68em;pointer-events:none;z-index:20;white-space:nowrap;"></div>`;
+            const legend = sortedModels.map(m =>
+                `<span style="display:inline-flex;align-items:center;gap:4px;margin-right:8px;font-size:0.68em;">
+                    <span style="display:inline-block;width:18px;height:2px;background:${this._modelColor(m)};border-radius:1px;"></span>${m}
+                </span>`
+            ).join('');
+
+            $('tk-trend-chart').innerHTML = `
+                <svg class="trend-svg" viewBox="0 0 ${W} ${H}" style="width:100%;max-width:100%;overflow:visible;">
+                    ${polylines}
+                    ${dots}
+                    ${labels}
+                </svg>
+                <div style="margin-top:4px;">${legend}</div>
+                <div id="trend-tip" style="display:none;position:absolute;background:#1a2744;border:1px solid rgba(255,255,255,0.15);color:#fff;padding:4px 8px;border-radius:5px;font-size:0.68em;pointer-events:none;z-index:20;white-space:nowrap;"></div>`;
+        }
+
+        renderCompare(periods) {
+            const c = $('tk-compare'); c.style.display = '';
+            c.innerHTML = '<div class="compare-grid">' + periods.map(p => {
+                const s = this.calcStats(p.records);
+                return `<div class="compare-col${p.active?' active':''}">
+                    <div class="col-title">${p.title}</div>
+                    <div class="col-stats">
+                        <div class="col-stat"><div class="label">Input Tokens</div><div class="value" style="color:var(--blue);">${fmtNum(s.input)}</div></div>
+                        <div class="col-stat"><div class="label">Output Tokens</div><div class="value" style="color:var(--green);">${fmtNum(s.output)}</div></div>
+                        <div class="col-stat"><div class="label">Total Tokens</div><div class="value" style="color:var(--orange);">${fmtNum(s.total)}</div></div>
+                        <div class="col-stat"><div class="label">Records</div><div class="value">${s.count}</div></div>
+                    </div>
+                </div>`;
+            }).join('') + '</div>';
+        }
+
+        render() {
+            const start = (this.page - 1) * this.pageSize;
+            const end = start + this.pageSize;
+            const page = this.displayRecords.slice(start, end);
+
+            const thead = $('tk-thead');
+            const tbody = $('tk-body');
+
+            if (this.aggMode === 'hourly') {
+                thead.innerHTML = `<tr>
+                    <th>時間</th><th>模型</th>
+                    <th class="num">Input</th><th class="num">Output</th><th class="num">Total</th>
+                    <th>API</th>
+                </tr>`;
+                if (page.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text2);padding:24px;">無資料</td></tr>';
+                } else {
+                    tbody.innerHTML = page.map(r => {
+                        const time = r.consumptionTime || '—';
+                        const model = (r.consumedModel || '').replace('MiniMax-','');
+                        const api = (r.consumedApi || '').replace('(Text API)','').trim();
+                        return `<tr>
+                            <td>${time}</td><td>${model}</td>
+                            <td class="num">${fmtNum(r.inputUsageQuantity || 0)}</td>
+                            <td class="num">${fmtNum(r.outputUsageQuantity || 0)}</td>
+                            <td class="num">${fmtNum(r.totalUsageQuantity || 0)}</td>
+                            <td style="color:var(--text2);font-size:0.9em;">${api}</td>
+                        </tr>`;
+                    }).join('');
+                }
+            } else {
+                const timeLabel = this.aggMode === 'weekly' ? '週次' : '日期';
+                thead.innerHTML = `<tr>
+                    <th>${timeLabel}</th><th>模型</th>
+                    <th class="num">Total Tokens</th><th class="num">Input</th><th class="num">Output</th>
+                    <th>API Types</th>
+                </tr>`;
+                if (page.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text2);padding:24px;">無資料</td></tr>';
+                } else {
+                    tbody.innerHTML = page.map(r => {
+                        const apis = [...(r._apis || [])].join(', ') || '—';
+                        return `<tr>
+                            <td>${r._date || '—'}</td><td>${r._model || '—'}</td>
+                            <td class="num" style="color:var(--orange);font-weight:600;">${fmtNum(r.totalUsageQuantity || 0)}</td>
+                            <td class="num" style="color:var(--blue);">${fmtNum(r.inputUsageQuantity || 0)}</td>
+                            <td class="num" style="color:var(--green);">${fmtNum(r.outputUsageQuantity || 0)}</td>
+                            <td style="color:var(--text2);font-size:0.85em;">${apis}</td>
+                        </tr>`;
+                    }).join('');
+                }
+            }
+
+            this.renderPagination(this.displayRecords, 'tk-pagination');
+        }
     }
 
+    // ===== Shared tooltip functions =====
     function showTip(e, el) {
         const tip = el.getAttribute('data-tip');
         const div = document.getElementById('trend-tip');
@@ -886,211 +1061,6 @@
     function hideTip() {
         const div = document.getElementById('trend-tip');
         if (div) div.style.display = 'none';
-    }
-
-    function renderMiniMaxCharts(records) {
-        renderTrendChart(records);
-    }
-
-    function renderCompare(periods) {
-        const c = $('tk-compare'); c.style.display = '';
-        c.innerHTML = '<div class="compare-grid">' + periods.map(p => {
-            const s = calcStats(p.records);
-            return `<div class="compare-col${p.active?' active':''}">
-                <div class="col-title">${p.title}</div>
-                <div class="col-stats">
-                    <div class="col-stat"><div class="label">Input Tokens</div><div class="value" style="color:var(--blue);">${fmtNum(s.input)}</div></div>
-                    <div class="col-stat"><div class="label">Output Tokens</div><div class="value" style="color:var(--green);">${fmtNum(s.output)}</div></div>
-                    <div class="col-stat"><div class="label">Total Tokens</div><div class="value" style="color:var(--orange);">${fmtNum(s.total)}</div></div>
-                    <div class="col-stat"><div class="label">Records</div><div class="value">${s.count}</div></div>
-                </div>
-            </div>`;
-        }).join('') + '</div>';
-    }
-
-    function renderTokenPage() {
-        const start = (tokenPage - 1) * tkPageSize;
-        const end = start + tkPageSize;
-        const page = displayRecords.slice(start, end);
-        const totalPages = Math.ceil(displayRecords.length / tkPageSize) || 1;
-
-        const thead = $('tk-thead');
-        const tbody = $('tk-body');
-
-        if (tkAggMode === 'hourly') {
-            thead.innerHTML = `<tr>
-                <th>時間</th><th>模型</th>
-                <th class="num">Input</th><th class="num">Output</th><th class="num">Total</th>
-                <th>API</th>
-            </tr>`;
-            if (page.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text2);padding:24px;">無資料</td></tr>';
-            } else {
-                tbody.innerHTML = page.map(r => {
-                    const time = r.consumptionTime || '—';
-                    const model = (r.consumedModel || '').replace('MiniMax-','');
-                    const api = (r.consumedApi || '').replace('(Text API)','').trim();
-                    return `<tr>
-                        <td>${time}</td><td>${model}</td>
-                        <td class="num">${fmtNum(r.inputUsageQuantity || 0)}</td>
-                        <td class="num">${fmtNum(r.outputUsageQuantity || 0)}</td>
-                        <td class="num">${fmtNum(r.totalUsageQuantity || 0)}</td>
-                        <td style="color:var(--text2);font-size:0.9em;">${api}</td>
-                    </tr>`;
-                }).join('');
-            }
-        } else {
-            const timeLabel = tkAggMode === 'weekly' ? '週次' : '日期';
-            thead.innerHTML = `<tr>
-                <th>${timeLabel}</th><th>模型</th>
-                <th class="num">Total Tokens</th><th class="num">Input</th><th class="num">Output</th>
-                <th>API Types</th>
-            </tr>`;
-            if (page.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text2);padding:24px;">無資料</td></tr>';
-            } else {
-                tbody.innerHTML = page.map(r => {
-                    const apis = [...(r._apis || [])].join(', ') || '—';
-                    return `<tr>
-                        <td>${r._date || '—'}</td><td>${r._model || '—'}</td>
-                        <td class="num" style="color:var(--orange);font-weight:600;">${fmtNum(r.totalUsageQuantity || 0)}</td>
-                        <td class="num" style="color:var(--blue);">${fmtNum(r.inputUsageQuantity || 0)}</td>
-                        <td class="num" style="color:var(--green);">${fmtNum(r.outputUsageQuantity || 0)}</td>
-                        <td style="color:var(--text2);font-size:0.85em;">${apis}</td>
-                    </tr>`;
-                }).join('');
-            }
-        }
-
-        const pg = $('tk-pagination');
-        let pgHtml = `<button onclick="goPage(1)" ${tokenPage===1?'disabled':''}>«</button>`;
-        pgHtml += `<button onclick="goPage(${tokenPage-1})" ${tokenPage===1?'disabled':''}>‹</button>`;
-        let pStart = Math.max(1, tokenPage - 3), pEnd = Math.min(totalPages, pStart + 6);
-        if (pEnd - pStart < 6) pStart = Math.max(1, pEnd - 6);
-        for (let i = pStart; i <= pEnd; i++) pgHtml += `<button onclick="goPage(${i})" class="${i===tokenPage?'active':''}">${i}</button>`;
-        pgHtml += `<button onclick="goPage(${tokenPage+1})" ${tokenPage>=totalPages?'disabled':''}>›</button>`;
-        pgHtml += `<button onclick="goPage(${totalPages})" ${tokenPage>=totalPages?'disabled':''}>»</button>`;
-        pgHtml += `<span class="info">${displayRecords.length > 0 ? (start+1)+'-'+Math.min(end,displayRecords.length)+' / '+displayRecords.length : '0'}</span>`;
-        pg.innerHTML = pgHtml;
-    }
-
-    function goPage(p) {
-        const totalPages = Math.ceil(displayRecords.length / tkPageSize) || 1;
-        tokenPage = Math.max(1, Math.min(p, totalPages));
-        renderTokenPage();
-        $('token-card').scrollIntoView({behavior:'smooth', block:'start'});
-    }
-
-    // ===== Quota History =====
-    let histEntries = [];
-    let histFiltered = [];
-    let histPage = 1;
-    const HIST_PAGE_SIZE = 20;
-
-    async function loadQuotaHistory() {
-        try {
-            const res = await fetch(basePath + '/public/quota-history.json?' + Date.now());
-            if (!res.ok) { $('hist-body').innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text2);padding:24px;">暫無歷史資料 — 請先執行 refresh-data.sh</td></tr>'; return; }
-            const data = await res.json();
-            histEntries = data.entries || [];
-
-            // Sort by capturedAt descending — most recently captured = most relevant
-            histEntries.sort((a, b) => new Date(b.capturedAt) - new Date(a.capturedAt));
-
-            const dates = new Set(histEntries.map(e => e.date));
-            const sortedDates = [...dates].sort().reverse();
-            const sel = $('hist-date-filter');
-            sel.innerHTML = '<option value="all">全部日期</option>';
-            sortedDates.forEach(d => {
-                const opt = document.createElement('option');
-                opt.value = d; opt.textContent = d; sel.appendChild(opt);
-            });
-
-            $('hist-badge').textContent = histEntries.length + ' 條記錄';
-            renderHistory();
-        } catch(e) { console.log('Quota history load error:', e); }
-    }
-
-    function renderHistory() {
-        const dateFilter = $('hist-date-filter').value;
-        histPage = 1;
-        histFiltered = dateFilter === 'all' ? histEntries : histEntries.filter(e => e.date === dateFilter);
-
-        const mStarEntries = histFiltered.filter(e => e.mStar?.total > 0);
-        const speechDays = {};
-        const imageDays  = {};
-        histFiltered.forEach(e => {
-            if (e.speech?.used > 0 && !speechDays[e.date]) speechDays[e.date] = e.speech.used;
-            if (e.image?.used  > 0 && !imageDays[e.date])  imageDays[e.date]  = e.image.used;
-        });
-
-        const avgMStar    = mStarEntries.length ? Math.round(mStarEntries.reduce((s,e) => s + e.mStar.used, 0) / mStarEntries.length) : 0;
-        const avgMStarPct = mStarEntries.length ? Math.round(mStarEntries.reduce((s,e) => s + e.mStar.usedPct, 0) / mStarEntries.length) : 0;
-        const speechVals  = Object.values(speechDays);
-        const imageVals   = Object.values(imageDays);
-        const avgSpeech   = speechVals.length ? Math.round(speechVals.reduce((s,v) => s+v,0) / speechVals.length) : 0;
-        const avgImage    = imageVals.length  ? Math.round(imageVals.reduce((s,v) => s+v,0)  / imageVals.length)  : 0;
-
-        $('hist-avg-mstar').textContent     = avgMStar || '—';
-        $('hist-avg-mstar-pct').textContent = avgMStarPct ? avgMStarPct + '%' : '—';
-        $('hist-avg-speech').textContent    = avgSpeech || '—';
-        $('hist-avg-image').textContent     = avgImage || '—';
-
-        renderHistPage();
-    }
-
-    function renderHistPage() {
-        const start = (histPage - 1) * HIST_PAGE_SIZE;
-        const end = start + HIST_PAGE_SIZE;
-        const page = histFiltered.slice(start, end);
-        const totalPages = Math.ceil(histFiltered.length / HIST_PAGE_SIZE) || 1;
-
-        const winColors = { '01-06':'#3498db','06-11':'#2ecc71','11-16':'#e67e22','16-21':'#e74c3c','21-01':'#9b59b6' };
-
-        const tbody = $('hist-body');
-        if (page.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text2);padding:24px;">無資料</td></tr>';
-        } else {
-            tbody.innerHTML = page.map(e => {
-                const wc = winColors[e.window] || '#888';
-                const mUsed = e.mStar?.used ?? '—';
-                const mTotal = e.mStar?.total ?? '—';
-                const mPct = e.mStar?.usedPct != null ? e.mStar.usedPct + '%' : '—';
-                const pctColor2 = e.mStar?.usedPct >= 90 ? 'var(--danger)' : e.mStar?.usedPct >= 70 ? 'var(--warn)' : 'var(--green)';
-                const sUsed = e.speech?.used ?? '—';
-                const iUsed = e.image?.used ?? '—';
-                const captTime = e.capturedAt ? new Date(e.capturedAt).toLocaleString('zh-HK',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}) : '—';
-                return `<tr>
-                    <td>${e.date}</td>
-                    <td><span style="color:${wc};font-weight:600;">${e.window}</span></td>
-                    <td class="num">${mUsed}</td>
-                    <td class="num" style="color:var(--text2);">${mTotal}</td>
-                    <td class="num" style="color:${pctColor2};">${mPct}</td>
-                    <td class="num" style="color:#9b59b6;">${sUsed}</td>
-                    <td class="num" style="color:var(--orange);">${iUsed}</td>
-                    <td style="color:var(--text2);font-size:0.85em;">${captTime}</td>
-                </tr>`;
-            }).join('');
-        }
-
-        const pg = $('hist-pagination');
-        if (totalPages <= 1) { pg.innerHTML = ''; return; }
-        let pgHtml = `<button onclick="histGoPage(1)" ${histPage===1?'disabled':''}>«</button>`;
-        pgHtml += `<button onclick="histGoPage(${histPage-1})" ${histPage===1?'disabled':''}>‹</button>`;
-        for (let p = Math.max(1,histPage-3); p <= Math.min(totalPages,Math.max(1,histPage-3)+6); p++) {
-            pgHtml += `<button onclick="histGoPage(${p})" class="${p===histPage?'active':''}">${p}</button>`;
-        }
-        pgHtml += `<button onclick="histGoPage(${histPage+1})" ${histPage>=totalPages?'disabled':''}>›</button>`;
-        pgHtml += `<button onclick="histGoPage(${totalPages})" ${histPage>=totalPages?'disabled':''}>»</button>`;
-        pgHtml += `<span class="info">${histFiltered.length > 0 ? (start+1)+'-'+Math.min(end,histFiltered.length)+' / '+histFiltered.length : '0'}</span>`;
-        pg.innerHTML = pgHtml;
-    }
-
-    function histGoPage(p) {
-        const totalPages = Math.ceil(histFiltered.length / HIST_PAGE_SIZE) || 1;
-        histPage = Math.max(1, Math.min(p, totalPages));
-        renderHistPage();
-        $('history-card').scrollIntoView({behavior:'smooth', block:'start'});
     }
 
     // ===== Tab Switching =====
@@ -1108,12 +1078,16 @@
     }
 
     // ===== Init =====
+    const histPager    = new QuotaPanel();
+    const copilotPager = new CopilotPanel();
+    const tokenPager   = new MinimaxPanel();
+
     // Restore saved aggregation mode button state
-    AGG_MODES.forEach(m => { const b = $('agg-'+m); if (b) b.classList.toggle('active', m === tkAggMode); });
-    loadCopilotDetail();
-    loadTokenDetail();
-    loadQuotaHistory();
-    setInterval(() => { loadQuotaHistory(); }, 300000);
+    AGG_MODES.forEach(m => { const b = $('agg-'+m); if (b) b.classList.toggle('active', m === tokenPager.aggMode); });
+    copilotPager.loadData();
+    tokenPager.loadData();
+    histPager.loadData();
+    setInterval(() => { histPager.loadData(); }, 300000);
     </script>
 </body>
 </html>
