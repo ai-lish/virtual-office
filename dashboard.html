@@ -366,7 +366,7 @@
             const totalPages = Math.ceil(records.length / this.pageSize) || 1;
             this.page = Math.max(1, Math.min(n, totalPages));
             this.render();
-            $(this.cardId).scrollIntoView({behavior:'smooth', block:'start'});
+            if (this.cardId) $(this.cardId).scrollIntoView({behavior:'smooth', block:'start'});
         }
 
         renderPagination(records, pgId) {
