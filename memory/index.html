@@ -85,7 +85,7 @@ footer{text-align:center;padding:16px;color:var(--muted);font-size:.7rem;border-
       <div class="section-title">📋 MEMORY.MD 預覽</div>
       <div class="accordion">
         <details open>
-          <summary>👤 用戶 & 偏好</summary>
+          <summary>👤 Zach 基本資料</summary>
           <pre id="memUser">—</pre>
         </details>
         <details>
@@ -101,7 +101,7 @@ footer{text-align:center;padding:16px;color:var(--muted);font-size:.7rem;border-
           <pre id="memTech">—</pre>
         </details>
         <details>
-          <summary>⚠️ P0 阻斷 & 待辨事項</summary>
+          <summary>⚠️ P0 阻斷 & 待辨</summary>
           <pre id="memP0">—</pre>
         </details>
       </div>
@@ -160,19 +160,20 @@ function escapeHtml(s) {
     .replace(/"/g,'&quot;');
 }
 
-function extract(lines, startPattern, endPattern) {
-  const start = startPattern ? lines.findIndex(l => startPattern.test(l)) : 0;
-  if (start === -1) return '';
-  const end = endPattern ? lines.slice(start+1).findIndex(l => endPattern.test(l)) : lines.length;
-  return lines.slice(start, end === -1 ? undefined : start + 1 + end).join('\n');
+function extractSection(lines, startStr) {
+  const startIdx = lines.findIndex(l => l.includes(startStr));
+  if (startIdx === -1) return '';
+  let endIdx = lines.length;
+  for (let i = startIdx + 1; i < lines.length; i++) {
+    if (lines[i].startsWith('## ')) { endIdx = i; break; }
+  }
+  return lines.slice(startIdx, endIdx).join('\n');
 }
 
-function showSection(id, text, maxLines) {
+function showSection(id, text) {
   const el = document.getElementById(id);
   if (!el) return;
-  if (!text) { el.textContent = '—'; return; }
-  const lines = text.trim().split('\n');
-  el.textContent = (maxLines ? lines.slice(0, maxLines) : lines).join('\n');
+  el.textContent = text || '—';
 }
 
 function addStats() {
@@ -217,11 +218,11 @@ async function load() {
   // Parse MEMORY.md sections
   const mem = (data.memoryMd || '').trim();
   const memLines = mem.split('\n');
-  showSection('memUser', extract(memLines, /^## 👤 /, /^## /), 30);
-  showSection('memFeedback', extract(memLines, /^## 💡 /, /^## [^💡]/), 30);
-  showSection('memProjects', extract(memLines, /^## 📦 /, /^## [^📦]/), 50);
-  showSection('memTech', extract(memLines, /^## 🔧 /, /^## [^🔧]/), 50);
-  showSection('memP0', extract(memLines, /^## ⚠️ /, /^## [^⚠️]/), 40);
+  showSection('memUser', extractSection(memLines, '## 👤 Zach'));
+  showSection('memFeedback', extractSection(memLines, '## 💡 Feedback'));
+  showSection('memProjects', extractSection(memLines, '## 📦 活躍項目'));
+  showSection('memTech', extractSection(memLines, '## 🔧 技術基礎設施'));
+  showSection('memP0', extractSection(memLines, '## P0 阻斷'));
 
   // Topic files
   showSection('topicProjects', data.topicProjects, 60);
