@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="zh-HK">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>🧠 Memory System — 虛擬辦公室</title>
+<link rel="icon" href="/virtual-office/images/logo.png">
+<style>
+/* Reuse Virtual Office theme colors */
+:root{--bg:#0f0f23;--card:#16213e;--bar-bg:#0a1628;--text:#eee;--dim:#888;--accent:#3498db;--muted:#666}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans SC',system-ui, sans-serif;margin:0;padding:0}
+.header{background:linear-gradient(90deg,#1a1a2e,#16213e);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #bc002d}
+.container{max-width:980px;margin:20px auto;padding:18px}
+.card{background:var(--card);border-radius:12px;padding:16px;margin-bottom:14px;border:1px solid rgba(255,255,255,.04)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.stat{font-size:1.8rem;font-weight:700}
+.label{font-size:.78rem;color:var(--dim)}
+.section-title{font-size:.9rem;color:var(--dim);margin-bottom:8px}
+.file-list{display:flex;flex-direction:column;gap:8px}
+.file-item{display:flex;justify-content:space-between;align-items:center;padding:8px;border-radius:8px;background:rgba(255,255,255,.02)}
+.accordion{margin-top:10px}
+.accordion summary{cursor:pointer;padding:8px;border-radius:8px;background:rgba(255,255,255,.02)}
+.code{font-family:monospace;background:rgba(255,255,255,.03);padding:8px;border-radius:6px;white-space:pre-wrap;max-height:320px;overflow:auto}
+.row{display:flex;gap:8px;align-items:center}
+.small{font-size:.82rem;color:var(--dim)}
+.nav{display:flex;gap:8px}
+button.link{background:none;border:1px solid rgba(255,255,255,.06);color:var(--dim);padding:6px 10px;border-radius:8px}
+.highlight{border-left:4px solid #2ecc71}
+.today{background:linear-gradient(90deg,rgba(46,204,113,.06),transparent)}
+@media(max-width:900px){.grid{grid-template-columns:1fr}} 
+</style>
+</head>
+<body>
+<div class="header"><div style="display:flex;gap:12px;align-items:center"><img src="/virtual-office/images/logo.png" width="28" height="28" alt="logo"><h1 style="font-size:1rem">虛擬辦公室 — Memory</h1></div>
+<div class="nav"><a class="link" href="/virtual-office/">← Home</a><a class="link" id="githubLink" href="#" target="_blank">Open in GitHub</a></div></div>
+<div class="container">
+  <div class="card">
+    <div class="section-title">Memory Stats Dashboard</div>
+    <div class="grid" id="statsGrid">
+      <div class="card" id="totalFilesCard"><div class="label">Total memory files</div><div class="stat" id="totalFiles">—</div></div>
+      <div class="card" id="dailyByMonthCard"><div class="label">Daily logs (by month)</div><div id="dailyByMonth" class="small">—</div></div>
+      <div class="card" id="lastUpdatedCard"><div class="label">Last updated file</div><div id="lastUpdated" class="small">—</div></div>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+      <div class="small">MEMORY.md lines: <strong id="memoryLines">—</strong></div>
+      <div class="small">MEMORY.md last updated: <span id="memoryUpdated">—</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Important Files (collapsible)</div>
+    <div class="accordion">
+      <details open><summary>MEMORY.md (preview)</summary><div id="memoryPreview" class="code">Loading…</div></details>
+      <details><summary>topic-projects.md</summary><div id="topicProjects" class="code">—</div></details>
+      <details><summary>topic-active-issues.md</summary><div id="topicActive" class="code">—</div></details>
+      <details><summary>Recent feedback files</summary><div id="feedbackFiles" class="code">—</div></details>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Memory Progress Tracker</div>
+    <div id="recentLogs" class="file-list">Loading…</div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Active Issues / TODOs</div>
+    <div id="todos" class="small">Loading…</div>
+  </div>
+
+</div>
+
+<script>
+const RAW_BASE='https://raw.githubusercontent.com/ai-lish/openclaw-backup/main';
+const filesUrl=RAW_BASE+'/memory/';
+const memoryUrl=RAW_BASE+'/MEMORY.md';
+
+async function fetchText(url){try{const r=await fetch(url);if(!r.ok)throw new Error(r.status);return await r.text()}catch(e){return null}}
+
+function firstLines(text,n){if(!text) return '—';return text.split('\n').slice(0,n).join('\n')}
+
+function formatDateFromMeta(meta){if(!meta) return '—';return meta}
+
+async function load(){
+  // MEMORY.md
+  const mem=await fetchText(memoryUrl);
+  document.getElementById('memoryPreview').textContent = firstLines(mem,40);
+  document.getElementById('memoryLines').textContent = mem ? mem.split('\n').length : '—';
+
+  // topic files
+  const tp = await fetchText(RAW_BASE+'/memory/topic-projects.md');
+  if(tp) document.getElementById('topicProjects').textContent = firstLines(tp,40);
+  const ta = await fetchText(RAW_BASE+'/memory/topic-active-issues.md');
+  if(ta) document.getElementById('topicActive').textContent = firstLines(ta,40);
+
+  // feedback files: try known pattern list
+  const feedbackNames=['feedback-minimax-quota-field-2026-04-07.md','feedback-copilot-gist.md','feedback-ocr-cleanup.md','feedback-self-testing.md','feedback-timezone.md'];
+  let fbOut='';
+  for(const name of feedbackNames){const t=await fetchText(RAW_BASE+'/memory/'+name);if(t){fbOut+="--- "+name+"\n"+firstLines(t,30)+"\n\n"}}
+  document.getElementById('feedbackFiles').textContent = fbOut || 'No feedback files found.';
+
+  // list recent daily logs by fetching index listing is not allowed via raw; so use known filenames around 2026-04
+  const recentDates=['2026-04-07','2026-04-06','2026-04-05','2026-04-04','2026-04-03','2026-04-02','2026-04-01'];
+  const recentEl = document.getElementById('recentLogs'); recentEl.innerHTML='';
+  const todayStr=new Date().toISOString().slice(0,10);
+  let totalFiles=0; let lastUpdatedName='—'; let lastUpdatedDate=null; let dailyByMonthCount={};
+  for(const d of recentDates){
+    const name=`memory/${d}.md`;
+    const url=RAW_BASE+'/'+name;
+    const t=await fetchText(url);
+    if(t){totalFiles++; const size=t.length; const first=t.split('\n')[0]||'';
+      const div=document.createElement('div'); div.className='file-item'; if(d===todayStr) div.classList.add('today');
+      div.innerHTML=`<div><strong>${d}</strong><div class="small">${first}</div></div><div class="small">${(size/1024).toFixed(1)} KB</div>`;
+      recentEl.appendChild(div);
+      // monthly count
+      const month=d.slice(0,7); dailyByMonthCount[month]=(dailyByMonthCount[month]||0)+1;
+      // last updated heuristic: use date string
+      const dt=new Date(d);
+      if(!lastUpdatedDate||dt>lastUpdatedDate){lastUpdatedDate=dt; lastUpdatedName=name}
+    }
+  }
+  // fill stats
+  document.getElementById('totalFiles').textContent = totalFiles + ' (recent)
+';
+  let monthsHtml=''; for(const m in dailyByMonthCount) monthsHtml+=`${m}: ${dailyByMonthCount[m]}\n`;
+  document.getElementById('dailyByMonth').textContent = monthsHtml || '—';
+  document.getElementById('lastUpdated').textContent = lastUpdatedName + (lastUpdatedDate? ' — '+ lastUpdatedDate.toISOString().slice(0,10):'');
+
+  // simple TODO extraction: look for lines starting with TODO or - [ ]
+  let todosArr=[];
+  // scan recent logs content for TODOs
+  for(const d of recentDates){const t=await fetchText(RAW_BASE+`/memory/${d}.md`); if(!t) continue; const lines=t.split('\n'); for(const l of lines){if(/TODO|\- \[ \]|\- \[x\]|\bTODO:\b/i.test(l)) todosArr.push(`${d}: ${l.trim()}`)}}
+  // P0 blockers from MEMORY.md: look for P0 or P-0
+  let p0s=[]; if(mem){const ml=mem.split('\n'); for(const l of ml){if(/P0|P-0|P0\b/i.test(l)) p0s.push(l.trim())}}
+  const todosEl=document.getElementById('todos'); todosEl.innerHTML='';
+  if(p0s.length){const h=document.createElement('div'); h.innerHTML='<strong>P0 blockers</strong>'; todosEl.appendChild(h); p0s.forEach(x=>{const p=document.createElement('div'); p.className='small'; p.textContent=x; todosEl.appendChild(p)})}
+  if(todosArr.length){const h2=document.createElement('div'); h2.style.marginTop='8px'; h2.innerHTML='<strong>Extracted TODOs</strong>'; todosEl.appendChild(h2); todosArr.slice(0,20).forEach(x=>{const p=document.createElement('div'); p.className='small'; p.textContent=x; todosEl.appendChild(p)})}
+  if(!p0s.length && !todosArr.length) todosEl.textContent='No TODOs or P0 blockers found in recent logs.';
+
+  // github links
+  document.getElementById('githubLink').href='https://github.com/ai-lish/openclaw-backup/blob/main/MEMORY.md';
+}
+
+load();
+</script>
+</body>
+</html>
