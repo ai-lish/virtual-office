@@ -1,25 +1,25 @@
 {
-  "_generatedAt": "2026-04-08T23:55:00Z",
+  "_generatedAt": "2026-04-09T01:55:00Z",
   "_source": "local-refresh",
   "raw": {
     "model_remains": [
       {
-        "start_time": 1775678400000,
-        "end_time": 1775692800000,
-        "remains_time": 290076,
+        "start_time": 1775692800000,
+        "end_time": 1775710800000,
+        "remains_time": 11093968,
         "current_interval_total_count": 4500,
-        "current_interval_usage_count": 4484,
+        "current_interval_usage_count": 4483,
         "model_name": "MiniMax-M*",
         "current_weekly_total_count": 0,
         "current_weekly_usage_count": 0,
         "weekly_start_time": 1775433600000,
         "weekly_end_time": 1776038400000,
-        "weekly_remains_time": 345890076
+        "weekly_remains_time": 338693968
       },
       {
-        "start_time": 1775606400000,
-        "end_time": 1775692800000,
-        "remains_time": 290076,
+        "start_time": 1775692800000,
+        "end_time": 1775779200000,
+        "remains_time": 79493968,
         "current_interval_total_count": 4000,
         "current_interval_usage_count": 4000,
         "model_name": "speech-hd",
@@ -27,12 +27,12 @@
         "current_weekly_usage_count": 16360,
         "weekly_start_time": 1775433600000,
         "weekly_end_time": 1776038400000,
-        "weekly_remains_time": 345890076
+        "weekly_remains_time": 338693968
       },
       {
-        "start_time": 1775606400000,
-        "end_time": 1775692800000,
-        "remains_time": 290076,
+        "start_time": 1775692800000,
+        "end_time": 1775779200000,
+        "remains_time": 79493968,
         "current_interval_total_count": 0,
         "current_interval_usage_count": 0,
         "model_name": "MiniMax-Hailuo-2.3-Fast-6s-768p",
@@ -40,12 +40,12 @@
         "current_weekly_usage_count": 0,
         "weekly_start_time": 1775433600000,
         "weekly_end_time": 1776038400000,
-        "weekly_remains_time": 345890076
+        "weekly_remains_time": 338693968
       },
       {
-        "start_time": 1775606400000,
-        "end_time": 1775692800000,
-        "remains_time": 290076,
+        "start_time": 1775692800000,
+        "end_time": 1775779200000,
+        "remains_time": 79493968,
         "current_interval_total_count": 0,
         "current_interval_usage_count": 0,
         "model_name": "MiniMax-Hailuo-2.3-6s-768p",
@@ -53,12 +53,12 @@
         "current_weekly_usage_count": 0,
         "weekly_start_time": 1775433600000,
         "weekly_end_time": 1776038400000,
-        "weekly_remains_time": 345890076
+        "weekly_remains_time": 338693968
       },
       {
-        "start_time": 1775606400000,
-        "end_time": 1775692800000,
-        "remains_time": 290076,
+        "start_time": 1775692800000,
+        "end_time": 1775779200000,
+        "remains_time": 79493968,
         "current_interval_total_count": 0,
         "current_interval_usage_count": 0,
         "model_name": "music-2.5",
@@ -66,12 +66,12 @@
         "current_weekly_usage_count": 0,
         "weekly_start_time": 1775433600000,
         "weekly_end_time": 1776038400000,
-        "weekly_remains_time": 345890076
+        "weekly_remains_time": 338693968
       },
       {
-        "start_time": 1775606400000,
-        "end_time": 1775692800000,
-        "remains_time": 290076,
+        "start_time": 1775692800000,
+        "end_time": 1775779200000,
+        "remains_time": 79493968,
         "current_interval_total_count": 50,
         "current_interval_usage_count": 50,
         "model_name": "image-01",
@@ -79,7 +79,7 @@
         "current_weekly_usage_count": 247,
         "weekly_start_time": 1775433600000,
         "weekly_end_time": 1776038400000,
-        "weekly_remains_time": 345890076
+        "weekly_remains_time": 338693968
       }
     ],
     "base_resp": {
@@ -91,8 +91,8 @@
     {
       "model": "MiniMax-M*",
       "total": 4500,
-      "remaining": 4484,
-      "used": 16,
+      "remaining": 4483,
+      "used": 17,
       "weeklyTotal": 0,
       "weeklyUsed": 0
     },
