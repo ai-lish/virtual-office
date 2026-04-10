@@ -224,20 +224,6 @@ async function loadData() {
               <div class="progress-fill" style="width:${pct}%;background:${color}"></div>
             </div>
           </div>`;
-          // Weekly bar for speech-hd and image-01
-          if ((m.model === 'speech-hd' || m.model === 'image-01') && m.weeklyTotal > 0) {
-            const wpct = Math.round((m.weeklyUsed / m.weeklyTotal) * 100);
-            const wcolor = pctColor(wpct);
-            html += `<div class="progress-row" style="margin-top:6px;">
-              <div class="progress-label">
-                <span style="font-size:0.72em;color:var(--dim)">每週</span>
-                <strong style="font-size:0.72em">${m.weeklyUsed} / ${m.weeklyTotal}</strong>
-              </div>
-              <div class="progress-track">
-                <div class="progress-fill" style="width:${wpct}%;background:${wcolor}"></div>
-              </div>
-            </div>`;
-          }
         });
       } else if (d.quota) {
         const q = d.quota;
