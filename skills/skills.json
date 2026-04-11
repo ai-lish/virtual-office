@@ -77,6 +77,35 @@
     ]
   },
   {
+    "name": "hermes-comm",
+    "path": "/Users/zachli/.openclaw/skills/hermes-comm",
+    "skill_md": "/Users/zachli/.openclaw/skills/hermes-comm/SKILL.md",
+    "description": "# Hermes 通訊協調 Skill",
+    "lines": 107,
+    "location": "/Users/zachli/.openclaw/skills",
+    "loc": "global",
+    "emoji": "🤝",
+    "triggers": [
+      {
+        "intent": "notify-hermes"
+      },
+      {
+        "intent": "hermes-log"
+      },
+      {
+        "intent": "hermes-status"
+      },
+      {
+        "intent": "forward-to-hermes"
+      }
+    ],
+    "memory_tags": [
+      "hermes",
+      "coordination",
+      "telegram"
+    ]
+  },
+  {
     "name": "memory-sync",
     "path": "/Users/zachli/.openclaw/skills/memory-sync",
     "skill_md": "/Users/zachli/.openclaw/skills/memory-sync/SKILL.md",
