@@ -16,24 +16,39 @@
     "path": "/Users/zachli/.openclaw/skills/browser",
     "skill_md": "/Users/zachli/.openclaw/skills/browser/SKILL.md",
     "description": "# Browser Skill — OpenClaw 官方 Playwright MCP",
-    "lines": 120,
+    "lines": 123,
     "location": "/Users/zachli/.openclaw/skills",
     "loc": "global",
     "emoji": "🌐",
-    "triggers": [],
-    "memory_tags": []
+    "triggers": [
+      "browser-automation",
+      "screenshot",
+      "web-scraping"
+    ],
+    "memory_tags": [
+      "browser",
+      "playwright",
+      "automation"
+    ]
   },
   {
     "name": "discord-channel",
     "path": "/Users/zachli/.openclaw/skills/discord-channel",
     "skill_md": "/Users/zachli/.openclaw/skills/discord-channel/SKILL.md",
     "description": "# Discord Channel Management",
-    "lines": 132,
+    "lines": 142,
     "location": "/Users/zachli/.openclaw/skills",
     "loc": "global",
-    "emoji": "",
-    "triggers": [],
-    "memory_tags": []
+    "emoji": "💬",
+    "triggers": [
+      "create-discord-channel",
+      "discord-channel"
+    ],
+    "memory_tags": [
+      "discord",
+      "channel",
+      "automation"
+    ]
   },
   {
     "name": "exam-creation",
@@ -75,36 +90,61 @@
     "path": "/Users/zachli/.openclaw/skills/models",
     "skill_md": "/Users/zachli/.openclaw/skills/models/SKILL.md",
     "description": "# Models Skill — 可用模型總覽",
-    "lines": 78,
+    "lines": 82,
     "location": "/Users/zachli/.openclaw/skills",
     "loc": "global",
     "emoji": "🤖",
-    "triggers": [],
-    "memory_tags": []
+    "triggers": [
+      "list-models",
+      "model-info",
+      "check-capabilities"
+    ],
+    "memory_tags": [
+      "models",
+      "openclaws",
+      "config"
+    ]
   },
   {
     "name": "music",
     "path": "/Users/zachli/.openclaw/skills/music",
     "skill_md": "/Users/zachli/.openclaw/skills/music/SKILL.md",
     "description": "# MiniMax Music Skill — AI 音樂生成",
-    "lines": 201,
+    "lines": 204,
     "location": "/Users/zachli/.openclaw/skills",
     "loc": "global",
     "emoji": "🎵",
-    "triggers": [],
-    "memory_tags": []
+    "triggers": [
+      "generate-music",
+      "text-to-music",
+      "song-generation"
+    ],
+    "memory_tags": [
+      "minimax",
+      "music",
+      "audio"
+    ]
   },
   {
     "name": "openclaw-team-optimization",
     "path": "/Users/zachli/.openclaw/skills/openclaw-team-optimization",
     "skill_md": "/Users/zachli/.openclaw/skills/openclaw-team-optimization/SKILL.md",
     "description": "# OpenClaw Team Optimization",
-    "lines": 116,
+    "lines": 128,
     "location": "/Users/zachli/.openclaw/skills",
     "loc": "global",
-    "emoji": "",
-    "triggers": [],
-    "memory_tags": []
+    "emoji": "⚙️",
+    "triggers": [
+      "team-optimization",
+      "subagent-config",
+      "spawn-agent"
+    ],
+    "memory_tags": [
+      "openclaws",
+      "team",
+      "subagents",
+      "optimization"
+    ]
   },
   {
     "name": "rapidocr",
@@ -134,24 +174,36 @@
     "path": "/Users/zachli/.openclaw/workspace/skills/acp-router",
     "skill_md": "/Users/zachli/.openclaw/workspace/skills/acp-router/SKILL.md",
     "description": "# ACP Harness Router",
-    "lines": 245,
+    "lines": 253,
     "location": "/Users/zachli/.openclaw/workspace/skills",
     "loc": "workspace",
-    "emoji": "",
-    "triggers": [],
-    "memory_tags": []
+    "emoji": "🔀",
+    "triggers": [
+      "acp-routing",
+      "route"
+    ],
+    "memory_tags": [
+      "acp",
+      "routing"
+    ]
   },
   {
     "name": "archive-sessions",
     "path": "/Users/zachli/.openclaw/workspace/skills/archive-sessions",
     "skill_md": "/Users/zachli/.openclaw/workspace/skills/archive-sessions/SKILL.md",
     "description": "# Archive Sessions — Session Cleanup & Memory Distillation",
-    "lines": 87,
+    "lines": 96,
     "location": "/Users/zachli/.openclaw/workspace/skills",
     "loc": "workspace",
-    "emoji": "",
-    "triggers": [],
-    "memory_tags": []
+    "emoji": "📦",
+    "triggers": [
+      "archive-sessions",
+      "session-cleanup"
+    ],
+    "memory_tags": [
+      "sessions",
+      "archive"
+    ]
   },
   {
     "name": "minimax-general",
@@ -299,32 +351,53 @@
     "lines": 93,
     "location": "/Users/zachli/.openclaw/workspace/skills",
     "loc": "workspace",
-    "emoji": "🤖",
-    "triggers": [],
-    "memory_tags": []
+    "emoji": "🔄",
+    "triggers": [
+      "n8n-automation",
+      "workflow"
+    ],
+    "memory_tags": [
+      "n8n",
+      "automation",
+      "workflow"
+    ]
   },
   {
     "name": "playwright",
     "path": "/Users/zachli/.openclaw/workspace/skills/playwright",
     "skill_md": "/Users/zachli/.openclaw/workspace/skills/playwright/SKILL.md",
     "description": "# SKILL: Playwright 自動測試 (T仔)",
-    "lines": 46,
+    "lines": 60,
     "location": "/Users/zachli/.openclaw/workspace/skills",
     "loc": "workspace",
-    "emoji": "",
-    "triggers": [],
-    "memory_tags": []
+    "emoji": "🎭",
+    "triggers": [
+      "playwright-test",
+      "e2e"
+    ],
+    "memory_tags": [
+      "playwright",
+      "testing",
+      "e2e"
+    ]
   },
   {
     "name": "spawn-agent",
     "path": "/Users/zachli/.openclaw/workspace/skills/spawn-agent",
     "skill_md": "/Users/zachli/.openclaw/workspace/skills/spawn-agent/SKILL.md",
     "description": "# Spawn Agent Skill",
-    "lines": 78,
+    "lines": 92,
     "location": "/Users/zachli/.openclaw/workspace/skills",
     "loc": "workspace",
-    "emoji": "",
-    "triggers": [],
-    "memory_tags": []
+    "emoji": "🚀",
+    "triggers": [
+      "spawn-agent",
+      "create-subagent"
+    ],
+    "memory_tags": [
+      "agents",
+      "spawn",
+      "subagent"
+    ]
   }
 ]
