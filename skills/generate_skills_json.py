@@ -1,9 +1,21 @@
 #!/usr/bin/env python3
+"""generate_skills_json.py — scan both skill directories and write skills.json with rich metadata."""
 from pathlib import Path
-import json
+import json, yaml, re
 
 home = Path.home()
 skill_dirs = [home / '.openclaw' / 'skills', home / '.openclaw' / 'workspace' / 'skills']
+out = home / '.openclaw' / 'workspace' / 'virtual-office' / 'skills' / 'skills.json'
+out.parent.mkdir(parents=True, exist_ok=True)
+
+SENSITIVE = re.compile(
+    r'(api[-_]?key|token|secret|password)\s*[:=]|tvly-|sk-[a-zA-Z0-9]{20,}|secrets\.json',
+    re.IGNORECASE
+)
+
+def sanitize(text):
+    return '\n'.join(l for l in text.splitlines() if not SENSITIVE.search(l))
+
 skills = []
 for base in skill_dirs:
     if not base.exists():
@@ -15,35 +27,47 @@ for base in skill_dirs:
         if not skill_md.exists():
             continue
         text = skill_md.read_text(encoding='utf-8')
-        # remove YAML frontmatter
-        desc = ''
         lines = text.splitlines()
+
+        front = {}
+        body = '\n'.join(lines)
         if lines and lines[0].strip() == '---':
-            # find next ---
             try:
                 end = lines.index('---', 1)
+                fm_text = '\n'.join(lines[1:end])
                 body = '\n'.join(lines[end+1:])
+                try:
+                    front = yaml.safe_load(fm_text) or {}
+                except:
+                    pass
             except ValueError:
-                body = '\n'.join(lines)
-        else:
-            body = '\n'.join(lines)
-        # get first non-empty paragraph
+                pass
+
+        # first non-empty paragraph
         para = ''
         for part in body.split('\n\n'):
             s = part.strip()
             if s:
                 para = s
                 break
+
+        oc = front.get('metadata', {}).get('openclaw', {})
+        if isinstance(oc, str):
+            oc = {}
+
+        loc = 'global' if '.openclaw/skills/' in str(d) else 'workspace'
         skills.append({
             'name': d.name,
             'path': str(d),
             'skill_md': str(skill_md),
             'description': para[:300],
             'lines': len(lines),
-            'location': str(base)
+            'location': str(base),
+            'loc': loc,
+            'emoji': oc.get('emoji', ''),
+            'triggers': oc.get('triggers', []),
+            'memory_tags': oc.get('memory_tags', []),
         })
 
-out = Path('/Users/zachli/.openclaw/workspace/virtual-office/skills/skills.json')
-out.parent.mkdir(parents=True, exist_ok=True)
 out.write_text(json.dumps(skills, ensure_ascii=False, indent=2), encoding='utf-8')
-print('Wrote', out)
+print(f'Wrote {out} ({len(skills)} skills)')

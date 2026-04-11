@@ -5,7 +5,11 @@
     "skill_md": "/Users/zachli/.openclaw/skills/ai-learning-exam-section/SKILL.md",
     "description": "# exam-nav-test",
     "lines": 45,
-    "location": "/Users/zachli/.openclaw/skills"
+    "location": "/Users/zachli/.openclaw/skills",
+    "loc": "global",
+    "emoji": "",
+    "triggers": [],
+    "memory_tags": []
   },
   {
     "name": "browser",
@@ -13,7 +17,11 @@
     "skill_md": "/Users/zachli/.openclaw/skills/browser/SKILL.md",
     "description": "# Browser Skill — OpenClaw 官方 Playwright MCP",
     "lines": 120,
-    "location": "/Users/zachli/.openclaw/skills"
+    "location": "/Users/zachli/.openclaw/skills",
+    "loc": "global",
+    "emoji": "🌐",
+    "triggers": [],
+    "memory_tags": []
   },
   {
     "name": "discord-channel",
@@ -21,7 +29,11 @@
     "skill_md": "/Users/zachli/.openclaw/skills/discord-channel/SKILL.md",
     "description": "# Discord Channel Management",
     "lines": 132,
-    "location": "/Users/zachli/.openclaw/skills"
+    "location": "/Users/zachli/.openclaw/skills",
+    "loc": "global",
+    "emoji": "",
+    "triggers": [],
+    "memory_tags": []
   },
   {
     "name": "exam-creation",
@@ -29,7 +41,11 @@
     "skill_md": "/Users/zachli/.openclaw/skills/exam-creation/SKILL.md",
     "description": "# 校內考試 OCR + 仿題系統",
     "lines": 376,
-    "location": "/Users/zachli/.openclaw/skills"
+    "location": "/Users/zachli/.openclaw/skills",
+    "loc": "global",
+    "emoji": "",
+    "triggers": [],
+    "memory_tags": []
   },
   {
     "name": "memory-sync",
@@ -37,7 +53,22 @@
     "skill_md": "/Users/zachli/.openclaw/skills/memory-sync/SKILL.md",
     "description": "# Memory Sync Skill",
     "lines": 103,
-    "location": "/Users/zachli/.openclaw/skills"
+    "location": "/Users/zachli/.openclaw/skills",
+    "loc": "global",
+    "emoji": "🧠",
+    "triggers": [
+      {
+        "intent": "memory-sync"
+      },
+      {
+        "cron": "08:00|14:00|21:00"
+      }
+    ],
+    "memory_tags": [
+      "memory",
+      "sync",
+      "virtual-office"
+    ]
   },
   {
     "name": "models",
@@ -45,7 +76,11 @@
     "skill_md": "/Users/zachli/.openclaw/skills/models/SKILL.md",
     "description": "# Models Skill — 可用模型總覽",
     "lines": 78,
-    "location": "/Users/zachli/.openclaw/skills"
+    "location": "/Users/zachli/.openclaw/skills",
+    "loc": "global",
+    "emoji": "🤖",
+    "triggers": [],
+    "memory_tags": []
   },
   {
     "name": "music",
@@ -53,7 +88,11 @@
     "skill_md": "/Users/zachli/.openclaw/skills/music/SKILL.md",
     "description": "# MiniMax Music Skill — AI 音樂生成",
     "lines": 201,
-    "location": "/Users/zachli/.openclaw/skills"
+    "location": "/Users/zachli/.openclaw/skills",
+    "loc": "global",
+    "emoji": "🎵",
+    "triggers": [],
+    "memory_tags": []
   },
   {
     "name": "openclaw-team-optimization",
@@ -61,15 +100,34 @@
     "skill_md": "/Users/zachli/.openclaw/skills/openclaw-team-optimization/SKILL.md",
     "description": "# OpenClaw Team Optimization",
     "lines": 116,
-    "location": "/Users/zachli/.openclaw/skills"
+    "location": "/Users/zachli/.openclaw/skills",
+    "loc": "global",
+    "emoji": "",
+    "triggers": [],
+    "memory_tags": []
   },
   {
     "name": "rapidocr",
     "path": "/Users/zachli/.openclaw/skills/rapidocr",
     "skill_md": "/Users/zachli/.openclaw/skills/rapidocr/SKILL.md",
     "description": "# RapidOCR Skill — 高質量文字識別",
-    "lines": 171,
-    "location": "/Users/zachli/.openclaw/skills"
+    "lines": 178,
+    "location": "/Users/zachli/.openclaw/skills",
+    "loc": "global",
+    "emoji": "🔍",
+    "triggers": [
+      {
+        "intent": "ocr"
+      },
+      {
+        "file_match": "ai-learning/hkdse/ocr-output/images-p2/*"
+      }
+    ],
+    "memory_tags": [
+      "hkdse",
+      "p2",
+      "ocr"
+    ]
   },
   {
     "name": "acp-router",
@@ -77,7 +135,11 @@
     "skill_md": "/Users/zachli/.openclaw/workspace/skills/acp-router/SKILL.md",
     "description": "# ACP Harness Router",
     "lines": 245,
-    "location": "/Users/zachli/.openclaw/workspace/skills"
+    "location": "/Users/zachli/.openclaw/workspace/skills",
+    "loc": "workspace",
+    "emoji": "",
+    "triggers": [],
+    "memory_tags": []
   },
   {
     "name": "archive-sessions",
@@ -85,7 +147,11 @@
     "skill_md": "/Users/zachli/.openclaw/workspace/skills/archive-sessions/SKILL.md",
     "description": "# Archive Sessions — Session Cleanup & Memory Distillation",
     "lines": 87,
-    "location": "/Users/zachli/.openclaw/workspace/skills"
+    "location": "/Users/zachli/.openclaw/workspace/skills",
+    "loc": "workspace",
+    "emoji": "",
+    "triggers": [],
+    "memory_tags": []
   },
   {
     "name": "minimax-general",
@@ -93,7 +159,11 @@
     "skill_md": "/Users/zachli/.openclaw/workspace/skills/minimax-general/SKILL.md",
     "description": "# MiniMax General Skill",
     "lines": 95,
-    "location": "/Users/zachli/.openclaw/workspace/skills"
+    "location": "/Users/zachli/.openclaw/workspace/skills",
+    "loc": "workspace",
+    "emoji": "",
+    "triggers": [],
+    "memory_tags": []
   },
   {
     "name": "minimax-image",
@@ -101,7 +171,11 @@
     "skill_md": "/Users/zachli/.openclaw/workspace/skills/minimax-image/SKILL.md",
     "description": "# MiniMax Image Skill",
     "lines": 98,
-    "location": "/Users/zachli/.openclaw/workspace/skills"
+    "location": "/Users/zachli/.openclaw/workspace/skills",
+    "loc": "workspace",
+    "emoji": "",
+    "triggers": [],
+    "memory_tags": []
   },
   {
     "name": "minimax-m2-7",
@@ -109,7 +183,11 @@
     "skill_md": "/Users/zachli/.openclaw/workspace/skills/minimax-m2-7/SKILL.md",
     "description": "# MiniMax M2.7 Skill",
     "lines": 124,
-    "location": "/Users/zachli/.openclaw/workspace/skills"
+    "location": "/Users/zachli/.openclaw/workspace/skills",
+    "loc": "workspace",
+    "emoji": "",
+    "triggers": [],
+    "memory_tags": []
   },
   {
     "name": "minimax-quota",
@@ -117,7 +195,11 @@
     "skill_md": "/Users/zachli/.openclaw/workspace/skills/minimax-quota/SKILL.md",
     "description": "# Quota Skill",
     "lines": 208,
-    "location": "/Users/zachli/.openclaw/workspace/skills"
+    "location": "/Users/zachli/.openclaw/workspace/skills",
+    "loc": "workspace",
+    "emoji": "",
+    "triggers": [],
+    "memory_tags": []
   },
   {
     "name": "minimax-test",
@@ -125,7 +207,11 @@
     "skill_md": "/Users/zachli/.openclaw/workspace/skills/minimax-test/SKILL.md",
     "description": "# Minimax Test Skill",
     "lines": 60,
-    "location": "/Users/zachli/.openclaw/workspace/skills"
+    "location": "/Users/zachli/.openclaw/workspace/skills",
+    "loc": "workspace",
+    "emoji": "",
+    "triggers": [],
+    "memory_tags": []
   },
   {
     "name": "n8n-automation",
@@ -133,7 +219,11 @@
     "skill_md": "/Users/zachli/.openclaw/workspace/skills/n8n-automation/SKILL.md",
     "description": "# n8n Automation Skill",
     "lines": 93,
-    "location": "/Users/zachli/.openclaw/workspace/skills"
+    "location": "/Users/zachli/.openclaw/workspace/skills",
+    "loc": "workspace",
+    "emoji": "🤖",
+    "triggers": [],
+    "memory_tags": []
   },
   {
     "name": "playwright",
@@ -141,7 +231,11 @@
     "skill_md": "/Users/zachli/.openclaw/workspace/skills/playwright/SKILL.md",
     "description": "# SKILL: Playwright 自動測試 (T仔)",
     "lines": 46,
-    "location": "/Users/zachli/.openclaw/workspace/skills"
+    "location": "/Users/zachli/.openclaw/workspace/skills",
+    "loc": "workspace",
+    "emoji": "",
+    "triggers": [],
+    "memory_tags": []
   },
   {
     "name": "spawn-agent",
@@ -149,6 +243,10 @@
     "skill_md": "/Users/zachli/.openclaw/workspace/skills/spawn-agent/SKILL.md",
     "description": "# Spawn Agent Skill",
     "lines": 78,
-    "location": "/Users/zachli/.openclaw/workspace/skills"
+    "location": "/Users/zachli/.openclaw/workspace/skills",
+    "loc": "workspace",
+    "emoji": "",
+    "triggers": [],
+    "memory_tags": []
   }
 ]
