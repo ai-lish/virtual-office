@@ -220,12 +220,17 @@ async function loadData() {
 
       if (models.length > 0) {
         Object.entries(poolMap).forEach(([label, poolModels]) => {
-          let poolTotal = 0, poolUsed = 0, poolWeeklyTotal = 0, poolWeeklyUsed = 0;
-          poolModels.forEach(name => {
+          // Find first model in pool that has data (they all share the same quota)
+          let poolModel = null;
+          for (const name of poolModels) {
             const m = models.find(m => m.model === name);
-            if (m) { poolTotal += m.total; poolUsed += m.used; poolWeeklyTotal += m.weeklyTotal; poolWeeklyUsed += m.weeklyUsed; }
-          });
-          if (poolTotal === 0 && poolWeeklyTotal === 0) return;
+            if (m && (m.total > 0 || m.weeklyTotal > 0)) { poolModel = m; break; }
+          }
+          if (!poolModel) return;
+          const poolTotal = poolModel.total;
+          const poolUsed = poolModel.used;
+          const poolWeeklyTotal = poolModel.weeklyTotal;
+          const poolWeeklyUsed = poolModel.weeklyUsed;
           const pct = poolTotal > 0 ? Math.round(poolUsed / poolTotal * 100) : 0;
           const color = pctColor(pct);
           const tagClass = poolTags[label];
@@ -238,8 +243,8 @@ async function loadData() {
               <div class="progress-fill" style="width:${pct}%;background:${color}"></div>
             </div>
           </div>`;
-          // Weekly bar for 語音/圖像/音樂
-          if ((label === '語音' || label === '圖像' || label === '音樂') && poolWeeklyTotal > 0) {
+          // Weekly bar only if weekly is different from daily (meaningful separate limit)
+          if (poolWeeklyTotal > 0 && poolWeeklyTotal !== poolTotal * 7) {
             const wpct = Math.round((poolWeeklyUsed / poolWeeklyTotal) * 100);
             const wcolor = pctColor(wpct);
             html += `<div class="progress-row" style="margin-top:6px;">
