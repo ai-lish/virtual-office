@@ -224,12 +224,21 @@
     "path": "/Users/zachli/.openclaw/workspace/skills/deep-e2e-test",
     "skill_md": "/Users/zachli/.openclaw/workspace/skills/deep-e2e-test/SKILL.md",
     "description": "# Deep E2E Test Skill",
-    "lines": 215,
+    "lines": 227,
     "location": "/Users/zachli/.openclaw/workspace/skills",
     "loc": "workspace",
-    "emoji": "",
-    "triggers": [],
-    "memory_tags": []
+    "emoji": "🎭",
+    "triggers": [
+      "smoke-test",
+      "e2e-test",
+      "深度測試",
+      "walk-through"
+    ],
+    "memory_tags": [
+      "playwright",
+      "e2e",
+      "testing"
+    ]
   },
   {
     "name": "minimax-general",
