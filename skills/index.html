@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="zh-HK">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>🛠️ Skills — 虛擬辦公室</title>
+<link rel="icon" href="/virtual-office/images/logo.png">
+<style>
+:root{--bg:#0f0f23;--card:#16213e;--text:#eee;--dim:#888;--accent:#3498db;--green:#2ecc71;--red:#bc002d;--bar-bg:#0a1628}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans SC',system-ui,sans-serif;margin:0;padding:0}
+.header{background:linear-gradient(90deg,#1a1a2e,#16213e);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--red);flex-wrap:wrap;gap:8px}
+.container{max-width:1100px;margin:0 auto;padding:16px}
+.btn{display:inline-block;padding:6px 12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:8px;color:var(--dim);text-decoration:none;font-size:.75rem;transition:all .15s}
+.btn:hover{background:rgba(255,255,255,.1);color:var(--text)}
+.section-title{font-size:.8rem;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:10px;margin-bottom:16px}
+.stat-box{background:var(--card);border-radius:8px;padding:12px;text-align:center}
+.stat-num{font-size:1.4rem;font-weight:700;color:var(--accent)}
+.stat-label{font-size:.7rem;color:var(--dim);margin-top:2px}
+.skill-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+.skill-card{background:var(--card);border-radius:10px;padding:14px 16px;border:1px solid rgba(255,255,255,.04);transition:border-color .2s}
+.skill-card:hover{border-color:rgba(255,255,255,.15)}
+.skill-card .name{font-size:.92rem;font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.skill-card .name .badge{font-size:.6rem;padding:1px 5px;border-radius:4px;font-weight:500}
+.skill-card .location{font-size:.65rem;color:var(--dim)}
+.skill-card .desc{font-size:.78rem;color:var(--dim);margin-top:6px;line-height:1.4}
+.skill-card .lines{font-size:.65rem;color:var(--dim);margin-top:4px}
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.filter-btn{padding:4px 10px;border-radius:6px;font-size:.7rem;cursor:pointer;border:1px solid rgba(255,255,255,.1);background:transparent;color:var(--dim);transition:all .15s}
+.filter-btn.active,.filter-btn:hover{background:rgba(52,152,219,.2);color:var(--accent);border-color:var(--accent)}
+.loading{text-align:center;padding:40px;color:var(--dim)}
+.error{background:rgba(231,76,60,.1);border:1px solid rgba(231,76,60,.3);border-radius:8px;padding:12px;color:var(--red);font-size:.8rem}
+footer{text-align:center;padding:16px;color:var(--dim);font-size:.7rem;border-top:1px solid rgba(255,255,255,.04);margin-top:20px}
+@media(max-width:600px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="header">
+  <div style="display:flex;gap:10px;align-items:center">
+    <img src="/virtual-office/images/logo.png" width="28" height="28" alt="logo">
+    <h1 style="font-size:.95rem;font-weight:600;margin:0">🛠️ Skills</h1>
+  </div>
+  <div style="display:flex;gap:8px">
+    <a class="btn" href="/virtual-office/">← 虛擬辦公室</a>
+    <a class="btn" href="/virtual-office/memory/">🧠 Memory</a>
+  </div>
+</div>
+
+<div class="container">
+  <div class="stats-grid" id="statsGrid">
+    <div class="stat-box"><div class="stat-num" id="totalCount">—</div><div class="stat-label">Total Skills</div></div>
+    <div class="stat-box"><div class="stat-num" id="globalCount">—</div><div class="stat-label">Global</div></div>
+    <div class="stat-box"><div class="stat-num" id="workspaceCount">—</div><div class="stat-label">Workspace</div></div>
+    <div class="stat-box"><div class="stat-num" id="totalLines">—</div><div class="stat-label">Total Lines</div></div>
+  </div>
+
+  <div class="filter-bar" id="filterBar"></div>
+
+  <div class="skill-list" id="skillList">
+    <div class="loading" id="loading">載入中…</div>
+  </div>
+</div>
+
+<script>
+let allSkills = [];
+const isGlobal = p => p.includes('.openclaw/skills/');
+const isWorkspace = p => p.includes('.openclaw/workspace/skills/');
+
+fetch('skills.json')
+  .then(r => r.json())
+  .then(data => {
+    allSkills = data;
+    document.getElementById('loading').style.display = 'none';
+    renderStats();
+    renderFilterBar();
+    renderSkills('');
+  })
+  .catch(() => {
+    document.getElementById('loading').innerHTML = '<div class="error">無法載入 skills.json，請先運行 generate_skills_json.py</div>';
+  });
+
+function renderStats() {
+  const global = allSkills.filter(s => isGlobal(s.path));
+  const workspace = allSkills.filter(s => isWorkspace(s.path));
+  document.getElementById('totalCount').textContent = allSkills.length;
+  document.getElementById('globalCount').textContent = global.length;
+  document.getElementById('workspaceCount').textContent = workspace.length;
+  document.getElementById('totalLines').textContent = allSkills.reduce((a,s) => a + s.lines, 0);
+}
+
+function renderFilterBar() {
+  const bar = document.getElementById('filterBar');
+  const filters = [
+    { label:'全部', value:'' },
+    { label:'Global', value:'global' },
+    { label:'Workspace', value:'workspace' }
+  ];
+  filters.forEach(f => {
+    const btn = document.createElement('button');
+    btn.className = 'filter-btn active';
+    btn.textContent = f.label;
+    btn.onclick = () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderSkills(f.value);
+    };
+    bar.appendChild(btn);
+  });
+}
+
+function renderSkills(filter) {
+  const list = document.getElementById('skillList');
+  list.innerHTML = '';
+  const filtered = filter
+    ? allSkills.filter(s => filter === 'global' ? isGlobal(s.path) : isWorkspace(s.path))
+    : allSkills;
+  if (!filtered.length) {
+    list.innerHTML = '<div class="loading">沒有找到符合條件的 Skills</div>';
+    return;
+  }
+  filtered.forEach(s => {
+    const card = document.createElement('div');
+    card.className = 'skill-card';
+    const loc = isGlobal(s.path) ? '🌐 global' : '📁 workspace';
+    const locClass = isGlobal(s.path) ? 'badge-green' : 'badge-yellow';
+    card.innerHTML = `
+      <div class="name">
+        ${s.name}
+        <span class="badge ${locClass}">${loc}</span>
+      </div>
+      <div class="location">${s.path.replace('/Users/zachli/', '~/')}</div>
+      <div class="desc">${s.description || '—'}</div>
+      <div class="lines">${s.lines} 行</div>
+    `;
+    list.appendChild(card);
+  });
+}
+</script>
+
+</body>
+</html>
