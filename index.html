@@ -44,6 +44,7 @@ body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:
 .tag-speech{background:rgba(155,89,182,.2);color:var(--purple)}
 .tag-image{background:rgba(243,156,18,.2);color:var(--warn)}
 .tag-music{background:rgba(52,152,219,.2);color:var(--blue)}
+.tag-lyrics{background:rgba(230,126,34,.2);color:var(--orange)}
 .model-row{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:.76em}
 .model-name{flex:1;color:var(--text)}
 .model-bar-wrap{width:80px;height:5px;background:var(--bar-bg);border-radius:3px;overflow:hidden}
@@ -197,9 +198,10 @@ const poolMap = {
   '文字': ['MiniMax-M*', 'coding-plan-vlm', 'coding-plan-search'],
   '語音': ['speech-hd'],
   '圖像': ['image-01'],
-  '音樂': ['music-2.6', 'music-cover', 'lyrics_generation']
+  '音樂': ['music-2.6', 'music-cover'],
+  '歌詞': ['lyrics_generation']
 };
-const poolTags = { '文字': 'tag-text', '語音': 'tag-speech', '圖像': 'tag-image', '音樂': 'tag-music' };
+const poolTags = { '文字': 'tag-text', '語音': 'tag-speech', '圖像': 'tag-image', '音樂': 'tag-music', '歌詞': 'tag-lyrics' };
 
 async function loadData() {
   const ts = Date.now();
