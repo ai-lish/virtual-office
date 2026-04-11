@@ -1,0 +1,21 @@
+[
+  {
+    "ts": "2026-04-11T10:24:32.678812",
+    "skill": "rapidocr",
+    "tags": [
+      "hkdse",
+      "p2",
+      "ocr"
+    ],
+    "summary": "Single OCR /Users/zachli/ai-learning/hkdse/ocr-output/images-p2/2022Q01.jpg: α²--α-β²+β= 1. A. (a +β)(a-β+1) B. (a+β)(a-β-1) C. (α-β)(α+β+1) D. (a-β)(α+β-1)"
+  },
+  {
+    "ts": "2026-04-11T08:05:44.569874",
+    "skill": "rapidocr",
+    "tags": [
+      "ocr",
+      "hkdse"
+    ],
+    "summary": "Test entry from rapidocr skill integration."
+  }
+]
