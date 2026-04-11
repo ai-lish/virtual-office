@@ -52,7 +52,7 @@
     "path": "/Users/zachli/.openclaw/skills/memory-sync",
     "skill_md": "/Users/zachli/.openclaw/skills/memory-sync/SKILL.md",
     "description": "# Memory Sync Skill",
-    "lines": 103,
+    "lines": 111,
     "location": "/Users/zachli/.openclaw/skills",
     "loc": "global",
     "emoji": "🧠",
@@ -158,60 +158,138 @@
     "path": "/Users/zachli/.openclaw/workspace/skills/minimax-general",
     "skill_md": "/Users/zachli/.openclaw/workspace/skills/minimax-general/SKILL.md",
     "description": "# MiniMax General Skill",
-    "lines": 95,
+    "lines": 105,
     "location": "/Users/zachli/.openclaw/workspace/skills",
     "loc": "workspace",
-    "emoji": "",
-    "triggers": [],
-    "memory_tags": []
+    "emoji": "🤖",
+    "triggers": [
+      [
+        {
+          "intent": "minimax-platform"
+        }
+      ],
+      {
+        "intent": "多模態"
+      }
+    ],
+    "memory_tags": [
+      [
+        "minimax"
+      ],
+      "platform"
+    ]
   },
   {
     "name": "minimax-image",
     "path": "/Users/zachli/.openclaw/workspace/skills/minimax-image",
     "skill_md": "/Users/zachli/.openclaw/workspace/skills/minimax-image/SKILL.md",
     "description": "# MiniMax Image Skill",
-    "lines": 98,
+    "lines": 110,
     "location": "/Users/zachli/.openclaw/workspace/skills",
     "loc": "workspace",
-    "emoji": "",
-    "triggers": [],
-    "memory_tags": []
+    "emoji": "🎨",
+    "triggers": [
+      [
+        {
+          "intent": "generate-image"
+        }
+      ],
+      {
+        "intent": "圖像生成"
+      },
+      {
+        "intent": "卡通角色"
+      }
+    ],
+    "memory_tags": [
+      [
+        "minimax"
+      ],
+      "image",
+      "preschool"
+    ]
   },
   {
     "name": "minimax-m2-7",
     "path": "/Users/zachli/.openclaw/workspace/skills/minimax-m2-7",
     "skill_md": "/Users/zachli/.openclaw/workspace/skills/minimax-m2-7/SKILL.md",
     "description": "# MiniMax M2.7 Skill",
-    "lines": 124,
+    "lines": 136,
     "location": "/Users/zachli/.openclaw/workspace/skills",
     "loc": "workspace",
-    "emoji": "",
-    "triggers": [],
-    "memory_tags": []
+    "emoji": "💬",
+    "triggers": [
+      [
+        {
+          "intent": "text-generation"
+        }
+      ],
+      {
+        "intent": "reasoning"
+      },
+      {
+        "intent": "code-writing"
+      }
+    ],
+    "memory_tags": [
+      [
+        "minimax"
+      ],
+      "text",
+      "llm"
+    ]
   },
   {
     "name": "minimax-quota",
     "path": "/Users/zachli/.openclaw/workspace/skills/minimax-quota",
     "skill_md": "/Users/zachli/.openclaw/workspace/skills/minimax-quota/SKILL.md",
     "description": "# Quota Skill",
-    "lines": 208,
+    "lines": 218,
     "location": "/Users/zachli/.openclaw/workspace/skills",
     "loc": "workspace",
-    "emoji": "",
-    "triggers": [],
-    "memory_tags": []
+    "emoji": "⚡",
+    "triggers": [
+      [
+        {
+          "intent": "check-usage"
+        }
+      ],
+      {
+        "intent": "查配額"
+      }
+    ],
+    "memory_tags": [
+      [
+        "minimax"
+      ],
+      "quota"
+    ]
   },
   {
     "name": "minimax-test",
     "path": "/Users/zachli/.openclaw/workspace/skills/minimax-test",
     "skill_md": "/Users/zachli/.openclaw/workspace/skills/minimax-test/SKILL.md",
     "description": "# Minimax Test Skill",
-    "lines": 60,
+    "lines": 70,
     "location": "/Users/zachli/.openclaw/workspace/skills",
     "loc": "workspace",
-    "emoji": "",
-    "triggers": [],
-    "memory_tags": []
+    "emoji": "🔍",
+    "triggers": [
+      [
+        {
+          "intent": "test"
+        }
+      ],
+      {
+        "intent": "smoke-test"
+      }
+    ],
+    "memory_tags": [
+      [
+        "minimax"
+      ],
+      "test"
+    ]
   },
   {
     "name": "n8n-automation",
