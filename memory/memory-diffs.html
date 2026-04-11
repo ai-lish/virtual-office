@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-HK">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>🔄 Memory Diffs — 虛擬辦公室</title>
+<link rel="icon" href="/virtual-office/images/logo.png">
+<style>
+:root{--bg:#0f0f23;--card:#16213e;--text:#eee;--dim:#888;--accent:#3498db;--green:#2ecc71;--yellow:#f39c12;--red:#bc002d}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans SC',system-ui,sans-serif;margin:0;padding:0}
+.header{background:linear-gradient(90deg,#1a1a2e,#16213e);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--red);flex-wrap:wrap;gap:8px}
+.container{max-width:900px;margin:0 auto;padding:16px}
+.btn{display:inline-block;padding:6px 12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:8px;color:var(--dim);text-decoration:none;font-size:.75rem;transition:all .15s}
+.btn:hover{background:rgba(255,255,255,.1);color:var(--text)}
+.card{background:var(--card);border-radius:12px;padding:16px;margin-bottom:14px;border:1px solid rgba(255,255,255,.04)}
+.section-title{font-size:.8rem;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+.diff-list{display:flex;flex-direction:column;gap:8px}
+.diff-item{background:rgba(255,255,255,.02);border-radius:8px;padding:10px 14px;border-left:3px solid var(--green);transition:border-color .2s}
+.diff-item.skilled{border-left-color:var(--accent)}
+.diff-item .ts{font-size:.65rem;color:var(--dim);margin-bottom:4px}
+.diff-item .skill-badge{display:inline-block;padding:1px 8px;border-radius:10px;font-size:.68rem;font-weight:600;background:rgba(52,152,219,.2);color:var(--accent);margin-right:6px}
+.diff-item .summary{font-size:.8rem;color:var(--text);line-height:1.4}
+.tags{margin-top:6px;display:flex;flex-wrap:wrap;gap:4px}
+.tag{font-size:.6rem;padding:1px 6px;border-radius:8px;background:rgba(255,255,255,.06);color:var(--dim)}
+.loading{text-align:center;padding:40px;color:var(--dim)}
+.error{background:rgba(231,76,60,.1);border:1px solid rgba(231,76,60,.3);border-radius:8px;padding:12px;color:var(--red);font-size:.8rem}
+footer{text-align:center;padding:16px;color:var(--dim);font-size:.7rem;border-top:1px solid rgba(255,255,255,.04);margin-top:20px}
+</style>
+</head>
+<body>
+<div class="header">
+  <div style="display:flex;gap:10px;align-items:center">
+    <img src="/virtual-office/images/logo.png" width="28" height="28" alt="logo">
+    <h1 style="font-size:.95rem;font-weight:600;margin:0">🔄 Memory Diffs</h1>
+  </div>
+  <div style="display:flex;gap:8px">
+    <a class="btn" href="/virtual-office/">← 虛擬辦公室</a>
+    <a class="btn" href="/virtual-office/memory/">🧠 Memory</a>
+    <a class="btn" href="/virtual-office/skills/">🛠️ Skills</a>
+  </div>
+</div>
+
+<div class="container">
+  <div id="loading" class="loading">載入中…</div>
+  <div id="error" class="error" style="display:none"></div>
+  <div id="content" style="display:none">
+    <div class="card">
+      <div class="section-title">最近記憶更新</div>
+      <div id="diffList"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+fetch('memory-diffs.json')
+  .then(r => r.ok ? r.json() : Promise.reject(r.status))
+  .then(data => {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('content').style.display = 'block';
+    render(data);
+  })
+  .catch(e => {
+    document.getElementById('loading').innerHTML = '<div class="error">無法載入 memory-diffs.json (' + e + ')</div>';
+  });
+
+function render(diffs) {
+  const list = document.getElementById('diffList');
+  if (!diffs || !diffs.length) {
+    list.innerHTML = '<div class="loading">暫無記憶更新</div>';
+    return;
+  }
+  diffs.slice(0, 30).forEach(d => {
+    const item = document.createElement('div');
+    item.className = 'diff-item' + (d.skill ? ' skilled' : '');
+    const ts = d.ts ? new Date(d.ts).toLocaleString('zh-HK', {hour:'2-digit',minute:'2-digit',month:'numeric',day:'numeric'}) : '—';
+    const skillBadge = d.skill ? `<span class="skill-badge">${d.skill}</span>` : '';
+    const tags = (d.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
+    item.innerHTML = `
+      <div class="ts">${ts}${skillBadge}</div>
+      <div class="summary">${d.summary || '—'}</div>
+      ${tags ? `<div class="tags">${tags}</div>` : ''}
+    `;
+    list.appendChild(item);
+  });
+}
+</script>
+</body>
+</html>

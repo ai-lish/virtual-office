@@ -4,12 +4,19 @@
     "path": "/Users/zachli/.openclaw/skills/ai-learning-exam-section",
     "skill_md": "/Users/zachli/.openclaw/skills/ai-learning-exam-section/SKILL.md",
     "description": "# exam-nav-test",
-    "lines": 45,
+    "lines": 59,
     "location": "/Users/zachli/.openclaw/skills",
     "loc": "global",
-    "emoji": "",
-    "triggers": [],
-    "memory_tags": []
+    "emoji": "📚",
+    "triggers": [
+      "exam-nav",
+      "verify-exam"
+    ],
+    "memory_tags": [
+      "ai-learning",
+      "exam",
+      "navigation"
+    ]
   },
   {
     "name": "browser",
@@ -55,12 +62,19 @@
     "path": "/Users/zachli/.openclaw/skills/exam-creation",
     "skill_md": "/Users/zachli/.openclaw/skills/exam-creation/SKILL.md",
     "description": "# 校內考試 OCR + 仿題系統",
-    "lines": 376,
+    "lines": 390,
     "location": "/Users/zachli/.openclaw/skills",
     "loc": "global",
-    "emoji": "",
-    "triggers": [],
-    "memory_tags": []
+    "emoji": "📝",
+    "triggers": [
+      "exam-creation",
+      "generate-exam"
+    ],
+    "memory_tags": [
+      "exam",
+      "ocr",
+      "hkdse"
+    ]
   },
   {
     "name": "memory-sync",
@@ -204,6 +218,18 @@
       "sessions",
       "archive"
     ]
+  },
+  {
+    "name": "deep-e2e-test",
+    "path": "/Users/zachli/.openclaw/workspace/skills/deep-e2e-test",
+    "skill_md": "/Users/zachli/.openclaw/workspace/skills/deep-e2e-test/SKILL.md",
+    "description": "# Deep E2E Test Skill",
+    "lines": 215,
+    "location": "/Users/zachli/.openclaw/workspace/skills",
+    "loc": "workspace",
+    "emoji": "",
+    "triggers": [],
+    "memory_tags": []
   },
   {
     "name": "minimax-general",
