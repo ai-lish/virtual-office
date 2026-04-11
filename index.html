@@ -43,6 +43,7 @@ body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:
 .tag-text{background:rgba(52,152,219,.2);color:var(--blue)}
 .tag-speech{background:rgba(155,89,182,.2);color:var(--purple)}
 .tag-image{background:rgba(243,156,18,.2);color:var(--warn)}
+.tag-music{background:rgba(52,152,219,.2);color:var(--blue)}
 .model-row{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:.76em}
 .model-name{flex:1;color:var(--text)}
 .model-bar-wrap{width:80px;height:5px;background:var(--bar-bg);border-radius:3px;overflow:hidden}
@@ -192,6 +193,13 @@ async function loadReadme(i) {
 // ── Load Data on page load ──
 const pctColor = pct => pct >= 90 ? 'var(--danger)' : pct >= 70 ? 'var(--warn)' : 'var(--green)';
 const typeMap = { 'MiniMax-M*': ['tag-text','文字'], 'speech-hd': ['tag-speech','語音'], 'image-01': ['tag-image','圖像'] };
+const poolMap = {
+  '文字': ['MiniMax-M*', 'coding-plan-vlm', 'coding-plan-search'],
+  '語音': ['speech-hd'],
+  '圖像': ['image-01'],
+  '音樂': ['music-2.6', 'music-cover']
+};
+const poolTags = { '文字': 'tag-text', '語音': 'tag-speech', '圖像': 'tag-image', '音樂': 'tag-music' };
 
 async function loadData() {
   const ts = Date.now();
@@ -206,24 +214,44 @@ async function loadData() {
       const source = d._source === 'github-actions-live-api' ? '🟢 即時' : '📦 快取';
       document.getElementById('mm-source-idx').textContent = source;
 
-      const models = (d.allModels || []).filter(m => m.total > 0);
+      const models = (d.allModels || []);
       const raw = d.raw?.model_remains || [];
       let html = '';
 
       if (models.length > 0) {
-        models.forEach(m => {
-          const pct = m.total > 0 ? Math.round(m.used / m.total * 100) : 0;
+        Object.entries(poolMap).forEach(([label, poolModels]) => {
+          let poolTotal = 0, poolUsed = 0, poolWeeklyTotal = 0, poolWeeklyUsed = 0;
+          poolModels.forEach(name => {
+            const m = models.find(m => m.model === name);
+            if (m) { poolTotal += m.total; poolUsed += m.used; poolWeeklyTotal += m.weeklyTotal; poolWeeklyUsed += m.weeklyUsed; }
+          });
+          if (poolTotal === 0 && poolWeeklyTotal === 0) return;
+          const pct = poolTotal > 0 ? Math.round(poolUsed / poolTotal * 100) : 0;
           const color = pctColor(pct);
-          const [tagClass, tagLabel] = typeMap[m.model] || ['tag-text','其他'];
+          const tagClass = poolTags[label];
           html += `<div class="progress-row">
             <div class="progress-label">
-              <span><span class="tag ${tagClass}">${tagLabel}</span> ${m.model}</span>
-              <strong>${m.used} / ${m.total}</strong>
+              <span><span class="tag ${tagClass}">${label}</span></span>
+              <strong>${poolUsed} / ${poolTotal}</strong>
             </div>
             <div class="progress-track">
               <div class="progress-fill" style="width:${pct}%;background:${color}"></div>
             </div>
           </div>`;
+          // Weekly bar for 語音/圖像/音樂
+          if ((label === '語音' || label === '圖像' || label === '音樂') && poolWeeklyTotal > 0) {
+            const wpct = Math.round((poolWeeklyUsed / poolWeeklyTotal) * 100);
+            const wcolor = pctColor(wpct);
+            html += `<div class="progress-row" style="margin-top:6px;">
+              <div class="progress-label">
+                <span style="font-size:0.72em;color:var(--dim)">每週</span>
+                <strong style="font-size:0.72em">${poolWeeklyUsed} / ${poolWeeklyTotal}</strong>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" style="width:${wpct}%;background:${wcolor}"></div>
+              </div>
+            </div>`;
+          }
         });
       } else if (d.quota) {
         const q = d.quota;
