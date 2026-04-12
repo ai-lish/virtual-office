@@ -1,5 +1,5 @@
 {
-  "_generatedAt": "2026-04-05T15:34:12.652Z",
+  "_generatedAt": "2026-04-12T12:30:00.000Z",
   "_source": "google-drive-csv + github",
   "months": [
     "2026-03",
@@ -269,20 +269,20 @@
         }
       },
       "2026-04": {
-        "total": 43,
+        "total": 95,
         "byModel": {
-          "Claude Opus 4.6": 15,
-          "Claude Sonnet 4.6": 24,
-          "Code Review model": 1,
-          "Coding Agent model": 3
+          "Claude Opus 4.6": 45,
+          "Claude Sonnet 4.6": 36,
+          "Code Review model": 3,
+          "Coding Agent model": 11
         }
       }
     },
     "byModel": {
-      "Claude Opus 4.6": 260,
-      "Claude Sonnet 4.6": 66,
-      "Code Review model": 3,
-      "Coding Agent model": 22,
+      "Claude Opus 4.6": 290,
+      "Claude Sonnet 4.6": 78,
+      "Code Review model": 5,
+      "Coding Agent model": 30,
       "GPT-5.4 mini": 8,
       "Gemini 3.1 Pro": 5
     }
