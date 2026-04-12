@@ -218,16 +218,29 @@ async function load() {
     return;
   }
 
+  // Backwards-compatible: if combined format (with sources), use openclaw as primary and keep hermes under data.hermes
+  let hermesMeta = null;
+  if (data && data.sources && data.sources.openclaw) {
+    hermesMeta = data.sources.hermes || null;
+    // make a shallow copy of openclaw source so rest of code can keep using `data` as before
+    data = Object.assign({}, data.sources.openclaw);
+    if (hermesMeta) data.hermes = hermesMeta;
+  }
+
   document.getElementById('loading').style.display = 'none';
   document.getElementById('content').style.display = 'block';
 
   // Stats
-  addStats(
+  const statsArgs = [
     data.totalFiles || 0, '總記憶檔案',
     Object.keys(data.dailyLogs || {}).length, '日誌檔案',
     Object.keys(data.feedbackFiles || {}).length, 'Feedback',
     data.dreamsCount || 0, '夢境項目'
-  );
+  ];
+  if (data.hermes) {
+    statsArgs.push('✓', 'Hermes memory');
+  }
+  addStats.apply(null, statsArgs);
 
   document.getElementById('memoryLines').textContent = (data.memoryMd || '').split('\n').length + ' 行';
   document.getElementById('memoryUpdated').textContent = new Date(data.generated || 0).toLocaleString('zh-HK', {timeZone:'Asia/Hong_Kong'});
