@@ -101,7 +101,7 @@ body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:
     </div>
     <!-- Copilot Card -->
     <div class="detail-quota-card">
-      <div class="card-label">🤖 Copilot Premium <span class="source-badge" id="cp-badge-idx"></span></div>
+      <div class="card-label">🤖 Copilot Premium <span class="source-badge" id="cp-badge-idx"></span> <span id="cp-update-idx" style="font-size:.65em;font-weight:400;color:var(--dim)"></span></div>
       <div class="progress-row">
         <div class="progress-label"><span>Premium 請求</span><strong id="cp-label-idx">—</strong></div>
         <div class="progress-track"><div class="progress-fill" id="cp-bar-idx" style="width:0%;background:var(--green)"></div></div>
@@ -319,7 +319,11 @@ async function loadData() {
             </div>`;
           }).join('');
 
-      if (d._generatedAt) lastTime = new Date(d._generatedAt);
+      if (d._generatedAt) {
+        lastTime = new Date(d._generatedAt);
+        const up = new Date(d._generatedAt);
+        document.getElementById('cp-update-idx').textContent = '更新: ' + up.toLocaleTimeString('zh-HK',{hour:'2-digit',minute:'2-digit'});
+      }
     }
   } catch(e) { console.log('Copilot fetch error', e); }
 
