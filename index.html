@@ -322,7 +322,7 @@ async function loadData() {
       if (d._generatedAt) {
         lastTime = new Date(d._generatedAt);
         const up = new Date(d._generatedAt);
-        document.getElementById('cp-update-idx').textContent = '更新: ' + up.toLocaleTimeString('zh-HK',{hour:'2-digit',minute:'2-digit'});
+        document.getElementById('cp-update-idx').textContent = '更新: ' + up.toLocaleDateString('zh-HK');
       }
     }
   } catch(e) { console.log('Copilot fetch error', e); }
