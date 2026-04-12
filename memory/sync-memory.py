@@ -1,11 +1,21 @@
 #!/usr/bin/env python3
-"""Sync memory files → virtual-office/memory/data.json (sanitized for public repo)."""
+"""Sync memory files → virtual-office/memory/data.json (sanitized for public repo).
+
+Now supports combining OpenClaw (MacD) memory with Hermes memory (keeps provenance).
+"""
 import json, os, re, glob
 from datetime import datetime, timedelta
 from pathlib import Path
 
+# OpenClaw (MacD) memory
 MEMORY_DIR = Path.home() / ".openclaw/workspace/memory"
 MEMORY_MD  = Path.home() / ".openclaw/workspace/MEMORY.md"
+
+# Hermes memory (independent agent)
+HERMES_DIR = Path.home() / ".hermes/memories"
+HERMES_MD  = HERMES_DIR / "MEMORY.md"
+HERMES_SKILLS_DIR = Path.home() / ".hermes/skills"
+
 OUT_FILE   = Path.home() / ".openclaw/workspace/virtual-office/memory/data.json"
 
 SENSITIVE = re.compile(
@@ -21,7 +31,7 @@ def read_safe(path: Path) -> str:
         return sanitize(path.read_text(errors="replace"))
     return ""
 
-# MEMORY.md
+# --- OpenClaw memory (existing behavior) ---
 memory_md = read_safe(MEMORY_MD)
 
 # Daily logs (last 14 days)
@@ -61,19 +71,48 @@ dreams_count = len(list(dreams_dir.glob("*"))) if dreams_dir.exists() else 0
 # Total file count
 total_files = len(list(MEMORY_DIR.glob("*.md")))
 
+# --- Hermes memory (new) ---
+hermes_memory_md = read_safe(HERMES_MD)
+hermes_daily_logs = {}
+for i in range(14):
+    d = (datetime.now() - timedelta(days=i)).strftime("%Y-%m-%d")
+    content = read_safe(HERMES_DIR / f"{d}.md")
+    if content:
+        hermes_daily_logs[d] = content
+
+hermes_topic_projects = read_safe(HERMES_DIR / "topic-projects.md")
+hermes_topic_active   = read_safe(HERMES_DIR / "topic-active-issues.md")
+
+# Hermes skills list (filenames only)
+hermes_skills = []
+if (HERMES_SKILLS_DIR).exists():
+    hermes_skills = [p.name for p in sorted(HERMES_SKILLS_DIR.glob("*"))]
+
+# Assemble data (keep both sources separate to avoid accidental overwrite)
 data = {
     "generated": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
-    "totalFiles": total_files,
-    "memoryMd": memory_md,
-    "topicProjects": topic_projects,
-    "topicActive": topic_active,
-    "dailyLogs": daily_logs,
-    "feedbackFiles": feedback,
-    "dreamsDiary": dreams_md,
-    "dreamPhaseReports": phase_reports,
-    "dreamsCount": dreams_count,
+    "sources": {
+        "openclaw": {
+            "totalFiles": total_files,
+            "memoryMd": memory_md,
+            "topicProjects": topic_projects,
+            "topicActive": topic_active,
+            "dailyLogs": daily_logs,
+            "feedbackFiles": feedback,
+            "dreamsDiary": dreams_md,
+            "dreamPhaseReports": phase_reports,
+            "dreamsCount": dreams_count,
+        },
+        "hermes": {
+            "memoryMd": hermes_memory_md,
+            "topicProjects": hermes_topic_projects,
+            "topicActive": hermes_topic_active,
+            "dailyLogs": hermes_daily_logs,
+            "skills": hermes_skills,
+        }
+    }
 }
 
 OUT_FILE.parent.mkdir(parents=True, exist_ok=True)
 OUT_FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2))
-print(f"✅ Synced to {OUT_FILE} ({OUT_FILE.stat().st_size} bytes, {total_files} memory files)")
+print(f"✅ Synced OpenClaw + Hermes to {OUT_FILE} ({OUT_FILE.stat().st_size} bytes)")
