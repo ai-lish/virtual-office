@@ -19,6 +19,33 @@
     ]
   },
   {
+    "name": "arxiv",
+    "path": "/Users/zachli/.openclaw/skills/arxiv",
+    "skill_md": "/Users/zachli/.openclaw/skills/arxiv/SKILL.md",
+    "description": "# arXiv Research Skill",
+    "lines": 108,
+    "location": "/Users/zachli/.openclaw/skills",
+    "loc": "global",
+    "emoji": "📚",
+    "triggers": [
+      {
+        "intent": "arxiv-search"
+      },
+      {
+        "intent": "academic-paper"
+      },
+      {
+        "intent": "research-paper"
+      }
+    ],
+    "memory_tags": [
+      "research",
+      "arxiv",
+      "academic",
+      "papers"
+    ]
+  },
+  {
     "name": "browser",
     "path": "/Users/zachli/.openclaw/skills/browser",
     "skill_md": "/Users/zachli/.openclaw/skills/browser/SKILL.md",
@@ -81,7 +108,7 @@
     "path": "/Users/zachli/.openclaw/skills/hermes-comm",
     "skill_md": "/Users/zachli/.openclaw/skills/hermes-comm/SKILL.md",
     "description": "# Hermes 通訊協調 Skill",
-    "lines": 107,
+    "lines": 109,
     "location": "/Users/zachli/.openclaw/skills",
     "loc": "global",
     "emoji": "🤝",
