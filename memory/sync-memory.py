@@ -51,8 +51,13 @@ feedback = {}
 for f in sorted(MEMORY_DIR.glob("feedback-*.md")):
     feedback[f.name] = read_safe(f)
 
-# DREAMS.md (dream diary)
-dreams_md = read_safe(Path.home() / ".openclaw/workspace/DREAMS.md")
+# DREAMS.md (dream diary) — limit to ~50KB to avoid huge data.json
+dreams_md_raw = read_safe(Path.home() / ".openclaw/workspace/DREAMS.md")
+MAX_DREAMS_SIZE = 50 * 1024
+if len(dreams_md_raw.encode('utf-8')) > MAX_DREAMS_SIZE:
+    dreams_md = dreams_md_raw[:MAX_DREAMS_SIZE] + "\n\n[... truncated by sync-memory.py]"
+else:
+    dreams_md = dreams_md_raw
 
 # Dream phase reports (light / deep / REM subdirs)
 phase_reports = {}
