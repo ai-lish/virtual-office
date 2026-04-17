@@ -1,5 +1,5 @@
 {
-  "generated": "2026-04-17T06:00:02Z",
+  "generated": "2026-04-17T13:00:03Z",
   "sources": {
     "openclaw": {
       "totalFiles": 39,
@@ -66,6 +66,7 @@
         "openclaw-cron-debug",
         "openclaw-imports",
         "productivity",
+        "project",
         "red-teaming",
         "research",
         "smart-home",
