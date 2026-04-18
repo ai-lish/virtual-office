@@ -297,6 +297,18 @@
     ]
   },
   {
+    "name": "elevenlabs-ai",
+    "path": "/Users/zachli/.openclaw/workspace/skills/elevenlabs-ai",
+    "skill_md": "/Users/zachli/.openclaw/workspace/skills/elevenlabs-ai/SKILL.md",
+    "description": "# ElevenLabs API Skill (Advanced)",
+    "lines": 44,
+    "location": "/Users/zachli/.openclaw/workspace/skills",
+    "loc": "workspace",
+    "emoji": "",
+    "triggers": [],
+    "memory_tags": []
+  },
+  {
     "name": "minimax-general",
     "path": "/Users/zachli/.openclaw/workspace/skills/minimax-general",
     "skill_md": "/Users/zachli/.openclaw/workspace/skills/minimax-general/SKILL.md",
@@ -452,6 +464,18 @@
       "automation",
       "workflow"
     ]
+  },
+  {
+    "name": "openclaw-mission-control",
+    "path": "/Users/zachli/.openclaw/workspace/skills/openclaw-mission-control",
+    "skill_md": "/Users/zachli/.openclaw/workspace/skills/openclaw-mission-control/SKILL.md",
+    "description": "# Mission Control — Dashboard for OpenClaw",
+    "lines": 72,
+    "location": "/Users/zachli/.openclaw/workspace/skills",
+    "loc": "workspace",
+    "emoji": "🖥️",
+    "triggers": [],
+    "memory_tags": []
   },
   {
     "name": "playwright",
