@@ -1,2252 +1,12 @@
 {
   "_version": 1,
-  "_updatedAt": "2026-04-19T16:08:32.000Z",
-  "_totalEntries": 75,
+  "_updatedAt": "2026-04-19T17:03:04.712Z",
+  "_totalEntries": 72,
   "entries": [
     {
-      "windowKey": "2026-04-19_23-03",
+      "windowKey": "2026-04-19_16-21",
       "date": "2026-04-19",
-      "window": "23-03",
-      "windowStart": "2026-04-19T00:00:00.000Z",
-      "windowEnd": "2026-04-20T05:00:00.000Z",
-      "capturedAt": "2026-04-19T15:03:54.000Z",
-      "mStar": {
-        "total": 4500,
-        "used": 41,
-        "remaining": 4459,
-        "usedPct": 1
-      },
-      "speech": {
-        "total": 4000,
-        "used": 1672,
-        "remaining": 2328,
-        "usedPct": 42,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 21237
-      },
-      "image": {
-        "total": 50,
-        "used": 21,
-        "remaining": 29,
-        "usedPct": 42
-      },
-      "music": {
-        "total": 100,
-        "used": 3,
-        "remaining": 97,
-        "usedPct": 3
-      },
-      "musicCover": {
-        "total": 100,
-        "used": 3,
-        "remaining": 97,
-        "usedPct": 3
-      }
-    },
-    {
-      "windowKey": "2026-04-19_23-00",
-      "date": "2026-04-19",
-      "window": "23-00",
-      "windowStart": "2026-04-19T00:00:00.000Z",
-      "windowEnd": "2026-04-20T05:00:00.000Z",
-      "capturedAt": "2026-04-19T15:00:56.000Z",
-      "mStar": {
-        "total": 4500,
-        "used": 3,
-        "remaining": 4497,
-        "usedPct": 0
-      },
-      "speech": {
-        "total": 4000,
-        "used": 1672,
-        "remaining": 2328,
-        "usedPct": 42,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 21237
-      },
-      "image": {
-        "total": 50,
-        "used": 21,
-        "remaining": 29,
-        "usedPct": 42
-      },
-      "music": {
-        "total": 100,
-        "used": 3,
-        "remaining": 97,
-        "usedPct": 3
-      },
-      "musicCover": {
-        "total": 100,
-        "used": 3,
-        "remaining": 97,
-        "usedPct": 3
-      }
-    },
-    {
-      "windowKey": "2026-04-19_21-01",
-      "date": "2026-04-19",
-      "window": "21-01",
-      "windowStart": "2026-04-19T00:00:00.000Z",
-      "windowEnd": "2026-04-19T05:00:00.000Z",
-      "capturedAt": "2026-04-19T04:55:12.902Z",
-      "mStar": {
-        "total": 4500,
-        "used": 259,
-        "remaining": 4241,
-        "usedPct": 6
-      },
-      "speech": {
-        "total": 4000,
-        "used": 1198,
-        "remaining": 2802,
-        "usedPct": 30,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 21711
-      },
-      "image": {
-        "total": 50,
-        "used": 21,
-        "remaining": 29,
-        "usedPct": 42,
-        "weeklyTotal": 350,
-        "weeklyUsed": 271
-      }
-    },
-    {
-      "windowKey": "2026-04-19_11-16",
-      "date": "2026-04-19",
-      "window": "11-16",
-      "windowStart": "2026-04-19T15:00:00.000Z",
-      "windowEnd": "2026-04-19T20:00:00.000Z",
-      "capturedAt": "2026-04-19T15:55:07.871Z",
-      "mStar": {
-        "total": 4500,
-        "used": 382,
-        "remaining": 4118,
-        "usedPct": 8
-      },
-      "speech": {
-        "total": 4000,
-        "used": 3915,
-        "remaining": 85,
-        "usedPct": 98,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 18994
-      },
-      "image": {
-        "total": 50,
-        "used": 25,
-        "remaining": 25,
-        "usedPct": 50,
-        "weeklyTotal": 350,
-        "weeklyUsed": 267
-      }
-    },
-    {
-      "windowKey": "2026-04-19_06-11",
-      "date": "2026-04-19",
-      "window": "06-11",
-      "windowStart": "2026-04-19T10:00:00.000Z",
-      "windowEnd": "2026-04-19T15:00:00.000Z",
-      "capturedAt": "2026-04-19T14:55:13.081Z",
-      "mStar": {
-        "total": 4500,
-        "used": 365,
-        "remaining": 4135,
-        "usedPct": 8
-      },
-      "speech": {
-        "total": 4000,
-        "used": 1412,
-        "remaining": 2588,
-        "usedPct": 35,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 21497
-      },
-      "image": {
-        "total": 50,
-        "used": 21,
-        "remaining": 29,
-        "usedPct": 42,
-        "weeklyTotal": 350,
-        "weeklyUsed": 271
-      }
-    },
-    {
-      "windowKey": "2026-04-19_01-06",
-      "date": "2026-04-19",
-      "window": "01-06",
-      "windowStart": "2026-04-19T05:00:00.000Z",
-      "windowEnd": "2026-04-19T10:00:00.000Z",
-      "capturedAt": "2026-04-19T09:55:14.133Z",
-      "mStar": {
-        "total": 4500,
-        "used": 130,
-        "remaining": 4370,
-        "usedPct": 3
-      },
-      "speech": {
-        "total": 4000,
-        "used": 1198,
-        "remaining": 2802,
-        "usedPct": 30,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 21711
-      },
-      "image": {
-        "total": 50,
-        "used": 21,
-        "remaining": 29,
-        "usedPct": 42,
-        "weeklyTotal": 350,
-        "weeklyUsed": 271
-      }
-    },
-    {
-      "windowKey": "2026-04-18_21-01",
-      "date": "2026-04-18",
-      "window": "21-01",
-      "windowStart": "2026-04-18T00:00:00.000Z",
-      "windowEnd": "2026-04-18T05:00:00.000Z",
-      "capturedAt": "2026-04-18T04:55:15.718Z",
-      "mStar": {
-        "total": 4500,
-        "used": 186,
-        "remaining": 4314,
-        "usedPct": 4
-      },
-      "speech": {
-        "total": 4000,
-        "used": 3977,
-        "remaining": 23,
-        "usedPct": 99,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 22909
-      },
-      "image": {
-        "total": 50,
-        "used": 22,
-        "remaining": 28,
-        "usedPct": 44,
-        "weeklyTotal": 350,
-        "weeklyUsed": 310
-      }
-    },
-    {
-      "windowKey": "2026-04-18_16-21",
-      "date": "2026-04-18",
       "window": "16-21",
-      "windowStart": "2026-04-18T20:00:00.000Z",
-      "windowEnd": "2026-04-19T00:00:00.000Z",
-      "capturedAt": "2026-04-18T23:55:15.915Z",
-      "mStar": {
-        "total": 4500,
-        "used": 7,
-        "remaining": 4493,
-        "usedPct": 0
-      },
-      "speech": {
-        "total": 4000,
-        "used": 1198,
-        "remaining": 2802,
-        "usedPct": 30,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 21711
-      },
-      "image": {
-        "total": 50,
-        "used": 5,
-        "remaining": 45,
-        "usedPct": 10,
-        "weeklyTotal": 350,
-        "weeklyUsed": 287
-      }
-    },
-    {
-      "windowKey": "2026-04-18_11-16",
-      "date": "2026-04-18",
-      "window": "11-16",
-      "windowStart": "2026-04-18T15:00:00.000Z",
-      "windowEnd": "2026-04-18T20:00:00.000Z",
-      "capturedAt": "2026-04-18T19:55:13.475Z",
-      "mStar": {
-        "total": 4500,
-        "used": 60,
-        "remaining": 4440,
-        "usedPct": 1
-      },
-      "speech": {
-        "total": 4000,
-        "used": 1198,
-        "remaining": 2802,
-        "usedPct": 30,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 21711
-      },
-      "image": {
-        "total": 50,
-        "used": 5,
-        "remaining": 45,
-        "usedPct": 10,
-        "weeklyTotal": 350,
-        "weeklyUsed": 287
-      }
-    },
-    {
-      "windowKey": "2026-04-18_06-11",
-      "date": "2026-04-18",
-      "window": "06-11",
-      "windowStart": "2026-04-18T10:00:00.000Z",
-      "windowEnd": "2026-04-18T15:00:00.000Z",
-      "capturedAt": "2026-04-18T14:55:15.651Z",
-      "mStar": {
-        "total": 4500,
-        "used": 37,
-        "remaining": 4463,
-        "usedPct": 1
-      },
-      "speech": {
-        "total": 4000,
-        "used": 3977,
-        "remaining": 23,
-        "usedPct": 99,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 22909
-      },
-      "image": {
-        "total": 50,
-        "used": 40,
-        "remaining": 10,
-        "usedPct": 80,
-        "weeklyTotal": 350,
-        "weeklyUsed": 292
-      }
-    },
-    {
-      "windowKey": "2026-04-18_01-06",
-      "date": "2026-04-18",
-      "window": "01-06",
-      "windowStart": "2026-04-18T05:00:00.000Z",
-      "windowEnd": "2026-04-18T10:00:00.000Z",
-      "capturedAt": "2026-04-18T09:55:13.486Z",
-      "mStar": {
-        "total": 4500,
-        "used": 149,
-        "remaining": 4351,
-        "usedPct": 3
-      },
-      "speech": {
-        "total": 4000,
-        "used": 3977,
-        "remaining": 23,
-        "usedPct": 99,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 22909
-      },
-      "image": {
-        "total": 50,
-        "used": 40,
-        "remaining": 10,
-        "usedPct": 80,
-        "weeklyTotal": 350,
-        "weeklyUsed": 292
-      }
-    },
-    {
-      "windowKey": "2026-04-17_21-01",
-      "date": "2026-04-17",
-      "window": "21-01",
-      "windowStart": "2026-04-17T00:00:00.000Z",
-      "windowEnd": "2026-04-17T05:00:00.000Z",
-      "capturedAt": "2026-04-17T04:55:18.170Z",
-      "mStar": {
-        "total": 4500,
-        "used": 289,
-        "remaining": 4211,
-        "usedPct": 6
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 26886
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 332
-      }
-    },
-    {
-      "windowKey": "2026-04-17_16-21",
-      "date": "2026-04-17",
-      "window": "16-21",
-      "windowStart": "2026-04-17T20:00:00.000Z",
-      "windowEnd": "2026-04-18T00:00:00.000Z",
-      "capturedAt": "2026-04-17T23:55:15.870Z",
-      "mStar": {
-        "total": 4500,
-        "used": 47,
-        "remaining": 4453,
-        "usedPct": 1
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 26886
-      },
-      "image": {
-        "total": 50,
-        "used": 1,
-        "remaining": 49,
-        "usedPct": 2,
-        "weeklyTotal": 350,
-        "weeklyUsed": 331
-      }
-    },
-    {
-      "windowKey": "2026-04-17_11-16",
-      "date": "2026-04-17",
-      "window": "11-16",
-      "windowStart": "2026-04-17T15:00:00.000Z",
-      "windowEnd": "2026-04-17T20:00:00.000Z",
-      "capturedAt": "2026-04-17T19:55:14.135Z",
-      "mStar": {
-        "total": 4500,
-        "used": 227,
-        "remaining": 4273,
-        "usedPct": 5
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 26886
-      },
-      "image": {
-        "total": 50,
-        "used": 1,
-        "remaining": 49,
-        "usedPct": 2,
-        "weeklyTotal": 350,
-        "weeklyUsed": 331
-      }
-    },
-    {
-      "windowKey": "2026-04-17_06-11",
-      "date": "2026-04-17",
-      "window": "06-11",
-      "windowStart": "2026-04-17T10:00:00.000Z",
-      "windowEnd": "2026-04-17T15:00:00.000Z",
-      "capturedAt": "2026-04-17T14:55:20.139Z",
-      "mStar": {
-        "total": 4500,
-        "used": 327,
-        "remaining": 4173,
-        "usedPct": 7
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 26886
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 332
-      }
-    },
-    {
-      "windowKey": "2026-04-17_01-06",
-      "date": "2026-04-17",
-      "window": "01-06",
-      "windowStart": "2026-04-17T05:00:00.000Z",
-      "windowEnd": "2026-04-17T10:00:00.000Z",
-      "capturedAt": "2026-04-17T09:55:21.187Z",
-      "mStar": {
-        "total": 4500,
-        "used": 130,
-        "remaining": 4370,
-        "usedPct": 3
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 26886
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 332
-      }
-    },
-    {
-      "windowKey": "2026-04-16_21-01",
-      "date": "2026-04-16",
-      "window": "21-01",
-      "windowStart": "2026-04-16T00:00:00.000Z",
-      "windowEnd": "2026-04-16T05:00:00.000Z",
-      "capturedAt": "2026-04-16T04:55:16.995Z",
-      "mStar": {
-        "total": 4500,
-        "used": 180,
-        "remaining": 4320,
-        "usedPct": 4
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 26886
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 332
-      }
-    },
-    {
-      "windowKey": "2026-04-16_16-21",
-      "date": "2026-04-16",
-      "window": "16-21",
-      "windowStart": "2026-04-16T20:00:00.000Z",
-      "windowEnd": "2026-04-17T00:00:00.000Z",
-      "capturedAt": "2026-04-16T23:55:15.479Z",
-      "mStar": {
-        "total": 4500,
-        "used": 43,
-        "remaining": 4457,
-        "usedPct": 1
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 26886
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 332
-      }
-    },
-    {
-      "windowKey": "2026-04-16_11-16",
-      "date": "2026-04-16",
-      "window": "11-16",
-      "windowStart": "2026-04-16T15:00:00.000Z",
-      "windowEnd": "2026-04-16T20:00:00.000Z",
-      "capturedAt": "2026-04-16T19:55:18.433Z",
-      "mStar": {
-        "total": 4500,
-        "used": 111,
-        "remaining": 4389,
-        "usedPct": 2
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 26886
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 332
-      }
-    },
-    {
-      "windowKey": "2026-04-16_06-11",
-      "date": "2026-04-16",
-      "window": "06-11",
-      "windowStart": "2026-04-16T10:00:00.000Z",
-      "windowEnd": "2026-04-16T15:00:00.000Z",
-      "capturedAt": "2026-04-16T14:55:17.234Z",
-      "mStar": {
-        "total": 4500,
-        "used": 554,
-        "remaining": 3946,
-        "usedPct": 12
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 26886
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 332
-      }
-    },
-    {
-      "windowKey": "2026-04-16_01-06",
-      "date": "2026-04-16",
-      "window": "01-06",
-      "windowStart": "2026-04-16T05:00:00.000Z",
-      "windowEnd": "2026-04-16T10:00:00.000Z",
-      "capturedAt": "2026-04-16T09:55:18.278Z",
-      "mStar": {
-        "total": 4500,
-        "used": 126,
-        "remaining": 4374,
-        "usedPct": 3
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 26886
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 332
-      }
-    },
-    {
-      "windowKey": "2026-04-15_21-01",
-      "date": "2026-04-15",
-      "window": "21-01",
-      "windowStart": "2026-04-15T00:00:00.000Z",
-      "windowEnd": "2026-04-15T05:00:00.000Z",
-      "capturedAt": "2026-04-15T04:55:58.698Z",
-      "mStar": {
-        "total": 4500,
-        "used": 489,
-        "remaining": 4011,
-        "usedPct": 11
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 28000
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 350
-      }
-    },
-    {
-      "windowKey": "2026-04-15_16-21",
-      "date": "2026-04-15",
-      "window": "16-21",
-      "windowStart": "2026-04-15T20:00:00.000Z",
-      "windowEnd": "2026-04-16T00:00:00.000Z",
-      "capturedAt": "2026-04-15T23:55:16.345Z",
-      "mStar": {
-        "total": 4500,
-        "used": 55,
-        "remaining": 4445,
-        "usedPct": 1
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 26886
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 332
-      }
-    },
-    {
-      "windowKey": "2026-04-15_11-16",
-      "date": "2026-04-15",
-      "window": "11-16",
-      "windowStart": "2026-04-15T15:00:00.000Z",
-      "windowEnd": "2026-04-15T20:00:00.000Z",
-      "capturedAt": "2026-04-15T19:55:16.530Z",
-      "mStar": {
-        "total": 4500,
-        "used": 47,
-        "remaining": 4453,
-        "usedPct": 1
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 26886
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 332
-      }
-    },
-    {
-      "windowKey": "2026-04-15_06-11",
-      "date": "2026-04-15",
-      "window": "06-11",
-      "windowStart": "2026-04-15T10:00:00.000Z",
-      "windowEnd": "2026-04-15T15:00:00.000Z",
-      "capturedAt": "2026-04-15T14:55:18.012Z",
-      "mStar": {
-        "total": 4500,
-        "used": 300,
-        "remaining": 4200,
-        "usedPct": 7
-      },
-      "speech": {
-        "total": 4000,
-        "used": 1114,
-        "remaining": 2886,
-        "usedPct": 28,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 26886
-      },
-      "image": {
-        "total": 50,
-        "used": 18,
-        "remaining": 32,
-        "usedPct": 36,
-        "weeklyTotal": 350,
-        "weeklyUsed": 332
-      }
-    },
-    {
-      "windowKey": "2026-04-15_01-06",
-      "date": "2026-04-15",
-      "window": "01-06",
-      "windowStart": "2026-04-15T05:00:00.000Z",
-      "windowEnd": "2026-04-15T10:00:00.000Z",
-      "capturedAt": "2026-04-15T09:55:19.342Z",
-      "mStar": {
-        "total": 4500,
-        "used": 322,
-        "remaining": 4178,
-        "usedPct": 7
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 28000
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 350
-      }
-    },
-    {
-      "windowKey": "2026-04-14_21-01",
-      "date": "2026-04-14",
-      "window": "21-01",
-      "windowStart": "2026-04-14T00:00:00.000Z",
-      "windowEnd": "2026-04-14T05:00:00.000Z",
-      "capturedAt": "2026-04-14T04:55:15.868Z",
-      "mStar": {
-        "total": 4500,
-        "used": 166,
-        "remaining": 4334,
-        "usedPct": 4
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 28000
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 350
-      }
-    },
-    {
-      "windowKey": "2026-04-14_16-21",
-      "date": "2026-04-14",
-      "window": "16-21",
-      "windowStart": "2026-04-14T20:00:00.000Z",
-      "windowEnd": "2026-04-15T00:00:00.000Z",
-      "capturedAt": "2026-04-14T23:55:24.043Z",
-      "mStar": {
-        "total": 4500,
-        "used": 178,
-        "remaining": 4322,
-        "usedPct": 4
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 28000
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 350
-      }
-    },
-    {
-      "windowKey": "2026-04-14_11-16",
-      "date": "2026-04-14",
-      "window": "11-16",
-      "windowStart": "2026-04-14T15:00:00.000Z",
-      "windowEnd": "2026-04-14T20:00:00.000Z",
-      "capturedAt": "2026-04-14T19:55:13.866Z",
-      "mStar": {
-        "total": 4500,
-        "used": 216,
-        "remaining": 4284,
-        "usedPct": 5
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 28000
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 350
-      }
-    },
-    {
-      "windowKey": "2026-04-14_06-11",
-      "date": "2026-04-14",
-      "window": "06-11",
-      "windowStart": "2026-04-14T10:00:00.000Z",
-      "windowEnd": "2026-04-14T15:00:00.000Z",
-      "capturedAt": "2026-04-14T14:55:18.683Z",
-      "mStar": {
-        "total": 4500,
-        "used": 9,
-        "remaining": 4491,
-        "usedPct": 0
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 28000
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 350
-      }
-    },
-    {
-      "windowKey": "2026-04-14_01-06",
-      "date": "2026-04-14",
-      "window": "01-06",
-      "windowStart": "2026-04-14T05:00:00.000Z",
-      "windowEnd": "2026-04-14T10:00:00.000Z",
-      "capturedAt": "2026-04-14T09:55:20.148Z",
-      "mStar": {
-        "total": 4500,
-        "used": 396,
-        "remaining": 4104,
-        "usedPct": 9
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 28000
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 350
-      }
-    },
-    {
-      "windowKey": "2026-04-13_21-01",
-      "date": "2026-04-13",
-      "window": "21-01",
-      "windowStart": "2026-04-13T00:00:00.000Z",
-      "windowEnd": "2026-04-13T05:00:00.000Z",
-      "capturedAt": "2026-04-13T04:55:17.799Z",
-      "mStar": {
-        "total": 4500,
-        "used": 273,
-        "remaining": 4227,
-        "usedPct": 6
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 28000
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 350
-      }
-    },
-    {
-      "windowKey": "2026-04-13_16-21",
-      "date": "2026-04-13",
-      "window": "16-21",
-      "windowStart": "2026-04-13T20:00:00.000Z",
-      "windowEnd": "2026-04-14T00:00:00.000Z",
-      "capturedAt": "2026-04-13T23:55:16.056Z",
-      "mStar": {
-        "total": 4500,
-        "used": 122,
-        "remaining": 4378,
-        "usedPct": 3
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 28000
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 350
-      }
-    },
-    {
-      "windowKey": "2026-04-13_11-16",
-      "date": "2026-04-13",
-      "window": "11-16",
-      "windowStart": "2026-04-13T15:00:00.000Z",
-      "windowEnd": "2026-04-13T20:00:00.000Z",
-      "capturedAt": "2026-04-13T19:55:14.709Z",
-      "mStar": {
-        "total": 4500,
-        "used": 79,
-        "remaining": 4421,
-        "usedPct": 2
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 28000
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 350
-      }
-    },
-    {
-      "windowKey": "2026-04-13_06-11",
-      "date": "2026-04-13",
-      "window": "06-11",
-      "windowStart": "2026-04-13T10:00:00.000Z",
-      "windowEnd": "2026-04-13T15:00:00.000Z",
-      "capturedAt": "2026-04-13T14:55:14.790Z",
-      "mStar": {
-        "total": 4500,
-        "used": 774,
-        "remaining": 3726,
-        "usedPct": 17
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 28000
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 350
-      }
-    },
-    {
-      "windowKey": "2026-04-13_01-06",
-      "date": "2026-04-13",
-      "window": "01-06",
-      "windowStart": "2026-04-13T05:00:00.000Z",
-      "windowEnd": "2026-04-13T10:00:00.000Z",
-      "capturedAt": "2026-04-13T09:55:21.983Z",
-      "mStar": {
-        "total": 4500,
-        "used": 508,
-        "remaining": 3992,
-        "usedPct": 11
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 28000
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 350
-      }
-    },
-    {
-      "windowKey": "2026-04-12_21-01",
-      "date": "2026-04-12",
-      "window": "21-01",
-      "windowStart": "2026-04-12T00:00:00.000Z",
-      "windowEnd": "2026-04-12T05:00:00.000Z",
-      "capturedAt": "2026-04-12T04:55:12.935Z",
-      "mStar": {
-        "total": 4500,
-        "used": 539,
-        "remaining": 3961,
-        "usedPct": 12
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 4369
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 159
-      }
-    },
-    {
-      "windowKey": "2026-04-12_16-21",
-      "date": "2026-04-12",
-      "window": "16-21",
-      "windowStart": "2026-04-12T20:00:00.000Z",
-      "windowEnd": "2026-04-13T00:00:00.000Z",
-      "capturedAt": "2026-04-12T23:55:13.814Z",
-      "mStar": {
-        "total": 4500,
-        "used": 200,
-        "remaining": 4300,
-        "usedPct": 4
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 28000
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 350
-      }
-    },
-    {
-      "windowKey": "2026-04-12_11-16",
-      "date": "2026-04-12",
-      "window": "11-16",
-      "windowStart": "2026-04-12T15:00:00.000Z",
-      "windowEnd": "2026-04-12T20:00:00.000Z",
-      "capturedAt": "2026-04-12T19:55:13.162Z",
-      "mStar": {
-        "total": 4500,
-        "used": 63,
-        "remaining": 4437,
-        "usedPct": 1
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 28000
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 350
-      }
-    },
-    {
-      "windowKey": "2026-04-12_06-11",
-      "date": "2026-04-12",
-      "window": "06-11",
-      "windowStart": "2026-04-12T10:00:00.000Z",
-      "windowEnd": "2026-04-12T15:00:00.000Z",
-      "capturedAt": "2026-04-12T14:55:13.457Z",
-      "mStar": {
-        "total": 4500,
-        "used": 967,
-        "remaining": 3533,
-        "usedPct": 21
-      },
-      "speech": {
-        "total": 4000,
-        "used": 3946,
-        "remaining": 54,
-        "usedPct": 99,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 423
-      },
-      "image": {
-        "total": 50,
-        "used": 50,
-        "remaining": 0,
-        "usedPct": 100,
-        "weeklyTotal": 350,
-        "weeklyUsed": 109
-      }
-    },
-    {
-      "windowKey": "2026-04-12_01-06",
-      "date": "2026-04-12",
-      "window": "01-06",
-      "windowStart": "2026-04-12T05:00:00.000Z",
-      "windowEnd": "2026-04-12T10:00:00.000Z",
-      "capturedAt": "2026-04-12T09:55:11.958Z",
-      "mStar": {
-        "total": 4500,
-        "used": 785,
-        "remaining": 3715,
-        "usedPct": 17
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 4369
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 159
-      }
-    },
-    {
-      "windowKey": "2026-04-11_21-01",
-      "date": "2026-04-11",
-      "window": "21-01",
-      "windowStart": "2026-04-11T00:00:00.000Z",
-      "windowEnd": "2026-04-11T05:00:00.000Z",
-      "capturedAt": "2026-04-11T04:55:12.044Z",
-      "mStar": {
-        "total": 4500,
-        "used": 157,
-        "remaining": 4343,
-        "usedPct": 3
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 8366
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 197
-      }
-    },
-    {
-      "windowKey": "2026-04-11_16-21",
-      "date": "2026-04-11",
-      "window": "16-21",
-      "windowStart": "2026-04-11T20:00:00.000Z",
-      "windowEnd": "2026-04-12T00:00:00.000Z",
-      "capturedAt": "2026-04-11T23:55:11.649Z",
-      "mStar": {
-        "total": 4500,
-        "used": 121,
-        "remaining": 4379,
-        "usedPct": 3
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 4369
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 159
-      }
-    },
-    {
-      "windowKey": "2026-04-11_11-16",
-      "date": "2026-04-11",
-      "window": "11-16",
-      "windowStart": "2026-04-11T15:00:00.000Z",
-      "windowEnd": "2026-04-11T20:00:00.000Z",
-      "capturedAt": "2026-04-11T19:55:11.405Z",
-      "mStar": {
-        "total": 4500,
-        "used": 1250,
-        "remaining": 3250,
-        "usedPct": 28
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 4369
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 159
-      }
-    },
-    {
-      "windowKey": "2026-04-11_06-11",
-      "date": "2026-04-11",
-      "window": "06-11",
-      "windowStart": "2026-04-11T10:00:00.000Z",
-      "windowEnd": "2026-04-11T15:00:00.000Z",
-      "capturedAt": "2026-04-11T14:55:10.485Z",
-      "mStar": {
-        "total": 4500,
-        "used": 1182,
-        "remaining": 3318,
-        "usedPct": 26
-      },
-      "speech": {
-        "total": 4000,
-        "used": 3997,
-        "remaining": 3,
-        "usedPct": 100,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 4369
-      },
-      "image": {
-        "total": 50,
-        "used": 38,
-        "remaining": 12,
-        "usedPct": 76,
-        "weeklyTotal": 350,
-        "weeklyUsed": 159
-      }
-    },
-    {
-      "windowKey": "2026-04-11_01-06",
-      "date": "2026-04-11",
-      "window": "01-06",
-      "windowStart": "2026-04-11T05:00:00.000Z",
-      "windowEnd": "2026-04-11T10:00:00.000Z",
-      "capturedAt": "2026-04-11T09:55:13.128Z",
-      "mStar": {
-        "total": 4500,
-        "used": 127,
-        "remaining": 4373,
-        "usedPct": 3
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 8366
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 197
-      }
-    },
-    {
-      "windowKey": "2026-04-10_21-01",
-      "date": "2026-04-10",
-      "window": "21-01",
-      "windowStart": "2026-04-10T00:00:00.000Z",
-      "windowEnd": "2026-04-10T05:00:00.000Z",
-      "capturedAt": "2026-04-10T04:55:18.630Z",
-      "mStar": {
-        "total": 4500,
-        "used": 445,
-        "remaining": 4055,
-        "usedPct": 10
-      },
-      "speech": {
-        "total": 4000,
-        "used": 3961,
-        "remaining": 39,
-        "usedPct": 99,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 8405
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 197
-      }
-    },
-    {
-      "windowKey": "2026-04-10_16-21",
-      "date": "2026-04-10",
-      "window": "16-21",
-      "windowStart": "2026-04-10T20:00:00.000Z",
-      "windowEnd": "2026-04-11T00:00:00.000Z",
-      "capturedAt": "2026-04-10T23:55:11.454Z",
-      "mStar": {
-        "total": 4500,
-        "used": 5,
-        "remaining": 4495,
-        "usedPct": 0
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 8366
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 197
-      }
-    },
-    {
-      "windowKey": "2026-04-10_11-16",
-      "date": "2026-04-10",
-      "window": "11-16",
-      "windowStart": "2026-04-10T15:00:00.000Z",
-      "windowEnd": "2026-04-10T20:00:00.000Z",
-      "capturedAt": "2026-04-10T19:55:12.367Z",
-      "mStar": {
-        "total": 4500,
-        "used": 12,
-        "remaining": 4488,
-        "usedPct": 0
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 8366
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 197
-      }
-    },
-    {
-      "windowKey": "2026-04-10_06-11",
-      "date": "2026-04-10",
-      "window": "06-11",
-      "windowStart": "2026-04-10T10:00:00.000Z",
-      "windowEnd": "2026-04-10T15:00:00.000Z",
-      "capturedAt": "2026-04-10T14:55:14.467Z",
-      "mStar": {
-        "total": 4500,
-        "used": 638,
-        "remaining": 3862,
-        "usedPct": 14
-      },
-      "speech": {
-        "total": 4000,
-        "used": 4000,
-        "remaining": 0,
-        "usedPct": 100,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 8366
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 197
-      }
-    },
-    {
-      "windowKey": "2026-04-10_01-06",
-      "date": "2026-04-10",
-      "window": "01-06",
-      "windowStart": "2026-04-10T05:00:00.000Z",
-      "windowEnd": "2026-04-10T10:00:00.000Z",
-      "capturedAt": "2026-04-10T06:55:07.272Z",
-      "mStar": {
-        "total": 4500,
-        "used": 27,
-        "remaining": 4473,
-        "usedPct": 1
-      },
-      "speech": {
-        "total": 4000,
-        "used": 3999,
-        "remaining": 1,
-        "usedPct": 100,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 8367
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 197
-      }
-    },
-    {
-      "windowKey": "2026-04-09_21-01",
-      "date": "2026-04-09",
-      "window": "21-01",
-      "windowStart": "2026-04-09T00:00:00.000Z",
-      "windowEnd": "2026-04-09T05:00:00.000Z",
-      "capturedAt": "2026-04-09T04:55:12.206Z",
-      "mStar": {
-        "total": 4500,
-        "used": 161,
-        "remaining": 4339,
-        "usedPct": 4
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 16360
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 247
-      }
-    },
-    {
-      "windowKey": "2026-04-09_16-21",
-      "date": "2026-04-09",
-      "window": "16-21",
-      "windowStart": "2026-04-09T20:00:00.000Z",
-      "windowEnd": "2026-04-10T00:00:00.000Z",
-      "capturedAt": "2026-04-09T23:55:15.857Z",
-      "mStar": {
-        "total": 4500,
-        "used": 45,
-        "remaining": 4455,
-        "usedPct": 1
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 12366
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 197
-      }
-    },
-    {
-      "windowKey": "2026-04-09_11-16",
-      "date": "2026-04-09",
-      "window": "11-16",
-      "windowStart": "2026-04-09T15:00:00.000Z",
-      "windowEnd": "2026-04-09T20:00:00.000Z",
-      "capturedAt": "2026-04-09T19:55:14.155Z",
-      "mStar": {
-        "total": 4500,
-        "used": 84,
-        "remaining": 4416,
-        "usedPct": 2
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 12366
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 197
-      }
-    },
-    {
-      "windowKey": "2026-04-09_06-11",
-      "date": "2026-04-09",
-      "window": "06-11",
-      "windowStart": "2026-04-09T10:00:00.000Z",
-      "windowEnd": "2026-04-09T15:00:00.000Z",
-      "capturedAt": "2026-04-09T14:55:13.384Z",
-      "mStar": {
-        "total": 4500,
-        "used": 959,
-        "remaining": 3541,
-        "usedPct": 21
-      },
-      "speech": {
-        "total": 4000,
-        "used": 3994,
-        "remaining": 6,
-        "usedPct": 100,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 12366
-      },
-      "image": {
-        "total": 50,
-        "used": 50,
-        "remaining": 0,
-        "usedPct": 100,
-        "weeklyTotal": 350,
-        "weeklyUsed": 197
-      }
-    },
-    {
-      "windowKey": "2026-04-09_01-06",
-      "date": "2026-04-09",
-      "window": "01-06",
-      "windowStart": "2026-04-09T05:00:00.000Z",
-      "windowEnd": "2026-04-09T10:00:00.000Z",
-      "capturedAt": "2026-04-09T09:55:18.187Z",
-      "mStar": {
-        "total": 4500,
-        "used": 136,
-        "remaining": 4364,
-        "usedPct": 3
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 16360
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 247
-      }
-    },
-    {
-      "windowKey": "2026-04-08_21-01",
-      "date": "2026-04-08",
-      "window": "21-01",
-      "windowStart": "2026-04-08T00:00:00.000Z",
-      "windowEnd": "2026-04-08T05:00:00.000Z",
-      "capturedAt": "2026-04-08T04:55:15.582Z",
-      "mStar": {
-        "total": 4500,
-        "used": 482,
-        "remaining": 4018,
-        "usedPct": 11
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 20376
-      },
-      "image": {
-        "total": 50,
-        "used": 1,
-        "remaining": 49,
-        "usedPct": 2,
-        "weeklyTotal": 350,
-        "weeklyUsed": 297
-      }
-    },
-    {
-      "windowKey": "2026-04-08_16-21",
-      "date": "2026-04-08",
-      "window": "16-21",
-      "windowStart": "2026-04-08T20:00:00.000Z",
-      "windowEnd": "2026-04-09T00:00:00.000Z",
-      "capturedAt": "2026-04-08T23:55:13.335Z",
-      "mStar": {
-        "total": 4500,
-        "used": 16,
-        "remaining": 4484,
-        "usedPct": 0
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 16360
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 247
-      }
-    },
-    {
-      "windowKey": "2026-04-08_11-16",
-      "date": "2026-04-08",
-      "window": "11-16",
-      "windowStart": "2026-04-08T15:00:00.000Z",
-      "windowEnd": "2026-04-08T20:00:00.000Z",
-      "capturedAt": "2026-04-08T19:55:14.974Z",
-      "mStar": {
-        "total": 4500,
-        "used": 348,
-        "remaining": 4152,
-        "usedPct": 8
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 16360
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 247
-      }
-    },
-    {
-      "windowKey": "2026-04-08_06-11",
-      "date": "2026-04-08",
-      "window": "06-11",
-      "windowStart": "2026-04-08T10:00:00.000Z",
-      "windowEnd": "2026-04-08T15:00:00.000Z",
-      "capturedAt": "2026-04-08T14:55:20.451Z",
-      "mStar": {
-        "total": 4500,
-        "used": 1104,
-        "remaining": 3396,
-        "usedPct": 25
-      },
-      "speech": {
-        "total": 4000,
-        "used": 4000,
-        "remaining": 0,
-        "usedPct": 100,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 16360
-      },
-      "image": {
-        "total": 50,
-        "used": 50,
-        "remaining": 0,
-        "usedPct": 100,
-        "weeklyTotal": 350,
-        "weeklyUsed": 247
-      }
-    },
-    {
-      "windowKey": "2026-04-08_01-06",
-      "date": "2026-04-08",
-      "window": "01-06",
-      "windowStart": "2026-04-08T05:00:00.000Z",
-      "windowEnd": "2026-04-08T10:00:00.000Z",
-      "capturedAt": "2026-04-08T06:55:07.310Z",
-      "mStar": {
-        "total": 4500,
-        "used": 275,
-        "remaining": 4225,
-        "usedPct": 6
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 20376
-      },
-      "image": {
-        "total": 50,
-        "used": 1,
-        "remaining": 49,
-        "usedPct": 2,
-        "weeklyTotal": 350,
-        "weeklyUsed": 297
-      }
-    },
-    {
-      "windowKey": "2026-04-07_21-01",
-      "date": "2026-04-07",
-      "window": "21-01",
-      "windowStart": "2026-04-07T00:00:00.000Z",
-      "windowEnd": "2026-04-07T05:00:00.000Z",
-      "capturedAt": "2026-04-07T04:55:12.458Z",
-      "mStar": {
-        "total": 4500,
-        "used": 629,
-        "remaining": 3871,
-        "usedPct": 14
-      },
-      "speech": {
-        "total": 4000,
-        "used": 3998,
-        "remaining": 2,
-        "usedPct": 100,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 20376
-      },
-      "image": {
-        "total": 50,
-        "used": 20,
-        "remaining": 30,
-        "usedPct": 40,
-        "weeklyTotal": 350,
-        "weeklyUsed": 329
-      }
-    },
-    {
-      "windowKey": "2026-04-07_16-21",
-      "date": "2026-04-07",
-      "window": "16-21",
-      "windowStart": "2026-04-07T20:00:00.000Z",
-      "windowEnd": "2026-04-08T00:00:00.000Z",
-      "capturedAt": "2026-04-07T23:55:11.245Z",
-      "mStar": {
-        "total": 4500,
-        "used": 57,
-        "remaining": 4443,
-        "usedPct": 1
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 20376
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 298
-      }
-    },
-    {
-      "windowKey": "2026-04-07_11-16",
-      "date": "2026-04-07",
-      "window": "11-16",
-      "windowStart": "2026-04-07T15:00:00.000Z",
-      "windowEnd": "2026-04-07T20:00:00.000Z",
-      "capturedAt": "2026-04-07T19:55:13.974Z",
-      "mStar": {
-        "total": 4500,
-        "used": 386,
-        "remaining": 4114,
-        "usedPct": 9
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 20376
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 298
-      }
-    },
-    {
-      "windowKey": "2026-04-07_06-11",
-      "date": "2026-04-07",
-      "window": "06-11",
-      "windowStart": "2026-04-07T10:00:00.000Z",
-      "windowEnd": "2026-04-07T15:00:00.000Z",
-      "capturedAt": "2026-04-07T14:55:28.141Z",
-      "mStar": {
-        "total": 4500,
-        "used": 534,
-        "remaining": 3966,
-        "usedPct": 12
-      },
-      "speech": {
-        "total": 4000,
-        "used": 3998,
-        "remaining": 2,
-        "usedPct": 100,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 20376
-      },
-      "image": {
-        "total": 50,
-        "used": 48,
-        "remaining": 2,
-        "usedPct": 96,
-        "weeklyTotal": 350,
-        "weeklyUsed": 301
-      }
-    },
-    {
-      "windowKey": "2026-04-07_01-06",
-      "date": "2026-04-07",
-      "window": "01-06",
-      "windowStart": "2026-04-07T05:00:00.000Z",
-      "windowEnd": "2026-04-07T10:00:00.000Z",
-      "capturedAt": "2026-04-07T09:55:10.783Z",
-      "mStar": {
-        "total": 4500,
-        "used": 467,
-        "remaining": 4033,
-        "usedPct": 10
-      },
-      "speech": {
-        "total": 4000,
-        "used": 3998,
-        "remaining": 2,
-        "usedPct": 100,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 20376
-      },
-      "image": {
-        "total": 50,
-        "used": 35,
-        "remaining": 15,
-        "usedPct": 70,
-        "weeklyTotal": 350,
-        "weeklyUsed": 314
-      }
-    },
-    {
-      "windowKey": "2026-04-06_21-01",
-      "date": "2026-04-06",
-      "window": "21-01",
-      "windowStart": "2026-04-06T00:00:00.000Z",
-      "windowEnd": "2026-04-06T05:00:00.000Z",
-      "capturedAt": "2026-04-06T04:55:09.741Z",
-      "mStar": {
-        "total": 4500,
-        "used": 573,
-        "remaining": 3927,
-        "usedPct": 13
-      },
-      "speech": {
-        "total": 4000,
-        "used": 1165,
-        "remaining": 2835,
-        "usedPct": 29,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 26835
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 350
-      }
-    },
-    {
-      "windowKey": "2026-04-06_16-21",
-      "date": "2026-04-06",
-      "window": "16-21",
-      "windowStart": "2026-04-06T20:00:00.000Z",
-      "windowEnd": "2026-04-07T00:00:00.000Z",
-      "capturedAt": "2026-04-06T23:55:09.673Z",
-      "mStar": {
-        "total": 4500,
-        "used": 17,
-        "remaining": 4483,
-        "usedPct": 0
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 24374
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 349
-      }
-    },
-    {
-      "windowKey": "2026-04-06_11-16",
-      "date": "2026-04-06",
-      "window": "11-16",
-      "windowStart": "2026-04-06T15:00:00.000Z",
-      "windowEnd": "2026-04-06T20:00:00.000Z",
-      "capturedAt": "2026-04-06T19:55:10.082Z",
-      "mStar": {
-        "total": 4500,
-        "used": 31,
-        "remaining": 4469,
-        "usedPct": 1
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 24374
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 349
-      }
-    },
-    {
-      "windowKey": "2026-04-06_06-11",
-      "date": "2026-04-06",
-      "window": "06-11",
-      "windowStart": "2026-04-06T10:00:00.000Z",
-      "windowEnd": "2026-04-06T15:00:00.000Z",
-      "capturedAt": "2026-04-06T14:55:09.904Z",
-      "mStar": {
-        "total": 4500,
-        "used": 546,
-        "remaining": 3954,
-        "usedPct": 12
-      },
-      "speech": {
-        "total": 4000,
-        "used": 3626,
-        "remaining": 374,
-        "usedPct": 91,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 24374
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 350
-      }
-    },
-    {
-      "windowKey": "2026-04-06_01-06",
-      "date": "2026-04-06",
-      "window": "01-06",
-      "windowStart": "2026-04-06T05:00:00.000Z",
-      "windowEnd": "2026-04-06T10:00:00.000Z",
-      "capturedAt": "2026-04-06T09:55:09.818Z",
-      "mStar": {
-        "total": 4500,
-        "used": 512,
-        "remaining": 3988,
-        "usedPct": 11
-      },
-      "speech": {
-        "total": 4000,
-        "used": 1446,
-        "remaining": 2554,
-        "usedPct": 36,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 26554
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 350
-      }
-    },
-    {
-      "windowKey": "2026-04-05_16-21",
-      "date": "2026-04-05",
-      "window": "16-21",
-      "windowStart": "2026-04-05T20:00:00.000Z",
-      "windowEnd": "2026-04-06T00:00:00.000Z",
-      "capturedAt": "2026-04-05T23:55:10.136Z",
-      "mStar": {
-        "total": 4500,
-        "used": 74,
-        "remaining": 4426,
-        "usedPct": 2
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 28000
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 350
-      }
-    },
-    {
-      "windowKey": "2026-04-05_11-16",
-      "date": "2026-04-05",
-      "window": "11-16",
-      "windowStart": "2026-04-05T15:00:00.000Z",
-      "windowEnd": "2026-04-05T20:00:00.000Z",
-      "capturedAt": "2026-04-05T19:55:11.226Z",
-      "mStar": {
-        "total": 4500,
-        "used": 678,
-        "remaining": 3822,
-        "usedPct": 15
-      },
-      "speech": {
-        "total": 4000,
-        "used": 0,
-        "remaining": 4000,
-        "usedPct": 0,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 28000
-      },
-      "image": {
-        "total": 50,
-        "used": 0,
-        "remaining": 50,
-        "usedPct": 0,
-        "weeklyTotal": 350,
-        "weeklyUsed": 350
-      }
-    },
-    {
-      "windowKey": "2026-04-05_06-11",
-      "date": "2026-04-05",
-      "window": "06-11",
-      "windowStart": "2026-04-05T10:00:00.000Z",
-      "windowEnd": "2026-04-05T15:00:00.000Z",
-      "capturedAt": "2026-04-05T14:55:10.284Z",
-      "mStar": {
-        "total": 4500,
-        "used": 989,
-        "remaining": 3511,
-        "usedPct": 22
-      },
-      "speech": {
-        "total": 4000,
-        "used": 3999,
-        "remaining": 1,
-        "usedPct": 100,
-        "weeklyTotal": 28000,
-        "weeklyUsed": 10171
-      },
-      "image": {
-        "total": 50,
-        "used": 46,
-        "remaining": 4,
-        "usedPct": 92,
-        "weeklyTotal": 350,
-        "weeklyUsed": 121
-      }
-    },
-    {
-      "windowKey": "2026-04-20_00-08",
-      "date": "2026-04-20",
-      "window": "00-08",
       "windowStart": "2026-04-19T16:00:00.000Z",
       "windowEnd": "2026-04-20T00:00:00.000Z",
       "capturedAt": "2026-04-19T16:08:32.000Z",
@@ -2281,6 +41,2136 @@
         "used": 0,
         "remaining": 100,
         "usedPct": 0
+      }
+    },
+    {
+      "windowKey": "2026-04-19_11-16",
+      "date": "2026-04-19",
+      "window": "11-16",
+      "windowStart": "2026-04-19T10:00:00.000Z",
+      "windowEnd": "2026-04-19T15:00:00.000Z",
+      "capturedAt": "2026-04-19T14:55:13.081Z",
+      "mStar": {
+        "total": 4500,
+        "used": 365,
+        "remaining": 4135,
+        "usedPct": 8
+      },
+      "speech": {
+        "total": 4000,
+        "used": 1412,
+        "remaining": 2588,
+        "usedPct": 35,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 21497
+      },
+      "image": {
+        "total": 50,
+        "used": 21,
+        "remaining": 29,
+        "usedPct": 42,
+        "weeklyTotal": 350,
+        "weeklyUsed": 271
+      }
+    },
+    {
+      "windowKey": "2026-04-19_06-11",
+      "date": "2026-04-19",
+      "window": "06-11",
+      "windowStart": "2026-04-19T05:00:00.000Z",
+      "windowEnd": "2026-04-19T10:00:00.000Z",
+      "capturedAt": "2026-04-19T09:55:14.133Z",
+      "mStar": {
+        "total": 4500,
+        "used": 130,
+        "remaining": 4370,
+        "usedPct": 3
+      },
+      "speech": {
+        "total": 4000,
+        "used": 1198,
+        "remaining": 2802,
+        "usedPct": 30,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 21711
+      },
+      "image": {
+        "total": 50,
+        "used": 21,
+        "remaining": 29,
+        "usedPct": 42,
+        "weeklyTotal": 350,
+        "weeklyUsed": 271
+      }
+    },
+    {
+      "windowKey": "2026-04-19_01-06",
+      "date": "2026-04-19",
+      "window": "01-06",
+      "windowStart": "2026-04-19T00:00:00.000Z",
+      "windowEnd": "2026-04-19T05:00:00.000Z",
+      "capturedAt": "2026-04-19T04:55:12.902Z",
+      "mStar": {
+        "total": 4500,
+        "used": 259,
+        "remaining": 4241,
+        "usedPct": 6
+      },
+      "speech": {
+        "total": 4000,
+        "used": 1198,
+        "remaining": 2802,
+        "usedPct": 30,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 21711
+      },
+      "image": {
+        "total": 50,
+        "used": 21,
+        "remaining": 29,
+        "usedPct": 42,
+        "weeklyTotal": 350,
+        "weeklyUsed": 271
+      }
+    },
+    {
+      "windowKey": "2026-04-18_21-01",
+      "date": "2026-04-18",
+      "window": "21-01",
+      "windowStart": "2026-04-18T20:00:00.000Z",
+      "windowEnd": "2026-04-19T00:00:00.000Z",
+      "capturedAt": "2026-04-18T23:55:15.915Z",
+      "mStar": {
+        "total": 4500,
+        "used": 7,
+        "remaining": 4493,
+        "usedPct": 0
+      },
+      "speech": {
+        "total": 4000,
+        "used": 1198,
+        "remaining": 2802,
+        "usedPct": 30,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 21711
+      },
+      "image": {
+        "total": 50,
+        "used": 5,
+        "remaining": 45,
+        "usedPct": 10,
+        "weeklyTotal": 350,
+        "weeklyUsed": 287
+      }
+    },
+    {
+      "windowKey": "2026-04-18_16-21",
+      "date": "2026-04-18",
+      "window": "16-21",
+      "windowStart": "2026-04-18T15:00:00.000Z",
+      "windowEnd": "2026-04-18T20:00:00.000Z",
+      "capturedAt": "2026-04-18T19:55:13.475Z",
+      "mStar": {
+        "total": 4500,
+        "used": 60,
+        "remaining": 4440,
+        "usedPct": 1
+      },
+      "speech": {
+        "total": 4000,
+        "used": 1198,
+        "remaining": 2802,
+        "usedPct": 30,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 21711
+      },
+      "image": {
+        "total": 50,
+        "used": 5,
+        "remaining": 45,
+        "usedPct": 10,
+        "weeklyTotal": 350,
+        "weeklyUsed": 287
+      }
+    },
+    {
+      "windowKey": "2026-04-18_11-16",
+      "date": "2026-04-18",
+      "window": "11-16",
+      "windowStart": "2026-04-18T10:00:00.000Z",
+      "windowEnd": "2026-04-18T15:00:00.000Z",
+      "capturedAt": "2026-04-18T14:55:15.651Z",
+      "mStar": {
+        "total": 4500,
+        "used": 37,
+        "remaining": 4463,
+        "usedPct": 1
+      },
+      "speech": {
+        "total": 4000,
+        "used": 3977,
+        "remaining": 23,
+        "usedPct": 99,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 22909
+      },
+      "image": {
+        "total": 50,
+        "used": 40,
+        "remaining": 10,
+        "usedPct": 80,
+        "weeklyTotal": 350,
+        "weeklyUsed": 292
+      }
+    },
+    {
+      "windowKey": "2026-04-18_06-11",
+      "date": "2026-04-18",
+      "window": "06-11",
+      "windowStart": "2026-04-18T05:00:00.000Z",
+      "windowEnd": "2026-04-18T10:00:00.000Z",
+      "capturedAt": "2026-04-18T09:55:13.486Z",
+      "mStar": {
+        "total": 4500,
+        "used": 149,
+        "remaining": 4351,
+        "usedPct": 3
+      },
+      "speech": {
+        "total": 4000,
+        "used": 3977,
+        "remaining": 23,
+        "usedPct": 99,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 22909
+      },
+      "image": {
+        "total": 50,
+        "used": 40,
+        "remaining": 10,
+        "usedPct": 80,
+        "weeklyTotal": 350,
+        "weeklyUsed": 292
+      }
+    },
+    {
+      "windowKey": "2026-04-18_01-06",
+      "date": "2026-04-18",
+      "window": "01-06",
+      "windowStart": "2026-04-18T00:00:00.000Z",
+      "windowEnd": "2026-04-18T05:00:00.000Z",
+      "capturedAt": "2026-04-18T04:55:15.718Z",
+      "mStar": {
+        "total": 4500,
+        "used": 186,
+        "remaining": 4314,
+        "usedPct": 4
+      },
+      "speech": {
+        "total": 4000,
+        "used": 3977,
+        "remaining": 23,
+        "usedPct": 99,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 22909
+      },
+      "image": {
+        "total": 50,
+        "used": 22,
+        "remaining": 28,
+        "usedPct": 44,
+        "weeklyTotal": 350,
+        "weeklyUsed": 310
+      }
+    },
+    {
+      "windowKey": "2026-04-17_21-01",
+      "date": "2026-04-17",
+      "window": "21-01",
+      "windowStart": "2026-04-17T20:00:00.000Z",
+      "windowEnd": "2026-04-18T00:00:00.000Z",
+      "capturedAt": "2026-04-17T23:55:15.870Z",
+      "mStar": {
+        "total": 4500,
+        "used": 47,
+        "remaining": 4453,
+        "usedPct": 1
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 26886
+      },
+      "image": {
+        "total": 50,
+        "used": 1,
+        "remaining": 49,
+        "usedPct": 2,
+        "weeklyTotal": 350,
+        "weeklyUsed": 331
+      }
+    },
+    {
+      "windowKey": "2026-04-17_16-21",
+      "date": "2026-04-17",
+      "window": "16-21",
+      "windowStart": "2026-04-17T15:00:00.000Z",
+      "windowEnd": "2026-04-17T20:00:00.000Z",
+      "capturedAt": "2026-04-17T19:55:14.135Z",
+      "mStar": {
+        "total": 4500,
+        "used": 227,
+        "remaining": 4273,
+        "usedPct": 5
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 26886
+      },
+      "image": {
+        "total": 50,
+        "used": 1,
+        "remaining": 49,
+        "usedPct": 2,
+        "weeklyTotal": 350,
+        "weeklyUsed": 331
+      }
+    },
+    {
+      "windowKey": "2026-04-17_11-16",
+      "date": "2026-04-17",
+      "window": "11-16",
+      "windowStart": "2026-04-17T10:00:00.000Z",
+      "windowEnd": "2026-04-17T15:00:00.000Z",
+      "capturedAt": "2026-04-17T14:55:20.139Z",
+      "mStar": {
+        "total": 4500,
+        "used": 327,
+        "remaining": 4173,
+        "usedPct": 7
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 26886
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 332
+      }
+    },
+    {
+      "windowKey": "2026-04-17_06-11",
+      "date": "2026-04-17",
+      "window": "06-11",
+      "windowStart": "2026-04-17T05:00:00.000Z",
+      "windowEnd": "2026-04-17T10:00:00.000Z",
+      "capturedAt": "2026-04-17T09:55:21.187Z",
+      "mStar": {
+        "total": 4500,
+        "used": 130,
+        "remaining": 4370,
+        "usedPct": 3
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 26886
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 332
+      }
+    },
+    {
+      "windowKey": "2026-04-17_01-06",
+      "date": "2026-04-17",
+      "window": "01-06",
+      "windowStart": "2026-04-17T00:00:00.000Z",
+      "windowEnd": "2026-04-17T05:00:00.000Z",
+      "capturedAt": "2026-04-17T04:55:18.170Z",
+      "mStar": {
+        "total": 4500,
+        "used": 289,
+        "remaining": 4211,
+        "usedPct": 6
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 26886
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 332
+      }
+    },
+    {
+      "windowKey": "2026-04-16_21-01",
+      "date": "2026-04-16",
+      "window": "21-01",
+      "windowStart": "2026-04-16T20:00:00.000Z",
+      "windowEnd": "2026-04-17T00:00:00.000Z",
+      "capturedAt": "2026-04-16T23:55:15.479Z",
+      "mStar": {
+        "total": 4500,
+        "used": 43,
+        "remaining": 4457,
+        "usedPct": 1
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 26886
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 332
+      }
+    },
+    {
+      "windowKey": "2026-04-16_16-21",
+      "date": "2026-04-16",
+      "window": "16-21",
+      "windowStart": "2026-04-16T15:00:00.000Z",
+      "windowEnd": "2026-04-16T20:00:00.000Z",
+      "capturedAt": "2026-04-16T19:55:18.433Z",
+      "mStar": {
+        "total": 4500,
+        "used": 111,
+        "remaining": 4389,
+        "usedPct": 2
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 26886
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 332
+      }
+    },
+    {
+      "windowKey": "2026-04-16_11-16",
+      "date": "2026-04-16",
+      "window": "11-16",
+      "windowStart": "2026-04-16T10:00:00.000Z",
+      "windowEnd": "2026-04-16T15:00:00.000Z",
+      "capturedAt": "2026-04-16T14:55:17.234Z",
+      "mStar": {
+        "total": 4500,
+        "used": 554,
+        "remaining": 3946,
+        "usedPct": 12
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 26886
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 332
+      }
+    },
+    {
+      "windowKey": "2026-04-16_06-11",
+      "date": "2026-04-16",
+      "window": "06-11",
+      "windowStart": "2026-04-16T05:00:00.000Z",
+      "windowEnd": "2026-04-16T10:00:00.000Z",
+      "capturedAt": "2026-04-16T09:55:18.278Z",
+      "mStar": {
+        "total": 4500,
+        "used": 126,
+        "remaining": 4374,
+        "usedPct": 3
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 26886
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 332
+      }
+    },
+    {
+      "windowKey": "2026-04-16_01-06",
+      "date": "2026-04-16",
+      "window": "01-06",
+      "windowStart": "2026-04-16T00:00:00.000Z",
+      "windowEnd": "2026-04-16T05:00:00.000Z",
+      "capturedAt": "2026-04-16T04:55:16.995Z",
+      "mStar": {
+        "total": 4500,
+        "used": 180,
+        "remaining": 4320,
+        "usedPct": 4
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 26886
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 332
+      }
+    },
+    {
+      "windowKey": "2026-04-15_21-01",
+      "date": "2026-04-15",
+      "window": "21-01",
+      "windowStart": "2026-04-15T20:00:00.000Z",
+      "windowEnd": "2026-04-16T00:00:00.000Z",
+      "capturedAt": "2026-04-15T23:55:16.345Z",
+      "mStar": {
+        "total": 4500,
+        "used": 55,
+        "remaining": 4445,
+        "usedPct": 1
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 26886
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 332
+      }
+    },
+    {
+      "windowKey": "2026-04-15_16-21",
+      "date": "2026-04-15",
+      "window": "16-21",
+      "windowStart": "2026-04-15T15:00:00.000Z",
+      "windowEnd": "2026-04-15T20:00:00.000Z",
+      "capturedAt": "2026-04-15T19:55:16.530Z",
+      "mStar": {
+        "total": 4500,
+        "used": 47,
+        "remaining": 4453,
+        "usedPct": 1
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 26886
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 332
+      }
+    },
+    {
+      "windowKey": "2026-04-15_11-16",
+      "date": "2026-04-15",
+      "window": "11-16",
+      "windowStart": "2026-04-15T10:00:00.000Z",
+      "windowEnd": "2026-04-15T15:00:00.000Z",
+      "capturedAt": "2026-04-15T14:55:18.012Z",
+      "mStar": {
+        "total": 4500,
+        "used": 300,
+        "remaining": 4200,
+        "usedPct": 7
+      },
+      "speech": {
+        "total": 4000,
+        "used": 1114,
+        "remaining": 2886,
+        "usedPct": 28,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 26886
+      },
+      "image": {
+        "total": 50,
+        "used": 18,
+        "remaining": 32,
+        "usedPct": 36,
+        "weeklyTotal": 350,
+        "weeklyUsed": 332
+      }
+    },
+    {
+      "windowKey": "2026-04-15_06-11",
+      "date": "2026-04-15",
+      "window": "06-11",
+      "windowStart": "2026-04-15T05:00:00.000Z",
+      "windowEnd": "2026-04-15T10:00:00.000Z",
+      "capturedAt": "2026-04-15T09:55:19.342Z",
+      "mStar": {
+        "total": 4500,
+        "used": 322,
+        "remaining": 4178,
+        "usedPct": 7
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 28000
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 350
+      }
+    },
+    {
+      "windowKey": "2026-04-15_01-06",
+      "date": "2026-04-15",
+      "window": "01-06",
+      "windowStart": "2026-04-15T00:00:00.000Z",
+      "windowEnd": "2026-04-15T05:00:00.000Z",
+      "capturedAt": "2026-04-15T04:55:58.698Z",
+      "mStar": {
+        "total": 4500,
+        "used": 489,
+        "remaining": 4011,
+        "usedPct": 11
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 28000
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 350
+      }
+    },
+    {
+      "windowKey": "2026-04-14_21-01",
+      "date": "2026-04-14",
+      "window": "21-01",
+      "windowStart": "2026-04-14T20:00:00.000Z",
+      "windowEnd": "2026-04-15T00:00:00.000Z",
+      "capturedAt": "2026-04-14T23:55:24.043Z",
+      "mStar": {
+        "total": 4500,
+        "used": 178,
+        "remaining": 4322,
+        "usedPct": 4
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 28000
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 350
+      }
+    },
+    {
+      "windowKey": "2026-04-14_16-21",
+      "date": "2026-04-14",
+      "window": "16-21",
+      "windowStart": "2026-04-14T15:00:00.000Z",
+      "windowEnd": "2026-04-14T20:00:00.000Z",
+      "capturedAt": "2026-04-14T19:55:13.866Z",
+      "mStar": {
+        "total": 4500,
+        "used": 216,
+        "remaining": 4284,
+        "usedPct": 5
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 28000
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 350
+      }
+    },
+    {
+      "windowKey": "2026-04-14_11-16",
+      "date": "2026-04-14",
+      "window": "11-16",
+      "windowStart": "2026-04-14T10:00:00.000Z",
+      "windowEnd": "2026-04-14T15:00:00.000Z",
+      "capturedAt": "2026-04-14T14:55:18.683Z",
+      "mStar": {
+        "total": 4500,
+        "used": 9,
+        "remaining": 4491,
+        "usedPct": 0
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 28000
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 350
+      }
+    },
+    {
+      "windowKey": "2026-04-14_06-11",
+      "date": "2026-04-14",
+      "window": "06-11",
+      "windowStart": "2026-04-14T05:00:00.000Z",
+      "windowEnd": "2026-04-14T10:00:00.000Z",
+      "capturedAt": "2026-04-14T09:55:20.148Z",
+      "mStar": {
+        "total": 4500,
+        "used": 396,
+        "remaining": 4104,
+        "usedPct": 9
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 28000
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 350
+      }
+    },
+    {
+      "windowKey": "2026-04-14_01-06",
+      "date": "2026-04-14",
+      "window": "01-06",
+      "windowStart": "2026-04-14T00:00:00.000Z",
+      "windowEnd": "2026-04-14T05:00:00.000Z",
+      "capturedAt": "2026-04-14T04:55:15.868Z",
+      "mStar": {
+        "total": 4500,
+        "used": 166,
+        "remaining": 4334,
+        "usedPct": 4
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 28000
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 350
+      }
+    },
+    {
+      "windowKey": "2026-04-13_21-01",
+      "date": "2026-04-13",
+      "window": "21-01",
+      "windowStart": "2026-04-13T20:00:00.000Z",
+      "windowEnd": "2026-04-14T00:00:00.000Z",
+      "capturedAt": "2026-04-13T23:55:16.056Z",
+      "mStar": {
+        "total": 4500,
+        "used": 122,
+        "remaining": 4378,
+        "usedPct": 3
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 28000
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 350
+      }
+    },
+    {
+      "windowKey": "2026-04-13_16-21",
+      "date": "2026-04-13",
+      "window": "16-21",
+      "windowStart": "2026-04-13T15:00:00.000Z",
+      "windowEnd": "2026-04-13T20:00:00.000Z",
+      "capturedAt": "2026-04-13T19:55:14.709Z",
+      "mStar": {
+        "total": 4500,
+        "used": 79,
+        "remaining": 4421,
+        "usedPct": 2
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 28000
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 350
+      }
+    },
+    {
+      "windowKey": "2026-04-13_11-16",
+      "date": "2026-04-13",
+      "window": "11-16",
+      "windowStart": "2026-04-13T10:00:00.000Z",
+      "windowEnd": "2026-04-13T15:00:00.000Z",
+      "capturedAt": "2026-04-13T14:55:14.790Z",
+      "mStar": {
+        "total": 4500,
+        "used": 774,
+        "remaining": 3726,
+        "usedPct": 17
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 28000
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 350
+      }
+    },
+    {
+      "windowKey": "2026-04-13_06-11",
+      "date": "2026-04-13",
+      "window": "06-11",
+      "windowStart": "2026-04-13T05:00:00.000Z",
+      "windowEnd": "2026-04-13T10:00:00.000Z",
+      "capturedAt": "2026-04-13T09:55:21.983Z",
+      "mStar": {
+        "total": 4500,
+        "used": 508,
+        "remaining": 3992,
+        "usedPct": 11
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 28000
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 350
+      }
+    },
+    {
+      "windowKey": "2026-04-13_01-06",
+      "date": "2026-04-13",
+      "window": "01-06",
+      "windowStart": "2026-04-13T00:00:00.000Z",
+      "windowEnd": "2026-04-13T05:00:00.000Z",
+      "capturedAt": "2026-04-13T04:55:17.799Z",
+      "mStar": {
+        "total": 4500,
+        "used": 273,
+        "remaining": 4227,
+        "usedPct": 6
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 28000
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 350
+      }
+    },
+    {
+      "windowKey": "2026-04-12_21-01",
+      "date": "2026-04-12",
+      "window": "21-01",
+      "windowStart": "2026-04-12T20:00:00.000Z",
+      "windowEnd": "2026-04-13T00:00:00.000Z",
+      "capturedAt": "2026-04-12T23:55:13.814Z",
+      "mStar": {
+        "total": 4500,
+        "used": 200,
+        "remaining": 4300,
+        "usedPct": 4
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 28000
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 350
+      }
+    },
+    {
+      "windowKey": "2026-04-12_16-21",
+      "date": "2026-04-12",
+      "window": "16-21",
+      "windowStart": "2026-04-12T15:00:00.000Z",
+      "windowEnd": "2026-04-12T20:00:00.000Z",
+      "capturedAt": "2026-04-12T19:55:13.162Z",
+      "mStar": {
+        "total": 4500,
+        "used": 63,
+        "remaining": 4437,
+        "usedPct": 1
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 28000
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 350
+      }
+    },
+    {
+      "windowKey": "2026-04-12_11-16",
+      "date": "2026-04-12",
+      "window": "11-16",
+      "windowStart": "2026-04-12T10:00:00.000Z",
+      "windowEnd": "2026-04-12T15:00:00.000Z",
+      "capturedAt": "2026-04-12T14:55:13.457Z",
+      "mStar": {
+        "total": 4500,
+        "used": 967,
+        "remaining": 3533,
+        "usedPct": 21
+      },
+      "speech": {
+        "total": 4000,
+        "used": 3946,
+        "remaining": 54,
+        "usedPct": 99,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 423
+      },
+      "image": {
+        "total": 50,
+        "used": 50,
+        "remaining": 0,
+        "usedPct": 100,
+        "weeklyTotal": 350,
+        "weeklyUsed": 109
+      }
+    },
+    {
+      "windowKey": "2026-04-12_06-11",
+      "date": "2026-04-12",
+      "window": "06-11",
+      "windowStart": "2026-04-12T05:00:00.000Z",
+      "windowEnd": "2026-04-12T10:00:00.000Z",
+      "capturedAt": "2026-04-12T09:55:11.958Z",
+      "mStar": {
+        "total": 4500,
+        "used": 785,
+        "remaining": 3715,
+        "usedPct": 17
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 4369
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 159
+      }
+    },
+    {
+      "windowKey": "2026-04-12_01-06",
+      "date": "2026-04-12",
+      "window": "01-06",
+      "windowStart": "2026-04-12T00:00:00.000Z",
+      "windowEnd": "2026-04-12T05:00:00.000Z",
+      "capturedAt": "2026-04-12T04:55:12.935Z",
+      "mStar": {
+        "total": 4500,
+        "used": 539,
+        "remaining": 3961,
+        "usedPct": 12
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 4369
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 159
+      }
+    },
+    {
+      "windowKey": "2026-04-11_21-01",
+      "date": "2026-04-11",
+      "window": "21-01",
+      "windowStart": "2026-04-11T20:00:00.000Z",
+      "windowEnd": "2026-04-12T00:00:00.000Z",
+      "capturedAt": "2026-04-11T23:55:11.649Z",
+      "mStar": {
+        "total": 4500,
+        "used": 121,
+        "remaining": 4379,
+        "usedPct": 3
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 4369
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 159
+      }
+    },
+    {
+      "windowKey": "2026-04-11_16-21",
+      "date": "2026-04-11",
+      "window": "16-21",
+      "windowStart": "2026-04-11T15:00:00.000Z",
+      "windowEnd": "2026-04-11T20:00:00.000Z",
+      "capturedAt": "2026-04-11T19:55:11.405Z",
+      "mStar": {
+        "total": 4500,
+        "used": 1250,
+        "remaining": 3250,
+        "usedPct": 28
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 4369
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 159
+      }
+    },
+    {
+      "windowKey": "2026-04-11_11-16",
+      "date": "2026-04-11",
+      "window": "11-16",
+      "windowStart": "2026-04-11T10:00:00.000Z",
+      "windowEnd": "2026-04-11T15:00:00.000Z",
+      "capturedAt": "2026-04-11T14:55:10.485Z",
+      "mStar": {
+        "total": 4500,
+        "used": 1182,
+        "remaining": 3318,
+        "usedPct": 26
+      },
+      "speech": {
+        "total": 4000,
+        "used": 3997,
+        "remaining": 3,
+        "usedPct": 100,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 4369
+      },
+      "image": {
+        "total": 50,
+        "used": 38,
+        "remaining": 12,
+        "usedPct": 76,
+        "weeklyTotal": 350,
+        "weeklyUsed": 159
+      }
+    },
+    {
+      "windowKey": "2026-04-11_06-11",
+      "date": "2026-04-11",
+      "window": "06-11",
+      "windowStart": "2026-04-11T05:00:00.000Z",
+      "windowEnd": "2026-04-11T10:00:00.000Z",
+      "capturedAt": "2026-04-11T09:55:13.128Z",
+      "mStar": {
+        "total": 4500,
+        "used": 127,
+        "remaining": 4373,
+        "usedPct": 3
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 8366
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 197
+      }
+    },
+    {
+      "windowKey": "2026-04-11_01-06",
+      "date": "2026-04-11",
+      "window": "01-06",
+      "windowStart": "2026-04-11T00:00:00.000Z",
+      "windowEnd": "2026-04-11T05:00:00.000Z",
+      "capturedAt": "2026-04-11T04:55:12.044Z",
+      "mStar": {
+        "total": 4500,
+        "used": 157,
+        "remaining": 4343,
+        "usedPct": 3
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 8366
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 197
+      }
+    },
+    {
+      "windowKey": "2026-04-10_21-01",
+      "date": "2026-04-10",
+      "window": "21-01",
+      "windowStart": "2026-04-10T20:00:00.000Z",
+      "windowEnd": "2026-04-11T00:00:00.000Z",
+      "capturedAt": "2026-04-10T23:55:11.454Z",
+      "mStar": {
+        "total": 4500,
+        "used": 5,
+        "remaining": 4495,
+        "usedPct": 0
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 8366
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 197
+      }
+    },
+    {
+      "windowKey": "2026-04-10_16-21",
+      "date": "2026-04-10",
+      "window": "16-21",
+      "windowStart": "2026-04-10T15:00:00.000Z",
+      "windowEnd": "2026-04-10T20:00:00.000Z",
+      "capturedAt": "2026-04-10T19:55:12.367Z",
+      "mStar": {
+        "total": 4500,
+        "used": 12,
+        "remaining": 4488,
+        "usedPct": 0
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 8366
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 197
+      }
+    },
+    {
+      "windowKey": "2026-04-10_11-16",
+      "date": "2026-04-10",
+      "window": "11-16",
+      "windowStart": "2026-04-10T10:00:00.000Z",
+      "windowEnd": "2026-04-10T15:00:00.000Z",
+      "capturedAt": "2026-04-10T14:55:14.467Z",
+      "mStar": {
+        "total": 4500,
+        "used": 638,
+        "remaining": 3862,
+        "usedPct": 14
+      },
+      "speech": {
+        "total": 4000,
+        "used": 4000,
+        "remaining": 0,
+        "usedPct": 100,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 8366
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 197
+      }
+    },
+    {
+      "windowKey": "2026-04-10_06-11",
+      "date": "2026-04-10",
+      "window": "06-11",
+      "windowStart": "2026-04-10T05:00:00.000Z",
+      "windowEnd": "2026-04-10T10:00:00.000Z",
+      "capturedAt": "2026-04-10T06:55:07.272Z",
+      "mStar": {
+        "total": 4500,
+        "used": 27,
+        "remaining": 4473,
+        "usedPct": 1
+      },
+      "speech": {
+        "total": 4000,
+        "used": 3999,
+        "remaining": 1,
+        "usedPct": 100,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 8367
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 197
+      }
+    },
+    {
+      "windowKey": "2026-04-10_01-06",
+      "date": "2026-04-10",
+      "window": "01-06",
+      "windowStart": "2026-04-10T00:00:00.000Z",
+      "windowEnd": "2026-04-10T05:00:00.000Z",
+      "capturedAt": "2026-04-10T04:55:18.630Z",
+      "mStar": {
+        "total": 4500,
+        "used": 445,
+        "remaining": 4055,
+        "usedPct": 10
+      },
+      "speech": {
+        "total": 4000,
+        "used": 3961,
+        "remaining": 39,
+        "usedPct": 99,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 8405
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 197
+      }
+    },
+    {
+      "windowKey": "2026-04-09_21-01",
+      "date": "2026-04-09",
+      "window": "21-01",
+      "windowStart": "2026-04-09T20:00:00.000Z",
+      "windowEnd": "2026-04-10T00:00:00.000Z",
+      "capturedAt": "2026-04-09T23:55:15.857Z",
+      "mStar": {
+        "total": 4500,
+        "used": 45,
+        "remaining": 4455,
+        "usedPct": 1
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 12366
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 197
+      }
+    },
+    {
+      "windowKey": "2026-04-09_16-21",
+      "date": "2026-04-09",
+      "window": "16-21",
+      "windowStart": "2026-04-09T15:00:00.000Z",
+      "windowEnd": "2026-04-09T20:00:00.000Z",
+      "capturedAt": "2026-04-09T19:55:14.155Z",
+      "mStar": {
+        "total": 4500,
+        "used": 84,
+        "remaining": 4416,
+        "usedPct": 2
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 12366
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 197
+      }
+    },
+    {
+      "windowKey": "2026-04-09_11-16",
+      "date": "2026-04-09",
+      "window": "11-16",
+      "windowStart": "2026-04-09T10:00:00.000Z",
+      "windowEnd": "2026-04-09T15:00:00.000Z",
+      "capturedAt": "2026-04-09T14:55:13.384Z",
+      "mStar": {
+        "total": 4500,
+        "used": 959,
+        "remaining": 3541,
+        "usedPct": 21
+      },
+      "speech": {
+        "total": 4000,
+        "used": 3994,
+        "remaining": 6,
+        "usedPct": 100,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 12366
+      },
+      "image": {
+        "total": 50,
+        "used": 50,
+        "remaining": 0,
+        "usedPct": 100,
+        "weeklyTotal": 350,
+        "weeklyUsed": 197
+      }
+    },
+    {
+      "windowKey": "2026-04-09_06-11",
+      "date": "2026-04-09",
+      "window": "06-11",
+      "windowStart": "2026-04-09T05:00:00.000Z",
+      "windowEnd": "2026-04-09T10:00:00.000Z",
+      "capturedAt": "2026-04-09T09:55:18.187Z",
+      "mStar": {
+        "total": 4500,
+        "used": 136,
+        "remaining": 4364,
+        "usedPct": 3
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 16360
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 247
+      }
+    },
+    {
+      "windowKey": "2026-04-09_01-06",
+      "date": "2026-04-09",
+      "window": "01-06",
+      "windowStart": "2026-04-09T00:00:00.000Z",
+      "windowEnd": "2026-04-09T05:00:00.000Z",
+      "capturedAt": "2026-04-09T04:55:12.206Z",
+      "mStar": {
+        "total": 4500,
+        "used": 161,
+        "remaining": 4339,
+        "usedPct": 4
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 16360
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 247
+      }
+    },
+    {
+      "windowKey": "2026-04-08_21-01",
+      "date": "2026-04-08",
+      "window": "21-01",
+      "windowStart": "2026-04-08T20:00:00.000Z",
+      "windowEnd": "2026-04-09T00:00:00.000Z",
+      "capturedAt": "2026-04-08T23:55:13.335Z",
+      "mStar": {
+        "total": 4500,
+        "used": 16,
+        "remaining": 4484,
+        "usedPct": 0
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 16360
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 247
+      }
+    },
+    {
+      "windowKey": "2026-04-08_16-21",
+      "date": "2026-04-08",
+      "window": "16-21",
+      "windowStart": "2026-04-08T15:00:00.000Z",
+      "windowEnd": "2026-04-08T20:00:00.000Z",
+      "capturedAt": "2026-04-08T19:55:14.974Z",
+      "mStar": {
+        "total": 4500,
+        "used": 348,
+        "remaining": 4152,
+        "usedPct": 8
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 16360
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 247
+      }
+    },
+    {
+      "windowKey": "2026-04-08_11-16",
+      "date": "2026-04-08",
+      "window": "11-16",
+      "windowStart": "2026-04-08T10:00:00.000Z",
+      "windowEnd": "2026-04-08T15:00:00.000Z",
+      "capturedAt": "2026-04-08T14:55:20.451Z",
+      "mStar": {
+        "total": 4500,
+        "used": 1104,
+        "remaining": 3396,
+        "usedPct": 25
+      },
+      "speech": {
+        "total": 4000,
+        "used": 4000,
+        "remaining": 0,
+        "usedPct": 100,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 16360
+      },
+      "image": {
+        "total": 50,
+        "used": 50,
+        "remaining": 0,
+        "usedPct": 100,
+        "weeklyTotal": 350,
+        "weeklyUsed": 247
+      }
+    },
+    {
+      "windowKey": "2026-04-08_06-11",
+      "date": "2026-04-08",
+      "window": "06-11",
+      "windowStart": "2026-04-08T05:00:00.000Z",
+      "windowEnd": "2026-04-08T10:00:00.000Z",
+      "capturedAt": "2026-04-08T06:55:07.310Z",
+      "mStar": {
+        "total": 4500,
+        "used": 275,
+        "remaining": 4225,
+        "usedPct": 6
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 20376
+      },
+      "image": {
+        "total": 50,
+        "used": 1,
+        "remaining": 49,
+        "usedPct": 2,
+        "weeklyTotal": 350,
+        "weeklyUsed": 297
+      }
+    },
+    {
+      "windowKey": "2026-04-08_01-06",
+      "date": "2026-04-08",
+      "window": "01-06",
+      "windowStart": "2026-04-08T00:00:00.000Z",
+      "windowEnd": "2026-04-08T05:00:00.000Z",
+      "capturedAt": "2026-04-08T04:55:15.582Z",
+      "mStar": {
+        "total": 4500,
+        "used": 482,
+        "remaining": 4018,
+        "usedPct": 11
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 20376
+      },
+      "image": {
+        "total": 50,
+        "used": 1,
+        "remaining": 49,
+        "usedPct": 2,
+        "weeklyTotal": 350,
+        "weeklyUsed": 297
+      }
+    },
+    {
+      "windowKey": "2026-04-07_21-01",
+      "date": "2026-04-07",
+      "window": "21-01",
+      "windowStart": "2026-04-07T20:00:00.000Z",
+      "windowEnd": "2026-04-08T00:00:00.000Z",
+      "capturedAt": "2026-04-07T23:55:11.245Z",
+      "mStar": {
+        "total": 4500,
+        "used": 57,
+        "remaining": 4443,
+        "usedPct": 1
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 20376
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 298
+      }
+    },
+    {
+      "windowKey": "2026-04-07_16-21",
+      "date": "2026-04-07",
+      "window": "16-21",
+      "windowStart": "2026-04-07T15:00:00.000Z",
+      "windowEnd": "2026-04-07T20:00:00.000Z",
+      "capturedAt": "2026-04-07T19:55:13.974Z",
+      "mStar": {
+        "total": 4500,
+        "used": 386,
+        "remaining": 4114,
+        "usedPct": 9
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 20376
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 298
+      }
+    },
+    {
+      "windowKey": "2026-04-07_11-16",
+      "date": "2026-04-07",
+      "window": "11-16",
+      "windowStart": "2026-04-07T10:00:00.000Z",
+      "windowEnd": "2026-04-07T15:00:00.000Z",
+      "capturedAt": "2026-04-07T14:55:28.141Z",
+      "mStar": {
+        "total": 4500,
+        "used": 534,
+        "remaining": 3966,
+        "usedPct": 12
+      },
+      "speech": {
+        "total": 4000,
+        "used": 3998,
+        "remaining": 2,
+        "usedPct": 100,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 20376
+      },
+      "image": {
+        "total": 50,
+        "used": 48,
+        "remaining": 2,
+        "usedPct": 96,
+        "weeklyTotal": 350,
+        "weeklyUsed": 301
+      }
+    },
+    {
+      "windowKey": "2026-04-07_06-11",
+      "date": "2026-04-07",
+      "window": "06-11",
+      "windowStart": "2026-04-07T05:00:00.000Z",
+      "windowEnd": "2026-04-07T10:00:00.000Z",
+      "capturedAt": "2026-04-07T09:55:10.783Z",
+      "mStar": {
+        "total": 4500,
+        "used": 467,
+        "remaining": 4033,
+        "usedPct": 10
+      },
+      "speech": {
+        "total": 4000,
+        "used": 3998,
+        "remaining": 2,
+        "usedPct": 100,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 20376
+      },
+      "image": {
+        "total": 50,
+        "used": 35,
+        "remaining": 15,
+        "usedPct": 70,
+        "weeklyTotal": 350,
+        "weeklyUsed": 314
+      }
+    },
+    {
+      "windowKey": "2026-04-07_01-06",
+      "date": "2026-04-07",
+      "window": "01-06",
+      "windowStart": "2026-04-07T00:00:00.000Z",
+      "windowEnd": "2026-04-07T05:00:00.000Z",
+      "capturedAt": "2026-04-07T04:55:12.458Z",
+      "mStar": {
+        "total": 4500,
+        "used": 629,
+        "remaining": 3871,
+        "usedPct": 14
+      },
+      "speech": {
+        "total": 4000,
+        "used": 3998,
+        "remaining": 2,
+        "usedPct": 100,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 20376
+      },
+      "image": {
+        "total": 50,
+        "used": 20,
+        "remaining": 30,
+        "usedPct": 40,
+        "weeklyTotal": 350,
+        "weeklyUsed": 329
+      }
+    },
+    {
+      "windowKey": "2026-04-06_21-01",
+      "date": "2026-04-06",
+      "window": "21-01",
+      "windowStart": "2026-04-06T20:00:00.000Z",
+      "windowEnd": "2026-04-07T00:00:00.000Z",
+      "capturedAt": "2026-04-06T23:55:09.673Z",
+      "mStar": {
+        "total": 4500,
+        "used": 17,
+        "remaining": 4483,
+        "usedPct": 0
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 24374
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 349
+      }
+    },
+    {
+      "windowKey": "2026-04-06_16-21",
+      "date": "2026-04-06",
+      "window": "16-21",
+      "windowStart": "2026-04-06T15:00:00.000Z",
+      "windowEnd": "2026-04-06T20:00:00.000Z",
+      "capturedAt": "2026-04-06T19:55:10.082Z",
+      "mStar": {
+        "total": 4500,
+        "used": 31,
+        "remaining": 4469,
+        "usedPct": 1
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 24374
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 349
+      }
+    },
+    {
+      "windowKey": "2026-04-06_11-16",
+      "date": "2026-04-06",
+      "window": "11-16",
+      "windowStart": "2026-04-06T10:00:00.000Z",
+      "windowEnd": "2026-04-06T15:00:00.000Z",
+      "capturedAt": "2026-04-06T14:55:09.904Z",
+      "mStar": {
+        "total": 4500,
+        "used": 546,
+        "remaining": 3954,
+        "usedPct": 12
+      },
+      "speech": {
+        "total": 4000,
+        "used": 3626,
+        "remaining": 374,
+        "usedPct": 91,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 24374
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 350
+      }
+    },
+    {
+      "windowKey": "2026-04-06_06-11",
+      "date": "2026-04-06",
+      "window": "06-11",
+      "windowStart": "2026-04-06T05:00:00.000Z",
+      "windowEnd": "2026-04-06T10:00:00.000Z",
+      "capturedAt": "2026-04-06T09:55:09.818Z",
+      "mStar": {
+        "total": 4500,
+        "used": 512,
+        "remaining": 3988,
+        "usedPct": 11
+      },
+      "speech": {
+        "total": 4000,
+        "used": 1446,
+        "remaining": 2554,
+        "usedPct": 36,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 26554
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 350
+      }
+    },
+    {
+      "windowKey": "2026-04-06_01-06",
+      "date": "2026-04-06",
+      "window": "01-06",
+      "windowStart": "2026-04-06T00:00:00.000Z",
+      "windowEnd": "2026-04-06T05:00:00.000Z",
+      "capturedAt": "2026-04-06T04:55:09.741Z",
+      "mStar": {
+        "total": 4500,
+        "used": 573,
+        "remaining": 3927,
+        "usedPct": 13
+      },
+      "speech": {
+        "total": 4000,
+        "used": 1165,
+        "remaining": 2835,
+        "usedPct": 29,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 26835
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 350
+      }
+    },
+    {
+      "windowKey": "2026-04-05_21-01",
+      "date": "2026-04-05",
+      "window": "21-01",
+      "windowStart": "2026-04-05T20:00:00.000Z",
+      "windowEnd": "2026-04-06T00:00:00.000Z",
+      "capturedAt": "2026-04-05T23:55:10.136Z",
+      "mStar": {
+        "total": 4500,
+        "used": 74,
+        "remaining": 4426,
+        "usedPct": 2
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 28000
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 350
+      }
+    },
+    {
+      "windowKey": "2026-04-05_16-21",
+      "date": "2026-04-05",
+      "window": "16-21",
+      "windowStart": "2026-04-05T15:00:00.000Z",
+      "windowEnd": "2026-04-05T20:00:00.000Z",
+      "capturedAt": "2026-04-05T19:55:11.226Z",
+      "mStar": {
+        "total": 4500,
+        "used": 678,
+        "remaining": 3822,
+        "usedPct": 15
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 28000
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 350
+      }
+    },
+    {
+      "windowKey": "2026-04-05_11-16",
+      "date": "2026-04-05",
+      "window": "11-16",
+      "windowStart": "2026-04-05T10:00:00.000Z",
+      "windowEnd": "2026-04-05T15:00:00.000Z",
+      "capturedAt": "2026-04-05T14:55:10.284Z",
+      "mStar": {
+        "total": 4500,
+        "used": 989,
+        "remaining": 3511,
+        "usedPct": 22
+      },
+      "speech": {
+        "total": 4000,
+        "used": 3999,
+        "remaining": 1,
+        "usedPct": 100,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 10171
+      },
+      "image": {
+        "total": 50,
+        "used": 46,
+        "remaining": 4,
+        "usedPct": 92,
+        "weeklyTotal": 350,
+        "weeklyUsed": 121
       }
     }
   ]
