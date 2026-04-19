@@ -365,6 +365,33 @@
     ]
   },
   {
+    "name": "minimax-japanese-tts",
+    "path": "/Users/zachli/.openclaw/workspace/skills/minimax-japanese-tts",
+    "skill_md": "/Users/zachli/.openclaw/workspace/skills/minimax-japanese-tts/SKILL.md",
+    "description": "# MiniMax 日文語音 Skill",
+    "lines": 172,
+    "location": "/Users/zachli/.openclaw/workspace/skills",
+    "loc": "workspace",
+    "emoji": "🎙️",
+    "triggers": [
+      {
+        "intent": "japanese tts"
+      },
+      {
+        "intent": "日文語音"
+      },
+      {
+        "intent": "日語朗讀"
+      }
+    ],
+    "memory_tags": [
+      "minimax",
+      "japanese",
+      "tts",
+      "bible-video"
+    ]
+  },
+  {
     "name": "minimax-m2-7",
     "path": "/Users/zachli/.openclaw/workspace/skills/minimax-m2-7",
     "skill_md": "/Users/zachli/.openclaw/workspace/skills/minimax-m2-7/SKILL.md",
