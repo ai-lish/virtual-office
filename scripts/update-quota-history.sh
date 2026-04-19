@@ -51,17 +51,24 @@ const image   = raw.find(m => m.model_name === 'image-01');
 
 if (!mStar) { console.log('No MiniMax-M* data, skipping'); process.exit(0); }
 
-// ── Determine window key directly from mStar.start_time (API-provided UTC window start) ──
-// This is the most reliable approach — use the window boundaries from the API itself.
-const startUtc = new Date(mStar.start_time);
-const startHour = startUtc.getUTCHours();
+// ── Determine window label from cron runtime (capturedAt), NOT from API start_time ──
+const capturedAt = new Date();
+const capturedHour = capturedAt.getUTCHours();
+// capturedAt is UTC; cron runs at HKT-aligned times, so UTC hour maps to HKT window:
+//   UTC 0-5 → HKT 8-13 → "01-06"
+//   UTC 5-10 → HKT 13-18 → "06-11"
+//   UTC 10-15 → HKT 18-23 → "11-16"
+//   UTC 15-20 → HKT 23-04 → "16-21"
+//   UTC 20-24 → HKT 4-8  → "21-01"
 let windowLabel;
-if      (startHour >=  1 && startHour <  6) windowLabel = '01-06';
-else if (startHour >=  6 && startHour < 11) windowLabel = '06-11';
-else if (startHour >= 11 && startHour < 16) windowLabel = '11-16';
-else if (startHour >= 16 && startHour < 21) windowLabel = '16-21';
-else                                   windowLabel = '21-01';
+if      (capturedHour >=  0 && capturedHour <  5) windowLabel = '01-06';
+else if (capturedHour >=  5 && capturedHour < 10) windowLabel = '06-11';
+else if (capturedHour >= 10 && capturedHour < 15) windowLabel = '11-16';
+else if (capturedHour >= 15 && capturedHour < 20) windowLabel = '16-21';
+else                                             windowLabel = '21-01';
 
+// Use API start_time for dateStr and window boundaries (those are correct UTC timestamps)
+const startUtc = new Date(mStar.start_time);
 const dateStr = startUtc.toISOString().slice(0, 10);  // UTC date of window start
 const windowKey = dateStr + '_' + windowLabel;
 const windowStart = startUtc.toISOString();
@@ -74,7 +81,7 @@ const snapshot = {
   window: windowLabel,
   windowStart: new Date(mStar.start_time).toISOString(),
   windowEnd:   new Date(mStar.end_time).toISOString(),
-  capturedAt:  new Date().toISOString(),
+  capturedAt:  capturedAt.toISOString(),
   mStar: mStar ? {
     total:     mStar.current_interval_total_count,
     used:      mStar.current_interval_total_count - mStar.current_interval_usage_count,
