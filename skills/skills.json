@@ -474,6 +474,18 @@
     ]
   },
   {
+    "name": "minimax-web-search",
+    "path": "/Users/zachli/.openclaw/workspace/skills/minimax-web-search",
+    "skill_md": "/Users/zachli/.openclaw/workspace/skills/minimax-web-search/SKILL.md",
+    "description": "# MiniMax Web Search Skill",
+    "lines": 97,
+    "location": "/Users/zachli/.openclaw/workspace/skills",
+    "loc": "workspace",
+    "emoji": "",
+    "triggers": [],
+    "memory_tags": []
+  },
+  {
     "name": "n8n-automation",
     "path": "/Users/zachli/.openclaw/workspace/skills/n8n-automation",
     "skill_md": "/Users/zachli/.openclaw/workspace/skills/n8n-automation/SKILL.md",
