@@ -49,6 +49,14 @@
       "hasIndex": true,
       "next": []
     },
+    "math-rpg": {
+      "status": "completed",
+      "summary": "數學探索RPG - 4 Phase 完成 🎮 問答RPG + Boss戰 + 每日挑戰 + Firebase同步",
+      "url": "https://github.com/ai-lish/math-rpg",
+      "githubPages": "https://ai-lish.github.io/math-rpg",
+      "hasIndex": true,
+      "next": []
+    },
     "preschool": {
       "status": "pending",
       "summary": "幼兒教育",
