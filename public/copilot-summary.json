@@ -1,5 +1,5 @@
 {
-  "_generatedAt": "2026-04-19T18:04:23.808Z",
+  "_generatedAt": "2026-05-02T05:26:22.202Z",
   "_source": "google-drive-csv + github",
   "months": [
     "2026-03",
@@ -272,9 +272,17 @@
     },
     {
       "date": "2026-04-19",
+      "model": "Auto: Coding Agent model",
+      "quantity": 1,
+      "gross_amount": 0.04,
+      "sku": "coding_agent_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-04-19",
       "model": "Claude Opus 4.6",
-      "quantity": 9,
-      "gross_amount": 0.36,
+      "quantity": 12,
+      "gross_amount": 0.48,
       "sku": "copilot_premium_request",
       "unit_type": "requests"
     },
@@ -284,6 +292,110 @@
       "quantity": 4,
       "gross_amount": 0.16,
       "sku": "copilot_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-04-19",
+      "model": "Coding Agent model",
+      "quantity": 0,
+      "gross_amount": 0,
+      "sku": "coding_agent_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-04-20",
+      "model": "Claude Opus 4.6",
+      "quantity": 30,
+      "gross_amount": 1.2000000000000002,
+      "sku": "copilot_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-04-21",
+      "model": "Claude Sonnet 4.6",
+      "quantity": 16,
+      "gross_amount": 0.64,
+      "sku": "copilot_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-04-22",
+      "model": "Claude Sonnet 4.6",
+      "quantity": 17,
+      "gross_amount": 0.68,
+      "sku": "copilot_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-04-23",
+      "model": "Claude Sonnet 4.6",
+      "quantity": 6,
+      "gross_amount": 0.24000000000000002,
+      "sku": "copilot_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-04-25",
+      "model": "Claude Sonnet 4.6",
+      "quantity": 1,
+      "gross_amount": 0.04,
+      "sku": "copilot_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-04-26",
+      "model": "Claude Sonnet 4.6",
+      "quantity": 5,
+      "gross_amount": 0.2,
+      "sku": "copilot_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-04-26",
+      "model": "Coding Agent model",
+      "quantity": 5,
+      "gross_amount": 0.2,
+      "sku": "coding_agent_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-04-27",
+      "model": "Coding Agent model",
+      "quantity": 1,
+      "gross_amount": 0.04,
+      "sku": "coding_agent_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-04-28",
+      "model": "Code Review model",
+      "quantity": 1,
+      "gross_amount": 0.04,
+      "sku": "copilot_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-04-28",
+      "model": "Coding Agent model",
+      "quantity": 3,
+      "gross_amount": 0.12,
+      "sku": "coding_agent_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-04-30",
+      "model": "Claude Sonnet 4.6",
+      "quantity": 21,
+      "gross_amount": 0.8400000000000002,
+      "sku": "copilot_premium_request",
+      "unit_type": "requests"
+    },
+    {
+      "date": "2026-04-30",
+      "model": "Coding Agent model",
+      "quantity": 1,
+      "gross_amount": 0.04,
+      "sku": "coding_agent_premium_request",
       "unit_type": "requests"
     },
     {
@@ -469,22 +581,22 @@
         }
       },
       "2026-04": {
-        "total": 189,
+        "total": 300,
         "byModel": {
-          "Claude Opus 4.6": 63,
-          "Claude Sonnet 4.6": 110,
-          "Code Review model": 3,
-          "Coding Agent model": 11,
-          "Auto: Coding Agent model": 2
+          "Claude Opus 4.6": 96,
+          "Claude Sonnet 4.6": 176,
+          "Code Review model": 4,
+          "Coding Agent model": 21,
+          "Auto: Coding Agent model": 3
         }
       }
     },
     "byModel": {
-      "Claude Opus 4.6": 308,
-      "Claude Sonnet 4.6": 152,
-      "Code Review model": 5,
-      "Coding Agent model": 30,
-      "Auto: Coding Agent model": 2,
+      "Claude Opus 4.6": 341,
+      "Claude Sonnet 4.6": 218,
+      "Code Review model": 6,
+      "Coding Agent model": 40,
+      "Auto: Coding Agent model": 3,
       "GPT-5.4 mini": 8,
       "Gemini 3.1 Pro": 5
     }
