@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-03T06:00:03Z",
+  "generated": "2026-05-03T13:00:05Z",
   "sources": {
     "openclaw": {
       "totalFiles": 42,
@@ -57,7 +57,7 @@
       "dreamsCount": 6
     },
     "hermes": {
-      "memoryMd": "👤 Zach 基本資料: 主要 channel：Telegram；匯報要精準，唔好求多\n§\n💡 Text-to-speech 禁令：Zach 明確禁止使用 text_to_speech 功能，絕對唔可以使用。全部回覆必須係純文字。\n§\n💡 大腦溝通偏好（2026-04-16）：請大腦時唔加 --reply-to，否則大腦会开新 Discord thread。用 openclaw agent --agent main --message \"...\" --deliver --reply-channel discord（唔加 --reply-to），結果由我喺原 thread 回報俾 Zach。\n§\n📦 math-week-2026: Repo: /Users/zachli/math-week-2026-site | URL: https://ai-lish.github.io/math-week-2026/ | 注意：係 math-week-2026-site（唔係 math-week-2026）\n§\n💡 Copilot PR Review：Draft PR要先`gh pr ready`再merge\n§\n💡 粵語拼音規則（2026-05-02）：網址避免用拼音。如必須用，必須用粵語拼音（Hong Kong Government Romanisation），唔用普通話拼音。例如：冰火大戰 → bing-fo-da-jin（粵）vs binghuodazhan（普）\n§\n💡 Google AI 教育版（2026-05-03）：\n- NotebookLM ✅香港免費可用（Zach主要用）\n- Google AI Studio ✅可用，API key可串去OpenClaw\n- Google One AI ❌香港不支援 | AntiGravity ❌香港帳户被封（403）\n§\n📁 Topic Files（完整資料）：\n- topics/obsidian-usage.md — Obsidian用法、MOC方向\n- topics/minimax-platforms.md — MiniMax兩平台、API endpoint\n- topics/qa-philosophy.md — Zach QA哲學（獨立QA Agent模式）\n- topics/calculator-race.md — Calculator Race項目期望（221題完整測試）\n- topics/math-rpg-decision.md — 數學RPG繼續用Phaser\n§\n💡 行事規則（2026-05-03）：【最緊要】\n1. 做嘢之前 → 先 session_search 或 memory_search 查相關記錄，唔好假設自己記得\n2. Zach 糾正我時 → 主動寫入 MEMORY.md，唔口頭認同就算；事後告知已記錄\n3. Override rules（Zach 明確禁止/要求嘅）→ 用 § 標記為「嚴格規則」，優先於一般對話",
+      "memoryMd": "👤 Zach 基本資料: 主要 channel：Telegram；匯報要精準，唔好求多\n§\n💡 Text-to-speech 禁令：Zach 明確禁止使用 text_to_speech 功能，絕對唔可以使用。全部回覆必須係純文字。\n§\n💡 大腦溝通偏好（2026-04-16）：請大腦時唔加 --reply-to，否則大腦会开新 Discord thread。用 openclaw agent --agent main --message \"...\" --deliver --reply-channel discord（唔加 --reply-to），結果由我喺原 thread 回報俾 Zach。\n§\n📦 math-week-2026: Repo: /Users/zachli/math-week-2026-site | URL: https://ai-lish.github.io/math-week-2026/ | 注意：係 math-week-2026-site（唔係 math-week-2026）\n§\n💡 Copilot PR Review：Draft PR要先`gh pr ready`再merge\n§\n💡 粵語拼音規則（2026-05-02）：網址避免用拼音。如必須用，必須用粵語拼音（Hong Kong Government Romanisation），唔用普通話拼音。例如：冰火大戰 → bing-fo-da-jin（粵）vs binghuodazhan（普）\n§\n💡 Google AI 教育版（2026-05-03）：\n- NotebookLM ✅香港免費可用（Zach主要用）\n- Google AI Studio ✅可用，API key可串去OpenClaw\n- Google One AI ❌香港不支援 | AntiGravity ❌香港帳户被封（403）\n§\n📁 Topic Files（完整資料）：\n- topics/obsidian-usage.md — Obsidian用法、MOC方向\n- topics/minimax-platforms.md — MiniMax兩平台、API endpoint\n- topics/qa-philosophy.md — Zach QA哲學（獨立QA Agent模式）\n- topics/calculator-race.md — Calculator Race項目期望（221題完整測試）\n- topics/math-rpg-decision.md — 數學RPG繼續用Phaser\n§\n💡 行事規則（2026-05-03）：【最緊要】\n1. 做嘢之前 → 先 session_search 或 memory_search 查相關記錄，唔好假設自己記得\n2. Zach 糾正我時 → 主動寫入 MEMORY.md，唔口頭認同就算；事後告知已記錄\n3. Override rules（Zach 明確禁止/要求嘅）→ 用 § 標記為「嚴格規則」，優先於一般對話\n§\n💡 粵語拼音規則（2026-05-03）：網址避免用拼音。如必須用，必須用粵語拼音（Hong Kong Government Romanisation），唔用普通話拼音。例如：冰火大戰 → bing-fo-da-jin（粵）vs binghuodazhan（普）",
       "topicProjects": "",
       "topicActive": "",
       "dailyLogs": {},
