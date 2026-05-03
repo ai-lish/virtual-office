@@ -1,8 +1,38 @@
 {
   "_version": 1,
-  "_updatedAt": "2026-05-03T04:55:37.992Z",
-  "_totalEntries": 139,
+  "_updatedAt": "2026-05-03T06:55:06.456Z",
+  "_totalEntries": 140,
   "entries": [
+    {
+      "windowKey": "2026-05-03_06-11",
+      "date": "2026-05-03",
+      "window": "06-11",
+      "windowStart": "2026-05-03T05:00:00.000Z",
+      "windowEnd": "2026-05-03T10:00:00.000Z",
+      "capturedAt": "2026-05-03T06:55:06.437Z",
+      "mStar": {
+        "total": 4500,
+        "used": 14,
+        "remaining": 4486,
+        "usedPct": 0
+      },
+      "speech": {
+        "total": 4000,
+        "used": 0,
+        "remaining": 4000,
+        "usedPct": 0,
+        "weeklyTotal": 28000,
+        "weeklyUsed": 26364
+      },
+      "image": {
+        "total": 50,
+        "used": 0,
+        "remaining": 50,
+        "usedPct": 0,
+        "weeklyTotal": 350,
+        "weeklyUsed": 340
+      }
+    },
     {
       "windowKey": "2026-05-03_01-06",
       "date": "2026-05-03",
