@@ -1,25 +1,25 @@
 {
-  "_generatedAt": "2026-05-10T15:55:00Z",
+  "_generatedAt": "2026-05-10T19:55:00Z",
   "_source": "local-refresh",
   "raw": {
     "model_remains": [
       {
         "start_time": 1778425200000,
         "end_time": 1778443200000,
-        "remains_time": 14691540,
+        "remains_time": 284291,
         "current_interval_total_count": 4500,
-        "current_interval_usage_count": 4307,
+        "current_interval_usage_count": 3725,
         "model_name": "MiniMax-M*",
         "current_weekly_total_count": 0,
         "current_weekly_usage_count": 0,
         "weekly_start_time": 1777852800000,
         "weekly_end_time": 1778457600000,
-        "weekly_remains_time": 29091540
+        "weekly_remains_time": 14684291
       },
       {
         "start_time": 1778371200000,
         "end_time": 1778457600000,
-        "remains_time": 29091528,
+        "remains_time": 14684276,
         "current_interval_total_count": 4000,
         "current_interval_usage_count": 4000,
         "model_name": "speech-hd",
@@ -27,12 +27,12 @@
         "current_weekly_usage_count": 28000,
         "weekly_start_time": 1777852800000,
         "weekly_end_time": 1778457600000,
-        "weekly_remains_time": 29091528
+        "weekly_remains_time": 14684276
       },
       {
         "start_time": 1778371200000,
         "end_time": 1778457600000,
-        "remains_time": 29091513,
+        "remains_time": 14684265,
         "current_interval_total_count": 0,
         "current_interval_usage_count": 0,
         "model_name": "MiniMax-Hailuo-2.3-Fast-6s-768p",
@@ -40,12 +40,12 @@
         "current_weekly_usage_count": 0,
         "weekly_start_time": 1777852800000,
         "weekly_end_time": 1778457600000,
-        "weekly_remains_time": 29091513
+        "weekly_remains_time": 14684265
       },
       {
         "start_time": 1778371200000,
         "end_time": 1778457600000,
-        "remains_time": 29091502,
+        "remains_time": 14684253,
         "current_interval_total_count": 0,
         "current_interval_usage_count": 0,
         "model_name": "MiniMax-Hailuo-2.3-6s-768p",
@@ -53,12 +53,12 @@
         "current_weekly_usage_count": 0,
         "weekly_start_time": 1777852800000,
         "weekly_end_time": 1778457600000,
-        "weekly_remains_time": 29091502
+        "weekly_remains_time": 14684253
       },
       {
         "start_time": 1778371200000,
         "end_time": 1778457600000,
-        "remains_time": 29091490,
+        "remains_time": 14684243,
         "current_interval_total_count": 0,
         "current_interval_usage_count": 0,
         "model_name": "music-2.5",
@@ -66,12 +66,12 @@
         "current_weekly_usage_count": 0,
         "weekly_start_time": 1777852800000,
         "weekly_end_time": 1778457600000,
-        "weekly_remains_time": 29091490
+        "weekly_remains_time": 14684243
       },
       {
         "start_time": 1778371200000,
         "end_time": 1778457600000,
-        "remains_time": 29091475,
+        "remains_time": 14684228,
         "current_interval_total_count": 100,
         "current_interval_usage_count": 100,
         "model_name": "music-2.6",
@@ -79,12 +79,12 @@
         "current_weekly_usage_count": 700,
         "weekly_start_time": 1777852800000,
         "weekly_end_time": 1778457600000,
-        "weekly_remains_time": 29091475
+        "weekly_remains_time": 14684228
       },
       {
         "start_time": 1778371200000,
         "end_time": 1778457600000,
-        "remains_time": 29091462,
+        "remains_time": 14684215,
         "current_interval_total_count": 100,
         "current_interval_usage_count": 100,
         "model_name": "music-cover",
@@ -92,12 +92,12 @@
         "current_weekly_usage_count": 700,
         "weekly_start_time": 1777852800000,
         "weekly_end_time": 1778457600000,
-        "weekly_remains_time": 29091462
+        "weekly_remains_time": 14684215
       },
       {
         "start_time": 1778371200000,
         "end_time": 1778457600000,
-        "remains_time": 29091450,
+        "remains_time": 14684202,
         "current_interval_total_count": 100,
         "current_interval_usage_count": 100,
         "model_name": "lyrics_generation",
@@ -105,12 +105,12 @@
         "current_weekly_usage_count": 700,
         "weekly_start_time": 1777852800000,
         "weekly_end_time": 1778457600000,
-        "weekly_remains_time": 29091450
+        "weekly_remains_time": 14684202
       },
       {
         "start_time": 1778371200000,
         "end_time": 1778457600000,
-        "remains_time": 29091434,
+        "remains_time": 14684174,
         "current_interval_total_count": 50,
         "current_interval_usage_count": 50,
         "model_name": "image-01",
@@ -118,33 +118,33 @@
         "current_weekly_usage_count": 350,
         "weekly_start_time": 1777852800000,
         "weekly_end_time": 1778457600000,
-        "weekly_remains_time": 29091434
+        "weekly_remains_time": 14684174
       },
       {
         "start_time": 1778425200000,
         "end_time": 1778443200000,
-        "remains_time": 14691422,
+        "remains_time": 284155,
         "current_interval_total_count": 4500,
-        "current_interval_usage_count": 4307,
+        "current_interval_usage_count": 3725,
         "model_name": "coding-plan-vlm",
         "current_weekly_total_count": 0,
         "current_weekly_usage_count": 0,
         "weekly_start_time": 1777852800000,
         "weekly_end_time": 1778457600000,
-        "weekly_remains_time": 29091422
+        "weekly_remains_time": 14684155
       },
       {
         "start_time": 1778425200000,
         "end_time": 1778443200000,
-        "remains_time": 14691405,
+        "remains_time": 284140,
         "current_interval_total_count": 4500,
-        "current_interval_usage_count": 4307,
+        "current_interval_usage_count": 3725,
         "model_name": "coding-plan-search",
         "current_weekly_total_count": 0,
         "current_weekly_usage_count": 0,
         "weekly_start_time": 1777852800000,
         "weekly_end_time": 1778457600000,
-        "weekly_remains_time": 29091405
+        "weekly_remains_time": 14684140
       }
     ],
     "base_resp": {
@@ -156,8 +156,8 @@
     {
       "model": "MiniMax-M*",
       "total": 4500,
-      "remaining": 4307,
-      "used": 193,
+      "remaining": 3725,
+      "used": 775,
       "weeklyTotal": 0,
       "weeklyUsed": 0
     },
@@ -228,16 +228,16 @@
     {
       "model": "coding-plan-vlm",
       "total": 4500,
-      "remaining": 4307,
-      "used": 193,
+      "remaining": 3725,
+      "used": 775,
       "weeklyTotal": 0,
       "weeklyUsed": 0
     },
     {
       "model": "coding-plan-search",
       "total": 4500,
-      "remaining": 4307,
-      "used": 193,
+      "remaining": 3725,
+      "used": 775,
       "weeklyTotal": 0,
       "weeklyUsed": 0
     }
