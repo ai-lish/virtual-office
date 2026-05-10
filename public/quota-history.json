@@ -1,6 +1,6 @@
 {
   "_version": 1,
-  "_updatedAt": "2026-05-10T01:55:12.271Z",
+  "_updatedAt": "2026-05-10T04:55:30.073Z",
   "_totalEntries": 174,
   "entries": [
     {
@@ -9,12 +9,12 @@
       "window": "01-06",
       "windowStart": "2026-05-10T00:00:00.000Z",
       "windowEnd": "2026-05-10T05:00:00.000Z",
-      "capturedAt": "2026-05-10T01:55:12.248Z",
+      "capturedAt": "2026-05-10T04:55:30.048Z",
       "mStar": {
         "total": 4500,
-        "used": 353,
-        "remaining": 4147,
-        "usedPct": 8
+        "used": 552,
+        "remaining": 3948,
+        "usedPct": 12
       },
       "speech": {
         "total": 4000,
