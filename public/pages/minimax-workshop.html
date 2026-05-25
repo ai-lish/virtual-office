@@ -1856,7 +1856,7 @@
             runMusicSynthesis(lyrics);
         });
 
-        async function mmMusic(prompt, lyrics) {
+        async function mmMusic(prompt, lyrics, model) {
             const APIKEY = currentApiKey || (sessionStorage.getItem('minimax_api_key_masked') ? unmaskKey(sessionStorage.getItem('minimax_api_key_masked')) : '');
             if (!APIKEY) throw new Error('No API Key found');
 
@@ -1865,7 +1865,7 @@
                 method: 'POST',
                 headers: { 'Authorization': 'Bearer ' + APIKEY, 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    model: 'music-01',
+                    model: model || 'music-01',
                     prompt: prompt,
                     lyrics: lyrics,
                     audio_setting: { sample_rate: 44100, bitrate: 256000, format: 'mp3' }
@@ -1917,9 +1917,9 @@
             showToast('正傳輸編曲請求，人聲語意 analysis 與合成需要較長時間，請耐心等候...', 'info');
 
             try {
-                lyricsDisplay.innerHTML = '<div class="content-display loading" style="min-height:80px"><span class="spinner hidden h-4 w-4 border-2 border-gray-400/30 border-t-gray-300 rounded-full animate-spin inline-block mr-2 align-middle"></span> 正在提交音樂任務，輪詢生成進度中（最多 60 秒）…</div>';
+                lyricsDisplay.innerHTML = '<div class="content-display loading" style="min-height:80px"><span class="spinner h-4 w-4 border-2 border-gray-400/30 border-t-gray-300 rounded-full animate-spin inline-block mr-2 align-middle"></span> 正在提交音樂任務，輪詢生成進度中（最多 60 秒）…</div>';
 
-                const blob = await mmMusic(musicStyle.value, lyrics);
+                const blob = await mmMusic(musicStyle.value, lyrics, musicModel.value);
 
                 generatedMusicBlob = blob;
 
