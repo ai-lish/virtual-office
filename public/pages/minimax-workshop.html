@@ -7,7 +7,7 @@
     <!-- 🔴 高風險問題 3：配置嚴格的 Content Security Policy (CSP) 內容安全政策。 -->
     <!-- 【技術權衡與安全修復說明】此專案為單一 HTML Standalone 架構，必須使用 inline-script 與 inline-style 以維繫正常的 Tailwind 與 FontAwesome 渲染。 -->
     <!-- 為了徹底修復「未取得音訊 URL 來源」的錯誤，我們將 connect-src 擴充支援 MiniMax CDN 與主網域 (*.minimax.io 與 *.minimaxi.com)，阻斷其他非授權的惡意跨域外發連線。 -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' blob: data:; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src 'self' https://cdnjs.cloudflare.com; connect-src 'self' https://api.minimax.io https://*.minimax.io https://*.minimaxi.com; img-src 'self' blob: data: https://*; media-src 'self' blob: data:;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' blob: data:; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src 'self' https://cdnjs.cloudflare.com; connect-src 'self' https://api.minimax.io https://*.minimax.io https://*.minimaxi.com https://api.minimaxi.chat; img-src 'self' blob: data: https://*; media-src 'self' blob: data:;">
     
     <title>MINIMAX 全功能開發者工作坊</title>
     <!-- Tailwind CSS CDN -->
@@ -1856,36 +1856,71 @@
             runMusicSynthesis(lyrics);
         });
 
+        async function mmMusic(prompt, lyrics) {
+            const APIKEY = currentApiKey || (sessionStorage.getItem('minimax_api_key_masked') ? unmaskKey(sessionStorage.getItem('minimax_api_key_masked')) : '');
+            if (!APIKEY) throw new Error('No API Key found');
+
+            // Step 1: 提交音樂生成任務
+            const submitRes = await fetch('https://api.minimaxi.chat/v1/music_generation', {
+                method: 'POST',
+                headers: { 'Authorization': 'Bearer ' + APIKEY, 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    model: 'music-01',
+                    prompt: prompt,
+                    lyrics: lyrics,
+                    audio_setting: { sample_rate: 44100, bitrate: 256000, format: 'mp3' }
+                })
+            });
+            if (!submitRes.ok) {
+                const err = await submitRes.text();
+                throw new Error(`Music Submit API ${submitRes.status}: ${err.slice(0, 100)}`);
+            }
+            const submitData = await submitRes.json();
+
+            // Step 2: 取得 task_id 或直接返回音頻
+            // MiniMax 可能直接返回音頻或返回 task_id 需輪詢
+            const directAudio = submitData.data?.audio || submitData.audio || submitData.data?.audio_file;
+            if (directAudio) {
+                const bin = atob(directAudio);
+                const arr = new Uint8Array(bin.length);
+                for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+                return new Blob([arr], { type: 'audio/mp3' });
+            }
+
+            const taskId = submitData.task_id || submitData.data?.task_id;
+            if (!taskId) throw new Error('Music API 未返回 task_id');
+
+            // Step 3: 輪詢 60 秒
+            for (let attempt = 0; attempt < 20; attempt++) {
+                await new Promise(r => setTimeout(r, 3000));
+                const pollRes = await fetch(`https://api.minimaxi.chat/v1/music_generation/${taskId}`, {
+                    headers: { 'Authorization': 'Bearer ' + APIKEY }
+                });
+                if (!pollRes.ok) continue;
+                const pollData = await pollRes.json();
+                const status = pollData.status || pollData.data?.status;
+                if (status === 'success' || status === 'completed') {
+                    const audioData = pollData.data?.audio || pollData.audio;
+                    if (!audioData) throw new Error('任務完成但未返回音頻');
+                    const bin = atob(audioData);
+                    const arr = new Uint8Array(bin.length);
+                    for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+                    return new Blob([arr], { type: 'audio/mp3' });
+                }
+                if (status === 'failed') throw new Error('音樂生成任務失敗');
+            }
+            throw new Error('音樂生成超時（60 秒），請稍後重試');
+        }
+
         async function runMusicSynthesis(lyrics) {
             setLoadingState(generateMusicBtn, true);
             showToast('正傳輸編曲請求，人聲語意 analysis 與合成需要較長時間，請耐心等候...', 'info');
 
             try {
-                // === [修正] 音樂生成參數優化 ===
-                // 加入 output_format: "url" 參數，以高相容的「先取 JSON 中的 URL -> 再取 Blob 格式」完成連線傳輸
-                const payload = {
-                    model: musicModel.value,
-                    lyrics: lyrics,
-                    prompt: musicStyle.value,
-                    output_format: "url"
-                };
+                lyricsDisplay.innerHTML = '<div class="content-display loading" style="min-height:80px"><span class="spinner hidden h-4 w-4 border-2 border-gray-400/30 border-t-gray-300 rounded-full animate-spin inline-block mr-2 align-middle"></span> 正在提交音樂任務，輪詢生成進度中（最多 60 秒）…</div>';
 
-                const data = await fetchMiniMax('music_generation', payload);
-                const musicUrlFromApi = data?.data?.audio || data?.audio;
-                
-                // [修正] 當發生錯誤導致 url 欄位解析不到時，提供最直觀的偵錯訊息
-                if (!musicUrlFromApi) {
-                    throw new Error(`未取得音樂 URL 來源。API 返迴原始 JSON：${JSON.stringify(data)}`);
-                }
+                const blob = await mmMusic(musicStyle.value, lyrics);
 
-                // [安全連線修補] 透過 fetch 加載音訊 Blob，CORS/CSP 問題防護提示
-                let blob;
-                try {
-                    blob = await fetch(musicUrlFromApi).then(r => r.blob());
-                } catch (fetchErr) {
-                    throw new Error(`下載音樂檔失敗 (可能遭遇 CORS 或 CSP 限制)。下載網址: ${musicUrlFromApi}。報錯: ${fetchErr.message}`);
-                }
-                
                 generatedMusicBlob = blob;
 
                 const musicUrl = URL.createObjectURL(blob);
