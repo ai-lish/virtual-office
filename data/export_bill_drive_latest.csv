@@ -1,0 +1,1029 @@
+Secret key name,Consumed API,Consumed model,Amount spent,Amount After Voucher,Input usage quantity,Output usage quantity,Total usage quantity,Consumption time(UTC),Consumption status
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1105259,0,1105259,2026-04-15 23:00-24:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,13333,0,13333,2026-04-15 23:00-24:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,128561,8566,137127,2026-04-15 23:00-24:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,178244,0,178244,2026-04-15 20:00-21:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,94497,6109,100606,2026-04-15 20:00-21:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,526825,0,526825,2026-04-15 19:00-20:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,39923,0,39923,2026-04-15 19:00-20:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,412117,9513,421630,2026-04-15 19:00-20:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,128384,0,128384,2026-04-15 15:00-16:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,57977,1608,59585,2026-04-15 15:00-16:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,13333,0,13333,2026-04-15 14:00-15:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2168457,0,2168457,2026-04-15 14:00-15:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,649937,43615,693552,2026-04-15 14:00-15:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,3351748,0,3351748,2026-04-15 13:00-14:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1235651,42166,1277817,2026-04-15 13:00-14:00,SUCCESS
+coding_plan,code_plan_resource_package,coding-plan-vlm,0.0000,0.0000,48,0,48,2026-04-15 13:00-14:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,5904568,0,5904568,2026-04-15 12:00-13:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1081548,54463,1136011,2026-04-15 12:00-13:00,SUCCESS
+coding_plan,t2a-v2,speech-2.8-hd,0.0000,0.0000,1114,0,1114,2026-04-15 12:00-13:00,SUCCESS
+coding_plan,image-generation,image-01,0.0000,0.0000,4,0,4,2026-04-15 11:00-12:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,27167,0,27167,2026-04-15 10:00-11:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,700340,0,700340,2026-04-15 10:00-11:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,330049,7693,337742,2026-04-15 10:00-11:00,SUCCESS
+coding_plan,image-generation,image-01,0.0000,0.0000,14,0,14,2026-04-15 10:00-11:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2601304,0,2601304,2026-04-15 09:00-10:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,13333,0,13333,2026-04-15 09:00-10:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,726875,32640,759515,2026-04-15 09:00-10:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,144684,0,144684,2026-04-15 08:00-09:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,74702,2204,76906,2026-04-15 08:00-09:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,4992092,0,4992092,2026-04-15 07:00-08:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1528928,62700,1591628,2026-04-15 07:00-08:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,7527980,0,7527980,2026-04-15 05:00-06:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,948401,51346,999747,2026-04-15 05:00-06:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,67490,0,67490,2026-04-15 04:00-05:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2889917,0,2889917,2026-04-15 04:00-05:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,851959,61975,913934,2026-04-15 04:00-05:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,52756,0,52756,2026-04-15 03:00-04:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,10403178,0,10403178,2026-04-15 03:00-04:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,2116432,83701,2200133,2026-04-15 03:00-04:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,3964899,0,3964899,2026-04-15 02:00-03:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,52789,0,52789,2026-04-15 02:00-03:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1174128,64447,1238575,2026-04-15 02:00-03:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,64456,0,64456,2026-04-15 01:00-02:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1248142,0,1248142,2026-04-15 01:00-02:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,309866,25373,335239,2026-04-15 01:00-02:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,523313,0,523313,2026-04-15 00:00-01:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,52989,0,52989,2026-04-15 00:00-01:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,12575,12410,24985,2026-04-15 00:00-01:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,63942,0,63942,2026-04-14 23:00-24:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,797501,0,797501,2026-04-14 23:00-24:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,187729,78747,266476,2026-04-14 23:00-24:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1452215,0,1452215,2026-04-14 22:00-23:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,53131,0,53131,2026-04-14 22:00-23:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,193935,20385,214320,2026-04-14 22:00-23:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,405396,0,405396,2026-04-14 21:00-22:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,52407,0,52407,2026-04-14 21:00-22:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,240,11035,11275,2026-04-14 21:00-22:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,52074,0,52074,2026-04-14 20:00-21:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,476147,0,476147,2026-04-14 20:00-21:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,39766,12934,52700,2026-04-14 20:00-21:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,143041,0,143041,2026-04-14 19:00-20:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,822903,0,822903,2026-04-14 19:00-20:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,38269,19451,57720,2026-04-14 19:00-20:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,5601762,0,5601762,2026-04-14 17:00-18:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,592426,47541,639967,2026-04-14 17:00-18:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2064264,0,2064264,2026-04-14 16:00-17:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,185967,5506,191473,2026-04-14 16:00-17:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,250667,0,250667,2026-04-14 15:00-16:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,13352,0,13352,2026-04-14 15:00-16:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,231034,2640,233674,2026-04-14 15:00-16:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,27200,0,27200,2026-04-14 14:00-15:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,13397,266,13663,2026-04-14 14:00-15:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,37622,0,37622,2026-04-14 11:00-12:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,19930,307,20237,2026-04-14 11:00-12:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,53080,0,53080,2026-04-14 10:00-11:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,13413,0,13413,2026-04-14 10:00-11:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,96506,1204,97710,2026-04-14 10:00-11:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,13984,0,13984,2026-04-14 09:00-10:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,12976,158,13134,2026-04-14 09:00-10:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,502576,0,502576,2026-04-14 08:00-09:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,457536,4178,461714,2026-04-14 08:00-09:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,12176723,0,12176723,2026-04-14 06:00-07:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,7405,0,7405,2026-04-14 06:00-07:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1900758,45147,1945905,2026-04-14 06:00-07:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,73906,0,73906,2026-04-14 05:00-06:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,4231115,0,4231115,2026-04-14 05:00-06:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,787238,39879,827117,2026-04-14 05:00-06:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,523719,0,523719,2026-04-14 04:00-05:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,52308,0,52308,2026-04-14 04:00-05:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,34538,9573,44111,2026-04-14 04:00-05:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,661082,0,661082,2026-04-14 03:00-04:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,71706,0,71706,2026-04-14 03:00-04:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,56850,11743,68593,2026-04-14 03:00-04:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,533108,0,533108,2026-04-14 02:00-03:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,53126,0,53126,2026-04-14 02:00-03:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,42811,9817,52628,2026-04-14 02:00-03:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,52179,0,52179,2026-04-14 01:00-02:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,464540,0,464540,2026-04-14 01:00-02:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,3435,9736,13171,2026-04-14 01:00-02:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,524000,0,524000,2026-04-14 00:00-01:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,66222,0,66222,2026-04-14 00:00-01:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,118308,10752,129060,2026-04-14 00:00-01:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,432392,0,432392,2026-04-13 23:00-24:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,53319,0,53319,2026-04-13 23:00-24:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,33893,9833,43726,2026-04-13 23:00-24:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,454788,0,454788,2026-04-13 22:00-23:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,53410,0,53410,2026-04-13 22:00-23:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,5265,10455,15720,2026-04-13 22:00-23:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,400266,0,400266,2026-04-13 21:00-22:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,53326,0,53326,2026-04-13 21:00-22:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,240,9291,9531,2026-04-13 21:00-22:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,647104,0,647104,2026-04-13 20:00-21:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,52694,0,52694,2026-04-13 20:00-21:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,70563,18119,88682,2026-04-13 20:00-21:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,970367,0,970367,2026-04-13 19:00-20:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,90791,0,90791,2026-04-13 19:00-20:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,356249,21286,377535,2026-04-13 19:00-20:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,198686,0,198686,2026-04-13 15:00-16:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,13352,0,13352,2026-04-13 15:00-16:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,284426,3239,287665,2026-04-13 15:00-16:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,8124255,0,8124255,2026-04-13 14:00-15:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,20042,0,20042,2026-04-13 14:00-15:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1713919,149943,1863862,2026-04-13 14:00-15:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,4881427,0,4881427,2026-04-13 13:00-14:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,51420,0,51420,2026-04-13 13:00-14:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1641647,66243,1707890,2026-04-13 13:00-14:00,SUCCESS
+coding_plan,code_plan_resource_package,coding-plan-vlm,0.0000,0.0000,74,0,74,2026-04-13 13:00-14:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1080056,0,1080056,2026-04-13 12:00-13:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,51854,0,51854,2026-04-13 12:00-13:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,241098,15279,256377,2026-04-13 12:00-13:00,SUCCESS
+coding_plan,code_plan_resource_package,coding-plan-vlm,0.0000,0.0000,3,0,3,2026-04-13 12:00-13:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,4322584,0,4322584,2026-04-13 11:00-12:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,50600,0,50600,2026-04-13 11:00-12:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,802554,78167,880721,2026-04-13 11:00-12:00,SUCCESS
+coding_plan,code_plan_resource_package,coding-plan-vlm,0.0000,0.0000,4,0,4,2026-04-13 11:00-12:00,SUCCESS
+coding_plan,code_plan_resource_package,coding-plan-search,0.0000,0.0000,6,0,6,2026-04-13 11:00-12:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,453254,0,453254,2026-04-13 10:00-11:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,61883,0,61883,2026-04-13 10:00-11:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,69432,60136,129568,2026-04-13 10:00-11:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,804686,0,804686,2026-04-13 09:00-10:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,24142,0,24142,2026-04-13 09:00-10:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,160141,23286,183427,2026-04-13 09:00-10:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,11858,0,11858,2026-04-13 08:00-09:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1754626,0,1754626,2026-04-13 08:00-09:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,287644,30181,317825,2026-04-13 08:00-09:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,4300954,0,4300954,2026-04-13 07:00-08:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,32867,0,32867,2026-04-13 07:00-08:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,910462,56165,966627,2026-04-13 07:00-08:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,3465759,0,3465759,2026-04-13 06:00-07:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,30838,0,30838,2026-04-13 06:00-07:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,2550241,55844,2606085,2026-04-13 06:00-07:00,SUCCESS
+coding_plan,code_plan_resource_package,coding-plan-search,0.0000,0.0000,1,0,1,2026-04-13 06:00-07:00,SUCCESS
+coding_plan,code_plan_resource_package,coding-plan-vlm,0.0000,0.0000,1,0,1,2026-04-13 06:00-07:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,3259344,0,3259344,2026-04-13 05:00-06:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,50988,0,50988,2026-04-13 05:00-06:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,300272,35057,335329,2026-04-13 05:00-06:00,SUCCESS
+coding_plan,code_plan_resource_package,coding-plan-vlm,0.0000,0.0000,1,0,1,2026-04-13 05:00-06:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,60370,0,60370,2026-04-13 04:00-05:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2797118,0,2797118,2026-04-13 04:00-05:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,242110,25209,267319,2026-04-13 04:00-05:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,768726,0,768726,2026-04-13 03:00-04:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,51399,0,51399,2026-04-13 03:00-04:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,78914,12595,91509,2026-04-13 03:00-04:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,51438,0,51438,2026-04-13 02:00-03:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2274398,0,2274398,2026-04-13 02:00-03:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,216424,23929,240353,2026-04-13 02:00-03:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1498781,0,1498781,2026-04-13 01:00-02:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,64118,0,64118,2026-04-13 01:00-02:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,181823,22650,204473,2026-04-13 01:00-02:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,470502,0,470502,2026-04-13 00:00-01:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,49267,0,49267,2026-04-13 00:00-01:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,15587,9230,24817,2026-04-13 00:00-01:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,49646,0,49646,2026-04-12 23:00-24:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,3378041,0,3378041,2026-04-12 23:00-24:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,268899,16632,285531,2026-04-12 23:00-24:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2424041,0,2424041,2026-04-12 22:00-23:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,50289,0,50289,2026-04-12 22:00-23:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,286942,14747,301689,2026-04-12 22:00-23:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,433742,0,433742,2026-04-12 21:00-22:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,50096,0,50096,2026-04-12 21:00-22:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,3412,10161,13573,2026-04-12 21:00-22:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,487306,0,487306,2026-04-12 20:00-21:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,48703,0,48703,2026-04-12 20:00-21:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,58337,12783,71120,2026-04-12 20:00-21:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,877878,0,877878,2026-04-12 19:00-20:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,84925,0,84925,2026-04-12 19:00-20:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,250246,23932,274178,2026-04-12 19:00-20:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,13226,0,13226,2026-04-12 15:00-16:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,52268,0,52268,2026-04-12 15:00-16:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,14572,1031,15603,2026-04-12 15:00-16:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,3852785,0,3852785,2026-04-12 14:00-15:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,23270,0,23270,2026-04-12 14:00-15:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,501951,13233,515184,2026-04-12 14:00-15:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,13113962,0,13113962,2026-04-12 13:00-14:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1555,0,1555,2026-04-12 13:00-14:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1980667,75157,2055824,2026-04-12 13:00-14:00,SUCCESS
+coding_plan,code_plan_resource_package,coding-plan-vlm,0.0000,0.0000,12,0,12,2026-04-12 13:00-14:00,SUCCESS
+coding_plan,image-generation,image-01,0.0000,0.0000,8,0,8,2026-04-12 13:00-14:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,11183045,0,11183045,2026-04-12 12:00-13:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,293861,0,293861,2026-04-12 12:00-13:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,3101814,76039,3177853,2026-04-12 12:00-13:00,SUCCESS
+coding_plan,image-generation,image-01,0.0000,0.0000,42,0,42,2026-04-12 12:00-13:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,19309,0,19309,2026-04-12 11:00-12:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,3999124,0,3999124,2026-04-12 11:00-12:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1109210,329518,1438728,2026-04-12 11:00-12:00,SUCCESS
+coding_plan,code_plan_resource_package,coding-plan-vlm,0.0000,0.0000,25,0,25,2026-04-12 11:00-12:00,SUCCESS
+coding_plan,generate_music-new,music-2.6,0.0000,0.0000,1,0,1,2026-04-12 11:00-12:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,4403681,0,4403681,2026-04-12 10:00-11:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,299802,0,299802,2026-04-12 10:00-11:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1903230,201534,2104764,2026-04-12 10:00-11:00,SUCCESS
+coding_plan,code_plan_resource_package,coding-plan-vlm,0.0000,0.0000,33,0,33,2026-04-12 10:00-11:00,SUCCESS
+coding_plan,generate_lyrics,lyrics_generation,0.0000,0.0000,1,0,1,2026-04-12 10:00-11:00,SUCCESS
+coding_plan,generate_music-new,music-2.6,0.0000,0.0000,1,0,1,2026-04-12 10:00-11:00,SUCCESS
+coding_plan,t2a-v2,speech-2.8-hd,0.0000,0.0000,3946,0,3946,2026-04-12 10:00-11:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,5395283,0,5395283,2026-04-12 09:00-10:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,327207,0,327207,2026-04-12 09:00-10:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1994335,195642,2189977,2026-04-12 09:00-10:00,SUCCESS
+coding_plan,code_plan_resource_package,coding-plan-vlm,0.0000,0.0000,53,0,53,2026-04-12 09:00-10:00,SUCCESS
+coding_plan,generate_lyrics,lyrics_generation,0.0000,0.0000,2,0,2,2026-04-12 09:00-10:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,4107973,0,4107973,2026-04-12 08:00-09:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,27808,0,27808,2026-04-12 08:00-09:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1113129,40922,1154051,2026-04-12 08:00-09:00,SUCCESS
+coding_plan,code_plan_resource_package,coding-plan-vlm,0.0000,0.0000,14,0,14,2026-04-12 08:00-09:00,SUCCESS
+coding_plan,generate_music-new,music-2.6,0.0000,0.0000,2,0,2,2026-04-12 08:00-09:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,95088,0,95088,2026-04-12 07:00-08:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1920430,0,1920430,2026-04-12 07:00-08:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,399682,24006,423688,2026-04-12 07:00-08:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,5510022,0,5510022,2026-04-12 06:00-07:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,28204,0,28204,2026-04-12 06:00-07:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1953045,99274,2052319,2026-04-12 06:00-07:00,SUCCESS
+coding_plan,code_plan_resource_package,coding-plan-vlm,0.0000,0.0000,21,0,21,2026-04-12 06:00-07:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,140486,0,140486,2026-04-12 05:00-06:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,3173659,0,3173659,2026-04-12 05:00-06:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2,0.0000,0.0000,49,39,88,2026-04-12 05:00-06:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1680643,48494,1729137,2026-04-12 05:00-06:00,SUCCESS
+coding_plan,code_plan_resource_package,coding-plan-vlm,0.0000,0.0000,57,0,57,2026-04-12 05:00-06:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1482130,0,1482130,2026-04-12 04:00-05:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,306395,5678,312073,2026-04-12 04:00-05:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,4129915,0,4129915,2026-04-12 03:00-04:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,142744,0,142744,2026-04-12 03:00-04:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1392041,41988,1434029,2026-04-12 03:00-04:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,3854634,0,3854634,2026-04-12 02:00-03:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,60039,0,60039,2026-04-12 02:00-03:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1147732,33369,1181101,2026-04-12 02:00-03:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,74493,0,74493,2026-04-12 01:00-02:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,5607861,0,5607861,2026-04-12 01:00-02:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,913353,44624,957977,2026-04-12 01:00-02:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2435983,0,2435983,2026-04-12 00:00-01:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,132057,0,132057,2026-04-12 00:00-01:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,841725,32491,874216,2026-04-12 00:00-01:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,45844,0,45844,2026-04-11 23:00-24:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,444852,0,444852,2026-04-11 23:00-24:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,36581,9160,45741,2026-04-11 23:00-24:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,429824,0,429824,2026-04-11 22:00-23:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,46760,0,46760,2026-04-11 22:00-23:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,25194,10122,35316,2026-04-11 22:00-23:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,46249,0,46249,2026-04-11 21:00-22:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,448152,0,448152,2026-04-11 21:00-22:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,17498,9360,26858,2026-04-11 21:00-22:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,45317,0,45317,2026-04-11 20:00-21:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,570667,0,570667,2026-04-11 20:00-21:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,70818,12555,83373,2026-04-11 20:00-21:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,423796,0,423796,2026-04-11 19:00-20:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1616627,0,1616627,2026-04-11 19:00-20:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,673443,32697,706140,2026-04-11 19:00-20:00,SUCCESS
+coding_plan,code_plan_resource_package,coding-plan-vlm,0.0000,0.0000,17,0,17,2026-04-11 19:00-20:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,606712,0,606712,2026-04-11 18:00-19:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2656501,0,2656501,2026-04-11 18:00-19:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1799549,29242,1828791,2026-04-11 18:00-19:00,SUCCESS
+coding_plan,code_plan_resource_package,coding-plan-vlm,0.0000,0.0000,115,0,115,2026-04-11 18:00-19:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1295339,0,1295339,2026-04-11 17:00-18:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,9929503,0,9929503,2026-04-11 17:00-18:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,6754162,54585,6808747,2026-04-11 17:00-18:00,SUCCESS
+coding_plan,code_plan_resource_package,coding-plan-vlm,0.0000,0.0000,90,0,90,2026-04-11 17:00-18:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1086588,0,1086588,2026-04-11 16:00-17:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,7136822,0,7136822,2026-04-11 16:00-17:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,5071186,55091,5126277,2026-04-11 16:00-17:00,SUCCESS
+coding_plan,code_plan_resource_package,coding-plan-vlm,0.0000,0.0000,153,0,153,2026-04-11 16:00-17:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,7061179,0,7061179,2026-04-11 15:00-16:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,326520,0,326520,2026-04-11 15:00-16:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,6121528,44416,6165944,2026-04-11 15:00-16:00,SUCCESS
+coding_plan,code_plan_resource_package,coding-plan-vlm,0.0000,0.0000,13,0,13,2026-04-11 15:00-16:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,93487,0,93487,2026-04-11 14:00-15:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,7414064,0,7414064,2026-04-11 14:00-15:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,2089679,38105,2127784,2026-04-11 14:00-15:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,879099,0,879099,2026-04-11 13:00-14:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,5529701,0,5529701,2026-04-11 13:00-14:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2,0.0000,0.0000,83,132,215,2026-04-11 13:00-14:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,12734570,48394,12782964,2026-04-11 13:00-14:00,SUCCESS
+coding_plan,image-generation,image-01,0.0000,0.0000,32,0,32,2026-04-11 13:00-14:00,SUCCESS
+coding_plan,t2a-v2,speech-2.8-hd,0.0000,0.0000,972,0,972,2026-04-11 13:00-14:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,791704,0,791704,2026-04-11 12:00-13:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,15074013,0,15074013,2026-04-11 12:00-13:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,14445417,47108,14492525,2026-04-11 12:00-13:00,SUCCESS
+coding_plan,image-generation,image-01,0.0000,0.0000,6,0,6,2026-04-11 12:00-13:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1675064,0,1675064,2026-04-11 11:00-12:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,15711561,0,15711561,2026-04-11 11:00-12:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,31285393,151693,31437086,2026-04-11 11:00-12:00,SUCCESS
+coding_plan,t2a-v2,speech-2.8-hd,0.0000,0.0000,3025,0,3025,2026-04-11 11:00-12:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,892064,0,892064,2026-04-11 10:00-11:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,6370473,0,6370473,2026-04-11 10:00-11:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,9153319,57175,9210494,2026-04-11 10:00-11:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,161402,0,161402,2026-04-11 09:00-10:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1962273,0,1962273,2026-04-11 09:00-10:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,559751,9401,569152,2026-04-11 09:00-10:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,296139,0,296139,2026-04-11 07:00-08:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,161053,0,161053,2026-04-11 07:00-08:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,239105,3185,242290,2026-04-11 07:00-08:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,3814296,0,3814296,2026-04-11 06:00-07:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,160253,0,160253,2026-04-11 06:00-07:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1243659,17258,1260917,2026-04-11 06:00-07:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,299507,0,299507,2026-04-11 05:00-06:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2807008,0,2807008,2026-04-11 05:00-06:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,2209502,14212,2223714,2026-04-11 05:00-06:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1359363,0,1359363,2026-04-11 04:00-05:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,316609,0,316609,2026-04-11 04:00-05:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,2141377,11551,2152928,2026-04-11 04:00-05:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,625152,0,625152,2026-04-11 02:00-03:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,242176,856,243032,2026-04-11 02:00-03:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,97088,0,97088,2026-04-11 01:00-02:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,191619,555,192174,2026-04-11 01:00-02:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,434298,0,434298,2026-04-11 00:00-01:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,6499397,0,6499397,2026-04-11 00:00-01:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,4762641,44312,4806953,2026-04-11 00:00-01:00,SUCCESS
+coding_plan,generate_music-new,music-2.6,0.0000,0.0000,1,0,1,2026-04-11 00:00-01:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,13041,0,13041,2026-04-10 23:00-24:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,12903,0,12903,2026-04-10 23:00-24:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,401,168,569,2026-04-10 23:00-24:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,38727,0,38727,2026-04-10 20:00-21:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,13378,0,13378,2026-04-10 20:00-21:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,2865,376,3241,2026-04-10 20:00-21:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,141398,0,141398,2026-04-10 19:00-20:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,39842,0,39842,2026-04-10 19:00-20:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,23816,3784,27600,2026-04-10 19:00-20:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,156822,0,156822,2026-04-10 14:00-15:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,233376,0,233376,2026-04-10 14:00-15:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,624343,1919,626262,2026-04-10 14:00-15:00,SUCCESS
+coding_plan,generate_lyrics,lyrics_generation,0.0000,0.0000,1,0,1,2026-04-10 14:00-15:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,639291,0,639291,2026-04-10 13:00-14:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,12572059,0,12572059,2026-04-10 13:00-14:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,4401568,53227,4454795,2026-04-10 13:00-14:00,SUCCESS
+coding_plan,generate_lyrics,lyrics_generation,0.0000,0.0000,4,0,4,2026-04-10 13:00-14:00,SUCCESS
+coding_plan,generate_music-new,music-2.6,0.0000,0.0000,3,0,3,2026-04-10 13:00-14:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,946923,0,946923,2026-04-10 12:00-13:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2166032,0,2166032,2026-04-10 12:00-13:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,5610725,15682,5626407,2026-04-10 12:00-13:00,SUCCESS
+coding_plan,generate_music-new,music-2.6,0.0000,0.0000,5,0,5,2026-04-10 12:00-13:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,6961228,0,6961228,2026-04-10 11:00-12:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,2153534,0,2153534,2026-04-10 11:00-12:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,16573833,49681,16623514,2026-04-10 11:00-12:00,SUCCESS
+coding_plan,generate_music-new,music-2.6,0.0000,0.0000,6,0,6,2026-04-10 11:00-12:00,SUCCESS
+coding_plan,t2a-v2,speech-2.8-hd,0.0000,0.0000,1,0,1,2026-04-10 11:00-12:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,7277411,0,7277411,2026-04-10 10:00-11:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,842033,0,842033,2026-04-10 10:00-11:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,5514340,46153,5560493,2026-04-10 10:00-11:00,SUCCESS
+coding_plan,generate_music-new,music-2.6,0.0000,0.0000,1,0,1,2026-04-10 10:00-11:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,270895,0,270895,2026-04-10 06:00-07:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,114664,0,114664,2026-04-10 06:00-07:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1822890,8633,1831523,2026-04-10 06:00-07:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,145319,0,145319,2026-04-10 05:00-06:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,128536,0,128536,2026-04-10 05:00-06:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,809588,2895,812483,2026-04-10 05:00-06:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,956996,0,956996,2026-04-10 04:00-05:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,336013,0,336013,2026-04-10 04:00-05:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,2507998,35612,2543610,2026-04-10 04:00-05:00,SUCCESS
+coding_plan,generate_music-new,music-2.6,0.0000,0.0000,5,0,5,2026-04-10 04:00-05:00,SUCCESS
+coding_plan,t2a-v2,speech-2.8-hd,0.0000,0.0000,3403,0,3403,2026-04-10 04:00-05:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,3332965,0,3332965,2026-04-10 03:00-04:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,866624,0,866624,2026-04-10 03:00-04:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,7046152,77319,7123471,2026-04-10 03:00-04:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,111545,0,111545,2026-04-10 02:00-03:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,270976,0,270976,2026-04-10 02:00-03:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,768051,1694,769745,2026-04-10 02:00-03:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,510625,0,510625,2026-04-10 01:00-02:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1558263,0,1558263,2026-04-10 01:00-02:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,4896424,25324,4921748,2026-04-10 01:00-02:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1390778,0,1390778,2026-04-10 00:00-01:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,3530609,0,3530609,2026-04-10 00:00-01:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,10399030,42434,10441464,2026-04-10 00:00-01:00,SUCCESS
+coding_plan,t2a-v2,speech-2.8-hd,0.0000,0.0000,596,0,596,2026-04-10 00:00-01:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,634287,0,634287,2026-04-09 23:00-24:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,440722,0,440722,2026-04-09 23:00-24:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,280229,6361,286590,2026-04-09 23:00-24:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,542178,0,542178,2026-04-09 20:00-21:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,13378,0,13378,2026-04-09 20:00-21:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,844419,14446,858865,2026-04-09 20:00-21:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,126503,0,126503,2026-04-09 19:00-20:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,13041,0,13041,2026-04-09 19:00-20:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,33311,3477,36788,2026-04-09 19:00-20:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,429402,0,429402,2026-04-09 16:00-17:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,15233,0,15233,2026-04-09 16:00-17:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1391303,9992,1401295,2026-04-09 16:00-17:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1047180,0,1047180,2026-04-09 15:00-16:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,431759,0,431759,2026-04-09 15:00-16:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,5356124,42877,5399001,2026-04-09 15:00-16:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,4562643,0,4562643,2026-04-09 14:00-15:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,7890274,0,7890274,2026-04-09 14:00-15:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,12100519,151052,12251571,2026-04-09 14:00-15:00,SUCCESS
+coding_plan,image-generation,image-01,0.0000,0.0000,31,0,31,2026-04-09 14:00-15:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,7318027,0,7318027,2026-04-09 13:00-14:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1606703,0,1606703,2026-04-09 13:00-14:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,10628895,118588,10747483,2026-04-09 13:00-14:00,SUCCESS
+coding_plan,image-generation,image-01,0.0000,0.0000,19,0,19,2026-04-09 13:00-14:00,SUCCESS
+coding_plan,t2a-v2,speech-2.8-hd,0.0000,0.0000,3854,0,3854,2026-04-09 13:00-14:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,727281,0,727281,2026-04-09 12:00-13:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2972176,0,2972176,2026-04-09 12:00-13:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1492671,38445,1531116,2026-04-09 12:00-13:00,SUCCESS
+coding_plan,t2a-v2,speech-2.8-hd,0.0000,0.0000,140,0,140,2026-04-09 12:00-13:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1101253,0,1101253,2026-04-09 11:00-12:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1142840,0,1142840,2026-04-09 11:00-12:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,3961328,30077,3991405,2026-04-09 11:00-12:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1440209,0,1440209,2026-04-09 10:00-11:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,627399,0,627399,2026-04-09 10:00-11:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,2405548,23106,2428654,2026-04-09 10:00-11:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,603324,0,603324,2026-04-09 09:00-10:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,112555,0,112555,2026-04-09 09:00-10:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1006761,18555,1025316,2026-04-09 09:00-10:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,30720,0,30720,2026-04-09 08:00-09:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,47869,0,47869,2026-04-09 08:00-09:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,68256,5469,73725,2026-04-09 08:00-09:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,574236,0,574236,2026-04-09 07:00-08:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,99625,0,99625,2026-04-09 07:00-08:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,938020,8734,946754,2026-04-09 07:00-08:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,258558,0,258558,2026-04-09 06:00-07:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,164710,0,164710,2026-04-09 06:00-07:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,349088,10938,360026,2026-04-09 06:00-07:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,336144,0,336144,2026-04-09 05:00-06:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,160270,0,160270,2026-04-09 05:00-06:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,298643,12298,310941,2026-04-09 05:00-06:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,15297,0,15297,2026-04-09 04:00-05:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2905377,0,2905377,2026-04-09 04:00-05:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,486449,22581,509030,2026-04-09 04:00-05:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2036821,0,2036821,2026-04-09 03:00-04:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,217095,0,217095,2026-04-09 03:00-04:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1750149,16519,1766668,2026-04-09 03:00-04:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,175285,0,175285,2026-04-09 02:00-03:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,155299,0,155299,2026-04-09 02:00-03:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1581057,1437,1582494,2026-04-09 02:00-03:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,239025,0,239025,2026-04-09 00:00-01:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,344233,0,344233,2026-04-09 00:00-01:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,2340383,7008,2347391,2026-04-09 00:00-01:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,13632,0,13632,2026-04-08 23:00-24:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,12682,251,12933,2026-04-08 23:00-24:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,13378,0,13378,2026-04-08 20:00-21:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,193635,0,193635,2026-04-08 20:00-21:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,201821,6694,208515,2026-04-08 20:00-21:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,29444,0,29444,2026-04-08 19:00-20:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,342251,0,342251,2026-04-08 19:00-20:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,43197,4943,48140,2026-04-08 19:00-20:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,654245,0,654245,2026-04-08 17:00-18:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1588208,0,1588208,2026-04-08 17:00-18:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,6489232,14848,6504080,2026-04-08 17:00-18:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,3327083,0,3327083,2026-04-08 16:00-17:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1590994,0,1590994,2026-04-08 16:00-17:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,6769341,45532,6814873,2026-04-08 16:00-17:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1004655,0,1004655,2026-04-08 15:00-16:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,8924055,0,8924055,2026-04-08 15:00-16:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,7644283,57849,7702132,2026-04-08 15:00-16:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,7811383,0,7811383,2026-04-08 14:00-15:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1048825,0,1048825,2026-04-08 14:00-15:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,10679196,100221,10779417,2026-04-08 14:00-15:00,SUCCESS
+coding_plan,image-generation,image-01,0.0000,0.0000,36,0,36,2026-04-08 14:00-15:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,12782598,0,12782598,2026-04-08 13:00-14:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1969339,0,1969339,2026-04-08 13:00-14:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,16319774,173922,16493696,2026-04-08 13:00-14:00,SUCCESS
+coding_plan,image-generation,image-01,0.0000,0.0000,2,0,2,2026-04-08 13:00-14:00,SUCCESS
+coding_plan,t2a-v2,speech-2.8-hd,0.0000,0.0000,2005,0,2005,2026-04-08 13:00-14:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,470854,0,470854,2026-04-08 12:00-13:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,9327322,0,9327322,2026-04-08 12:00-13:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,2249178,82817,2331995,2026-04-08 12:00-13:00,SUCCESS
+coding_plan,image-generation,image-01,0.0000,0.0000,12,0,12,2026-04-08 12:00-13:00,SUCCESS
+coding_plan,t2a-v2,speech-2.8-hd,0.0000,0.0000,2011,0,2011,2026-04-08 12:00-13:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,84616,0,84616,2026-04-08 11:00-12:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,450196,0,450196,2026-04-08 11:00-12:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,233051,5129,238180,2026-04-08 11:00-12:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,290888,0,290888,2026-04-08 10:00-11:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,557037,0,557037,2026-04-08 10:00-11:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1014004,4751,1018755,2026-04-08 10:00-11:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,64443,0,64443,2026-04-08 08:00-09:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,229599,0,229599,2026-04-08 08:00-09:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,197381,4366,201747,2026-04-08 08:00-09:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,231732,0,231732,2026-04-08 06:00-07:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,436321,0,436321,2026-04-08 06:00-07:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,2238389,4998,2243387,2026-04-08 06:00-07:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,4975378,0,4975378,2026-04-08 05:00-06:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1878801,0,1878801,2026-04-08 05:00-06:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,10306550,71683,10378233,2026-04-08 05:00-06:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,632316,0,632316,2026-04-08 04:00-05:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2225647,0,2225647,2026-04-08 04:00-05:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,4657149,33907,4691056,2026-04-08 04:00-05:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,549137,0,549137,2026-04-08 03:00-04:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,839308,0,839308,2026-04-08 03:00-04:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,2885258,20114,2905372,2026-04-08 03:00-04:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,796051,0,796051,2026-04-08 02:00-03:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1537718,0,1537718,2026-04-08 02:00-03:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,4695984,16948,4712932,2026-04-08 02:00-03:00,SUCCESS
+coding_plan,image-generation,image-01,0.0000,0.0000,1,0,1,2026-04-08 02:00-03:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2170182,0,2170182,2026-04-08 01:00-02:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,998199,0,998199,2026-04-08 01:00-02:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,2838420,23323,2861743,2026-04-08 01:00-02:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1969455,0,1969455,2026-04-08 00:00-01:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,824273,0,824273,2026-04-08 00:00-01:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,6649501,49105,6698606,2026-04-08 00:00-01:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,13632,0,13632,2026-04-07 23:00-24:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,12689,169,12858,2026-04-07 23:00-24:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,675008,0,675008,2026-04-07 21:00-22:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,332591,1872,334463,2026-04-07 21:00-22:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1008582,0,1008582,2026-04-07 20:00-21:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,271390,0,271390,2026-04-07 20:00-21:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,2342269,13778,2356047,2026-04-07 20:00-21:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,751498,0,751498,2026-04-07 19:00-20:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1486657,0,1486657,2026-04-07 19:00-20:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,2708749,19002,2727751,2026-04-07 19:00-20:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,181151,0,181151,2026-04-07 18:00-19:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1023964,0,1023964,2026-04-07 18:00-19:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,551340,21421,572761,2026-04-07 18:00-19:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1761791,0,1761791,2026-04-07 17:00-18:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,408279,0,408279,2026-04-07 17:00-18:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,4765521,67200,4832721,2026-04-07 17:00-18:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,3394416,0,3394416,2026-04-07 16:00-17:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1938543,0,1938543,2026-04-07 16:00-17:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,11449309,91585,11540894,2026-04-07 16:00-17:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,334956,0,334956,2026-04-07 15:00-16:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,194428,0,194428,2026-04-07 15:00-16:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,943231,17754,960985,2026-04-07 15:00-16:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1462816,0,1462816,2026-04-07 14:00-15:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1071708,0,1071708,2026-04-07 14:00-15:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,7973417,24993,7998410,2026-04-07 14:00-15:00,SUCCESS
+coding_plan,image-generation,image-01,0.0000,0.0000,16,0,16,2026-04-07 14:00-15:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1117255,0,1117255,2026-04-07 13:00-14:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2690719,0,2690719,2026-04-07 13:00-14:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,12976285,32855,13009140,2026-04-07 13:00-14:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,3607791,0,3607791,2026-04-07 12:00-13:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,623062,0,623062,2026-04-07 12:00-13:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,6426342,30404,6456746,2026-04-07 12:00-13:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2109778,0,2109778,2026-04-07 11:00-12:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,375652,0,375652,2026-04-07 11:00-12:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1795984,23860,1819844,2026-04-07 11:00-12:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1754464,0,1754464,2026-04-07 10:00-11:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,97315,0,97315,2026-04-07 10:00-11:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,232495,9708,242203,2026-04-07 10:00-11:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2508594,0,2508594,2026-04-07 09:00-10:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,337433,0,337433,2026-04-07 09:00-10:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,3350823,25918,3376741,2026-04-07 09:00-10:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,203639,0,203639,2026-04-07 08:00-09:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2042725,0,2042725,2026-04-07 08:00-09:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1188351,19654,1208005,2026-04-07 08:00-09:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,3155148,0,3155148,2026-04-07 07:00-08:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,407355,0,407355,2026-04-07 07:00-08:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0027,0.0027,2177326,56983,2234309,2026-04-07 07:00-08:00,SUCCESS
+coding_plan,image-generation,image-01,0.0000,0.0000,15,0,15,2026-04-07 07:00-08:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,3887785,0,3887785,2026-04-07 06:00-07:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1805771,0,1805771,2026-04-07 06:00-07:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,11169503,54508,11224011,2026-04-07 06:00-07:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,917197,0,917197,2026-04-07 05:00-06:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,689322,0,689322,2026-04-07 05:00-06:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,5196572,12579,5209151,2026-04-07 05:00-06:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2289228,0,2289228,2026-04-07 04:00-05:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1854140,0,1854140,2026-04-07 04:00-05:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,10029947,35270,10065217,2026-04-07 04:00-05:00,SUCCESS
+coding_plan,image-generation,image-01,0.0000,0.0000,6,0,6,2026-04-07 04:00-05:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1241361,0,1241361,2026-04-07 03:00-04:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,4467555,0,4467555,2026-04-07 03:00-04:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,12253349,101918,12355267,2026-04-07 03:00-04:00,SUCCESS
+coding_plan,image-generation,image-01,0.0000,0.0000,14,0,14,2026-04-07 03:00-04:00,SUCCESS
+coding_plan,t2a-v2,speech-2.8-hd,0.0000,0.0000,4,0,4,2026-04-07 03:00-04:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,699528,0,699528,2026-04-07 02:00-03:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,190662,0,190662,2026-04-07 02:00-03:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1104583,13772,1118355,2026-04-07 02:00-03:00,SUCCESS
+coding_plan,t2a-v2,speech-2.8-hd,0.0000,0.0000,3994,0,3994,2026-04-07 02:00-03:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,473827,0,473827,2026-04-07 01:00-02:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,4336887,0,4336887,2026-04-07 01:00-02:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,6953135,83188,7036323,2026-04-07 01:00-02:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1326036,0,1326036,2026-04-07 00:00-01:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,20960,0,20960,2026-04-07 00:00-01:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,245780,10644,256424,2026-04-07 00:00-01:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,12921,0,12921,2026-04-06 23:00-24:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,294383,0,294383,2026-04-06 23:00-24:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,188785,1482,190267,2026-04-06 23:00-24:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,279360,0,279360,2026-04-06 22:00-23:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,186816,837,187653,2026-04-06 22:00-23:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,92672,0,92672,2026-04-06 21:00-22:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,185571,368,185939,2026-04-06 21:00-22:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,92672,0,92672,2026-04-06 20:00-21:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,185083,307,185390,2026-04-06 20:00-21:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,12911,0,12911,2026-04-06 19:00-20:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,12921,0,12921,2026-04-06 19:00-20:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,184068,672,184740,2026-04-06 19:00-20:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,128,0,128,2026-04-06 18:00-19:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,180409,367,180776,2026-04-06 18:00-19:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,128,0,128,2026-04-06 17:00-18:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,176328,314,176642,2026-04-06 17:00-18:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,128,0,128,2026-04-06 16:00-17:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,176328,316,176644,2026-04-06 16:00-17:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,583709,0,583709,2026-04-06 15:00-16:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,135264,0,135264,2026-04-06 15:00-16:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,989423,18384,1007807,2026-04-06 15:00-16:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,789677,0,789677,2026-04-06 14:00-15:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1612501,0,1612501,2026-04-06 14:00-15:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,3385274,38105,3423379,2026-04-06 14:00-15:00,SUCCESS
+coding_plan,image-generation,image-01,0.0000,0.0000,1,0,1,2026-04-06 14:00-15:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,90257,0,90257,2026-04-06 13:00-14:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,73000,0,73000,2026-04-06 13:00-14:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,469200,1053,470253,2026-04-06 13:00-14:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1944510,0,1944510,2026-04-06 12:00-13:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,829357,0,829357,2026-04-06 12:00-13:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,5622460,37857,5660317,2026-04-06 12:00-13:00,SUCCESS
+coding_plan,t2a-v2,speech-2.8-hd,0.0000,0.0000,2180,0,2180,2026-04-06 12:00-13:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,2797292,0,2797292,2026-04-06 11:00-12:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,8331189,0,8331189,2026-04-06 11:00-12:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,13383347,99420,13482767,2026-04-06 11:00-12:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2053173,0,2053173,2026-04-06 10:00-11:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,811435,0,811435,2026-04-06 10:00-11:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,6772910,29684,6802594,2026-04-06 10:00-11:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,176820,0,176820,2026-04-06 09:00-10:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,180007,0,180007,2026-04-06 09:00-10:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1637187,4144,1641331,2026-04-06 09:00-10:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,128,0,128,2026-04-06 08:00-09:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,176328,301,176629,2026-04-06 08:00-09:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,685336,0,685336,2026-04-06 07:00-08:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,4911005,0,4911005,2026-04-06 07:00-08:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,5218438,40913,5259351,2026-04-06 07:00-08:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1021665,0,1021665,2026-04-06 06:00-07:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,3073904,0,3073904,2026-04-06 06:00-07:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,6205646,56347,6261993,2026-04-06 06:00-07:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,5333879,0,5333879,2026-04-06 05:00-06:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,655582,0,655582,2026-04-06 05:00-06:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,15011288,83700,15094988,2026-04-06 05:00-06:00,SUCCESS
+coding_plan,t2a-v2,speech-2.8-hd,0.0000,0.0000,132,0,132,2026-04-06 05:00-06:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,958779,0,958779,2026-04-06 04:00-05:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,4199721,0,4199721,2026-04-06 04:00-05:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,15255948,76922,15332870,2026-04-06 04:00-05:00,SUCCESS
+coding_plan,t2a-v2,speech-2.8-hd,0.0000,0.0000,1016,0,1016,2026-04-06 04:00-05:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,613980,0,613980,2026-04-06 03:00-04:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,4490048,0,4490048,2026-04-06 03:00-04:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,4451533,48067,4499600,2026-04-06 03:00-04:00,SUCCESS
+coding_plan,t2a-v2,speech-2.8-hd,0.0000,0.0000,250,0,250,2026-04-06 03:00-04:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1407868,0,1407868,2026-04-06 02:00-03:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,4660661,0,4660661,2026-04-06 02:00-03:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,7177336,49591,7226927,2026-04-06 02:00-03:00,SUCCESS
+coding_plan,t2a-v2,speech-2.8-hd,0.0000,0.0000,48,0,48,2026-04-06 02:00-03:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,669828,0,669828,2026-04-06 01:00-02:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1137293,0,1137293,2026-04-06 01:00-02:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1823039,14108,1837147,2026-04-06 01:00-02:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,200766,0,200766,2026-04-06 00:00-01:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,614262,0,614262,2026-04-06 00:00-01:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,705560,4022,709582,2026-04-06 00:00-01:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,66923,0,66923,2026-04-05 23:00-24:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,179442,0,179442,2026-04-05 23:00-24:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,202086,702,202788,2026-04-05 23:00-24:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,168466,0,168466,2026-04-05 22:00-23:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,34818,0,34818,2026-04-05 22:00-23:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,134250,352,134602,2026-04-05 22:00-23:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,452679,0,452679,2026-04-05 21:00-22:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,53803,0,53803,2026-04-05 21:00-22:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,278215,6531,284746,2026-04-05 21:00-22:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,558778,0,558778,2026-04-05 20:00-21:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1221385,0,1221385,2026-04-05 20:00-21:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,900472,8184,908656,2026-04-05 20:00-21:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,370570,0,370570,2026-04-05 19:00-20:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,535711,0,535711,2026-04-05 19:00-20:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,327718,4529,332247,2026-04-05 19:00-20:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1080906,0,1080906,2026-04-05 18:00-19:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1510960,0,1510960,2026-04-05 18:00-19:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,6810604,10410,6821014,2026-04-05 18:00-19:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,5652207,0,5652207,2026-04-05 17:00-18:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,2293946,0,2293946,2026-04-05 17:00-18:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,13372720,53681,13426401,2026-04-05 17:00-18:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,8013255,0,8013255,2026-04-05 16:00-17:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,2775489,0,2775489,2026-04-05 16:00-17:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,15525387,61844,15587231,2026-04-05 16:00-17:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2550685,0,2550685,2026-04-05 15:00-16:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1142155,0,1142155,2026-04-05 15:00-16:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,9705329,30192,9735521,2026-04-05 15:00-16:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1754907,0,1754907,2026-04-05 14:00-15:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,4086155,0,4086155,2026-04-05 14:00-15:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,5859809,38945,5898754,2026-04-05 14:00-15:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,512763,0,512763,2026-04-05 13:00-14:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,6018944,0,6018944,2026-04-05 13:00-14:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,6625219,32569,6657788,2026-04-05 13:00-14:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1168504,0,1168504,2026-04-05 12:00-13:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,7619109,0,7619109,2026-04-05 12:00-13:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,12493166,90660,12583826,2026-04-05 12:00-13:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,9928941,0,9928941,2026-04-05 11:00-12:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1038300,0,1038300,2026-04-05 11:00-12:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,9836512,105912,9942424,2026-04-05 11:00-12:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,8329111,0,8329111,2026-04-05 10:00-11:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,458051,0,458051,2026-04-05 10:00-11:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,9278545,111990,9390535,2026-04-05 10:00-11:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,433310,0,433310,2026-04-05 09:00-10:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,5057338,0,5057338,2026-04-05 09:00-10:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,3412648,91188,3503836,2026-04-05 09:00-10:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,285884,0,285884,2026-04-05 08:00-09:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2527006,0,2527006,2026-04-05 08:00-09:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1467218,30841,1498059,2026-04-05 08:00-09:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,22184,0,22184,2026-04-05 07:00-08:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,146560,0,146560,2026-04-05 07:00-08:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,146632,225,146857,2026-04-05 07:00-08:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,146560,0,146560,2026-04-05 06:00-07:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,147079,219,147298,2026-04-05 06:00-07:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,130562,0,130562,2026-04-05 05:00-06:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,650217,0,650217,2026-04-05 05:00-06:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,762102,8543,770645,2026-04-05 05:00-06:00,SUCCESS
+coding_plan,image-generation,image-01,0.0000,0.0000,21,0,21,2026-04-05 05:00-06:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,192293,0,192293,2026-04-05 04:00-05:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,7162413,0,7162413,2026-04-05 04:00-05:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,3913196,50515,3963711,2026-04-05 04:00-05:00,SUCCESS
+coding_plan,image-generation,image-01,0.0000,0.0000,25,0,25,2026-04-05 04:00-05:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1101966,0,1101966,2026-04-05 03:00-04:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2449781,0,2449781,2026-04-05 03:00-04:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,3773129,69763,3842892,2026-04-05 03:00-04:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,665050,0,665050,2026-04-05 02:00-03:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,842442,0,842442,2026-04-05 02:00-03:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,5752582,20749,5773331,2026-04-05 02:00-03:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,146736,0,146736,2026-04-05 01:00-02:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,28,127,155,2026-04-05 01:00-02:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,33330,0,33330,2026-04-05 00:00-01:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,146267,0,146267,2026-04-05 00:00-01:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,112912,406,113318,2026-04-05 00:00-01:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,154825,0,154825,2026-04-04 23:00-24:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,64346,0,64346,2026-04-04 23:00-24:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,168294,502,168796,2026-04-04 23:00-24:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,16665,0,16665,2026-04-04 22:00-23:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,144600,0,144600,2026-04-04 22:00-23:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,56005,158,56163,2026-04-04 22:00-23:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,144600,0,144600,2026-04-04 21:00-22:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,28,130,158,2026-04-04 21:00-22:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,253537,0,253537,2026-04-04 20:00-21:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,771333,0,771333,2026-04-04 20:00-21:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1981986,4737,1986723,2026-04-04 20:00-21:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,562599,0,562599,2026-04-04 19:00-20:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,953122,0,953122,2026-04-04 19:00-20:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,2361650,11290,2372940,2026-04-04 19:00-20:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1194251,0,1194251,2026-04-04 18:00-19:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1214196,0,1214196,2026-04-04 18:00-19:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,6243986,24691,6268677,2026-04-04 18:00-19:00,SUCCESS
+coding_plan,t2a-v2,speech-2.8-hd,0.0000,0.0000,3531,0,3531,2026-04-04 18:00-19:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1251177,0,1251177,2026-04-04 17:00-18:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1858005,0,1858005,2026-04-04 17:00-18:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,4760098,74215,4834313,2026-04-04 17:00-18:00,SUCCESS
+coding_plan,t2a-v2,speech-2.8-hd,0.0000,0.0000,384,0,384,2026-04-04 17:00-18:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,852597,0,852597,2026-04-04 16:00-17:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,782514,0,782514,2026-04-04 16:00-17:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,2532955,21309,2554264,2026-04-04 16:00-17:00,SUCCESS
+coding_plan,t2a-v2,speech-2.8-hd,0.0000,0.0000,84,0,84,2026-04-04 16:00-17:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1432957,0,1432957,2026-04-04 15:00-16:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1484023,0,1484023,2026-04-04 15:00-16:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,3553826,32075,3585901,2026-04-04 15:00-16:00,SUCCESS
+coding_plan,image-generation,image-01,0.0000,0.0000,15,0,15,2026-04-04 15:00-16:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,277834,0,277834,2026-04-04 14:00-15:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,380054,0,380054,2026-04-04 14:00-15:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1044008,5435,1049443,2026-04-04 14:00-15:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1664503,0,1664503,2026-04-04 13:00-14:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,685476,0,685476,2026-04-04 13:00-14:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,3665675,41536,3707211,2026-04-04 13:00-14:00,SUCCESS
+coding_plan,image-generation,image-01,0.0000,0.0000,9,0,9,2026-04-04 13:00-14:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2025077,0,2025077,2026-04-04 12:00-13:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,2485477,0,2485477,2026-04-04 12:00-13:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,12081142,40670,12121812,2026-04-04 12:00-13:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2074460,0,2074460,2026-04-04 11:00-12:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,2212197,0,2212197,2026-04-04 11:00-12:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,5698637,31079,5729716,2026-04-04 11:00-12:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,5435789,0,5435789,2026-04-04 10:00-11:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,739000,0,739000,2026-04-04 10:00-11:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1316766,13111,1329877,2026-04-04 10:00-11:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,132960,0,132960,2026-04-04 09:00-10:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,281070,0,281070,2026-04-04 09:00-10:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,753113,2335,755448,2026-04-04 09:00-10:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,4562171,0,4562171,2026-04-04 08:00-09:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,299524,0,299524,2026-04-04 08:00-09:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1251226,12624,1263850,2026-04-04 08:00-09:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,3884502,0,3884502,2026-04-04 07:00-08:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1144810,0,1144810,2026-04-04 07:00-08:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,5551267,14076,5565343,2026-04-04 07:00-08:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1975909,0,1975909,2026-04-04 06:00-07:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,695772,0,695772,2026-04-04 06:00-07:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1646731,16306,1663037,2026-04-04 06:00-07:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,3084681,0,3084681,2026-04-04 05:00-06:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,417017,0,417017,2026-04-04 05:00-06:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,458345,9580,467925,2026-04-04 05:00-06:00,SUCCESS
+coding_plan,t2a-v2,speech-2.8-hd,0.0000,0.0000,4,0,4,2026-04-04 05:00-06:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1399756,0,1399756,2026-04-04 04:00-05:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1578670,0,1578670,2026-04-04 04:00-05:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,6060253,17395,6077648,2026-04-04 04:00-05:00,SUCCESS
+coding_plan,t2a-v2,speech-2.8-hd,0.0000,0.0000,4,0,4,2026-04-04 04:00-05:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2318577,0,2318577,2026-04-04 03:00-04:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,763146,0,763146,2026-04-04 03:00-04:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,11933446,23663,11957109,2026-04-04 03:00-04:00,SUCCESS
+coding_plan,code_plan_resource_package,coding-plan-vlm,0.0000,0.0000,4,0,4,2026-04-04 03:00-04:00,SUCCESS
+coding_plan,t2a-v2,speech-2.8-hd,0.0000,0.0000,1242,0,1242,2026-04-04 03:00-04:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,5806523,0,5806523,2026-04-04 02:00-03:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,2627603,0,2627603,2026-04-04 02:00-03:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,21829005,70449,21899454,2026-04-04 02:00-03:00,SUCCESS
+coding_plan,image-generation,image-01,0.0000,0.0000,3,0,3,2026-04-04 02:00-03:00,SUCCESS
+coding_plan,t2a-v2,speech-2.8-hd,0.0000,0.0000,2750,0,2750,2026-04-04 02:00-03:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,3386085,0,3386085,2026-04-04 01:00-02:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,963964,0,963964,2026-04-04 01:00-02:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,9701388,48482,9749870,2026-04-04 01:00-02:00,SUCCESS
+coding_plan,code_plan_resource_package,coding-plan-vlm,0.0000,0.0000,4,0,4,2026-04-04 01:00-02:00,SUCCESS
+coding_plan,image-generation,image-01,0.0000,0.0000,2,0,2,2026-04-04 01:00-02:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,147613,0,147613,2026-04-04 00:00-01:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,78,238,316,2026-04-04 00:00-01:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,168615,0,168615,2026-04-03 23:00-24:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,112002,0,112002,2026-04-03 23:00-24:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,145489,1127,146616,2026-04-03 23:00-24:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,122928,0,122928,2026-04-03 22:00-23:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,78,172,250,2026-04-03 22:00-23:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,122928,0,122928,2026-04-03 21:00-22:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,78,112,190,2026-04-03 21:00-22:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,122928,0,122928,2026-04-03 20:00-21:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,78,139,217,2026-04-03 20:00-21:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,510641,0,510641,2026-04-03 19:00-20:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,850756,0,850756,2026-04-03 19:00-20:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1880369,66294,1946663,2026-04-03 19:00-20:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,3100163,0,3100163,2026-04-03 18:00-19:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1078853,0,1078853,2026-04-03 18:00-19:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,6523606,42522,6566128,2026-04-03 18:00-19:00,SUCCESS
+coding_plan,image-generation,image-01,0.0000,0.0000,7,0,7,2026-04-03 18:00-19:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1285104,0,1285104,2026-04-03 17:00-18:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2263554,0,2263554,2026-04-03 17:00-18:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,7550006,23859,7573865,2026-04-03 17:00-18:00,SUCCESS
+coding_plan,image-generation,image-01,0.0000,0.0000,1,0,1,2026-04-03 17:00-18:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,6107333,0,6107333,2026-04-03 16:00-17:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1343492,0,1343492,2026-04-03 16:00-17:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,17737888,54206,17792094,2026-04-03 16:00-17:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,545652,0,545652,2026-04-03 15:00-16:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2200354,0,2200354,2026-04-03 15:00-16:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,4212397,23557,4235954,2026-04-03 15:00-16:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1863115,0,1863115,2026-04-03 14:00-15:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1355780,0,1355780,2026-04-03 14:00-15:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,4520321,13259,4533580,2026-04-03 14:00-15:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1462509,0,1462509,2026-04-03 13:00-14:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,373092,0,373092,2026-04-03 13:00-14:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,3262055,6504,3268559,2026-04-03 13:00-14:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,53476,0,53476,2026-04-03 12:00-13:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,217852,0,217852,2026-04-03 12:00-13:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,166846,977,167823,2026-04-03 12:00-13:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,924618,0,924618,2026-04-03 11:00-12:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2253087,0,2253087,2026-04-03 11:00-12:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,4138610,12994,4151604,2026-04-03 11:00-12:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2594159,0,2594159,2026-04-03 10:00-11:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,432912,0,432912,2026-04-03 10:00-11:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,4184125,20856,4204981,2026-04-03 10:00-11:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1287022,0,1287022,2026-04-03 09:00-10:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,349641,0,349641,2026-04-03 09:00-10:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,859163,12772,871935,2026-04-03 09:00-10:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,3611698,0,3611698,2026-04-03 08:00-09:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,574414,0,574414,2026-04-03 08:00-09:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,2917678,48221,2965899,2026-04-03 08:00-09:00,SUCCESS
+coding_plan,code_plan_resource_package,coding-plan-vlm,0.0000,0.0000,1,0,1,2026-04-03 08:00-09:00,SUCCESS
+coding_plan,image-generation,image-01,0.0000,0.0000,4,0,4,2026-04-03 08:00-09:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2497140,0,2497140,2026-04-03 07:00-08:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,540961,0,540961,2026-04-03 07:00-08:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,708807,15172,723979,2026-04-03 07:00-08:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1135399,0,1135399,2026-04-03 06:00-07:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,575015,0,575015,2026-04-03 06:00-07:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,841651,5227,846878,2026-04-03 06:00-07:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2248424,0,2248424,2026-04-03 05:00-06:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,890228,0,890228,2026-04-03 05:00-06:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,5818201,9846,5828047,2026-04-03 05:00-06:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2824268,0,2824268,2026-04-03 04:00-05:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,603583,0,603583,2026-04-03 04:00-05:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,2018995,14082,2033077,2026-04-03 04:00-05:00,SUCCESS
+coding_plan,code_plan_resource_package,coding-plan-search,0.0000,0.0000,1,0,1,2026-04-03 04:00-05:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1436950,0,1436950,2026-04-03 03:00-04:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,218931,0,218931,2026-04-03 03:00-04:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,281684,9614,291298,2026-04-03 03:00-04:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1723716,0,1723716,2026-04-03 02:00-03:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,471188,0,471188,2026-04-03 02:00-03:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1831100,15445,1846545,2026-04-03 02:00-03:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1367725,0,1367725,2026-04-03 01:00-02:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1667098,0,1667098,2026-04-03 01:00-02:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,2169118,22601,2191719,2026-04-03 01:00-02:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,113935,0,113935,2026-04-03 00:00-01:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,331410,0,331410,2026-04-03 00:00-01:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,530720,2026,532746,2026-04-03 00:00-01:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,333225,0,333225,2026-04-02 23:00-24:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,158990,0,158990,2026-04-02 23:00-24:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,244142,2862,247004,2026-04-02 23:00-24:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,44188,0,44188,2026-04-02 22:00-23:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,109084,0,109084,2026-04-02 22:00-23:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,66617,524,67141,2026-04-02 22:00-23:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,109084,0,109084,2026-04-02 21:00-22:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,164,182,346,2026-04-02 21:00-22:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1306612,0,1306612,2026-04-02 20:00-21:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,632142,0,632142,2026-04-02 20:00-21:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,4137124,4354,4141478,2026-04-02 20:00-21:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,272820,0,272820,2026-04-02 19:00-20:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,326318,0,326318,2026-04-02 19:00-20:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1008323,6744,1015067,2026-04-02 19:00-20:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,55627,0,55627,2026-04-02 18:00-19:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,82,157,239,2026-04-02 18:00-19:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,790891,0,790891,2026-04-02 17:00-18:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2135768,0,2135768,2026-04-02 17:00-18:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,3241822,11517,3253339,2026-04-02 17:00-18:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2052729,0,2052729,2026-04-02 16:00-17:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,710789,0,710789,2026-04-02 16:00-17:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1497264,14334,1511598,2026-04-02 16:00-17:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1220814,0,1220814,2026-04-02 15:00-16:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,3880741,0,3880741,2026-04-02 15:00-16:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,8019952,26217,8046169,2026-04-02 15:00-16:00,SUCCESS
+coding_plan,code_plan_resource_package,coding-plan-search,0.0000,0.0000,3,0,3,2026-04-02 15:00-16:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1198467,0,1198467,2026-04-02 14:00-15:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,3198995,0,3198995,2026-04-02 14:00-15:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,9989799,35341,10025140,2026-04-02 14:00-15:00,SUCCESS
+coding_plan,image-generation,image-01,0.0000,0.0000,8,0,8,2026-04-02 14:00-15:00,SUCCESS
+coding_plan,t2a-v2,speech-2.8-hd,0.0000,0.0000,3987,0,3987,2026-04-02 14:00-15:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,224652,0,224652,2026-04-02 13:00-14:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,177816,0,177816,2026-04-02 13:00-14:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,727356,1261,728617,2026-04-02 13:00-14:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1986399,0,1986399,2026-04-02 12:00-13:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,6398855,0,6398855,2026-04-02 12:00-13:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,14924580,135942,15060522,2026-04-02 12:00-13:00,SUCCESS
+coding_plan,image-generation,image-01,0.0000,0.0000,34,0,34,2026-04-02 12:00-13:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1570807,0,1570807,2026-04-02 11:00-12:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1857178,0,1857178,2026-04-02 11:00-12:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,5432503,23586,5456089,2026-04-02 11:00-12:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,503443,0,503443,2026-04-02 10:00-11:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,43249,0,43249,2026-04-02 10:00-11:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,126209,2637,128846,2026-04-02 10:00-11:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1136416,0,1136416,2026-04-02 09:00-10:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,3401608,0,3401608,2026-04-02 09:00-10:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,5983585,28823,6012408,2026-04-02 09:00-10:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,513116,0,513116,2026-04-02 08:00-09:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,981739,0,981739,2026-04-02 08:00-09:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1332470,10003,1342473,2026-04-02 08:00-09:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1005078,0,1005078,2026-04-02 07:00-08:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2170386,0,2170386,2026-04-02 07:00-08:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,4549018,35409,4584427,2026-04-02 07:00-08:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1670488,0,1670488,2026-04-02 06:00-07:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1159833,0,1159833,2026-04-02 06:00-07:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,6664741,22130,6686871,2026-04-02 06:00-07:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1241404,0,1241404,2026-04-02 05:00-06:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1209893,0,1209893,2026-04-02 05:00-06:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,4486530,15376,4501906,2026-04-02 05:00-06:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1086592,0,1086592,2026-04-02 04:00-05:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,3292868,0,3292868,2026-04-02 04:00-05:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,14194534,75397,14269931,2026-04-02 04:00-05:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1581228,0,1581228,2026-04-02 03:00-04:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2407443,0,2407443,2026-04-02 03:00-04:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,8314941,21512,8336453,2026-04-02 03:00-04:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,2245825,0,2245825,2026-04-02 02:00-03:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,4820423,0,4820423,2026-04-02 02:00-03:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,18867718,36136,18903854,2026-04-02 02:00-03:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,934983,0,934983,2026-04-02 01:00-02:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,5232253,0,5232253,2026-04-02 01:00-02:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,14262505,51052,14313557,2026-04-02 01:00-02:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,4257208,0,4257208,2026-04-02 00:00-01:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1979129,0,1979129,2026-04-02 00:00-01:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,12906133,41220,12947353,2026-04-02 00:00-01:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,3463643,0,3463643,2026-04-01 23:00-24:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1409920,0,1409920,2026-04-01 23:00-24:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,10799874,34005,10833879,2026-04-01 23:00-24:00,SUCCESS
+coding_plan,code_plan_resource_package,coding-plan-vlm,0.0000,0.0000,4,0,4,2026-04-01 23:00-24:00,SUCCESS
+coding_plan,image-generation,image-01,0.0000,0.0000,4,0,4,2026-04-01 23:00-24:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,44106,0,44106,2026-04-01 22:00-23:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,172,157,329,2026-04-01 22:00-23:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,44106,0,44106,2026-04-01 21:00-22:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,172,226,398,2026-04-01 21:00-22:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,43972,0,43972,2026-04-01 20:00-21:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,172,127,299,2026-04-01 20:00-21:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,139435,0,139435,2026-04-01 19:00-20:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,368707,0,368707,2026-04-01 19:00-20:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,225934,4427,230361,2026-04-01 19:00-20:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,203687,0,203687,2026-04-01 18:00-19:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,171221,0,171221,2026-04-01 18:00-19:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,576351,3574,579925,2026-04-01 18:00-19:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,303832,0,303832,2026-04-01 17:00-18:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,172,119,291,2026-04-01 17:00-18:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,523427,0,523427,2026-04-01 16:00-17:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,173062,0,173062,2026-04-01 16:00-17:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,1044030,3278,1047308,2026-04-01 16:00-17:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,4308036,0,4308036,2026-04-01 15:00-16:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,8668828,0,8668828,2026-04-01 15:00-16:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,23248020,100654,23348674,2026-04-01 15:00-16:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,4365295,0,4365295,2026-04-01 14:00-15:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,8878188,0,8878188,2026-04-01 14:00-15:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,43903731,90137,43993868,2026-04-01 14:00-15:00,SUCCESS
+coding_plan,image-generation,image-01,0.0000,0.0000,14,0,14,2026-04-01 14:00-15:00,SUCCESS
+coding_plan,t2a-v2,speech-2.8-hd,0.0000,0.0000,1000,0,1000,2026-04-01 14:00-15:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,4803781,0,4803781,2026-04-01 13:00-14:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,14098926,0,14098926,2026-04-01 13:00-14:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,47890466,130656,48021122,2026-04-01 13:00-14:00,SUCCESS
+coding_plan,code_plan_resource_package,coding-plan-vlm,0.0000,0.0000,28,0,28,2026-04-01 13:00-14:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,9146208,0,9146208,2026-04-01 12:00-13:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,2867513,0,2867513,2026-04-01 12:00-13:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,20439774,110384,20550158,2026-04-01 12:00-13:00,SUCCESS
+coding_plan,image-generation,image-01,0.0000,0.0000,1,0,1,2026-04-01 12:00-13:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1578644,0,1578644,2026-04-01 11:00-12:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1365404,0,1365404,2026-04-01 11:00-12:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,7791461,21697,7813158,2026-04-01 11:00-12:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,166874,0,166874,2026-04-01 10:00-11:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,741184,0,741184,2026-04-01 10:00-11:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,713088,3132,716220,2026-04-01 10:00-11:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,700168,0,700168,2026-04-01 09:00-10:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,2831932,0,2831932,2026-04-01 09:00-10:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,7048229,38081,7086310,2026-04-01 09:00-10:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,468489,0,468489,2026-04-01 08:00-09:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,5317495,0,5317495,2026-04-01 08:00-09:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,17119750,57891,17177641,2026-04-01 08:00-09:00,SUCCESS
+coding_plan,image-generation,image-01,0.0000,0.0000,4,0,4,2026-04-01 08:00-09:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,3525389,0,3525389,2026-04-01 07:00-08:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,266578,0,266578,2026-04-01 07:00-08:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,5740991,32728,5773719,2026-04-01 07:00-08:00,SUCCESS
+coding_plan,t2a-v2,speech-2.8-hd,0.0000,0.0000,1700,0,1700,2026-04-01 07:00-08:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,992019,0,992019,2026-04-01 06:00-07:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,3201344,0,3201344,2026-04-01 06:00-07:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,4235778,28875,4264653,2026-04-01 06:00-07:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1562491,0,1562491,2026-04-01 05:00-06:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,4554515,0,4554515,2026-04-01 05:00-06:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,7703628,50504,7754132,2026-04-01 05:00-06:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1605138,0,1605138,2026-04-01 04:00-05:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,2036471,0,2036471,2026-04-01 04:00-05:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,7245849,13755,7259604,2026-04-01 04:00-05:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,572446,0,572446,2026-04-01 03:00-04:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,812129,0,812129,2026-04-01 03:00-04:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,2186508,5983,2192491,2026-04-01 03:00-04:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1147759,0,1147759,2026-04-01 02:00-03:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1010112,0,1010112,2026-04-01 02:00-03:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,2157636,16792,2174428,2026-04-01 02:00-03:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,480588,0,480588,2026-04-01 01:00-02:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,739094,0,739094,2026-04-01 01:00-02:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,997842,12032,1009874,2026-04-01 01:00-02:00,SUCCESS
+coding_plan,cache-create(Text API),MiniMax-M2.7,0.0000,0.0000,1119313,0,1119313,2026-04-01 00:00-01:00,SUCCESS
+coding_plan,cache-read(Text API),MiniMax-M2.7,0.0000,0.0000,1523649,0,1523649,2026-04-01 00:00-01:00,SUCCESS
+coding_plan,chatcompletion-v2(Text API),MiniMax-M2.7,0.0000,0.0000,5944363,23838,5968201,2026-04-01 00:00-01:00,SUCCESS
+coding_plan,code_plan_resource_package,coding-plan-vlm,0.0000,0.0000,2,0,2,2026-04-01 00:00-01:00,SUCCESS
+coding_plan,image-generation,image-01,0.0000,0.0000,6,0,6,2026-04-01 00:00-01:00,SUCCESS
