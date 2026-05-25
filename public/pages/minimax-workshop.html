@@ -231,6 +231,10 @@
                 <i class="fa-solid fa-palette w-5"></i>
                 <span>繪圖生成 (T2I)</span>
             </button>
+            <button onclick="switchTab('svg')" id="tabBtn-svg" class="tab-btn flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium w-full text-left transition whitespace-nowrap text-gray-400 hover:bg-panelBg hover:text-white">
+                <i class="fa-solid fa-vector-square w-5"></i>
+                <span>題目插圖 SVG</span>
+            </button>
             <button onclick="switchTab('music')" id="tabBtn-music" class="tab-btn flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium w-full text-left transition whitespace-nowrap text-gray-400 hover:bg-panelBg hover:text-white">
                 <i class="fa-solid fa-music-note w-5"></i>
                 <span>歌詞與音樂生成</span>
@@ -713,6 +717,56 @@
                                 <audio id="musicAudioPlayer" controls class="w-full"></audio>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 工作區 5: 題目插圖 SVG -->
+            <div id="tabContent-svg" class="tab-content flex-1 hidden flex-col">
+                <div class="border-b border-borderCol pb-4 mb-4">
+                    <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-vector-square text-brand-500"></i> 題目插圖智能轉換器
+                    </h2>
+                    <p class="text-xs text-gray-400 mt-1">上傳圖片或貼上截圖，AI 自動轉換為數學題目插圖 SVG 矢量格式。支援幾何圖形、統計圖表、函數圖像</p>
+                    <a href="svg-converter.html" target="_blank" class="inline-flex items-center gap-2 mt-2 text-xs text-brand-400 hover:text-brand-300 transition">
+                        <i class="fa-solid fa-up-right-from-square"></i> 開啟題目插圖 SVG 轉換器
+                    </a>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 flex-1">
+                    <!-- 功能特色卡片 -->
+                    <div class="bg-darkBg/30 border border-borderCol/50 rounded-2xl p-4">
+                        <h3 class="text-sm font-bold text-white mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-shapes text-blue-400"></i> 幾何模板
+                        </h3>
+                        <ul class="text-xs text-gray-400 space-y-1.5">
+                            <li>• 點線面基本幾何</li>
+                            <li>• 座標平面與函數圖</li>
+                            <li>• 圓弧與角度標註</li>
+                            <li>• 三角形全等/相似</li>
+                        </ul>
+                    </div>
+                    <div class="bg-darkBg/30 border border-borderCol/50 rounded-2xl p-4">
+                        <h3 class="text-sm font-bold text-white mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-chart-simple text-green-400"></i> 統計圖表
+                        </h3>
+                        <ul class="text-xs text-gray-400 space-y-1.5">
+                            <li>• 長條圖 / 折線圖</li>
+                            <li>• 扇形圖 / 圓形圖</li>
+                            <li>• 直方圖 / 散點圖</li>
+                            <li>• 盒鬚圖 / 累積頻數圖</li>
+                        </ul>
+                    </div>
+                    <div class="bg-darkBg/30 border border-borderCol/50 rounded-2xl p-4">
+                        <h3 class="text-sm font-bold text-white mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-function text-purple-400"></i> 函數圖像
+                        </h3>
+                        <ul class="text-xs text-gray-400 space-y-1.5">
+                            <li>• 一次/二次函數圖</li>
+                            <li>• 三角函數週期圖</li>
+                            <li>• 指數/對數函數圖</li>
+                            <li>• 平移/反射/縮放</li>
+                        </ul>
                     </div>
                 </div>
             </div>
