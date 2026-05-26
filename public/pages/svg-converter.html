@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' blob: data:; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src 'self' https://cdnjs.cloudflare.com; connect-src 'self' https://api.minimax.io https://*.minimax.io https://*.minimaxi.com https://api.minimaxi.chat; img-src 'self' blob: data: https://*; media-src 'self' blob: data:;">
+    <!-- 最佳化 CSP：確保完整相容各式端點，避免 immediate page breakage -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' blob: data:; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src 'self' https://cdnjs.cloudflare.com; connect-src 'self' https://* http://*; img-src 'self' blob: data: https://*; media-src 'self' blob: data:;">
     <title>題目插圖 SVG 智能轉換器</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -32,6 +33,7 @@
             background: linear-gradient(145deg, #606060, #404040);
             box-shadow: 4px 4px 10px #202020, -2px -2px 8px #505050;
             border: 1px solid #505050;
+            cursor: pointer;
         }
         .metal-btn:active, .metal-btn.pressed {
             background: linear-gradient(145deg, #404040, #606060);
@@ -69,7 +71,7 @@
                 <h3 id="modalTitle" class="text-base font-bold text-white flex items-center gap-2">提示</h3>
                 <button id="modalCloseBtn" class="text-gray-400 hover:text-white transition text-lg"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <div id="modalBody" class="text-sm text-gray-300 leading-relaxed"></div>
+            <div id="modalBody" class="text-sm text-gray-300 leading-relaxed max-h-[60vh] overflow-y-auto custom-scrollbar"></div>
             <div id="modalActions" class="flex justify-end gap-3 border-t border-borderCol pt-3"></div>
         </div>
     </div>
@@ -93,7 +95,7 @@
 
     <!-- Header -->
     <header class="sticky top-0 z-40 bg-darkBg/80 backdrop-blur-md border-b border-borderCol">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-auto min-h-16 py-3 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div class="flex items-center gap-3">
                 <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-600 flex items-center justify-center shadow-lg shadow-emerald-500/20">
                     <i class="fa-solid fa-vector-square text-white text-lg"></i>
@@ -103,12 +105,19 @@
                     <p class="text-[10px] text-gray-500 font-mono tracking-widest">IMAGE → SVG VECTOR ENGINE</p>
                 </div>
             </div>
-            <div class="flex items-center gap-3">
+            
+            <div class="flex flex-wrap items-center gap-3">
+                <!-- API Target Engine Tag -->
+                <div class="flex items-center gap-1.5 px-3 py-1.5 bg-panelBg border border-borderCol rounded-lg text-xs font-semibold text-indigo-400">
+                    <i class="fa-solid fa-bolt"></i> Engine: MiniMax-VL-01
+                </div>
+
+                <!-- API Key -->
                 <div class="relative flex items-center">
                     <span class="absolute left-3 text-gray-500 text-xs"><i class="fa-solid fa-key"></i></span>
-                    <input type="password" id="apiKeyInput" placeholder="MiniMax API 金鑰" class="pl-8 pr-16 py-1.5 w-56 sm:w-72 bg-panelBg border border-borderCol rounded-lg text-xs focus:border-brand-500 focus:ring-1 focus:ring-brand-500 outline-none transition">
+                    <input type="password" id="apiKeyInput" placeholder="MiniMax API 金鑰" class="pl-8 pr-16 py-1.5 w-44 sm:w-56 bg-panelBg border border-borderCol rounded-lg text-xs focus:border-brand-500 focus:ring-1 focus:ring-brand-500 outline-none transition">
                     <button type="button" id="toggleApiKey" class="absolute right-12 text-gray-500 hover:text-white text-xs px-1"><i class="fa-regular fa-eye"></i></button>
-                    <button type="button" id="saveKeyBtn" class="absolute right-1 bg-brand-600 hover:bg-brand-700 text-white rounded-md py-1 px-2.5 text-[10px] font-bold transition">儲存</button>
+                    <button type="button" id="saveKeyBtn" class="absolute right-1 bg-brand-600 hover:bg-brand-700 text-white rounded-md py-1 px-2 text-[10px] font-bold transition">儲存</button>
                 </div>
                 <div id="keyStatus" class="hidden items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-red-950/40 text-red-400 border border-red-900">
                     <span class="h-1.5 w-1.5 rounded-full bg-red-500 animate-pulse"></span> 未連線
@@ -125,7 +134,7 @@
             <div class="flex items-center justify-between mb-4">
                 <div>
                     <h2 class="text-base font-bold text-white flex items-center gap-2"><i class="fa-solid fa-graduation-cap text-emerald-400"></i> 學術 VLM 範本</h2>
-                    <p class="text-xs text-gray-400 mt-0.5">選擇題目類型，AI 將針對該領域優化 SVG 提取策略</p>
+                    <p class="text-xs text-gray-400 mt-0.5">選擇題目類型，AI 將針對該領域優化 SVG 空間分析與生成策略</p>
                 </div>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -137,11 +146,11 @@
                             <div class="text-[10px] text-gray-500">Geometric Theorems</div>
                         </div>
                     </div>
-                    <p class="text-xs text-gray-400 leading-relaxed">幾何形狀、字母標籤、角度 θ、弧度、垂直平行線、三角形標記</p>
+                    <p class="text-xs text-gray-400 leading-relaxed">幾何形狀、透視空間、隱藏虛線、字母標籤防遮擋、精確幾何約束</p>
                     <div class="flex flex-wrap gap-1 mt-2">
                         <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-600/20 text-emerald-400">∠ABC</span>
-                        <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-600/20 text-emerald-400">θ=45°</span>
-                        <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-600/20 text-emerald-400">∥ ∠ ⊥</span>
+                        <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-600/20 text-emerald-400">虛實線分明</span>
+                        <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-600/20 text-emerald-400">防遮擋 Offset</span>
                     </div>
                 </button>
                 <button onclick="selectTemplate('statistics')" id="tpl-statistics" class="template-card bg-darkBg/60 border border-borderCol rounded-xl p-4 text-left cursor-pointer hover:border-blue-500/50 transition">
@@ -152,11 +161,11 @@
                             <div class="text-[10px] text-gray-500">Statistical Charts</div>
                         </div>
                     </div>
-                    <p class="text-xs text-gray-400 leading-relaxed">直方圖、圓餅圖、折線圖、座標軸數據標註、趨勢箭頭</p>
+                    <p class="text-xs text-gray-400 leading-relaxed">直方圖、圓餅圖、折線圖、座標軸數據標註、對齊格線與圖例還原</p>
                     <div class="flex flex-wrap gap-1 mt-2">
-                        <span class="text-[9px] px-1.5 py-0.5 rounded bg-blue-600/20 text-blue-400">柱狀</span>
-                        <span class="text-[9px] px-1.5 py-0.5 rounded bg-blue-600/20 text-blue-400">餅圖</span>
-                        <span class="text-[9px] px-1.5 py-0.5 rounded bg-blue-600/20 text-blue-400">X/Y軸</span>
+                        <span class="text-[9px] px-1.5 py-0.5 rounded bg-blue-600/20 text-blue-400">精準比例</span>
+                        <span class="text-[9px] px-1.5 py-0.5 rounded bg-blue-600/20 text-blue-400">圓餅圖</span>
+                        <span class="text-[9px] px-1.5 py-0.5 rounded bg-blue-600/20 text-blue-400">X/Y軸刻度</span>
                     </div>
                 </button>
                 <button onclick="selectTemplate('function')" id="tpl-function" class="template-card bg-darkBg/60 border border-borderCol rounded-xl p-4 text-left cursor-pointer hover:border-amber-500/50 transition">
@@ -167,11 +176,11 @@
                             <div class="text-[10px] text-gray-500">Function & Physics</div>
                         </div>
                     </div>
-                    <p class="text-xs text-gray-400 leading-relaxed">正弦波、餘弦波、受力分析箭頭、向量、速度、加速度曲線</p>
+                    <p class="text-xs text-gray-400 leading-relaxed">貝氏曲線描繪正餘弦、受力分析箭頭標記、物理運動軌跡向量圖</p>
                     <div class="flex flex-wrap gap-1 mt-2">
-                        <span class="text-[9px] px-1.5 py-0.5 rounded bg-amber-600/20 text-amber-400">sin/cos</span>
-                        <span class="text-[9px] px-1.5 py-0.5 rounded bg-amber-600/20 text-amber-400">F→v</span>
-                        <span class="text-[9px] px-1.5 py-0.5 rounded bg-amber-600/20 text-amber-400">座標</span>
+                        <span class="text-[9px] px-1.5 py-0.5 rounded bg-amber-600/20 text-amber-400">貝氏路徑</span>
+                        <span class="text-[9px] px-1.5 py-0.5 rounded bg-amber-600/20 text-amber-400">力學向量</span>
+                        <span class="text-[9px] px-1.5 py-0.5 rounded bg-amber-600/20 text-amber-400">Marker 箭頭</span>
                     </div>
                 </button>
             </div>
@@ -213,12 +222,12 @@
                     <p class="text-[10px] text-gray-500 mt-1"><i class="fa-solid fa-info-circle mr-1"></i>電腦端：直接按 Ctrl+V 貼上 | 手機端：長按此按鈕呼叫系統貼上選單</p>
                 </div>
 
-                <!-- Template-specific prompt (auto-filled based on template) -->
+                <!-- Template-specific prompt -->
                 <div class="flex flex-col gap-1.5">
                     <label class="text-xs font-bold text-gray-400 flex items-center gap-2">
                         <i class="fa-solid fa-wand-magic-sparkles text-indigo-400"></i> AI 分析提示語
                     </label>
-                    <textarea id="customPrompt" rows="3" class="bg-darkBg border border-borderCol rounded-xl p-3 text-sm focus:outline-none focus:border-brand-500 resize-none custom-scrollbar" placeholder="自訂提示語（可留空使用預設範本）..."></textarea>
+                    <textarea id="customPrompt" rows="3" class="bg-darkBg border border-borderCol rounded-xl p-3 text-sm focus:outline-none focus:border-brand-500 resize-none custom-scrollbar" placeholder="自訂提示語（可留空使用預設範本，填寫具體頂點與前後關係轉換效果更佳）..."></textarea>
                 </div>
 
                 <!-- Convert Button -->
@@ -288,17 +297,17 @@
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-borderCol py-4 text-center">
+    <footer class="border-t border-borderCol py-4 text-center mt-12">
         <p class="text-[10px] text-gray-600">題目插圖 SVG 智能轉換器 · Powered by MiniMax VLM</p>
     </footer>
 
 <script>
 // ================================================================
-// SECTION 1: GLOBAL REQUEST MANAGER WITH CIRCUIT BREAKER
+// SECTION 1: GLOBAL REQUEST MANAGER WITH CIRCUIT BREAKER & OPENCLAW VLM HEADERS
 // ================================================================
 const activeControllers = new Map();
 const VALID_ENDPOINTS = {
-    'chat/completions': { timeout: 120000 }
+    'coding_plan/vlm': { timeout: 120000 }
 };
 const MAX_RETRIES = 5;
 const MAX_BACKOFF_SECONDS = 30;
@@ -329,7 +338,6 @@ async function fetchMiniMax(endpoint, payload) {
     if (!config) throw new Error(`Unknown endpoint: ${endpoint}`);
     const timeout = config.timeout;
 
-    // Check if already have a controller for this endpoint
     if (activeControllers.has(endpoint)) {
         clearRequestController(endpoint);
     }
@@ -339,67 +347,77 @@ async function fetchMiniMax(endpoint, payload) {
     activeControllers.set(endpoint, { controller, timeoutId });
 
     let lastError;
-    for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
-        try {
-            const apiKey = sessionStorage.getItem('svg_converter_api_key') || '';
-            if (!apiKey) throw new Error('請先輸入並儲存 MiniMax API 金鑰');
+    try {
+        for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+            try {
+                const apiKey = sessionStorage.getItem('svg_converter_api_key') || '';
+                if (!apiKey) throw new Error('請先輸入並儲存 MiniMax API 金鑰');
 
-            const response = await fetch(`https://api.minimax.io/v1/${endpoint}`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': 'Bearer ' + apiKey,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload),
-                signal: controller.signal
-            });
+                // 移除 API 網址選擇器，預設使用國際版標準域名
+                const domain = 'https://api.minimaxi.chat';
+                const targetUrl = `${domain}/v1/${endpoint}`;
 
-            clearTimeout(timeoutId);
-            activeControllers.delete(endpoint);
+                const response = await fetch(targetUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + apiKey,
+                        'Content-Type': 'application/json',
+                        'MM-API-Source': 'OpenClaw' 
+                    },
+                    body: JSON.stringify(payload),
+                    signal: controller.signal
+                });
 
-            // Handle Rate Limit 429
-            if (response.status === 429) {
-                let retryAfterSec = 0;
-                const retryAfterHeader = response.headers.get('Retry-After');
-                if (retryAfterHeader) {
-                    retryAfterSec = parseInt(retryAfterHeader, 10);
+                if (response.status === 429) {
+                    let retryAfterSec = 0;
+                    const retryAfterHeader = response.headers.get('Retry-After');
+                    if (retryAfterHeader) {
+                        retryAfterSec = parseInt(retryAfterHeader, 10);
+                    }
+                    if (retryAfterSec > 0) {
+                        showToast(`⚠️ Rate Limit (429)，等待 ${retryAfterSec}s 後自動重試...`, 'warning', 3000);
+                        await sleep(retryAfterSec * 1000);
+                        continue;
+                    } else {
+                        const backoffSec = Math.min(Math.pow(2, attempt) * 2, MAX_BACKOFF_SECONDS);
+                        showToast(`⚠️ Rate Limit (429)，等待 ${backoffSec}s 後自動重試 (${attempt + 1}/${MAX_RETRIES})...`, 'warning', 3000);
+                        await sleep(backoffSec * 1000);
+                        continue;
+                    }
                 }
-                if (retryAfterSec > 0) {
-                    showToast(`⚠️ Rate Limit (429)，等待 ${retryAfterSec}s 後自動重試...`, 'warning', 3000);
-                    await sleep(retryAfterSec * 1000);
-                    continue;
-                } else {
-                    // Exponential backoff
+
+                if (!response.ok) {
+                    const errText = await response.text().catch(() => '');
+                    throw new Error(`HTTP ${response.status}: ${errText.slice(0, 200)}`);
+                }
+
+                const data = await response.json();
+
+                if (data && data.base_resp && data.base_resp.status_code !== 0) {
+                    throw new Error(`MiniMax API 錯誤 (${data.base_resp.status_code}): ${data.base_resp.status_msg}`);
+                }
+
+                return data; 
+            } catch (err) {
+                lastError = err;
+                
+                if (err.name === 'AbortError' || !activeControllers.has(endpoint)) {
+                    throw new Error('請求已被取消（熔斷）');
+                }
+                
+                if (attempt < MAX_RETRIES) {
                     const backoffSec = Math.min(Math.pow(2, attempt) * 2, MAX_BACKOFF_SECONDS);
-                    showToast(`⚠️ Rate Limit (429)，等待 ${backoffSec}s 後自動重試 (${attempt + 1}/${MAX_RETRIES})...`, 'warning', 3000);
+                    showToast(`⚠️ 請求失敗，${backoffSec}s 後自動重試 (${attempt + 1}/${MAX_RETRIES})...`, 'error', 3000);
                     await sleep(backoffSec * 1000);
                     continue;
                 }
             }
-
-            if (!response.ok) {
-                const errText = await response.text().catch(() => '');
-                throw new Error(`HTTP ${response.status}: ${errText.slice(0, 200)}`);
-            }
-
-            return await response.json();
-        } catch (err) {
-            lastError = err;
-            if (err.name === 'AbortError' || activeControllers.has(endpoint) === false) {
-                throw new Error('請求已被取消（熔斷）');
-            }
-            if (attempt < MAX_RETRIES) {
-                const backoffSec = Math.min(Math.pow(2, attempt) * 2, MAX_BACKOFF_SECONDS);
-                showToast(`⚠️ 請求失敗，${backoffSec}s 後自動重試 (${attempt + 1}/${MAX_RETRIES})...`, 'error', 3000);
-                await sleep(backoffSec * 1000);
-                continue;
-            }
         }
+        throw lastError || new Error('請求失敗');
+    } finally {
+        clearTimeout(timeoutId);
+        activeControllers.delete(endpoint);
     }
-
-    clearTimeout(timeoutId);
-    activeControllers.delete(endpoint);
-    throw lastError || new Error('請求失敗');
 }
 
 function sleep(ms) {
@@ -412,12 +430,17 @@ function sleep(ms) {
 function formatError(err) {
     if (!err) return '未知錯誤';
     if (typeof err === 'string') return err;
-    const msg = err.message || err.error?.message || JSON.stringify(err).slice(0, 100);
-    if (msg.includes('Failed to fetch')) return '網絡連線失敗，請檢查網絡';
-    if (msg.includes('aborted')) return '請求已被中止';
-    if (msg.includes('429')) return 'Rate Limit，請稍後再試';
-    if (msg.includes('401') || msg.includes('403')) return 'API 金鑰無效或已過期';
-    if (msg.includes('500') || msg.includes('502') || msg.includes('503')) return 'MiniMax 伺服器錯誤，請稍後重試';
+    const msg = err.message || err.error?.message || JSON.stringify(err).slice(0, 250);
+    
+    if (msg.includes('Failed to fetch') || msg.includes('NetworkError')) {
+        return '網絡連線失敗！\n\n💡 建議解決方案：\n1. 請確認您的網路環境是否正常且可存取 MiniMax 伺服器。\n2. 確認您的 API 金鑰是否輸入正確。\n3. 確認網頁是否因 iframe 安全沙盒限制阻攔了與 api.minimaxi.chat 的連線。';
+    }
+    if (msg.includes('aborted')) return '請求已被中止。';
+    if (msg.includes('429')) return '觸發頻率限制，請稍候重試。';
+    if (msg.includes('401') || msg.includes('403') || msg.includes('1004')) return 'API 金鑰無效、無效的 Signature 或帳戶已被凍結。';
+    if (msg.includes('1005')) return 'API 帳戶餘額不足，請至 MiniMax 控制台充值。';
+    if (msg.includes('1006') || msg.includes('1013')) return '指定的多模態模型權限不足，請檢查您的帳戶套餐。';
+    if (msg.includes('500') || msg.includes('502') || msg.includes('503')) return 'MiniMax 官方伺服器暫時性維護，請稍後重試。';
     return msg;
 }
 
@@ -468,53 +491,94 @@ function setKeyStatus(connected) {
 }
 
 // ================================================================
-// SECTION 5: TEMPLATE SELECTION
+// SECTION 5: TEMPLATE SELECTION (EMBEDDING CUSTOM EXPERT SYSTEM PROMPTS)
 // ================================================================
 let selectedTemplate = null;
 
-const TEMPLATE_PROMPTS = {
-    geometry: `請仔細分析這張數學幾何題目插圖，將其轉換為精確的 SVG 矢量圖形代碼。
+const TEMPLATE_SYSTEM_PROMPTS = {
+    geometry: `你是一位精通 2D/3D 幾何學、向量圖學與前端視覺設計的資深 SVG 開發專家。你的任務是將用戶上傳的幾何立體結構或函數圖形，精確、優雅地轉換為標準的 XML SVG 代碼。
 
-要求：
-1) 精確還原所有幾何形狀（三角形、圓、矩形、多邊形等）
-2) 保留所有字母標籤（A、B、C、O、P 等）和希臘字母（θ、α、β、γ、φ 等）
-3) 準確標註角度（可用弧線和度數文字，如 ∠ABC 或 θ=45°）
-4) 標註平行線（∥）、垂直線（⊥）、相等線段標記
-5) 保留所有顏色區分
-6) 使用標準 SVG 元素：<line>、<circle>、<path>、<polygon>、<text>、<g>
-7) 設置合理的 viewBox 保持比例
-8) 文字標籤使用 SVG <text> 元素，可包含特殊數學符號
-9) 只輸出 <svg>...</svg> 代碼，不要包含任何解釋文字`,
-    statistics: `請仔細分析這張統計圖表題目插圖，將其轉換為精確的 SVG 矢量圖形代碼。
+請嚴格遵守以下 SVG 設計與繪圖規範：
+1. 【立體感與虛實線規範】：
+   - 前方可見的立體邊、截面邊（例如 A-B, B-C, P-B, P-Q, Q-C 等）：使用粗度為 2.0px 至 2.5px 的深色實線（Solid Lines，如 #0f172a）。
+   - 後方隱藏的遮擋邊（例如 A-D, C-D, D-Q 等）：使用粗度為 1.5px 的中灰色虛線（Dashed Lines，如 stroke-dasharray="5,4"）。
+   - 往頂點/輔助定位點延伸的輔助線、射線（例如 P-V, Q-V, B-V, C-V 等）：使用粗度 1.2px 的細虛點線（Dotted Lines，如 stroke-dasharray="2,3"）。
+2. 【高質感漸層填色】：
+   - 請為截面多邊形（如四邊形 PBCQ）填充半透明的科技感漸層色（例如使用 <linearGradient> 從 #0ea5e9（25% opacity）漸變到 #3b82f6（10% opacity）），以在視覺上拉開立體空間層次。
+3. 【頂點與文字標籤】：
+   - 在每個頂點位置（如 V, A, B, C, D, P, Q）繪製一個精緻的小圓點（半徑 3.5px 左右），帶有細白邊與微弱陰影以確保清晰。
+   - 頂點字母（如 A, B, C, D, P, Q, V）必須使用優雅的襯線斜體字型（Serif Italic，例如 Cambria, Times New Roman, serif）。
+   - 【關鍵】字元標籤（<text>）的 x, y 座標必須根據頂點位置進行「防遮擋位移 offset」。不要讓字母與圓點或交叉線條發生重疊。例如：V 位於頂點上方，其標籤應在其 y 軸往上偏移；A 位於左下，標籤應往左下偏移。
+4. 【代碼規範】：
+   - 僅輸出一段完整、標準、響應式（使用 viewBox，寬高設為 100%）的 <svg>...</svg> 代碼。
+   - 代碼中不可包含額外的 Markdown 解釋性文字、HTML 標記、或 CSS 外鏈，確保代碼可以直接被複製並寫入 .svg 檔案中。`,
 
-要求：
-1) 精確還原柱狀圖、圓餅圖、折線圖、點圖等統計圖形
-2) 準確標註 X 軸、Y 軸刻度與標籤
-3) 保留所有數據標註（數值標籤、百分比、圖例）
-4) 保留座標格線（淺灰色）
-5) 保持原始配色方案
-6) 使用標準 SVG 元素：<rect>、<circle>、<line>、<path>、<text>、<g>
-7) 設置合理的 viewBox
-8) 文字標籤使用 <text> 元素
-9) 只輸出 <svg>...</svg> 代碼，不要包含任何解釋文字`,
-    function: `請仔細分析這張函數或物理題目插圖，將其轉換為精確的 SVG 矢量圖形代碼。
+    statistics: `你是一位資深商業圖表與資訊視覺化設計專家，擅長使用 D3.js 級別的精緻審美編寫標準 SVG 圖表。
+請嚴格遵守以下 SVG 設計規範：
+1. 【格線與座標軸】：
+   - 座標軸（X/Y 軸）線寬 1.5px，色值採用 #64748b。
+   - 背景對齊參考格線（Grid Lines）必須繪製，寬度 1px 虛線，顏色使用極淡的 #e2e8f0 或 #334155，且置於圖表底層。
+2. 【顏色與美學】：
+   - 柱體（Bar）、折線（Line）與扇區（Pie Segment）必須使用高質感配色（如 Emerald 綠、Sky 藍、Violet 紫）。
+   - 柱體必須帶有輕微的圓角定義（rx="3", ry="3"）。
+   - 扇區連接處保留極細的白邊，增加立體層次感。
+3. 【數據標註】：
+   - 保留圖例說明（Legend），文字使用系統無襯線字型（Inter, system-ui）。
+   - 數據數值與百分比（%）需精準標記於相應柱形頂部或圓餅圖邊緣。
+4. 【代碼規範】：
+   - 僅輸出一段完整、標準、響應式的 <svg>...</svg> 代碼。`,
 
-要求：
-1) 精確還原座標系（X軸、Y軸、原點O）
-2) 準確繪製曲線（正弦波、餘弦波、指數線等）
-3) 標註箭頭（受力分析 F→、速度 v→、加速度 a→ 等向量）
-4) 標註關鍵點座標（x, y）
-5) 標註函數表達式（如 y = sin(x)、f(x) = x² 等）
-6) 使用標準 SVG 元素：<line>、<path>、<polygon>（箭頭）、<text>、<g>
-7) 箭頭使用 <marker> 定義
-8) 設置合理的 viewBox（建議 0 0 500 400 或類似）
-9) 只輸出 <svg>...</svg> 代碼，不要包含任何解釋文字`
+    function: `你是一位精通微積分、高等數學與物理力學圖學的學術繪圖專家。
+請嚴格遵守以下 SVG 設計規範：
+1. 【數學與物理路徑】：
+   - 函數曲線（如 sin/cos 波、拋物線）必須使用高精度的貝氏曲線路徑（<path d="..." />）繪製，使線條平滑流暢。
+   - 物理受力箭頭、速度與加速度向量（F, v, a）必須使用內建的 <defs> 定義 <marker id="arrow" ...> 繪製出乾淨的箭頭末端。
+2. 【座標系統與點標註】：
+   - 座標軸必須包含原點 O、X軸（帶箭頭）、Y軸（帶箭頭）。
+   - 關鍵切線點、交點需加上小圓圈標註。
+3. 【學術排版文字】：
+   - 函數公式（如 y = f(x)）與向量標籤須在對應位置渲染，字體使用學術用斜體。
+4. 【代碼規範】：
+   - 僅輸出一段完整、標準、響應式的 <svg>...</svg> 代碼。`
+};
+
+const TEMPLATE_USER_PROMPTS = {
+    geometry: `請仔細分析這張上傳的幾何題目圖形，並將其轉換為高品質的響應式 SVG：
+
+1. 【結構分析指引】：
+   - 請觀察此幾何圖形的頂點。例如它是否是一個以四邊形為底、V為頂點的稜錐？
+   - 圖中是否有任何空間切截面（如四邊形 PBCQ）？請找出這些空間切截面。
+   - 判斷點的相對空間透視。哪些點在前方？哪些點屬於隱藏點？
+   
+2. 【線條處理細節】：
+   - 實體邊（實線）：請找出前方完全可見、未被遮擋的稜邊 and 截面輪廓線。
+   - 隱藏邊（虛線）：請找出位於後方被遮住的底面邊、隱藏稜邊。
+   - 輔助虛點線：標示出往頂點 V 延伸的射線或高（Height）等。
+
+3. 【任務要求】：
+   - 請在 SVG 中完美定位這些頂點的位置，並維持與原圖一致的空間透視比例。
+   - 請為截面多邊形增加一個半透明的科技藍（Sky Blue）漸層填色。
+   - 每個頂點繪製深色圓點標記。
+   - 請以純 XML <svg> 格式直接輸出，不要提供任何 Markdown 解釋文字。`,
+
+    statistics: `請分析這張統計圖表插圖：
+1) 還原柱狀圖、圓餅圖或折線圖的真實數據特徵與比例關係。
+2) 保留所有的 X/Y 軸坐報數值、標籤和圖表標題。
+3) 保留圖表右側或下方的圖例顏色匹配。
+4) 將所有區塊加上柔和的科技感漸層填充，使畫面清爽現代。
+5) 以純 XML <svg> 代碼直接回覆，不含任何 Markdown 代碼框外文字。`,
+
+    function: `請分析這張函數物理題目插圖：
+1) 建立精確的直角坐標系（原點 O 帶標記，軸端帶箭頭）。
+2) 精準繪製函數圖形曲線，如正弦、指數、或物理彈性擺動路徑（平滑度優化）。
+3) 如果圖中有力的分解（如重力 mg、拉力 T、支持力 N），請使用箭頭 marker 與斜體標記還原受力分析圖。
+4) 以純 XML <svg> 代碼直接回覆。`
 };
 
 const TEMPLATE_LABELS = {
-    geometry: '已選擇：幾何定理模板 (Geometric Theorems)',
-    statistics: '已選擇：統計圖表模板 (Statistical Charts)',
-    function: '已選擇：函數物理曲線模板 (Function & Physics)'
+    geometry: '已選擇：幾何定理模板 (Geometric Theorems) - 啟用空間透視與虛實線渲染策略',
+    statistics: '已選擇：統計圖表模板 (Statistical Charts) - 啟用高精度對齊與數據層次優化',
+    function: '已選擇：函數物理曲線模板 (Function & Physics) - 啟用平滑貝氏曲線與向量 Marker 箭頭'
 };
 
 function selectTemplate(tpl) {
@@ -533,14 +597,13 @@ function selectTemplate(tpl) {
     label.textContent = TEMPLATE_LABELS[tpl];
     label.classList.remove('hidden');
     const promptBox = document.getElementById('customPrompt');
-    if (!promptBox.value.trim()) {
-        promptBox.placeholder = TEMPLATE_PROMPTS[tpl];
-    }
-    showToast(`已選擇 ${tpl} 模板`, 'success', 2000);
+    
+    promptBox.value = TEMPLATE_USER_PROMPTS[tpl];
+    showToast(`已成功套用 ${tpl} VLM 流程引導`, 'success', 2000);
 }
 
 // ================================================================
-// SECTION 6: IMAGE INPUT HANDLING
+// SECTION 6: IMAGE INPUT HANDLING & BASE64 PARSING
 // ================================================================
 let selectedBase64Image = '';
 const dropzone = document.getElementById('dropzone');
@@ -564,7 +627,6 @@ fileInput.addEventListener('change', e => {
 });
 
 function handleFile(file) {
-    // 4MB pre-check
     if (file.size > 4 * 1024 * 1024) {
         showToast('❌ 檔案大小超過 4MB 上限！請壓縮圖片後重新上傳。', 'error');
         return;
@@ -585,392 +647,357 @@ function handleFile(file) {
             imagePreview.src = reader.result;
             imagePreview.classList.remove('hidden');
             uploadPlaceholder.classList.add('hidden');
-            showToast('✅ 圖片載入成功！', 'success', 2000);
+            
+            const pZone = document.getElementById('pasteZone');
+            pZone.innerHTML = `<img src="${reader.result}" class="max-h-24 rounded border border-borderCol" />`;
+            
+            showToast('圖片載入成功，已就緒！', 'success');
         };
-        img.onerror = () => showToast('❌ 圖片檔案損毀，無法解析', 'error');
         img.src = reader.result;
     };
     reader.readAsDataURL(file);
 }
 
-// ================================================================
-// SECTION 7: COMPUTER CTRL+V GLOBAL PASTE
-// ================================================================
 document.addEventListener('paste', e => {
-    const target = e.target;
-    if (target.id === 'apiKeyInput' || target.id === 'customPrompt') return;
+    const items = e.clipboardData.items;
+    for (let i = 0; i < items.length; i++) {
+        if (items[i].type.indexOf('image') !== -1) {
+            const blob = items[i].getAsFile();
+            handleFile(blob);
+            break;
+        }
+    }
+});
+
+const pasteZone = document.getElementById('pasteZone');
+pasteZone.addEventListener('paste', e => {
     e.preventDefault();
-    const items = e.clipboardData?.items;
-    if (!items) return;
-    for (const item of items) {
-        if (item.type.startsWith('image/')) {
-            const file = item.getAsFile();
-            if (file) handleFile(file);
+    const items = (e.clipboardData || window.clipboardData).items;
+    for (let i = 0; i < items.length; i++) {
+        if (items[i].type.indexOf('image') !== -1) {
+            const blob = items[i].getAsFile();
+            handleFile(blob);
+            break;
+        }
+    }
+});
+
+// ================================================================
+// SECTION 7: MODERN SVG EXPORT & RENDER CONTROLLERS
+// ================================================================
+let currentSvgCode = '';
+
+function renderSvgPreview(svgCode) {
+    const container = document.getElementById('svgPreviewContainer');
+    container.innerHTML = ''; 
+    
+    const cleanSvg = svgCode.trim();
+    if (!cleanSvg.startsWith('<svg') && !cleanSvg.endsWith('</svg>')) {
+        container.innerHTML = `<span class="text-red-400 text-xs p-4 text-center">⚠️ SVG 代碼不完整，無法渲染</span>`;
+        return;
+    }
+    
+    try {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(cleanSvg, 'image/svg+xml');
+        const parserError = doc.querySelector('parsererror');
+        if (parserError) {
+            container.innerHTML = `
+                <div class="text-red-400 text-xs p-4 flex flex-col gap-2">
+                    <span>⚠️ SVG 語法解析錯誤：</span>
+                    <pre class="bg-darkBg p-2 rounded text-[10px] overflow-x-auto">${parserError.textContent.slice(0, 150)}</pre>
+                </div>`;
             return;
         }
-    }
-    showToast('📋 剪貼簿中找不到圖片', 'warning', 2000);
-});
-
-// ================================================================
-// SECTION 8: MOBILE BUTTON-STYLE PASTE (ContentEditable)
-// ================================================================
-const pasteZone = document.getElementById('pasteZone');
-let pasteZoneClickTimer = null;
-let pasteZoneTouchStarted = false;
-
-pasteZone.addEventListener('touchstart', e => {
-    pasteZoneTouchStarted = true;
-}, { passive: true });
-
-pasteZone.addEventListener('touchend', e => {
-    if (pasteZoneTouchStarted) {
-        pasteZoneClickTimer = setTimeout(() => {
-            // Long press - clear any timer
-        }, 100);
-    }
-    pasteZoneTouchStarted = false;
-});
-
-pasteZone.addEventListener('click', e => {
-    if (pasteZoneClickTimer) {
-        clearTimeout(pasteZoneClickTimer);
-        pasteZoneClickTimer = null;
-    }
-    // Short click - show hint
-    showToast('💡 提示：請長按此按鈕，即可彈出系統選單並貼上圖片！', 'info', 3000);
-});
-
-// Prevent default context menu on long press, allowing native paste
-pasteZone.addEventListener('contextmenu', e => {
-    e.preventDefault();
-});
-
-// ================================================================
-// SECTION 9: SVG EXTRACTION ENGINE
-// ================================================================
-const convertBtn = document.getElementById('convertBtn');
-const svgCodeOutput = document.getElementById('svgCodeOutput');
-const svgPreviewContainer = document.getElementById('svgPreviewContainer');
-const svgPreviewPlaceholder = document.getElementById('svgPreviewPlaceholder');
-
-function extractSvgCode(rawResponse) {
-    if (!rawResponse || typeof rawResponse !== 'string') return '';
-    let cleaned = rawResponse.trim();
-    // Remove markdown code blocks
-    cleaned = cleaned.replace(/^```svg\s*/i, '').replace(/^```\s*/i, '').replace(/\s*```$/i, '');
-    // Check if it contains SVG tags
-    if (/<svg[\s\S]*<\/svg>/i.test(cleaned)) {
-        const match = cleaned.match(/<svg[\s\S]*<\/svg>/i);
-        if (match) return match[0];
-    }
-    // Try to wrap raw path/shape data in svg tag
-    if (/<(path|circle|rect|line|polygon|polyline|text|g)\s/i.test(cleaned) && !/<svg/i.test(cleaned)) {
-        return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400">' + cleaned + '</svg>';
-    }
-    return cleaned;
-}
-
-convertBtn.addEventListener('click', async () => {
-    if (!selectedBase64Image) {
-        showToast('❌ 請先上傳圖片！', 'error');
-        return;
-    }
-    const apiKey = sessionStorage.getItem('svg_converter_api_key') || '';
-    if (!apiKey) {
-        showToast('❌ 請先輸入並儲存 MiniMax API 金鑰', 'error');
-        return;
-    }
-
-    setLoadingState(convertBtn, true);
-    svgCodeOutput.innerHTML = '<span class="text-gray-400 italic">正在分析圖片並提取 SVG，請稍候...</span>';
-    svgPreviewContainer.innerHTML = '<span class="text-gray-500 text-sm italic">處理中...</span>';
-
-    try {
-        let promptText = document.getElementById('customPrompt').value.trim();
-        if (!promptText) {
-            if (!selectedTemplate) {
-                showToast('⚠️ 未選擇模板，將使用通用提示語', 'warning', 2000);
-                promptText = '請仔細分析這張圖片，將其轉換為精確的 SVG 矢量圖形代碼。要求：1) 使用標準 SVG 元素（rect, circle, path, line, text 等）；2) 設置合理的 viewBox；3) 保持顏色；4) 只輸出 <svg>...</svg> 代碼，不要包含任何解釋文字。';
-            } else {
-                promptText = TEMPLATE_PROMPTS[selectedTemplate];
-            }
-        }
-
-        const payload = {
-            model: 'MiniMax-M2.7',
-            messages: [{
-                role: 'user',
-                content: [
-                    { type: 'text', text: promptText },
-                    { type: 'image_url', image_url: { url: selectedBase64Image } }
-                ]
-            }]
-        };
-
-        const spinner = convertBtn.querySelector('.spinner');
-        const btnIcon = convertBtn.querySelector('i');
-        const btnText = convertBtn.querySelector('span:last-child');
-        if (spinner) spinner.classList.remove('hidden');
-        if (btnIcon) btnIcon.classList.add('hidden');
-
-        const data = await fetchMiniMax('chat/completions', payload);
-        const rawContent = data.choices?.[0]?.message?.content || '';
-
-        if (spinner) spinner.classList.add('hidden');
-        if (btnIcon) btnIcon.classList.remove('hidden');
-
-        const svgCode = extractSvgCode(rawContent);
-        if (!svgCode || svgCode.length < 20) {
-            throw new Error('VLM 未返回有效的 SVG 代碼，請嘗試更清晰的圖片或自訂提示語');
-        }
-
-        // Display code
-        svgCodeOutput.textContent = svgCode;
-        window._extractedSvgCode = svgCode;
-
-        // Render preview
-        svgPreviewPlaceholder.style.display = 'none';
-        svgPreviewContainer.innerHTML = svgCode;
-
-        // Make SVG responsive
-        const svgEl = svgPreviewContainer.querySelector('svg');
-        if (svgEl) {
-            svgEl.setAttribute('width', '100%');
-            svgEl.setAttribute('height', '100%');
-            svgEl.style.maxWidth = '100%';
-            svgEl.style.maxHeight = '100%';
-        }
-
-        showToast('✅ SVG 提取成功！', 'success');
-    } catch (err) {
-        svgCodeOutput.innerHTML = `<span class="text-red-400">提取失敗: ${formatError(err)}</span>`;
-        showToast('❌ ' + formatError(err), 'error');
-    } finally {
-        setLoadingState(convertBtn, false);
-    }
-});
-
-function setLoadingState(btn, isLoading) {
-    const spinner = btn.querySelector('.spinner');
-    const icon = btn.querySelector('i');
-    if (isLoading) {
-        btn.disabled = true;
-        btn.classList.add('opacity-75', 'cursor-not-allowed');
-        if (spinner) spinner.classList.remove('hidden');
-    } else {
-        btn.disabled = false;
-        btn.classList.remove('opacity-75', 'cursor-not-allowed');
-        if (spinner) spinner.classList.add('hidden');
-    }
-}
-
-// ================================================================
-// SECTION 10: BACKGROUND TOGGLE
-// ================================================================
-let currentBg = 'dark';
-const bgColors = {
-    dark: '#1a1a2e',
-    light: '#f0f0f5'
-};
-
-function setPreviewBg(bg) {
-    currentBg = bg;
-    svgPreviewContainer.style.background = bgColors[bg];
-    document.getElementById('bgBtn-dark').classList.toggle('active', bg === 'dark');
-    document.getElementById('bgBtn-dark').classList.toggle('text-white', bg === 'dark');
-    document.getElementById('bgBtn-dark').classList.toggle('text-gray-400', bg !== 'dark');
-    document.getElementById('bgBtn-light').classList.toggle('active', bg === 'light');
-    document.getElementById('bgBtn-light').classList.toggle('text-white', bg === 'light');
-    document.getElementById('bgBtn-light').classList.toggle('text-gray-400', bg !== 'light');
-}
-
-// ================================================================
-// SECTION 11: DUAL-TRACK COPY (navigator.clipboard + textarea fallback)
-// ================================================================
-function dualTrackCopy(text) {
-    if (!text) { showToast('沒有內容可複製', 'warning'); return; }
-    if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(text).then(() => {
-            showToast('✅ 已複製到剪貼簿！', 'success');
-        }).catch(() => {
-            textareaFallbackCopy(text);
-        });
-    } else {
-        textareaFallbackCopy(text);
-    }
-}
-
-function textareaFallbackCopy(text) {
-    try {
-        const ta = document.createElement('textarea');
-        ta.value = text;
-        ta.style.cssText = 'position:fixed;left:-9999px;top:-9999px;opacity:0';
-        document.body.appendChild(ta);
-        ta.focus();
-        ta.select();
-        const ok = document.execCommand('copy');
-        document.body.removeChild(ta);
-        if (ok) { showToast('✅ 已複製到剪貼簿！', 'success'); }
-        else { showToast('❌ 複製失敗，請手動選取文字', 'error'); }
+        
+        const svgElement = doc.documentElement;
+        svgElement.setAttribute('width', '100%');
+        svgElement.setAttribute('height', '100%');
+        container.appendChild(svgElement);
     } catch (e) {
-        showToast('❌ 複製失敗：' + formatError(e), 'error');
+        container.innerHTML = `<span class="text-red-400 text-xs p-4">⚠️ 渲染預覽時發生未知錯誤: ${e.message}</span>`;
     }
+}
+
+function setPreviewBg(theme) {
+    const container = document.getElementById('svgPreviewContainer');
+    document.querySelectorAll('.bg-toggle-btn').forEach(b => b.classList.remove('active'));
+    
+    if (theme === 'dark') {
+        container.style.background = '#1a1a2e';
+        document.getElementById('bgBtn-dark').classList.add('active');
+    } else {
+        container.style.background = '#ffffff';
+        document.getElementById('bgBtn-light').classList.add('active');
+    }
+}
+
+function copyToClipboard(text) {
+    try {
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text)
+                .then(() => showToast('📋 複製成功！', 'success'))
+                .catch(() => fallbackCopy(text));
+        } else {
+            fallbackCopy(text);
+        }
+    } catch (err) {
+        fallbackCopy(text);
+    }
+}
+
+function fallbackCopy(text) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.position = "fixed";
+    textArea.style.top = "0";
+    textArea.style.left = "0";
+    textArea.style.width = "2em";
+    textArea.style.height = "2em";
+    textArea.style.padding = "0";
+    textArea.style.border = "none";
+    textArea.style.outline = "none";
+    textArea.style.boxShadow = "none";
+    textArea.style.background = "transparent";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+            showToast('📋 複製成功 (經由系統剪貼簿)！', 'success');
+        } else {
+            showToast('❌ 無法複製，請手動框選複製', 'error');
+        }
+    } catch (err) {
+        showToast('❌ 複製失敗: ' + err.message, 'error');
+    }
+    document.body.removeChild(textArea);
 }
 
 document.getElementById('copyCodeBtn').addEventListener('click', () => {
-    const code = window._extractedSvgCode || svgCodeOutput.textContent;
-    if (code && !code.includes('沒有內容') && !code.includes('失敗')) {
-        dualTrackCopy(code);
-    } else {
-        showToast('請先提取 SVG', 'warning');
-    }
+    if (!currentSvgCode) { showToast('當前無 SVG 代碼可供複製', 'warning'); return; }
+    copyToClipboard(currentSvgCode);
 });
 
 document.getElementById('copySvgBtn').addEventListener('click', () => {
-    const code = window._extractedSvgCode || svgCodeOutput.textContent;
-    if (code && !code.includes('沒有內容') && !code.includes('失敗')) {
-        dualTrackCopy(code);
-    } else {
-        showToast('請先提取 SVG', 'warning');
-    }
+    if (!currentSvgCode) { showToast('當前無 SVG 代碼可供複製', 'warning'); return; }
+    copyToClipboard(currentSvgCode);
 });
 
 document.getElementById('downloadSvgBtn').addEventListener('click', () => {
-    const code = window._extractedSvgCode || svgCodeOutput.textContent;
-    if (!code || code.includes('沒有內容') || code.includes('失敗')) {
-        showToast('請先提取 SVG', 'warning');
+    if (!currentSvgCode) { showToast('請先進行轉換再點擊下載', 'warning'); return; }
+    try {
+        const blob = new Blob([currentSvgCode], { type: 'image/svg+xml;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `academic_svg_${Date.now()}.svg`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        showToast('💾 SVG 下載已啟動！', 'success');
+    } catch (e) {
+        showToast('下載失敗: ' + e.message, 'error');
+    }
+});
+
+// ================================================================
+// SECTION 8: MINIMAX API INTEGRATION & PIPELINE (CODING PLAN VLM WITH CORRECT SPEC FORMAT)
+// ================================================================
+const convertBtn = document.getElementById('convertBtn');
+
+convertBtn.addEventListener('click', async () => {
+    if (!selectedBase64Image) {
+        showToast('請先提供或貼上您想轉換的題目插圖！', 'warning');
         return;
     }
-    const blob = new Blob([code], { type: 'image/svg+xml' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `svg_converter_${Date.now()}.svg`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    showToast('✅ SVG 檔案下載中！', 'success');
+    if (!selectedTemplate) {
+        showToast('請在上方選取一個學術 VLM 範本以套用最佳繪圖策略', 'warning');
+        return;
+    }
+
+    const apiKey = sessionStorage.getItem('svg_converter_api_key') || '';
+    if (!apiKey) {
+        showModal('需要金鑰', '請在頁首輸入您的 MiniMax API 金鑰並點選「儲存」，以便發送 VLM 請求。');
+        return;
+    }
+
+    setLoading(true);
+
+    const systemPrompt = TEMPLATE_SYSTEM_PROMPTS[selectedTemplate];
+    const userPrompt = document.getElementById('customPrompt').value.trim() || TEMPLATE_USER_PROMPTS[selectedTemplate];
+
+    // 改用正確的單一 prompt 與 image_url 架構，不傳 model 欄位與 messages
+    const payload = {
+        prompt: `${systemPrompt}\n\n${userPrompt}`,
+        image_url: selectedBase64Image // 包含 data:image/png;base64, 前綴
+    };
+
+    try {
+        const responseData = await fetchMiniMax('coding_plan/vlm', payload);
+        
+        // 解析 OpenClaw VLM 返回的多種潛在資料結構
+        let replyText = '';
+        if (responseData.choices?.[0]?.message?.content) {
+            replyText = responseData.choices[0].message.content;
+        } else if (responseData.reply) {
+            replyText = responseData.reply;
+        } else if (responseData.text) {
+            replyText = responseData.text;
+        } else if (responseData.content) {
+            replyText = responseData.content;
+        } else if (typeof responseData === 'string') {
+            replyText = responseData;
+        } else {
+            replyText = JSON.stringify(responseData);
+        }
+
+        if (!replyText || replyText === '{}') {
+            const baseRespInfo = responseData.base_resp ? `\nMiniMax 伺服器回應: ${responseData.base_resp.status_msg} (代碼: ${responseData.base_resp.status_code})` : '';
+            throw new Error(`回傳結構未包含可提取的對話內容。${baseRespInfo}\n\n完整回應日誌: ${JSON.stringify(responseData)}`);
+        }
+
+        // 截取 <svg> 到 </svg>
+        const svgMatch = replyText.match(/<svg[\s\S]*?<\/svg>/i);
+        if (svgMatch) {
+            currentSvgCode = svgMatch[0];
+            
+            const codeOutput = document.getElementById('svgCodeOutput');
+            codeOutput.textContent = currentSvgCode;
+            renderSvgPreview(currentSvgCode);
+            showToast('🎉 SVG 智能提取完成！', 'success');
+        } else {
+            console.warn('VLM 回覆內容中找不到標準 SVG 標籤：', replyText);
+            if (replyText.includes('&lt;svg')) {
+                const unescaped = replyText.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+                const secondTry = unescaped.match(/<svg[\s\S]*?<\/svg>/i);
+                if (secondTry) {
+                    currentSvgCode = secondTry[0];
+                    document.getElementById('svgCodeOutput').textContent = currentSvgCode;
+                    renderSvgPreview(currentSvgCode);
+                    showToast('🎉 還原 HTML 轉義字元後提取成功！', 'success');
+                    return;
+                }
+            }
+            showModal('未偵測到完整 SVG', `模型能回覆文本，但其中未包含合法的 <svg> 標籤。這通常是提示詞被截斷或限制所致。\n\n【模型回覆內容】：\n${replyText}`);
+        }
+
+    } catch (err) {
+        const errorMsg = formatError(err);
+        showModal('請求失敗', `透過 MiniMax API 處理圖片時發生錯誤：\n\n${errorMsg}`);
+    } finally {
+        setLoading(false);
+    }
 });
 
+function setLoading(isLoading) {
+    const spinner = convertBtn.querySelector('.spinner');
+    const textSpan = convertBtn.querySelector('span:not(.spinner)');
+    const icon = convertBtn.querySelector('.fa-code');
+    
+    if (isLoading) {
+        convertBtn.disabled = true;
+        spinner.classList.remove('hidden');
+        if (icon) icon.classList.add('hidden');
+        textSpan.textContent = 'AI 運算分析中...';
+    } else {
+        convertBtn.disabled = false;
+        spinner.classList.add('hidden');
+        if (icon) icon.classList.remove('hidden');
+        textSpan.textContent = '提取 SVG';
+    }
+}
+
 // ================================================================
-// SECTION 12: AI CONTINUATION PROMPT GENERATOR
+// SECTION 9: PROMPT GENERATION FOR SUBSEQUENT DEVELOPMENT (AI 續作)
 // ================================================================
-const AI_CONTINUATION_PROMPT = `# SVG 智能轉換器 - AI 續作開發提示語
+document.getElementById('generateAiPromptBtn').addEventListener('click', () => {
+    if (!currentSvgCode) {
+        showToast('⚠️ 請先在左側提取幾何 SVG 再生成續作開發提示語', 'warning');
+        return;
+    }
 
-## 當前系統能力
-- 將數學題目插圖（幾何、統計圖表、函數曲線）上傳並轉換為 SVG 矢量代碼
-- MiniMax VLM (M2.7) 驅動的圖像理解引擎
-- 支援模板化提示語（幾何定理 / 統計圖表 / 函數物理）
-- 深色/淺色背景預覽切換
-- 雙軌一鍵複製（navigator.clipboard + textarea fallback）
+    const docPrompt = `
+# 角色定義
+你是一位具備頂尖 Web 圖學與幾何物理互動開發實力的前端科學工程師。
 
-## 請基於以下功能要求，生成專家級 Markdown 指令，供後續開發使用
+# 核心任務
+基於以下已有的學術 SVG 代碼，將其升級為一個【高度可互動、且可用於教學/出題的幾何物理演示看板】。
 
-### 功能需求
-
-#### 1. 鼠標拖動修改 SVG
-- 在預覽區域實現所見即所得編輯
-- 支援選擇（click）SVG 元素（圓心、半徑、端點等）
-- 支援拖動（drag）移動元素或調整大小
-- 拖動時即時更新 SVG 座標屬性
-- 右鍵選單：刪除元素、複製元素屬性、鎖定/解鎖
-- 支援 Undo/Redo（Ctrl+Z / Ctrl+Y）
-- 雙擊元素進入文字編輯模式
-
-#### 2. LaTeX 公式渲染
-- 在 SVG 預覽區域支援 \`$...$\` 和 \`$$...$$\` LaTeX 語法
-- 自動識別並將數學公式渲染為 SVG（使用 KaTeX 或 MathJax）
-- 支援常見數學符號：分數、根號、上下標、積分、希臘字母
-- 公式作為可編輯 text 元素存在
-
-#### 3. 一鍵導出透明 PNG
-- 將 SVG 預覽導出為透明背景 PNG
-- 支援自定義輸出解析度（1x, 2x, 3x, 4x）
-- 使用 Canvas 進行 SVG → PNG 轉換
-- 下載按鈕直接觸發瀏覽器下載，檔名包含 timestamp
-- 轉換進度條提示（對於大圖形）
-
-#### 4. 額外增強功能（可選實現）
-- 網格吸附（Snap to Grid）開關，輔助對齊
-- 多選模式（Shift+Click 或框選）
-- SVG 代碼熱更新（即時渲染用戶輸入的 SVG 代碼）
-- 圖層面板：顯示所有 SVG 元素樹狀結構，支援隱藏/顯示、鎖定
-- 歷史記錄面板：顯示所有操作歷史，支援點擊跳轉
-
-## 技術約束
-- 純 HTML + Vanilla JS + Tailwind CSS
-- 不使用任何大型框架（React/Vue/Angular）
-- LaTeX 渲染使用 KaTeX CDN
-- SVG → PNG 使用 Canvas 2D API
-- 所有代碼放在單一 HTML 文件
-
-## 輸出格式
-請以以下格式生成開發指令：
-
-\`\`\`markdown
-## 功能名稱
-### 實現步驟
-1. ...
-2. ...
-### 關鍵代碼片段
-[相關代碼]
-### 注意事項
-- ...
+## 當前已有的原始幾何 SVG 原始碼
+\`\`\`xml
+${currentSvgCode}
 \`\`\`
+
+## 升級開發要求（一體化單網頁 HTML 實現）
+請輸出一個全新的、自包含的單一 HTML 檔案，包含 CSS 樣式、JavaScript 互動程式碼、以及優化後的 SVG，並加入以下高階互動功能：
+1. **頂點可拖拽交互 (Draggable Vertices)**：
+   - 允許用戶使用滑鼠拖拽主要頂點（例如 V, P, Q, B, C 等）。
+   - 拖拽時，與該頂點相連的所有立體實線、隱藏虛線、輔助點線必須即時重繪並更新坐標（維持底面平行的仿射關係）。
+2. **LaTeX 公式實時渲染 (LaTeX Render in SVG)**：
+   - 使用 MathJax 或 KaTeX 將所有頂點字母標籤 (如 $A$, $B$, $C$, $D$, $P$, $Q$, $V$) 渲染為數學教科書級別的排版。
+3. **動態透視視角滑桿 (Camera Angle Slider)**：
+   - 提供控制滑桿，允許用戶動態調整投影係數或 3D 視角旋轉，觀察幾何錐體與截面的角度變化。
+4. **一鍵高解析透明 PNG / SVG 下載**：
+   - 增加按鈕，允許一鍵導出為不帶底色、方便直接插入考卷或講義的高解析度透明 PNG 圖片。
+
+請直接提供完整的單一 HTML 檔案代碼，要求介面乾淨、極簡且具備學術氣息。
 `;
 
-document.getElementById('generateAiPromptBtn').addEventListener('click', () => {
-    const modal = document.getElementById('aiPromptModal');
-    const content = document.getElementById('aiPromptContent');
-    content.textContent = AI_CONTINUATION_PROMPT;
-    modal.classList.remove('hidden');
-});
-
-document.getElementById('closeAiPromptModal').addEventListener('click', () => {
-    document.getElementById('aiPromptModal').classList.add('hidden');
-});
-document.getElementById('closeAiPromptModal2').addEventListener('click', () => {
-    document.getElementById('aiPromptModal').classList.add('hidden');
+    document.getElementById('aiPromptContent').textContent = docPrompt.trim();
+    document.getElementById('aiPromptModal').classList.remove('hidden');
 });
 
 document.getElementById('copyAiPromptBtn').addEventListener('click', () => {
-    dualTrackCopy(AI_CONTINUATION_PROMPT);
+    const text = document.getElementById('aiPromptContent').textContent;
+    copyToClipboard(text);
 });
 
-// Close modal on backdrop click
-document.getElementById('aiPromptModal').addEventListener('click', e => {
-    if (e.target === document.getElementById('aiPromptModal')) {
-        document.getElementById('aiPromptModal').classList.add('hidden');
-    }
-});
+const closeAiModal = () => document.getElementById('aiPromptModal').classList.add('hidden');
+document.getElementById('closeAiPromptModal').addEventListener('click', closeAiModal);
+document.getElementById('closeAiPromptModal2').addEventListener('click', closeAiModal);
 
 // ================================================================
-// SECTION 13: INIT & HELPERS
+// SECTION 10: CUSTOM MODAL LOGIC (REPLACING BROWSER ALERTS)
 // ================================================================
-document.getElementById('customModal').addEventListener('click', e => {
-    if (e.target.id === 'customModal') document.getElementById('customModal').classList.add('hidden');
-});
+function showModal(title, bodyText) {
+    const modal = document.getElementById('customModal');
+    const titleEl = document.getElementById('modalTitle');
+    const bodyEl = document.getElementById('modalBody');
+    const actionsEl = document.getElementById('modalActions');
 
-// Load saved API key
-const savedKey = sessionStorage.getItem('svg_converter_api_key');
-if (savedKey) {
-    document.getElementById('apiKeyInput').value = savedKey;
-    currentApiKey = savedKey;
-    setKeyStatus(true);
+    titleEl.innerHTML = `<i class="fa-solid fa-circle-info text-amber-500 mr-1"></i> ${title}`;
+    bodyEl.innerHTML = `<div class="whitespace-pre-wrap font-sans text-sm leading-relaxed">${bodyText}</div>`;
+    
+    actionsEl.innerHTML = `
+        <button onclick="closeCustomModal()" class="bg-brand-600 hover:bg-brand-700 text-white rounded-xl px-5 py-2 text-xs font-semibold transition shadow-lg">
+            確認
+        </button>
+    `;
+
+    modal.classList.remove('hidden');
 }
 
-// Default to dark background
-setPreviewBg('dark');
+function closeCustomModal() {
+    document.getElementById('customModal').classList.add('hidden');
+}
+document.getElementById('modalCloseBtn').addEventListener('click', closeCustomModal);
 
-// Auto-resize textarea
-document.getElementById('customPrompt').addEventListener('input', function() {
-    this.style.height = 'auto';
-    this.style.height = this.scrollHeight + 'px';
-});
-
-console.log('✅ 題目插圖 SVG 智能轉換器已載入');
+// ================================================================
+// SECTION 11: INITIALIZATION
+// ================================================================
+window.onload = function() {
+    const savedKey = sessionStorage.getItem('svg_converter_api_key');
+    if (savedKey) {
+        document.getElementById('apiKeyInput').value = savedKey;
+        currentApiKey = savedKey;
+        setKeyStatus(true);
+    }
+    
+    selectTemplate('geometry');
+}
 </script>
 </body>
 </html>
