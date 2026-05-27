@@ -485,11 +485,10 @@
                             <div class="form-group flex flex-col gap-1.5">
                                 <label for="ttsVoiceSelect" class="text-xs font-bold text-gray-400">選擇音色</label>
                                 <select id="ttsVoiceSelect" class="bg-darkBg border border-borderCol rounded-xl p-2.5 text-sm focus:outline-none focus:border-brand-500">
-                                    <option value="chinese_female_1_v1">Chinese Female v1 (中文溫和女聲)</option>
-                                    <option value="chinese_male_1_v1">Chinese Male v1 (中文沉穩男聲)</option>
-                                    <option value="Cantonese_ProfessionalHost_M">Cantonese Professional (粵語專業男主播)</option>
-                                    <option value="English_expressive_narrator">English Expressive Narrator (英語流暢敘事)</option>
-                                    <option value="English_radiant_girl">English Radiant Girl (英語陽光女孩)</option>
+                                    <option value="cantonese_female">Cantonese Female (粵語女聲)</option>
+                                    <option value="female_1">Female 1 (女聲1)</option>
+                                    <option value="male_1">Male 1 (男聲1)</option>
+                                    <option value="speech_1">Speech 1 (通用語音)</option>
                                 </select>
                             </div>
                             <div class="form-group flex flex-col gap-1.5">
@@ -2167,7 +2166,7 @@
 
         // ==================== TTS STUDIO WIZARD ====================
         let ttsCurrentStep = 1;
-        let ttsSettings = { model: 'speech-2.8-hd', voice: 'chinese_female_1_v1', speed: 1.0, text: '' };
+        let ttsSettings = { model: 'speech-2.8-hd', voice: 'cantonese_female', speed: 1.0, text: '' };
         let ttsAudioUrl = '';
 
         function ttsNextStep(current) {
@@ -2227,7 +2226,7 @@
 
         function ttsReset() {
             ttsCurrentStep = 1;
-            ttsSettings = { model: 'speech-2.8-hd', voice: 'chinese_female_1_v1', speed: 1.0, text: '' };
+            ttsSettings = { model: 'speech-2.8-hd', voice: 'cantonese_female', speed: 1.0, text: '' };
             document.getElementById('ttsText').value = '';
             document.getElementById('ttsCharCount').textContent = '0';
             document.getElementById('ttsSpeed').value = 1.0;
