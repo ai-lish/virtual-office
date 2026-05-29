@@ -1,6 +1,6 @@
 {
   "_version": 1,
-  "_updatedAt": "2026-05-29T20:55:11.769Z",
+  "_updatedAt": "2026-05-29T23:55:27.296Z",
   "_totalEntries": 273,
   "entries": [
     {
@@ -9,11 +9,11 @@
       "window": "21-01",
       "windowStart": "2026-05-29T20:00:00.000Z",
       "windowEnd": "2026-05-30T00:00:00.000Z",
-      "capturedAt": "2026-05-29T20:55:11.736Z",
+      "capturedAt": "2026-05-29T23:55:27.272Z",
       "mStar": {
         "total": 4500,
-        "used": 0,
-        "remaining": 4500,
+        "used": 6,
+        "remaining": 4494,
         "usedPct": 0
       },
       "speech": {
