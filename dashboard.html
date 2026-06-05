@@ -150,51 +150,65 @@
             </div>
             <div class="stats-grid" id="hist-stats" style="margin-bottom:16px;">
                 <div class="stat-box">
-                    <div class="label">平均 M* 用量</div>
+                    <div class="label">平均 Text/M* 用量</div>
                     <div class="value" id="hist-avg-mstar" style="color:var(--blue);">—</div>
                     <div style="font-size:0.65em;color:var(--text2);margin-top:2px;">/ 窗口</div>
                 </div>
                 <div class="stat-box">
-                    <div class="label">平均 M* 使用率</div>
+                    <div class="label">平均 Text/M* 使用率</div>
                     <div class="value" id="hist-avg-mstar-pct" style="color:var(--orange);">—</div>
                 </div>
                 <div class="stat-box">
                     <div class="label">平均 Speech 用量</div>
                     <div class="value" id="hist-avg-speech" style="color:#9b59b6;">—</div>
-                    <div style="font-size:0.65em;color:var(--text2);margin-top:2px;">/ 日</div>
+                    <div style="font-size:0.65em;color:var(--text2);margin-top:2px;">/ 日（v1）</div>
                 </div>
                 <div class="stat-box">
                     <div class="label">平均 Image 用量</div>
                     <div class="value" id="hist-avg-image" style="color:var(--orange);">—</div>
-                    <div style="font-size:0.65em;color:var(--text2);margin-top:2px;">/ 日</div>
+                    <div style="font-size:0.65em;color:var(--text2);margin-top:2px;">/ 日（v1）</div>
                 </div>
+                <div class="stat-box">
+                    <div class="label">平均 Video 使用率</div>
+                    <div class="value" id="hist-avg-video" style="color:var(--green);">—</div>
+                    <div style="font-size:0.65em;color:var(--text2);margin-top:2px;">/ 日（v2）</div>
+                </div>
+            </div>
+            <div style="font-size:0.72em;color:var(--text2);margin-bottom:6px;display:flex;gap:14px;align-items:center;">
+                <span>Legend:</span>
+                <span><span style="display:inline-block;padding:1px 6px;border-radius:4px;background:rgba(150,150,150,0.18);color:#aaa;font-weight:600;font-size:0.95em;">v1</span> Pre-2026-06-01 (M2.7/Speech/Image 細項)</span>
+                <span><span style="display:inline-block;padding:1px 6px;border-radius:4px;background:rgba(46,204,113,0.18);color:var(--green);font-weight:600;font-size:0.95em;">v2</span> 2026-06-01+ (General/Video credit-based)</span>
             </div>
             <div style="overflow-x:auto;">
                 <table class="data-table">
                     <colgroup>
                         <col style="width:80px;">
                         <col style="width:60px;">
+                        <col style="width:50px;">
                         <col style="width:70px;">
                         <col style="width:70px;">
                         <col style="width:50px;">
                         <col style="width:70px;">
                         <col style="width:70px;">
+                        <col style="width:60px;">
                         <col style="width:100px;">
                     </colgroup>
                     <thead>
                         <tr>
                             <th>日期</th>
                             <th>時段</th>
-                            <th class="num">M* 已用</th>
-                            <th class="num">M* 總計</th>
-                            <th class="num">M* %</th>
+                            <th>Schema</th>
+                            <th class="num">Text 已用</th>
+                            <th class="num">Text 總計</th>
+                            <th class="num">Text %</th>
                             <th class="num">Speech 已用</th>
                             <th class="num">Image 已用</th>
+                            <th class="num">Video %</th>
                             <th style="font-size:0.8em;color:var(--text2);">擷取時間</th>
                         </tr>
                     </thead>
                     <tbody id="hist-body">
-                        <tr><td colspan="8" style="text-align:center;color:var(--text2);padding:24px;">載入中…</td></tr>
+                        <tr><td colspan="10" style="text-align:center;color:var(--text2);padding:24px;">載入中…</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -402,7 +416,7 @@
             try {
                 const res = await fetch(basePath + '/public/quota-history.json?' + Date.now());
                 if (!res.ok) {
-                    $('hist-body').innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text2);padding:24px;">暫無歷史資料 — 請先執行 refresh-data.sh</td></tr>';
+                    $('hist-body').innerHTML = '<tr><td colspan="10" style="text-align:center;color:var(--text2);padding:24px;">暫無歷史資料 — 請先執行 refresh-data.sh</td></tr>';
                     return;
                 }
                 const data = await res.json();
@@ -428,24 +442,37 @@
             this.page = 1;
             this.filtered = dateFilter === 'all' ? this.entries : this.entries.filter(e => e.date === dateFilter);
 
-            const mStarEntries = this.filtered.filter(e => e.mStar?.total > 0);
+            // ── Schema-aware helpers (back-compat: v1 has mStar, v2 has general) ──
+            const getText = e => e.general || e.mStar;  // v2 'general' bucket, or v1 'mStar'
+            const getVideo = e => e.video;
+            const getSpeech = e => e.speech;
+            const getImage = e => e.image;
+            const getSchema = e => e._schema || (e.mStar ? 'v1' : e.general ? 'v2' : '?');
+
+            const textEntries = this.filtered.filter(e => {
+                const t = getText(e);
+                return t && (t.total > 0 || t.usedPct != null);
+            });
+            const videoEntries = this.filtered.filter(e => getVideo(e)?.usedPct != null);
             const speechDays = {}, imageDays = {};
             this.filtered.forEach(e => {
                 if (e.speech?.used > 0 && !speechDays[e.date]) speechDays[e.date] = e.speech.used;
                 if (e.image?.used  > 0 && !imageDays[e.date])  imageDays[e.date]  = e.image.used;
             });
 
-            const avgMStar    = mStarEntries.length ? Math.round(mStarEntries.reduce((s,e) => s + e.mStar.used, 0) / mStarEntries.length) : 0;
-            const avgMStarPct = mStarEntries.length ? Math.round(mStarEntries.reduce((s,e) => s + e.mStar.usedPct, 0) / mStarEntries.length) : 0;
-            const speechVals  = Object.values(speechDays);
-            const imageVals   = Object.values(imageDays);
-            const avgSpeech   = speechVals.length ? Math.round(speechVals.reduce((s,v) => s+v,0) / speechVals.length) : 0;
-            const avgImage    = imageVals.length  ? Math.round(imageVals.reduce((s,v) => s+v,0)  / imageVals.length)  : 0;
+            const avgText    = textEntries.length ? Math.round(textEntries.reduce((s,e) => s + (getText(e).used || 0), 0) / textEntries.length) : 0;
+            const avgTextPct = textEntries.length ? Math.round(textEntries.reduce((s,e) => s + (getText(e).usedPct || 0), 0) / textEntries.length) : 0;
+            const avgVideo   = videoEntries.length ? Math.round(videoEntries.reduce((s,e) => s + getVideo(e).usedPct, 0) / videoEntries.length) : 0;
+            const speechVals = Object.values(speechDays);
+            const imageVals  = Object.values(imageDays);
+            const avgSpeech  = speechVals.length ? Math.round(speechVals.reduce((s,v) => s+v,0) / speechVals.length) : 0;
+            const avgImage   = imageVals.length  ? Math.round(imageVals.reduce((s,v) => s+v,0)  / imageVals.length)  : 0;
 
-            $('hist-avg-mstar').textContent     = avgMStar || '—';
-            $('hist-avg-mstar-pct').textContent = avgMStarPct ? avgMStarPct + '%' : '—';
+            $('hist-avg-mstar').textContent     = avgText    ? (textEntries[0] && getText(textEntries[0]).total > 0 ? avgText : avgTextPct + '%') : '—';
+            $('hist-avg-mstar-pct').textContent = avgTextPct ? avgTextPct + '%' : '—';
             $('hist-avg-speech').textContent    = avgSpeech || '—';
-            $('hist-avg-image').textContent     = avgImage || '—';
+            $('hist-avg-image').textContent     = avgImage  || '—';
+            $('hist-avg-video').textContent     = avgVideo  ? avgVideo + '%' : '—';
 
             this.render();
         }
@@ -456,28 +483,41 @@
             const page = this.filtered.slice(start, end);
             const totalPages = Math.ceil(this.filtered.length / this.pageSize) || 1;
             const winColors = { '01-06':'#3498db','06-11':'#2ecc71','11-16':'#e67e22','16-21':'#e74c3c','21-01':'#9b59b6' };
+            const getText = e => e.general || e.mStar;
+            const getSchema = e => e._schema || (e.mStar ? 'v1' : e.general ? 'v2' : '?');
 
             const tbody = $('hist-body');
             if (page.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text2);padding:24px;">無資料</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;color:var(--text2);padding:24px;">無資料</td></tr>';
             } else {
                 tbody.innerHTML = page.map(e => {
                     const wc = winColors[e.window] || '#888';
-                    const mUsed = e.mStar?.used ?? '—';
-                    const mTotal = e.mStar?.total ?? '—';
-                    const mPct = e.mStar?.usedPct != null ? e.mStar.usedPct + '%' : '—';
-                    const pctColor2 = e.mStar?.usedPct >= 90 ? 'var(--danger)' : e.mStar?.usedPct >= 70 ? 'var(--warn)' : 'var(--green)';
+                    const t = getText(e);
+                    const tUsed = t?.used ?? '—';
+                    const tTotal = t?.total ?? '—';
+                    const tPct = t?.usedPct != null ? t.usedPct + '%' : '—';
+                    const pctColor = t?.usedPct >= 90 ? 'var(--danger)' : t?.usedPct >= 70 ? 'var(--warn)' : 'var(--green)';
                     const sUsed = e.speech?.used ?? '—';
                     const iUsed = e.image?.used ?? '—';
+                    const vPct = e.video?.usedPct != null ? e.video.usedPct + '%' : '—';
+                    const vColor = e.video?.usedPct >= 90 ? 'var(--danger)' : e.video?.usedPct >= 70 ? 'var(--warn)' : 'var(--green)';
                     const captTime = e.capturedAt ? new Date(e.capturedAt).toLocaleString('zh-HK',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}) : '—';
+                    const sch = getSchema(e);
+                    const schBadge = sch === 'v2'
+                        ? `<span style="display:inline-block;padding:1px 6px;border-radius:4px;background:rgba(46,204,113,0.18);color:var(--green);font-weight:600;font-size:0.85em;">v2</span>`
+                        : sch === 'v1'
+                        ? `<span style="display:inline-block;padding:1px 6px;border-radius:4px;background:rgba(150,150,150,0.18);color:#aaa;font-weight:600;font-size:0.85em;">v1</span>`
+                        : `<span style="color:#888;">?</span>`;
                     return `<tr>
                         <td>${e.date}</td>
                         <td><span style="color:${wc};font-weight:600;">${e.window}</span></td>
-                        <td class="num">${mUsed}</td>
-                        <td class="num" style="color:var(--text2);">${mTotal}</td>
-                        <td class="num" style="color:${pctColor2};">${mPct}</td>
+                        <td>${schBadge}</td>
+                        <td class="num">${tUsed}</td>
+                        <td class="num" style="color:var(--text2);">${tTotal}</td>
+                        <td class="num" style="color:${pctColor};">${tPct}</td>
                         <td class="num" style="color:#9b59b6;">${sUsed}</td>
                         <td class="num" style="color:var(--orange);">${iUsed}</td>
+                        <td class="num" style="color:${vColor};">${vPct}</td>
                         <td style="color:var(--text2);font-size:0.85em;">${captTime}</td>
                     </tr>`;
                 }).join('');

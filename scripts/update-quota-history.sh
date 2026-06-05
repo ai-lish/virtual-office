@@ -44,12 +44,20 @@ const histFile = '$HISTORY_FILE';
 const raw = status.raw?.model_remains || [];
 const generatedAt = status._generatedAt || new Date().toISOString();
 
-// Find key models
+// ── Schema detection ──
+// v1 (pre-2026-06-01): MiniMax-M*, speech-hd, image-01 (fixed counts)
+// v2 (2026-06-01+):    'general' + 'video' (credit-based unified pool)
 const mStar   = raw.find(m => m.model_name === 'MiniMax-M*');
 const speech  = raw.find(m => m.model_name === 'speech-hd');
 const image   = raw.find(m => m.model_name === 'image-01');
+const general = raw.find(m => m.model_name === 'general');
+const video   = raw.find(m => m.model_name === 'video');
 
-if (!mStar) { console.log('No MiniMax-M* data, skipping'); process.exit(0); }
+const schema = mStar ? 'v1' : (general || video) ? 'v2' : null;
+if (!schema) { console.log('No recognized model data, skipping'); process.exit(0); }
+
+// Pick a reference model for window boundaries (any present one works)
+const ref = mStar || general;
 
 // ── Determine window label from cron runtime (capturedAt), NOT from API start_time ──
 const capturedAt = new Date();
@@ -68,49 +76,66 @@ else if (capturedHour >= 15 && capturedHour < 20) windowLabel = '16-21';
 else                                             windowLabel = '21-01';
 
 // Use API start_time for dateStr and window boundaries (those are correct UTC timestamps)
-const startUtc = new Date(mStar.start_time);
+const startUtc = new Date(ref.start_time);
 const dateStr = startUtc.toISOString().slice(0, 10);  // UTC date of window start
 const windowKey = dateStr + '_' + windowLabel;
 const windowStart = startUtc.toISOString();
-const windowEnd   = new Date(mStar.end_time).toISOString();
+const windowEnd   = new Date(ref.end_time).toISOString();
 
-// ── Build snapshot entry ──
+// Helper: build sub-object for any model that exposes current_interval_* fields
+function buildBucket(m) {
+  if (!m) return null;
+  const total = m.current_interval_total_count;
+  const used  = total - m.current_interval_usage_count;  // mirror old semantics: 'used' = consumed
+  return {
+    total,
+    used,
+    remaining: m.current_interval_usage_count,
+    usedPct:   total > 0 ? Math.round(used / total * 100) : 0,
+    weeklyTotal: m.current_weekly_total_count || 0,
+    weeklyUsed:  m.current_weekly_usage_count  || 0
+  };
+}
+
+// ── Build snapshot entry (schema-aware) ──
 const snapshot = {
+  _schema: schema,
   windowKey,
   date: dateStr,
   window: windowLabel,
-  windowStart: new Date(mStar.start_time).toISOString(),
-  windowEnd:   new Date(mStar.end_time).toISOString(),
-  capturedAt:  capturedAt.toISOString(),
-  mStar: mStar ? {
-    total:     mStar.current_interval_total_count,
-    used:      mStar.current_interval_total_count - mStar.current_interval_usage_count,
-    remaining: mStar.current_interval_usage_count,
-    usedPct:   mStar.current_interval_total_count > 0
-      ? Math.round((mStar.current_interval_total_count - mStar.current_interval_usage_count) / mStar.current_interval_total_count * 100)
-      : 0
-  } : null,
-  speech: speech ? {
-    total:     speech.current_interval_total_count,
-    used:      speech.current_interval_total_count - speech.current_interval_usage_count,
-    remaining: speech.current_interval_usage_count,
-    usedPct:   speech.current_interval_total_count > 0
-      ? Math.round((speech.current_interval_total_count - speech.current_interval_usage_count) / speech.current_interval_total_count * 100)
-      : 0,
-    weeklyTotal: speech.current_weekly_total_count,
-    weeklyUsed:  speech.current_weekly_usage_count
-  } : null,
-  image: image ? {
-    total:     image.current_interval_total_count,
-    used:      image.current_interval_total_count - image.current_interval_usage_count,
-    remaining: image.current_interval_usage_count,
-    usedPct:   image.current_interval_total_count > 0
-      ? Math.round((image.current_interval_total_count - image.current_interval_usage_count) / image.current_interval_total_count * 100)
-      : 0,
-    weeklyTotal: image.current_weekly_total_count,
-    weeklyUsed:  image.current_weekly_usage_count
-  } : null
+  windowStart: new Date(ref.start_time).toISOString(),
+  windowEnd:   new Date(ref.end_time).toISOString(),
+  capturedAt:  capturedAt.toISOString()
 };
+
+if (schema === 'v1') {
+  snapshot.mStar  = buildBucket(mStar);
+  snapshot.speech = buildBucket(speech);
+  snapshot.image  = buildBucket(image);
+} else {
+  // v2: credit-based; total=0 in response, real usedPct comes from remaining_percent
+  const g = general ? {
+    ...buildBucket(general),
+    usedPct: general.current_interval_remaining_percent != null
+      ? 100 - general.current_interval_remaining_percent
+      : (buildBucket(general).usedPct || 0),
+    weeklyPct: general.current_weekly_remaining_percent != null
+      ? 100 - general.current_weekly_remaining_percent
+      : 0
+  } : null;
+  const v = video ? {
+    ...buildBucket(video),
+    usedPct: video.current_interval_remaining_percent != null
+      ? 100 - video.current_interval_remaining_percent
+      : (buildBucket(video).usedPct || 0),
+    weeklyPct: video.current_weekly_remaining_percent != null
+      ? 100 - video.current_weekly_remaining_percent
+      : 0,
+    windowKind: 'daily'  // video uses daily window, not 5hr rolling
+  } : null;
+  snapshot.general = g;
+  snapshot.video   = v;
+}
 
 // ── Load existing history ──
 let history = { _version: 1, entries: [] };
@@ -122,7 +147,7 @@ if (!Array.isArray(history.entries)) history.entries = [];
 
 // ── Check if current window is still open ──
 const now = Date.now();
-const windowEndMs = mStar.end_time;
+const windowEndMs = ref.end_time;
 const windowOpen = now < windowEndMs;
 
 // ── Dedup: find existing entry with same windowKey ──
@@ -144,20 +169,23 @@ if (idx >= 0) {
   console.log('Added new window:', windowKey);
 }
 
-// ── Retention: keep last 90 days ──
-const cutoff = new Date(Date.now() - 90 * 24 * 3600 * 1000).toISOString().slice(0, 10);
-const before = history.entries.length;
-history.entries = history.entries.filter(e => e.date >= cutoff);
-const removed = before - history.entries.length;
-if (removed > 0) console.log('Pruned', removed, 'old entries (>90 days)');
+// ── Retention: FOREVER keep all entries (per Zach 2026-06-06) ──
+// Previously pruned at 90 days; user wants full history for retrospective queries.
+// File size estimate: ~1,825 entries/year × ~0.3 KB each ≈ 550 KB/year — trivial.
+console.log('Retention policy: forever (no pruning)');
 
 // ── Sort newest first ──
 history.entries.sort((a, b) => b.windowKey.localeCompare(a.windowKey));
 
 // ── Update metadata ──
-history._version = 1;
+history._version = 2;  // bumped: dual-schema support
 history._updatedAt = new Date().toISOString();
 history._totalEntries = history.entries.length;
+history._retentionPolicy = 'forever';
+history._schemasSeen = Array.from(new Set([
+  ...(history._schemasSeen || []),
+  schema
+]));
 
 fs.writeFileSync(histFile, JSON.stringify(history, null, 2));
 console.log('✅ quota-history.json updated, total entries:', history.entries.length);
