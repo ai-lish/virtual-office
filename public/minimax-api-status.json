@@ -1,12 +1,12 @@
 {
-  "_generatedAt": "2026-06-06T20:55:00Z",
+  "_generatedAt": "2026-06-06T23:55:00Z",
   "_source": "local-refresh",
   "raw": {
     "model_remains": [
       {
         "start_time": 1780776000000,
         "end_time": 1780790400000,
-        "remains_time": 11092479,
+        "remains_time": 276010,
         "current_interval_total_count": 0,
         "current_interval_usage_count": 0,
         "model_name": "general",
@@ -14,7 +14,7 @@
         "current_weekly_usage_count": 0,
         "weekly_start_time": 1780272000000,
         "weekly_end_time": 1780876800000,
-        "weekly_remains_time": 97492479,
+        "weekly_remains_time": 86676010,
         "current_interval_status": 1,
         "current_interval_remaining_percent": 99,
         "current_weekly_status": 3,
@@ -23,7 +23,7 @@
       {
         "start_time": 1780704000000,
         "end_time": 1780790400000,
-        "remains_time": 11092479,
+        "remains_time": 276010,
         "current_interval_total_count": 0,
         "current_interval_usage_count": 0,
         "model_name": "video",
@@ -31,7 +31,7 @@
         "current_weekly_usage_count": 0,
         "weekly_start_time": 1780272000000,
         "weekly_end_time": 1780876800000,
-        "weekly_remains_time": 97492479,
+        "weekly_remains_time": 86676010,
         "current_interval_status": 3,
         "current_interval_remaining_percent": 100,
         "current_weekly_status": 3,
