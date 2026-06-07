@@ -98,6 +98,7 @@ body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:
       <div class="card-label">⚡ MiniMax 配額 <span class="source-badge" id="mm-source-idx">—</span></div>
       <div id="mm-models-idx"><div style="color:var(--dim);font-size:.8em;">載入中…</div></div>
       <div class="quota-footer" id="mm-reset-idx"></div>
+      <div class="quota-footer" style="color:var(--warn);font-size:.65em;margin-top:4px">💡 限額 % ≠ Credit 實際用量。Credit counter：<a href="https://platform.minimax.io" target="_blank" style="color:var(--warn)">platform.minimax.io console</a></div>
     </div>
     <!-- Copilot Card -->
     <div class="detail-quota-card">
@@ -244,7 +245,7 @@ async function loadData() {
             html += `<div class="progress-row">
               <div class="progress-label">
                 <span>${statusBadge} <span class="tag ${tagClass}">${label}</span></span>
-                <strong>剩餘 ${remPct}%</strong>
+                <strong>5hr 限額剩餘 ${remPct}%</strong>
               </div>
               <div class="progress-track">
                 <div class="progress-fill" style="width:${remPct}%;background:${color}"></div>
@@ -252,7 +253,7 @@ async function loadData() {
             </div>
             <div class="progress-row" style="margin-top:4px">
               <div class="progress-label">
-                <span style="font-size:.7em;color:var(--dim)">週剩餘</span>
+                <span style="font-size:.7em;color:var(--dim)">週限額剩餘</span>
                 <strong style="font-size:.7em">${wRemPct}%</strong>
               </div>
               <div class="progress-track" style="height:5px">
