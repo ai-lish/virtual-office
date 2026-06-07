@@ -41,7 +41,13 @@ refresh_minimax() {
       remaining: .current_interval_usage_count,
       used: (.current_interval_total_count - .current_interval_usage_count),
       weeklyTotal: .current_weekly_total_count,
-      weeklyUsed: .current_weekly_usage_count
+      weeklyUsed: .current_weekly_usage_count,
+      remainingPct: .current_interval_remaining_percent,
+      weeklyRemainingPct: .current_weekly_remaining_percent,
+      intervalStatus: .current_interval_status,
+      weeklyStatus: .current_weekly_status,
+      resetTime: .end_time,
+      remainsMs: .remains_time
     }]
   }' > public/minimax-api-status.json
   

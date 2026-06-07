@@ -223,6 +223,46 @@ async function loadData() {
       let html = '';
 
       if (models.length > 0) {
+        // v2 schema: credit-based unified pool (general / video)
+        const isV2 = models[0].model === 'general' || models[0].model === 'video';
+        if (isV2) {
+          const labelMap = { 'general': '通用 (文字+語音+圖像)', 'video': '視頻' };
+          const tagMap = { 'general': 'tag-text', 'video': 'tag-image' };
+          models.forEach(m => {
+            const remPct = m.remainingPct != null ? m.remainingPct : 100;
+            const wRemPct = m.weeklyRemainingPct != null ? m.weeklyRemainingPct : 100;
+            const usedPct = 100 - remPct;
+            const wUsedPct = 100 - wRemPct;
+            const color = pctColor(usedPct);
+            const wcolor = pctColor(wUsedPct);
+            const isActive = m.intervalStatus === 1;
+            const statusBadge = isActive
+              ? '<span class="tag tag-text" style="background:rgba(46,204,113,.2);color:var(--green)">5hr</span>'
+              : '<span class="tag tag-image">Daily</span>';
+            const label = labelMap[m.model] || m.model;
+            const tagClass = tagMap[m.model] || 'tag-text';
+            html += `<div class="progress-row">
+              <div class="progress-label">
+                <span>${statusBadge} <span class="tag ${tagClass}">${label}</span></span>
+                <strong>剩餘 ${remPct}%</strong>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" style="width:${remPct}%;background:${color}"></div>
+              </div>
+            </div>
+            <div class="progress-row" style="margin-top:4px">
+              <div class="progress-label">
+                <span style="font-size:.7em;color:var(--dim)">週剩餘</span>
+                <strong style="font-size:.7em">${wRemPct}%</strong>
+              </div>
+              <div class="progress-track" style="height:5px">
+                <div class="progress-fill" style="width:${wRemPct}%;background:${wcolor}"></div>
+              </div>
+            </div>`;
+          });
+          return;  // skip v1 path
+        }
+        // v1 schema: fixed-count pool (文字/語音/圖像/音樂/歌詞)
         Object.entries(poolMap).forEach(([label, poolModels]) => {
           // Find first model in pool that has data (they all share the same quota)
           let poolModel = null;

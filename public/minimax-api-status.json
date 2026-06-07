@@ -50,7 +50,13 @@
       "remaining": 0,
       "used": 0,
       "weeklyTotal": 0,
-      "weeklyUsed": 0
+      "weeklyUsed": 0,
+      "remainingPct": 99,
+      "weeklyRemainingPct": 100,
+      "intervalStatus": 1,
+      "weeklyStatus": 3,
+      "resetTime": 1780844400000,
+      "remainsMs": 11090154
     },
     {
       "model": "video",
@@ -58,7 +64,13 @@
       "remaining": 0,
       "used": 0,
       "weeklyTotal": 0,
-      "weeklyUsed": 0
+      "weeklyUsed": 0,
+      "remainingPct": 100,
+      "weeklyRemainingPct": 100,
+      "intervalStatus": 3,
+      "weeklyStatus": 3,
+      "resetTime": 1780876800000,
+      "remainsMs": 43490154
     }
   ]
 }
