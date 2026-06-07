@@ -97,16 +97,26 @@ console.log('TSV written, rows:', rows.length);
 refresh_copilot() {
   echo "🤖 Refreshing Copilot usage from Google Drive..."
   FOLDER="1TUvOW4xsW7Xa0FQor-pQb2C4F1DxGoQh"
-  
-  FILE_ID=$(gog drive ls --parent "$FOLDER" --max 5 -j --results-only 2>/dev/null | \
-    jq -r '[.[] | select(.name | startswith("premiumRequestUsageReport"))] | sort_by(.modifiedTime) | last | .id')
-  
-  if [ -z "$FILE_ID" ] || [ "$FILE_ID" = "null" ]; then
+
+  # GitHub renamed premiumRequestUsageReport → AIUsageReport in mid-2026.
+  # Download BOTH the latest of each pattern to capture all months.
+  PREMIUM_ID=$(gog drive ls --parent "$FOLDER" --max 10 -j --results-only 2>/dev/null | \
+    jq -r '[.[] | select(.name | startswith("premiumRequestUsageReport"))] | sort_by(.modifiedTime) | last | .id // empty')
+  AI_ID=$(gog drive ls --parent "$FOLDER" --max 10 -j --results-only 2>/dev/null | \
+    jq -r '[.[] | select(.name | startswith("AIUsageReport"))] | sort_by(.modifiedTime) | last | .id // empty')
+
+  if [ -z "$PREMIUM_ID" ] && [ -z "$AI_ID" ]; then
     echo "❌ No Copilot CSV found"; return 1
   fi
-  
-  echo "  Downloading: $FILE_ID"
-  gog drive download "$FILE_ID" --out "$TMPDIR/copilot.csv" --no-input 2>/dev/null
+
+  if [ -n "$PREMIUM_ID" ]; then
+    echo "  Downloading premiumRequestUsageReport: $PREMIUM_ID"
+    gog drive download "$PREMIUM_ID" --out "$TMPDIR/copilot-premium.csv" --no-input 2>/dev/null
+  fi
+  if [ -n "$AI_ID" ]; then
+    echo "  Downloading AIUsageReport: $AI_ID"
+    gog drive download "$AI_ID" --out "$TMPDIR/copilot-ai.csv" --no-input 2>/dev/null
+  fi
   
   node -e "
 const fs = require('fs');
@@ -123,39 +133,64 @@ function fetchUrl(url) {
   });
 }
 
-async function main() {
-  // Parse latest CSV from Google Drive
-  const latestCsv = fs.readFileSync('$TMPDIR/copilot.csv', 'utf8');
-  const latestLines = latestCsv.trim().split('\n');
-  const headers = latestLines[0].split(',').map(h => h.trim().replace(/\"/g,''));
-  const latestRows = latestLines.slice(1).map(l => {
+function parseCsv(csvText) {
+  // Strip UTF-8 BOM if present
+  const cleaned = csvText.replace(/^\\uFEFF/, '');
+  const lines = cleaned.trim().split('\\n');
+  const headers = lines[0].split(',').map(h => h.trim().replace(/\"/g,''));
+  return lines.slice(1).map(l => {
     const vals = l.match(/\"[^\"]*\"|[^,]+/g)?.map(v => v.trim().replace(/^\"|\"$/g,'')) || [];
     return Object.fromEntries(headers.map((h,i) => [h, vals[i] || '']));
   });
+}
 
-  // Fetch historical March CSV from GitHub
-  let allRows = [...latestRows];
+async function main() {
+  // 1. Historical base = local copilot-summary.json (preserves all prior months)
+  let baseRecords = [];
   try {
-    const marchCsv = await fetchUrl('https://raw.githubusercontent.com/ai-lish/virtual-office/main/public/copilot-march-2026.csv');
-    if (marchCsv && marchCsv.trim()) {
-      const marchLines = marchCsv.trim().split('\n');
-      const marchRows = marchLines.slice(1).map(l => {
-        const vals = l.match(/\"[^\"]*\"|[^,]+/g)?.map(v => v.trim().replace(/^\"|\"$/g,'')) || [];
-        return Object.fromEntries(headers.map((h,i) => [h, vals[i] || '']));
-      });
-      allRows = [...latestRows, ...marchRows];
-      console.log('Merged ' + marchRows.length + ' March + ' + latestRows.length + ' April records');
-    } else {
-      console.log('No March CSV, using April only: ' + latestRows.length + ' records');
+    const existing = JSON.parse(fs.readFileSync('public/copilot-summary.json', 'utf8'));
+    if (Array.isArray(existing.records)) {
+      baseRecords = existing.records;
+      console.log('Loaded ' + baseRecords.length + ' records from local copilot-summary.json');
     }
   } catch(e) {
-    console.log('March CSV not available: ' + latestRows.length + ' April records');
+    console.log('No existing summary found, starting fresh');
   }
 
-  const now = new Date();
-  const currentMonth = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+  // 2. Merge in all available Drive CSVs (both legacy premiumRequestUsageReport + new AIUsageReport)
+  const driveFiles = ['copilot-premium.csv', 'copilot-ai.csv']
+    .filter(f => fs.existsSync('$TMPDIR/' + f));
+  const driveRows = [];
+  for (const f of driveFiles) {
+    const text = fs.readFileSync('$TMPDIR/' + f, 'utf8');
+    const rows = parseCsv(text);
+    console.log('Parsed ' + rows.length + ' rows from ' + f);
+    driveRows.push(...rows);
+  }
 
-  // Group by month
+  // 3. Convert drive rows to canonical record format
+  const driveRecords = driveRows.map(r => ({
+    date: r.date,
+    model: r.model,
+    quantity: parseInt(r.quantity || 0),
+    gross_amount: parseFloat(r.gross_amount || 0),
+    sku: r.sku,
+    unit_type: r.unit_type
+  }));
+
+  // 4. Merge + dedupe by (date, model, sku) — base wins
+  const seen = new Set(baseRecords.map(r => r.date + '|' + r.model + '|' + r.sku));
+  let added = 0;
+  for (const r of driveRecords) {
+    const k = r.date + '|' + r.model + '|' + r.sku;
+    if (!seen.has(k)) { baseRecords.push(r); seen.add(k); added++; }
+  }
+  console.log('Added ' + added + ' new records from Drive (' + (driveRecords.length - added) + ' dupes skipped)');
+
+  const allRows = baseRecords;
+  const now = new Date();
+
+  // 5. Group by month
   const monthSet = {};
   allRows.forEach(r => { if (r.date) { const m = r.date.slice(0,7); monthSet[m] = true; } });
   const months = Object.keys(monthSet).sort();
@@ -171,7 +206,7 @@ async function main() {
 
   const fullSummary = {
     _generatedAt: now.toISOString(),
-    _source: 'google-drive-csv + github',
+    _source: 'local-summary + google-drive-csv',
     months,
     records: allRecords,
     analysis: {
@@ -283,16 +318,7 @@ normalized.forEach(r => {
   const m = r.consumedModel || 'unknown';
   modelMap[m] = (modelMap[m] || 0) + r.totalUsageQuantity;
 });
-const byModel = Object.entries(modelMap).sort((a,b) => b[1]-a[1]).map(([model,tokens]) => ({model,tokens}));
-const dates = normalized.map(r => r.consumptionTime).filter(Boolean).sort();
-
-const summary = {
-  _generatedAt: new Date().toISOString(),
-  totals,
-  byModel,
-  meta: { dateRange: { start: dates[0]?.slice(0,10) || '', end: dates[dates.length-1]?.slice(0,10) || '' }, records: normalized.length }
-};
-fs.writeFileSync('public/summary-token-log.json', JSON.stringify(summary, null, 2));
+// Summary recompute moved to after csv-to-token-log.js merge (covers all months, not just Drive CSV)
 console.log(JSON.stringify({ records: normalized.length, totals }));
 "
   
@@ -303,6 +329,35 @@ console.log(JSON.stringify({ records: normalized.length, totals }));
     cp "$TMPDIR/token.csv" "data/$DRIVE_NAME"
     echo "  Re-merging all local CSVs after Drive download..."
     node scripts/csv-to-token-log.js
+
+    # Recompute summary from MERGED token-log.json (covers ALL months in data/, not just Drive CSV)
+    echo "  Recomputing summary from merged records..."
+    node -e "
+const fs = require('fs');
+const mergedLog = JSON.parse(fs.readFileSync('public/token-log.json', 'utf8'));
+const records = mergedLog.records;
+
+const totals = { inputTokens: 0, outputTokens: 0, totalTokens: 0 };
+const modelMap = {};
+records.forEach(r => {
+  totals.inputTokens += r.inputUsageQuantity;
+  totals.outputTokens += r.outputUsageQuantity;
+  totals.totalTokens += r.totalUsageQuantity;
+  const m = r.consumedModel || 'unknown';
+  modelMap[m] = (modelMap[m] || 0) + r.totalUsageQuantity;
+});
+const byModel = Object.entries(modelMap).sort((a,b) => b[1]-a[1]).map(([model,tokens]) => ({model,tokens}));
+const dates = records.map(r => r.consumptionTime).filter(Boolean).sort();
+
+const summary = {
+  _generatedAt: new Date().toISOString(),
+  totals,
+  byModel,
+  meta: { dateRange: { start: dates[0]?.slice(0,10) || '', end: dates[dates.length-1]?.slice(0,10) || '' }, records: records.length }
+};
+fs.writeFileSync('public/summary-token-log.json', JSON.stringify(summary, null, 2));
+console.log('  Summary: ' + records.length + ' records, ' + totals.totalTokens + ' tokens, ' + summary.meta.dateRange.start + ' ~ ' + summary.meta.dateRange.end);
+"
   fi
 }
 
