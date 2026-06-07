@@ -1,38 +1,38 @@
 {
-  "_generatedAt": "2026-06-07T13:18:07.780Z",
+  "_generatedAt": "2026-06-07T13:34:13.283Z",
   "totals": {
-    "inputTokens": 696215702,
-    "outputTokens": 5569626,
-    "totalTokens": 701785328
+    "inputTokens": 5052896281,
+    "outputTokens": 17209333,
+    "totalTokens": 5070105614
   },
   "byModel": [
     {
       "model": "MiniMax-M2.7",
-      "tokens": 701783751
-    },
-    {
-      "model": "coding-plan-vlm",
-      "tokens": 594
-    },
-    {
-      "model": "coding-plan-search",
-      "tokens": 395
+      "tokens": 2662053151
     },
     {
       "model": "MiniMax-M2.5",
-      "tokens": 361
+      "tokens": 2408031482
     },
     {
       "model": "speech-2.8-hd",
-      "tokens": 177
+      "tokens": 18006
+    },
+    {
+      "model": "coding-plan-vlm",
+      "tokens": 2343
+    },
+    {
+      "model": "coding-plan-search",
+      "tokens": 399
+    },
+    {
+      "model": "image-01",
+      "tokens": 196
     },
     {
       "model": "music-2.6",
       "tokens": 29
-    },
-    {
-      "model": "image-01",
-      "tokens": 13
     },
     {
       "model": "lyrics_generation",
@@ -41,9 +41,9 @@
   ],
   "meta": {
     "dateRange": {
-      "start": "2026-05-01",
+      "start": "2026-03-03",
       "end": "2026-05-31"
     },
-    "records": 1014
+    "records": 3227
   }
 }
