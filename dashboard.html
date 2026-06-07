@@ -179,8 +179,39 @@
                 <span><span style="display:inline-block;padding:1px 6px;border-radius:4px;background:rgba(150,150,150,0.18);color:#aaa;font-weight:600;font-size:0.95em;">v1</span> Pre-2026-06-01 (M2.7/Speech/Image 細項)</span>
                 <span><span style="display:inline-block;padding:1px 6px;border-radius:4px;background:rgba(46,204,113,0.18);color:var(--green);font-weight:600;font-size:0.95em;">v2</span> 2026-06-01+ (General/Video credit-based)</span>
             </div>
+            <!-- ===== v2 section: 6月或之後 (credit-based) ===== -->
+            <h3 style="font-size:1em;margin:18px 0 8px;color:var(--text);">📊 6月或之後 <span style="color:var(--text2);font-weight:400;">(v2 — General / Video credit-based)</span></h3>
+            <div style="overflow-x:auto;">
+                <table class="data-table">
+                    <colgroup>
+                        <col style="width:90px;">
+                        <col style="width:60px;">
+                        <col style="width:90px;">
+                        <col style="width:90px;">
+                        <col style="width:90px;">
+                        <col style="width:90px;">
+                        <col style="width:100px;">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>日期</th>
+                            <th>時段</th>
+                            <th class="num">[5hr] General %</th>
+                            <th class="num">[Daily] Video %</th>
+                            <th class="num">週 General %</th>
+                            <th class="num">週 Video %</th>
+                            <th style="font-size:0.8em;color:var(--text2);">擷取時間</th>
+                        </tr>
+                    </thead>
+                    <tbody id="hist-v2-body">
+                        <tr><td colspan="7" style="text-align:center;color:var(--text2);padding:24px;">載入中…</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination" id="hist-v2-pagination"></div>
+
             <!-- ===== v1 section: 5月或之前 (prompts-based) ===== -->
-            <h3 style="font-size:1em;margin:18px 0 8px;color:var(--text);">📜 5月或之前 <span style="color:var(--text2);font-weight:400;">(v1 — M2.7 / Speech / Image 細項)</span></h3>
+            <h3 style="font-size:1em;margin:24px 0 8px;color:var(--text);">📜 5月或之前 <span style="color:var(--text2);font-weight:400;">(v1 — M2.7 / Speech / Image 細項)</span></h3>
             <div style="overflow-x:auto;">
                 <table class="data-table">
                     <colgroup>
@@ -211,37 +242,6 @@
                 </table>
             </div>
             <div class="pagination" id="hist-v1-pagination"></div>
-
-            <!-- ===== v2 section: 6月或之後 (credit-based) ===== -->
-            <h3 style="font-size:1em;margin:24px 0 8px;color:var(--text);">📊 6月或之後 <span style="color:var(--text2);font-weight:400;">(v2 — General / Video credit-based)</span></h3>
-            <div style="overflow-x:auto;">
-                <table class="data-table">
-                    <colgroup>
-                        <col style="width:90px;">
-                        <col style="width:60px;">
-                        <col style="width:90px;">
-                        <col style="width:90px;">
-                        <col style="width:90px;">
-                        <col style="width:90px;">
-                        <col style="width:100px;">
-                    </colgroup>
-                    <thead>
-                        <tr>
-                            <th>日期</th>
-                            <th>時段</th>
-                            <th class="num">[5hr] General %</th>
-                            <th class="num">[Daily] Video %</th>
-                            <th class="num">週 General %</th>
-                            <th class="num">週 Video %</th>
-                            <th style="font-size:0.8em;color:var(--text2);">擷取時間</th>
-                        </tr>
-                    </thead>
-                    <tbody id="hist-v2-body">
-                        <tr><td colspan="7" style="text-align:center;color:var(--text2);padding:24px;">載入中…</td></tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="pagination" id="hist-v2-pagination"></div>
         </div>
         </div><!-- /tab-history -->
 
