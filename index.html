@@ -261,7 +261,7 @@ async function loadData() {
               </div>
             </div>`;
           });
-          return;  // skip v1 path
+          // fall through to line 313 innerHTML set + v1 path (will skip — v2 model names don't match poolMap)
         }
         // v1 schema: fixed-count pool (文字/語音/圖像/音樂/歌詞)
         Object.entries(poolMap).forEach(([label, poolModels]) => {
