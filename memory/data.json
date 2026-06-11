@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-11T00:00:03Z",
+  "generated": "2026-06-11T06:00:03Z",
   "sources": {
     "openclaw": {
       "totalFiles": 88,
@@ -91,6 +91,7 @@
         "gaming",
         "gifs",
         "github",
+        "hardware",
         "hkdse-exam-workflow",
         "hkdse-worksheet-mathjax",
         "incremental-implementation",
