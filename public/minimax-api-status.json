@@ -1,12 +1,12 @@
 {
-  "_generatedAt": "2026-06-13T06:55:00Z",
+  "_generatedAt": "2026-06-13T09:55:00Z",
   "_source": "local-refresh",
   "raw": {
     "model_remains": [
       {
         "start_time": 1781326800000,
         "end_time": 1781344800000,
-        "remains_time": 11090007,
+        "remains_time": 281862,
         "current_interval_total_count": 0,
         "current_interval_usage_count": 0,
         "model_name": "general",
@@ -14,16 +14,16 @@
         "current_weekly_usage_count": 0,
         "weekly_start_time": 1780876800000,
         "weekly_end_time": 1781481600000,
-        "weekly_remains_time": 147890007,
+        "weekly_remains_time": 137081862,
         "current_interval_status": 1,
-        "current_interval_remaining_percent": 98,
+        "current_interval_remaining_percent": 84,
         "current_weekly_status": 3,
         "current_weekly_remaining_percent": 100
       },
       {
         "start_time": 1781308800000,
         "end_time": 1781395200000,
-        "remains_time": 61490007,
+        "remains_time": 50681862,
         "current_interval_total_count": 0,
         "current_interval_usage_count": 0,
         "model_name": "video",
@@ -31,7 +31,7 @@
         "current_weekly_usage_count": 0,
         "weekly_start_time": 1780876800000,
         "weekly_end_time": 1781481600000,
-        "weekly_remains_time": 147890007,
+        "weekly_remains_time": 137081862,
         "current_interval_status": 3,
         "current_interval_remaining_percent": 100,
         "current_weekly_status": 3,
@@ -51,12 +51,12 @@
       "used": 0,
       "weeklyTotal": 0,
       "weeklyUsed": 0,
-      "remainingPct": 98,
+      "remainingPct": 84,
       "weeklyRemainingPct": 100,
       "intervalStatus": 1,
       "weeklyStatus": 3,
       "resetTime": 1781344800000,
-      "remainsMs": 11090007
+      "remainsMs": 281862
     },
     {
       "model": "video",
@@ -70,7 +70,7 @@
       "intervalStatus": 3,
       "weeklyStatus": 3,
       "resetTime": 1781395200000,
-      "remainsMs": 61490007
+      "remainsMs": 50681862
     }
   ]
 }
