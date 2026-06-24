@@ -1,12 +1,12 @@
 {
-  "_generatedAt": "2026-06-24T11:55:00Z",
+  "_generatedAt": "2026-06-24T14:55:00Z",
   "_source": "local-refresh",
   "raw": {
     "model_remains": [
       {
         "start_time": 1782295200000,
         "end_time": 1782313200000,
-        "remains_time": 11095555,
+        "remains_time": 287627,
         "current_interval_total_count": 0,
         "current_interval_usage_count": 0,
         "model_name": "general",
@@ -14,16 +14,16 @@
         "current_weekly_usage_count": 0,
         "weekly_start_time": 1782086400000,
         "weekly_end_time": 1782691200000,
-        "weekly_remains_time": 389095555,
+        "weekly_remains_time": 378287627,
         "current_interval_status": 1,
-        "current_interval_remaining_percent": 82,
+        "current_interval_remaining_percent": 49,
         "current_weekly_status": 3,
         "current_weekly_remaining_percent": 100
       },
       {
         "start_time": 1782259200000,
         "end_time": 1782345600000,
-        "remains_time": 43495555,
+        "remains_time": 32687627,
         "current_interval_total_count": 0,
         "current_interval_usage_count": 0,
         "model_name": "video",
@@ -31,7 +31,7 @@
         "current_weekly_usage_count": 0,
         "weekly_start_time": 1782086400000,
         "weekly_end_time": 1782691200000,
-        "weekly_remains_time": 389095555,
+        "weekly_remains_time": 378287627,
         "current_interval_status": 3,
         "current_interval_remaining_percent": 100,
         "current_weekly_status": 3,
@@ -51,12 +51,12 @@
       "used": 0,
       "weeklyTotal": 0,
       "weeklyUsed": 0,
-      "remainingPct": 82,
+      "remainingPct": 49,
       "weeklyRemainingPct": 100,
       "intervalStatus": 1,
       "weeklyStatus": 3,
       "resetTime": 1782313200000,
-      "remainsMs": 11095555
+      "remainsMs": 287627
     },
     {
       "model": "video",
@@ -70,7 +70,7 @@
       "intervalStatus": 3,
       "weeklyStatus": 3,
       "resetTime": 1782345600000,
-      "remainsMs": 43495555
+      "remainsMs": 32687627
     }
   ]
 }
