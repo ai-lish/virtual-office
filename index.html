@@ -116,63 +116,6 @@ body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:
     </div>
   </div>
 
-  <div class="detail-quota-grid" style="margin-top:-20px">
-    <!-- AI Coding Tools: Codex + Claude -->
-    <div class="detail-quota-card" style="grid-column:1 / -1">
-      <div class="card-label">🤖 AI Coding Tools 配額 <span class="source-badge" id="usage-source-idx">—</span> <span id="usage-update-idx" style="font-size:.65em;font-weight:400;color:var(--dim)"></span></div>
-
-      <!-- Codex -->
-      <div style="font-size:.85em;font-weight:600;margin:10px 0 8px;display:flex;align-items:center;gap:8px">
-        <span>🟦 Codex (ChatGPT Plus)</span>
-        <span style="font-weight:400;color:var(--dim);font-size:.8em" id="codex-plan-idx"></span>
-        <span id="codex-reached-idx" style="display:none;font-size:.7em;color:var(--danger);font-weight:600">⚠️ limit reached</span>
-      </div>
-      <div class="progress-row">
-        <div class="progress-label">
-          <span><span class="tag tag-text">5hr</span> 限額剩餘</span>
-          <strong id="codex-5h-label">—</strong>
-        </div>
-        <div class="progress-track">
-          <div class="progress-fill" id="codex-5h-bar" style="width:0%;background:var(--green)"></div>
-        </div>
-      </div>
-      <div class="progress-row" style="margin-top:4px">
-        <div class="progress-label">
-          <span style="font-size:.7em;color:var(--dim)">每週限額剩餘</span>
-          <strong style="font-size:.7em" id="codex-7d-label">—</strong>
-        </div>
-        <div class="progress-track" style="height:5px">
-          <div class="progress-fill" id="codex-7d-bar" style="width:0%;background:var(--green)"></div>
-        </div>
-      </div>
-
-      <!-- Claude Code -->
-      <div style="font-size:.85em;font-weight:600;margin:16px 0 8px;padding-top:10px;border-top:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:8px">
-        <span>🟧 Claude Code</span>
-        <span style="font-weight:400;color:var(--dim);font-size:.8em" id="claude-plan-idx">(Pro)</span>
-      </div>
-      <div class="progress-row">
-        <div class="progress-label">
-          <span><span class="tag tag-text">5hr</span> 限額剩餘</span>
-          <strong id="claude-5h-label">—</strong>
-        </div>
-        <div class="progress-track">
-          <div class="progress-fill" id="claude-5h-bar" style="width:0%;background:var(--green)"></div>
-        </div>
-      </div>
-      <div class="progress-row" style="margin-top:4px">
-        <div class="progress-label">
-          <span style="font-size:.7em;color:var(--dim)">每週限額剩餘</span>
-          <strong style="font-size:.7em" id="claude-7d-label">—</strong>
-        </div>
-        <div class="progress-track" style="height:5px">
-          <div class="progress-fill" id="claude-7d-bar" style="width:0%;background:var(--green)"></div>
-        </div>
-      </div>
-      <div class="quota-footer" style="margin-top:10px;color:var(--dim);font-size:.65em">💡 Source: <code>chatgpt.com/backend-api/wham/usage</code> + <code>api.anthropic.com/api/oauth/usage</code></div>
-    </div>
-  </div>
-
   <div class="section-title">📋 Projects</div>
   <div class="project-list" id="projectList"></div>
 
@@ -426,52 +369,6 @@ async function loadData() {
       }
     }
   } catch(e) { console.log('Copilot fetch error', e); }
-
-  // AI Coding Tools: Codex + Claude
-  try {
-    const res = await fetch(base + '/public/usage-quota.json?' + ts);
-    if (res.ok) {
-      const d = await res.json();
-      document.getElementById('usage-source-idx').textContent = '🟢 即時';
-
-      const fill = (usedId, labelId, win) => {
-        if (!win) return;
-        const used = win.used_percent != null ? win.used_percent : 0;
-        const rem = win.remaining_percent != null ? win.remaining_percent : (100 - used);
-        const color = pctColor(used);
-        document.getElementById(usedId).style.width = rem + '%';
-        document.getElementById(usedId).style.background = color;
-        const reset = win.reset_at_hkt || '—';
-        document.getElementById(labelId).textContent = `${rem}% · 重置 ${reset}`;
-      };
-
-      // Codex
-      if (d.codex && d.codex.available) {
-        document.getElementById('codex-plan-idx').textContent = `(${d.codex.plan || 'plus'})`;
-        if (d.codex.limit_reached) {
-          document.getElementById('codex-reached-idx').style.display = 'inline';
-        }
-        fill('codex-5h-bar', 'codex-5h-label', d.codex.primary_5h);
-        fill('codex-7d-bar', 'codex-7d-label', d.codex.secondary_7d);
-      } else {
-        document.getElementById('codex-plan-idx').textContent = '(unavailable)';
-      }
-
-      // Claude Code
-      if (d.claude && d.claude.available) {
-        fill('claude-5h-bar', 'claude-5h-label', d.claude.primary_5h);
-        fill('claude-7d-bar', 'claude-7d-label', d.claude.secondary_7d);
-      } else {
-        document.getElementById('claude-plan-idx').textContent = '(unavailable)';
-      }
-
-      if (d._generatedAt) {
-        const up = new Date(d._generatedAt);
-        document.getElementById('usage-update-idx').textContent = '更新: ' + up.toLocaleTimeString('zh-HK', {hour:'2-digit', minute:'2-digit'});
-        lastTime = up;
-      }
-    }
-  } catch(e) { console.log('Usage fetch error', e); }
 
   if (lastTime) {
     document.getElementById('lastUpdate').textContent = '更新: ' + lastTime.toLocaleTimeString('zh-HK', {hour:'2-digit', minute:'2-digit'});
