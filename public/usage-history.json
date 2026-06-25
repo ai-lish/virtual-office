@@ -3,6 +3,31 @@
   "entries": [
     {
       "_schema": "v1",
+      "windowKey": "2026-06-25_14-49",
+      "date": "2026-06-25",
+      "capturedAt": "2026-06-25T14:49:23.253Z",
+      "codex": {
+        "available": true,
+        "plan": "plus",
+        "primary_5h_pct": 1,
+        "secondary_7d_pct": 15,
+        "limit_reached": false
+      },
+      "claude": {
+        "available": true,
+        "subscription": "unknown",
+        "primary_5h_pct": 30,
+        "secondary_7d_pct": 39,
+        "active_limits": [
+          {
+            "kind": "weekly_all",
+            "percent": 39
+          }
+        ]
+      }
+    },
+    {
+      "_schema": "v1",
       "windowKey": "2026-06-25_14-48",
       "date": "2026-06-25",
       "capturedAt": "2026-06-25T14:48:54.339Z",
@@ -77,8 +102,8 @@
       }
     }
   ],
-  "_updatedAt": "2026-06-25T14:48:54.339Z",
-  "_totalEntries": 3,
+  "_updatedAt": "2026-06-25T14:49:23.253Z",
+  "_totalEntries": 4,
   "_retentionPolicy": "forever",
   "_schemasSeen": [
     "v1"
