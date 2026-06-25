@@ -1,5 +1,5 @@
 {
-  "_generatedAt": "2026-06-25T14:48:19.114071Z",
+  "_generatedAt": "2026-06-25T14:48:49.727155Z",
   "_source": "local-curl",
   "_version": 1,
   "codex": {
@@ -9,7 +9,7 @@
     "primary_5h": {
       "used_percent": 1,
       "remaining_percent": 99,
-      "reset_at": "2026-06-26T03:48:22+08:00",
+      "reset_at": "2026-06-26T03:48:52+08:00",
       "reset_at_hkt": "06-26 03:48",
       "reset_in_seconds": 18000,
       "window_seconds": 18000
@@ -17,9 +17,9 @@
     "secondary_7d": {
       "used_percent": 15,
       "remaining_percent": 85,
-      "reset_at": "2026-07-01T10:05:33+08:00",
+      "reset_at": "2026-07-01T10:05:34+08:00",
       "reset_at_hkt": "07-01 10:05",
-      "reset_in_seconds": 472632,
+      "reset_in_seconds": 472602,
       "window_seconds": 604800
     }
   },
@@ -29,13 +29,13 @@
     "primary_5h": {
       "used_percent": 30,
       "remaining_percent": 70,
-      "reset_at": "2026-06-25T18:20:00.239391+00:00",
+      "reset_at": "2026-06-25T18:20:00.241038+00:00",
       "reset_at_hkt": "06-26 02:20"
     },
     "secondary_7d": {
       "used_percent": 39,
       "remaining_percent": 61,
-      "reset_at": "2026-06-25T16:00:00.239416+00:00",
+      "reset_at": "2026-06-25T16:00:00.241059+00:00",
       "reset_at_hkt": "06-26 00:00"
     },
     "active_limits": [

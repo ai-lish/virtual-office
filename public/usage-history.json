@@ -5,7 +5,7 @@
       "_schema": "v1",
       "windowKey": "2026-06-25_14-48",
       "date": "2026-06-25",
-      "capturedAt": "2026-06-25T14:48:23.897Z",
+      "capturedAt": "2026-06-25T14:48:54.339Z",
       "codex": {
         "available": true,
         "plan": "plus",
@@ -77,7 +77,7 @@
       }
     }
   ],
-  "_updatedAt": "2026-06-25T14:48:23.897Z",
+  "_updatedAt": "2026-06-25T14:48:54.339Z",
   "_totalEntries": 3,
   "_retentionPolicy": "forever",
   "_schemasSeen": [
