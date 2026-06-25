@@ -3,6 +3,31 @@
   "entries": [
     {
       "_schema": "v1",
+      "windowKey": "2026-06-25_20-55",
+      "date": "2026-06-25",
+      "capturedAt": "2026-06-25T20:55:16.964Z",
+      "codex": {
+        "available": false,
+        "plan": null,
+        "primary_5h_pct": null,
+        "secondary_7d_pct": null,
+        "limit_reached": null
+      },
+      "claude": {
+        "available": true,
+        "subscription": "unknown",
+        "primary_5h_pct": 0,
+        "secondary_7d_pct": 0,
+        "active_limits": [
+          {
+            "kind": "session",
+            "percent": 0
+          }
+        ]
+      }
+    },
+    {
+      "_schema": "v1",
       "windowKey": "2026-06-25_15-55",
       "date": "2026-06-25",
       "capturedAt": "2026-06-25T15:55:07.602Z",
@@ -127,8 +152,8 @@
       }
     }
   ],
-  "_updatedAt": "2026-06-25T15:55:07.602Z",
-  "_totalEntries": 5,
+  "_updatedAt": "2026-06-25T20:55:16.964Z",
+  "_totalEntries": 6,
   "_retentionPolicy": "forever",
   "_schemasSeen": [
     "v1"
