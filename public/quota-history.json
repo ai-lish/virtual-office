@@ -1,6 +1,6 @@
 {
   "_version": 2,
-  "_updatedAt": "2026-06-25T11:55:20.254Z",
+  "_updatedAt": "2026-06-25T14:55:23.577Z",
   "_totalEntries": 383,
   "entries": [
     {
@@ -10,12 +10,12 @@
       "window": "11-16",
       "windowStart": "2026-06-25T10:00:00.000Z",
       "windowEnd": "2026-06-25T15:00:00.000Z",
-      "capturedAt": "2026-06-25T11:55:19.068Z",
+      "capturedAt": "2026-06-25T14:55:23.398Z",
       "general": {
         "total": 0,
         "used": 0,
         "remaining": 0,
-        "usedPct": 1,
+        "usedPct": 8,
         "weeklyTotal": 0,
         "weeklyUsed": 0,
         "weeklyPct": 0
