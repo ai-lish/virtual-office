@@ -1428,7 +1428,7 @@
       const hash = (location.hash || '').slice(1);
       if (!hash) return;
       const tab = hash.replace(/^tab-/, '');
-      if (['history','copilot','minimax'].includes(tab)) switchTab(tab);
+      if (['history','copilot','minimax','aitools'].includes(tab)) switchTab(tab);
     }
     activateTabFromHash();
     window.addEventListener('hashchange', activateTabFromHash);
