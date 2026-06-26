@@ -1272,44 +1272,63 @@
     const tokenPager   = new MinimaxPanel();
 
     // ===== AI Coding Tools panel (Codex + Claude Code quota) =====
-    function aitoolsColor(pct, available) {
-        if (!available) return 'var(--danger)';
-        if (pct >= 95) return 'var(--danger)';
-        if (pct >= 80) return 'var(--warn)';
-        if (pct >= 50) return 'var(--orange)';
-        return 'var(--green)';
-    }
-    function aitoolsBadgeBg(color) {
-        if (color === 'var(--danger)') return 'rgba(231,76,60,0.18)';
-        if (color === 'var(--warn)') return 'rgba(243,156,18,0.18)';
-        if (color === 'var(--orange)') return 'rgba(230,126,34,0.18)';
-        if (color === 'var(--green)') return 'rgba(46,204,113,0.18)';
-        return 'rgba(52,152,219,0.15)';
-    }
-    function aitoolsTagColors(pct) {
-        if (pct >= 95) return ['rgba(231,76,60,0.18)', 'var(--danger)'];
-        if (pct >= 80) return ['rgba(243,156,18,0.18)', 'var(--warn)'];
-        if (pct >= 50) return ['rgba(230,126,34,0.18)', 'var(--orange)'];
-        return ['rgba(46,204,113,0.18)', 'var(--green)'];
+    // Single source of truth for color mapping: pct → {fg, bg}.
+    // Thresholds: 50/80/95 → green/orange/warn/danger.
+    // available=false forces danger regardless of pct.
+    // pct is normalized via Number.isFinite to prevent NaN / garbage values.
+    function aitoolsColorFor(pct, available) {
+        if (!available) return { fg: 'var(--danger)', bg: 'rgba(231,76,60,0.18)' };
+        const safe = Number.isFinite(pct) ? pct : 0;
+        if (safe >= 95) return { fg: 'var(--danger)', bg: 'rgba(231,76,60,0.18)' };
+        if (safe >= 80) return { fg: 'var(--warn)',   bg: 'rgba(243,156,18,0.18)' };
+        if (safe >= 50) return { fg: 'var(--orange)', bg: 'rgba(230,126,34,0.18)' };
+        return { fg: 'var(--green)', bg: 'rgba(46,204,113,0.18)' };
     }
     function aitoolsSetProgress(prefix, window, windowData, available) {
-        const pct = (windowData && windowData.used_percent) || 0;
-        const color = aitoolsColor(pct, available);
+        const raw = windowData && windowData.used_percent;
+        const pct = Number.isFinite(raw) ? raw : 0;
+        // Clamp visual width to 0..100 so the bar never overflows or renders NaN%.
+        // The displayed percent is also clamped to keep label and bar in sync.
+        const widthPct = Math.max(0, Math.min(100, pct));
+        const colors = aitoolsColorFor(pct, available);
         const fill = $(prefix + '-' + window + '-fill');
         const val = $(prefix + '-' + window + '-val');
         const reset = $(prefix + '-' + window + '-reset');
-        if (fill) { fill.style.width = pct + '%'; fill.style.background = color; }
-        if (val) { val.textContent = pct + '%'; val.style.color = color; }
+        if (fill) {
+            fill.style.width = widthPct + '%';
+            fill.style.background = colors.fg;
+        }
+        if (val) {
+            val.textContent = widthPct + '%';
+            val.style.color = colors.fg;
+        }
         if (reset) { reset.textContent = (windowData && windowData.reset_at_hkt) || '—'; }
     }
     function aitoolsRenderProvider(prefix, data) {
-        if (!data) return;
         const availEl = $(prefix + '-avail');
+        if (!data) {
+            // Provider missing from JSON — render explicit unavailable state
+            // instead of silently leaving the card stuck in the initial markup.
+            if (availEl) {
+                availEl.textContent = '不可用';
+                availEl.style.background = 'rgba(231,76,60,0.18)';
+                availEl.style.color = 'var(--danger)';
+            }
+            ['5h','7d'].forEach(w => {
+                const fill = $(prefix + '-' + w + '-fill');
+                const val  = $(prefix + '-' + w + '-val');
+                const rst  = $(prefix + '-' + w + '-reset');
+                if (fill) { fill.style.width = '0%'; fill.style.background = 'var(--danger)'; }
+                if (val)  { val.textContent = '—'; val.style.color = 'var(--danger)'; }
+                if (rst)  { rst.textContent = '—'; }
+            });
+            return;
+        }
         if (availEl) {
-            const aColor = data.available ? 'var(--green)' : 'var(--danger)';
+            const c = aitoolsColorFor(data.used_percent, data.available);
             availEl.textContent = data.available ? '可用' : '不可用';
-            availEl.style.background = aitoolsBadgeBg(aColor);
-            availEl.style.color = aColor;
+            availEl.style.background = c.bg;
+            availEl.style.color = c.fg;
         }
         aitoolsSetProgress(prefix, '5h', data.primary_5h, data.available);
         aitoolsSetProgress(prefix, '7d', data.secondary_7d, data.available);
@@ -1340,9 +1359,9 @@
                     const tag = document.createElement('span');
                     tag.className = 'tag';
                     const pct = l.percent || 0;
-                    const [bg, color] = aitoolsTagColors(pct);
-                    tag.style.background = bg;
-                    tag.style.color = color;
+                    const c = aitoolsColorFor(pct, true);
+                    tag.style.background = c.bg;
+                    tag.style.color = c.fg;
                     tag.textContent = l.kind + ' ' + pct + '%';
                     limitsEl.appendChild(tag);
                 });
@@ -1352,13 +1371,22 @@
     function aitoolsRenderFooter(generatedAt) {
         if (!generatedAt) return;
         let hktStr;
-        try {
-            const d = new Date(generatedAt);
-            hktStr = d.toLocaleString('zh-HK', { timeZone: 'Asia/Hong_Kong' });
-        } catch (e) {
+        let suffix = ' HKT';
+        const d = new Date(generatedAt);
+        if (Number.isNaN(d.getTime())) {
+            // Invalid ISO timestamp — fall back to raw string without HKT suffix
+            // instead of rendering "Invalid Date HKT".
             hktStr = generatedAt;
+            suffix = '';
+        } else {
+            try {
+                hktStr = d.toLocaleString('zh-HK', { timeZone: 'Asia/Hong_Kong' });
+            } catch (e) {
+                hktStr = generatedAt;
+                suffix = '';
+            }
         }
-        const text = '最後更新: ' + hktStr + ' HKT';
+        const text = '最後更新: ' + hktStr + suffix;
         const cf = $('codex-footer'); if (cf) cf.textContent = text;
         const clf = $('claude-footer'); if (clf) clf.textContent = text;
     }
