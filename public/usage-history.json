@@ -3,6 +3,56 @@
   "entries": [
     {
       "_schema": "v1",
+      "windowKey": "2026-06-26_15-55",
+      "date": "2026-06-26",
+      "capturedAt": "2026-06-26T15:55:08.550Z",
+      "codex": {
+        "available": true,
+        "plan": "plus",
+        "primary_5h_pct": 1,
+        "secondary_7d_pct": 31,
+        "limit_reached": false
+      },
+      "claude": {
+        "available": true,
+        "subscription": "unknown",
+        "primary_5h_pct": 0,
+        "secondary_7d_pct": 5,
+        "active_limits": [
+          {
+            "kind": "weekly_all",
+            "percent": 5
+          }
+        ]
+      }
+    },
+    {
+      "_schema": "v1",
+      "windowKey": "2026-06-26_11-55",
+      "date": "2026-06-26",
+      "capturedAt": "2026-06-26T11:55:06.168Z",
+      "codex": {
+        "available": true,
+        "plan": "plus",
+        "primary_5h_pct": 20,
+        "secondary_7d_pct": 28,
+        "limit_reached": false
+      },
+      "claude": {
+        "available": true,
+        "subscription": "unknown",
+        "primary_5h_pct": 17,
+        "secondary_7d_pct": 2,
+        "active_limits": [
+          {
+            "kind": "session",
+            "percent": 17
+          }
+        ]
+      }
+    },
+    {
+      "_schema": "v1",
       "windowKey": "2026-06-26_10-08",
       "date": "2026-06-26",
       "capturedAt": "2026-06-26T10:08:41.028Z",
@@ -217,8 +267,8 @@
       }
     }
   ],
-  "_updatedAt": "2026-06-26T10:08:41.028Z",
-  "_totalEntries": 9,
+  "_updatedAt": "2026-06-26T15:55:08.550Z",
+  "_totalEntries": 11,
   "_retentionPolicy": "forever",
   "_schemasSeen": [
     "v1"

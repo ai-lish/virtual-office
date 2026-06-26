@@ -1,5 +1,5 @@
 {
-  "_generatedAt": "2026-06-26T10:08:35.587439Z",
+  "_generatedAt": "2026-06-26T15:55:00.994846Z",
   "_source": "local-curl",
   "_version": 1,
   "codex": {
@@ -7,19 +7,19 @@
     "plan": "plus",
     "limit_reached": false,
     "primary_5h": {
-      "used_percent": 3,
-      "remaining_percent": 97,
-      "reset_at": "2026-06-26T22:35:25+08:00",
-      "reset_at_hkt": "06-26 22:35",
-      "reset_in_seconds": 16007,
+      "used_percent": 1,
+      "remaining_percent": 99,
+      "reset_at": "2026-06-27T04:55:06+08:00",
+      "reset_at_hkt": "06-27 04:55",
+      "reset_in_seconds": 18000,
       "window_seconds": 18000
     },
     "secondary_7d": {
-      "used_percent": 26,
-      "remaining_percent": 74,
-      "reset_at": "2026-07-01T10:05:33+08:00",
+      "used_percent": 31,
+      "remaining_percent": 69,
+      "reset_at": "2026-07-01T10:05:35+08:00",
       "reset_at_hkt": "07-01 10:05",
-      "reset_in_seconds": 403015,
+      "reset_in_seconds": 382230,
       "window_seconds": 604800
     }
   },
@@ -27,21 +27,21 @@
     "available": true,
     "subscription": "unknown",
     "primary_5h": {
-      "used_percent": 8,
-      "remaining_percent": 92,
-      "reset_at": "2026-06-26T14:39:59.563635+00:00",
-      "reset_at_hkt": "06-26 22:39"
+      "used_percent": 0,
+      "remaining_percent": 100,
+      "reset_at": null,
+      "reset_at_hkt": null
     },
     "secondary_7d": {
-      "used_percent": 1,
-      "remaining_percent": 99,
-      "reset_at": "2026-07-02T15:59:59.563679+00:00",
+      "used_percent": 5,
+      "remaining_percent": 95,
+      "reset_at": "2026-07-02T15:59:59.525298+00:00",
       "reset_at_hkt": "07-02 23:59"
     },
     "active_limits": [
       {
-        "kind": "session",
-        "percent": 8
+        "kind": "weekly_all",
+        "percent": 5
       }
     ]
   }
