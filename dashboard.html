@@ -247,6 +247,7 @@
 
         <!-- ===== Tab: Copilot 使用明細 ===== -->
         <div class="tab-panel" id="tab-copilot">
+        <span id="copilot"></span>
         <div class="card" id="copilot-detail-card">
             <div class="card-header">
                 <div class="card-title">🤖 Copilot 使用明細</div>
@@ -292,6 +293,7 @@
 
         <!-- ===== Tab: MiniMax 使用明細 ===== -->
         <div class="tab-panel" id="tab-minimax">
+        <span id="minimax"></span>
         <div class="card" id="token-card">
             <div class="card-header">
                 <div class="card-title">📊 MiniMax 使用明細</div>
@@ -1224,6 +1226,16 @@
     tokenPager.loadData();
     histPager.loadData();
     setInterval(() => { histPager.loadData(); }, 300000);
+
+    // ===== Auto-activate tab from URL hash (for homepage deep-links) =====
+    function activateTabFromHash() {
+      const hash = (location.hash || '').slice(1);
+      if (!hash) return;
+      const tab = hash.replace(/^tab-/, '');
+      if (['history','copilot','minimax'].includes(tab)) switchTab(tab);
+    }
+    activateTabFromHash();
+    window.addEventListener('hashchange', activateTabFromHash);
     </script>
 </body>
 </html>

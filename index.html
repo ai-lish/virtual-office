@@ -255,7 +255,7 @@ async function loadAgentUsage() {
       title: c.available === false ? '⚫ Codex' : (c.limit_reached ? '🔴 Codex' : '🟢 Codex'),
       badge: c.plan || 'plus',
       body: metric('5h', c.primary_5h?.used_percent) + metric('7d', c.secondary_7d?.used_percent),
-      footer: `<span>Reset ${fmtReset(c.primary_5h?.reset_at_hkt)}</span><a href="dashboard.html#ai-coding-tools">詳情 →</a>`
+      footer: `<span>Reset ${fmtReset(c.primary_5h?.reset_at_hkt)}</span><a href="dashboard.html">詳情 →</a>`
     });
 
     const cl = q.claude || {};
@@ -264,20 +264,20 @@ async function loadAgentUsage() {
         title: cl.limit_reached ? '🔴 Claude Code' : '🟢 Claude Code',
         badge: cl.subscription && cl.subscription !== 'unknown' ? cl.subscription : 'active',
         body: metric('5h', cl.primary_5h?.used_percent) + metric('7d', cl.secondary_7d?.used_percent),
-        footer: `<span>Reset ${fmtReset(cl.primary_5h?.reset_at_hkt)}</span><a href="dashboard.html#ai-coding-tools">詳情 →</a>`
+        footer: `<span>Reset ${fmtReset(cl.primary_5h?.reset_at_hkt)}</span><a href="dashboard.html">詳情 →</a>`
       });
     } else {
       setAgent('claude', {
         title: '⚫ Claude Code',
         badge: 'N/A',
         body: '<div class="agent-row"><span>5h</span><strong>—</strong></div><div class="agent-row"><span>7d</span><strong>—</strong></div>',
-        footer: '<span>未連接 usage source</span><a href="dashboard.html#ai-coding-tools">詳情 →</a>',
+        footer: '<span>未連接 usage source</span><a href="dashboard.html">詳情 →</a>',
         muted: true
       });
     }
   } else {
-    setAgent('codex', {title:'⚫ Codex', badge:'Error', body:'資料暫時不可用', footer:'<a href="dashboard.html#ai-coding-tools">詳情 →</a>', error:true});
-    setAgent('claude', {title:'⚫ Claude Code', badge:'Error', body:'資料暫時不可用', footer:'<a href="dashboard.html#ai-coding-tools">詳情 →</a>', error:true});
+    setAgent('codex', {title:'⚫ Codex', badge:'Error', body:'資料暫時不可用', footer:'<a href="dashboard.html">詳情 →</a>', error:true});
+    setAgent('claude', {title:'⚫ Claude Code', badge:'Error', body:'資料暫時不可用', footer:'<a href="dashboard.html">詳情 →</a>', error:true});
     console.log('usage-quota fetch error', usage.reason);
   }
 
@@ -292,14 +292,14 @@ async function loadAgentUsage() {
       title: '🟢 MiniMax',
       badge: d._source === 'github-actions-live-api' ? '即時' : '快取',
       body: metric('5h general', used5h) + metric('wk general', usedWk),
-      footer: `<span>Reset ${fmtReset(resetRaw)}</span><a href="dashboard.html#minimax">詳情 →</a>`
+      footer: `<span>Reset ${fmtReset(resetRaw)}</span><a href="dashboard.html#tab-minimax">詳情 →</a>`
     });
     if (d._generatedAt) {
       const t = new Date(d._generatedAt);
       if (!lastUpdate || t > lastUpdate) lastUpdate = t;
     }
   } else {
-    setAgent('minimax', {title:'🟢 MiniMax', badge:'Error', body:'資料暫時不可用', footer:'<a href="dashboard.html#minimax">詳情 →</a>', error:true});
+    setAgent('minimax', {title:'🟢 MiniMax', badge:'Error', body:'資料暫時不可用', footer:'<a href="dashboard.html#tab-minimax">詳情 →</a>', error:true});
     console.log('minimax-api-status fetch error', minimax.reason);
   }
 
@@ -312,7 +312,7 @@ async function loadAgentUsage() {
     const nextReset = new Date(now.getFullYear(), now.getMonth() + 1, 1).toISOString().slice(0,10);
 
     if (!monthData || monthData.total == null) {
-      setAgent('copilot', {title:'🟡 Copilot', badge:'無本月資料', body:'<div class="agent-row"><span>monthly</span><strong>—</strong></div>', footer:`<span>Reset ${nextReset}</span><a href="dashboard.html#copilot">詳情 →</a>`, muted:true});
+      setAgent('copilot', {title:'🟡 Copilot', badge:'無本月資料', body:'<div class="agent-row"><span>monthly</span><strong>—</strong></div>', footer:`<span>Reset ${nextReset}</span><a href="dashboard.html#tab-copilot">詳情 →</a>`, muted:true});
     } else {
       const used = monthData.total || 0;
       const total = 300;
@@ -321,7 +321,7 @@ async function loadAgentUsage() {
         title: pct >= 80 ? '🔴 Copilot' : (pct >= 50 ? '🟡 Copilot' : '🟢 Copilot'),
         badge: 'Premium',
         body: metric(`${used}/${total}`, pct),
-        footer: `<span>Reset ${nextReset}</span><a href="dashboard.html#copilot">詳情 →</a>`
+        footer: `<span>Reset ${nextReset}</span><a href="dashboard.html#tab-copilot">詳情 →</a>`
       });
     }
     if (d._generatedAt) {
@@ -329,7 +329,7 @@ async function loadAgentUsage() {
       if (!lastUpdate || t > lastUpdate) lastUpdate = t;
     }
   } else {
-    setAgent('copilot', {title:'🟡 Copilot', badge:'Error', body:'資料暫時不可用', footer:'<a href="dashboard.html#copilot">詳情 →</a>', error:true});
+    setAgent('copilot', {title:'🟡 Copilot', badge:'Error', body:'資料暫時不可用', footer:'<a href="dashboard.html#tab-copilot">詳情 →</a>', error:true});
     console.log('copilot-summary fetch error', copilot.reason);
   }
 
