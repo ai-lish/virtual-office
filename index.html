@@ -30,6 +30,25 @@ body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:
 .quota-card .track{height:7px;background:var(--bar-bg);border-radius:4px;overflow:hidden;margin-bottom:6px}
 .quota-card .fill{height:100%;border-radius:4px;transition:width .6s ease,background .3s}
 .quota-card .pct{font-size:.72em;color:var(--dim)}
+/* ── Agent usage grid (compact 4-card) ── */
+.agent-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:32px}
+.agent-card{background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:14px;min-width:0;transition:border-color .2s}
+.agent-card.is-muted{opacity:.65}
+.agent-card.is-error{border-color:rgba(231,76,60,.45)}
+.agent-card.is-stale{border-color:rgba(243,156,18,.45)}
+.agent-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+.agent-title{font-size:.9rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.agent-badge{font-size:.65em;color:var(--dim);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:2px 7px;white-space:nowrap}
+.agent-metric{margin-bottom:8px}
+.agent-row{display:flex;justify-content:space-between;gap:8px;font-size:.72em;color:var(--dim);margin-bottom:4px}
+.agent-row strong{color:var(--text);font-variant-numeric:tabular-nums}
+.agent-track{height:6px;background:var(--bar-bg);border-radius:4px;overflow:hidden}
+.agent-fill{height:100%;border-radius:4px;transition:width .5s ease,background .2s}
+.agent-footer{display:flex;justify-content:space-between;gap:8px;margin-top:8px;font-size:.68em;color:var(--dim)}
+.agent-footer a{color:var(--blue);text-decoration:none}
+.agent-footer a:hover{text-decoration:underline}
+@media(max-width:760px){.agent-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:480px){.agent-grid{grid-template-columns:1fr}}
 .detail-quota-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:32px}
 .detail-quota-card{background:var(--card);border-radius:12px;padding:18px;border:1px solid rgba(255,255,255,.06)}
 .detail-quota-card .card-label{font-size:.8em;font-weight:700;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
@@ -90,30 +109,13 @@ body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:
 
 <div class="container">
 
-  <div class="section-title" style="margin-bottom:14px">⚡ 配額總覽</div>
+  <div class="section-title" style="margin-bottom:14px">⚡ Agent 使用總覽</div>
 
-  <div class="detail-quota-grid">
-    <!-- MiniMax Card -->
-    <div class="detail-quota-card">
-      <div class="card-label">⚡ MiniMax 配額 <span class="source-badge" id="mm-source-idx">—</span></div>
-      <div id="mm-models-idx"><div style="color:var(--dim);font-size:.8em;">載入中…</div></div>
-      <div class="quota-footer" id="mm-reset-idx"></div>
-      <div class="quota-footer" style="color:var(--warn);font-size:.65em;margin-top:4px">💡 限額 % ≠ Credit 實際用量。Credit counter：<a href="https://platform.minimax.io" target="_blank" style="color:var(--warn)">platform.minimax.io console</a></div>
-    </div>
-    <!-- Copilot Card -->
-    <div class="detail-quota-card">
-      <div class="card-label">🤖 Copilot Premium <span class="source-badge" id="cp-badge-idx"></span> <span id="cp-update-idx" style="font-size:.65em;font-weight:400;color:var(--dim)"></span></div>
-      <div class="progress-row">
-        <div class="progress-label"><span>Premium 請求</span><strong id="cp-label-idx">—</strong></div>
-        <div class="progress-track"><div class="progress-fill" id="cp-bar-idx" style="width:0%;background:var(--green)"></div></div>
-      </div>
-      <div style="display:flex;justify-content:space-between;font-size:.7em;color:var(--dim);margin-bottom:10px">
-        <span>剩餘: <strong id="cp-remain-idx" style="color:var(--text)">—</strong></span>
-        <span>重置: <strong id="cp-reset-idx" style="color:var(--text)">—</strong></span>
-      </div>
-      <div style="font-size:.72em;color:var(--dim);margin-bottom:6px">模型用量</div>
-      <div id="cp-models-idx"><div style="color:var(--dim);font-size:.8em;">載入中…</div></div>
-    </div>
+  <div class="agent-grid" id="agentGrid">
+    <article class="agent-card" id="agent-codex"></article>
+    <article class="agent-card" id="agent-claude"></article>
+    <article class="agent-card" id="agent-minimax"></article>
+    <article class="agent-card" id="agent-copilot"></article>
   </div>
 
   <div class="section-title">📋 Projects</div>
@@ -194,189 +196,150 @@ async function loadReadme(i) {
   } catch(e) { el.textContent = '載入失敗'; }
 }
 
-// ── Load Data on page load ──
+// ── Agent usage grid loader (compact 4-card at-a-glance) ──
 const pctColor = pct => pct >= 90 ? 'var(--danger)' : pct >= 70 ? 'var(--warn)' : 'var(--green)';
-const typeMap = { 'MiniMax-M*': ['tag-text','文字'], 'speech-hd': ['tag-speech','語音'], 'image-01': ['tag-image','圖像'] };
-const poolMap = {
-  '文字': ['MiniMax-M*', 'coding-plan-vlm', 'coding-plan-search'],
-  '語音': ['speech-hd'],
-  '圖像': ['image-01'],
-  '音樂': ['music-2.6', 'music-cover'],
-  '歌詞': ['lyrics_generation']
-};
-const poolTags = { '文字': 'tag-text', '語音': 'tag-speech', '圖像': 'tag-image', '音樂': 'tag-music', '歌詞': 'tag-lyrics' };
+const clampPct = n => Math.max(0, Math.min(100, Math.round(Number(n) || 0)));
+const basePath = () => location.pathname.includes('/virtual-office') ? '/virtual-office' : '';
 
-async function loadData() {
+function metric(label, pct) {
+  const v = clampPct(pct);
+  return `<div class="agent-metric">
+    <div class="agent-row"><span>${label}</span><strong>${v}%</strong></div>
+    <div class="agent-track"><div class="agent-fill" style="width:${v}%;background:${pctColor(v)}"></div></div>
+  </div>`;
+}
+
+function setAgent(id, {title, badge='—', body='', footer='', muted=false, error=false, stale=false}) {
+  const el = document.getElementById('agent-' + id);
+  if (!el) return;
+  let cls = 'agent-card';
+  if (muted) cls += ' is-muted';
+  if (error) cls += ' is-error';
+  if (stale) cls += ' is-stale';
+  el.className = cls;
+  el.innerHTML = `<div class="agent-head">
+    <div class="agent-title">${title}</div><span class="agent-badge">${badge}</span>
+  </div>${body}<div class="agent-footer">${footer}</div>`;
+}
+
+function fmtReset(v) {
+  if (!v) return '—';
+  if (typeof v === 'string' && /^\d\d-\d\d /.test(v)) return v;
+  const d = new Date(v);
+  return Number.isNaN(d.getTime()) ? '—' : d.toLocaleString('zh-HK',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
+}
+
+async function fetchJson(path, ts) {
+  const res = await fetch(`${basePath()}${path}?${ts}`);
+  if (!res.ok) throw new Error(`${path} ${res.status}`);
+  return res.json();
+}
+
+async function loadAgentUsage() {
   const ts = Date.now();
-  const base = location.pathname.includes('/virtual-office') ? '/virtual-office' : '';
-  let lastTime = null;
+  let lastUpdate = null;
 
-  // MiniMax
-  try {
-    const res = await fetch(base + '/public/minimax-api-status.json?' + ts);
-    if (res.ok) {
-      const d = await res.json();
-      const source = d._source === 'github-actions-live-api' ? '🟢 即時' : '📦 快取';
-      document.getElementById('mm-source-idx').textContent = source;
+  const [usage, minimax, copilot] = await Promise.allSettled([
+    fetchJson('/public/usage-quota.json', ts),
+    fetchJson('/public/minimax-api-status.json', ts),
+    fetchJson('/public/copilot-summary.json', ts)
+  ]);
 
-      const models = (d.allModels || []);
-      const raw = d.raw?.model_remains || [];
-      let html = '';
+  // ── Codex + Claude ──
+  if (usage.status === 'fulfilled') {
+    const q = usage.value;
+    if (q._generatedAt) lastUpdate = new Date(q._generatedAt);
 
-      if (models.length > 0) {
-        // v2 schema: credit-based unified pool (general / video)
-        const isV2 = models[0].model === 'general' || models[0].model === 'video';
-        if (isV2) {
-          const labelMap = { 'general': '通用 (文字+語音+圖像)', 'video': '視頻' };
-          const tagMap = { 'general': 'tag-text', 'video': 'tag-image' };
-          models.forEach(m => {
-            const remPct = m.remainingPct != null ? m.remainingPct : 100;
-            const wRemPct = m.weeklyRemainingPct != null ? m.weeklyRemainingPct : 100;
-            const usedPct = 100 - remPct;
-            const wUsedPct = 100 - wRemPct;
-            const color = pctColor(usedPct);
-            const wcolor = pctColor(wUsedPct);
-            const isActive = m.intervalStatus === 1;
-            const statusBadge = isActive
-              ? '<span class="tag tag-text" style="background:rgba(46,204,113,.2);color:var(--green)">5hr</span>'
-              : '<span class="tag tag-image">Daily</span>';
-            const label = labelMap[m.model] || m.model;
-            const tagClass = tagMap[m.model] || 'tag-text';
-            html += `<div class="progress-row">
-              <div class="progress-label">
-                <span>${statusBadge} <span class="tag ${tagClass}">${label}</span></span>
-                <strong>5hr 限額剩餘 ${remPct}%</strong>
-              </div>
-              <div class="progress-track">
-                <div class="progress-fill" style="width:${remPct}%;background:${color}"></div>
-              </div>
-            </div>
-            <div class="progress-row" style="margin-top:4px">
-              <div class="progress-label">
-                <span style="font-size:.7em;color:var(--dim)">週限額剩餘</span>
-                <strong style="font-size:.7em">${wRemPct}%</strong>
-              </div>
-              <div class="progress-track" style="height:5px">
-                <div class="progress-fill" style="width:${wRemPct}%;background:${wcolor}"></div>
-              </div>
-            </div>`;
-          });
-          // fall through to line 313 innerHTML set + v1 path (will skip — v2 model names don't match poolMap)
-        }
-        // v1 schema: fixed-count pool (文字/語音/圖像/音樂/歌詞)
-        Object.entries(poolMap).forEach(([label, poolModels]) => {
-          // Find first model in pool that has data (they all share the same quota)
-          let poolModel = null;
-          for (const name of poolModels) {
-            const m = models.find(m => m.model === name);
-            if (m && (m.total > 0 || m.weeklyTotal > 0)) { poolModel = m; break; }
-          }
-          if (!poolModel) return;
-          const poolTotal = poolModel.total;
-          const poolUsed = poolModel.used;
-          const poolWeeklyTotal = poolModel.weeklyTotal;
-          const poolWeeklyUsed = poolModel.weeklyUsed;
-          const pct = poolTotal > 0 ? Math.round(poolUsed / poolTotal * 100) : 0;
-          const color = pctColor(pct);
-          const tagClass = poolTags[label];
-          html += `<div class="progress-row">
-            <div class="progress-label">
-              <span><span class="tag ${tagClass}">${label}</span></span>
-              <strong>${poolUsed} / ${poolTotal}</strong>
-            </div>
-            <div class="progress-track">
-              <div class="progress-fill" style="width:${pct}%;background:${color}"></div>
-            </div>
-          </div>`;
-          // Weekly bar only if weekly is different from daily (meaningful separate limit)
-          if (poolWeeklyTotal > 0 && poolWeeklyTotal !== poolTotal * 7) {
-            const wpct = Math.round((poolWeeklyUsed / poolWeeklyTotal) * 100);
-            const wcolor = pctColor(wpct);
-            html += `<div class="progress-row" style="margin-top:6px;">
-              <div class="progress-label">
-                <span style="font-size:0.72em;color:var(--dim)">每週</span>
-                <strong style="font-size:0.72em">${poolWeeklyUsed} / ${poolWeeklyTotal}</strong>
-              </div>
-              <div class="progress-track">
-                <div class="progress-fill" style="width:${wpct}%;background:${wcolor}"></div>
-              </div>
-            </div>`;
-          }
-        });
-      } else if (d.quota) {
-        const q = d.quota;
-        const pct = q.usedPercent || Math.round((q.used / q.total) * 100);
-        const color = pctColor(pct);
-        html = `<div class="progress-row">
-          <div class="progress-label"><span><span class="tag tag-text">總計</span> 所有模型</span><strong>${q.used} / ${q.total}</strong></div>
-          <div class="progress-track"><div class="progress-fill" style="width:${pct}%;background:${color}"></div></div>
-        </div>`;
-      }
-      document.getElementById('mm-models-idx').innerHTML = html || '<div style="color:var(--dim);font-size:.8em;">無配額數據</div>';
+    const c = q.codex || {};
+    setAgent('codex', {
+      title: c.available === false ? '⚫ Codex' : (c.limit_reached ? '🔴 Codex' : '🟢 Codex'),
+      badge: c.plan || 'plus',
+      body: metric('5h', c.primary_5h?.used_percent) + metric('7d', c.secondary_7d?.used_percent),
+      footer: `<span>Reset ${fmtReset(c.primary_5h?.reset_at_hkt)}</span><a href="dashboard.html">詳情 →</a>`
+    });
 
-      if (raw.length > 0) {
-        const r = raw[0];
-        const resetTime = new Date(r.end_time);
-        const remainH = Math.floor(r.remains_time / 3600000);
-        const remainM = Math.floor((r.remains_time % 3600000) / 60000);
-        document.getElementById('mm-reset-idx').textContent = `重置: ${resetTime.toLocaleTimeString('zh-HK',{hour:'2-digit',minute:'2-digit'})} · 剩餘 ${remainH}h${remainM}m`;
-      }
-      if (d._generatedAt) lastTime = new Date(d._generatedAt);
+    const cl = q.claude || {};
+    if (cl.available) {
+      setAgent('claude', {
+        title: cl.limit_reached ? '🔴 Claude Code' : '🟢 Claude Code',
+        badge: cl.subscription && cl.subscription !== 'unknown' ? cl.subscription : 'active',
+        body: metric('5h', cl.primary_5h?.used_percent) + metric('7d', cl.secondary_7d?.used_percent),
+        footer: `<span>Reset ${fmtReset(cl.primary_5h?.reset_at_hkt)}</span><a href="dashboard.html">詳情 →</a>`
+      });
+    } else {
+      setAgent('claude', {
+        title: '⚫ Claude Code',
+        badge: 'N/A',
+        body: '<div class="agent-row"><span>5h</span><strong>—</strong></div><div class="agent-row"><span>7d</span><strong>—</strong></div>',
+        footer: '<span>未連接 usage source</span><a href="dashboard.html">詳情 →</a>',
+        muted: true
+      });
     }
-  } catch(e) { console.log('MiniMax fetch error', e); }
+  } else {
+    setAgent('codex', {title:'⚫ Codex', badge:'Error', body:'資料暫時不可用', footer:'<a href="dashboard.html">詳情 →</a>', error:true});
+    setAgent('claude', {title:'⚫ Claude Code', badge:'Error', body:'資料暫時不可用', footer:'<a href="dashboard.html">詳情 →</a>', error:true});
+    console.log('usage-quota fetch error', usage.reason);
+  }
 
-  // Copilot
-  try {
-    const res = await fetch(base + '/public/copilot-summary.json?' + ts);
-    if (res.ok) {
-      const d = await res.json();
-      // Get current month data
-      const now = new Date();
-      const currentMonth = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
-      const monthData = d.analysis?.byMonth?.[currentMonth] || { total: 0, byModel: {} };
-      const byModel = monthData.byModel || {};
+  // ── MiniMax ──
+  if (minimax.status === 'fulfilled') {
+    const d = minimax.value;
+    const general = (d.allModels || []).find(m => m.model === 'general');
+    const used5h = 100 - (general?.remainingPct ?? 100);
+    const usedWk = 100 - (general?.weeklyRemainingPct ?? 100);
+    const resetRaw = general?.resetTime || (d.raw?.model_remains?.[0]?.end_time);
+    setAgent('minimax', {
+      title: '🟢 MiniMax',
+      badge: d._source === 'github-actions-live-api' ? '即時' : '快取',
+      body: metric('5h general', used5h) + metric('wk general', usedWk),
+      footer: `<span>Reset ${fmtReset(resetRaw)}</span><a href="dashboard.html#tab-minimax">詳情 →</a>`
+    });
+    if (d._generatedAt) {
+      const t = new Date(d._generatedAt);
+      if (!lastUpdate || t > lastUpdate) lastUpdate = t;
+    }
+  } else {
+    setAgent('minimax', {title:'🟢 MiniMax', badge:'Error', body:'資料暫時不可用', footer:'<a href="dashboard.html#tab-minimax">詳情 →</a>', error:true});
+    console.log('minimax-api-status fetch error', minimax.reason);
+  }
 
+  // ── Copilot ──
+  if (copilot.status === 'fulfilled') {
+    const d = copilot.value;
+    const now = new Date();
+    const month = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+    const monthData = d.analysis?.byMonth?.[month];
+    const nextReset = new Date(now.getFullYear(), now.getMonth() + 1, 1).toISOString().slice(0,10);
+
+    if (!monthData || monthData.total == null) {
+      setAgent('copilot', {title:'🟡 Copilot', badge:'無本月資料', body:'<div class="agent-row"><span>monthly</span><strong>—</strong></div>', footer:`<span>Reset ${nextReset}</span><a href="dashboard.html#tab-copilot">詳情 →</a>`, muted:true});
+    } else {
       const used = monthData.total || 0;
       const total = 300;
-      const pct = total > 0 ? Math.round(used / total * 100) : 0;
-      const remaining = total - used;
-      const barColor = pct >= 80 ? 'var(--danger)' : pct >= 50 ? 'var(--warn)' : 'var(--green)';
-
-      document.getElementById('cp-label-idx').textContent = `${used} / ${total} (${pct}%)`;
-      document.getElementById('cp-bar-idx').style.width = pct + '%';
-      document.getElementById('cp-bar-idx').style.background = barColor;
-      document.getElementById('cp-remain-idx').textContent = remaining;
-      document.getElementById('cp-reset-idx').textContent = new Date(now.getFullYear(), now.getMonth() + 1, 1).toISOString().slice(0,10);
-
-      const entries = Object.entries(byModel).sort((a,b) => b[1] - a[1]);
-      const maxVal = entries.length > 0 ? entries[0][1] : 1;
-      const colors = ['#e74c3c','#3498db','#2ecc71','#e67e22','#9b59b6','#1abc9c'];
-      document.getElementById('cp-models-idx').innerHTML = entries.length === 0
-        ? '<div style="color:var(--dim);font-size:.8em;">暫無模型資料</div>'
-        : entries.map(([model, val], i) => {
-            const w = Math.round(val / maxVal * 100);
-            return `<div class="model-row">
-              <span class="model-name">${model}</span>
-              <div class="model-bar-wrap"><div class="model-bar-fill" style="width:${w}%;background:${colors[i%colors.length]}"></div></div>
-              <span class="model-val">${val}</span>
-            </div>`;
-          }).join('');
-
-      if (d._generatedAt) {
-        lastTime = new Date(d._generatedAt);
-        const up = new Date(d._generatedAt);
-        document.getElementById('cp-update-idx').textContent = '更新: ' + up.toLocaleDateString('zh-HK');
-      }
+      const pct = clampPct(used / total * 100);
+      setAgent('copilot', {
+        title: pct >= 80 ? '🔴 Copilot' : (pct >= 50 ? '🟡 Copilot' : '🟢 Copilot'),
+        badge: 'Premium',
+        body: metric(`${used}/${total}`, pct),
+        footer: `<span>Reset ${nextReset}</span><a href="dashboard.html#tab-copilot">詳情 →</a>`
+      });
     }
-  } catch(e) { console.log('Copilot fetch error', e); }
+    if (d._generatedAt) {
+      const t = new Date(d._generatedAt);
+      if (!lastUpdate || t > lastUpdate) lastUpdate = t;
+    }
+  } else {
+    setAgent('copilot', {title:'🟡 Copilot', badge:'Error', body:'資料暫時不可用', footer:'<a href="dashboard.html#tab-copilot">詳情 →</a>', error:true});
+    console.log('copilot-summary fetch error', copilot.reason);
+  }
 
-  if (lastTime) {
-    document.getElementById('lastUpdate').textContent = '更新: ' + lastTime.toLocaleTimeString('zh-HK', {hour:'2-digit', minute:'2-digit'});
+  if (lastUpdate) {
+    document.getElementById('lastUpdate').textContent = '更新: ' + lastUpdate.toLocaleTimeString('zh-HK', {hour:'2-digit', minute:'2-digit'});
   }
 }
 
-loadData();
-setInterval(loadData, 300000);
+loadAgentUsage();
+setInterval(loadAgentUsage, 300000);
 </script>
 </body>
 </html>

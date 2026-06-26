@@ -1,0 +1,48 @@
+{
+  "_generatedAt": "2026-06-26T10:08:35.587439Z",
+  "_source": "local-curl",
+  "_version": 1,
+  "codex": {
+    "available": true,
+    "plan": "plus",
+    "limit_reached": false,
+    "primary_5h": {
+      "used_percent": 3,
+      "remaining_percent": 97,
+      "reset_at": "2026-06-26T22:35:25+08:00",
+      "reset_at_hkt": "06-26 22:35",
+      "reset_in_seconds": 16007,
+      "window_seconds": 18000
+    },
+    "secondary_7d": {
+      "used_percent": 26,
+      "remaining_percent": 74,
+      "reset_at": "2026-07-01T10:05:33+08:00",
+      "reset_at_hkt": "07-01 10:05",
+      "reset_in_seconds": 403015,
+      "window_seconds": 604800
+    }
+  },
+  "claude": {
+    "available": true,
+    "subscription": "unknown",
+    "primary_5h": {
+      "used_percent": 8,
+      "remaining_percent": 92,
+      "reset_at": "2026-06-26T14:39:59.563635+00:00",
+      "reset_at_hkt": "06-26 22:39"
+    },
+    "secondary_7d": {
+      "used_percent": 1,
+      "remaining_percent": 99,
+      "reset_at": "2026-07-02T15:59:59.563679+00:00",
+      "reset_at_hkt": "07-02 23:59"
+    },
+    "active_limits": [
+      {
+        "kind": "session",
+        "percent": 8
+      }
+    ]
+  }
+}

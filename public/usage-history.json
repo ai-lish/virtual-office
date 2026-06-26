@@ -1,0 +1,226 @@
+{
+  "_version": 1,
+  "entries": [
+    {
+      "_schema": "v1",
+      "windowKey": "2026-06-26_10-08",
+      "date": "2026-06-26",
+      "capturedAt": "2026-06-26T10:08:41.028Z",
+      "codex": {
+        "available": true,
+        "plan": "plus",
+        "primary_5h_pct": 3,
+        "secondary_7d_pct": 26,
+        "limit_reached": false
+      },
+      "claude": {
+        "available": true,
+        "subscription": "unknown",
+        "primary_5h_pct": 8,
+        "secondary_7d_pct": 1,
+        "active_limits": [
+          {
+            "kind": "session",
+            "percent": 8
+          }
+        ]
+      }
+    },
+    {
+      "_schema": "v1",
+      "windowKey": "2026-06-26_06-55",
+      "date": "2026-06-26",
+      "capturedAt": "2026-06-26T06:55:10.660Z",
+      "codex": {
+        "available": true,
+        "plan": "plus",
+        "primary_5h_pct": 1,
+        "secondary_7d_pct": 25,
+        "limit_reached": false
+      },
+      "claude": {
+        "available": false,
+        "subscription": "unknown",
+        "primary_5h_pct": null,
+        "secondary_7d_pct": null,
+        "active_limits": []
+      }
+    },
+    {
+      "_schema": "v1",
+      "windowKey": "2026-06-26_01-55",
+      "date": "2026-06-26",
+      "capturedAt": "2026-06-26T01:55:11.026Z",
+      "codex": {
+        "available": true,
+        "plan": "plus",
+        "primary_5h_pct": 1,
+        "secondary_7d_pct": 25,
+        "limit_reached": false
+      },
+      "claude": {
+        "available": false,
+        "subscription": "unknown",
+        "primary_5h_pct": null,
+        "secondary_7d_pct": null,
+        "active_limits": []
+      }
+    },
+    {
+      "_schema": "v1",
+      "windowKey": "2026-06-25_20-55",
+      "date": "2026-06-25",
+      "capturedAt": "2026-06-25T20:55:16.964Z",
+      "codex": {
+        "available": false,
+        "plan": null,
+        "primary_5h_pct": null,
+        "secondary_7d_pct": null,
+        "limit_reached": null
+      },
+      "claude": {
+        "available": true,
+        "subscription": "unknown",
+        "primary_5h_pct": 0,
+        "secondary_7d_pct": 0,
+        "active_limits": [
+          {
+            "kind": "session",
+            "percent": 0
+          }
+        ]
+      }
+    },
+    {
+      "_schema": "v1",
+      "windowKey": "2026-06-25_15-55",
+      "date": "2026-06-25",
+      "capturedAt": "2026-06-25T15:55:07.602Z",
+      "codex": {
+        "available": true,
+        "plan": "plus",
+        "primary_5h_pct": 52,
+        "secondary_7d_pct": 23,
+        "limit_reached": false
+      },
+      "claude": {
+        "available": true,
+        "subscription": "unknown",
+        "primary_5h_pct": 100,
+        "secondary_7d_pct": 43,
+        "active_limits": [
+          {
+            "kind": "session",
+            "percent": 100
+          }
+        ]
+      }
+    },
+    {
+      "_schema": "v1",
+      "windowKey": "2026-06-25_14-49",
+      "date": "2026-06-25",
+      "capturedAt": "2026-06-25T14:49:23.253Z",
+      "codex": {
+        "available": true,
+        "plan": "plus",
+        "primary_5h_pct": 1,
+        "secondary_7d_pct": 15,
+        "limit_reached": false
+      },
+      "claude": {
+        "available": true,
+        "subscription": "unknown",
+        "primary_5h_pct": 30,
+        "secondary_7d_pct": 39,
+        "active_limits": [
+          {
+            "kind": "weekly_all",
+            "percent": 39
+          }
+        ]
+      }
+    },
+    {
+      "_schema": "v1",
+      "windowKey": "2026-06-25_14-48",
+      "date": "2026-06-25",
+      "capturedAt": "2026-06-25T14:48:54.339Z",
+      "codex": {
+        "available": true,
+        "plan": "plus",
+        "primary_5h_pct": 1,
+        "secondary_7d_pct": 15,
+        "limit_reached": false
+      },
+      "claude": {
+        "available": true,
+        "subscription": "unknown",
+        "primary_5h_pct": 30,
+        "secondary_7d_pct": 39,
+        "active_limits": [
+          {
+            "kind": "weekly_all",
+            "percent": 39
+          }
+        ]
+      }
+    },
+    {
+      "_schema": "v1",
+      "windowKey": "2026-06-25_14-47",
+      "date": "2026-06-25",
+      "capturedAt": "2026-06-25T14:47:11.665Z",
+      "codex": {
+        "available": true,
+        "plan": "plus",
+        "primary_5h_pct": 1,
+        "secondary_7d_pct": 15,
+        "limit_reached": false
+      },
+      "claude": {
+        "available": true,
+        "subscription": "unknown",
+        "primary_5h_pct": 30,
+        "secondary_7d_pct": 39,
+        "active_limits": [
+          {
+            "kind": "weekly_all",
+            "percent": 39
+          }
+        ]
+      }
+    },
+    {
+      "_schema": "v1",
+      "windowKey": "2026-06-25_14-13",
+      "date": "2026-06-25",
+      "capturedAt": "2026-06-25T14:13:52.886Z",
+      "codex": {
+        "available": true,
+        "plan": "plus",
+        "primary_5h_pct": 1,
+        "secondary_7d_pct": 15,
+        "limit_reached": false
+      },
+      "claude": {
+        "available": true,
+        "subscription": "unknown",
+        "primary_5h_pct": 30,
+        "secondary_7d_pct": 39,
+        "active_limits": [
+          {
+            "kind": "weekly_all",
+            "percent": 39
+          }
+        ]
+      }
+    }
+  ],
+  "_updatedAt": "2026-06-26T10:08:41.028Z",
+  "_totalEntries": 9,
+  "_retentionPolicy": "forever",
+  "_schemasSeen": [
+    "v1"
+  ]
+}

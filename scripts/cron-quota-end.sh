@@ -5,4 +5,4 @@ bash scripts/refresh-data.sh minimax copilot 2>&1
 git add public/minimax-api-status.json public/quota-history.json
 git commit -m "Quota snapshot $(date -u +%Y-%m-%dT%H:%M:%SZ)" --quiet
 git pull --rebase origin main 2>&1
-git push origin main 2>&1
+# disabled by D1 (Zach OK 2026-06-25) 2>&1
