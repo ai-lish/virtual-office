@@ -23,6 +23,8 @@ import json
 import os
 import subprocess
 import sys
+import time
+import urllib.parse
 from datetime import datetime, timezone, timedelta
 
 HKT = timezone(timedelta(hours=8))
@@ -30,6 +32,13 @@ CODEX_AUTH = os.path.expanduser("~/.codex/auth.json")
 KEYCHAIN_SERVICE = "Claude Code-credentials"
 CODEX_URL = "https://chatgpt.com/backend-api/wham/usage"
 CLAUDE_URL = "https://api.anthropic.com/api/oauth/usage"
+CLAUDE_OAUTH_TOKEN_URL = "https://platform.claude.com/v1/oauth/token"
+# Public Claude Code OAuth client id for platform.claude.com. The local native
+# binary also contains 22422756-..., but the platform token endpoint rejects
+# that legacy console id. ANTHROPIC_OAUTH_CLIENT_ID overrides this if Anthropic
+# rotates the public CLI OAuth client id in a future build.
+CLAUDE_OAUTH_CLIENT_ID = "9d1c250a-e61b-44d9-88ed-5944d1962f5e"
+CLAUDE_REFRESH_SKEW_MS = 60_000
 CODEX_HEADERS_TEMPLATE = [
     "Authorization: Bearer {token}",
     "chatgpt-account-id: {acct}",
@@ -49,6 +58,36 @@ DEFAULT_OUT = "/Users/zachli/.openclaw/workspace/virtual-office/public/usage-quo
 def log(msg, *, err=False):
     stream = sys.stderr if err else sys.stdout
     print(f"[fetch-usage] {msg}", file=stream, flush=True)
+
+
+class ClaudeOAuthRefreshError(Exception):
+    """Raised when the Claude OAuth refresh endpoint rejects refresh."""
+
+    def __init__(self, status, body):
+        self.status = status
+        self.body = body
+        self.error_code, self.error_message = self._extract_error(body)
+        super().__init__(self._message())
+
+    @staticmethod
+    def _extract_error(body):
+        try:
+            parsed = json.loads(body)
+        except Exception:
+            return None, None
+        if isinstance(parsed, dict):
+            if isinstance(parsed.get("error"), str):
+                return parsed["error"], parsed.get("error_description")
+            err = parsed.get("error")
+            if isinstance(err, dict):
+                code = err.get("type") or err.get("code")
+                return code, err.get("message")
+        return None, None
+
+    def _message(self):
+        code = f" {self.error_code}" if self.error_code else ""
+        msg = f": {self.error_message}" if self.error_message else ""
+        return f"OAuth refresh failed: {self.status}{code}{msg}. Body: {self.body[:500]}"
 
 
 def fetch_codex():
@@ -77,20 +116,164 @@ def fetch_codex():
         return {"_error": f"codex json decode: {e}"}
 
 
+def read_cred():
+    """Read Claude Code OAuth credentials from macOS keychain."""
+    r = subprocess.run(
+        ["security", "find-generic-password", "-s", KEYCHAIN_SERVICE, "-w"],
+        capture_output=True, text=True, timeout=5,
+    )
+    blob = r.stdout.strip()
+    if not blob:
+        detail = r.stderr.strip() or f"keychain entry missing: {KEYCHAIN_SERVICE}"
+        raise RuntimeError(detail)
+    return json.loads(blob)
+
+
+def write_cred(cred):
+    """Write updated Claude Code OAuth credentials back to macOS keychain."""
+    blob = json.dumps(cred, separators=(",", ":"), ensure_ascii=False)
+    r = subprocess.run(
+        [
+            "security",
+            "add-generic-password",
+            "-U",
+            "-s",
+            KEYCHAIN_SERVICE,
+            "-a",
+            "Claude Code",
+            "-w",
+            blob,
+        ],
+        capture_output=True, text=True, timeout=5,
+    )
+    if r.returncode != 0:
+        detail = r.stderr.strip() or f"security exited {r.returncode}"
+        raise RuntimeError(f"keychain write failed: {detail}")
+
+
+def _claude_oauth_client_id():
+    client_id = os.environ.get("ANTHROPIC_OAUTH_CLIENT_ID", "").strip()
+    return client_id or CLAUDE_OAUTH_CLIENT_ID
+
+
+def refresh_claude_token(cred):
+    """Refresh Claude Code OAuth token when expired or expiring within 60s."""
+    oauth = cred.get("claudeAiOauth")
+    if not isinstance(oauth, dict):
+        raise RuntimeError("keychain credential missing claudeAiOauth object")
+
+    now_ms = int(time.time() * 1000)
+    expires_at = int(oauth.get("expiresAt") or 0)
+    if expires_at >= now_ms + CLAUDE_REFRESH_SKEW_MS:
+        return cred
+
+    refresh_token = oauth.get("refreshToken")
+    if not refresh_token:
+        raise RuntimeError("OAuth refresh failed: missing refreshToken. Manual re-auth required: run `claude` to re-login.")
+
+    client_id = _claude_oauth_client_id()
+    if not client_id:
+        raise RuntimeError("OAuth refresh failed: missing client_id. Set ANTHROPIC_OAUTH_CLIENT_ID env var.")
+
+    body = urllib.parse.urlencode(
+        {
+            "grant_type": "refresh_token",
+            "refresh_token": refresh_token,
+            "client_id": client_id,
+        }
+    )
+    cmd = [
+        "curl",
+        "-sS",
+        "--max-time",
+        "12",
+        "-X",
+        "POST",
+        CLAUDE_OAUTH_TOKEN_URL,
+        "-H",
+        "Content-Type: application/x-www-form-urlencoded",
+        "-H",
+        "Accept: application/json",
+        "--data-binary",
+        "@-",
+        "-w",
+        "\n__HTTP_STATUS__:%{http_code}",
+    ]
+    resp_body = ""
+    status = 0
+    for attempt in range(3):
+        try:
+            r = subprocess.run(
+                cmd, input=body, capture_output=True, text=True, timeout=15
+            )
+        except subprocess.TimeoutExpired as e:
+            raise RuntimeError("OAuth refresh curl timeout (15s)") from e
+
+        if r.returncode != 0:
+            raise RuntimeError(f"OAuth refresh curl exit {r.returncode}: {r.stderr[:300]}")
+
+        if "\n__HTTP_STATUS__:" not in r.stdout:
+            raise RuntimeError(f"OAuth refresh missing HTTP status. Body: {r.stdout[:500]}")
+        resp_body, status_s = r.stdout.rsplit("\n__HTTP_STATUS__:", 1)
+        try:
+            status = int(status_s.strip())
+        except ValueError as e:
+            raise RuntimeError(f"OAuth refresh invalid HTTP status: {status_s[:50]}") from e
+
+        if status != 429 or attempt == 2:
+            break
+        delay = 5 if attempt == 0 else 15
+        log(f"[claude] OAuth refresh rate limited; retrying in {delay}s", err=True)
+        time.sleep(delay)
+
+    if status < 200 or status >= 300:
+        raise ClaudeOAuthRefreshError(status, resp_body)
+
+    try:
+        refreshed = json.loads(resp_body)
+    except json.JSONDecodeError as e:
+        raise RuntimeError(f"OAuth refresh returned invalid JSON: {e}. Body: {resp_body[:500]}") from e
+
+    access_token = refreshed.get("access_token")
+    expires_in = refreshed.get("expires_in")
+    if not access_token or not isinstance(expires_in, (int, float)):
+        raise RuntimeError(f"OAuth refresh response missing access_token/expires_in. Body: {resp_body[:500]}")
+
+    oauth["accessToken"] = access_token
+    if refreshed.get("refresh_token"):
+        oauth["refreshToken"] = refreshed["refresh_token"]
+    oauth["expiresAt"] = now_ms + int(expires_in * 1000)
+    if refreshed.get("scope"):
+        oauth["scopes"] = refreshed["scope"].split()
+
+    write_cred(cred)
+    log(f"[claude] refreshed OAuth token; expiresAt={oauth['expiresAt']}")
+    return cred
+
+
+def _claude_refresh_failure_message(e):
+    if isinstance(e, ClaudeOAuthRefreshError):
+        code = f" {e.error_code}" if e.error_code else ""
+        msg = f": {e.error_message}" if e.error_message else ""
+        manual = ""
+        if e.error_code == "invalid_grant":
+            manual = ". Manual re-auth required: run `claude` to re-login."
+        elif e.error_code in {"invalid_client", "invalid_request_error"}:
+            manual = ". Check ANTHROPIC_OAUTH_CLIENT_ID; if the refresh token was revoked, run `claude` to re-login."
+        return f"OAuth refresh failed: {e.status}{code}{msg}{manual}"
+    return str(e)
+
+
 def fetch_claude():
     """Returns parsed claude JSON or dict with _error key on failure."""
     try:
-        r = subprocess.run(
-            ["security", "find-generic-password", "-s", KEYCHAIN_SERVICE, "-w"],
-            capture_output=True, text=True, timeout=5,
-        )
-        blob = r.stdout.strip()
-        if not blob:
-            return {"_error": f"keychain entry missing: {KEYCHAIN_SERVICE}"}
-        cred = json.loads(blob)
+        cred = read_cred()
+        cred = refresh_claude_token(cred)
         token = cred["claudeAiOauth"]["accessToken"]
     except subprocess.TimeoutExpired:
         return {"_error": "keychain read timeout (5s)"}
+    except ClaudeOAuthRefreshError as e:
+        return {"_error": _claude_refresh_failure_message(e)}
     except Exception as e:
         return {"_error": f"keychain read failed: {e}"}
 
@@ -237,13 +420,26 @@ def main():
 
     if not codex_obj.get("available"):
         log(f"[codex] unavailable: {codex_obj.get('_error', '?')}", err=True)
+    else:
+        log(
+            "[codex] available: True "
+            f"5h={codex_obj.get('primary_5h', {}).get('used_percent')}% "
+            f"7d={codex_obj.get('secondary_7d', {}).get('used_percent')}%"
+        )
     if not claude_obj.get("available"):
         log(f"[claude] unavailable: {claude_obj.get('_error', '?')}", err=True)
+    else:
+        log(
+            "[claude] available: True "
+            f"5h={claude_obj.get('primary_5h', {}).get('used_percent')}% "
+            f"7d={claude_obj.get('secondary_7d', {}).get('used_percent')}%"
+        )
 
-    # Strip internal _error field from public output (spec §8: do NOT expose
-    # full body in public JSON). Keep availability flag only.
+    # Keep Codex behavior unchanged. Claude _error is intentionally surfaced so
+    # the homepage can show an actionable unavailable state instead of a stale
+    # black card.
     public_codex = {k: v for k, v in codex_obj.items() if not k.startswith("_")}
-    public_claude = {k: v for k, v in claude_obj.items() if not k.startswith("_")}
+    public_claude = dict(claude_obj)
 
     doc = {
         "_generatedAt": now_utc.isoformat().replace("+00:00", "Z"),
