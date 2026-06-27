@@ -40,6 +40,17 @@ body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:
 .quota-table .col-reset em{color:var(--text);font-style:normal;font-weight:500}
 .quota-table .muted{color:var(--dim)}
 
+.pct-bar-wrap{position:relative;width:64px;height:6px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;margin-left:auto}
+.pct-bar-fill{height:100%;border-radius:3px;transition:width .5s ease}
+.pct-bar-color-low{background:var(--green)}
+.pct-bar-color-mid{background:var(--orange)}
+.pct-bar-color-high{background:var(--warn)}
+.pct-bar-color-crit{background:var(--danger)}
+.pct-bar-color-bad{background:var(--danger)}
+
+.pct-cell{display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+.pct-cell .v{font-variant-numeric:tabular-nums;font-weight:600}
+
 .plan-badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:.72em;font-weight:700;letter-spacing:.3px;white-space:nowrap}
 .plan-badge.plan-plus{background:rgba(52,152,219,.18);color:var(--blue);border:1px solid rgba(52,152,219,.35)}
 .plan-badge.plan-pro{background:rgba(155,89,182,.18);color:var(--purple);border:1px solid rgba(155,89,182,.35)}
@@ -51,9 +62,11 @@ body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:
 .status-dot.dot-warn{background:var(--warn)}
 
 .copilot-row td{font-size:.95em}
-.copilot-row .merged{display:flex;justify-content:space-between;gap:14px;align-items:baseline;flex-wrap:wrap}
-.copilot-row .merged .v{font-variant-numeric:tabular-nums;font-weight:600;color:var(--text)}
-.copilot-row .merged .reset{color:var(--dim);font-size:.92em}
+.copilot-row .merged{display:flex;flex-direction:column;gap:6px;align-items:stretch}
+.copilot-row .merged .row1{display:flex;justify-content:space-between;gap:14px;align-items:baseline;flex-wrap:wrap}
+.copilot-row .merged .row1 .v{font-variant-numeric:tabular-nums;font-weight:600;color:var(--text)}
+.copilot-row .merged .row1 .reset{color:var(--dim);font-size:.92em}
+.copilot-row .merged .pct-bar-wrap{width:100%}
 
 /* Responsive */
 @media(max-width:1024px){
@@ -227,6 +240,27 @@ const statusDotClass = (data) => {
   return 'dot-ok';
 };
 
+// V2 (Zach 2026-06-28 regression): energy bars per quota cell.
+// Thresholds mirror V1 /tmp/codex verdict: <50 green, 50-79 orange, 80-94 warn, >=95 danger.
+// available=false forces danger color regardless of pct.
+function pctColorClass(pct, available) {
+    if (available === false) return 'pct-bar-color-bad';
+    const safe = Number.isFinite(pct) ? pct : 0;
+    if (safe >= 95) return 'pct-bar-color-crit';
+    if (safe >= 80) return 'pct-bar-color-high';
+    if (safe >= 50) return 'pct-bar-color-mid';
+    return 'pct-bar-color-low';
+}
+
+function pctCellHTML(value, available) {
+    if (value == null || !Number.isFinite(value)) {
+        return `<div class="pct-cell"><span class="v muted">—</span><div class="pct-bar-wrap"><div class="pct-bar-fill pct-bar-color-bad" style="width:0%"></div></div></div>`;
+    }
+    const width = Math.max(0, Math.min(100, value));
+    const colorCls = pctColorClass(value, available);
+    return `<div class="pct-cell"><span class="v">${value}%</span><div class="pct-bar-wrap"><div class="pct-bar-fill ${colorCls}" style="width:${width}%"></div></div></div>`;
+}
+
 function fmtHkt(iso) {
   if (!iso) return '—';
   const d = new Date(iso);
@@ -304,8 +338,8 @@ async function loadQuotaTable() {
         <tr>
             <td class="col-agent"><span class="status-dot ${statusDotClass(codex)}"></span>🤖 Codex</td>
             <td class="col-plan"><span class="plan-badge ${planClass(codex?.plan)}">${(codex?.plan || '—').toUpperCase()}</span></td>
-            <td class="col-num">${codex5h != null ? codex5h + '%' : '—'}</td>
-            <td class="col-num">${codex7d != null ? codex7d + '%' : '—'}</td>
+            <td class="col-num">${pctCellHTML(codex5h, codex?.available)}</td>
+            <td class="col-num">${pctCellHTML(codex7d, codex?.available)}</td>
             <td class="col-reset">${codex?.primary_5h?.reset_at_hkt ? `<em>${codex.primary_5h.reset_at_hkt}</em>` : '—'}</td>
             <td class="col-reset">${codex?.secondary_7d?.reset_at_hkt ? `<em>${codex.secondary_7d.reset_at_hkt}</em>` : '—'}</td>
         </tr>
@@ -316,8 +350,8 @@ async function loadQuotaTable() {
         <tr>
             <td class="col-agent"><span class="status-dot ${statusDotClass(claude)}"></span>🤖 Claude Code</td>
             <td class="col-plan"><span class="plan-badge ${planClass(claude?.subscription)}">${(claude?.subscription || '—').toUpperCase()}</span></td>
-            <td class="col-num">${claude5h != null ? claude5h + '%' : '—'}</td>
-            <td class="col-num">${claude7d != null ? claude7d + '%' : '—'}</td>
+            <td class="col-num">${pctCellHTML(claude5h, claude?.available)}</td>
+            <td class="col-num">${pctCellHTML(claude7d, claude?.available)}</td>
             <td class="col-reset">${claude?.primary_5h?.reset_at_hkt ? `<em>${claude.primary_5h.reset_at_hkt}</em>` : '—'}</td>
             <td class="col-reset">${claude?.secondary_7d?.reset_at_hkt ? `<em>${claude.secondary_7d.reset_at_hkt}</em>` : '—'}</td>
         </tr>
@@ -328,22 +362,26 @@ async function loadQuotaTable() {
         <tr>
             <td class="col-agent"><span class="status-dot ${statusDotClass({available: !!general})}"></span>🤖 MiniMax</td>
             <td class="col-plan"><span class="plan-badge ${planClass(mm?.plan)}">${(mm?.plan || 'plus').toUpperCase()}</span></td>
-            <td class="col-num">${mm5h != null ? mm5h + '%' : '—'}</td>
-            <td class="col-num">${mmWeekly != null ? mmWeekly + '%' : '—'}</td>
+            <td class="col-num">${pctCellHTML(mm5h, !!general)}</td>
+            <td class="col-num">${pctCellHTML(mmWeekly, !!general)}</td>
             <td class="col-reset">${mm5hReset !== '—' ? `<em>${mm5hReset}</em>` : '—'}</td>
             <td class="col-reset">—</td>
         </tr>
     `);
 
     // Copilot (colspan merge row)
+    const copilotBarColor = pctColorClass(copilotPct, !!cp);
     rows.push(`
         <tr class="copilot-row">
             <td class="col-agent"><span class="status-dot ${statusDotClass({available: !!cp})}"></span>🤖 GitHub Copilot</td>
             <td class="col-plan"><span class="plan-badge ${planClass(cp?.subscription)}">${(cp?.subscription || '—').toUpperCase()}</span></td>
             <td colspan="4">
                 <div class="merged">
-                    <span class="v">本月 ${copilotPct}% (${copilotUsed}/${copilotTotal}) · ${monthLabel}</span>
-                    <span class="reset">Reset ${nextReset}</span>
+                    <div class="row1">
+                        <span class="v">本月 ${copilotPct}% (${copilotUsed}/${copilotTotal}) · ${monthLabel}</span>
+                        <span class="reset">Reset ${nextReset}</span>
+                    </div>
+                    <div class="pct-bar-wrap"><div class="pct-bar-fill ${copilotBarColor}" style="width:${Math.max(0, Math.min(100, copilotPct))}%"></div></div>
                 </div>
             </td>
         </tr>

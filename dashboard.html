@@ -500,7 +500,6 @@
                 const t = getText(e);
                 return t && (t.total > 0 || t.usedPct != null);
             });
-            const videoEntries = this.filtered.filter(e => getVideo(e)?.usedPct != null);
             const codexEntries = this.filtered.filter(e => e.codex && e.codex.primary_5h_pct != null);
             const claudeEntries = this.filtered.filter(e => e.claude && e.claude.primary_5h_pct != null);
             const speechDays = {}, imageDays = {};
