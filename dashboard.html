@@ -20,6 +20,17 @@
         .last-update { font-size:0.75em; color:var(--text2); }
         .container { max-width:960px; margin:0 auto; padding:24px 16px 60px; display:flex; flex-direction:column; gap:20px; }
         .card { background:var(--card); border-radius:14px; padding:24px; border:1px solid rgba(255,255,255,0.06); }
+        /* ── AI Coding Tools section (placed at top of history tab per PLANNING §3.2) ── */
+        .aitools-section { display:flex; flex-direction:column; gap:14px; }
+        .aitools-section .card { padding:20px; }
+        @media(min-width:780px){
+            .aitools-section > #aitools-codex-card,
+            .aitools-section > #aitools-claude-card { display:inline-block; width:calc(50% - 7px); vertical-align:top; }
+            /* Use flexbox wrap for cleaner alignment */
+            .aitools-section { display:flex; flex-direction:row; flex-wrap:wrap; gap:14px; align-items:stretch; }
+            .aitools-section .card { flex:0 0 calc(50% - 7px); }
+        }
+        @media(max-width:779px){ .aitools-section .card { width:100%; } }
         .card-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:10px; }
         .card-title { display:flex; align-items:center; gap:10px; font-size:1.1rem; font-weight:700; }
         .badge { padding:3px 10px; border-radius:10px; font-size:0.72em; font-weight:500; }
@@ -132,13 +143,65 @@
         <button class="tab-btn active" onclick="switchTab('history')">📜 配額歷史</button>
         <button class="tab-btn" onclick="switchTab('copilot')">🤖 Copilot 使用明細</button>
         <button class="tab-btn" onclick="switchTab('minimax')">📊 MiniMax 使用明細</button>
-        <button class="tab-btn" onclick="switchTab('aitools')">🛠️ AI Coding Tools</button>
     </div>
 
     <div class="container">
 
         <!-- ===== Tab: 配額歷史 ===== -->
         <div class="tab-panel active" id="tab-history">
+        <!-- ===== AI Coding Tools (Codex + Claude Code) — 即時狀態 =====
+             Per PLANNING/20260627_REDESIGN_V1.md §3.2: 即時狀態放 history tab 頂部 -->
+        <div class="aitools-section">
+            <h3 style="font-size:1em;margin:0 0 10px;color:var(--text);">🛠️ AI Coding Tools <span style="color:var(--text2);font-weight:400;">(即時狀態)</span></h3>
+
+            <!-- ===== Card: Codex ===== -->
+            <div class="card" id="aitools-codex-card">
+                <div class="card-header">
+                    <div class="card-title">🤖 Codex <span style="font-weight:400;color:var(--text2);font-size:0.85em;">(ChatGPT Plus)</span></div>
+                    <span id="codex-avail" class="badge">載入中…</span>
+                </div>
+                <div class="progress-row">
+                    <div class="progress-label"><span>5h Primary 窗口</span><strong id="codex-5h-val">—</strong></div>
+                    <div class="progress-track"><div class="progress-fill" id="codex-5h-fill" style="width:0%;background:var(--blue);"></div></div>
+                    <div style="font-size:0.72em;color:var(--text2);margin-top:4px;">重置: <span id="codex-5h-reset">—</span></div>
+                </div>
+                <div class="progress-row">
+                    <div class="progress-label"><span>7d Secondary 窗口</span><strong id="codex-7d-val">—</strong></div>
+                    <div class="progress-track"><div class="progress-fill" id="codex-7d-fill" style="width:0%;background:var(--blue);"></div></div>
+                    <div style="font-size:0.72em;color:var(--text2);margin-top:4px;">重置: <span id="codex-7d-reset">—</span></div>
+                </div>
+                <div style="font-size:0.72em;color:var(--text2);margin-top:6px;">
+                    Plan: <span id="codex-plan" class="badge" style="background:rgba(52,152,219,0.15);color:var(--blue);">—</span>
+                </div>
+                <div style="margin-top:14px;font-size:0.7em;color:var(--text2);" id="codex-footer">最後更新: —</div>
+            </div>
+
+            <!-- ===== Card: Claude Code ===== -->
+            <div class="card" id="aitools-claude-card">
+                <div class="card-header">
+                    <div class="card-title">🤖 Claude Code</div>
+                    <span id="claude-avail" class="badge">載入中…</span>
+                </div>
+                <div class="progress-row">
+                    <div class="progress-label"><span>5h Primary 窗口</span><strong id="claude-5h-val">—</strong></div>
+                    <div class="progress-track"><div class="progress-fill" id="claude-5h-fill" style="width:0%;background:var(--blue);"></div></div>
+                    <div style="font-size:0.72em;color:var(--text2);margin-top:4px;">重置: <span id="claude-5h-reset">—</span></div>
+                </div>
+                <div class="progress-row">
+                    <div class="progress-label"><span>7d Secondary 窗口</span><strong id="claude-7d-val">—</strong></div>
+                    <div class="progress-track"><div class="progress-fill" id="claude-7d-fill" style="width:0%;background:var(--blue);"></div></div>
+                    <div style="font-size:0.72em;color:var(--text2);margin-top:4px;">重置: <span id="claude-7d-reset">—</span></div>
+                </div>
+                <div style="font-size:0.72em;color:var(--text2);margin-top:6px;">
+                    Subscription: <span id="claude-sub" class="badge" style="background:rgba(150,150,150,0.18);color:#aaa;">—</span>
+                </div>
+                <div style="font-size:0.72em;color:var(--text2);margin-top:6px;">
+                    Active limits: <span id="claude-limits" style="display:inline-block;">—</span>
+                </div>
+                <div style="margin-top:14px;font-size:0.7em;color:var(--text2);" id="claude-footer">最後更新: —</div>
+            </div>
+        </div>
+
         <div class="card" id="history-card">
             <div class="card-header">
                 <div class="card-title">📜 配額歷史記錄</div>
@@ -363,57 +426,7 @@
         </div>
         </div><!-- /tab-minimax -->
 
-        <!-- ===== Tab: AI Coding Tools ===== -->
-        <div class="tab-panel" id="tab-aitools">
-
-        <!-- ===== Card: Codex ===== -->
-        <div class="card" id="aitools-codex-card">
-            <div class="card-header">
-                <div class="card-title">🤖 Codex <span style="font-weight:400;color:var(--text2);font-size:0.85em;">(ChatGPT Plus)</span></div>
-                <span id="codex-avail" class="badge">載入中…</span>
-            </div>
-            <div class="progress-row">
-                <div class="progress-label"><span>5h Primary 窗口</span><strong id="codex-5h-val">—</strong></div>
-                <div class="progress-track"><div class="progress-fill" id="codex-5h-fill" style="width:0%;background:var(--blue);"></div></div>
-                <div style="font-size:0.72em;color:var(--text2);margin-top:4px;">重置: <span id="codex-5h-reset">—</span></div>
-            </div>
-            <div class="progress-row">
-                <div class="progress-label"><span>7d Secondary 窗口</span><strong id="codex-7d-val">—</strong></div>
-                <div class="progress-track"><div class="progress-fill" id="codex-7d-fill" style="width:0%;background:var(--blue);"></div></div>
-                <div style="font-size:0.72em;color:var(--text2);margin-top:4px;">重置: <span id="codex-7d-reset">—</span></div>
-            </div>
-            <div style="font-size:0.72em;color:var(--text2);margin-top:6px;">
-                Plan: <span id="codex-plan" class="badge" style="background:rgba(52,152,219,0.15);color:var(--blue);">—</span>
-            </div>
-            <div style="margin-top:14px;font-size:0.7em;color:var(--text2);" id="codex-footer">最後更新: —</div>
-        </div>
-
-        <!-- ===== Card: Claude Code ===== -->
-        <div class="card" id="aitools-claude-card">
-            <div class="card-header">
-                <div class="card-title">🤖 Claude Code</div>
-                <span id="claude-avail" class="badge">載入中…</span>
-            </div>
-            <div class="progress-row">
-                <div class="progress-label"><span>5h Primary 窗口</span><strong id="claude-5h-val">—</strong></div>
-                <div class="progress-track"><div class="progress-fill" id="claude-5h-fill" style="width:0%;background:var(--blue);"></div></div>
-                <div style="font-size:0.72em;color:var(--text2);margin-top:4px;">重置: <span id="claude-5h-reset">—</span></div>
-            </div>
-            <div class="progress-row">
-                <div class="progress-label"><span>7d Secondary 窗口</span><strong id="claude-7d-val">—</strong></div>
-                <div class="progress-track"><div class="progress-fill" id="claude-7d-fill" style="width:0%;background:var(--blue);"></div></div>
-                <div style="font-size:0.72em;color:var(--text2);margin-top:4px;">重置: <span id="claude-7d-reset">—</span></div>
-            </div>
-            <div style="font-size:0.72em;color:var(--text2);margin-top:6px;">
-                Subscription: <span id="claude-sub" class="badge" style="background:rgba(150,150,150,0.18);color:#aaa;">—</span>
-            </div>
-            <div style="font-size:0.72em;color:var(--text2);margin-top:6px;">
-                Active limits: <span id="claude-limits" style="display:inline-block;">—</span>
-            </div>
-            <div style="margin-top:14px;font-size:0.7em;color:var(--text2);" id="claude-footer">最後更新: —</div>
-        </div>
-
-        </div><!-- /tab-aitools -->
+        <!-- ===== Tab: AI Coding Tools removed per PLANNING/20260627_REDESIGN_V1.md §3.2 ===== -->
 
     </div><!-- /container -->
 
@@ -1257,12 +1270,15 @@
     // ===== Tab Switching =====
     let activeTab = 'history';
     function switchTab(tab) {
+        // Per PLANNING/20260627_REDESIGN_V1.md §3.2: 'aitools' is no longer a tab;
+        // its cards live inside the history tab. Route any leftover aitools refs here.
+        if (tab === 'aitools') tab = 'history';
         activeTab = tab;
         document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         const panel = document.getElementById('tab-' + tab);
         if (panel) panel.classList.add('active');
-        const idx = ['history','copilot','minimax','aitools'].indexOf(tab);
+        const idx = ['history','copilot','minimax'].indexOf(tab);
         const btns = document.querySelectorAll('.tab-btn');
         if (btns[idx]) btns[idx].classList.add('active');
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1428,7 +1444,8 @@
       const hash = (location.hash || '').slice(1);
       if (!hash) return;
       const tab = hash.replace(/^tab-/, '');
-      if (['history','copilot','minimax','aitools'].includes(tab)) switchTab(tab);
+      if (['history','copilot','minimax'].includes(tab)) switchTab(tab);
+      else if (tab === 'aitools') switchTab('history'); // legacy hash → history
     }
     activateTabFromHash();
     window.addEventListener('hashchange', activateTabFromHash);
