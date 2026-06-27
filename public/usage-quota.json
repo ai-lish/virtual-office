@@ -1,5 +1,5 @@
 {
-  "_generatedAt": "2026-06-27T17:56:33Z",
+  "_generatedAt": "2026-06-27T17:59:35Z",
   "_source": "local-curl",
   "_version": 2,
   "codex": {
@@ -12,7 +12,7 @@
       "remaining_percent": 0,
       "reset_at": "2026-06-28T03:01:09+08:00",
       "reset_at_hkt": "06-28 03:01",
-      "reset_in_seconds": 3873,
+      "reset_in_seconds": 3692,
       "window_seconds": 18000
     },
     "secondary_7d": {
@@ -20,7 +20,7 @@
       "remaining_percent": 53,
       "reset_at": "2026-07-01T10:05:33+08:00",
       "reset_at_hkt": "07-01 10:05",
-      "reset_in_seconds": 288537,
+      "reset_in_seconds": 288356,
       "window_seconds": 604800
     }
   },
@@ -31,13 +31,13 @@
     "primary_5h": {
       "used_percent": 78,
       "remaining_percent": 22,
-      "reset_at": "2026-06-27T18:49:59.545517+00:00",
+      "reset_at": "2026-06-27T18:49:59.534333+00:00",
       "reset_at_hkt": "06-28 02:49"
     },
     "secondary_7d": {
       "used_percent": 11,
       "remaining_percent": 89,
-      "reset_at": "2026-07-02T15:59:59.545541+00:00",
+      "reset_at": "2026-07-02T15:59:59.534360+00:00",
       "reset_at_hkt": "07-02 23:59"
     },
     "active_limits": [
