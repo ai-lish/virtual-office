@@ -331,6 +331,7 @@ def extract_codex(raw):
         "available": True,
         "plan": raw.get("plan_type", "unknown"),
         "limit_reached": rl.get("limit_reached", False),
+        "used_percent": max(p_used, s_used),
         "primary_5h": {
             "used_percent": p_used,
             "remaining_percent": max(0, 100 - p_used),
@@ -355,7 +356,7 @@ def extract_claude(raw):
     if raw.get("_error") or raw.get("five_hour") is None:
         return {
             "available": False,
-            "subscription": "unknown",
+            "subscription": "n/a",
             "_error": raw.get("_error", "no five_hour field"),
         }
     fh = raw["five_hour"]
@@ -369,17 +370,20 @@ def extract_claude(raw):
         for l in (raw.get("limits") or [])
         if l.get("is_active")
     ]
-    # Subscription is not exposed by the OAuth usage API; spec §3 q4 says
-    # "pass through whatever API returns; fallback 'unknown'".
+    # Subscription is not exposed by the Claude OAuth usage API; the API only
+    # returns five_hour / seven_day utilization. We pass through any plan hint
+    # the API surfaces and fall back to "n/a" so the UI can render it as
+    # "OAuth-based" (see Planning/20260627_REDESIGN_V1.md §3.1).
     subscription = (
         raw.get("subscriptionType")
         or raw.get("plan_type")
         or raw.get("subscription_info", {}).get("plan")
-        or "unknown"
+        or "n/a"
     )
     return {
         "available": True,
         "subscription": subscription,
+        "used_percent": max(fh_used, sd_used),
         "primary_5h": {
             "used_percent": fh_used,
             "remaining_percent": max(0, 100 - fh_used),

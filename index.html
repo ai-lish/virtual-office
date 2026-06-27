@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0f0f23;--card:#16213e;--bar-bg:#0a1628;--text:#eee;--dim:#888;--red:#bc002d;--green:#2ecc71;--warn:#f39c12;--danger:#e74c3c;--blue:#3498db;--purple:#9b59b6}
+:root{--bg:#0f0f23;--card:#16213e;--bar-bg:#0a1628;--text:#eee;--dim:#888;--red:#bc002d;--green:#2ecc71;--warn:#f39c12;--danger:#e74c3c;--blue:#3498db;--purple:#9b59b6;--orange:#e67e22}
 body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 
 .header{position:sticky;top:0;z-index:10;background:linear-gradient(90deg,#1a1a2e,#16213e);border-bottom:2px solid var(--red);padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
@@ -19,59 +19,67 @@ body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:
 .header-right a{color:#fff;text-decoration:none;font-size:.9em;padding:5px 14px;border:1px solid rgba(255,255,255,.25);border-radius:18px;transition:all .2s;font-weight:600}
 .header-right a:hover{color:#fff;border-color:var(--red)}
 
-.container{max-width:800px;margin:0 auto;padding:24px 16px 60px}
-
-.quota-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:32px}
-.quota-card{background:var(--card);border-radius:12px;padding:20px;border-left:4px solid var(--green);transition:border-color .3s}
-.quota-card .label{font-size:.72em;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.quota-card .period{font-size:.65em;color:var(--dim);font-weight:400;text-transform:none;letter-spacing:0}
-.quota-card .numbers{font-size:1.15rem;font-weight:700;margin-bottom:10px}
-.quota-card .numbers .remaining{color:var(--green)}
-.quota-card .track{height:7px;background:var(--bar-bg);border-radius:4px;overflow:hidden;margin-bottom:6px}
-.quota-card .fill{height:100%;border-radius:4px;transition:width .6s ease,background .3s}
-.quota-card .pct{font-size:.72em;color:var(--dim)}
-/* ── Agent usage grid (compact 4-card) ── */
-.agent-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:32px}
-.agent-card{background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:14px;min-width:0;transition:border-color .2s}
-.agent-card.is-muted{opacity:.65}
-.agent-card.is-error{border-color:rgba(231,76,60,.45)}
-.agent-card.is-stale{border-color:rgba(243,156,18,.45)}
-.agent-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
-.agent-title{font-size:.9rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.agent-badge{font-size:.65em;color:var(--dim);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:2px 7px;white-space:nowrap}
-.agent-metric{margin-bottom:8px}
-.agent-row{display:flex;justify-content:space-between;gap:8px;font-size:.72em;color:var(--dim);margin-bottom:4px}
-.agent-row strong{color:var(--text);font-variant-numeric:tabular-nums}
-.agent-track{height:6px;background:var(--bar-bg);border-radius:4px;overflow:hidden}
-.agent-fill{height:100%;border-radius:4px;transition:width .5s ease,background .2s}
-.agent-footer{display:flex;justify-content:space-between;gap:8px;margin-top:8px;font-size:.68em;color:var(--dim)}
-.agent-footer a{color:var(--blue);text-decoration:none}
-.agent-footer a:hover{text-decoration:underline}
-@media(max-width:760px){.agent-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:480px){.agent-grid{grid-template-columns:1fr}}
-.detail-quota-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:32px}
-.detail-quota-card{background:var(--card);border-radius:12px;padding:18px;border:1px solid rgba(255,255,255,.06)}
-.detail-quota-card .card-label{font-size:.8em;font-weight:700;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
-.detail-quota-card .card-label .source-badge{font-size:.7em;color:var(--dim);font-weight:400}
-.progress-row{margin-bottom:12px}
-.progress-label{display:flex;justify-content:space-between;font-size:.76em;margin-bottom:4px;color:var(--dim)}
-.progress-label strong{color:var(--text)}
-.progress-track{height:7px;background:var(--bar-bg);border-radius:4px;overflow:hidden}
-.progress-fill{height:100%;border-radius:4px;transition:width .6s ease}
-.tag{display:inline-block;padding:1px 6px;border-radius:4px;font-size:.68em;font-weight:500;margin-right:3px}
-.tag-text{background:rgba(52,152,219,.2);color:var(--blue)}
-.tag-speech{background:rgba(155,89,182,.2);color:var(--purple)}
-.tag-image{background:rgba(243,156,18,.2);color:var(--warn)}
-.tag-music{background:rgba(52,152,219,.2);color:var(--blue)}
-.tag-lyrics{background:rgba(230,126,34,.2);color:var(--orange)}
-.model-row{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:.76em}
-.model-name{flex:1;color:var(--text)}
-.model-bar-wrap{width:80px;height:5px;background:var(--bar-bg);border-radius:3px;overflow:hidden}
-.model-bar-fill{height:100%;border-radius:3px}
-.model-val{color:var(--dim);min-width:30px;text-align:right}
-.quota-footer{font-size:.68em;color:var(--dim);margin-top:10px}
+.container{max-width:1280px;margin:0 auto;padding:24px 16px 60px}
 
 .section-title{font-size:.78em;color:var(--dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+
+/* ── Detail agent grid (per PLANNING/20260627_REDESIGN_V1.md §3.1) ── */
+.detail-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:32px}
+.detail-card{background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:18px;min-width:0;transition:border-color .2s}
+.detail-card.is-muted{opacity:.65}
+.detail-card.is-error{border-color:rgba(231,76,60,.45)}
+.detail-card.is-stale{border-color:rgba(243,156,18,.45)}
+.detail-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.06)}
+.detail-title{font-size:.95rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:6px}
+.detail-title .dot{font-size:1.1em;line-height:1}
+.detail-badges{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.detail-badge{font-size:.62em;color:var(--text);border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:2px 8px;white-space:nowrap;font-weight:600}
+.detail-badge.b-plan{background:rgba(52,152,219,.18);color:var(--blue);border-color:rgba(52,152,219,.35)}
+.detail-badge.b-sub{background:rgba(155,89,182,.18);color:var(--purple);border-color:rgba(155,89,182,.35)}
+.detail-badge.b-status-ok{background:rgba(46,204,113,.18);color:var(--green);border-color:rgba(46,204,113,.35)}
+.detail-badge.b-status-bad{background:rgba(231,76,60,.18);color:var(--danger);border-color:rgba(231,76,60,.35)}
+.detail-badge.b-source{background:rgba(243,156,18,.18);color:var(--warn);border-color:rgba(243,156,18,.35)}
+
+.detail-progress{margin-bottom:12px}
+.detail-progress:last-of-type{margin-bottom:6px}
+.detail-row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:.74em;margin-bottom:5px}
+.detail-row .label{color:var(--dim)}
+.detail-row .val{color:var(--text);font-variant-numeric:tabular-nums;font-weight:600}
+.detail-row .val .pct{font-size:1.05em}
+.detail-row .val .remain{color:var(--dim);font-weight:400;margin-left:5px;font-size:.92em}
+.detail-row .reset{color:var(--dim);font-size:.9em;font-weight:400}
+.detail-track{height:7px;background:var(--bar-bg);border-radius:4px;overflow:hidden}
+.detail-fill{height:100%;border-radius:4px;transition:width .6s ease,background .3s}
+
+.detail-divider{height:1px;background:rgba(255,255,255,.06);margin:10px 0 8px}
+.detail-sublabel{font-size:.66em;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin:8px 0 6px;font-weight:600}
+.detail-model-row{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:.76em}
+.detail-model-name{flex:1;color:var(--text)}
+.detail-model-bar-wrap{flex:0 0 80px;height:5px;background:var(--bar-bg);border-radius:3px;overflow:hidden}
+.detail-model-bar-fill{height:100%;border-radius:3px;transition:width .5s ease}
+.detail-model-val{color:var(--dim);min-width:46px;text-align:right;font-variant-numeric:tabular-nums}
+
+.detail-footer{margin-top:10px;padding-top:8px;border-top:1px solid rgba(255,255,255,.06);font-size:.66em;color:var(--dim);display:flex;flex-direction:column;gap:4px}
+.detail-footer .footer-row{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.detail-footer .footer-row strong{color:var(--text);font-weight:600}
+.detail-footer .tag{display:inline-block;padding:1px 6px;border-radius:4px;font-size:.95em;font-weight:500;margin-right:3px}
+.detail-footer .tag.session{background:rgba(155,89,182,.18);color:var(--purple)}
+.detail-footer .tag.weekly{background:rgba(52,152,219,.18);color:var(--blue)}
+.detail-footer .tag.opus{background:rgba(231,76,60,.18);color:var(--danger)}
+.detail-footer .tag.sonnet{background:rgba(52,152,219,.18);color:var(--blue)}
+.detail-footer .tag.other{background:rgba(243,156,18,.18);color:var(--warn)}
+.detail-footer a{color:var(--blue);text-decoration:none}
+.detail-footer a:hover{text-decoration:underline}
+
+@media(max-width:1279px){.detail-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){
+  .header{padding:12px 14px}
+  .header h1{font-size:.95rem}
+  .detail-grid{grid-template-columns:1fr;gap:12px}
+  .detail-card{padding:14px}
+}
+
+/* ── Projects ── */
 .project-list{display:flex;flex-direction:column;gap:8px}
 .project-card{background:var(--card);border-radius:10px;padding:14px 18px;cursor:pointer;transition:background .2s}
 .project-card:hover{background:#1a2744}
@@ -87,13 +95,6 @@ body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:
 .project-preview-inner p{margin-bottom:6px}
 .project-preview-inner code{background:rgba(255,255,255,.08);padding:1px 5px;border-radius:3px;font-size:.9em}
 .expand-icon{font-size:.7em;color:var(--dim);transition:transform .2s;margin-left:4px}
-
-@media(max-width:600px){
-  .header{padding:12px 14px}
-  .header h1{font-size:.95rem}
-  .detail-quota-grid{grid-template-columns:1fr;gap:10px}
-  .detail-quota-card{padding:14px}
-}
 </style>
 </head>
 <body>
@@ -111,11 +112,11 @@ body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:
 
   <div class="section-title" style="margin-bottom:14px">⚡ Agent 使用總覽</div>
 
-  <div class="agent-grid" id="agentGrid">
-    <article class="agent-card" id="agent-codex"></article>
-    <article class="agent-card" id="agent-claude"></article>
-    <article class="agent-card" id="agent-minimax"></article>
-    <article class="agent-card" id="agent-copilot"></article>
+  <div class="detail-grid" id="detailGrid">
+    <div class="detail-card" id="detail-codex"></div>
+    <div class="detail-card" id="detail-claude"></div>
+    <div class="detail-card" id="detail-minimax"></div>
+    <div class="detail-card" id="detail-copilot"></div>
   </div>
 
   <div class="section-title">📋 Projects</div>
@@ -196,37 +197,59 @@ async function loadReadme(i) {
   } catch(e) { el.textContent = '載入失敗'; }
 }
 
-// ── Agent usage grid loader (compact 4-card at-a-glance) ──
-const pctColor = pct => pct >= 90 ? 'var(--danger)' : pct >= 70 ? 'var(--warn)' : 'var(--green)';
+// ── Detail agent loader (per PLANNING/20260627_REDESIGN_V1.md §3.1) ──
+const pctColor = pct => pct >= 90 ? 'var(--danger)' : pct >= 70 ? 'var(--warn)' : pct >= 50 ? 'var(--orange)' : 'var(--green)';
 const clampPct = n => Math.max(0, Math.min(100, Math.round(Number(n) || 0)));
 const basePath = () => location.pathname.includes('/virtual-office') ? '/virtual-office' : '';
 
-function metric(label, pct) {
-  const v = clampPct(pct);
-  return `<div class="agent-metric">
-    <div class="agent-row"><span>${label}</span><strong>${v}%</strong></div>
-    <div class="agent-track"><div class="agent-fill" style="width:${v}%;background:${pctColor(v)}"></div></div>
+function statusDot(available, limitReached) {
+  if (available === false) return { dot: '⚫', label: '不可用', cls: 'b-status-bad' };
+  if (limitReached) return { dot: '🔴', label: '已達上限', cls: 'b-status-bad' };
+  return { dot: '🟢', label: '可用', cls: 'b-status-ok' };
+}
+
+function progressRow(label, usedPct, resetText) {
+  const v = clampPct(usedPct);
+  return `<div class="detail-progress">
+    <div class="detail-row"><span class="label">${label}</span><span class="val"><span class="pct">${v}%</span><span class="remain">(${100 - v}% 剩餘)</span>${resetText ? `<span class="reset"> · Reset ${resetText}</span>` : ''}</span></div>
+    <div class="detail-track"><div class="detail-fill" style="width:${v}%;background:${pctColor(v)};"></div></div>
   </div>`;
 }
 
-function setAgent(id, {title, badge='—', body='', footer='', muted=false, error=false, stale=false}) {
-  const el = document.getElementById('agent-' + id);
+function modelRow(name, usedPct, valText) {
+  const v = clampPct(usedPct);
+  return `<div class="detail-model-row">
+    <span class="detail-model-name">${name}</span>
+    <span class="detail-model-bar-wrap"><span class="detail-model-bar-fill" style="display:block;width:${v}%;background:${pctColor(v)};"></span></span>
+    <span class="detail-model-val">${v}%${valText ? ' ' + valText : ''}</span>
+  </div>`;
+}
+
+function setDetail(id, {dot, title, badges=[], body='', footer='', muted=false, error=false}) {
+  const el = document.getElementById('detail-' + id);
   if (!el) return;
-  let cls = 'agent-card';
+  let cls = 'detail-card';
   if (muted) cls += ' is-muted';
   if (error) cls += ' is-error';
-  if (stale) cls += ' is-stale';
   el.className = cls;
-  el.innerHTML = `<div class="agent-head">
-    <div class="agent-title">${title}</div><span class="agent-badge">${badge}</span>
-  </div>${body}<div class="agent-footer">${footer}</div>`;
+  const badgesHtml = badges.map(b => `<span class="detail-badge ${b.cls || ''}">${b.text}</span>`).join('');
+  el.innerHTML = `<div class="detail-head">
+    <div class="detail-title"><span class="dot">${dot}</span>${title}</div>
+    <div class="detail-badges">${badgesHtml}</div>
+  </div>${body}<div class="detail-footer">${footer}</div>`;
 }
 
 function fmtReset(v) {
-  if (!v) return '—';
+  if (!v) return '';
   if (typeof v === 'string' && /^\d\d-\d\d /.test(v)) return v;
   const d = new Date(v);
-  return Number.isNaN(d.getTime()) ? '—' : d.toLocaleString('zh-HK',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
+  return Number.isNaN(d.getTime()) ? '' : d.toLocaleString('zh-HK',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
+}
+
+function fmtResetMs(ms) {
+  if (!ms) return '';
+  const d = new Date(Number(ms));
+  return Number.isNaN(d.getTime()) ? '' : d.toLocaleString('zh-HK',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
 }
 
 async function fetchJson(path, ts) {
@@ -235,7 +258,7 @@ async function fetchJson(path, ts) {
   return res.json();
 }
 
-async function loadAgentUsage() {
+async function loadDetailUsage() {
   const ts = Date.now();
   let lastUpdate = null;
 
@@ -251,55 +274,106 @@ async function loadAgentUsage() {
     if (q._generatedAt) lastUpdate = new Date(q._generatedAt);
 
     const c = q.codex || {};
-    setAgent('codex', {
-      title: c.available === false ? '⚫ Codex' : (c.limit_reached ? '🔴 Codex' : '🟢 Codex'),
-      badge: c.plan || 'plus',
-      body: metric('5h', c.primary_5h?.used_percent) + metric('7d', c.secondary_7d?.used_percent),
-      footer: `<span>Reset ${fmtReset(c.primary_5h?.reset_at_hkt)}</span><a href="dashboard.html">詳情 →</a>`
+    const cs = statusDot(c.available !== false, c.limit_reached);
+    setDetail('codex', {
+      dot: cs.dot,
+      title: 'Codex',
+      badges: [
+        { text: c.plan || 'plus', cls: 'b-plan' },
+        { text: cs.label, cls: cs.cls },
+        ...(c.limit_reached ? [{ text: 'Limit Reached', cls: 'b-status-bad' }] : [])
+      ],
+      body:
+        progressRow('5h Primary', c.primary_5h?.used_percent, fmtReset(c.primary_5h?.reset_at_hkt)) +
+        progressRow('7d Secondary', c.secondary_7d?.used_percent, fmtReset(c.secondary_7d?.reset_at_hkt)),
+      footer:
+        `<div class="footer-row"><span>Plan</span><strong>${c.plan || '—'}</strong></div>` +
+        `<div class="footer-row"><span>5h Reset</span><strong>${fmtReset(c.primary_5h?.reset_at_hkt) || '—'}</strong></div>` +
+        `<div class="footer-row"><span>7d Reset</span><strong>${fmtReset(c.secondary_7d?.reset_at_hkt) || '—'}</strong></div>` +
+        `<div class="footer-row"><span>來源</span><strong>usage-quota.json</strong></div>`
     });
 
     const cl = q.claude || {};
-    if (cl.available) {
-      setAgent('claude', {
-        title: cl.limit_reached ? '🔴 Claude Code' : '🟢 Claude Code',
-        badge: cl.subscription && cl.subscription !== 'unknown' ? cl.subscription : 'active',
-        body: metric('5h', cl.primary_5h?.used_percent) + metric('7d', cl.secondary_7d?.used_percent),
-        footer: `<span>Reset ${fmtReset(cl.primary_5h?.reset_at_hkt)}</span><a href="dashboard.html">詳情 →</a>`
-      });
-    } else {
-      setAgent('claude', {
-        title: '⚫ Claude Code',
-        badge: 'N/A',
-        body: '<div class="agent-row"><span>5h</span><strong>—</strong></div><div class="agent-row"><span>7d</span><strong>—</strong></div>',
-        footer: '<span>未連接 usage source</span><a href="dashboard.html">詳情 →</a>',
-        muted: true
-      });
-    }
+    const cls = statusDot(cl.available !== false, cl.limit_reached);
+    const subRaw = cl.subscription || '';
+    const subHasReal = subRaw && subRaw !== 'n/a' && subRaw !== 'unknown';
+    const subText = subHasReal ? subRaw : 'OAuth-based';
+    const subCls = subHasReal ? 'b-sub' : 'b-source';
+    const limits = cl.active_limits || [];
+    const limitsHtml = limits.length
+      ? limits.map(l => `<span class="tag session">${l.kind || 'session'} ${l.percent || 0}%</span>`).join('')
+      : '<span style="color:var(--dim)">—</span>';
+    setDetail('claude', {
+      dot: cls.dot,
+      title: 'Claude Code',
+      badges: [
+        { text: subText, cls: subCls },
+        { text: cls.label, cls: cls.cls },
+        ...(cl._error ? [{ text: 'OAuth 錯誤', cls: 'b-status-bad' }] : [])
+      ],
+      body:
+        progressRow('5h Primary', cl.primary_5h?.used_percent, fmtReset(cl.primary_5h?.reset_at_hkt)) +
+        progressRow('7d Secondary', cl.secondary_7d?.used_percent, fmtReset(cl.secondary_7d?.reset_at_hkt)),
+      footer:
+        `<div class="footer-row"><span>Subscription</span><strong title="Claude OAuth usage API does not expose plan type" style="cursor:help;">${subHasReal ? subRaw : 'n/a (OAuth API)'}</strong></div>` +
+        `<div class="footer-row"><span>5h Reset</span><strong>${fmtReset(cl.primary_5h?.reset_at_hkt) || '—'}</strong></div>` +
+        `<div class="footer-row"><span>7d Reset</span><strong>${fmtReset(cl.secondary_7d?.reset_at_hkt) || '—'}</strong></div>` +
+        `<div class="footer-row"><span>Active Limits</span><strong>${limitsHtml}</strong></div>` +
+        `<div class="footer-row"><span>來源</span><strong>usage-quota.json</strong></div>`
+    });
   } else {
-    setAgent('codex', {title:'⚫ Codex', badge:'Error', body:'資料暫時不可用', footer:'<a href="dashboard.html">詳情 →</a>', error:true});
-    setAgent('claude', {title:'⚫ Claude Code', badge:'Error', body:'資料暫時不可用', footer:'<a href="dashboard.html">詳情 →</a>', error:true});
+    setDetail('codex', {dot:'⚫', title:'Codex', badges:[{text:'Error', cls:'b-status-bad'}], body: progressRow('5h Primary', 0, '') + progressRow('7d Secondary', 0, ''), footer:'<div class="footer-row"><span>狀態</span><strong>資料暫時不可用</strong></div>', error:true});
+    setDetail('claude', {dot:'⚫', title:'Claude Code', badges:[{text:'Error', cls:'b-status-bad'}], body: progressRow('5h Primary', 0, '') + progressRow('7d Secondary', 0, ''), footer:'<div class="footer-row"><span>狀態</span><strong>資料暫時不可用</strong></div>', error:true});
     console.log('usage-quota fetch error', usage.reason);
   }
 
   // ── MiniMax ──
   if (minimax.status === 'fulfilled') {
     const d = minimax.value;
-    const general = (d.allModels || []).find(m => m.model === 'general');
+    const models = d.allModels || [];
+    const general = models.find(m => m.model === 'general');
+    const video = models.find(m => m.model === 'video');
     const used5h = 100 - (general?.remainingPct ?? 100);
     const usedWk = 100 - (general?.weeklyRemainingPct ?? 100);
+    const videoDaily = 100 - (video?.remainingPct ?? 100);
+    const videoWk = 100 - (video?.weeklyRemainingPct ?? 100);
     const resetRaw = general?.resetTime || (d.raw?.model_remains?.[0]?.end_time);
-    setAgent('minimax', {
-      title: '🟢 MiniMax',
-      badge: d._source === 'github-actions-live-api' ? '即時' : '快取',
-      body: metric('5h general', used5h) + metric('wk general', usedWk),
-      footer: `<span>Reset ${fmtReset(resetRaw)}</span><a href="dashboard.html#tab-minimax">詳情 →</a>`
+    const sourceBadge = d._source === 'github-actions-live-api' ? '即時' : '快取';
+
+    const modelRows = [];
+    if (general) {
+      modelRows.push(`<div class="detail-sublabel">General model</div>`);
+      modelRows.push(modelRow('5h window', general.remainingPct != null ? 100 - general.remainingPct : 0, fmtResetMs(general.resetTime)));
+      modelRows.push(modelRow('週 window', general.weeklyRemainingPct != null ? 100 - general.weeklyRemainingPct : 0));
+    }
+    if (video) {
+      modelRows.push(`<div class="detail-sublabel">Video model</div>`);
+      modelRows.push(modelRow('Daily', video.remainingPct != null ? 100 - video.remainingPct : 0));
+      modelRows.push(modelRow('週 window', video.weeklyRemainingPct != null ? 100 - video.weeklyRemainingPct : 0));
+    }
+
+    setDetail('minimax', {
+      dot: '🟢',
+      title: 'MiniMax',
+      badges: [
+        { text: sourceBadge, cls: 'b-source' },
+        { text: '可用', cls: 'b-status-ok' }
+      ],
+      body: modelRows.length ? modelRows.join('') : '<div style="color:var(--dim);font-size:.78em;">無 model 資料</div>',
+      footer:
+        `<div class="footer-row"><span>General 5h</span><strong>${clampPct(used5h)}%</strong></div>` +
+        `<div class="footer-row"><span>General 週</span><strong>${clampPct(usedWk)}%</strong></div>` +
+        (video ? `<div class="footer-row"><span>Video Daily</span><strong>${clampPct(videoDaily)}%</strong></div>` : '') +
+        (video ? `<div class="footer-row"><span>Video 週</span><strong>${clampPct(videoWk)}%</strong></div>` : '') +
+        `<div class="footer-row"><span>Reset</span><strong>${fmtReset(resetRaw) || '—'}</strong></div>` +
+        `<div class="footer-row"><span>來源</span><strong>minimax-api-status.json</strong></div>`
     });
     if (d._generatedAt) {
       const t = new Date(d._generatedAt);
       if (!lastUpdate || t > lastUpdate) lastUpdate = t;
     }
   } else {
-    setAgent('minimax', {title:'🟢 MiniMax', badge:'Error', body:'資料暫時不可用', footer:'<a href="dashboard.html#tab-minimax">詳情 →</a>', error:true});
+    setDetail('minimax', {dot:'⚫', title:'MiniMax', badges:[{text:'Error', cls:'b-status-bad'}], body:'<div style="color:var(--dim);font-size:.78em;">資料暫時不可用</div>', footer:'<div class="footer-row"><span>狀態</span><strong>資料暫時不可用</strong></div>', error:true});
     console.log('minimax-api-status fetch error', minimax.reason);
   }
 
@@ -308,20 +382,58 @@ async function loadAgentUsage() {
     const d = copilot.value;
     const now = new Date();
     const month = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
-    const monthData = d.analysis?.byMonth?.[month];
+    const byMonth = d.analysis?.byMonth || {};
+    let monthData = byMonth[month];
+    let usedMonth = month;
+    // Fallback: if current month has no data, use most recent available month.
+    if (!monthData || monthData.total == null) {
+      const months = Object.keys(byMonth).sort();
+      if (months.length) {
+        usedMonth = months[months.length - 1];
+        monthData = byMonth[usedMonth];
+      }
+    }
     const nextReset = new Date(now.getFullYear(), now.getMonth() + 1, 1).toISOString().slice(0,10);
 
     if (!monthData || monthData.total == null) {
-      setAgent('copilot', {title:'🟡 Copilot', badge:'無本月資料', body:'<div class="agent-row"><span>monthly</span><strong>—</strong></div>', footer:`<span>Reset ${nextReset}</span><a href="dashboard.html#tab-copilot">詳情 →</a>`, muted:true});
+      setDetail('copilot', {dot:'🟡', title:'Copilot', badges:[{text:'Premium', cls:'b-plan'},{text:'無資料', cls:'b-source'}], body:'<div style="color:var(--dim);font-size:.78em;">尚無使用記錄</div>', footer:`<div class="footer-row"><span>Plan</span><strong>Premium</strong></div><div class="footer-row"><span>Reset</span><strong>${nextReset}</strong></div>`, muted:true});
     } else {
       const used = monthData.total || 0;
       const total = 300;
       const pct = clampPct(used / total * 100);
-      setAgent('copilot', {
-        title: pct >= 80 ? '🔴 Copilot' : (pct >= 50 ? '🟡 Copilot' : '🟢 Copilot'),
-        badge: 'Premium',
-        body: metric(`${used}/${total}`, pct),
-        footer: `<span>Reset ${nextReset}</span><a href="dashboard.html#tab-copilot">詳情 →</a>`
+      const byModel = monthData.byModel || {};
+      // Try to bucket known model names — labels are arbitrary since real CSVs
+      // show names like "Claude Opus 4.6" / "GPT-5.4 mini" etc.
+      // Bucket models by family. Real CSV names change frequently; we only highlight the
+      // two Anthropic families (Opus / Sonnet) and collapse the rest into "其他".
+      const bucket = (rx) => Object.entries(byModel).reduce((s, [name, v]) =>
+        s + (rx.test(name) ? Number(v.requests || v) : 0), 0);
+      const opusCount = bucket(/claude.*opus/i);
+      const sonnetCount = bucket(/claude.*sonnet/i);
+      const otherCount = Math.max(0, used - opusCount - sonnetCount);
+      const isFallback = usedMonth !== month;
+      const monthLabel = isFallback ? `${usedMonth} (最新可用)` : month;
+
+      setDetail('copilot', {
+        dot: pct >= 80 ? '🔴' : pct >= 50 ? '🟡' : '🟢',
+        title: 'Copilot',
+        badges: [
+          { text: 'Premium', cls: 'b-plan' },
+          { text: pct + '%', cls: pct >= 80 ? 'b-status-bad' : pct >= 50 ? 'b-source' : 'b-status-ok' }
+        ],
+        body:
+          progressRow(`本月用量 (${used}/${total}) — ${monthLabel}`, pct, nextReset) +
+          `<div class="detail-sublabel">模型分項 (${usedMonth})</div>` +
+          (opusCount ? modelRow('Opus', opusCount / Math.max(used, 1) * 100, opusCount + ' req') : '') +
+          (sonnetCount ? modelRow('Sonnet', sonnetCount / Math.max(used, 1) * 100, sonnetCount + ' req') : '') +
+          (otherCount > 0 ? modelRow('其他', otherCount / Math.max(used, 1) * 100, otherCount + ' req') : '') +
+          (!opusCount && !sonnetCount && otherCount === 0 ? '<div style="color:var(--dim);font-size:.74em;">無分項資料</div>' : ''),
+        footer:
+          `<div class="footer-row"><span>月份</span><strong>${monthLabel}</strong></div>` +
+          `<div class="footer-row"><span>本月用量</span><strong>${used} / ${total}</strong></div>` +
+          `<div class="footer-row"><span>使用率</span><strong>${pct}%</strong></div>` +
+          `<div class="footer-row"><span>Reset</span><strong>${nextReset}</strong></div>` +
+          `<div class="footer-row"><span>來源</span><strong>copilot-summary.json</strong></div>`
       });
     }
     if (d._generatedAt) {
@@ -329,7 +441,7 @@ async function loadAgentUsage() {
       if (!lastUpdate || t > lastUpdate) lastUpdate = t;
     }
   } else {
-    setAgent('copilot', {title:'🟡 Copilot', badge:'Error', body:'資料暫時不可用', footer:'<a href="dashboard.html#tab-copilot">詳情 →</a>', error:true});
+    setDetail('copilot', {dot:'🟡', title:'Copilot', badges:[{text:'Error', cls:'b-status-bad'}], body:'<div style="color:var(--dim);font-size:.78em;">資料暫時不可用</div>', footer:'<div class="footer-row"><span>狀態</span><strong>資料暫時不可用</strong></div>', error:true});
     console.log('copilot-summary fetch error', copilot.reason);
   }
 
@@ -338,8 +450,8 @@ async function loadAgentUsage() {
   }
 }
 
-loadAgentUsage();
-setInterval(loadAgentUsage, 300000);
+loadDetailUsage();
+setInterval(loadDetailUsage, 300000);
 </script>
 </body>
 </html>
