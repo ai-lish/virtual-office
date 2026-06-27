@@ -1,5 +1,5 @@
 {
-  "_generatedAt": "2026-06-27T06:55:05.049873Z",
+  "_generatedAt": "2026-06-27T14:56:44.047197Z",
   "_source": "local-curl",
   "_version": 1,
   "codex": {
@@ -7,24 +7,42 @@
     "plan": "plus",
     "limit_reached": false,
     "primary_5h": {
-      "used_percent": 1,
-      "remaining_percent": 99,
-      "reset_at": "2026-06-27T19:55:08+08:00",
-      "reset_at_hkt": "06-27 19:55",
-      "reset_in_seconds": 18000,
+      "used_percent": 35,
+      "remaining_percent": 65,
+      "reset_at": "2026-06-28T03:01:10+08:00",
+      "reset_at_hkt": "06-28 03:01",
+      "reset_in_seconds": 14664,
       "window_seconds": 18000
     },
     "secondary_7d": {
-      "used_percent": 31,
-      "remaining_percent": 69,
+      "used_percent": 36,
+      "remaining_percent": 64,
       "reset_at": "2026-07-01T10:05:34+08:00",
       "reset_at_hkt": "07-01 10:05",
-      "reset_in_seconds": 328226,
+      "reset_in_seconds": 299328,
       "window_seconds": 604800
     }
   },
   "claude": {
-    "available": false,
-    "subscription": "unknown"
+    "available": true,
+    "subscription": "unknown",
+    "primary_5h": {
+      "used_percent": 31,
+      "remaining_percent": 69,
+      "reset_at": "2026-06-27T18:50:00.253950+00:00",
+      "reset_at_hkt": "06-28 02:50"
+    },
+    "secondary_7d": {
+      "used_percent": 7,
+      "remaining_percent": 93,
+      "reset_at": "2026-07-02T16:00:00.253974+00:00",
+      "reset_at_hkt": "07-03 00:00"
+    },
+    "active_limits": [
+      {
+        "kind": "session",
+        "percent": 31
+      }
+    ]
   }
 }
