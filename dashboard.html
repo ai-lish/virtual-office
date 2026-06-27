@@ -23,9 +23,10 @@
         /* ── AI Coding Tools section (placed at top of history tab per PLANNING §3.2) ── */
         .aitools-section { display:flex; flex-direction:column; gap:14px; }
         .aitools-section .card { padding:20px; }
+        /* Heading must occupy its own row in the desktop flex layout; otherwise it
+           sits inline with Codex/Claude and breaks the side-by-side grid. */
+        .aitools-section h3 { flex: 0 0 100%; margin: 0; }
         @media(min-width:780px){
-            .aitools-section > #aitools-codex-card,
-            .aitools-section > #aitools-claude-card { display:inline-block; width:calc(50% - 7px); vertical-align:top; }
             /* Use flexbox wrap for cleaner alignment */
             .aitools-section { display:flex; flex-direction:row; flex-wrap:wrap; gap:14px; align-items:stretch; }
             .aitools-section .card { flex:0 0 calc(50% - 7px); }
@@ -1364,7 +1365,12 @@
         aitoolsRenderProvider('claude', claude);
         const subEl = $('claude-sub');
         if (subEl && claude) {
-            subEl.textContent = claude.subscription || 'unknown';
+            // Mirror homepage logic: real plan values are shown as-is;
+            // missing/explicit fallbacks render as 'OAuth-based' (Claude OAuth
+            // usage API does not expose plan type).
+            const subRaw = claude.subscription || '';
+            const subHasReal = subRaw && subRaw !== 'unknown' && subRaw !== 'n/a';
+            subEl.textContent = subHasReal ? subRaw : 'OAuth-based';
         }
         const limitsEl = $('claude-limits');
         if (limitsEl) {

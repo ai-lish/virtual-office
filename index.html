@@ -275,10 +275,6 @@ async function loadDetailUsage() {
 
     const c = q.codex || {};
     const cs = statusDot(c.available !== false, c.limit_reached);
-    const codexUsed = c.used_percent != null ? c.used_percent : Math.max(
-      Number(c.primary_5h?.used_percent || 0),
-      Number(c.secondary_7d?.used_percent || 0)
-    );
     setDetail('codex', {
       dot: cs.dot,
       title: 'Codex',

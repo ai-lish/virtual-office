@@ -370,8 +370,10 @@ def extract_claude(raw):
         for l in (raw.get("limits") or [])
         if l.get("is_active")
     ]
-    # Subscription is not exposed by the OAuth usage API; spec §3 q4 says
-    # "pass through whatever API returns; fallback 'unknown'".
+    # Subscription is not exposed by the Claude OAuth usage API; the API only
+    # returns five_hour / seven_day utilization. We pass through any plan hint
+    # the API surfaces and fall back to "n/a" so the UI can render it as
+    # "OAuth-based" (see Planning/20260627_REDESIGN_V1.md §3.1).
     subscription = (
         raw.get("subscriptionType")
         or raw.get("plan_type")
