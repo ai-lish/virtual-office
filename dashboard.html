@@ -20,18 +20,7 @@
         .last-update { font-size:0.75em; color:var(--text2); }
         .container { max-width:960px; margin:0 auto; padding:24px 16px 60px; display:flex; flex-direction:column; gap:20px; }
         .card { background:var(--card); border-radius:14px; padding:24px; border:1px solid rgba(255,255,255,0.06); }
-        /* ── AI Coding Tools section (placed at top of history tab per PLANNING §3.2) ── */
-        .aitools-section { display:flex; flex-direction:column; gap:14px; }
-        .aitools-section .card { padding:20px; }
-        /* Heading must occupy its own row in the desktop flex layout; otherwise it
-           sits inline with Codex/Claude and breaks the side-by-side grid. */
-        .aitools-section h3 { flex: 0 0 100%; margin: 0; }
-        @media(min-width:780px){
-            /* Use flexbox wrap for cleaner alignment */
-            .aitools-section { display:flex; flex-direction:row; flex-wrap:wrap; gap:14px; align-items:stretch; }
-            .aitools-section .card { flex:0 0 calc(50% - 7px); }
-        }
-        @media(max-width:779px){ .aitools-section .card { width:100%; } }
+        /* V2 (Planning §3.2.3): dashboard is 100% history. No realtime aitools cards. */
         .card-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:10px; }
         .card-title { display:flex; align-items:center; gap:10px; font-size:1.1rem; font-weight:700; }
         .badge { padding:3px 10px; border-radius:10px; font-size:0.72em; font-weight:500; }
@@ -150,58 +139,7 @@
 
         <!-- ===== Tab: 配額歷史 ===== -->
         <div class="tab-panel active" id="tab-history">
-        <!-- ===== AI Coding Tools (Codex + Claude Code) — 即時狀態 =====
-             Per PLANNING/20260627_REDESIGN_V1.md §3.2: 即時狀態放 history tab 頂部 -->
-        <div class="aitools-section">
-            <h3 style="font-size:1em;margin:0 0 10px;color:var(--text);">🛠️ AI Coding Tools <span style="color:var(--text2);font-weight:400;">(即時狀態)</span></h3>
-
-            <!-- ===== Card: Codex ===== -->
-            <div class="card" id="aitools-codex-card">
-                <div class="card-header">
-                    <div class="card-title">🤖 Codex <span style="font-weight:400;color:var(--text2);font-size:0.85em;">(ChatGPT Plus)</span></div>
-                    <span id="codex-avail" class="badge">載入中…</span>
-                </div>
-                <div class="progress-row">
-                    <div class="progress-label"><span>5h Primary 窗口</span><strong id="codex-5h-val">—</strong></div>
-                    <div class="progress-track"><div class="progress-fill" id="codex-5h-fill" style="width:0%;background:var(--blue);"></div></div>
-                    <div style="font-size:0.72em;color:var(--text2);margin-top:4px;">重置: <span id="codex-5h-reset">—</span></div>
-                </div>
-                <div class="progress-row">
-                    <div class="progress-label"><span>7d Secondary 窗口</span><strong id="codex-7d-val">—</strong></div>
-                    <div class="progress-track"><div class="progress-fill" id="codex-7d-fill" style="width:0%;background:var(--blue);"></div></div>
-                    <div style="font-size:0.72em;color:var(--text2);margin-top:4px;">重置: <span id="codex-7d-reset">—</span></div>
-                </div>
-                <div style="font-size:0.72em;color:var(--text2);margin-top:6px;">
-                    Plan: <span id="codex-plan" class="badge" style="background:rgba(52,152,219,0.15);color:var(--blue);">—</span>
-                </div>
-                <div style="margin-top:14px;font-size:0.7em;color:var(--text2);" id="codex-footer">最後更新: —</div>
-            </div>
-
-            <!-- ===== Card: Claude Code ===== -->
-            <div class="card" id="aitools-claude-card">
-                <div class="card-header">
-                    <div class="card-title">🤖 Claude Code</div>
-                    <span id="claude-avail" class="badge">載入中…</span>
-                </div>
-                <div class="progress-row">
-                    <div class="progress-label"><span>5h Primary 窗口</span><strong id="claude-5h-val">—</strong></div>
-                    <div class="progress-track"><div class="progress-fill" id="claude-5h-fill" style="width:0%;background:var(--blue);"></div></div>
-                    <div style="font-size:0.72em;color:var(--text2);margin-top:4px;">重置: <span id="claude-5h-reset">—</span></div>
-                </div>
-                <div class="progress-row">
-                    <div class="progress-label"><span>7d Secondary 窗口</span><strong id="claude-7d-val">—</strong></div>
-                    <div class="progress-track"><div class="progress-fill" id="claude-7d-fill" style="width:0%;background:var(--blue);"></div></div>
-                    <div style="font-size:0.72em;color:var(--text2);margin-top:4px;">重置: <span id="claude-7d-reset">—</span></div>
-                </div>
-                <div style="font-size:0.72em;color:var(--text2);margin-top:6px;">
-                    Subscription: <span id="claude-sub" class="badge" style="background:rgba(150,150,150,0.18);color:#aaa;">—</span>
-                </div>
-                <div style="font-size:0.72em;color:var(--text2);margin-top:6px;">
-                    Active limits: <span id="claude-limits" style="display:inline-block;">—</span>
-                </div>
-                <div style="margin-top:14px;font-size:0.7em;color:var(--text2);" id="claude-footer">最後更新: —</div>
-            </div>
-        </div>
+        <!-- V2 (Planning §3.2.3): 即時狀態 block removed — dashboard is 100% history. -->
 
         <div class="card" id="history-card">
             <div class="card-header">
@@ -234,42 +172,49 @@
                     <div style="font-size:0.65em;color:var(--text2);margin-top:2px;">/ 日（v1）</div>
                 </div>
                 <div class="stat-box">
-                    <div class="label">平均 Video 使用率</div>
-                    <div class="value" id="hist-avg-video" style="color:var(--green);">—</div>
-                    <div style="font-size:0.65em;color:var(--text2);margin-top:2px;">/ 日（v2）</div>
+                    <div class="label">平均 Codex 5h</div>
+                    <div class="value" id="hist-avg-codex-5h" style="color:var(--blue);">—</div>
+                </div>
+                <div class="stat-box">
+                    <div class="label">平均 Claude 5h</div>
+                    <div class="value" id="hist-avg-claude-5h" style="color:var(--purple);">—</div>
                 </div>
             </div>
             <div style="font-size:0.72em;color:var(--text2);margin-bottom:6px;display:flex;gap:14px;align-items:center;">
                 <span>Legend:</span>
                 <span><span style="display:inline-block;padding:1px 6px;border-radius:4px;background:rgba(150,150,150,0.18);color:#aaa;font-weight:600;font-size:0.95em;">v1</span> Pre-2026-06-01 (M2.7/Speech/Image 細項)</span>
-                <span><span style="display:inline-block;padding:1px 6px;border-radius:4px;background:rgba(46,204,113,0.18);color:var(--green);font-weight:600;font-size:0.95em;">v2</span> 2026-06-01+ (General/Video credit-based)</span>
+                <span><span style="display:inline-block;padding:1px 6px;border-radius:4px;background:rgba(46,204,113,0.18);color:var(--green);font-weight:600;font-size:0.95em;">v2</span> 2026-06-01+ (General + Codex + Claude, Video removed)</span>
             </div>
             <!-- ===== v2 section: 6月或之後 (credit-based) ===== -->
-            <h3 style="font-size:1em;margin:18px 0 8px;color:var(--text);">📊 6月或之後 <span style="color:var(--text2);font-weight:400;">(v2 — General / Video credit-based)</span></h3>
+            <h3 style="font-size:1em;margin:18px 0 8px;color:var(--text);">📊 6月或之後 <span style="color:var(--text2);font-weight:400;">(v2 — General + Codex + Claude)</span></h3>
             <div style="overflow-x:auto;">
                 <table class="data-table">
                     <colgroup>
+                        <col style="width:78px;">
+                        <col style="width:54px;">
+                        <col style="width:74px;">
+                        <col style="width:74px;">
+                        <col style="width:74px;">
+                        <col style="width:74px;">
+                        <col style="width:74px;">
+                        <col style="width:74px;">
                         <col style="width:90px;">
-                        <col style="width:60px;">
-                        <col style="width:90px;">
-                        <col style="width:90px;">
-                        <col style="width:90px;">
-                        <col style="width:90px;">
-                        <col style="width:100px;">
                     </colgroup>
                     <thead>
                         <tr>
                             <th>日期</th>
                             <th>時段</th>
-                            <th class="num">[5hr] General %</th>
-                            <th class="num">[Daily] Video %</th>
-                            <th class="num">週 General %</th>
-                            <th class="num">週 Video %</th>
+                            <th class="num">[5hr] Gen%</th>
+                            <th class="num">[5hr] Codex%</th>
+                            <th class="num">[週] Codex%</th>
+                            <th class="num">[5hr] Claude%</th>
+                            <th class="num">[週] Claude%</th>
+                            <th class="num">週 Gen%</th>
                             <th style="font-size:0.8em;color:var(--text2);">擷取時間</th>
                         </tr>
                     </thead>
                     <tbody id="hist-v2-body">
-                        <tr><td colspan="7" style="text-align:center;color:var(--text2);padding:24px;">載入中…</td></tr>
+                        <tr><td colspan="9" style="text-align:center;color:var(--text2);padding:24px;">載入中…</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -517,7 +462,7 @@
                 const res = await fetch(basePath + '/public/quota-history.json?' + Date.now());
                 if (!res.ok) {
                     $('hist-v1-body').innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text2);padding:24px;">暫無歷史資料 — 請先執行 refresh-data.sh</td></tr>';
-                    $('hist-v2-body').innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text2);padding:24px;">暫無歷史資料 — 請先執行 refresh-data.sh</td></tr>';
+                    $('hist-v2-body').innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--text2);padding:24px;">暫無歷史資料 — 請先執行 refresh-data.sh</td></tr>';
                     return;
                 }
                 const data = await res.json();
@@ -546,15 +491,18 @@
 
             // ── Schema-aware helpers (back-compat: v1 has mStar, v2 has general) ──
             const getText = e => e.general || e.mStar;  // v2 'general' bucket, or v1 'mStar'
-            const getVideo = e => e.video;
             const getSpeech = e => e.speech;
             const getImage = e => e.image;
+            // V2 (Planning §3.6.1): video field no longer written to quota-history.json.
+            // Legacy entries (pre-2026-06-28) may still carry it but UI does not consume.
 
             const textEntries = this.filtered.filter(e => {
                 const t = getText(e);
                 return t && (t.total > 0 || t.usedPct != null);
             });
             const videoEntries = this.filtered.filter(e => getVideo(e)?.usedPct != null);
+            const codexEntries = this.filtered.filter(e => e.codex && e.codex.primary_5h_pct != null);
+            const claudeEntries = this.filtered.filter(e => e.claude && e.claude.primary_5h_pct != null);
             const speechDays = {}, imageDays = {};
             this.filtered.forEach(e => {
                 if (e.speech?.used > 0 && !speechDays[e.date]) speechDays[e.date] = e.speech.used;
@@ -563,17 +511,19 @@
 
             const avgText    = textEntries.length ? Math.round(textEntries.reduce((s,e) => s + (getText(e).used || 0), 0) / textEntries.length) : 0;
             const avgTextPct = textEntries.length ? Math.round(textEntries.reduce((s,e) => s + (getText(e).usedPct || 0), 0) / textEntries.length) : 0;
-            const avgVideo   = videoEntries.length ? Math.round(videoEntries.reduce((s,e) => s + getVideo(e).usedPct, 0) / videoEntries.length) : 0;
             const speechVals = Object.values(speechDays);
             const imageVals  = Object.values(imageDays);
             const avgSpeech  = speechVals.length ? Math.round(speechVals.reduce((s,v) => s+v,0) / speechVals.length) : 0;
             const avgImage   = imageVals.length  ? Math.round(imageVals.reduce((s,v) => s+v,0)  / imageVals.length)  : 0;
+            const avgCodex5h = codexEntries.length ? Math.round(codexEntries.reduce((s,e) => s + (e.codex.primary_5h_pct || 0), 0) / codexEntries.length) : 0;
+            const avgClaude5h = claudeEntries.length ? Math.round(claudeEntries.reduce((s,e) => s + (e.claude.primary_5h_pct || 0), 0) / claudeEntries.length) : 0;
 
             $('hist-avg-mstar').textContent     = avgText    ? (textEntries[0] && getText(textEntries[0]).total > 0 ? avgText : avgTextPct + '%') : '—';
             $('hist-avg-mstar-pct').textContent = avgTextPct ? avgTextPct + '%' : '—';
             $('hist-avg-speech').textContent    = avgSpeech || '—';
             $('hist-avg-image').textContent     = avgImage  || '—';
-            $('hist-avg-video').textContent     = avgVideo  ? avgVideo + '%' : '—';
+            $('hist-avg-codex-5h').textContent  = avgCodex5h ? avgCodex5h + '%' : '—';
+            $('hist-avg-claude-5h').textContent = avgClaude5h ? avgClaude5h + '%' : '—';
 
             this.render();
         }
@@ -663,7 +613,7 @@
             // ── v2 section: 6月或之後 (credit-based) ──
             const v2Body = $('hist-v2-body');
             if (v2.length === 0) {
-                v2Body.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text2);padding:24px;">6月或之後暫無資料</td></tr>';
+                v2Body.innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--text2);padding:24px;">6月或之後暫無資料</td></tr>';
                 $('hist-v2-pagination').innerHTML = '';
             } else {
                 const v2Start = (this.v2Page - 1) * this.pageSize;
@@ -671,21 +621,27 @@
                 v2Body.innerHTML = v2Page.map(e => {
                     const wc = winColors[e.window] || '#888';
                     const g = e.general;
-                    const v = e.video;
+                    const c = e.codex;
+                    const cl = e.claude;
                     const gPct = g?.usedPct != null ? g.usedPct + '%' : '—';
-                    const vPct = v?.usedPct != null ? v.usedPct + '%' : '—';
                     const gWkPct = g?.weeklyPct != null ? g.weeklyPct + '%' : '—';
-                    const vWkPct = v?.weeklyPct != null ? v.weeklyPct + '%' : '—';
+                    const c5 = c?.primary_5h_pct != null ? c.primary_5h_pct + '%' : '—';
+                    const c7 = c?.secondary_7d_pct != null ? c.secondary_7d_pct + '%' : '—';
+                    const cl5 = cl?.primary_5h_pct != null ? cl.primary_5h_pct + '%' : '—';
+                    const cl7 = cl?.secondary_7d_pct != null ? cl.secondary_7d_pct + '%' : '—';
                     const gColor = pctColor(g?.usedPct ?? 0);
-                    const vColor = pctColor(v?.usedPct ?? 0);
+                    const cColor = pctColor(c?.primary_5h_pct ?? 0);
+                    const clColor = pctColor(cl?.primary_5h_pct ?? 0);
                     const captTime = e.capturedAt ? new Date(e.capturedAt).toLocaleString('zh-HK',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}) : '—';
                     return `<tr>
                         <td>${e.date}</td>
                         <td><span style="color:${wc};font-weight:600;">${e.window}</span></td>
                         <td class="num" style="color:${gColor};">${gPct}</td>
-                        <td class="num" style="color:${vColor};">${vPct}</td>
+                        <td class="num" style="color:${cColor};">${c5}</td>
+                        <td class="num" style="color:${cColor};opacity:0.85;">${c7}</td>
+                        <td class="num" style="color:${clColor};">${cl5}</td>
+                        <td class="num" style="color:${clColor};opacity:0.85;">${cl7}</td>
                         <td class="num" style="color:${gColor};opacity:0.85;">${gWkPct}</td>
-                        <td class="num" style="color:${vColor};opacity:0.85;">${vWkPct}</td>
                         <td style="color:var(--text2);font-size:0.85em;">${captTime}</td>
                     </tr>`;
                 }).join('');
@@ -1290,159 +1246,14 @@
     const copilotPager = new CopilotPanel();
     const tokenPager   = new MinimaxPanel();
 
-    // ===== AI Coding Tools panel (Codex + Claude Code quota) =====
-    // Single source of truth for color mapping: pct → {fg, bg}.
-    // Thresholds: 50/80/95 → green/orange/warn/danger.
-    // available=false forces danger regardless of pct.
-    // pct is normalized via Number.isFinite to prevent NaN / garbage values.
-    function aitoolsColorFor(pct, available) {
-        if (!available) return { fg: 'var(--danger)', bg: 'rgba(231,76,60,0.18)' };
-        const safe = Number.isFinite(pct) ? pct : 0;
-        if (safe >= 95) return { fg: 'var(--danger)', bg: 'rgba(231,76,60,0.18)' };
-        if (safe >= 80) return { fg: 'var(--warn)',   bg: 'rgba(243,156,18,0.18)' };
-        if (safe >= 50) return { fg: 'var(--orange)', bg: 'rgba(230,126,34,0.18)' };
-        return { fg: 'var(--green)', bg: 'rgba(46,204,113,0.18)' };
-    }
-    function aitoolsSetProgress(prefix, window, windowData, available) {
-        const raw = windowData && windowData.used_percent;
-        const pct = Number.isFinite(raw) ? raw : 0;
-        // Clamp visual width to 0..100 so the bar never overflows or renders NaN%.
-        // The displayed percent is also clamped to keep label and bar in sync.
-        const widthPct = Math.max(0, Math.min(100, pct));
-        const colors = aitoolsColorFor(pct, available);
-        const fill = $(prefix + '-' + window + '-fill');
-        const val = $(prefix + '-' + window + '-val');
-        const reset = $(prefix + '-' + window + '-reset');
-        if (fill) {
-            fill.style.width = widthPct + '%';
-            fill.style.background = colors.fg;
-        }
-        if (val) {
-            val.textContent = widthPct + '%';
-            val.style.color = colors.fg;
-        }
-        if (reset) { reset.textContent = (windowData && windowData.reset_at_hkt) || '—'; }
-    }
-    function aitoolsRenderProvider(prefix, data) {
-        const availEl = $(prefix + '-avail');
-        if (!data) {
-            // Provider missing from JSON — render explicit unavailable state
-            // instead of silently leaving the card stuck in the initial markup.
-            if (availEl) {
-                availEl.textContent = '不可用';
-                availEl.style.background = 'rgba(231,76,60,0.18)';
-                availEl.style.color = 'var(--danger)';
-            }
-            ['5h','7d'].forEach(w => {
-                const fill = $(prefix + '-' + w + '-fill');
-                const val  = $(prefix + '-' + w + '-val');
-                const rst  = $(prefix + '-' + w + '-reset');
-                if (fill) { fill.style.width = '0%'; fill.style.background = 'var(--danger)'; }
-                if (val)  { val.textContent = '—'; val.style.color = 'var(--danger)'; }
-                if (rst)  { rst.textContent = '—'; }
-            });
-            return;
-        }
-        if (availEl) {
-            const c = aitoolsColorFor(data.used_percent, data.available);
-            availEl.textContent = data.available ? '可用' : '不可用';
-            availEl.style.background = c.bg;
-            availEl.style.color = c.fg;
-        }
-        aitoolsSetProgress(prefix, '5h', data.primary_5h, data.available);
-        aitoolsSetProgress(prefix, '7d', data.secondary_7d, data.available);
-    }
-    function aitoolsRenderCodex(codex) {
-        aitoolsRenderProvider('codex', codex);
-        const planEl = $('codex-plan');
-        if (planEl && codex) {
-            planEl.textContent = codex.plan || 'unknown';
-            planEl.style.background = 'rgba(52,152,219,0.15)';
-            planEl.style.color = 'var(--blue)';
-        }
-    }
-    function aitoolsRenderClaude(claude) {
-        aitoolsRenderProvider('claude', claude);
-        const subEl = $('claude-sub');
-        if (subEl && claude) {
-            // Mirror homepage logic: real plan values are shown as-is;
-            // missing/explicit fallbacks render as 'OAuth-based' (Claude OAuth
-            // usage API does not expose plan type).
-            const subRaw = claude.subscription || '';
-            const subHasReal = subRaw && subRaw !== 'unknown' && subRaw !== 'n/a';
-            subEl.textContent = subHasReal ? subRaw : 'OAuth-based';
-        }
-        const limitsEl = $('claude-limits');
-        if (limitsEl) {
-            limitsEl.innerHTML = '';
-            const limits = (claude && claude.active_limits) || [];
-            if (limits.length === 0) {
-                limitsEl.textContent = '—';
-            } else {
-                limits.forEach(l => {
-                    const tag = document.createElement('span');
-                    tag.className = 'tag';
-                    const pct = l.percent || 0;
-                    const c = aitoolsColorFor(pct, true);
-                    tag.style.background = c.bg;
-                    tag.style.color = c.fg;
-                    tag.textContent = l.kind + ' ' + pct + '%';
-                    limitsEl.appendChild(tag);
-                });
-            }
-        }
-    }
-    function aitoolsRenderFooter(generatedAt) {
-        if (!generatedAt) return;
-        let hktStr;
-        let suffix = ' HKT';
-        const d = new Date(generatedAt);
-        if (Number.isNaN(d.getTime())) {
-            // Invalid ISO timestamp — fall back to raw string without HKT suffix
-            // instead of rendering "Invalid Date HKT".
-            hktStr = generatedAt;
-            suffix = '';
-        } else {
-            try {
-                hktStr = d.toLocaleString('zh-HK', { timeZone: 'Asia/Hong_Kong' });
-            } catch (e) {
-                hktStr = generatedAt;
-                suffix = '';
-            }
-        }
-        const text = '最後更新: ' + hktStr + suffix;
-        const cf = $('codex-footer'); if (cf) cf.textContent = text;
-        const clf = $('claude-footer'); if (clf) clf.textContent = text;
-    }
-    async function aitoolsLoad() {
-        const url = basePath + '/public/usage-quota.json?' + Date.now();
-        try {
-            const r = await fetch(url, { cache: 'no-store' });
-            if (!r.ok) throw new Error('HTTP ' + r.status);
-            const data = await r.json();
-            aitoolsRenderCodex(data.codex);
-            aitoolsRenderClaude(data.claude);
-            aitoolsRenderFooter(data._generatedAt);
-        } catch (e) {
-            console.error('aitools fetch failed:', e);
-            const msg = '載入失敗: ' + e.message;
-            ['codex-avail','claude-avail'].forEach(id => {
-                const el = $(id);
-                if (el) {
-                    el.textContent = msg;
-                    el.style.background = 'rgba(231,76,60,0.18)';
-                    el.style.color = 'var(--danger)';
-                }
-            });
-        }
-    }
+    // V2 (Planning §3.2.3): ai-coding-tools (Codex + Claude) 即時狀態 panel removed.
+    // dashboard.html is 100% history now — instant-state panels live on index.html.
 
     // Restore saved aggregation mode button state
     AGG_MODES.forEach(m => { const b = $('agg-'+m); if (b) b.classList.toggle('active', m === tokenPager.aggMode); });
     copilotPager.loadData();
     tokenPager.loadData();
     histPager.loadData();
-    aitoolsLoad();
     setInterval(() => { histPager.loadData(); }, 300000);
 
     // ===== Auto-activate tab from URL hash (for homepage deep-links) =====

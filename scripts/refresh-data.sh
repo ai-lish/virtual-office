@@ -11,7 +11,13 @@ TMPDIR=$(mktemp -d)
 trap 'rm -rf "$TMPDIR"' EXIT
 
 ACTION="${1:-all}"
+SET_TIMESTAMP="${2:-}"  # V2 (Planning §3.4.3): unified cron passes ISO UTC
+                        # timestamp so all JSON files share the same capturedAt.
 SHEET_ID="19GFRnbjUlI7UnTngMWzqeoDD9g0lRs0OAO8iwieGJkA"
+
+# V2 (Planning §3.5): hardcoded plan defaults — mirrors KNOWN_PLANS in fetch-usage.py.
+KNOWN_PLAN_MINIMAX="plus"
+KNOWN_PLAN_COPILOT="pro"
 
 # ── 1. Refresh MiniMax Quota (API → Sheet + JSON) ──
 refresh_minimax() {
@@ -23,19 +29,22 @@ refresh_minimax() {
   KEY=$(cat "$KEY_FILE")
   RESPONSE=$(curl -sf 'https://api.minimax.io/v1/api/openplatform/coding_plan/remains' \
     -H "Authorization: Bearer $KEY")
-  NOW=$(date -u +"%Y-%m-%dT%H:%M:00Z")
-  
+  NOW="${SET_TIMESTAMP:-$(date -u +"%Y-%m-%dT%H:%M:00Z")}"
+
   if ! echo "$RESPONSE" | jq -e '.model_remains' > /dev/null 2>&1; then
     echo "❌ API error: $(echo "$RESPONSE" | jq -r '.base_resp.status_msg // "unknown"')"
     return 1
   fi
-  
+
   # Build JSON
-  echo "$RESPONSE" | jq --arg now "$NOW" '{
+  # V2 (Planning §3.6.1): filter out 'video' model — no longer tracked.
+  # V2 (Planning §3.5): include 'plan' field for homepage badge.
+  echo "$RESPONSE" | jq --arg now "$NOW" --arg plan "$KNOWN_PLAN_MINIMAX" '{
     _generatedAt: $now,
     _source: "local-refresh",
+    plan: $plan,
     raw: .,
-    allModels: [.model_remains[] | {
+    allModels: [.model_remains[] | select(.model_name != "video") | {
       model: .model_name,
       total: .current_interval_total_count,
       remaining: .current_interval_usage_count,
@@ -97,6 +106,7 @@ console.log('TSV written, rows:', rows.length);
 refresh_copilot() {
   echo "🤖 Refreshing Copilot usage from Google Drive..."
   FOLDER="1TUvOW4xsW7Xa0FQor-pQb2C4F1DxGoQh"
+  NOW="${SET_TIMESTAMP:-$(date -u +"%Y-%m-%dT%H:%M:00Z")}"  # V2: synced with minimax
 
   # GitHub renamed premiumRequestUsageReport → AIUsageReport in mid-2026.
   # Download BOTH the latest of each pattern to capture all months.
@@ -117,7 +127,12 @@ refresh_copilot() {
     echo "  Downloading AIUsageReport: $AI_ID"
     gog drive download "$AI_ID" --out "$TMPDIR/copilot-ai.csv" --no-input 2>/dev/null
   fi
-  
+
+  # Export timestamp + plan env vars so the embedded node script can read them
+  # (used by the JSON writer to set _generatedAt and subscription fields).
+  export SET_TIMESTAMP="$NOW"
+  export KNOWN_PLAN_COPILOT="$KNOWN_PLAN_COPILOT"
+
   node -e "
 const fs = require('fs');
 const https = require('https');
@@ -205,8 +220,9 @@ async function main() {
   }));
 
   const fullSummary = {
-    _generatedAt: now.toISOString(),
+    _generatedAt: process.env.SET_TIMESTAMP || now.toISOString(),
     _source: 'local-summary + google-drive-csv',
+    subscription: process.env.KNOWN_PLAN_COPILOT || 'pro',
     months,
     records: allRecords,
     analysis: {

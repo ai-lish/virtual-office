@@ -1,12 +1,13 @@
 {
-  "_generatedAt": "2026-06-27T15:55:00Z",
+  "_generatedAt": "2026-06-27T17:44:16Z",
   "_source": "local-refresh",
+  "plan": "plus",
   "raw": {
     "model_remains": [
       {
         "start_time": 1782572400000,
         "end_time": 1782590400000,
-        "remains_time": 14693216,
+        "remains_time": 8135194,
         "current_interval_total_count": 0,
         "current_interval_usage_count": 0,
         "model_name": "general",
@@ -14,16 +15,16 @@
         "current_weekly_usage_count": 0,
         "weekly_start_time": 1782086400000,
         "weekly_end_time": 1782691200000,
-        "weekly_remains_time": 115493216,
+        "weekly_remains_time": 108935194,
         "current_interval_status": 1,
-        "current_interval_remaining_percent": 91,
+        "current_interval_remaining_percent": 65,
         "current_weekly_status": 3,
         "current_weekly_remaining_percent": 100
       },
       {
         "start_time": 1782518400000,
         "end_time": 1782604800000,
-        "remains_time": 29093216,
+        "remains_time": 22535194,
         "current_interval_total_count": 0,
         "current_interval_usage_count": 0,
         "model_name": "video",
@@ -31,7 +32,7 @@
         "current_weekly_usage_count": 0,
         "weekly_start_time": 1782086400000,
         "weekly_end_time": 1782691200000,
-        "weekly_remains_time": 115493216,
+        "weekly_remains_time": 108935194,
         "current_interval_status": 3,
         "current_interval_remaining_percent": 100,
         "current_weekly_status": 3,
@@ -51,26 +52,12 @@
       "used": 0,
       "weeklyTotal": 0,
       "weeklyUsed": 0,
-      "remainingPct": 91,
+      "remainingPct": 65,
       "weeklyRemainingPct": 100,
       "intervalStatus": 1,
       "weeklyStatus": 3,
       "resetTime": 1782590400000,
-      "remainsMs": 14693216
-    },
-    {
-      "model": "video",
-      "total": 0,
-      "remaining": 0,
-      "used": 0,
-      "weeklyTotal": 0,
-      "weeklyUsed": 0,
-      "remainingPct": 100,
-      "weeklyRemainingPct": 100,
-      "intervalStatus": 3,
-      "weeklyStatus": 3,
-      "resetTime": 1782604800000,
-      "remainsMs": 29093216
+      "remainsMs": 8135194
     }
   ]
 }

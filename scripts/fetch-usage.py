@@ -27,6 +27,16 @@ import time
 import urllib.parse
 from datetime import datetime, timezone, timedelta
 
+# V2 (Planning §3.5): hardcoded plan defaults. These override the API value
+# when it returns "unknown" / "n/a" so the homepage + dashboard always have a
+# meaningful plan badge (Codex=plus, Claude=pro, MiniMax=plus, Copilot=pro).
+KNOWN_PLANS = {
+    "codex": "plus",
+    "claude": "pro",
+    "minimax": "plus",
+    "copilot": "pro",
+}
+
 HKT = timezone(timedelta(hours=8))
 CODEX_AUTH = os.path.expanduser("~/.codex/auth.json")
 KEYCHAIN_SERVICE = "Claude Code-credentials"
@@ -327,9 +337,13 @@ def extract_codex(raw):
     s_used = s.get("used_percent", 0)
     p_reset_iso = epoch_to_iso(p.get("reset_at"))
     s_reset_iso = epoch_to_iso(s.get("reset_at"))
+    # V2 (Planning §3.5): default plan to KNOWN_PLANS["codex"] when API
+    # does not surface plan_type (legacy Codex API quirk).
+    plan_raw = raw.get("plan_type")
+    plan = plan_raw if plan_raw and plan_raw != "unknown" else KNOWN_PLANS["codex"]
     return {
         "available": True,
-        "plan": raw.get("plan_type", "unknown"),
+        "plan": plan,
         "limit_reached": rl.get("limit_reached", False),
         "used_percent": max(p_used, s_used),
         "primary_5h": {
@@ -370,16 +384,15 @@ def extract_claude(raw):
         for l in (raw.get("limits") or [])
         if l.get("is_active")
     ]
-    # Subscription is not exposed by the Claude OAuth usage API; the API only
-    # returns five_hour / seven_day utilization. We pass through any plan hint
-    # the API surfaces and fall back to "n/a" so the UI can render it as
-    # "OAuth-based" (see Planning/20260627_REDESIGN_V1.md §3.1).
-    subscription = (
+    # V2 (Planning §3.5): hardcode subscription to KNOWN_PLANS["claude"] when
+    # the OAuth API doesn't surface one. Claude OAuth does not expose plan type;
+    # fall back to "pro" (per Zach 2026-06-28).
+    subscription_raw = (
         raw.get("subscriptionType")
         or raw.get("plan_type")
         or raw.get("subscription_info", {}).get("plan")
-        or "n/a"
     )
+    subscription = subscription_raw if subscription_raw and subscription_raw not in ("n/a", "unknown") else KNOWN_PLANS["claude"]
     return {
         "available": True,
         "subscription": subscription,
@@ -412,9 +425,18 @@ def main():
         "--out", default=DEFAULT_OUT,
         help=f"Output file path (default: {DEFAULT_OUT})",
     )
+    # V2 (Planning §3.4.3): unified cron passes --set-timestamp so all JSON
+    # files share the same capturedAt timestamp. Format: ISO 8601 UTC ("Z").
+    parser.add_argument(
+        "--set-timestamp", default=None,
+        help="Override _generatedAt with this ISO 8601 UTC timestamp",
+    )
     args = parser.parse_args()
 
-    now_utc = datetime.now(timezone.utc)
+    if args.set_timestamp:
+        now_utc = datetime.fromisoformat(args.set_timestamp.replace("Z", "+00:00"))
+    else:
+        now_utc = datetime.now(timezone.utc)
 
     codex_raw = fetch_codex()
     claude_raw = fetch_claude()
@@ -448,7 +470,7 @@ def main():
     doc = {
         "_generatedAt": now_utc.isoformat().replace("+00:00", "Z"),
         "_source": "local-curl",
-        "_version": 1,
+        "_version": 2,
         "codex": public_codex,
         "claude": public_claude,
     }
