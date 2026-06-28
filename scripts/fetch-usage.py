@@ -559,10 +559,20 @@ def fetch_gemini():
 def extract_gemini(raw):
     """Build gemini sub-object per spec §3 from raw API response.
 
-    Schema differs from Codex/Claude: Gemini quota is a flat list of buckets
+    Gemini's cloudcode-pa API returns quota as a flat list of buckets
     (per model × tokenType), each with remainingFraction (0–1) + resetTime.
-    There is no single 5h/7d window. The dashboard surfaces a per-model list
-    and uses min(remainingFraction) as the headline gauge.
+    To keep schema parity with Codex/Claude (5h + 7d windows) for the
+    dashboard, we derive two windows from the bucket list:
+
+      primary_5h   = tightest bucket (max used%, min remaining) — surfaces
+                     the 5-hour-style rate limit; reset is the earliest
+                     bucket reset time.
+      secondary_7d = loosest bucket (max used% in the worst case) — surfaces
+                     the weekly-aggregate concept; reset is the latest
+                     bucket reset time.
+
+    The per-model bucket breakdown is intentionally NOT persisted (V4 2026-06-28
+    schema change: dashboard needs only 5h/weekly columns, not per-model).
     """
     if raw.get("_error") or "retrieveUserQuota" not in raw:
         return {
@@ -587,42 +597,82 @@ def extract_gemini(raw):
             tier_id = tier.get("id")
             break
 
-    buckets_out = []
-    min_remaining = 1.0
+    # Aggregate buckets into 5h/7d windows (V4 schema).
+    bucket_summaries = []
     for b in buckets_in:
         try:
             frac = float(b.get("remainingFraction", 0))
         except (TypeError, ValueError):
             frac = 0.0
-        if frac < min_remaining:
-            min_remaining = frac
-        reset_iso = b.get("resetTime")
-        buckets_out.append(
-            {
-                "modelId": b.get("modelId"),
-                "tokenType": b.get("tokenType"),
-                "remainingFraction": frac,
-                "remainingPercent": round(frac * 100, 2),
-                "usedPercent": round((1 - frac) * 100, 2),
-                "reset_at": reset_iso,
-                "reset_at_hkt": iso_to_hkt(reset_iso),
-            }
+        bucket_summaries.append({
+            "used_percent": round((1 - frac) * 100, 2),
+            "reset_at": b.get("resetTime"),
+        })
+
+    if bucket_summaries:
+        # 5h window: tightest bucket (highest used_percent → tightest quota)
+        tightest = max(bucket_summaries, key=lambda b: b["used_percent"])
+        earliest_reset = min(
+            (b["reset_at"] for b in bucket_summaries if b["reset_at"]),
+            default=None,
         )
+        primary_5h = {
+            "used_percent": tightest["used_percent"],
+            "remaining_percent": round(100 - tightest["used_percent"], 2),
+            "reset_at": earliest_reset,
+            "reset_at_hkt": iso_to_hkt(earliest_reset),
+            "reset_in_seconds": _seconds_until(earliest_reset),
+            "window_seconds": 5 * 3600,
+        }
+        # 7d window: most-used bucket (proxy for weekly aggregate usage)
+        most_used = max(bucket_summaries, key=lambda b: b["used_percent"])
+        latest_reset = max(
+            (b["reset_at"] for b in bucket_summaries if b["reset_at"]),
+            default=None,
+        )
+        secondary_7d = {
+            "used_percent": most_used["used_percent"],
+            "remaining_percent": round(100 - most_used["used_percent"], 2),
+            "reset_at": latest_reset,
+            "reset_at_hkt": iso_to_hkt(latest_reset),
+            "reset_in_seconds": _seconds_until(latest_reset),
+            "window_seconds": 7 * 24 * 3600,
+        }
+        overall_used = round(
+            sum(b["used_percent"] for b in bucket_summaries) / len(bucket_summaries), 2
+        )
+    else:
+        primary_5h = None
+        secondary_7d = None
+        overall_used = None
 
     ineligible = load_resp.get("ineligibleTiers") or []
     return {
         "available": True,
         "plan": tier_id or KNOWN_PLANS["gemini"],
-        "used_percent": round((1 - min_remaining) * 100, 2),
-        "remaining_percent": round(min_remaining * 100, 2),
-        "primary_5h": None,  # Gemini does not expose a 5h window
-        "secondary_7d": None,  # Gemini does not expose a 7d window
-        "buckets": buckets_out,
+        "used_percent": overall_used,
+        "remaining_percent": round(100 - overall_used, 2) if overall_used is not None else None,
+        "primary_5h": primary_5h,
+        "secondary_7d": secondary_7d,
         "ineligible_tiers": [
             {"tierId": t.get("tierId"), "reasonCode": t.get("reasonCode")}
             for t in ineligible
         ],
     }
+
+
+def _seconds_until(iso_ts):
+    """Seconds from now until the given ISO timestamp (or None on parse fail)."""
+    if not iso_ts:
+        return None
+    try:
+        dt = datetime.fromisoformat(iso_ts.replace("Z", "+00:00"))
+    except (TypeError, ValueError):
+        return None
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    delta = (dt - datetime.now(timezone.utc)).total_seconds()
+    return max(0, int(delta))
 
 
 # ── Main ────────────────────────────────────────────────────────────
@@ -727,8 +777,8 @@ def main():
         log(
             f"[gemini] available: True "
             f"plan={gemini_obj.get('plan')} "
-            f"buckets={len(gemini_obj.get('buckets') or [])} "
-            f"minRemaining={gemini_obj.get('remaining_percent')}%"
+            f"5h={gemini_obj.get('primary_5h', {}).get('used_percent')}% "
+            f"7d={gemini_obj.get('secondary_7d', {}).get('used_percent')}%"
         )
 
     # Keep Codex behavior unchanged. Claude _error is intentionally surfaced so

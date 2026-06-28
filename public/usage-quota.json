@@ -1,5 +1,5 @@
 {
-  "_generatedAt": "2026-06-28T03:10:04.028819Z",
+  "_generatedAt": "2026-06-28T04:22:08.779253Z",
   "_source": "local-curl",
   "_version": 3,
   "codex": {
@@ -12,15 +12,15 @@
       "remaining_percent": 97,
       "reset_at": "2026-06-28T16:05:18+08:00",
       "reset_at_hkt": "06-28 16:05",
-      "reset_in_seconds": 17712,
+      "reset_in_seconds": 13387,
       "window_seconds": 18000
     },
     "secondary_7d": {
       "used_percent": 54,
       "remaining_percent": 46,
-      "reset_at": "2026-07-01T10:05:33+08:00",
+      "reset_at": "2026-07-01T10:05:34+08:00",
       "reset_at_hkt": "07-01 10:05",
-      "reset_in_seconds": 255327,
+      "reset_in_seconds": 251002,
       "window_seconds": 604800
     }
   },
@@ -31,13 +31,13 @@
     "primary_5h": {
       "used_percent": 8,
       "remaining_percent": 92,
-      "reset_at": "2026-06-28T08:00:00.442874+00:00",
+      "reset_at": "2026-06-28T08:00:00.672328+00:00",
       "reset_at_hkt": "06-28 16:00"
     },
     "secondary_7d": {
       "used_percent": 12,
       "remaining_percent": 88,
-      "reset_at": "2026-07-02T15:59:59.442899+00:00",
+      "reset_at": "2026-07-02T15:59:59.672352+00:00",
       "reset_at_hkt": "07-02 23:59"
     },
     "active_limits": [
@@ -52,46 +52,22 @@
     "plan": "standard-tier",
     "used_percent": 0.0,
     "remaining_percent": 100.0,
-    "primary_5h": null,
-    "secondary_7d": null,
-    "buckets": [
-      {
-        "modelId": "gemini-2.5-flash",
-        "tokenType": "REQUESTS",
-        "remainingFraction": 1.0,
-        "remainingPercent": 100.0,
-        "usedPercent": 0.0,
-        "reset_at": "2026-06-29T03:10:13Z",
-        "reset_at_hkt": "06-29 11:10"
-      },
-      {
-        "modelId": "gemini-2.5-flash-lite",
-        "tokenType": "REQUESTS",
-        "remainingFraction": 1.0,
-        "remainingPercent": 100.0,
-        "usedPercent": 0.0,
-        "reset_at": "2026-06-29T03:10:13Z",
-        "reset_at_hkt": "06-29 11:10"
-      },
-      {
-        "modelId": "gemini-2.5-pro",
-        "tokenType": "REQUESTS",
-        "remainingFraction": 1.0,
-        "remainingPercent": 100.0,
-        "usedPercent": 0.0,
-        "reset_at": "2026-06-29T03:10:13Z",
-        "reset_at_hkt": "06-29 11:10"
-      },
-      {
-        "modelId": "gemini-3.1-flash-lite",
-        "tokenType": "REQUESTS",
-        "remainingFraction": 1.0,
-        "remainingPercent": 100.0,
-        "usedPercent": 0.0,
-        "reset_at": "2026-06-29T03:10:13Z",
-        "reset_at_hkt": "06-29 11:10"
-      }
-    ],
+    "primary_5h": {
+      "used_percent": 0.0,
+      "remaining_percent": 100.0,
+      "reset_at": "2026-06-29T04:22:19Z",
+      "reset_at_hkt": "06-29 12:22",
+      "reset_in_seconds": 86399,
+      "window_seconds": 18000
+    },
+    "secondary_7d": {
+      "used_percent": 0.0,
+      "remaining_percent": 100.0,
+      "reset_at": "2026-06-29T04:22:19Z",
+      "reset_at_hkt": "06-29 12:22",
+      "reset_in_seconds": 86399,
+      "window_seconds": 604800
+    },
     "ineligible_tiers": [
       {
         "tierId": "free-tier",

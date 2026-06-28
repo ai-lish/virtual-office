@@ -210,7 +210,7 @@
                             <th class="num">[週] Codex%</th>
                             <th class="num">[5hr] Claude%</th>
                             <th class="num">[週] Claude%</th>
-                            <th class="num">[Gemini] used%</th>
+                            <th class="num">[5hr] Gemini%</th>
                             <th class="num">週 Gen%</th>
                             <th style="font-size:0.8em;color:var(--text2);">擷取時間</th>
                         </tr>
@@ -624,19 +624,19 @@
                     const g = e.general;
                     const c = e.codex;
                     const cl = e.claude;
-                    const gm = e.gemini;  // V3 2026-06-28: gemini sub-object (remainingPercent inverted to used% for table consistency)
+                    const gm = e.gemini;  // V4 2026-06-28: gemini primary_5h_pct (5h window, matches Codex/Claude convention)
                     const gPct = g?.usedPct != null ? g.usedPct + '%' : '—';
                     const gWkPct = g?.weeklyPct != null ? g.weeklyPct + '%' : '—';
                     const c5 = c?.primary_5h_pct != null ? c.primary_5h_pct + '%' : '—';
                     const c7 = c?.secondary_7d_pct != null ? c.secondary_7d_pct + '%' : '—';
                     const cl5 = cl?.primary_5h_pct != null ? cl.primary_5h_pct + '%' : '—';
                     const cl7 = cl?.secondary_7d_pct != null ? cl.secondary_7d_pct + '%' : '—';
-                    // Gemini: schema stores remainingPercent; convert to used% for visual consistency with other rows.
-                    const gmUsed = gm?.remainingPercent != null ? Math.round(100 - gm.remainingPercent) + '%' : '—';
+                    // Gemini V4: used_percent comes straight from primary_5h_pct (already inverted to used% in extract_gemini).
+                    const gmUsed = gm?.primary_5h_pct != null ? gm.primary_5h_pct + '%' : '—';
                     const gColor = pctColor(g?.usedPct ?? 0);
                     const cColor = pctColor(c?.primary_5h_pct ?? 0);
                     const clColor = pctColor(cl?.primary_5h_pct ?? 0);
-                    const gmColor = gmUsed !== '—' ? pctColor(Math.round(100 - (gm.remainingPercent ?? 100))) : '#888';
+                    const gmColor = gm?.primary_5h_pct != null ? pctColor(gm.primary_5h_pct) : '#888';
                     const captTime = e.capturedAt ? new Date(e.capturedAt).toLocaleString('zh-HK',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}) : '—';
                     return `<tr>
                         <td>${e.date}</td>

@@ -69,14 +69,14 @@ if (fs.existsSync(usageFile)) {
         subscription: u.claude.subscription || null
       };
     }
-    // V3 (2026-06-28): Gemini has buckets[] (per-model REQUESTS) instead of
-    // 5h/7d. Persist min remainingPercent + plan so dashboard history row
-    // stays single-column. Full bucket list is in usage-quota.json only.
+    // V4 (2026-06-28): Gemini schema aligned with Codex/Claude (primary_5h /
+    // secondary_7d windows). Per-model buckets[] no longer persisted to
+    // history. Dashboard column header '[Gemini] used%' reads primary_5h_pct.
     if (u.gemini && u.gemini.available !== false) {
       gemini = {
-        remainingPercent: u.gemini.remaining_percent ?? null,
-        plan: u.gemini.plan || null,
-        bucketCount: Array.isArray(u.gemini.buckets) ? u.gemini.buckets.length : 0
+        primary_5h_pct: u.gemini.primary_5h?.used_percent ?? null,
+        secondary_7d_pct: u.gemini.secondary_7d?.used_percent ?? null,
+        plan: u.gemini.plan || null
       };
     }
   } catch(e) {
@@ -146,7 +146,7 @@ if (schema === 'v1') {
   snapshot.general = g;
   // V2 plan §3.6.1: video model excluded from history going forward.
   // V2 plan §3.3.4: codex + claude sub-objects from usage-quota.json
-  // V3 (2026-06-28): gemini sub-object (single column = min remainingPercent)
+  // V4 (2026-06-28): gemini sub-object now uses primary_5h_pct / secondary_7d_pct
   if (codex) snapshot.codex = codex;
   if (claude) snapshot.claude = claude;
   if (gemini) snapshot.gemini = gemini;
