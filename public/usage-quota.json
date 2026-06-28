@@ -1,5 +1,5 @@
 {
-  "_generatedAt": "2026-06-27T20:55:08Z",
+  "_generatedAt": "2026-06-28T01:55:05Z",
   "_source": "local-curl",
   "_version": 2,
   "codex": {
@@ -8,43 +8,25 @@
     "limit_reached": false,
     "used_percent": 54,
     "primary_5h": {
-      "used_percent": 45,
-      "remaining_percent": 55,
-      "reset_at": "2026-06-28T08:19:43+08:00",
-      "reset_at_hkt": "06-28 08:19",
-      "reset_in_seconds": 12271,
+      "used_percent": 1,
+      "remaining_percent": 99,
+      "reset_at": "2026-06-28T14:55:10+08:00",
+      "reset_at_hkt": "06-28 14:55",
+      "reset_in_seconds": 18000,
       "window_seconds": 18000
     },
     "secondary_7d": {
       "used_percent": 54,
       "remaining_percent": 46,
-      "reset_at": "2026-07-01T10:05:33+08:00",
+      "reset_at": "2026-07-01T10:05:34+08:00",
       "reset_at_hkt": "07-01 10:05",
-      "reset_in_seconds": 277822,
+      "reset_in_seconds": 259825,
       "window_seconds": 604800
     }
   },
   "claude": {
-    "available": true,
-    "subscription": "pro",
-    "used_percent": 12,
-    "primary_5h": {
-      "used_percent": 0,
-      "remaining_percent": 100,
-      "reset_at": null,
-      "reset_at_hkt": null
-    },
-    "secondary_7d": {
-      "used_percent": 12,
-      "remaining_percent": 88,
-      "reset_at": "2026-07-02T15:59:59.540923+00:00",
-      "reset_at_hkt": "07-02 23:59"
-    },
-    "active_limits": [
-      {
-        "kind": "weekly_all",
-        "percent": 12
-      }
-    ]
+    "available": false,
+    "subscription": "n/a",
+    "_error": "OAuth refresh failed: 429 rate_limit_error: Rate limited. Please try again later."
   }
 }
