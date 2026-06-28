@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
  * update-usage-sheet.js — Write Codex row → "Codex QUOTA" + Claude row → "Claude QUOTA"
+ *                       + Gemini row → "Gemini QUOTA" (V3, MacD 2026-06-28)
  *
  * Spec §5: 12-col schema (Provider, Plan, Primary5h_UsedPct, ...).
  * Layout per sheet:
@@ -15,13 +16,14 @@
  * the whole cron). JSON + history are canonical; sheet can be backfilled.
  *
  * Sheet creation is a separate one-time setup step — see
- * setup-usage-sheets.sh. This script assumes the two sheets already exist.
+ * setup-usage-sheets.sh. This script assumes the three sheets already exist.
  *
  * Usage:
- *   node scripts/update-usage-sheet.js           # write both sheets
- *   node scripts/update-usage-sheet.js --dry-run # print TSV only, no gog call
+ *   node scripts/update-usage-sheet.js              # write all 3 sheets
+ *   node scripts/update-usage-sheet.js --dry-run    # print TSV only, no gog call
  *   node scripts/update-usage-sheet.js --provider codex   # only update Codex
  *   node scripts/update-usage-sheet.js --provider claude  # only update Claude
+ *   node scripts/update-usage-sheet.js --provider gemini_web
  */
 
 const fs = require('fs');
@@ -170,6 +172,11 @@ function main() {
   }
   if (!ONLY_PROVIDER || ONLY_PROVIDER === 'claude') {
     targets.push(['claude', 'Claude QUOTA', status.claude || {}]);
+  }
+  // V3 (MacD 2026-06-28): Gemini Web (gemini.google.com) quota via batchexecute.
+  // Requires "Gemini QUOTA" tab in workbook — created by setup-usage-sheets.sh.
+  if (!ONLY_PROVIDER || ONLY_PROVIDER === 'gemini_web') {
+    targets.push(['gemini_web', 'Gemini QUOTA', status.gemini_web || {}]);
   }
 
   let failed = 0;

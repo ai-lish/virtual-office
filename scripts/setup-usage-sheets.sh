@@ -1,10 +1,12 @@
 #!/bin/bash
 # setup-usage-sheets.sh — One-time setup to create Codex QUOTA + Claude QUOTA
-#                          tabs in the existing virtual-office Google Sheet.
+#                          + Gemini QUOTA tabs in the existing virtual-office
+#                          Google Sheet.
 #
-# Per spec §5, the workbook must have 3 sheets: MiniMax QUOTA (existing, do not
-# touch) + Codex QUOTA (new) + Claude QUOTA (new). The gog CLI does NOT expose
-# an add-tab command, so this script either:
+# Per spec §5, the workbook must have 4 sheets: MiniMax QUOTA (existing, do not
+# touch) + Codex QUOTA (new) + Claude QUOTA (new) + Gemini QUOTA (V3, MacD
+# 2026-06-28). The gog CLI does NOT expose an add-tab command, so this script
+# either:
 #   (a) creates the tabs via Apps Script API (preferred, automated), OR
 #   (b) prints manual instructions for the operator
 #
@@ -15,7 +17,7 @@
 
 set -euo pipefail
 SHEET_ID="19GFRnbjUlI7UnTngMWzqeoDD9g0lRs0OAO8iwieGJkA"
-TABS=("Codex QUOTA" "Claude QUOTA")
+TABS=("Codex QUOTA" "Claude QUOTA" "Gemini QUOTA")
 
 echo "════════════════════════════════════════════════════════════════"
 echo " AI Tools Cron — Sheet Setup (one-time)"

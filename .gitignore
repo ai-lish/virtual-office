@@ -10,3 +10,10 @@ __pycache__/
 # Last-known-good Claude quota snapshot (fetch-usage.py cache fallback).
 # Updated 5x/day by cron; never commit (would inflate git log with no value).
 public/usage-quota-cache.json
+# Playwright Chromium user-data-dir for gemini_web fetch (V3 plan).
+# Contains live Google session cookies for gemini.google.com — NEVER commit.
+.pw_chrome_data/
+.pw_chrome_debug/
+.pw_chrome_default/
+.pw_chrome_p11_full/
+.pw_chrome_profile11/

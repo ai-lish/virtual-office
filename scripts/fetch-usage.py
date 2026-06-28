@@ -35,6 +35,7 @@ KNOWN_PLANS = {
     "claude": "pro",
     "minimax": "plus",
     "copilot": "pro",
+    "gemini_web": "pro",
 }
 
 HKT = timezone(timedelta(hours=8))
@@ -43,6 +44,24 @@ KEYCHAIN_SERVICE = "Claude Code-credentials"
 CODEX_URL = "https://chatgpt.com/backend-api/wham/usage"
 CLAUDE_URL = "https://api.anthropic.com/api/oauth/usage"
 CLAUDE_OAUTH_TOKEN_URL = "https://platform.claude.com/v1/oauth/token"
+# V3 plan (MacD 2026-06-28): Gemini Web (gemini.google.com) quota via batchexecute.
+# Auth = live Google session cookies + `at` token from WIZ_global_data.SNlM0e.
+# WIZ_global_data is a page-loaded JS variable, NOT a cookie, so headless curl
+# alone cannot obtain it — Playwright with a persistent Chromium profile that
+# has Zach's logged-in session is the only viable path.
+# Reference: gemini-voyager public/usage-observer.js (verified live, rpcid jSf9Qc).
+GEMINI_WEB_PROFILE_DIR = os.path.expanduser(
+    os.environ.get("GEMINI_WEB_PROFILE_DIR")
+    or os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "..", ".pw_chrome_data"
+    )
+)
+GEMINI_WEB_LANDING_URL = "https://gemini.google.com/app"
+GEMINI_WEB_RPCID = "jSf9Qc"
+GEMINI_WEB_BATCHEXECUTE_URL = (
+    "https://gemini.google.com/_/BardChatUi/data/batchexecute"
+)
+GEMINI_WEB_NAV_TIMEOUT_MS = 25_000
 # Public Claude Code OAuth client id for platform.claude.com. The local native
 # binary also contains 22422756-..., but the platform token endpoint rejects
 # that legacy console id. ANTHROPIC_OAUTH_CLIENT_ID overrides this if Anthropic
@@ -413,6 +432,390 @@ def extract_claude(raw):
     }
 
 
+# ── Gemini Web (gemini.google.com) provider (V3 plan, MacD 2026-06-28) ──────
+#
+# Source of truth: gemini-voyager public/usage-observer.js (MIT).
+# Endpoint: /_/BardChatUi/data/batchexecute, rpcid=jSf9Qc, args='[]'.
+# Auth:
+#   - Cookies: any active Google session for gemini.google.com
+#   - `at` token: page-loaded WIZ_global_data.SNlM0e (rotates per page load)
+# Headless feasibility: requires browser context (Playwright persistent
+# profile). Pure curl fails because WIZ_global_data.SNlM0e is null when
+# fetched without a logged-in session. Profile dir lives at
+# virtual-office/.pw_chrome_data (gitignored). One-time interactive login
+# required; see memory/xiaoshi-gemini-setup.md analogue for setup notes.
+
+def _gemini_web_require_playwright():
+    """Lazy import to keep stdlib-only mode for the other 4 providers."""
+    try:
+        from playwright.sync_api import sync_playwright  # noqa: F401
+    except ImportError as e:
+        raise RuntimeError(
+            "playwright not installed; gemini_web provider requires it. "
+            "Install with: pip install playwright && playwright install chromium"
+        ) from e
+
+
+def _gemini_wiz_from_page(page):
+    """Read WIZ_global_data from the page. Returns dict or None."""
+    return page.evaluate(
+        """() => {
+            try {
+                const w = window.WIZ_global_data;
+                if (!w || typeof w !== 'object') return null;
+                return {
+                    SNlM0e: typeof w.SNlM0e === 'string' ? w.SNlM0e : null,
+                    cfb2h: typeof w.cfb2h === 'string' ? w.cfb2h : '',
+                    FdrFJe: typeof w.FdrFJe === 'string' ? w.FdrFJe : '',
+                };
+            } catch(e) { return null; }
+        }"""
+    )
+
+
+def _gemini_web_post_batch(page, at, bl, fsid, req_body, batch_url):
+    """POST to batchexecute from page context (carries cookies + at token).
+    Returns raw response text or raises."""
+    return page.evaluate(
+        """async ({url, body}) => {
+            const r = await fetch(url, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
+                body: body,
+                credentials: 'include'
+            });
+            if (!r.ok) {
+                return { _error: 'http_' + r.status, _status: r.status };
+            }
+            const t = await r.text();
+            return { _body: t };
+        }""",
+        {"url": batch_url, "body": req_body},
+    )
+
+
+def _gemini_parse_batchexecute(text):
+    """Parse batchexecute text, return list of {rpcid, payload} dicts.
+
+    Mirrors gemini-voyager public/usage-observer.js decoder (length-agnostic).
+    """
+    if not text:
+        return []
+    out = []
+    idx = 0
+    needle = '[["wrb.fr"'
+    while idx < len(text):
+        at = text.find(needle, idx)
+        if at < 0:
+            break
+        # Find matching closing bracket, respecting nesting + strings.
+        depth = 0
+        in_str = False
+        esc = False
+        end = -1
+        for i in range(at, len(text)):
+            ch = text[i]
+            if esc:
+                esc = False
+                continue
+            if ch == "\\":
+                esc = True
+                continue
+            if ch == '"':
+                in_str = not in_str
+                continue
+            if in_str:
+                continue
+            if ch == "[":
+                depth += 1
+            elif ch == "]":
+                depth -= 1
+                if depth == 0:
+                    end = i
+                    break
+        if end < 0:
+            break
+        chunk = text[at:end + 1]
+        try:
+            rows = json.loads(chunk)
+        except json.JSONDecodeError:
+            idx = end + 1
+            continue
+        if isinstance(rows, list):
+            for row in rows:
+                if (
+                    isinstance(row, list)
+                    and len(row) >= 3
+                    and row[0] == "wrb.fr"
+                    and isinstance(row[1], str)
+                    and isinstance(row[2], str)
+                ):
+                    try:
+                        payload = json.loads(row[2])
+                    except json.JSONDecodeError:
+                        continue
+                    out.append({"rpcid": row[1], "payload": payload})
+        idx = end + 1
+    return out
+
+
+def _gemini_parse_usage_payload(payload):
+    """Extract [5h, 7d] metric dicts from a jSf9Qc payload.
+
+    Payload shape (verified live, gemini-voyager test fixture):
+      [2, [[limit, fraction, period, [[epoch, nanos]]], ...], false]
+    period=1 -> 5h bucket, period=2 -> 7d bucket.
+    Returns (primary_5h_dict, secondary_7d_dict) — either may be None.
+    """
+    if not (isinstance(payload, list) and len(payload) >= 2):
+        return None, None
+    metrics = payload[1]
+    if not isinstance(metrics, list):
+        return None, None
+    primary = None
+    secondary = None
+    for m in metrics:
+        if not (isinstance(m, list) and len(m) >= 4):
+            continue
+        try:
+            limit = int(m[0])
+            fraction = float(m[1])
+            period = int(m[2])
+            reset_wrap = m[3]
+            if not (isinstance(reset_wrap, list) and len(reset_wrap) >= 1):
+                continue
+            if not (isinstance(reset_wrap[0], list) and len(reset_wrap[0]) >= 1):
+                continue
+            epoch = int(reset_wrap[0][0])
+        except (TypeError, ValueError):
+            continue
+        bucket = {
+            "limit": limit,
+            "fraction": fraction,
+            "percent": max(0, min(100, round(fraction * 100))),
+            "reset_epoch": epoch,
+        }
+        if period == 1:
+            primary = bucket
+        elif period == 2:
+            secondary = bucket
+    return primary, secondary
+
+
+def fetch_gemini_web():
+    """Returns parsed gemini_web dict or {_error: ...} on failure.
+
+    Flow:
+      1. Launch Playwright Chromium with persistent profile at GEMINI_WEB_PROFILE_DIR.
+      2. Navigate to https://gemini.google.com/app; extract WIZ_global_data.
+      3. Build batchexecute request body with rpcid jSf9Qc + at token.
+      4. POST from page context (carries Google session cookies).
+      5. Parse response for 5h/7d metrics.
+    """
+    if not os.path.isdir(GEMINI_WEB_PROFILE_DIR):
+        return {
+            "_error": (
+                f"profile dir missing: {GEMINI_WEB_PROFILE_DIR}. "
+                "Run the one-time interactive login: see memory/gemini-web-fetch-setup.md."
+            )
+        }
+    try:
+        _gemini_web_require_playwright()
+        from playwright.sync_api import sync_playwright
+    except RuntimeError as e:
+        return {"_error": str(e)}
+
+    try:
+        with sync_playwright() as p:
+            context = p.chromium.launch_persistent_context(
+                user_data_dir=GEMINI_WEB_PROFILE_DIR,
+                headless=True,
+                args=[
+                    "--no-first-run",
+                    "--no-default-browser-check",
+                    "--disable-blink-features=AutomationControlled",
+                    "--disable-gpu",
+                ],
+                viewport={"width": 1400, "height": 900},
+            )
+            try:
+                page = context.new_page()
+                try:
+                    page.goto(
+                        GEMINI_WEB_LANDING_URL,
+                        wait_until="domcontentloaded",
+                        timeout=GEMINI_WEB_NAV_TIMEOUT_MS,
+                    )
+                except Exception as e:
+                    return {
+                        "_error": f"gemini.google.com navigation failed: {e}"
+                    }
+                wiz = _gemini_wiz_from_page(page)
+                if not wiz or not wiz.get("SNlM0e"):
+                    return {
+                        "_error": (
+                            "no SNlM0e token in WIZ_global_data — interactive "
+                            "login required. Run with --setup-login once to "
+                            "complete Google sign-in for the Playwright profile."
+                        )
+                    }
+                at = wiz["SNlM0e"]
+                bl = wiz.get("cfb2h") or ""
+                fsid = wiz.get("FdrFJe") or ""
+                import random as _random
+                reqid = 100000 + _random.randint(0, 800000)
+                # args='[]' confirmed live by gemini-voyager
+                freq = json.dumps([[[GEMINI_WEB_RPCID, "[]", None, "generic"]]])
+                req_body = (
+                    "f.req="
+                    + urllib.parse.quote(freq, safe="")
+                    + "&at="
+                    + urllib.parse.quote(at, safe="")
+                    + "&"
+                )
+                batch_url = (
+                    GEMINI_WEB_BATCHEXECUTE_URL
+                    + "?rpcids=" + urllib.parse.quote(GEMINI_WEB_RPCID, safe="")
+                    + "&source-path=" + urllib.parse.quote("/app", safe="")
+                    + "&bl=" + urllib.parse.quote(bl, safe="")
+                    + "&f.sid=" + urllib.parse.quote(fsid, safe="")
+                    + "&hl=en"
+                    + "&_reqid=" + str(reqid)
+                    + "&rt=c"
+                )
+                result = _gemini_web_post_batch(page, at, bl, fsid, req_body, batch_url)
+                if isinstance(result, dict) and result.get("_error"):
+                    return {"_error": f"batchexecute: {result.get('_error')}"}
+                if not isinstance(result, dict) or "_body" not in result:
+                    return {"_error": f"unexpected post response: {type(result).__name__}"}
+                body = result["_body"]
+            finally:
+                try:
+                    context.close()
+                except Exception:
+                    pass
+    except Exception as e:
+        return {"_error": f"playwright launch failed: {e}"}
+
+    # Parse response
+    rpcs = _gemini_parse_batchexecute(body)
+    primary = None
+    secondary = None
+    for r in rpcs:
+        if r["rpcid"] != GEMINI_WEB_RPCID:
+            continue
+        p, s = _gemini_parse_usage_payload(r["payload"])
+        primary = primary or p
+        secondary = secondary or s
+    if primary is None and secondary is None:
+        return {
+            "_error": (
+                f"jSf9Qc RPC not found in response "
+                f"({len(rpcs)} rpcs parsed)"
+            )
+        }
+    return {"primary_5h": primary, "secondary_7d": secondary}
+
+
+def extract_gemini_web(raw):
+    """Build gemini_web sub-object per spec §3 from raw fetch result.
+
+    Mirrors extract_codex / extract_claude schema:
+      { available, plan, primary_5h: {...}, secondary_7d: {...}, _error? }
+    """
+    if raw.get("_error"):
+        return {
+            "available": False,
+            "plan": "n/a",
+            "_error": raw["_error"],
+        }
+    p = raw.get("primary_5h")
+    s = raw.get("secondary_7d")
+
+    def _window(bucket):
+        if not isinstance(bucket, dict):
+            return None
+        epoch = bucket.get("reset_epoch")
+        reset_iso = epoch_to_iso(epoch) if epoch else None
+        used = bucket.get("percent", 0)
+        return {
+            "used_percent": used,
+            "remaining_percent": max(0, 100 - used),
+            "reset_at": reset_iso,
+            "reset_at_hkt": iso_to_hkt(reset_iso),
+            "reset_in_seconds": (
+                max(0, int(epoch) - int(now_epoch_for_reset()))
+                if epoch else 0
+            ),
+            "window_label": "5h" if bucket is p else "7d",
+            "limit": bucket.get("limit"),
+        }
+
+    return {
+        "available": True,
+        "plan": KNOWN_PLANS["gemini_web"],
+        "primary_5h": _window(p) or {"available": False, "_error": "no 5h metric"},
+        "secondary_7d": _window(s) or {"available": False, "_error": "no 7d metric"},
+    }
+
+
+def now_epoch_for_reset():
+    """Helper for reset_in_seconds calculation. Returns current epoch seconds."""
+    import time as _t
+    return _t.time()
+
+
+def _setup_gemini_web_login():
+    """One-time interactive login flow for the gemini_web Playwright profile.
+
+    Opens Chromium in NON-headless mode pointed at gemini.google.com so Zach
+    can complete the Google sign-in flow. Cookies + localStorage are saved to
+    GEMINI_WEB_PROFILE_DIR so subsequent cron runs can read WIZ_global_data.
+
+    Usage:
+        python3 scripts/fetch-usage.py --setup-login
+    """
+    try:
+        _gemini_web_require_playwright()
+        from playwright.sync_api import sync_playwright
+    except RuntimeError as e:
+        log(str(e), err=True)
+        return 1
+
+    os.makedirs(GEMINI_WEB_PROFILE_DIR, exist_ok=True)
+    log(f"[setup-login] opening Chromium (non-headless) for {GEMINI_WEB_LANDING_URL}")
+    log(f"[setup-login] profile dir: {GEMINI_WEB_PROFILE_DIR}")
+    log("[setup-login] complete the Google sign-in flow in the opened window,")
+    log("[setup-login] then navigate to gemini.google.com/app and CLOSE the browser.")
+    with sync_playwright() as p:
+        context = p.chromium.launch_persistent_context(
+            user_data_dir=GEMINI_WEB_PROFILE_DIR,
+            headless=False,
+            args=[
+                "--no-first-run",
+                "--no-default-browser-check",
+                "--disable-blink-features=AutomationControlled",
+            ],
+            viewport={"width": 1400, "height": 900},
+        )
+        page = context.new_page()
+        try:
+            page.goto(GEMINI_WEB_LANDING_URL, wait_until="domcontentloaded", timeout=GEMINI_WEB_NAV_TIMEOUT_MS)
+        except Exception as e:
+            log(f"[setup-login] navigation failed: {e}", err=True)
+        try:
+            # Wait until user closes the browser window.
+            page.wait_for_event("close", timeout=600_000)  # 10 min
+        except Exception:
+            log("[setup-login] timed out or browser closed by user", err=True)
+        try:
+            context.close()
+        except Exception:
+            pass
+    log("[setup-login] done. Cron should now be able to read gemini.google.com session.")
+    return 0
+
+
 # ── Main ────────────────────────────────────────────────────────────
 
 def main():
@@ -431,7 +834,18 @@ def main():
         "--set-timestamp", default=None,
         help="Override _generatedAt with this ISO 8601 UTC timestamp",
     )
+    # V3 (MacD 2026-06-28): one-time interactive Google login for the
+    # Playwright persistent profile used by gemini_web. NOT for cron use.
+    parser.add_argument(
+        "--setup-login", action="store_true",
+        help="Open Playwright Chromium (non-headless) to complete Google "
+             "sign-in for the gemini_web profile, then exit. One-time setup.",
+    )
     args = parser.parse_args()
+
+    # V3 (MacD 2026-06-28): --setup-login short-circuits before fetching.
+    if args.setup_login:
+        return _setup_gemini_web_login()
 
     if args.set_timestamp:
         now_utc = datetime.fromisoformat(args.set_timestamp.replace("Z", "+00:00"))
@@ -440,9 +854,11 @@ def main():
 
     codex_raw = fetch_codex()
     claude_raw = fetch_claude()
+    gemini_web_raw = fetch_gemini_web()
 
     codex_obj = extract_codex(codex_raw)
     claude_obj = extract_claude(claude_raw)
+    gemini_web_obj = extract_gemini_web(gemini_web_raw)
 
     if not codex_obj.get("available"):
         log(f"[codex] unavailable: {codex_obj.get('_error', '?')}", err=True)
@@ -460,19 +876,29 @@ def main():
             f"5h={claude_obj.get('primary_5h', {}).get('used_percent')}% "
             f"7d={claude_obj.get('secondary_7d', {}).get('used_percent')}%"
         )
+    if not gemini_web_obj.get("available"):
+        log(f"[gemini_web] unavailable: {gemini_web_obj.get('_error', '?')}", err=True)
+    else:
+        log(
+            "[gemini_web] available: True "
+            f"5h={gemini_web_obj.get('primary_5h', {}).get('used_percent')}% "
+            f"7d={gemini_web_obj.get('secondary_7d', {}).get('used_percent')}%"
+        )
 
     # Keep Codex behavior unchanged. Claude _error is intentionally surfaced so
     # the homepage can show an actionable unavailable state instead of a stale
-    # black card.
+    # black card. Gemini Web follows the same surface-error pattern.
     public_codex = {k: v for k, v in codex_obj.items() if not k.startswith("_")}
     public_claude = dict(claude_obj)
+    public_gemini_web = {k: v for k, v in gemini_web_obj.items() if not k.startswith("_")}
 
     doc = {
         "_generatedAt": now_utc.isoformat().replace("+00:00", "Z"),
         "_source": "local-curl",
-        "_version": 2,
+        "_version": 3,
         "codex": public_codex,
         "claude": public_claude,
+        "gemini_web": public_gemini_web,
     }
 
     if args.stdout:

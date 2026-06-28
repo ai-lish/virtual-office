@@ -32,6 +32,8 @@ const windowKey = utcDate + '_' + utcHHMM;
 
 const codex = status.codex || {};
 const claude = status.claude || {};
+const geminiWeb = status.gemini_web || {};
+// V3 (MacD 2026-06-28): gemini_web is optional; do not mark bothFailed on its absence.
 const bothFailed = (codex.available === false) && (claude.available === false);
 const schema = bothFailed ? 'v1-error' : 'v1';
 
@@ -58,10 +60,20 @@ if (!bothFailed) {
     secondary_7d_pct: claude.secondary_7d?.used_percent ?? null,
     active_limits: claude.active_limits || []
   };
+  // V3: mirror spec §3 schema for gemini_web. unavailable writes a stub so
+  // history windowKey still records that we tried (spec §8 surface-error).
+  snapshot.gemini_web = {
+    available: geminiWeb.available === true,
+    plan: geminiWeb.plan || null,
+    primary_5h_pct: geminiWeb.primary_5h?.used_percent ?? null,
+    secondary_7d_pct: geminiWeb.secondary_7d?.used_percent ?? null,
+    error: geminiWeb._error || null
+  };
 } else {
   // spec §4 q3 DECIDED: write entry with _schema: 'v1-error', both blank
   snapshot.codex = { available: false };
   snapshot.claude = { available: false, subscription: 'unknown' };
+  snapshot.gemini_web = { available: false, plan: null };
 }
 
 // ── Load existing history ──
