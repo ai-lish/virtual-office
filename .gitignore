@@ -7,3 +7,6 @@ public/minimax-status.json
 .copilot-token.json
 .quota-migration-*
 __pycache__/
+# Last-known-good Claude quota snapshot (fetch-usage.py cache fallback).
+# Updated 5x/day by cron; never commit (would inflate git log with no value).
+public/usage-quota-cache.json
