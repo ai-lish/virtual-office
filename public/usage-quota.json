@@ -1,7 +1,7 @@
 {
-  "_generatedAt": "2026-06-28T11:55:00Z",
+  "_generatedAt": "2026-06-28T15:55:04Z",
   "_source": "local-curl",
-  "_version": 2,
+  "_version": 3,
   "codex": {
     "available": true,
     "plan": "plus",
@@ -10,17 +10,17 @@
     "primary_5h": {
       "used_percent": 1,
       "remaining_percent": 99,
-      "reset_at": "2026-06-29T00:55:04+08:00",
-      "reset_at_hkt": "06-29 00:55",
+      "reset_at": "2026-06-29T04:55:08+08:00",
+      "reset_at_hkt": "06-29 04:55",
       "reset_in_seconds": 18000,
       "window_seconds": 18000
     },
     "secondary_7d": {
       "used_percent": 56,
       "remaining_percent": 44,
-      "reset_at": "2026-07-01T10:05:34+08:00",
+      "reset_at": "2026-07-01T10:05:33+08:00",
       "reset_at_hkt": "07-01 10:05",
-      "reset_in_seconds": 223831,
+      "reset_in_seconds": 209426,
       "window_seconds": 604800
     }
   },
@@ -28,5 +28,9 @@
     "available": false,
     "subscription": "n/a",
     "_error": "OAuth refresh failed: 429 rate_limit_error: Rate limited. Please try again later."
+  },
+  "gemini_web": {
+    "available": false,
+    "plan": "n/a"
   }
 }
