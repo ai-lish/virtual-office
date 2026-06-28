@@ -48,9 +48,10 @@ const general = raw.find(m => m.model_name === 'general');
 const schema = mStar ? 'v1' : general ? 'v2' : null;
 if (!schema) { console.log('No recognized model data, skipping'); process.exit(0); }
 
-// ── Read Codex + Claude from usage-quota.json (V2 unified schema) ──
+// ── Read Codex + Claude + Gemini from usage-quota.json (V3 unified schema) ──
 let codex = null;
 let claude = null;
+let gemini = null;
 if (fs.existsSync(usageFile)) {
   try {
     const u = JSON.parse(fs.readFileSync(usageFile, 'utf8'));
@@ -68,8 +69,18 @@ if (fs.existsSync(usageFile)) {
         subscription: u.claude.subscription || null
       };
     }
+    // V3 (2026-06-28): Gemini has buckets[] (per-model REQUESTS) instead of
+    // 5h/7d. Persist min remainingPercent + plan so dashboard history row
+    // stays single-column. Full bucket list is in usage-quota.json only.
+    if (u.gemini && u.gemini.available !== false) {
+      gemini = {
+        remainingPercent: u.gemini.remaining_percent ?? null,
+        plan: u.gemini.plan || null,
+        bucketCount: Array.isArray(u.gemini.buckets) ? u.gemini.buckets.length : 0
+      };
+    }
   } catch(e) {
-    console.warn('usage-quota.json parse error, codex/claude will be null:', e.message);
+    console.warn('usage-quota.json parse error, codex/claude/gemini will be null:', e.message);
   }
 }
 
@@ -135,8 +146,10 @@ if (schema === 'v1') {
   snapshot.general = g;
   // V2 plan §3.6.1: video model excluded from history going forward.
   // V2 plan §3.3.4: codex + claude sub-objects from usage-quota.json
+  // V3 (2026-06-28): gemini sub-object (single column = min remainingPercent)
   if (codex) snapshot.codex = codex;
   if (claude) snapshot.claude = claude;
+  if (gemini) snapshot.gemini = gemini;
 }
 
 // ── Load existing history ──

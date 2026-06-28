@@ -67,6 +67,16 @@ body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:
 .copilot-row .merged .row1 .v{font-variant-numeric:tabular-nums;font-weight:600;color:var(--text)}
 .copilot-row .merged .row1 .reset{color:var(--dim);font-size:.92em}
 .copilot-row .merged .pct-bar-wrap{width:100%}
+/* Gemini buckets (V3, 2026-06-28): nested per-model quota rows */
+.gemini-row td{font-size:.92em}
+.gemini-row .merged{display:flex;flex-direction:column;gap:6px;align-items:stretch}
+.gemini-row .merged .row1{display:flex;justify-content:space-between;gap:14px;align-items:baseline;flex-wrap:wrap}
+.gemini-row .merged .row1 .v{font-variant-numeric:tabular-nums;font-weight:600;color:var(--text)}
+.gemini-row .merged .row1 .reset{color:var(--dim);font-size:.92em}
+.gmini-row{display:grid;grid-template-columns:1.6fr .55fr 2fr .8fr;gap:10px;align-items:center;font-variant-numeric:tabular-nums}
+.gmini-row .gmini-model{font-family:ui-monospace,monospace;font-size:.86em;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gmini-row .gmini-pct{font-weight:600;color:var(--text);text-align:right}
+.gmini-row .gmini-reset{color:var(--dim);font-size:.86em;text-align:right}
 
 /* Responsive */
 @media(max-width:1024px){
@@ -85,6 +95,7 @@ body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:
   .quota-table .col-reset{grid-column:1 / -1}
   .copilot-row .merged{grid-column:1 / -1}
   .quota-card-title{font-size:.95rem}
+  .gmini-row{grid-template-columns:1.4fr .5fr 2fr .8fr;gap:8px}
 }
 
 /* ── Projects (unchanged from V1) ── */
@@ -286,6 +297,7 @@ async function loadQuotaTable() {
 
     const codex = usage.status === 'fulfilled' ? usage.value.codex : null;
     const claude = usage.status === 'fulfilled' ? usage.value.claude : null;
+    const gemini = usage.status === 'fulfilled' ? usage.value.gemini : null;
     const mm = minimax.status === 'fulfilled' ? minimax.value : null;
     const cp = copilot.status === 'fulfilled' ? copilot.value : null;
 
@@ -356,6 +368,51 @@ async function loadQuotaTable() {
             <td class="col-reset">${claude?.secondary_7d?.reset_at_hkt ? `<em>${claude.secondary_7d.reset_at_hkt}</em>` : '—'}</td>
         </tr>
     `);
+
+    // Gemini (V3 2026-06-28): buckets[] instead of 5h/7d. Use colspan merge
+    // row to render the per-model list inline (similar to Copilot pattern).
+    if (gemini && gemini.available !== false) {
+        const buckets = gemini.buckets || [];
+        const minRemPct = gemini.remaining_percent;
+        const usedPct = minRemPct != null ? Math.round(100 - minRemPct) : null;
+        const barColor = pctColorClass(usedPct != null ? (100 - (gemini.remaining_percent ?? 100)) : 100, true);
+        const bucketList = buckets.map(b => {
+            const rem = b.remainingPercent != null ? b.remainingPercent : Math.round((b.remainingFraction ?? 0) * 100);
+            const used = 100 - rem;
+            const r = b.reset_at_hkt || '—';
+            const cls = pctColorClass(used, true);
+            return `<div class="gmini-row">
+                <span class="gmini-model">${b.modelId || '—'}</span>
+                <span class="gmini-pct">${used}%</span>
+                <div class="pct-bar-wrap"><div class="pct-bar-fill ${cls}" style="width:${Math.max(0, Math.min(100, used))}%"></div></div>
+                <span class="gmini-reset"><em>${r}</em></span>
+            </div>`;
+        }).join('');
+        rows.push(`
+            <tr class="gemini-row">
+                <td class="col-agent"><span class="status-dot ${statusDotClass({available: true, limit_reached: (gemini.remaining_percent ?? 100) <= 0})}</span>🤖 Gemini</td>
+                <td class="col-plan"><span class="plan-badge plan-unknown">${(gemini.plan || '—').toUpperCase()}</span></td>
+                <td colspan="4">
+                    <div class="merged">
+                        <div class="row1">
+                            <span class="v">${buckets.length} buckets · min剩餘 ${gemini.remaining_percent ?? '—'}%</span>
+                            <span class="reset">${(gemini.ineligible_tiers && gemini.ineligible_tiers.length) ? `<span class="muted">free-tier: ${gemini.ineligible_tiers[0].reasonCode}</span>` : ''}</span>
+                        </div>
+                        ${bucketList || '<div class="muted">無 buckets</div>'}
+                    </div>
+                </td>
+            </tr>
+        `);
+    } else if (gemini && gemini.available === false) {
+        const errMsg = gemini._error || 'unavailable';
+        rows.push(`
+            <tr>
+                <td class="col-agent"><span class="status-dot dot-bad"></span>🤖 Gemini</td>
+                <td class="col-plan"><span class="plan-badge plan-unknown">—</span></td>
+                <td colspan="4"><span class="muted">${errMsg}</span></td>
+            </tr>
+        `);
+    }
 
     // MiniMax
     rows.push(`

@@ -186,12 +186,13 @@
                 <span><span style="display:inline-block;padding:1px 6px;border-radius:4px;background:rgba(46,204,113,0.18);color:var(--green);font-weight:600;font-size:0.95em;">v2</span> 2026-06-01+ (General + Codex + Claude, Video removed)</span>
             </div>
             <!-- ===== v2 section: 6月或之後 (credit-based) ===== -->
-            <h3 style="font-size:1em;margin:18px 0 8px;color:var(--text);">📊 6月或之後 <span style="color:var(--text2);font-weight:400;">(v2 — General + Codex + Claude)</span></h3>
+            <h3 style="font-size:1em;margin:18px 0 8px;color:var(--text);">📊 6月或之後 <span style="color:var(--text2);font-weight:400;">(v2 — General + Codex + Claude + Gemini)</span></h3>
             <div style="overflow-x:auto;">
                 <table class="data-table">
                     <colgroup>
                         <col style="width:78px;">
                         <col style="width:54px;">
+                        <col style="width:74px;">
                         <col style="width:74px;">
                         <col style="width:74px;">
                         <col style="width:74px;">
@@ -209,12 +210,13 @@
                             <th class="num">[週] Codex%</th>
                             <th class="num">[5hr] Claude%</th>
                             <th class="num">[週] Claude%</th>
+                            <th class="num">[Gemini] used%</th>
                             <th class="num">週 Gen%</th>
                             <th style="font-size:0.8em;color:var(--text2);">擷取時間</th>
                         </tr>
                     </thead>
                     <tbody id="hist-v2-body">
-                        <tr><td colspan="9" style="text-align:center;color:var(--text2);padding:24px;">載入中…</td></tr>
+                        <tr><td colspan="10" style="text-align:center;color:var(--text2);padding:24px;">載入中…</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -462,7 +464,7 @@
                 const res = await fetch(basePath + '/public/quota-history.json?' + Date.now());
                 if (!res.ok) {
                     $('hist-v1-body').innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text2);padding:24px;">暫無歷史資料 — 請先執行 refresh-data.sh</td></tr>';
-                    $('hist-v2-body').innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--text2);padding:24px;">暫無歷史資料 — 請先執行 refresh-data.sh</td></tr>';
+                    $('hist-v2-body').innerHTML = '<tr><td colspan="10" style="text-align:center;color:var(--text2);padding:24px;">暫無歷史資料 — 請先執行 refresh-data.sh</td></tr>';
                     return;
                 }
                 const data = await res.json();
@@ -612,7 +614,7 @@
             // ── v2 section: 6月或之後 (credit-based) ──
             const v2Body = $('hist-v2-body');
             if (v2.length === 0) {
-                v2Body.innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--text2);padding:24px;">6月或之後暫無資料</td></tr>';
+                v2Body.innerHTML = '<tr><td colspan="10" style="text-align:center;color:var(--text2);padding:24px;">6月或之後暫無資料</td></tr>';
                 $('hist-v2-pagination').innerHTML = '';
             } else {
                 const v2Start = (this.v2Page - 1) * this.pageSize;
@@ -622,15 +624,19 @@
                     const g = e.general;
                     const c = e.codex;
                     const cl = e.claude;
+                    const gm = e.gemini;  // V3 2026-06-28: gemini sub-object (remainingPercent inverted to used% for table consistency)
                     const gPct = g?.usedPct != null ? g.usedPct + '%' : '—';
                     const gWkPct = g?.weeklyPct != null ? g.weeklyPct + '%' : '—';
                     const c5 = c?.primary_5h_pct != null ? c.primary_5h_pct + '%' : '—';
                     const c7 = c?.secondary_7d_pct != null ? c.secondary_7d_pct + '%' : '—';
                     const cl5 = cl?.primary_5h_pct != null ? cl.primary_5h_pct + '%' : '—';
                     const cl7 = cl?.secondary_7d_pct != null ? cl.secondary_7d_pct + '%' : '—';
+                    // Gemini: schema stores remainingPercent; convert to used% for visual consistency with other rows.
+                    const gmUsed = gm?.remainingPercent != null ? Math.round(100 - gm.remainingPercent) + '%' : '—';
                     const gColor = pctColor(g?.usedPct ?? 0);
                     const cColor = pctColor(c?.primary_5h_pct ?? 0);
                     const clColor = pctColor(cl?.primary_5h_pct ?? 0);
+                    const gmColor = gmUsed !== '—' ? pctColor(Math.round(100 - (gm.remainingPercent ?? 100))) : '#888';
                     const captTime = e.capturedAt ? new Date(e.capturedAt).toLocaleString('zh-HK',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}) : '—';
                     return `<tr>
                         <td>${e.date}</td>
@@ -640,6 +646,7 @@
                         <td class="num" style="color:${cColor};opacity:0.85;">${c7}</td>
                         <td class="num" style="color:${clColor};">${cl5}</td>
                         <td class="num" style="color:${clColor};opacity:0.85;">${cl7}</td>
+                        <td class="num" style="color:${gmColor};">${gmUsed}</td>
                         <td class="num" style="color:${gColor};opacity:0.85;">${gWkPct}</td>
                         <td style="color:var(--text2);font-size:0.85em;">${captTime}</td>
                     </tr>`;
