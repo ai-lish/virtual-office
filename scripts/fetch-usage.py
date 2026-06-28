@@ -78,6 +78,14 @@ CLAUDE_HEADERS_TEMPLATE = [
 
 # Public output path (spec §6)
 DEFAULT_OUT = "/Users/zachli/.openclaw/workspace/virtual-office/public/usage-quota.json"
+# Cache fallback file: updated only on successful Claude fetch; read on
+# transient failures (e.g. OAuth refresh 429) so the homepage still shows a
+# last-known-good snapshot instead of "subscription: n/a".
+DEFAULT_CACHE = "/Users/zachli/.openclaw/workspace/virtual-office/public/usage-quota-cache.json"
+# Max staleness for cache fallback. 24h keeps Claude bars visible across a
+# short outage without showing week-old numbers when something is actually
+# broken.
+MAX_CACHE_AGE_SECONDS = 24 * 3600
 
 
 def log(msg, *, err=False):
@@ -650,6 +658,53 @@ def main():
     claude_obj = extract_claude(claude_raw)
     gemini_obj = extract_gemini(gemini_raw)
 
+    # Claude cache fallback (Planning §3.6.1, durable 2026-06-28):
+    # if Claude failed with a TRANSIENT error (429 rate-limit, OAuth refresh
+    # throttling, network/curl timeout), serve the last-known-good snapshot
+    # from usage-quota-cache.json instead of blanking the bars. Permanent
+    # failures (missing keychain, malformed API response, auth revoked)
+    # intentionally do NOT use cache so the homepage can surface the real
+    # reason via _error.
+    if not claude_obj.get("available"):
+        claude_err = claude_obj.get("_error", "") or ""
+        is_transient = (
+            "429" in claude_err
+            or "rate_limit" in claude_err.lower()
+            or "Rate limited" in claude_err
+            or "timeout" in claude_err.lower()
+        )
+        if is_transient:
+            cached = load_claude_cache(args.out)
+            if cached:
+                cached_age = _cache_age_seconds(cached, now_utc)
+                if cached_age is None:
+                    log("[claude] cache present but _generatedAt malformed; skipping fallback",
+                        err=True)
+                elif cached_age <= MAX_CACHE_AGE_SECONDS:
+                    log(
+                        f"[claude] serving cached snapshot (age={int(cached_age)}s, "
+                        f"reason={claude_err[:80]})",
+                        err=True,
+                    )
+                    claude_obj = dict(cached["claude"])
+                    claude_obj["cached"] = True
+                    claude_obj["cached_at"] = cached["_generatedAt"]
+                    # Preserve the original error (now overwritten) so dashboards
+                    # can explain why we are showing a stale snapshot.
+                    claude_obj["_cached_due_to"] = claude_err
+                else:
+                    log(
+                        f"[claude] cache too stale ({int(cached_age)}s > {MAX_CACHE_AGE_SECONDS}s), "
+                        "showing unavailable",
+                        err=True,
+                    )
+            else:
+                log(
+                    "[claude] transient failure but no cache available; "
+                    "showing unavailable",
+                    err=True,
+                )
+
     if not codex_obj.get("available"):
         log(f"[codex] unavailable: {codex_obj.get('_error', '?')}", err=True)
     else:
@@ -681,7 +736,10 @@ def main():
     # black card. Same pattern for Gemini.
     public_codex = {k: v for k, v in codex_obj.items() if not k.startswith("_")}
     public_claude = dict(claude_obj)
-    public_gemini = {k: v for k, v in gemini_obj.items() if not k.startswith("_")}
+    # Gemini: preserve _error like Claude so index.html error row can surface
+    # the real failure reason (keychain missing, INVALID_ARGUMENT, etc.)
+    # instead of always falling back to a generic "unavailable".
+    public_gemini = dict(gemini_obj)
 
     doc = {
         "_generatedAt": now_utc.isoformat().replace("+00:00", "Z"),
@@ -702,7 +760,61 @@ def main():
     with open(args.out, "w") as f:
         json.dump(doc, f, indent=2, ensure_ascii=False)
     log(f"wrote {args.out} ({os.path.getsize(args.out)} bytes)")
+
+    # Persist last-known-good snapshot whenever Claude fetch succeeded, so
+    # a later transient failure (e.g. OAuth refresh 429) can fall back to it.
+    if claude_obj.get("available") and not claude_obj.get("cached"):
+        save_claude_cache(args.out, doc)
     return 0
+
+
+def _cache_age_seconds(cached, now_utc):
+    """Compute age (seconds) of a cache doc, or None on malformed timestamp."""
+    ts = cached.get("_generatedAt") if isinstance(cached, dict) else None
+    if not ts or not isinstance(ts, str):
+        return None
+    try:
+        dt = datetime.fromisoformat(ts.replace("Z", "+00:00"))
+    except (TypeError, ValueError):
+        return None
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    return (now_utc - dt).total_seconds()
+
+
+def load_claude_cache(out_path):
+    """Load last-known-good Claude snapshot from cache file.
+
+    Cache file path mirrors out_path but with `-cache` suffix. Returns None
+    if the file is missing, malformed, or older than MAX_CACHE_AGE_SECONDS.
+    """
+    cache_path = out_path.replace("usage-quota.json", "usage-quota-cache.json")
+    if not os.path.exists(cache_path):
+        return None
+    try:
+        with open(cache_path) as f:
+            cached = json.load(f)
+    except Exception as e:
+        log(f"[claude] cache read failed: {e}", err=True)
+        return None
+    if not isinstance(cached, dict) or not isinstance(cached.get("claude"), dict):
+        log("[claude] cache malformed (missing claude)", err=True)
+        return None
+    if not cached["claude"].get("available"):
+        log("[claude] cache snapshot is itself unavailable, skipping", err=True)
+        return None
+    return cached
+
+
+def save_claude_cache(out_path, doc):
+    """Persist last-known-good snapshot to cache file."""
+    cache_path = out_path.replace("usage-quota.json", "usage-quota-cache.json")
+    try:
+        with open(cache_path, "w") as f:
+            json.dump(doc, f, indent=2, ensure_ascii=False)
+        log(f"[claude] cache updated → {cache_path}")
+    except Exception as e:
+        log(f"[claude] cache write failed: {e}", err=True)
 
 
 if __name__ == "__main__":

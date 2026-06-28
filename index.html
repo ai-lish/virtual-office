@@ -60,6 +60,7 @@ body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:
 .status-dot.dot-ok{background:var(--green)}
 .status-dot.dot-bad{background:var(--danger)}
 .status-dot.dot-warn{background:var(--warn)}
+.badge-cached{display:inline-block;padding:1px 6px;border-radius:4px;font-size:.66em;font-weight:600;background:rgba(243,156,18,.15);color:var(--warn);border:1px solid rgba(243,156,18,.4);margin-left:6px;vertical-align:middle;letter-spacing:.2px}
 
 .copilot-row td{font-size:.95em}
 .copilot-row .merged{display:flex;flex-direction:column;gap:6px;align-items:stretch}
@@ -358,9 +359,18 @@ async function loadQuotaTable() {
     `);
 
     // Claude
+    // When served from cache (OAuth refresh transient failure), surface a
+    // small "(cached Nh ago)" hint so users can tell live vs stale data.
+    const claudeCachedBadge = (() => {
+        if (!claude?.cached || !claude?.cached_at) return '';
+        const ageSec = (Date.now() - new Date(claude.cached_at).getTime()) / 1000;
+        if (ageSec < 60) return ' <span class="badge-cached" title="Served from cache while OAuth refresh is rate-limited">(cached just now)</span>';
+        if (ageSec < 3600) return ` <span class="badge-cached" title="Served from cache while OAuth refresh is rate-limited">(cached ${Math.round(ageSec/60)}m ago)</span>`;
+        return ` <span class="badge-cached" title="Served from cache while OAuth refresh is rate-limited">(cached ${Math.round(ageSec/3600)}h ago)</span>`;
+    })();
     rows.push(`
         <tr>
-            <td class="col-agent"><span class="status-dot ${statusDotClass(claude)}"></span>🤖 Claude Code</td>
+            <td class="col-agent"><span class="status-dot ${statusDotClass(claude)}"></span>🤖 Claude Code${claudeCachedBadge}</td>
             <td class="col-plan"><span class="plan-badge ${planClass(claude?.subscription)}">${(claude?.subscription || '—').toUpperCase()}</span></td>
             <td class="col-num">${pctCellHTML(claude5h, claude?.available)}</td>
             <td class="col-num">${pctCellHTML(claude7d, claude?.available)}</td>
@@ -373,9 +383,6 @@ async function loadQuotaTable() {
     // row to render the per-model list inline (similar to Copilot pattern).
     if (gemini && gemini.available !== false) {
         const buckets = gemini.buckets || [];
-        const minRemPct = gemini.remaining_percent;
-        const usedPct = minRemPct != null ? Math.round(100 - minRemPct) : null;
-        const barColor = pctColorClass(usedPct != null ? (100 - (gemini.remaining_percent ?? 100)) : 100, true);
         const bucketList = buckets.map(b => {
             const rem = b.remainingPercent != null ? b.remainingPercent : Math.round((b.remainingFraction ?? 0) * 100);
             const used = 100 - rem;
@@ -410,6 +417,16 @@ async function loadQuotaTable() {
                 <td class="col-agent"><span class="status-dot dot-bad"></span>🤖 Gemini</td>
                 <td class="col-plan"><span class="plan-badge plan-unknown">—</span></td>
                 <td colspan="4"><span class="muted">${errMsg}</span></td>
+            </tr>
+        `);
+    } else {
+        // gemini is null: usage-quota.json fetch failed entirely. Render a
+        // consistent unavailable row so the table doesn't silently drop Gemini.
+        rows.push(`
+            <tr>
+                <td class="col-agent"><span class="status-dot dot-warn"></span>🤖 Gemini</td>
+                <td class="col-plan"><span class="plan-badge plan-unknown">—</span></td>
+                <td colspan="4"><span class="muted">未載入（usage-quota.json 不可讀）</span></td>
             </tr>
         `);
     }
