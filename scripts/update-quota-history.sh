@@ -48,10 +48,9 @@ const general = raw.find(m => m.model_name === 'general');
 const schema = mStar ? 'v1' : general ? 'v2' : null;
 if (!schema) { console.log('No recognized model data, skipping'); process.exit(0); }
 
-// ── Read Codex + Claude + Gemini from usage-quota.json (V3 unified schema) ──
+// ── Read Codex + Claude from usage-quota.json (V2 unified schema) ──
 let codex = null;
 let claude = null;
-let gemini = null;
 if (fs.existsSync(usageFile)) {
   try {
     const u = JSON.parse(fs.readFileSync(usageFile, 'utf8'));
@@ -69,18 +68,8 @@ if (fs.existsSync(usageFile)) {
         subscription: u.claude.subscription || null
       };
     }
-    // V4 (2026-06-28): Gemini schema aligned with Codex/Claude (primary_5h /
-    // secondary_7d windows). Per-model buckets[] no longer persisted to
-    // history. Dashboard column header '[Gemini] used%' reads primary_5h_pct.
-    if (u.gemini && u.gemini.available !== false) {
-      gemini = {
-        primary_5h_pct: u.gemini.primary_5h?.used_percent ?? null,
-        secondary_7d_pct: u.gemini.secondary_7d?.used_percent ?? null,
-        plan: u.gemini.plan || null
-      };
-    }
   } catch(e) {
-    console.warn('usage-quota.json parse error, codex/claude/gemini will be null:', e.message);
+    console.warn('usage-quota.json parse error, codex/claude will be null:', e.message);
   }
 }
 
@@ -146,10 +135,8 @@ if (schema === 'v1') {
   snapshot.general = g;
   // V2 plan §3.6.1: video model excluded from history going forward.
   // V2 plan §3.3.4: codex + claude sub-objects from usage-quota.json
-  // V4 (2026-06-28): gemini sub-object now uses primary_5h_pct / secondary_7d_pct
   if (codex) snapshot.codex = codex;
   if (claude) snapshot.claude = claude;
-  if (gemini) snapshot.gemini = gemini;
 }
 
 // ── Load existing history ──

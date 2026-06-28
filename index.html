@@ -60,7 +60,6 @@ body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:
 .status-dot.dot-ok{background:var(--green)}
 .status-dot.dot-bad{background:var(--danger)}
 .status-dot.dot-warn{background:var(--warn)}
-.badge-cached{display:inline-block;padding:1px 6px;border-radius:4px;font-size:.66em;font-weight:600;background:rgba(243,156,18,.15);color:var(--warn);border:1px solid rgba(243,156,18,.4);margin-left:6px;vertical-align:middle;letter-spacing:.2px}
 
 .copilot-row td{font-size:.95em}
 .copilot-row .merged{display:flex;flex-direction:column;gap:6px;align-items:stretch}
@@ -68,8 +67,6 @@ body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:
 .copilot-row .merged .row1 .v{font-variant-numeric:tabular-nums;font-weight:600;color:var(--text)}
 .copilot-row .merged .row1 .reset{color:var(--dim);font-size:.92em}
 .copilot-row .merged .pct-bar-wrap{width:100%}
-/* Gemini V4 (2026-06-28): reuses standard 5h/7d pct-cell markup. */
-/* No special Gemini CSS needed — schema aligned with Codex/Claude rows. */
 
 /* Responsive */
 @media(max-width:1024px){
@@ -289,7 +286,6 @@ async function loadQuotaTable() {
 
     const codex = usage.status === 'fulfilled' ? usage.value.codex : null;
     const claude = usage.status === 'fulfilled' ? usage.value.claude : null;
-    const gemini = usage.status === 'fulfilled' ? usage.value.gemini : null;
     const mm = minimax.status === 'fulfilled' ? minimax.value : null;
     const cp = copilot.status === 'fulfilled' ? copilot.value : null;
 
@@ -350,18 +346,9 @@ async function loadQuotaTable() {
     `);
 
     // Claude
-    // When served from cache (OAuth refresh transient failure), surface a
-    // small "(cached Nh ago)" hint so users can tell live vs stale data.
-    const claudeCachedBadge = (() => {
-        if (!claude?.cached || !claude?.cached_at) return '';
-        const ageSec = (Date.now() - new Date(claude.cached_at).getTime()) / 1000;
-        if (ageSec < 60) return ' <span class="badge-cached" title="Served from cache while OAuth refresh is rate-limited">(cached just now)</span>';
-        if (ageSec < 3600) return ` <span class="badge-cached" title="Served from cache while OAuth refresh is rate-limited">(cached ${Math.round(ageSec/60)}m ago)</span>`;
-        return ` <span class="badge-cached" title="Served from cache while OAuth refresh is rate-limited">(cached ${Math.round(ageSec/3600)}h ago)</span>`;
-    })();
     rows.push(`
         <tr>
-            <td class="col-agent"><span class="status-dot ${statusDotClass(claude)}"></span>🤖 Claude Code${claudeCachedBadge}</td>
+            <td class="col-agent"><span class="status-dot ${statusDotClass(claude)}"></span>🤖 Claude Code</td>
             <td class="col-plan"><span class="plan-badge ${planClass(claude?.subscription)}">${(claude?.subscription || '—').toUpperCase()}</span></td>
             <td class="col-num">${pctCellHTML(claude5h, claude?.available)}</td>
             <td class="col-num">${pctCellHTML(claude7d, claude?.available)}</td>
@@ -369,42 +356,6 @@ async function loadQuotaTable() {
             <td class="col-reset">${claude?.secondary_7d?.reset_at_hkt ? `<em>${claude.secondary_7d.reset_at_hkt}</em>` : '—'}</td>
         </tr>
     `);
-
-    // Gemini (V4 2026-06-28): schema aligned with Codex/Claude (primary_5h /
-    // secondary_7d windows) — no more per-model bucket breakdown on homepage.
-    const gemini5h = gemini?.primary_5h?.used_percent;
-    const gemini7d = gemini?.secondary_7d?.used_percent;
-    if (gemini && gemini.available !== false) {
-        rows.push(`
-            <tr>
-                <td class="col-agent"><span class="status-dot ${statusDotClass({available: true, limit_reached: (gemini.remaining_percent ?? 100) <= 0})}"></span>🤖 Gemini</td>
-                <td class="col-plan"><span class="plan-badge plan-unknown">${(gemini.plan || '—').toUpperCase()}</span></td>
-                <td class="col-num">${pctCellHTML(gemini5h, gemini?.available)}</td>
-                <td class="col-num">${pctCellHTML(gemini7d, gemini?.available)}</td>
-                <td class="col-reset">${gemini?.primary_5h?.reset_at_hkt ? `<em>${gemini.primary_5h.reset_at_hkt}</em>` : '—'}</td>
-                <td class="col-reset">${gemini?.secondary_7d?.reset_at_hkt ? `<em>${gemini.secondary_7d.reset_at_hkt}</em>` : '—'}</td>
-            </tr>
-        `);
-    } else if (gemini && gemini.available === false) {
-        const errMsg = gemini._error || 'unavailable';
-        rows.push(`
-            <tr>
-                <td class="col-agent"><span class="status-dot dot-bad"></span>🤖 Gemini</td>
-                <td class="col-plan"><span class="plan-badge plan-unknown">—</span></td>
-                <td colspan="4"><span class="muted">${errMsg}</span></td>
-            </tr>
-        `);
-    } else {
-        // gemini is null: usage-quota.json fetch failed entirely. Render a
-        // consistent unavailable row so the table doesn't silently drop Gemini.
-        rows.push(`
-            <tr>
-                <td class="col-agent"><span class="status-dot dot-warn"></span>🤖 Gemini</td>
-                <td class="col-plan"><span class="plan-badge plan-unknown">—</span></td>
-                <td colspan="4"><span class="muted">未載入（usage-quota.json 不可讀）</span></td>
-            </tr>
-        `);
-    }
 
     // MiniMax
     rows.push(`
