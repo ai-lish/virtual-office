@@ -1,5 +1,5 @@
 {
-  "_generatedAt": "2026-06-28T02:35:07Z",
+  "_generatedAt": "2026-06-28T02:36:46Z",
   "_source": "local-curl",
   "_version": 3,
   "codex": {
@@ -10,17 +10,17 @@
     "primary_5h": {
       "used_percent": 1,
       "remaining_percent": 99,
-      "reset_at": "2026-06-28T15:35:12+08:00",
-      "reset_at_hkt": "06-28 15:35",
+      "reset_at": "2026-06-28T15:36:49+08:00",
+      "reset_at_hkt": "06-28 15:36",
       "reset_in_seconds": 18000,
       "window_seconds": 18000
     },
     "secondary_7d": {
       "used_percent": 54,
       "remaining_percent": 46,
-      "reset_at": "2026-07-01T10:05:34+08:00",
+      "reset_at": "2026-07-01T10:05:33+08:00",
       "reset_at_hkt": "07-01 10:05",
-      "reset_in_seconds": 257422,
+      "reset_in_seconds": 257325,
       "window_seconds": 604800
     }
   },
@@ -43,8 +43,8 @@
         "remainingFraction": 1.0,
         "remainingPercent": 100.0,
         "usedPercent": 0.0,
-        "reset_at": "2026-06-29T02:35:44Z",
-        "reset_at_hkt": "06-29 10:35"
+        "reset_at": "2026-06-29T02:37:19Z",
+        "reset_at_hkt": "06-29 10:37"
       },
       {
         "modelId": "gemini-2.5-flash-lite",
@@ -52,8 +52,8 @@
         "remainingFraction": 1.0,
         "remainingPercent": 100.0,
         "usedPercent": 0.0,
-        "reset_at": "2026-06-29T02:35:44Z",
-        "reset_at_hkt": "06-29 10:35"
+        "reset_at": "2026-06-29T02:37:19Z",
+        "reset_at_hkt": "06-29 10:37"
       },
       {
         "modelId": "gemini-2.5-pro",
@@ -61,8 +61,8 @@
         "remainingFraction": 1.0,
         "remainingPercent": 100.0,
         "usedPercent": 0.0,
-        "reset_at": "2026-06-29T02:35:44Z",
-        "reset_at_hkt": "06-29 10:35"
+        "reset_at": "2026-06-29T02:37:19Z",
+        "reset_at_hkt": "06-29 10:37"
       },
       {
         "modelId": "gemini-3.1-flash-lite",
@@ -70,8 +70,8 @@
         "remainingFraction": 1.0,
         "remainingPercent": 100.0,
         "usedPercent": 0.0,
-        "reset_at": "2026-06-29T02:35:44Z",
-        "reset_at_hkt": "06-29 10:35"
+        "reset_at": "2026-06-29T02:37:19Z",
+        "reset_at_hkt": "06-29 10:37"
       }
     ],
     "ineligible_tiers": [
