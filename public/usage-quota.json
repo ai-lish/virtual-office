@@ -1,7 +1,7 @@
 {
-  "_generatedAt": "2026-06-28T01:55:05Z",
+  "_generatedAt": "2026-06-28T02:35:07Z",
   "_source": "local-curl",
-  "_version": 2,
+  "_version": 3,
   "codex": {
     "available": true,
     "plan": "plus",
@@ -10,8 +10,8 @@
     "primary_5h": {
       "used_percent": 1,
       "remaining_percent": 99,
-      "reset_at": "2026-06-28T14:55:10+08:00",
-      "reset_at_hkt": "06-28 14:55",
+      "reset_at": "2026-06-28T15:35:12+08:00",
+      "reset_at_hkt": "06-28 15:35",
       "reset_in_seconds": 18000,
       "window_seconds": 18000
     },
@@ -20,7 +20,7 @@
       "remaining_percent": 46,
       "reset_at": "2026-07-01T10:05:34+08:00",
       "reset_at_hkt": "07-01 10:05",
-      "reset_in_seconds": 259825,
+      "reset_in_seconds": 257422,
       "window_seconds": 604800
     }
   },
@@ -28,5 +28,57 @@
     "available": false,
     "subscription": "n/a",
     "_error": "OAuth refresh failed: 429 rate_limit_error: Rate limited. Please try again later."
+  },
+  "gemini": {
+    "available": true,
+    "plan": "standard-tier",
+    "used_percent": 0.0,
+    "remaining_percent": 100.0,
+    "primary_5h": null,
+    "secondary_7d": null,
+    "buckets": [
+      {
+        "modelId": "gemini-2.5-flash",
+        "tokenType": "REQUESTS",
+        "remainingFraction": 1.0,
+        "remainingPercent": 100.0,
+        "usedPercent": 0.0,
+        "reset_at": "2026-06-29T02:35:44Z",
+        "reset_at_hkt": "06-29 10:35"
+      },
+      {
+        "modelId": "gemini-2.5-flash-lite",
+        "tokenType": "REQUESTS",
+        "remainingFraction": 1.0,
+        "remainingPercent": 100.0,
+        "usedPercent": 0.0,
+        "reset_at": "2026-06-29T02:35:44Z",
+        "reset_at_hkt": "06-29 10:35"
+      },
+      {
+        "modelId": "gemini-2.5-pro",
+        "tokenType": "REQUESTS",
+        "remainingFraction": 1.0,
+        "remainingPercent": 100.0,
+        "usedPercent": 0.0,
+        "reset_at": "2026-06-29T02:35:44Z",
+        "reset_at_hkt": "06-29 10:35"
+      },
+      {
+        "modelId": "gemini-3.1-flash-lite",
+        "tokenType": "REQUESTS",
+        "remainingFraction": 1.0,
+        "remainingPercent": 100.0,
+        "usedPercent": 0.0,
+        "reset_at": "2026-06-29T02:35:44Z",
+        "reset_at_hkt": "06-29 10:35"
+      }
+    ],
+    "ineligible_tiers": [
+      {
+        "tierId": "free-tier",
+        "reasonCode": "UNSUPPORTED_LOCATION"
+      }
+    ]
   }
 }

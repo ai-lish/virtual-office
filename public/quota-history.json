@@ -1,6 +1,6 @@
 {
   "_version": 2,
-  "_updatedAt": "2026-06-28T01:55:05.000Z",
+  "_updatedAt": "2026-06-28T02:35:07.000Z",
   "_totalEntries": 396,
   "entries": [
     {
@@ -10,12 +10,12 @@
       "window": "01-06",
       "windowStart": "2026-06-28T00:00:00.000Z",
       "windowEnd": "2026-06-28T05:00:00.000Z",
-      "capturedAt": "2026-06-28T01:55:05.000Z",
+      "capturedAt": "2026-06-28T02:35:07.000Z",
       "general": {
         "total": 0,
         "used": 0,
         "remaining": 0,
-        "usedPct": 5,
+        "usedPct": 8,
         "weeklyTotal": 0,
         "weeklyUsed": 0,
         "weeklyPct": 0
@@ -24,6 +24,11 @@
         "primary_5h_pct": 1,
         "secondary_7d_pct": 54,
         "plan": "plus"
+      },
+      "gemini": {
+        "remainingPercent": 100,
+        "plan": "standard-tier",
+        "bucketCount": 4
       }
     },
     {
