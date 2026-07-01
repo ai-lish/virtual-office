@@ -1,26 +1,26 @@
 {
-  "_generatedAt": "2026-07-01T06:55:02Z",
+  "_generatedAt": "2026-07-01T11:55:00Z",
   "_source": "local-curl",
   "_version": 3,
   "codex": {
     "available": true,
     "plan": "plus",
     "limit_reached": false,
-    "used_percent": 1,
+    "used_percent": 10,
     "primary_5h": {
-      "used_percent": 1,
-      "remaining_percent": 99,
-      "reset_at": "2026-07-01T19:55:06+08:00",
-      "reset_at_hkt": "07-01 19:55",
-      "reset_in_seconds": 18000,
+      "used_percent": 10,
+      "remaining_percent": 90,
+      "reset_at": "2026-07-01T21:43:16+08:00",
+      "reset_at_hkt": "07-01 21:43",
+      "reset_in_seconds": 6494,
       "window_seconds": 18000
     },
     "secondary_7d": {
-      "used_percent": 0,
-      "remaining_percent": 100,
-      "reset_at": "2026-07-08T14:55:06+08:00",
-      "reset_at_hkt": "07-08 14:55",
-      "reset_in_seconds": 604800,
+      "used_percent": 2,
+      "remaining_percent": 98,
+      "reset_at": "2026-07-08T16:43:16+08:00",
+      "reset_at_hkt": "07-08 16:43",
+      "reset_in_seconds": 593294,
       "window_seconds": 604800
     }
   },
