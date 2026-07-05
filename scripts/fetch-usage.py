@@ -492,9 +492,10 @@ def _parse_percent_after(label, screen):
         re.escape(label) + r".{0,400}?([0-9]{1,3})%\s+used",
         re.IGNORECASE | re.DOTALL,
     )
-    m = pattern.search(screen)
-    if not m:
+    matches = list(pattern.finditer(screen))
+    if not matches:
         return None
+    m = matches[-1]
     value = int(m.group(1))
     return max(0, min(100, value))
 
@@ -504,9 +505,10 @@ def _parse_reset_after(label, screen):
         re.escape(label) + r".{0,500}?Resets\s+([^\n\r]+)",
         re.IGNORECASE | re.DOTALL,
     )
-    m = pattern.search(screen)
-    if not m:
+    matches = list(pattern.finditer(screen))
+    if not matches:
         return None
+    m = matches[-1]
     return " ".join(m.group(1).split()).strip()
 
 
@@ -532,15 +534,21 @@ def _parse_hkt_reset(reset_text, now_utc=None):
             pass
 
     m = re.match(r"([A-Za-z]{3})\s+(\d{1,2})\s+at\s+(\d{1,2}):(\d{2})(am|pm)", clean, re.I)
+    if not m:
+        m = re.match(r"([A-Za-z]{3})\s+(\d{1,2})\s+at\s+(\d{1,2})(am|pm)", clean, re.I)
+        if m:
+            month_name, day_s, hour_s, ampm = m.groups()
+            minute_s = "00"
+            m = (month_name, day_s, hour_s, minute_s, ampm)
     if m:
-        month_name, day_s, hour_s, minute_s, ampm = m.groups()
+        month_name, day_s, hour_s, minute_s, ampm = m.groups() if hasattr(m, "groups") else m
         try:
             month = datetime.strptime(month_name.title(), "%b").month
             hour = int(hour_s) % 12
             if ampm.lower() == "pm":
                 hour += 12
             dt = datetime(now_hkt.year, month, int(day_s), hour, int(minute_s), tzinfo=HKT)
-            if dt <= now_hkt:
+            if dt <= now_hkt and (now_hkt - dt).days > 180:
                 dt = datetime(now_hkt.year + 1, month, int(day_s), hour, int(minute_s), tzinfo=HKT)
             return dt.isoformat()
         except Exception:
@@ -568,10 +576,13 @@ def fetch_claude_from_tmux_usage():
         return {"_error": "tmux session not idle; skipping /usage fallback"}
 
     try:
-        r = _run_tmux(["send-keys", "-t", session, "Escape", "C-u", "/usage", "Enter"], timeout=5)
+        r = _run_tmux(["send-keys", "-t", session, "Escape", "C-u"], timeout=5)
+        if r.returncode != 0:
+            return {"_error": f"tmux clear prompt failed: {(r.stderr or r.stdout)[:200]}"}
+        r = _run_tmux(["send-keys", "-t", session, "/", "u", "s", "a", "g", "e", "Enter"], timeout=5)
         if r.returncode != 0:
             return {"_error": f"tmux send /usage failed: {(r.stderr or r.stdout)[:200]}"}
-        time.sleep(float(os.environ.get("CLAUDE_QUOTA_TMUX_WAIT_SECONDS", "2")))
+        time.sleep(float(os.environ.get("CLAUDE_QUOTA_TMUX_WAIT_SECONDS", "3")))
         screen = _tmux_capture(session)
     except Exception as e:
         return {"_error": f"tmux /usage fallback failed: {e}"}
@@ -954,11 +965,17 @@ def fetch_gemini_web():
             context = p.chromium.launch_persistent_context(
                 user_data_dir=GEMINI_WEB_PROFILE_DIR,
                 headless=True,
+                # Force the full Chromium binary instead of chrome-headless-shell.
+                # The persistent Gemini profile can contain regular Chrome state
+                # that headless-shell rejects as malformed cache/prefs.
+                executable_path=p.chromium.executable_path,
                 args=[
                     "--no-first-run",
                     "--no-default-browser-check",
                     "--disable-blink-features=AutomationControlled",
                     "--disable-gpu",
+                    "--disable-crash-reporter",
+                    "--disable-crashpad",
                 ],
                 viewport={"width": 1400, "height": 900},
             )
@@ -1119,6 +1136,8 @@ def _setup_gemini_web_login():
                 "--no-first-run",
                 "--no-default-browser-check",
                 "--disable-blink-features=AutomationControlled",
+                "--disable-crash-reporter",
+                "--disable-crashpad",
             ],
             viewport={"width": 1400, "height": 900},
         )
