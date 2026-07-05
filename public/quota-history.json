@@ -1,6 +1,6 @@
 {
   "_version": 2,
-  "_updatedAt": "2026-07-05T14:14:01.000Z",
+  "_updatedAt": "2026-07-05T14:55:31.306Z",
   "_totalEntries": 433,
   "entries": [
     {
@@ -10,24 +10,24 @@
       "window": "11-16",
       "windowStart": "2026-07-05T10:00:00.000Z",
       "windowEnd": "2026-07-05T15:00:00.000Z",
-      "capturedAt": "2026-07-05T14:14:01.000Z",
+      "capturedAt": "2026-07-05T14:55:31.306Z",
       "general": {
         "total": 0,
         "used": 0,
         "remaining": 0,
-        "usedPct": 4,
+        "usedPct": 7,
         "weeklyTotal": 0,
         "weeklyUsed": 0,
         "weeklyPct": 0
       },
       "codex": {
-        "primary_5h_pct": 72,
-        "secondary_7d_pct": 28,
+        "primary_5h_pct": 100,
+        "secondary_7d_pct": 32,
         "plan": "plus"
       },
       "claude": {
-        "primary_5h_pct": 78,
-        "secondary_7d_pct": 11,
+        "primary_5h_pct": 44,
+        "secondary_7d_pct": 24,
         "subscription": "pro"
       }
     },
