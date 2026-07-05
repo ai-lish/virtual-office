@@ -73,22 +73,45 @@ body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:
 .copilot-row .merged .pct-bar-wrap{width:100%}
 
 /* Responsive */
+
+/* Default: desktop shows desktop-only cells, mobile-only hidden. */
+.quota-table .mobile-only{display:none}
+
 @media(max-width:1024px){
   .quota-table .col-plan-hide-mobile{display:none}
 }
-@media(max-width:640px){
+@media(max-width:900px){
+  /* V2 (MacD 2026-07-05): extend mobile/stacked layout to small-tablet
+     width so each model is rendered as a compact 3-line card rather than
+     collapsing into a 5-row stack that pushes the deadline cells onto
+     their own lines. */
   .quota-card{padding:18px}
   .quota-table thead{display:none}
   .quota-table,.quota-table tbody,.quota-table tr,.quota-table td{display:block;width:100%}
-  .quota-table tbody tr{padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06);display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;align-items:center}
+  .quota-table tbody tr{padding:14px 0;border-bottom:1px solid rgba(255,255,255,.06)}
   .quota-table tbody tr:last-child{border-bottom:none}
   .quota-table td{padding:0;border:none}
-  .quota-table .col-agent{grid-column:1 / -1;font-size:1.05em}
-  .quota-table .col-plan,.quota-table .col-plan-hide-mobile{grid-column:1 / -1;justify-self:start}
+  /* Toggle desktop/mobile variants — desktop-only hidden, mobile-only shown. */
+  .quota-table .desktop-only{display:none !important}
+  .quota-table .mobile-only{display:block !important}
+  /* Agent name + plan badge sit inline on a single row. */
+  .quota-table .col-agent{font-size:1.05em;display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+  .quota-table .col-agent .status-dot{flex-shrink:0}
+  .quota-table .col-plan-inline{margin-left:2px;display:inline-flex;align-items:center;gap:6px}
+  .quota-table .col-plan-hide-mobile{display:none}
+  .pct-label{font-size:.7em;display:block;margin-bottom:2px}
+  /* Group wrappers: agent | plan | pct-grid | reset-grid */
+  .quota-row-pct,.quota-row-reset{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}
+  .quota-row-reset{margin-top:6px;font-size:.82em}
   .quota-table .col-num,.quota-table .col-reset{text-align:left}
-  .quota-table .col-reset{grid-column:1 / -1}
+  .quota-table .col-reset em{color:var(--text);font-style:normal;font-weight:500}
   .copilot-row .merged{grid-column:1 / -1}
   .quota-card-title{font-size:.95rem}
+}
+
+@media(max-width:480px){
+  /* Very narrow phones: stack 5h/7d and reset labels vertically. */
+  .quota-row-pct,.quota-row-reset{grid-template-columns:1fr;gap:6px}
 }
 
 /* ── Projects (unchanged from V1) ── */
@@ -158,16 +181,34 @@ body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:
 
 <script>
 const projects = [
-  { name:'MiniMax 工作坊', icon:'🛠️', status:'active', link:'https://ai-lish.github.io/minimax-workshop/', date:'2026-05-31', repo:'ai-lish/minimax-workshop', desc:'MiniMax API 全功能展示 — TTS、圖像生成、VLM、語音對話' },
-  { name:'平方包', icon:'🎮', status:'active', link:'https://ai-lish.github.io/square-bun/', date:'2026-04-16', repo:'ai-lish/square-bun', desc:'數學乘除法心算訓練卡牌遊戲' },
-  { name:'Song-of-Songs', icon:'🎵', status:'active', link:'https://ai-lish.github.io/Song-of-Songs/index.html', date:'2026-03-28', repo:'ai-lish/Song-of-Songs', desc:'歌詞影片製作專案 — Song of Songs 系列' },
-  { name:'虛擬辦公室', icon:'🏢', status:'active', link:'https://ai-lish.github.io/virtual-office/', date:'2026-03-05', repo:'ai-lish/virtual-office', desc:'AI 助手工作狀態監控儀表板' },
-  { name:'全方位學習日', icon:'✅', status:'completed', link:'https://ai-lish.github.io/lsc-ole-s1-2026/', date:'2026-03-26', repo:'ai-lish/lsc-ole-s1-2026', desc:'S1 全方位學習日活動網站' },
-  { name:'晞霖學習網站', icon:'✅', status:'completed', link:'https://ai-lish.github.io/preschool/', date:'2026-03-08', repo:'ai-lish/preschool', desc:'幼兒教育互動學習平台' },
-  { name:'少康教學網站', icon:'⏳', status:'pending', link:'https://ai-lish.github.io/ai-learning/', date:'2026-03-01', repo:'ai-lish/ai-learning', desc:'HKDSE 數學教學資源網站' },
-  { name:'數學週 2026', icon:'⏳', status:'pending', link:'https://ai-lish.github.io/math-week-2026/', date:'2026-02-20', repo:'ai-lish/math-week-2026', desc:'2026 數學週活動網站' },
-  { name:'欠交功課系統', icon:'⏳', status:'pending', link:'https://ai-lish.github.io/homework-duty-system/', date:'2026-03-07', repo:'ai-lish/homework-duty-system', desc:'學生功課追蹤管理系統' },
-  { name:'教師發展日', icon:'✅', status:'completed', link:'https://ai-lish.github.io/teacher-dev-day/', date:'2026-01-15', repo:'ai-lish/teacher-dev-day', desc:'教師專業發展日活動' }
+  // V2 (MacD 2026-07-05): refreshed against ai-lish's GitHub repos.
+  // Sources: https://api.github.com/users/ai-lish/repos?sort=updated
+  // (snapshot 2026-07-05) + MEMORY.md §My-Japan for that repo's date.
+  // Sorted by recency of last commit. Active projects updated within the
+  // last 60 days are 'active'; older-or-stalled are 'pending';
+  // single-shot event sites are 'completed'. Static snapshot — refresh
+  // by hand when new repos appear or statuses change.
+  { name:'Assessments 測考工具', icon:'📝', status:'active', link:'https://github.com/ai-lish/Assessments', date:'2026-07-05', repo:'ai-lish/Assessments', desc:'測考工具 — 初中短答題目庫生成系統' },
+  { name:'虛擬辦公室', icon:'🏢', status:'active', link:'https://ai-lish.github.io/virtual-office/', date:'2026-07-05', repo:'ai-lish/virtual-office', desc:'AI 助手工作狀態監控儀表板 — 配額 + cron + dashboard' },
+  { name:'CloudSAMS 行政小工具', icon:'🏫', status:'active', link:'https://github.com/ai-lish/cloudsams-tools', date:'2026-07-02', repo:'ai-lish/cloudsams-tools', desc:'CloudSAMS 行政小工具 — 香港中學校務系統 admin utilities (PDF split, data export, batch reports)' },
+  { name:'少康教學網站', icon:'📚', status:'active', link:'https://ai-lish.github.io/ai-learning/', date:'2026-06-28', repo:'ai-lish/ai-learning', desc:'HKDSE 數學教學資源網站 — DSE 試題庫 + AI 評分' },
+  { name:'My-Japan PWA', icon:'🗾', status:'active', link:'https://ai-lish.github.io/My-Japan/', date:'2026-06-20', repo:'ai-lish/My-Japan', desc:'JLPT N1/N2 語音記憶字卡 + 日本隨身旅行日記 PWA' },
+  { name:'PDF 分割工具', icon:'✂️', status:'active', link:'https://ai-lish.github.io/pdf-splitter/', date:'2026-06-09', repo:'ai-lish/pdf-splitter', desc:'PDF 分割工具 — 純前端，無需上傳，支援每 N 頁 / 範圍 / 指定頁' },
+  { name:'圖片像素提升', icon:'🔍', status:'active', link:'https://ai-lish.github.io/image-upscaler/', date:'2026-06-06', repo:'ai-lish/image-upscaler', desc:'圖片像素提升工具 — 純前端 AI-style upscaler，離線可用' },
+  { name:'數學週 2026', icon:'🎲', status:'active', link:'https://ai-lish.github.io/math-week-2026/', date:'2026-06-04', repo:'ai-lish/math-week-2026', desc:'2026 數學週活動網站' },
+  { name:'MiniMax 工作坊', icon:'🛠️', status:'active', link:'https://ai-lish.github.io/minimax-workshop/', date:'2026-06-02', repo:'ai-lish/minimax-workshop', desc:'MiniMax API 全功能展示 — TTS、圖像生成、VLM、語音對話' },
+  { name:'晞霖學習網站', icon:'👶', status:'active', link:'https://ai-lish.github.io/preschool/', date:'2026-05-24', repo:'ai-lish/preschool', desc:'幼兒教育互動學習平台' },
+  { name:'Math RPG', icon:'⚔️', status:'active', link:'https://github.com/ai-lish/math-rpg', date:'2026-05-12', repo:'ai-lish/math-rpg', desc:'Math RPG — 數學戰鬥遊戲概念驗證' },
+  { name:'冰火大戰', icon:'🔥', status:'active', link:'https://ai-lish.github.io/bingfo/', date:'2026-05-10', repo:'ai-lish/bingfo', desc:'冰火大戰 Ice & Fire — 整數策略卡牌遊戲規則網頁' },
+  { name:'趣味數學題', icon:'🧮', status:'active', link:'https://ai-lish.github.io/fun-math/', date:'2026-05-06', repo:'ai-lish/fun-math', desc:'趣味數學題互動頁面' },
+  { name:'平方包', icon:'🎴', status:'active', link:'https://ai-lish.github.io/square-bun/', date:'2026-05-05', repo:'ai-lish/square-bun', desc:'數學乘除法心算訓練卡牌遊戲' },
+  { name:'60秒計算機大賽', icon:'⏱️', status:'active', link:'https://ai-lish.github.io/calculator-race/', date:'2026-05-02', repo:'ai-lish/calculator-race', desc:'60秒計算機大賽挑戰遊戲 — 60-second calculator race' },
+  { name:'Zach AI Blog', icon:'✍️', status:'active', link:'https://ai-lish.github.io/zach-ai-blog/', date:'2026-04-27', repo:'ai-lish/zach-ai-blog', desc:'Zach AI 開發日誌' },
+  { name:'Math RPG (Godot 4)', icon:'🎮', status:'active', link:'https://github.com/ai-lish/math-rpg-godot', date:'2026-04-22', repo:'ai-lish/math-rpg-godot', desc:'Math RPG - HKDSE Math Game built with Godot 4' },
+  { name:'Song-of-Songs', icon:'🎵', status:'active', link:'https://ai-lish.github.io/Song-of-Songs/index.html', date:'2026-04-12', repo:'ai-lish/Song-of-Songs', desc:'歌詞影片製作專案 — Song of Songs YouTube 頻道自動化 (AI 詩歌)' },
+  { name:'全方位學習日', icon:'🎯', status:'completed', link:'https://ai-lish.github.io/lsc-ole-s1-2026/', date:'2026-04-07', repo:'ai-lish/lsc-ole-s1-2026', desc:'S1 全方位學習日活動網站 (已完成)' },
+  { name:'欠交功課系統', icon:'📋', status:'pending', link:'https://github.com/ai-lish/homework-duty-system', date:'2026-03-15', repo:'ai-lish/homework-duty-system', desc:'學生功課追蹤管理系統 (待重啟)' },
+  { name:'教師發展日', icon:'🎓', status:'completed', link:'https://ai-lish.github.io/teacher-dev-day/', date:'2026-03-15', repo:'ai-lish/teacher-dev-day', desc:'教師專業發展日活動 (已完成)' }
 ];
 
 const listEl = document.getElementById('projectList');
@@ -375,24 +416,46 @@ async function loadQuotaTable() {
     // Codex
     rows.push(`
         <tr>
-            <td class="col-agent"><span class="status-dot ${statusDotClass(codex)}"></span>🤖 Codex</td>
-            <td class="col-plan"><span class="plan-badge ${planClass(codex?.plan)}">${(codex?.plan || '—').toUpperCase()}</span></td>
-            <td class="col-num">${pctCellHTML(codex5h, codex?.available)}</td>
-            <td class="col-num">${pctCellHTML(codex7d, codex?.available)}</td>
-            <td class="col-reset">${codex?.primary_5h?.reset_at_hkt ? `<em>${codex.primary_5h.reset_at_hkt}</em>` : '—'}</td>
-            <td class="col-reset">${codex?.secondary_7d?.reset_at_hkt ? `<em>${codex.secondary_7d.reset_at_hkt}</em>` : '—'}</td>
+            <td class="col-agent desktop-only"><span class="status-dot ${statusDotClass(codex)}"></span>🤖 Codex</td>
+            <td class="col-plan desktop-only"><span class="plan-badge ${planClass(codex?.plan)}">${(codex?.plan || '—').toUpperCase()}</span></td>
+            <td class="col-num desktop-only">${pctCellHTML(codex5h, codex?.available)}</td>
+            <td class="col-num desktop-only">${pctCellHTML(codex7d, codex?.available)}</td>
+            <td class="col-reset desktop-only">${codex?.primary_5h?.reset_at_hkt ? `<em>${codex.primary_5h.reset_at_hkt}</em>` : '—'}</td>
+            <td class="col-reset desktop-only">${codex?.secondary_7d?.reset_at_hkt ? `<em>${codex.secondary_7d.reset_at_hkt}</em>` : '—'}</td>
+            <td colspan="6" class="mobile-only">
+                <div class="col-agent"><span class="status-dot ${statusDotClass(codex)}"></span>🤖 Codex <span class="col-plan-inline"><span class="plan-badge ${planClass(codex?.plan)}">${(codex?.plan || '—').toUpperCase()}</span></span></div>
+                <div class="quota-row-pct">
+                    <div class="col-num"><span class="muted pct-label">5h</span>${pctCellHTML(codex5h, codex?.available)}</div>
+                    <div class="col-num"><span class="muted pct-label">7d</span>${pctCellHTML(codex7d, codex?.available)}</div>
+                </div>
+                <div class="quota-row-reset">
+                    <div class="col-reset"><span class="muted">Reset 5h:</span> ${codex?.primary_5h?.reset_at_hkt ? `<em>${codex.primary_5h.reset_at_hkt}</em>` : '—'}</div>
+                    <div class="col-reset"><span class="muted">Reset 7d:</span> ${codex?.secondary_7d?.reset_at_hkt ? `<em>${codex.secondary_7d.reset_at_hkt}</em>` : '—'}</div>
+                </div>
+            </td>
         </tr>
     `);
 
     // Claude
     rows.push(`
         <tr>
-            <td class="col-agent"><span class="status-dot ${statusDotClass(claude)}"></span>🤖 Claude Code</td>
-            <td class="col-plan"><span class="plan-badge ${planClass(claude?.subscription)}">${(claude?.subscription || '—').toUpperCase()}</span>${cachedBadgeHtml(claude)}</td>
-            <td class="col-num">${pctCellHTML(claude5h, claude?.available)}</td>
-            <td class="col-num">${pctCellHTML(claude7d, claude?.available)}</td>
-            <td class="col-reset">${claude?.primary_5h?.reset_at_hkt ? `<em>${claude.primary_5h.reset_at_hkt}</em>` : '—'}</td>
-            <td class="col-reset">${claude?.secondary_7d?.reset_at_hkt ? `<em>${claude.secondary_7d.reset_at_hkt}</em>` : '—'}</td>
+            <td class="col-agent desktop-only"><span class="status-dot ${statusDotClass(claude)}"></span>🤖 Claude Code</td>
+            <td class="col-plan desktop-only"><span class="plan-badge ${planClass(claude?.subscription)}">${(claude?.subscription || '—').toUpperCase()}</span>${cachedBadgeHtml(claude)}</td>
+            <td class="col-num desktop-only">${pctCellHTML(claude5h, claude?.available)}</td>
+            <td class="col-num desktop-only">${pctCellHTML(claude7d, claude?.available)}</td>
+            <td class="col-reset desktop-only">${claude?.primary_5h?.reset_at_hkt ? `<em>${claude.primary_5h.reset_at_hkt}</em>` : '—'}</td>
+            <td class="col-reset desktop-only">${claude?.secondary_7d?.reset_at_hkt ? `<em>${claude.secondary_7d.reset_at_hkt}</em>` : '—'}</td>
+            <td colspan="6" class="mobile-only">
+                <div class="col-agent"><span class="status-dot ${statusDotClass(claude)}"></span>🤖 Claude Code <span class="col-plan-inline"><span class="plan-badge ${planClass(claude?.subscription)}">${(claude?.subscription || '—').toUpperCase()}</span>${cachedBadgeHtml(claude)}</span></div>
+                <div class="quota-row-pct">
+                    <div class="col-num"><span class="muted pct-label">5h</span>${pctCellHTML(claude5h, claude?.available)}</div>
+                    <div class="col-num"><span class="muted pct-label">7d</span>${pctCellHTML(claude7d, claude?.available)}</div>
+                </div>
+                <div class="quota-row-reset">
+                    <div class="col-reset"><span class="muted">Reset 5h:</span> ${claude?.primary_5h?.reset_at_hkt ? `<em>${claude.primary_5h.reset_at_hkt}</em>` : '—'}</div>
+                    <div class="col-reset"><span class="muted">Reset 7d:</span> ${claude?.secondary_7d?.reset_at_hkt ? `<em>${claude.secondary_7d.reset_at_hkt}</em>` : '—'}</div>
+                </div>
+            </td>
         </tr>
     `);
 
@@ -402,24 +465,46 @@ async function loadQuotaTable() {
     // — cachedBadgeHtml mirrors the Claude cache UX.
     rows.push(`
         <tr>
-            <td class="col-agent"><span class="status-dot ${statusDotClass(geminiWeb)}"></span>✨ Gemini Web</td>
-            <td class="col-plan"><span class="plan-badge ${planClass(geminiWeb?.plan)}">${(geminiWeb?.plan || '—').toUpperCase()}</span>${cachedBadgeHtml(geminiWeb)}</td>
-            <td class="col-num">${pctCellHTML(gemini5h, geminiWeb?.available)}</td>
-            <td class="col-num">${pctCellHTML(gemini7d, geminiWeb?.available)}</td>
-            <td class="col-reset">${geminiWeb?.primary_5h?.reset_at_hkt ? `<em>${geminiWeb.primary_5h.reset_at_hkt}</em>` : '—'}</td>
-            <td class="col-reset">${geminiWeb?.secondary_7d?.reset_at_hkt ? `<em>${geminiWeb.secondary_7d.reset_at_hkt}</em>` : '—'}</td>
+            <td class="col-agent desktop-only"><span class="status-dot ${statusDotClass(geminiWeb)}"></span>✨ Gemini Web</td>
+            <td class="col-plan desktop-only"><span class="plan-badge ${planClass(geminiWeb?.plan)}">${(geminiWeb?.plan || '—').toUpperCase()}</span>${cachedBadgeHtml(geminiWeb)}</td>
+            <td class="col-num desktop-only">${pctCellHTML(gemini5h, geminiWeb?.available)}</td>
+            <td class="col-num desktop-only">${pctCellHTML(gemini7d, geminiWeb?.available)}</td>
+            <td class="col-reset desktop-only">${geminiWeb?.primary_5h?.reset_at_hkt ? `<em>${geminiWeb.primary_5h.reset_at_hkt}</em>` : '—'}</td>
+            <td class="col-reset desktop-only">${geminiWeb?.secondary_7d?.reset_at_hkt ? `<em>${geminiWeb.secondary_7d.reset_at_hkt}</em>` : '—'}</td>
+            <td colspan="6" class="mobile-only">
+                <div class="col-agent"><span class="status-dot ${statusDotClass(geminiWeb)}"></span>✨ Gemini Web <span class="col-plan-inline"><span class="plan-badge ${planClass(geminiWeb?.plan)}">${(geminiWeb?.plan || '—').toUpperCase()}</span>${cachedBadgeHtml(geminiWeb)}</span></div>
+                <div class="quota-row-pct">
+                    <div class="col-num"><span class="muted pct-label">5h</span>${pctCellHTML(gemini5h, geminiWeb?.available)}</div>
+                    <div class="col-num"><span class="muted pct-label">7d</span>${pctCellHTML(gemini7d, geminiWeb?.available)}</div>
+                </div>
+                <div class="quota-row-reset">
+                    <div class="col-reset"><span class="muted">Reset 5h:</span> ${geminiWeb?.primary_5h?.reset_at_hkt ? `<em>${geminiWeb.primary_5h.reset_at_hkt}</em>` : '—'}</div>
+                    <div class="col-reset"><span class="muted">Reset 7d:</span> ${geminiWeb?.secondary_7d?.reset_at_hkt ? `<em>${geminiWeb.secondary_7d.reset_at_hkt}</em>` : '—'}</div>
+                </div>
+            </td>
         </tr>
     `);
 
     // MiniMax
     rows.push(`
         <tr>
-            <td class="col-agent"><span class="status-dot ${statusDotClass({available: !!general})}"></span>🤖 MiniMax</td>
-            <td class="col-plan"><span class="plan-badge ${planClass(mm?.plan)}">${(mm?.plan || 'plus').toUpperCase()}</span></td>
-            <td class="col-num">${pctCellHTML(mm5h, !!general)}</td>
-            <td class="col-num">${pctCellHTML(mmWeekly, !!general)}</td>
-            <td class="col-reset">${mm5hReset !== '—' ? `<em>${mm5hReset}</em>` : '—'}</td>
-            <td class="col-reset">—</td>
+            <td class="col-agent desktop-only"><span class="status-dot ${statusDotClass({available: !!general})}"></span>🤖 MiniMax</td>
+            <td class="col-plan desktop-only"><span class="plan-badge ${planClass(mm?.plan)}">${(mm?.plan || 'plus').toUpperCase()}</span></td>
+            <td class="col-num desktop-only">${pctCellHTML(mm5h, !!general)}</td>
+            <td class="col-num desktop-only">${pctCellHTML(mmWeekly, !!general)}</td>
+            <td class="col-reset desktop-only">${mm5hReset !== '—' ? `<em>${mm5hReset}</em>` : '—'}</td>
+            <td class="col-reset desktop-only">—</td>
+            <td colspan="6" class="mobile-only">
+                <div class="col-agent"><span class="status-dot ${statusDotClass({available: !!general})}"></span>🤖 MiniMax <span class="col-plan-inline"><span class="plan-badge ${planClass(mm?.plan)}">${(mm?.plan || 'plus').toUpperCase()}</span></span></div>
+                <div class="quota-row-pct">
+                    <div class="col-num"><span class="muted pct-label">5h</span>${pctCellHTML(mm5h, !!general)}</div>
+                    <div class="col-num"><span class="muted pct-label">週</span>${pctCellHTML(mmWeekly, !!general)}</div>
+                </div>
+                <div class="quota-row-reset">
+                    <div class="col-reset"><span class="muted">Reset 5h:</span> ${mm5hReset !== '—' ? `<em>${mm5hReset}</em>` : '—'}</div>
+                    <div class="col-reset"><span class="muted">週剩餘:</span> <em>${mm?.allModels?.find(m => m.model === 'general')?.weeklyResetTime ? fmtHkt(mm.allModels.find(m => m.model === 'general').weeklyResetTime) : '—'}</em></div>
+                </div>
+            </td>
         </tr>
     `);
 
@@ -427,9 +512,19 @@ async function loadQuotaTable() {
     const copilotBarColor = pctColorClass(copilotPct, !!cp);
     rows.push(`
         <tr class="copilot-row">
-            <td class="col-agent"><span class="status-dot ${statusDotClass({available: !!cp})}"></span>🤖 GitHub Copilot</td>
-            <td class="col-plan"><span class="plan-badge ${planClass(cp?.subscription)}">${(cp?.subscription || '—').toUpperCase()}</span></td>
-            <td colspan="4">
+            <td class="col-agent desktop-only"><span class="status-dot ${statusDotClass({available: !!cp})}"></span>🤖 GitHub Copilot</td>
+            <td class="col-plan desktop-only"><span class="plan-badge ${planClass(cp?.subscription)}">${(cp?.subscription || '—').toUpperCase()}</span></td>
+            <td colspan="4" class="desktop-only">
+                <div class="merged">
+                    <div class="row1">
+                        <span class="v">本月 ${copilotPct}% (${copilotUsed}/${copilotTotal}) · ${monthLabel}</span>
+                        <span class="reset">Reset ${nextReset}</span>
+                    </div>
+                    <div class="pct-bar-wrap"><div class="pct-bar-fill ${copilotBarColor}" style="width:${Math.max(0, Math.min(100, copilotPct))}%"></div></div>
+                </div>
+            </td>
+            <td colspan="6" class="mobile-only">
+                <div class="col-agent"><span class="status-dot ${statusDotClass({available: !!cp})}"></span>🤖 GitHub Copilot <span class="col-plan-inline"><span class="plan-badge ${planClass(cp?.subscription)}">${(cp?.subscription || '—').toUpperCase()}</span></span></div>
                 <div class="merged">
                     <div class="row1">
                         <span class="v">本月 ${copilotPct}% (${copilotUsed}/${copilotTotal}) · ${monthLabel}</span>
