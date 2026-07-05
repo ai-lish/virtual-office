@@ -21,6 +21,7 @@ Exit codes:
 import argparse
 import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -68,6 +69,8 @@ GEMINI_WEB_NAV_TIMEOUT_MS = 25_000
 # rotates the public CLI OAuth client id in a future build.
 CLAUDE_OAUTH_CLIENT_ID = "9d1c250a-e61b-44d9-88ed-5944d1962f5e"
 CLAUDE_REFRESH_SKEW_MS = 60_000
+CLAUDE_TMUX_SESSION = os.environ.get("CLAUDE_QUOTA_TMUX_SESSION", "claude-discord")
+CLAUDE_TMUX_CAPTURE_LINES = int(os.environ.get("CLAUDE_QUOTA_TMUX_CAPTURE_LINES", "120"))
 CODEX_HEADERS_TEMPLATE = [
     "Authorization: Bearer {token}",
     "chatgpt-account-id: {acct}",
@@ -438,6 +441,170 @@ def fetch_claude():
         return {"_error": f"claude json decode: {e}"}
 
 
+def _run_tmux(args, timeout=5):
+    return subprocess.run(
+        ["tmux"] + args,
+        capture_output=True,
+        text=True,
+        timeout=timeout,
+    )
+
+
+def _tmux_session_exists(session):
+    try:
+        r = _run_tmux(["has-session", "-t", session], timeout=3)
+        return r.returncode == 0
+    except Exception:
+        return False
+
+
+def _tmux_capture(session):
+    r = _run_tmux(
+        ["capture-pane", "-t", session, "-p", "-S", f"-{CLAUDE_TMUX_CAPTURE_LINES}"],
+        timeout=5,
+    )
+    if r.returncode != 0:
+        raise RuntimeError((r.stderr or r.stdout or "tmux capture failed").strip())
+    return r.stdout
+
+
+def _tmux_looks_idle(screen):
+    """Avoid disrupting Claude while it is generating, asking permission, or editing."""
+    if not screen:
+        return False
+    tail = "\n".join(screen.splitlines()[-20:])
+    blocked_markers = (
+        "Do you want to",
+        "Esc to cancel",
+        "Waiting…",
+        "Percolating…",
+        "Deciphering…",
+        "Cogitating…",
+        "Baking",
+    )
+    if any(marker in tail for marker in blocked_markers):
+        return False
+    return "❯" in tail
+
+
+def _parse_percent_after(label, screen):
+    pattern = re.compile(
+        re.escape(label) + r".{0,400}?([0-9]{1,3})%\s+used",
+        re.IGNORECASE | re.DOTALL,
+    )
+    m = pattern.search(screen)
+    if not m:
+        return None
+    value = int(m.group(1))
+    return max(0, min(100, value))
+
+
+def _parse_reset_after(label, screen):
+    pattern = re.compile(
+        re.escape(label) + r".{0,500}?Resets\s+([^\n\r]+)",
+        re.IGNORECASE | re.DOTALL,
+    )
+    m = pattern.search(screen)
+    if not m:
+        return None
+    return " ".join(m.group(1).split()).strip()
+
+
+def _parse_hkt_reset(reset_text, now_utc=None):
+    if not reset_text:
+        return None
+    now_utc = now_utc or datetime.now(timezone.utc)
+    now_hkt = now_utc.astimezone(HKT)
+    clean = reset_text.replace("↓", "").replace("↑", "").strip()
+    clean = re.sub(r"\s*\(Asia/Hong_Kong\)\s*", " ", clean).strip()
+
+    for fmt in ("%I:%M%p", "%I:%M %p"):
+        try:
+            t = datetime.strptime(clean.replace(" ", ""), "%I:%M%p").time()
+            dt = datetime(
+                now_hkt.year, now_hkt.month, now_hkt.day,
+                t.hour, t.minute, tzinfo=HKT
+            )
+            if dt <= now_hkt:
+                dt += timedelta(days=1)
+            return dt.isoformat()
+        except Exception:
+            pass
+
+    m = re.match(r"([A-Za-z]{3})\s+(\d{1,2})\s+at\s+(\d{1,2}):(\d{2})(am|pm)", clean, re.I)
+    if m:
+        month_name, day_s, hour_s, minute_s, ampm = m.groups()
+        try:
+            month = datetime.strptime(month_name.title(), "%b").month
+            hour = int(hour_s) % 12
+            if ampm.lower() == "pm":
+                hour += 12
+            dt = datetime(now_hkt.year, month, int(day_s), hour, int(minute_s), tzinfo=HKT)
+            if dt <= now_hkt:
+                dt = datetime(now_hkt.year + 1, month, int(day_s), hour, int(minute_s), tzinfo=HKT)
+            return dt.isoformat()
+        except Exception:
+            return None
+
+    return None
+
+
+def fetch_claude_from_tmux_usage():
+    """Read live Claude quota from the existing Claude Code tmux /usage screen.
+
+    This is a fallback for Anthropic OAuth refresh 429s. It only runs when the
+    Claude channel session appears idle, to avoid interrupting active work or
+    permission prompts.
+    """
+    session = CLAUDE_TMUX_SESSION
+    if not _tmux_session_exists(session):
+        return {"_error": f"tmux session missing: {session}"}
+
+    try:
+        before = _tmux_capture(session)
+    except Exception as e:
+        return {"_error": f"tmux capture failed before /usage: {e}"}
+    if not _tmux_looks_idle(before):
+        return {"_error": "tmux session not idle; skipping /usage fallback"}
+
+    try:
+        r = _run_tmux(["send-keys", "-t", session, "Escape", "C-u", "/usage", "Enter"], timeout=5)
+        if r.returncode != 0:
+            return {"_error": f"tmux send /usage failed: {(r.stderr or r.stdout)[:200]}"}
+        time.sleep(float(os.environ.get("CLAUDE_QUOTA_TMUX_WAIT_SECONDS", "2")))
+        screen = _tmux_capture(session)
+    except Exception as e:
+        return {"_error": f"tmux /usage fallback failed: {e}"}
+    finally:
+        try:
+            _run_tmux(["send-keys", "-t", session, "Escape"], timeout=3)
+        except Exception:
+            pass
+
+    fh_used = _parse_percent_after("Current session", screen)
+    sd_used = _parse_percent_after("Current week (all models)", screen)
+    if fh_used is None or sd_used is None:
+        return {"_error": "tmux /usage parse failed"}
+
+    fh_reset_text = _parse_reset_after("Current session", screen)
+    sd_reset_text = _parse_reset_after("Current week (all models)", screen)
+    fh_reset = _parse_hkt_reset(fh_reset_text)
+    sd_reset = _parse_hkt_reset(sd_reset_text)
+    return {
+        "_source": "claude-code-tmux-usage",
+        "five_hour": {
+            "utilization": fh_used,
+            "resets_at": fh_reset,
+        },
+        "seven_day": {
+            "utilization": sd_used,
+            "resets_at": sd_reset,
+        },
+        "limits": [{"kind": "session", "percent": fh_used, "is_active": True}],
+        "subscriptionType": KNOWN_PLANS["claude"],
+    }
+
+
 # ── Field extraction helpers (spec §3) ─────────────────────────────
 
 def epoch_to_iso(epoch):
@@ -566,7 +733,7 @@ def extract_claude(raw):
         or raw.get("subscription_info", {}).get("plan")
     )
     subscription = subscription_raw if subscription_raw and subscription_raw not in ("n/a", "unknown") else KNOWN_PLANS["claude"]
-    return {
+    out = {
         "available": True,
         "subscription": subscription,
         "used_percent": max(fh_used, sd_used),
@@ -584,6 +751,9 @@ def extract_claude(raw):
         },
         "active_limits": active,
     }
+    if raw.get("_source"):
+        out["source"] = raw["_source"]
+    return out
 
 
 # ── Gemini Web (gemini.google.com) provider (V3 plan, MacD 2026-06-28) ──────
@@ -1008,6 +1178,14 @@ def main():
 
     codex_raw = fetch_codex()
     claude_raw = fetch_claude()
+    claude_err = claude_raw.get("_error") if isinstance(claude_raw, dict) else None
+    if claude_err and is_transient_claude_error(claude_err):
+        log(f"[claude] API transient failure; trying tmux /usage fallback: {claude_err[:120]}", err=True)
+        tmux_raw = fetch_claude_from_tmux_usage()
+        if tmux_raw.get("_error"):
+            log(f"[claude] tmux /usage fallback unavailable: {tmux_raw['_error']}", err=True)
+        else:
+            claude_raw = tmux_raw
     gemini_web_raw = fetch_gemini_web()
 
     codex_obj = extract_codex(codex_raw)
