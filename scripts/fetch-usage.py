@@ -82,6 +82,36 @@ CLAUDE_HEADERS_TEMPLATE = [
 
 # Public output path (spec §6)
 DEFAULT_OUT = "/Users/zachli/.openclaw/workspace/virtual-office/public/usage-quota.json"
+# V2 (MacD 2026-07-05): cache fallback for transient Claude OAuth refresh
+# failures (Anthropic 429 rate_limit). When the refresh endpoint is throttled,
+# serve the last successful quota snapshot from CACHE_FILE instead of a blank
+# unavailable card. Cache is rewritten on every fresh successful Claude fetch.
+CLAUDE_CACHE_FILE = os.path.join(
+    os.path.dirname(DEFAULT_OUT), "usage-quota-cache.json"
+)
+# Default 14d max cache age covers the typical Anthropic IP sliding-window ban
+# observed 2026-06-28 → 2026-07-05+ (≈7d so far). Override via env var
+# CLAUDE_CACHE_MAX_AGE_HOURS when a longer outage is expected.
+DEFAULT_CLAUDE_CACHE_MAX_AGE_HOURS = 14 * 24
+DEFAULT_CLAUDE_CACHE_HARD_CAP_HOURS = 60 * 24
+
+
+def _claude_cache_max_age_seconds():
+    hours = int(
+        os.environ.get(
+            "CLAUDE_CACHE_MAX_AGE_HOURS", DEFAULT_CLAUDE_CACHE_MAX_AGE_HOURS
+        )
+    )
+    return max(60, hours) * 3600
+
+
+def _claude_cache_hard_cap_seconds():
+    hours = int(
+        os.environ.get(
+            "CLAUDE_CACHE_HARD_CAP_HOURS", DEFAULT_CLAUDE_CACHE_HARD_CAP_HOURS
+        )
+    )
+    return max(3600, hours) * 3600
 
 
 def log(msg, *, err=False):
@@ -280,6 +310,93 @@ def refresh_claude_token(cred):
     return cred
 
 
+def _format_age_human(age_sec):
+    sec = int(age_sec)
+    if sec < 0:
+        sec = 0
+    if sec < 60:
+        return f"{sec}s"
+    if sec < 3600:
+        return f"{sec // 60}m"
+    if sec < 86400:
+        return f"{sec // 3600}h"
+    return f"{sec // 86400}d"
+
+
+def read_claude_cache():
+    """Load last successful quota doc from CLAUDE_CACHE_FILE.
+
+    Returns dict (full doc shape with _generatedAt + provider blocks + cache
+    metadata) if cache exists and is within hard cap age. Returns None
+    otherwise. JSON parse errors and missing files are also None — caller
+    falls back to unavailable state.
+
+    Annotates returned dict with _cache_age_seconds and _cache_age_human for
+    human-readable surfacing.
+    """
+    if not os.path.exists(CLAUDE_CACHE_FILE):
+        return None
+    try:
+        with open(CLAUDE_CACHE_FILE, "r") as f:
+            data = json.load(f)
+    except Exception as e:
+        log(f"[claude] cache read failed: {e}", err=True)
+        return None
+    gen = data.get("_generatedAt")
+    if not gen:
+        return None
+    try:
+        gen_dt = datetime.fromisoformat(gen.replace("Z", "+00:00"))
+    except Exception:
+        return None
+    now_utc = datetime.now(timezone.utc)
+    age_sec = (now_utc - gen_dt).total_seconds()
+    if age_sec < 0:
+        age_sec = 0
+    hard_cap = _claude_cache_hard_cap_seconds()
+    if age_sec > hard_cap:
+        log(
+            f"[claude] cache too old ({_format_age_human(age_sec)} > "
+            f"{_format_age_human(hard_cap)} hard cap); ignoring",
+            err=True,
+        )
+        return None
+    data["_cache_age_seconds"] = int(age_sec)
+    data["_cache_age_human"] = _format_age_human(age_sec)
+    return data
+
+
+def write_claude_cache(doc):
+    """Persist last successful full quota doc as cache. Best-effort, never raises."""
+    try:
+        os.makedirs(os.path.dirname(CLAUDE_CACHE_FILE), exist_ok=True)
+        with open(CLAUDE_CACHE_FILE, "w") as f:
+            json.dump(doc, f, indent=2, ensure_ascii=False)
+    except Exception as e:
+        log(f"[claude] cache write failed: {e}", err=True)
+
+
+def is_transient_claude_error(err_msg):
+    """True if Claude error is transient (rate limit / timeout) and cache
+    fallback applies. Permanent failures (invalid_grant, keychain missing)
+    intentionally do NOT trigger cache fallback — caller should surface the
+    real reason."""
+    if not err_msg:
+        return False
+    s = str(err_msg).lower()
+    return any(
+        k in s
+        for k in (
+            "429",
+            "rate_limit",
+            "rate limit",
+            "rate-limited",
+            "timeout",
+            "timed out",
+        )
+    )
+
+
 def _claude_refresh_failure_message(e):
     if isinstance(e, ClaudeOAuthRefreshError):
         code = f" {e.error_code}" if e.error_code else ""
@@ -385,7 +502,44 @@ def extract_codex(raw):
 
 
 def extract_claude(raw):
-    """Build claude sub-object per spec §3 from raw API response."""
+    """Build claude sub-object per spec §3 from raw API response.
+
+    V2 (MacD 2026-07-05): on transient OAuth refresh failure (429/rate_limit/
+    timeout), serve the last successful snapshot from CLAUDE_CACHE_FILE so the
+    homepage keeps showing Claude bars instead of a blank unavailable card.
+    Permanent failures (invalid_grant, keychain missing) skip the fallback and
+    surface the real reason.
+    """
+    # Cache fallback path — only for transient errors.
+    err = raw.get("_error")
+    if err and is_transient_claude_error(err):
+        cached = read_claude_cache()
+        cached_claude = (cached or {}).get("claude") or {}
+        if cached and cached_claude.get("available"):
+            block = dict(cached_claude)
+            block["cached"] = True
+            block["cached_at"] = cached.get("_generatedAt")
+            block["_cached_due_to"] = err
+            block["_cache_age_seconds"] = cached.get("_cache_age_seconds", 0)
+            block["_cache_age_human"] = cached.get("_cache_age_human", "?")
+            log(
+                f"[claude] cache fallback served "
+                f"({block['_cache_age_human']} old; reason: {err[:80]})"
+            )
+            return block
+        # No usable cache — surface failure with cache context so operator
+        # can see whether the cache is missing or too old.
+        if cached is None:
+            cache_note = " (no usable cache)"
+        else:
+            age = cached.get("_cache_age_human", "?")
+            cache_note = f" (cache too old: {age})"
+        return {
+            "available": False,
+            "subscription": "n/a",
+            "_error": err + cache_note,
+        }
+
     if raw.get("_error") or raw.get("five_hour") is None:
         return {
             "available": False,
@@ -911,6 +1065,14 @@ def main():
     with open(args.out, "w") as f:
         json.dump(doc, f, indent=2, ensure_ascii=False)
     log(f"wrote {args.out} ({os.path.getsize(args.out)} bytes)")
+
+    # V2 (MacD 2026-07-05): persist last successful snapshot as cache so
+    # future runs can fall back during Anthropic OAuth refresh outages.
+    # Only write when Claude was freshly fetched AND available — avoid
+    # overwriting good cache with unavailable-state or cache-derived data.
+    if claude_obj.get("available") and not claude_obj.get("cached"):
+        write_claude_cache(doc)
+
     return 0
 
 

@@ -55,6 +55,10 @@ body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:
 .plan-badge.plan-plus{background:rgba(52,152,219,.18);color:var(--blue);border:1px solid rgba(52,152,219,.35)}
 .plan-badge.plan-pro{background:rgba(155,89,182,.18);color:var(--purple);border:1px solid rgba(155,89,182,.35)}
 .plan-badge.plan-unknown{background:rgba(150,150,150,.18);color:#aaa;border:1px solid rgba(150,150,150,.35)}
+/* V2 (MacD 2026-07-05): cached snapshot badge — surfaces when a provider
+   is serving a stale fallback (e.g. Claude during Anthropic OAuth 429). */
+.cached-badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:.7em;font-weight:600;background:rgba(241,196,15,.16);color:#f1c40f;border:1px solid rgba(241,196,15,.35);margin-left:6px;letter-spacing:.2px}
+.cached-badge[data-stale="true"]{background:rgba(231,76,60,.16);color:#e74c3c;border-color:rgba(231,76,60,.4)}
 
 .status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle}
 .status-dot.dot-ok{background:var(--green)}
@@ -268,6 +272,38 @@ function fmtHkt(iso) {
   return d.toLocaleString('zh-HK',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
 }
 
+// V2 (MacD 2026-07-05): render "(cached Xh ago)" badge for cached snapshots.
+// Shows whether the displayed data is fresh from the provider or served
+// from a stale fallback during a transient outage (Anthropic OAuth 429 etc.).
+function cachedBadgeHtml(provider) {
+  if (!provider || !provider.cached) return '';
+  const cachedAt = provider.cached_at;
+  const dueTo = provider._cached_due_to || 'transient fetch failure';
+  const ageSec = Number.isFinite(provider._cache_age_seconds)
+    ? provider._cache_age_seconds
+    : null;
+  const ageLabel = ageSec != null ? formatAgeShort(ageSec) : '?';
+  // Flag "stale" if older than 24h so the badge color changes from yellow
+  // (warning) to red (clearly stale).
+  const stale = ageSec != null && ageSec > 86400;
+  const titleAttr = `Cached snapshot from ${cachedAt} (${ageLabel} old)\nReason: ${dueTo}`;
+  return ` <span class="cached-badge"${stale ? ' data-stale="true"' : ''} title="${titleAttr.replace(/"/g, '&quot;')}">(cached ${ageLabel})</span>`;
+}
+
+function formatAgeShort(ageSec) {
+  const sec = Math.max(0, Math.floor(ageSec));
+  if (sec < 60) return `${sec}s`;
+  if (sec < 3600) return `${Math.floor(sec / 60)}m`;
+  if (sec < 86400) {
+    const h = Math.floor(sec / 3600);
+    const m = Math.floor((sec % 3600) / 60);
+    return m > 0 ? `${h}h${m}m` : `${h}h`;
+  }
+  const d = Math.floor(sec / 86400);
+  const h = Math.floor((sec % 86400) / 3600);
+  return h > 0 ? `${d}d${h}h` : `${d}d`;
+}
+
 async function fetchJson(path, ts) {
   const res = await fetch(`${basePath()}${path}?${ts}`);
   if (!res.ok) throw new Error(`${path} ${res.status}`);
@@ -349,7 +385,7 @@ async function loadQuotaTable() {
     rows.push(`
         <tr>
             <td class="col-agent"><span class="status-dot ${statusDotClass(claude)}"></span>🤖 Claude Code</td>
-            <td class="col-plan"><span class="plan-badge ${planClass(claude?.subscription)}">${(claude?.subscription || '—').toUpperCase()}</span></td>
+            <td class="col-plan"><span class="plan-badge ${planClass(claude?.subscription)}">${(claude?.subscription || '—').toUpperCase()}</span>${cachedBadgeHtml(claude)}</td>
             <td class="col-num">${pctCellHTML(claude5h, claude?.available)}</td>
             <td class="col-num">${pctCellHTML(claude7d, claude?.available)}</td>
             <td class="col-reset">${claude?.primary_5h?.reset_at_hkt ? `<em>${claude.primary_5h.reset_at_hkt}</em>` : '—'}</td>
