@@ -322,6 +322,7 @@ async function loadQuotaTable() {
 
     const codex = usage.status === 'fulfilled' ? usage.value.codex : null;
     const claude = usage.status === 'fulfilled' ? usage.value.claude : null;
+    const geminiWeb = usage.status === 'fulfilled' ? usage.value.gemini_web : null;
     const mm = minimax.status === 'fulfilled' ? minimax.value : null;
     const cp = copilot.status === 'fulfilled' ? copilot.value : null;
 
@@ -341,6 +342,8 @@ async function loadQuotaTable() {
     const codex7d = codex?.secondary_7d?.used_percent;
     const claude5h = claude?.primary_5h?.used_percent;
     const claude7d = claude?.secondary_7d?.used_percent;
+    const gemini5h = geminiWeb?.primary_5h?.used_percent;
+    const gemini7d = geminiWeb?.secondary_7d?.used_percent;
 
     const general = mm?.allModels?.find(m => m.model === 'general');
     const mm5h = general ? Math.round(100 - (general.remainingPct ?? 100)) : null;
@@ -390,6 +393,21 @@ async function loadQuotaTable() {
             <td class="col-num">${pctCellHTML(claude7d, claude?.available)}</td>
             <td class="col-reset">${claude?.primary_5h?.reset_at_hkt ? `<em>${claude.primary_5h.reset_at_hkt}</em>` : '—'}</td>
             <td class="col-reset">${claude?.secondary_7d?.reset_at_hkt ? `<em>${claude.secondary_7d.reset_at_hkt}</em>` : '—'}</td>
+        </tr>
+    `);
+
+    // Gemini Web (consumer gemini.google.com)
+    // Backend: scripts/fetch-usage.py fetch_gemini_web() via Playwright + jSf9Qc
+    // RPC. Cache fallback handled server-side via usage-quota-cache-gemini-web.json
+    // — cachedBadgeHtml mirrors the Claude cache UX.
+    rows.push(`
+        <tr>
+            <td class="col-agent"><span class="status-dot ${statusDotClass(geminiWeb)}"></span>✨ Gemini Web</td>
+            <td class="col-plan"><span class="plan-badge ${planClass(geminiWeb?.plan)}">${(geminiWeb?.plan || '—').toUpperCase()}</span>${cachedBadgeHtml(geminiWeb)}</td>
+            <td class="col-num">${pctCellHTML(gemini5h, geminiWeb?.available)}</td>
+            <td class="col-num">${pctCellHTML(gemini7d, geminiWeb?.available)}</td>
+            <td class="col-reset">${geminiWeb?.primary_5h?.reset_at_hkt ? `<em>${geminiWeb.primary_5h.reset_at_hkt}</em>` : '—'}</td>
+            <td class="col-reset">${geminiWeb?.secondary_7d?.reset_at_hkt ? `<em>${geminiWeb.secondary_7d.reset_at_hkt}</em>` : '—'}</td>
         </tr>
     `);
 

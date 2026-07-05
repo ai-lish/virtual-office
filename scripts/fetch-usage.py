@@ -63,6 +63,20 @@ GEMINI_WEB_BATCHEXECUTE_URL = (
     "https://gemini.google.com/_/BardChatUi/data/batchexecute"
 )
 GEMINI_WEB_NAV_TIMEOUT_MS = 25_000
+# V2 (MacD 2026-07-05): Override Playwright's default Chromium with a newer
+# build (chromium-1217) to avoid SIGTRAP crashes on launch with Zach's existing
+# `.pw_chrome_data` persistent profile. Playwright 1.58 ships with
+# chromium-1208 by default which has a known compatibility issue with profiles
+# that contain heavy `Local Storage/leveldb` state. Set
+# `GEMINI_WEB_CHROMIUM_PATH` to a different path if the layout moves.
+_DEFAULT_GEMINI_WEB_CHROMIUM_PATH = (
+    "/Users/zachli/Library/Caches/ms-playwright/chromium-1217/"
+    "chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/"
+    "Google Chrome for Testing"
+)
+GEMINI_WEB_CHROMIUM_PATH = os.environ.get(
+    "GEMINI_WEB_CHROMIUM_PATH", _DEFAULT_GEMINI_WEB_CHROMIUM_PATH
+)
 # Public Claude Code OAuth client id for platform.claude.com. The local native
 # binary also contains 22422756-..., but the platform token endpoint rejects
 # that legacy console id. ANTHROPIC_OAUTH_CLIENT_ID overrides this if Anthropic
@@ -91,6 +105,12 @@ DEFAULT_OUT = "/Users/zachli/.openclaw/workspace/virtual-office/public/usage-quo
 # unavailable card. Cache is rewritten on every fresh successful Claude fetch.
 CLAUDE_CACHE_FILE = os.path.join(
     os.path.dirname(DEFAULT_OUT), "usage-quota-cache.json"
+)
+# V2 (MacD 2026-07-05): separate cache file for gemini_web so a transient
+# Playwright/jSf9Qc failure doesn't wipe out Claude's cache (and vice-versa).
+# Same 14d / 60d max-age policy as Claude via shared _claude_cache_* helpers.
+GEMINI_WEB_CACHE_FILE = os.path.join(
+    os.path.dirname(DEFAULT_OUT), "usage-quota-cache-gemini-web.json"
 )
 # Default 14d max cache age covers the typical Anthropic IP sliding-window ban
 # observed 2026-06-28 → 2026-07-05+ (≈7d so far). Override via env var
@@ -833,6 +853,14 @@ def _gemini_parse_batchexecute(text):
     """Parse batchexecute text, return list of {rpcid, payload} dicts.
 
     Mirrors gemini-voyager public/usage-observer.js decoder (length-agnostic).
+
+    V2 (MacD 2026-07-05): handle two response layouts:
+      (a) legacy: ["wrb.fr", "rpcid", "<payload JSON string>"]
+      (b) current: ["wrb.fr", "rpcid", null, null, null, <payload array>, "generic"]
+
+    Live Gemini response observed 2026-07-05 wraps payload as an array at
+    index 5 (null/null/null are padding fields). Use whichever slot carries
+    non-null data.
     """
     if not text:
         return []
@@ -878,18 +906,32 @@ def _gemini_parse_batchexecute(text):
             continue
         if isinstance(rows, list):
             for row in rows:
-                if (
+                if not (
                     isinstance(row, list)
                     and len(row) >= 3
                     and row[0] == "wrb.fr"
                     and isinstance(row[1], str)
-                    and isinstance(row[2], str)
                 ):
-                    try:
-                        payload = json.loads(row[2])
-                    except json.JSONDecodeError:
-                        continue
-                    out.append({"rpcid": row[1], "payload": payload})
+                    continue
+                rpcid = row[1]
+                # Locate the payload slot — legacy is index 2 (string),
+                # current is index 5 (array). Scan to be format-agnostic.
+                payload = None
+                for slot in (2, 5, 4, 3, 6):
+                    if slot < len(row) and row[slot] is not None:
+                        val = row[slot]
+                        if isinstance(val, str):
+                            try:
+                                payload = json.loads(val)
+                                break
+                            except json.JSONDecodeError:
+                                continue
+                        elif isinstance(val, (list, dict)):
+                            payload = val
+                            break
+                if payload is None:
+                    continue
+                out.append({"rpcid": rpcid, "payload": payload})
         idx = end + 1
     return out
 
@@ -900,9 +942,17 @@ def _gemini_parse_usage_payload(payload):
     Payload shape (verified live, gemini-voyager test fixture):
       [2, [[limit, fraction, period, [[epoch, nanos]]], ...], false]
     period=1 -> 5h bucket, period=2 -> 7d bucket.
+
+    V2 (MacD 2026-07-05): if the response is an error code (e.g. [7] or any
+    short numeric array instead of the expected [2, [...], false] shape),
+    return None, None so the caller surfaces a clear "RPC returned error
+    code N" message instead of crashing on a list index out of range.
     Returns (primary_5h_dict, secondary_7d_dict) — either may be None.
     """
     if not (isinstance(payload, list) and len(payload) >= 2):
+        # Error payload like [7] (Google's "no data / not entitled" sentinel).
+        if isinstance(payload, list) and all(isinstance(x, int) for x in payload):
+            return None, None  # caller will see no metrics and report error
         return None, None
     metrics = payload[1]
     if not isinstance(metrics, list):
@@ -962,13 +1012,25 @@ def fetch_gemini_web():
 
     try:
         with sync_playwright() as p:
+            # V2 (MacD 2026-07-05): use chromium-1217 (or env override) instead
+            # of the default chromium-1208 to avoid SIGTRAP launch crashes
+            # with this particular persistent profile. Falls back to the
+            # Playwright default if the override binary is missing.
+            try:
+                executable_path = (
+                    GEMINI_WEB_CHROMIUM_PATH
+                    if os.path.exists(GEMINI_WEB_CHROMIUM_PATH)
+                    else p.chromium.executable_path
+                )
+            except Exception:
+                executable_path = p.chromium.executable_path
             context = p.chromium.launch_persistent_context(
                 user_data_dir=GEMINI_WEB_PROFILE_DIR,
                 headless=True,
                 # Force the full Chromium binary instead of chrome-headless-shell.
                 # The persistent Gemini profile can contain regular Chrome state
                 # that headless-shell rejects as malformed cache/prefs.
-                executable_path=p.chromium.executable_path,
+                executable_path=executable_path,
                 args=[
                     "--no-first-run",
                     "--no-default-browser-check",
@@ -992,15 +1054,20 @@ def fetch_gemini_web():
                         "_error": f"gemini.google.com navigation failed: {e}"
                     }
                 wiz = _gemini_wiz_from_page(page)
-                if not wiz or not wiz.get("SNlM0e"):
+                if not wiz:
                     return {
                         "_error": (
-                            "no SNlM0e token in WIZ_global_data — interactive "
-                            "login required. Run with --setup-login once to "
-                            "complete Google sign-in for the Playwright profile."
+                            "no WIZ_global_data on gemini.google.com — page "
+                            "may have redirected to login. Re-run "
+                            "--setup-login to refresh Google session."
                         )
                     }
-                at = wiz["SNlM0e"]
+                # V2 (MacD 2026-07-05): SNlM0e token in WIZ_global_data is no
+                # longer the auth-token of record. Google's batchexecute
+                # endpoint accepts cookie-only auth (COMPASS, NID). Keep
+                # reading SNlM0e for legacy compatibility but allow it to be
+                # empty — the server will still validate via cookies.
+                at = wiz.get("SNlM0e") or ""
                 bl = wiz.get("cfb2h") or ""
                 fsid = wiz.get("FdrFJe") or ""
                 import random as _random
@@ -1049,12 +1116,20 @@ def fetch_gemini_web():
         primary = primary or p
         secondary = secondary or s
     if primary is None and secondary is None:
-        return {
-            "_error": (
-                f"jSf9Qc RPC not found in response "
-                f"({len(rpcs)} rpcs parsed)"
-            )
-        }
+        # Capture any non-jSf9Qc payload so the error message tells us what
+        # the server actually returned (helps debug e.g. [7] error codes).
+        err_codes = []
+        for r in rpcs:
+            if r["rpcid"] == GEMINI_WEB_RPCID:
+                p = r.get("payload")
+                if isinstance(p, list) and p and isinstance(p[0], int):
+                    err_codes.append(p[0])
+        detail = (
+            f"jSf9Qc payload was {err_codes[0]!r} (Google's 'no data' code)"
+            if err_codes
+            else f"jSf9Qc RPC not found in response ({len(rpcs)} rpcs parsed)"
+        )
+        return {"_error": detail}
     return {"primary_5h": primary, "secondary_7d": secondary}
 
 
@@ -1063,12 +1138,38 @@ def extract_gemini_web(raw):
 
     Mirrors extract_codex / extract_claude schema:
       { available, plan, primary_5h: {...}, secondary_7d: {...}, _error? }
+
+    V2 (MacD 2026-07-05): adds cache fallback so transient failures (e.g.
+    SNlM0e missing, Playwright crashes, jSf9Qc RPC returning empty payload)
+    still serve a last-known-good snapshot from
+    usage-quota-cache-gemini-web.json.
     """
     if raw.get("_error"):
+        # Cache fallback path — mirrors extract_claude behaviour for Claude.
+        cached = _read_gemini_web_cache()
+        cached_web = (cached or {}).get("gemini_web") or {}
+        if cached and cached_web.get("available"):
+            block = dict(cached_web)
+            block["cached"] = True
+            block["cached_at"] = cached.get("_generatedAt")
+            block["_cached_due_to"] = raw["_error"]
+            block["_cache_age_seconds"] = cached.get("_cache_age_seconds", 0)
+            block["_cache_age_human"] = cached.get("_cache_age_human", "?")
+            log(
+                f"[gemini_web] cache fallback served "
+                f"({block['_cache_age_human']} old; reason: {raw['_error'][:80]})"
+            )
+            return block
+        cache_note = ""
+        if cached is None:
+            cache_note = " (no usable cache)"
+        else:
+            age = cached.get("_cache_age_human", "?")
+            cache_note = f" (cache too old: {age})"
         return {
             "available": False,
             "plan": "n/a",
-            "_error": raw["_error"],
+            "_error": raw["_error"] + cache_note,
         }
     p = raw.get("primary_5h")
     s = raw.get("secondary_7d")
@@ -1104,6 +1205,67 @@ def now_epoch_for_reset():
     """Helper for reset_in_seconds calculation. Returns current epoch seconds."""
     import time as _t
     return _t.time()
+
+
+def _read_gemini_web_cache():
+    """Load last successful gemini_web block from its cache file.
+
+    Returns dict (or None) with _generatedAt and gemini_web sub-object.
+    Cache keys mirror read_claude_cache() — shares the same 14d default max
+    age / 60d hard cap / env-var override so behaviour is consistent across
+    providers.
+    """
+    if not os.path.exists(GEMINI_WEB_CACHE_FILE):
+        return None
+    try:
+        with open(GEMINI_WEB_CACHE_FILE, "r") as f:
+            data = json.load(f)
+    except Exception as e:
+        log(f"[gemini_web] cache read failed: {e}", err=True)
+        return None
+    gen = data.get("_generatedAt")
+    if not gen:
+        return None
+    try:
+        gen_dt = datetime.fromisoformat(gen.replace("Z", "+00:00"))
+    except Exception:
+        return None
+    now_utc = datetime.now(timezone.utc)
+    age_sec = (now_utc - gen_dt).total_seconds()
+    if age_sec < 0:
+        age_sec = 0
+    hard_cap = _claude_cache_hard_cap_seconds()
+    if age_sec > hard_cap:
+        log(
+            f"[gemini_web] cache too old ({_format_age_human(age_sec)} > "
+            f"{_format_age_human(hard_cap)} hard cap); ignoring",
+            err=True,
+        )
+        return None
+    data["_cache_age_seconds"] = int(age_sec)
+    data["_cache_age_human"] = _format_age_human(age_sec)
+    return data
+
+
+def _write_gemini_web_cache(doc):
+    """Persist last successful gemini_web block. Best-effort, never raises.
+
+    Only stores the gemini_web sub-object + timestamps. Other providers'
+    blocks are intentionally excluded so the cache file stays small and
+    doesn't become a stale-snapshot of everything else.
+    """
+    try:
+        os.makedirs(os.path.dirname(GEMINI_WEB_CACHE_FILE), exist_ok=True)
+        out = {
+            "_generatedAt": doc.get("_generatedAt"),
+            "_source": doc.get("_source", "local-curl"),
+            "_version": doc.get("_version", 3),
+            "gemini_web": doc.get("gemini_web", {}),
+        }
+        with open(GEMINI_WEB_CACHE_FILE, "w") as f:
+            json.dump(out, f, indent=2, ensure_ascii=False)
+    except Exception as e:
+        log(f"[gemini_web] cache write failed: {e}", err=True)
 
 
 def _setup_gemini_web_login():
@@ -1269,6 +1431,11 @@ def main():
     # overwriting good cache with unavailable-state or cache-derived data.
     if claude_obj.get("available") and not claude_obj.get("cached"):
         write_claude_cache(doc)
+    # V2 (MacD 2026-07-05): same pattern for gemini_web. Separate cache
+    # file keeps the gemini_web payload small + the providers' caches
+    # independent (one provider's transient failure won't reset another's).
+    if gemini_web_obj.get("available") and not gemini_web_obj.get("cached"):
+        _write_gemini_web_cache(doc)
 
     return 0
 
