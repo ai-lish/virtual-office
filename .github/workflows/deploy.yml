@@ -10,9 +10,12 @@ permissions:
   pages: write
   id-token: write
 
+# Codex review fix 2026-07-06: enable cancel-in-progress so a fresh quota
+# commit (3hr cron) auto-cancels a stuck previous deploy, preventing the
+# 14-hour stale JSON issue we hit on 2026-07-06 (Codex quota not visible).
 concurrency:
   group: "pages"
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   deploy:
@@ -32,6 +35,78 @@ jobs:
         with:
           path: '.'
 
-      - name: Deploy to GitHub Pages
+      # Codex review fix 2026-07-06: actions/deploy-pages@v4 occasionally
+      # returns transient "Deployment failed, try again later" errors
+      # (observed run 28762934285, 09:56 HKT). Three-attempt inline retry
+      # with 30s/60s backoff — handles typical Pages service hiccups
+      # without operator intervention. Artifact is workflow-run-scoped, so
+      # re-running the deploy step within the same run reuses the upload.
+
+      - name: Deploy to GitHub Pages (attempt 1)
         id: deployment
         uses: actions/deploy-pages@v4
+        continue-on-error: true
+
+      - name: Wait before retry
+        if: steps.deployment.conclusion == 'failure'
+        run: sleep 30
+
+      - name: Deploy to GitHub Pages (attempt 2)
+        id: deployment-r1
+        if: steps.deployment.conclusion == 'failure'
+        uses: actions/deploy-pages@v4
+        continue-on-error: true
+
+      - name: Wait before final retry
+        if: steps.deployment.conclusion == 'failure' && steps.deployment-r1.conclusion == 'failure'
+        run: sleep 60
+
+      - name: Deploy to GitHub Pages (attempt 3)
+        id: deployment-r2
+        if: steps.deployment.conclusion == 'failure' && steps.deployment-r1.conclusion == 'failure'
+        uses: actions/deploy-pages@v4
+
+      # Codex review fix 2026-07-06: notify Discord on final failure.
+      # Uses optional secret DISCORD_WEBHOOK_URL — if not set, silently
+      # logs a warning. Same env-var pattern as scripts/site-monitor.sh.
+      - name: Notify Discord on deploy failure
+        if: failure()
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          COMMIT_SHA: ${{ github.sha }}
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
+        run: |
+          if [ -z "$DISCORD_WEBHOOK_URL" ]; then
+            echo "::warning::DISCORD_WEBHOOK_URL secret not set — skipping Discord notification"
+            exit 0
+          fi
+          # Truncate commit message to keep embed readable
+          MSG_TRUNC=$(echo "$COMMIT_MSG" | head -1 | cut -c 1-200)
+          PAYLOAD=$(jq -n \
+            --arg url "$RUN_URL" \
+            --arg sha "${COMMIT_SHA:0:7}" \
+            --arg msg "$MSG_TRUNC" \
+            --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            '{
+              embeds: [{
+                title: "🔴 Virtual Office Pages deploy FAILED",
+                color: 15158332,
+                description: "After 3 retry attempts, `actions/deploy-pages@v4` still returns transient error. This is a GitHub Pages service issue, not our code.\n\n**Action needed:** Re-run workflow or wait for next quota-cron push (3hr cadence).",
+                fields: [
+                  { name: "Commit", value: "`\($sha)`", inline: true },
+                  { name: "Workflow run", value: $url, inline: false },
+                  { name: "Message", value: $msg, inline: false }
+                ],
+                timestamp: $ts
+              }]
+            }')
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X POST "$DISCORD_WEBHOOK_URL" \
+            -H "Content-Type: application/json" \
+            -d "$PAYLOAD")
+          if [ "$HTTP_CODE" = "204" ] || [ "$HTTP_CODE" = "200" ]; then
+            echo "Discord notification sent (HTTP $HTTP_CODE)"
+          else
+            echo "::warning::Discord notification returned HTTP $HTTP_CODE"
+          fi
