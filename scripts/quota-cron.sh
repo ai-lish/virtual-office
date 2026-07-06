@@ -24,6 +24,22 @@ echo "[$(date)] Unified quota cron started (ts=$NOW_ISO)" >> "$LOG"
 
 cd "$WORKDIR"
 
+# Defensive: ensure we're on main before committing. The 19:55 HKT cron tick
+# on 2026-07-06 made its quota refresh commit on the fix/pages-deploy-resilience
+# branch (which was checked out at the time), and `git push origin main` then
+# pushed local main (NOT the new commit) — so Pages never got the new JSON.
+# `git checkout main` is a no-op if already on main, fails loudly if there are
+# uncommitted local changes (intentional — alerts the operator).
+# Codex review fix 2026-07-06.
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+if [ "$CURRENT_BRANCH" != "main" ]; then
+  echo "[$(date)] WARNING: not on main (current: $CURRENT_BRANCH), checking out main" >> "$LOG"
+  git checkout main >> "$LOG" 2>&1 || {
+    echo "[$(date)] FATAL: could not checkout main, aborting cron" >> "$LOG"
+    exit 1
+  }
+fi
+
 # Step 1/5: Refresh Codex + Claude → usage-quota.json
 echo "[$(date)] step 1/5: Codex + Claude" >> "$LOG"
 python3 scripts/fetch-usage.py --set-timestamp "$NOW_ISO" >> "$LOG" 2>&1 \
