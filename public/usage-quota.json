@@ -1,30 +1,49 @@
 {
-  "_generatedAt": "2026-07-05T20:55:05Z",
+  "_generatedAt": "2026-07-06T01:55:05Z",
   "_source": "local-curl",
   "_version": 3,
   "codex": {
-    "available": false
+    "available": true,
+    "plan": "plus",
+    "limit_reached": false,
+    "used_percent": 33,
+    "primary_5h": {
+      "used_percent": 1,
+      "remaining_percent": 99,
+      "reset_at": "2026-07-06T14:55:09+08:00",
+      "reset_at_hkt": "07-06 14:55",
+      "reset_in_seconds": 18000,
+      "window_seconds": 18000
+    },
+    "secondary_7d": {
+      "used_percent": 33,
+      "remaining_percent": 67,
+      "reset_at": "2026-07-12T09:51:18+08:00",
+      "reset_at_hkt": "07-12 09:51",
+      "reset_in_seconds": 518169,
+      "window_seconds": 604800
+    }
   },
   "claude": {
     "available": true,
     "subscription": "pro",
-    "used_percent": 30,
+    "used_percent": 78,
     "primary_5h": {
-      "used_percent": 0,
-      "remaining_percent": 100,
-      "reset_at": "2026-07-09T23:59:00+08:00",
-      "reset_at_hkt": "07-09 23:59"
+      "used_percent": 78,
+      "remaining_percent": 22,
+      "reset_at": "2026-07-07T02:50:00+08:00",
+      "reset_at_hkt": "07-07 02:50"
     },
     "secondary_7d": {
-      "used_percent": 30,
-      "remaining_percent": 70,
-      "reset_at": "2026-07-09T23:59:00+08:00",
-      "reset_at_hkt": "07-09 23:59"
+      "used_percent": 11,
+      "remaining_percent": 89,
+      "reset_at": "2026-07-03T00:00:00+08:00",
+      "reset_at_hkt": "07-03 00:00"
     },
     "active_limits": [
       {
         "kind": "session",
-        "percent": 0
+        "percent": 78
       }
     ],
     "source": "claude-code-tmux-usage"
