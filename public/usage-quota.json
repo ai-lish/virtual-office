@@ -1,49 +1,49 @@
 {
-  "_generatedAt": "2026-07-10T01:55:05Z",
+  "_generatedAt": "2026-07-10T06:55:01Z",
   "_source": "local-curl",
   "_version": 3,
   "codex": {
     "available": true,
     "plan": "plus",
     "limit_reached": false,
-    "used_percent": 1,
+    "used_percent": 74,
     "primary_5h": {
-      "used_percent": 1,
-      "remaining_percent": 99,
-      "reset_at": "2026-07-10T14:55:10+08:00",
-      "reset_at_hkt": "07-10 14:55",
-      "reset_in_seconds": 18000,
+      "used_percent": 74,
+      "remaining_percent": 26,
+      "reset_at": "2026-07-10T17:23:15+08:00",
+      "reset_at_hkt": "07-10 17:23",
+      "reset_in_seconds": 8891,
       "window_seconds": 18000
     },
     "secondary_7d": {
-      "used_percent": 0,
-      "remaining_percent": 100,
-      "reset_at": "2026-07-17T09:55:10+08:00",
-      "reset_at_hkt": "07-17 09:55",
-      "reset_in_seconds": 604800,
+      "used_percent": 12,
+      "remaining_percent": 88,
+      "reset_at": "2026-07-17T12:23:15+08:00",
+      "reset_at_hkt": "07-17 12:23",
+      "reset_in_seconds": 595691,
       "window_seconds": 604800
     }
   },
   "claude": {
     "available": true,
     "subscription": "pro",
-    "used_percent": 78,
+    "used_percent": 83,
     "primary_5h": {
-      "used_percent": 78,
-      "remaining_percent": 22,
-      "reset_at": "2026-07-11T02:50:00+08:00",
-      "reset_at_hkt": "07-11 02:50"
+      "used_percent": 83,
+      "remaining_percent": 17,
+      "reset_at": "2026-07-10T17:09:00+08:00",
+      "reset_at_hkt": "07-10 17:09"
     },
     "secondary_7d": {
-      "used_percent": 11,
-      "remaining_percent": 89,
-      "reset_at": "2026-07-03T00:00:00+08:00",
-      "reset_at_hkt": "07-03 00:00"
+      "used_percent": 7,
+      "remaining_percent": 93,
+      "reset_at": "2026-07-16T23:59:00+08:00",
+      "reset_at_hkt": "07-16 23:59"
     },
     "active_limits": [
       {
         "kind": "session",
-        "percent": 78
+        "percent": 83
       }
     ],
     "source": "claude-code-tmux-usage"
