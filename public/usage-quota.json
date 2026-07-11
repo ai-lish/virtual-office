@@ -1,57 +1,52 @@
 {
-  "_generatedAt": "2026-07-11T15:55:03Z",
+  "_generatedAt": "2026-07-11T20:55:03Z",
   "_source": "local-curl",
   "_version": 3,
   "codex": {
     "available": true,
     "plan": "plus",
     "limit_reached": false,
-    "used_percent": 58,
+    "used_percent": 49,
     "primary_5h": {
-      "used_percent": 58,
-      "remaining_percent": 42,
-      "reset_at": "2026-07-12T02:51:45+08:00",
-      "reset_at_hkt": "07-12 02:51",
-      "reset_in_seconds": 10599,
+      "used_percent": 1,
+      "remaining_percent": 99,
+      "reset_at": "2026-07-12T09:55:06+08:00",
+      "reset_at_hkt": "07-12 09:55",
+      "reset_in_seconds": 18000,
       "window_seconds": 18000
     },
     "secondary_7d": {
-      "used_percent": 36,
-      "remaining_percent": 64,
+      "used_percent": 49,
+      "remaining_percent": 51,
       "reset_at": "2026-07-18T16:35:42+08:00",
       "reset_at_hkt": "07-18 16:35",
-      "reset_in_seconds": 578436,
+      "reset_in_seconds": 560436,
       "window_seconds": 604800
     }
   },
   "claude": {
     "available": true,
     "subscription": "pro",
-    "used_percent": 85,
+    "used_percent": 52,
     "primary_5h": {
-      "used_percent": 85,
-      "remaining_percent": 15,
-      "reset_at": "2026-07-11T23:20:00+08:00",
-      "reset_at_hkt": "07-11 23:20"
+      "used_percent": 0,
+      "remaining_percent": 100,
+      "reset_at": "2026-07-16T23:59:00+08:00",
+      "reset_at_hkt": "07-16 23:59"
     },
     "secondary_7d": {
-      "used_percent": 42,
-      "remaining_percent": 58,
-      "reset_at": "2026-07-17T00:00:00+08:00",
-      "reset_at_hkt": "07-17 00:00"
+      "used_percent": 52,
+      "remaining_percent": 48,
+      "reset_at": "2026-07-16T23:59:00+08:00",
+      "reset_at_hkt": "07-16 23:59"
     },
     "active_limits": [
       {
         "kind": "session",
-        "percent": 85
+        "percent": 0
       }
     ],
-    "source": "claude-code-tmux-usage",
-    "cached": true,
-    "cached_at": "2026-07-11T11:55:05Z",
-    "_cached_due_to": "OAuth refresh failed: 429 rate_limit_error: Rate limited. Please try again later.",
-    "_cache_age_seconds": 14440,
-    "_cache_age_human": "4h"
+    "source": "claude-code-tmux-usage"
   },
   "gemini_web": {
     "available": false,
