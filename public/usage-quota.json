@@ -1,5 +1,5 @@
 {
-  "_generatedAt": "2026-07-11T01:55:01Z",
+  "_generatedAt": "2026-07-11T06:55:05Z",
   "_source": "local-curl",
   "_version": 3,
   "codex": {
@@ -10,16 +10,16 @@
     "primary_5h": {
       "used_percent": 1,
       "remaining_percent": 99,
-      "reset_at": "2026-07-11T14:55:05+08:00",
-      "reset_at_hkt": "07-11 14:55",
+      "reset_at": "2026-07-11T19:55:08+08:00",
+      "reset_at_hkt": "07-11 19:55",
       "reset_in_seconds": 18000,
       "window_seconds": 18000
     },
     "secondary_7d": {
       "used_percent": 0,
       "remaining_percent": 100,
-      "reset_at": "2026-07-18T09:55:05+08:00",
-      "reset_at_hkt": "07-18 09:55",
+      "reset_at": "2026-07-18T14:55:08+08:00",
+      "reset_at_hkt": "07-18 14:55",
       "reset_in_seconds": 604800,
       "window_seconds": 604800
     }
@@ -46,7 +46,12 @@
         "percent": 0
       }
     ],
-    "source": "claude-code-tmux-usage"
+    "source": "claude-code-tmux-usage",
+    "cached": true,
+    "cached_at": "2026-07-11T01:55:01Z",
+    "_cached_due_to": "OAuth refresh failed: 429 rate_limit_error: Rate limited. Please try again later.",
+    "_cache_age_seconds": 18046,
+    "_cache_age_human": "5h"
   },
   "gemini_web": {
     "available": false,
