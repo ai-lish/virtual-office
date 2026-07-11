@@ -1,26 +1,26 @@
 {
-  "_generatedAt": "2026-07-11T11:55:05Z",
+  "_generatedAt": "2026-07-11T15:55:03Z",
   "_source": "local-curl",
   "_version": 3,
   "codex": {
     "available": true,
     "plan": "plus",
-    "limit_reached": true,
-    "used_percent": 100,
+    "limit_reached": false,
+    "used_percent": 58,
     "primary_5h": {
-      "used_percent": 100,
-      "remaining_percent": 0,
-      "reset_at": "2026-07-11T21:35:42+08:00",
-      "reset_at_hkt": "07-11 21:35",
-      "reset_in_seconds": 6035,
+      "used_percent": 58,
+      "remaining_percent": 42,
+      "reset_at": "2026-07-12T02:51:45+08:00",
+      "reset_at_hkt": "07-12 02:51",
+      "reset_in_seconds": 10599,
       "window_seconds": 18000
     },
     "secondary_7d": {
-      "used_percent": 27,
-      "remaining_percent": 73,
+      "used_percent": 36,
+      "remaining_percent": 64,
       "reset_at": "2026-07-18T16:35:42+08:00",
       "reset_at_hkt": "07-18 16:35",
-      "reset_in_seconds": 592835,
+      "reset_in_seconds": 578436,
       "window_seconds": 604800
     }
   },
@@ -46,7 +46,12 @@
         "percent": 85
       }
     ],
-    "source": "claude-code-tmux-usage"
+    "source": "claude-code-tmux-usage",
+    "cached": true,
+    "cached_at": "2026-07-11T11:55:05Z",
+    "_cached_due_to": "OAuth refresh failed: 429 rate_limit_error: Rate limited. Please try again later.",
+    "_cache_age_seconds": 14440,
+    "_cache_age_human": "4h"
   },
   "gemini_web": {
     "available": false,
