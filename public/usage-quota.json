@@ -1,26 +1,26 @@
 {
-  "_generatedAt": "2026-07-12T01:55:03Z",
+  "_generatedAt": "2026-07-12T06:55:04Z",
   "_source": "local-curl",
   "_version": 3,
   "codex": {
     "available": true,
     "plan": "plus",
-    "limit_reached": false,
-    "used_percent": 49,
+    "limit_reached": true,
+    "used_percent": 100,
     "primary_5h": {
-      "used_percent": 1,
-      "remaining_percent": 99,
-      "reset_at": "2026-07-12T14:55:07+08:00",
-      "reset_at_hkt": "07-12 14:55",
-      "reset_in_seconds": 18000,
+      "used_percent": 100,
+      "remaining_percent": 0,
+      "reset_at": "2026-07-12T16:37:05+08:00",
+      "reset_at_hkt": "07-12 16:37",
+      "reset_in_seconds": 6118,
       "window_seconds": 18000
     },
     "secondary_7d": {
-      "used_percent": 49,
-      "remaining_percent": 51,
+      "used_percent": 67,
+      "remaining_percent": 33,
       "reset_at": "2026-07-18T16:35:42+08:00",
       "reset_at_hkt": "07-18 16:35",
-      "reset_in_seconds": 542436,
+      "reset_in_seconds": 524435,
       "window_seconds": 604800
     }
   },
@@ -50,8 +50,8 @@
     "cached": true,
     "cached_at": "2026-07-11T20:55:03Z",
     "_cached_due_to": "OAuth refresh failed: 429 rate_limit_error: Rate limited. Please try again later.",
-    "_cache_age_seconds": 18042,
-    "_cache_age_human": "5h"
+    "_cache_age_seconds": 36048,
+    "_cache_age_human": "10h"
   },
   "gemini_web": {
     "available": false,
