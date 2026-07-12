@@ -1,18 +1,18 @@
 {
-  "_generatedAt": "2026-07-12T06:55:04Z",
+  "_generatedAt": "2026-07-12T11:55:03Z",
   "_source": "local-curl",
   "_version": 3,
   "codex": {
     "available": true,
     "plan": "plus",
-    "limit_reached": true,
-    "used_percent": 100,
+    "limit_reached": false,
+    "used_percent": 67,
     "primary_5h": {
-      "used_percent": 100,
-      "remaining_percent": 0,
-      "reset_at": "2026-07-12T16:37:05+08:00",
-      "reset_at_hkt": "07-12 16:37",
-      "reset_in_seconds": 6118,
+      "used_percent": 1,
+      "remaining_percent": 99,
+      "reset_at": "2026-07-13T00:55:07+08:00",
+      "reset_at_hkt": "07-13 00:55",
+      "reset_in_seconds": 18000,
       "window_seconds": 18000
     },
     "secondary_7d": {
@@ -20,38 +20,33 @@
       "remaining_percent": 33,
       "reset_at": "2026-07-18T16:35:42+08:00",
       "reset_at_hkt": "07-18 16:35",
-      "reset_in_seconds": 524435,
+      "reset_in_seconds": 506436,
       "window_seconds": 604800
     }
   },
   "claude": {
     "available": true,
     "subscription": "pro",
-    "used_percent": 52,
+    "used_percent": 63,
     "primary_5h": {
-      "used_percent": 0,
-      "remaining_percent": 100,
-      "reset_at": "2026-07-16T23:59:00+08:00",
-      "reset_at_hkt": "07-16 23:59"
+      "used_percent": 16,
+      "remaining_percent": 84,
+      "reset_at": "2026-07-12T22:50:00+08:00",
+      "reset_at_hkt": "07-12 22:50"
     },
     "secondary_7d": {
-      "used_percent": 52,
-      "remaining_percent": 48,
-      "reset_at": "2026-07-16T23:59:00+08:00",
-      "reset_at_hkt": "07-16 23:59"
+      "used_percent": 63,
+      "remaining_percent": 37,
+      "reset_at": "2026-07-17T00:00:00+08:00",
+      "reset_at_hkt": "07-17 00:00"
     },
     "active_limits": [
       {
         "kind": "session",
-        "percent": 0
+        "percent": 16
       }
     ],
-    "source": "claude-code-tmux-usage",
-    "cached": true,
-    "cached_at": "2026-07-11T20:55:03Z",
-    "_cached_due_to": "OAuth refresh failed: 429 rate_limit_error: Rate limited. Please try again later.",
-    "_cache_age_seconds": 36048,
-    "_cache_age_human": "10h"
+    "source": "claude-code-tmux-usage"
   },
   "gemini_web": {
     "available": false,
