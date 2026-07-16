@@ -1,28 +1,9 @@
 {
-  "_generatedAt": "2026-07-12T15:55:05Z",
+  "_generatedAt": "2026-07-16T01:55:08Z",
   "_source": "local-curl",
   "_version": 3,
   "codex": {
-    "available": true,
-    "plan": "plus",
-    "limit_reached": false,
-    "used_percent": 76,
-    "primary_5h": {
-      "used_percent": 55,
-      "remaining_percent": 45,
-      "reset_at": "2026-07-13T03:20:34+08:00",
-      "reset_at_hkt": "07-13 03:20",
-      "reset_in_seconds": 12326,
-      "window_seconds": 18000
-    },
-    "secondary_7d": {
-      "used_percent": 76,
-      "remaining_percent": 24,
-      "reset_at": "2026-07-18T16:35:42+08:00",
-      "reset_at_hkt": "07-18 16:35",
-      "reset_in_seconds": 492034,
-      "window_seconds": 604800
-    }
+    "available": false
   },
   "claude": {
     "available": true,
@@ -46,7 +27,12 @@
         "percent": 0
       }
     ],
-    "source": "claude-code-tmux-usage"
+    "source": "claude-code-tmux-usage",
+    "cached": true,
+    "cached_at": "2026-07-12T15:55:05Z",
+    "_cached_due_to": "keychain read failed: OAuth refresh curl exit 28: curl: (28) Connection timed out after 12125 milliseconds\n",
+    "_cache_age_seconds": 295283,
+    "_cache_age_human": "3d"
   },
   "gemini_web": {
     "available": false,

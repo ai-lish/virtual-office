@@ -1,13 +1,13 @@
 {
-  "_generatedAt": "copilot",
+  "_generatedAt": "2026-07-16T01:55:08Z",
   "_source": "local-refresh",
   "plan": "plus",
   "raw": {
     "model_remains": [
       {
-        "start_time": 1784145600000,
-        "end_time": 1784160000000,
-        "remains_time": 285844,
+        "start_time": 1784160000000,
+        "end_time": 1784178000000,
+        "remains_time": 10970420,
         "current_interval_total_count": 0,
         "current_interval_usage_count": 0,
         "model_name": "general",
@@ -15,16 +15,16 @@
         "current_weekly_usage_count": 0,
         "weekly_start_time": 1783900800000,
         "weekly_end_time": 1784505600000,
-        "weekly_remains_time": 345885844,
+        "weekly_remains_time": 338570420,
         "current_interval_status": 1,
-        "current_interval_remaining_percent": 99,
+        "current_interval_remaining_percent": 100,
         "current_weekly_status": 3,
         "current_weekly_remaining_percent": 100
       },
       {
-        "start_time": 1784073600000,
-        "end_time": 1784160000000,
-        "remains_time": 285844,
+        "start_time": 1784160000000,
+        "end_time": 1784246400000,
+        "remains_time": 79370420,
         "current_interval_total_count": 0,
         "current_interval_usage_count": 0,
         "model_name": "video",
@@ -32,7 +32,7 @@
         "current_weekly_usage_count": 0,
         "weekly_start_time": 1783900800000,
         "weekly_end_time": 1784505600000,
-        "weekly_remains_time": 345885844,
+        "weekly_remains_time": 338570420,
         "current_interval_status": 3,
         "current_interval_remaining_percent": 100,
         "current_weekly_status": 3,
@@ -52,12 +52,12 @@
       "used": 0,
       "weeklyTotal": 0,
       "weeklyUsed": 0,
-      "remainingPct": 99,
+      "remainingPct": 100,
       "weeklyRemainingPct": 100,
       "intervalStatus": 1,
       "weeklyStatus": 3,
-      "resetTime": 1784160000000,
-      "remainsMs": 285844
+      "resetTime": 1784178000000,
+      "remainsMs": 10970420
     }
   ]
 }
