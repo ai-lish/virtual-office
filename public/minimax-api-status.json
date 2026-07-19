@@ -1,5 +1,5 @@
 {
-  "_generatedAt": "2026-07-19T11:55:03Z",
+  "_generatedAt": "copilot",
   "_source": "local-refresh",
   "plan": "plus",
   "raw": {
@@ -7,7 +7,7 @@
       {
         "start_time": 1784455200000,
         "end_time": 1784473200000,
-        "remains_time": 11028636,
+        "remains_time": 287143,
         "current_interval_total_count": 0,
         "current_interval_usage_count": 0,
         "model_name": "general",
@@ -15,16 +15,16 @@
         "current_weekly_usage_count": 0,
         "weekly_start_time": 1783900800000,
         "weekly_end_time": 1784505600000,
-        "weekly_remains_time": 43428636,
+        "weekly_remains_time": 32687143,
         "current_interval_status": 1,
-        "current_interval_remaining_percent": 99,
+        "current_interval_remaining_percent": 96,
         "current_weekly_status": 3,
         "current_weekly_remaining_percent": 100
       },
       {
         "start_time": 1784419200000,
         "end_time": 1784505600000,
-        "remains_time": 43428636,
+        "remains_time": 32687143,
         "current_interval_total_count": 0,
         "current_interval_usage_count": 0,
         "model_name": "video",
@@ -32,7 +32,7 @@
         "current_weekly_usage_count": 0,
         "weekly_start_time": 1783900800000,
         "weekly_end_time": 1784505600000,
-        "weekly_remains_time": 43428636,
+        "weekly_remains_time": 32687143,
         "current_interval_status": 3,
         "current_interval_remaining_percent": 100,
         "current_weekly_status": 3,
@@ -52,12 +52,12 @@
       "used": 0,
       "weeklyTotal": 0,
       "weeklyUsed": 0,
-      "remainingPct": 99,
+      "remainingPct": 96,
       "weeklyRemainingPct": 100,
       "intervalStatus": 1,
       "weeklyStatus": 3,
       "resetTime": 1784473200000,
-      "remainsMs": 11028636
+      "remainsMs": 287143
     }
   ]
 }
