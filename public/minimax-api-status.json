@@ -1,38 +1,38 @@
 {
-  "_generatedAt": "copilot",
+  "_generatedAt": "2026-07-20T01:55:03Z",
   "_source": "local-refresh",
   "plan": "plus",
   "raw": {
     "model_remains": [
       {
-        "start_time": 1784491200000,
-        "end_time": 1784505600000,
-        "remains_time": 288612,
+        "start_time": 1784505600000,
+        "end_time": 1784523600000,
+        "remains_time": 10958809,
         "current_interval_total_count": 0,
         "current_interval_usage_count": 0,
         "model_name": "general",
         "current_weekly_total_count": 0,
         "current_weekly_usage_count": 0,
-        "weekly_start_time": 1783900800000,
-        "weekly_end_time": 1784505600000,
-        "weekly_remains_time": 288612,
+        "weekly_start_time": 1784505600000,
+        "weekly_end_time": 1785110400000,
+        "weekly_remains_time": 597758809,
         "current_interval_status": 1,
         "current_interval_remaining_percent": 99,
         "current_weekly_status": 3,
         "current_weekly_remaining_percent": 100
       },
       {
-        "start_time": 1784419200000,
-        "end_time": 1784505600000,
-        "remains_time": 288612,
+        "start_time": 1784505600000,
+        "end_time": 1784592000000,
+        "remains_time": 79358809,
         "current_interval_total_count": 0,
         "current_interval_usage_count": 0,
         "model_name": "video",
         "current_weekly_total_count": 0,
         "current_weekly_usage_count": 0,
-        "weekly_start_time": 1783900800000,
-        "weekly_end_time": 1784505600000,
-        "weekly_remains_time": 288612,
+        "weekly_start_time": 1784505600000,
+        "weekly_end_time": 1785110400000,
+        "weekly_remains_time": 597758809,
         "current_interval_status": 3,
         "current_interval_remaining_percent": 100,
         "current_weekly_status": 3,
@@ -56,8 +56,8 @@
       "weeklyRemainingPct": 100,
       "intervalStatus": 1,
       "weeklyStatus": 3,
-      "resetTime": 1784505600000,
-      "remainsMs": 288612
+      "resetTime": 1784523600000,
+      "remainsMs": 10958809
     }
   ]
 }
