@@ -1,13 +1,13 @@
 {
-  "_generatedAt": "copilot",
+  "_generatedAt": "2026-08-04T15:55:05Z",
   "_source": "local-refresh",
   "plan": "plus",
   "raw": {
     "model_remains": [
       {
-        "start_time": 1785837600000,
-        "end_time": 1785855600000,
-        "remains_time": 288665,
+        "start_time": 1785855600000,
+        "end_time": 1785873600000,
+        "remains_time": 14645402,
         "current_interval_total_count": 0,
         "current_interval_usage_count": 0,
         "model_name": "general",
@@ -15,7 +15,7 @@
         "current_weekly_usage_count": 0,
         "weekly_start_time": 1785715200000,
         "weekly_end_time": 1786320000000,
-        "weekly_remains_time": 464688665,
+        "weekly_remains_time": 461045402,
         "current_interval_status": 1,
         "current_interval_remaining_percent": 98,
         "current_weekly_status": 3,
@@ -24,7 +24,7 @@
       {
         "start_time": 1785801600000,
         "end_time": 1785888000000,
-        "remains_time": 32688665,
+        "remains_time": 29045402,
         "current_interval_total_count": 0,
         "current_interval_usage_count": 0,
         "model_name": "video",
@@ -32,7 +32,7 @@
         "current_weekly_usage_count": 0,
         "weekly_start_time": 1785715200000,
         "weekly_end_time": 1786320000000,
-        "weekly_remains_time": 464688665,
+        "weekly_remains_time": 461045402,
         "current_interval_status": 3,
         "current_interval_remaining_percent": 100,
         "current_weekly_status": 3,
@@ -56,8 +56,8 @@
       "weeklyRemainingPct": 100,
       "intervalStatus": 1,
       "weeklyStatus": 3,
-      "resetTime": 1785855600000,
-      "remainsMs": 288665
+      "resetTime": 1785873600000,
+      "remainsMs": 14645402
     }
   ]
 }
