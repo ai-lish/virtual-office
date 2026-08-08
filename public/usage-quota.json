@@ -1,19 +1,19 @@
 {
-  "_generatedAt": "2026-08-08T08:31:19Z",
+  "_generatedAt": "2026-08-08T11:55:04Z",
   "_source": "local-curl",
   "_version": 3,
   "codex": {
     "available": true,
     "plan": "plus",
     "limit_reached": false,
-    "used_percent": 23,
+    "used_percent": 24,
     "primary_5h": null,
     "secondary_7d": {
-      "used_percent": 23,
-      "remaining_percent": 77,
+      "used_percent": 24,
+      "remaining_percent": 76,
       "reset_at": "2026-08-15T09:21:59+08:00",
       "reset_at_hkt": "08-15 09:21",
-      "reset_in_seconds": 579038,
+      "reset_in_seconds": 566812,
       "window_seconds": 604800
     }
   },
