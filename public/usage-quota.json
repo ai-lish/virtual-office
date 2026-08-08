@@ -1,26 +1,50 @@
 {
-  "_generatedAt": "2026-08-08T15:55:04Z",
+  "_generatedAt": "2026-08-08T20:55:05Z",
   "_source": "local-curl",
   "_version": 3,
   "codex": {
     "available": true,
     "plan": "plus",
     "limit_reached": false,
-    "used_percent": 24,
+    "used_percent": 0,
     "primary_5h": null,
     "secondary_7d": {
-      "used_percent": 24,
-      "remaining_percent": 76,
-      "reset_at": "2026-08-15T09:22:00+08:00",
-      "reset_at_hkt": "08-15 09:22",
-      "reset_in_seconds": 552413,
+      "used_percent": 0,
+      "remaining_percent": 100,
+      "reset_at": "2026-08-16T04:55:08+08:00",
+      "reset_at_hkt": "08-16 04:55",
+      "reset_in_seconds": 604800,
       "window_seconds": 604800
     }
   },
   "claude": {
-    "available": false,
-    "subscription": "n/a",
-    "_error": "keychain read failed: keychain entry missing: Claude Code-credentials"
+    "available": true,
+    "subscription": "pro",
+    "used_percent": 65,
+    "primary_5h": {
+      "used_percent": 0,
+      "remaining_percent": 100,
+      "reset_at": "2026-07-16T23:59:00+08:00",
+      "reset_at_hkt": "07-16 23:59"
+    },
+    "secondary_7d": {
+      "used_percent": 65,
+      "remaining_percent": 35,
+      "reset_at": "2026-07-16T23:59:00+08:00",
+      "reset_at_hkt": "07-16 23:59"
+    },
+    "active_limits": [
+      {
+        "kind": "session",
+        "percent": 0
+      }
+    ],
+    "source": "claude-code-tmux-usage",
+    "cached": true,
+    "cached_at": "2026-07-12T15:55:05Z",
+    "_cached_due_to": "OAuth refresh failed: 429 rate_limit_error: Rate limited. Please try again later.",
+    "_cache_age_seconds": 2350846,
+    "_cache_age_human": "27d"
   },
   "gemini_web": {
     "available": false,
