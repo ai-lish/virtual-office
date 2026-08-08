@@ -660,41 +660,103 @@ def iso_to_hkt(iso):
         return iso[:16]
 
 
+def _classify_codex_window(window_seconds):
+    """Map API-reported limit_window_seconds to a stable field name.
+
+    Codex API exposes primary_window / secondary_window without telling us
+    which duration each corresponds to. Observed values across plans:
+      - ChatGPT Plus: single primary_window at 604800s (7d weekly) only
+      - ChatGPT Pro:  primary 18000s (5h rolling) + secondary 604800s (7d)
+      - ChatGPT Team/Enterprise: similar 5h + 7d
+    We classify by duration so the output schema (primary_5h / secondary_7d)
+    stays stable across plans. Threshold = 21600s (6h) splits short vs long.
+    """
+    if not window_seconds:
+        return None
+    return "primary_5h" if window_seconds <= 21600 else "secondary_7d"
+
+
+def _codex_window_block(w):
+    """Build the standard window sub-object (used by both primary_5h and
+    secondary_7d) from one Codex API window payload."""
+    used = w.get("used_percent", 0)
+    reset_iso = epoch_to_iso(w.get("reset_at"))
+    win_sec = w.get("limit_window_seconds")
+    return {
+        "used_percent": used,
+        "remaining_percent": max(0, 100 - used),
+        "reset_at": reset_iso,
+        "reset_at_hkt": iso_to_hkt(reset_iso),
+        "reset_in_seconds": w.get("reset_after_seconds", 0),
+        "window_seconds": win_sec,
+    }
+
+
 def extract_codex(raw):
-    """Build codex sub-object per spec §3 from raw API response."""
+    """Build codex sub-object per spec §3 from raw API response.
+
+    V3 (MacD 2026-08-08): data-driven window labeling. Previously this
+    function hardcoded primary_window -> primary_5h and secondary_window ->
+    secondary_7d, which broke for ChatGPT Plus where the only active window
+    is a 7-day weekly limit (no 5h). Now we read limit_window_seconds from
+    each API window and route to primary_5h (≤6h) or secondary_7d (>6h).
+    Downstream consumers (update-quota-history.sh, update-usage-history.sh,
+    update-usage-sheet.js, dashboard.html) keep their existing schema; only
+    the data placement is now correct.
+
+    Observed API shapes:
+      - Plus:  {primary_window: 7d, secondary_window: null}
+      - Pro:   {primary_window: 5h, secondary_window: 7d}
+      - Edge:  {primary_window: null, secondary_window: 7d} (rare, not seen)
+    """
     if raw.get("_error") or not raw.get("rate_limit"):
         return {"available": False, "_error": raw.get("_error", "no rate_limit")}
     rl = raw["rate_limit"]
-    p = rl.get("primary_window", {})
-    s = rl.get("secondary_window", {})
-    p_used = p.get("used_percent", 0)
-    s_used = s.get("used_percent", 0)
-    p_reset_iso = epoch_to_iso(p.get("reset_at"))
-    s_reset_iso = epoch_to_iso(s.get("reset_at"))
+    p = rl.get("primary_window") or None
+    s = rl.get("secondary_window") or None
+    # Both windows missing → genuine API outage (Plus never returns this,
+    # Pro never returns this). Surface unavailable with explicit reason.
+    if not p and not s:
+        return {
+            "available": False,
+            "_error": "codex rate_limit has neither primary nor secondary window (API partial outage)",
+        }
     # V2 (Planning §3.5): default plan to KNOWN_PLANS["codex"] when API
     # does not surface plan_type (legacy Codex API quirk).
     plan_raw = raw.get("plan_type")
     plan = plan_raw if plan_raw and plan_raw != "unknown" else KNOWN_PLANS["codex"]
+    # Initialize both slots as None so consumers can rely on the keys
+    # existing (dashboard/sheet read codex.primary_5h.used_percent).
+    block_primary_5h = None
+    block_secondary_7d = None
+    used_max = 0
+    for w in (p, s):
+        if not w:
+            continue
+        block = _codex_window_block(w)
+        field = _classify_codex_window(w.get("limit_window_seconds"))
+        if field == "primary_5h":
+            block_primary_5h = block
+        elif field == "secondary_7d":
+            block_secondary_7d = block
+        else:
+            # Unknown duration (0 / null) — stash in primary_5h so it's at
+            # least visible. Will show as 0% with N/A reset.
+            block_primary_5h = block
+        used_max = max(used_max, block["used_percent"])
     return {
         "available": True,
         "plan": plan,
         "limit_reached": rl.get("limit_reached", False),
-        "used_percent": max(p_used, s_used),
-        "primary_5h": {
-            "used_percent": p_used,
-            "remaining_percent": max(0, 100 - p_used),
-            "reset_at": p_reset_iso,
-            "reset_at_hkt": iso_to_hkt(p_reset_iso),
-            "reset_in_seconds": p.get("reset_after_seconds", 0),
-            "window_seconds": p.get("limit_window_seconds", 18000),
-        },
-        "secondary_7d": {
-            "used_percent": s_used,
-            "remaining_percent": max(0, 100 - s_used),
-            "reset_at": s_reset_iso,
-            "reset_at_hkt": iso_to_hkt(s_reset_iso),
-            "reset_in_seconds": s.get("reset_after_seconds", 0),
-            "window_seconds": s.get("limit_window_seconds", 604800),
+        "used_percent": used_max,
+        "primary_5h": block_primary_5h,
+        "secondary_7d": block_secondary_7d,
+        # V3 (MacD 2026-08-08): raw window inventory for transparency. Not
+        # yet read by any consumer, but lets future audits see what the API
+        # actually returned without re-running the curl.
+        "_raw_windows": {
+            "primary": p,
+            "secondary": s,
         },
     }
 
@@ -1373,28 +1435,34 @@ def main():
     claude_obj = extract_claude(claude_raw)
     gemini_web_obj = extract_gemini_web(gemini_web_raw)
 
+    def _pct(obj, slot):
+        """Safely read used_percent from a window slot (may be None)."""
+        s = obj.get(slot) or {}
+        v = s.get("used_percent")
+        return "—" if v is None else f"{v}%"
+
     if not codex_obj.get("available"):
         log(f"[codex] unavailable: {codex_obj.get('_error', '?')}", err=True)
     else:
         log(
             "[codex] available: True "
-            f"5h={codex_obj.get('primary_5h', {}).get('used_percent')}% "
-            f"7d={codex_obj.get('secondary_7d', {}).get('used_percent')}%"
+            f"5h={_pct(codex_obj, 'primary_5h')} "
+            f"7d={_pct(codex_obj, 'secondary_7d')}"
         )
     if not claude_obj.get("available"):
         log(f"[claude] unavailable: {claude_obj.get('_error', '?')}", err=True)
     else:
         log(
             "[claude] available: True "
-            f"5h={claude_obj.get('primary_5h', {}).get('used_percent')}% "
-            f"7d={claude_obj.get('secondary_7d', {}).get('used_percent')}%"
+            f"5h={_pct(claude_obj, 'primary_5h')} "
+            f"7d={_pct(claude_obj, 'secondary_7d')}"
         )
     if not gemini_web_obj.get("available"):
         log(f"[gemini_web] unavailable: {gemini_web_obj.get('_error', '?')}", err=True)
     else:
         log(
             "[gemini_web] available: True "
-            f"5h={gemini_web_obj.get('primary_5h', {}).get('used_percent')}% "
+            f"5h={_pct(gemini_web_obj, 'primary_5h')} "
             f"7d={gemini_web_obj.get('secondary_7d', {}).get('used_percent')}%"
         )
 
