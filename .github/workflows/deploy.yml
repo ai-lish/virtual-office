@@ -5,20 +5,19 @@ on:
     branches: [main]
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+permissions: {}
 
-# Codex review fix 2026-07-06: enable cancel-in-progress so a fresh quota
-# commit (3hr cron) auto-cancels a stuck previous deploy, preventing the
-# 14-hour stale JSON issue observed on run 28762934285 (09:56 HKT 07-06).
+# Serialize deployments so an older artifact cannot be replaced mid-flight.
 concurrency:
   group: "pages"
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment-r2.outputs.page_url || steps.deployment-r1.outputs.page_url || steps.deployment.outputs.page_url }}
@@ -27,13 +26,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Build public site
+        run: node scripts/build-public-site.js
+
+      - name: Guard public site
+        run: node scripts/guard-public-site.js --check
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: './site'
 
       - name: Deploy to GitHub Pages (attempt 1)
         id: deployment
@@ -65,17 +70,16 @@ jobs:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           COMMIT_SHA: ${{ github.sha }}
-          COMMIT_MSG: ${{ github.event.head_commit.message }}
+          REPOSITORY: ${{ github.repository }}
         run: |
           if [ -z "$DISCORD_WEBHOOK_URL" ]; then
             echo "::warning::DISCORD_WEBHOOK_URL secret not set - skipping Discord notification"
             exit 0
           fi
-          MSG_TRUNC=$(echo "$COMMIT_MSG" | head -1 | cut -c 1-200)
           PAYLOAD=$(jq -n \
             --arg url "$RUN_URL" \
             --arg sha "${COMMIT_SHA:0:7}" \
-            --arg msg "$MSG_TRUNC" \
+            --arg repo "$REPOSITORY" \
             --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
             '{
               embeds: [{
@@ -84,8 +88,8 @@ jobs:
                 description: "After 3 retry attempts, actions/deploy-pages@v4 still returns transient error. This is a GitHub Pages service issue, not our code.\n\n**Action needed:** Re-run workflow or wait for next quota-cron push (3hr cadence).",
                 fields: [
                   { name: "Commit", value: ("`" + $sha + "`"), inline: true },
-                  { name: "Workflow run", value: $url, inline: false },
-                  { name: "Message", value: $msg, inline: false }
+                  { name: "Repository", value: $repo, inline: true },
+                  { name: "Workflow run", value: $url, inline: false }
                 ],
                 timestamp: $ts
               }]
