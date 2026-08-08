@@ -18,3 +18,5 @@ public/usage-quota-cache-gemini-web.json
 .pw_chrome_default/
 .pw_chrome_p11_full/
 .pw_chrome_profile11/
+# Generated allowlisted public deployment artifact; never edit or commit directly.
+site/
