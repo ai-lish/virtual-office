@@ -13,9 +13,9 @@ const forbiddenContent = [
   /\bsk-[A-Za-z0-9_-]{12,}\b/i,
   /\bxox[baprs]-[A-Za-z0-9-]{8,}\b/i,
   /-----BEGIN(?: [A-Z0-9]+)* PRIVATE KEY-----/,
-  /script\.google(?:usercontent)?\.com\/macros/i,
+  /(?:script\.google(?:usercontent)?\.com|api\.minimax\.io|drive\.google\.com|firebaseio\.com|firebasedatabase\.app|googleapis\.com|cloudfunctions\.net)/i,
   /(?:API_TOKEN|DISCORD_WEBHOOK_URL|MINIMAX_API_KEY|GITHUB_TOKEN)\s*=/i,
-  /(?:google_api_key|firebaseConfig|spreadsheetId|driveId|memory\/data)/i
+  /(?:google_api_key|firebaseConfig|spreadsheetId|driveId|memory\/data)\s*[:=]?/i
 ];
 
 async function walk(current, files = []) {
