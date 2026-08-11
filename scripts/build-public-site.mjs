@@ -13,9 +13,17 @@ function assertSafeRelative(value, label) {
   }
 }
 
-if (manifest.version !== 1 || manifest.publicRoot !== 'site' || !Array.isArray(manifest.entries) || !Array.isArray(manifest.generatedFiles)) {
+function assertSafeHost(value) {
+  if (typeof value !== 'string' || value.length === 0 || value !== value.toLowerCase() || /[/:?#\s*]/.test(value)) {
+    throw new Error(`external host is not a bare lowercase hostname: ${value}`);
+  }
+}
+
+if (manifest.version !== 2 || manifest.publicRoot !== 'site' || !Array.isArray(manifest.entries) || !Array.isArray(manifest.generatedFiles) || !Array.isArray(manifest.allowedExternalHosts)) {
   throw new Error('invalid publish manifest');
 }
+
+for (const host of manifest.allowedExternalHosts) assertSafeHost(host);
 
 await rm(siteRoot, { recursive: true, force: true });
 await mkdir(siteRoot, { recursive: true });
