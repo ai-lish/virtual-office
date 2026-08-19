@@ -3,7 +3,8 @@
   "publicRoot": "site",
   "entries": [
     { "source": "index.html", "destination": "index.html" },
-    { "source": "robots.txt", "destination": "robots.txt" }
+    { "source": "robots.txt", "destination": "robots.txt" },
+    { "source": "status.json", "destination": "status.json" }
   ],
   "generatedFiles": [".nojekyll"],
   "allowedExternalHosts": []
