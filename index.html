@@ -1,27 +1,77 @@
 <!doctype html>
-<html lang="zh-Hant-HK">
+<html lang="zh-HK">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
-  <title>Virtual Office</title>
+  <title>🏢 虛擬辦公室</title>
   <style>
-    :root { color-scheme: dark; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-    body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #101827; color: #e5edf7; }
-    main { width: min(680px, calc(100% - 40px)); }
-    section { padding: 32px; border: 1px solid #334155; border-radius: 16px; background: #172235; box-shadow: 0 20px 60px #0005; }
-    h1 { margin: 0 0 12px; }
-    p { color: #b8c5d6; line-height: 1.7; }
-    .badge { display: inline-block; margin-top: 12px; padding: 7px 11px; border-radius: 999px; background: #123d32; color: #9af0ce; font-size: .9rem; }
+    :root { color-scheme: dark; --bg:#0f0f23; --card:#16213e; --bar:#1a1a2e; --text:#eee; --dim:#9aa4b2; --red:#bc002d; --green:#2ecc71; --blue:#5dade2; --line:rgba(255,255,255,.09); font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; background:radial-gradient(circle at 15% 0%,#1d2442 0,#0f0f23 42%),var(--bg); color:var(--text); }
+    header { position:sticky; top:0; z-index:2; display:flex; justify-content:space-between; align-items:center; gap:16px; padding:14px clamp(16px,4vw,44px); background:linear-gradient(90deg,var(--bar),var(--card)); border-bottom:2px solid var(--red); }
+    header h1 { margin:0; font-size:1.05rem; letter-spacing:.02em; }
+    .pill { padding:5px 10px; border:1px solid rgba(255,255,255,.2); border-radius:999px; color:#cbd5e1; font-size:.68rem; letter-spacing:.08em; }
+    main { width:min(1080px,calc(100% - 32px)); margin:0 auto; padding:34px 0 58px; }
+    .hero { padding:clamp(24px,5vw,48px); border:1px solid var(--line); border-radius:18px; background:linear-gradient(135deg,rgba(188,0,45,.2),rgba(22,33,62,.92) 45%); box-shadow:0 22px 70px rgba(0,0,0,.25); }
+    .eyebrow,.section-title { color:#d6a0ad; font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; }
+    .hero h2 { margin:12px 0 10px; font-size:clamp(2rem,6vw,4rem); letter-spacing:-.05em; }
+    .hero p { max-width:720px; margin:0; color:#d1d8e3; line-height:1.8; }
+    .hero-meta { display:flex; align-items:center; flex-wrap:wrap; gap:12px; margin-top:24px; color:var(--dim); font-size:.78rem; }
+    .badge { padding:7px 11px; border-radius:999px; background:rgba(46,204,113,.14); border:1px solid rgba(46,204,113,.4); color:#9af0ce; }
+    section { margin-top:32px; }
+    .section-title { display:flex; align-items:center; gap:10px; margin-bottom:13px; color:var(--dim); }
+    .section-title::after { content:""; height:1px; flex:1; background:var(--line); }
+    .grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+    .card { min-height:170px; padding:22px; border:1px solid var(--line); border-radius:14px; background:rgba(22,33,62,.9); }
+    .icon { font-size:1.45rem; }
+    .card h3 { margin:15px 0 8px; font-size:1rem; }
+    .card p { min-height:48px; margin:0; color:var(--dim); font-size:.86rem; line-height:1.65; }
+    .status { display:inline-flex; align-items:center; gap:6px; margin-top:18px; color:#9af0ce; font-size:.7rem; letter-spacing:.08em; }
+    .status::before { content:""; width:7px; height:7px; border-radius:50%; background:var(--green); box-shadow:0 0 10px var(--green); }
+    .panel { padding:22px; border:1px solid var(--line); border-radius:14px; background:rgba(15,15,35,.62); }
+    .panel ul { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px 28px; margin:0; padding:0; list-style:none; color:#c8d0dc; font-size:.86rem; line-height:1.6; }
+    .panel li::before { content:"✓"; margin-right:8px; color:var(--blue); }
+    footer { padding:20px 16px 34px; color:#6f7b8b; text-align:center; font-size:.72rem; }
+    @media(max-width:760px) { .grid,.panel ul { grid-template-columns:1fr; } header { align-items:flex-start; flex-direction:column; } .hero h2 { font-size:2.5rem; } }
   </style>
 </head>
 <body>
+  <header>
+    <h1>🏢 虛擬辦公室</h1>
+    <span class="pill">PUBLIC SANITIZED VIEW</span>
+  </header>
   <main>
-    <section>
-      <h1>Virtual Office</h1>
-      <p>Public deployment shell. Operational dashboard and source data remain behind the private source boundary.</p>
-      <span class="badge">Build-time sanitized deployment</span>
+    <section class="hero" aria-labelledby="title">
+      <div class="eyebrow">Virtual Office / Public Overview</div>
+      <h2 id="title">AI 工作空間總覽</h2>
+      <p>這是 Virtual Office 的公開版入口。公開頁保留產品定位與服務狀態；配額、token、內部同步、user data 及 operational dashboard 均留在 private source。</p>
+      <div class="hero-meta"><span class="badge">PUBLIC SITE ONLINE</span><span>Build: 2026-08-19T13:00:00.000Z</span></div>
+    </section>
+
+    <section aria-labelledby="status-title">
+      <div class="section-title" id="status-title">⚡ 服務狀態</div>
+      <div class="grid">
+        <article class="card"><div class="icon">🌐</div><h3>公開網站</h3><p>GitHub Pages sanitized deployment 正常提供服務。</p><span class="status">ONLINE</span></article>
+        <article class="card"><div class="icon">🔒</div><h3>Private source</h3><p>原始程式、cron、同步設定及 operational data 保留於 private repository。</p><span class="status">PROTECTED</span></article>
+        <article class="card"><div class="icon">🛡️</div><h3>公開邊界</h3><p>所有 public output 經 literal allowlist、guard 及 post-deploy checks。</p><span class="status">GUARDED</span></article>
+      </div>
+    </section>
+
+    <section aria-labelledby="scope-title">
+      <div class="section-title" id="scope-title">🧭 公開內容</div>
+      <div class="panel">
+        <ul>
+          <li>Virtual Office 產品介紹及公開入口</li>
+          <li>安全部署及資料邊界狀態</li>
+          <li>不含 quota、token 或 provider 數值</li>
+          <li>不含 user、school 或 account data</li>
+          <li>不直接連接 private API 或 backend</li>
+          <li>每次更新均重新 build 及 guard</li>
+        </ul>
+      </div>
     </section>
   </main>
+  <footer>Build-time sanitized deployment · 2026-08-19T13:00:00.000Z</footer>
 </body>
 </html>
