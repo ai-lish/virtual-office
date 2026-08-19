@@ -6,6 +6,7 @@ import path from 'node:path';
 const root = process.cwd();
 const outputPath = path.join(root, 'models.json');
 const API_URL = 'https://api.minimax.io/v1/api/openplatform/coding_plan/remains';
+const EXCLUDED_MODELS = new Set(['video']);
 
 function roundedUtcHour() {
   const now = new Date();
@@ -55,7 +56,7 @@ async function fetchSnapshot() {
       const model = safeModelName(item?.model_name);
       const remaining = safePercent(item?.current_interval_remaining_percent);
       const weeklyRemaining = safePercent(item?.current_weekly_remaining_percent);
-      if (!model || remaining === null || weeklyRemaining === null || names.has(model)) continue;
+      if (!model || EXCLUDED_MODELS.has(model.toLowerCase()) || remaining === null || weeklyRemaining === null || names.has(model)) continue;
       names.add(model);
       models.push({
         model,
