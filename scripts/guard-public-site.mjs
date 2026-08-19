@@ -35,6 +35,41 @@ const forbiddenContent = [
 ];
 const externalUrlPattern = /\bhttps?:\/\/[^\s"'<>`)]+/gi;
 
+function validateModelsSnapshot(value) {
+  const topKeys = Object.keys(value).sort();
+  if (JSON.stringify(topKeys) !== JSON.stringify(['freshness', 'generated_at', 'models', 'schema_version'])) {
+    throw new Error('models.json contains unknown or missing top-level keys');
+  }
+  if (value.schema_version !== '1' || !['live', 'unavailable'].includes(value.freshness)) {
+    throw new Error('models.json schema or freshness is invalid');
+  }
+  if (typeof value.generated_at !== 'string' || !/^\d{4}-\d{2}-\d{2}T\d{2}:00:00\.000Z$/.test(value.generated_at)) {
+    throw new Error('models.json generated_at must be rounded to an UTC hour');
+  }
+  if (!Array.isArray(value.models) || value.models.length > 32) {
+    throw new Error('models.json models must be a bounded array');
+  }
+  const names = new Set();
+  for (const model of value.models) {
+    const modelKeys = Object.keys(model || {}).sort();
+    if (JSON.stringify(modelKeys) !== JSON.stringify(['interval_used_percent', 'model', 'weekly_used_percent'])) {
+      throw new Error('models.json model entry contains unknown or missing keys');
+    }
+    if (typeof model.model !== 'string' || !/^[A-Za-z0-9][A-Za-z0-9._ *-]{0,63}$/.test(model.model) || names.has(model.model)) {
+      throw new Error('models.json contains an invalid or duplicate model name');
+    }
+    names.add(model.model);
+    for (const field of ['interval_used_percent', 'weekly_used_percent']) {
+      if (!Number.isInteger(model[field]) || model[field] < 0 || model[field] > 100) {
+        throw new Error(`models.json ${field} must be an integer between 0 and 100`);
+      }
+    }
+  }
+  if (value.freshness === 'unavailable' && value.models.length !== 0) {
+    throw new Error('unavailable models.json must not contain model entries');
+  }
+}
+
 async function walk(current, files = []) {
   for (const entry of await readdir(current, { withFileTypes: true })) {
     const full = path.join(current, entry.name);
@@ -76,5 +111,9 @@ for (const file of files) {
     }
   }
 }
+
+const modelsFile = files.find((file) => file.relative === 'models.json');
+if (!modelsFile) throw new Error('models.json is missing from public output');
+validateModelsSnapshot(JSON.parse((await readFile(modelsFile.full)).toString('utf8')));
 
 console.log(`Public-site guard passed (${files.length} exact files).`);
