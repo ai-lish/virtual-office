@@ -8,5 +8,5 @@
     { "source": "status.json", "destination": "status.json" }
   ],
   "generatedFiles": [".nojekyll"],
-  "allowedExternalHosts": []
+  "allowedExternalHosts": ["ai-lish.github.io", "github.com"]
 }
