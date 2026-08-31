@@ -45,7 +45,20 @@
     .metric-fill { height:100%; border-radius:inherit; background:linear-gradient(90deg,#5dade2,#2ecc71); }
     .metric-value { color:#e8edf4; text-align:right; font-variant-numeric:tabular-nums; }
     .model-empty { margin:0; padding:12px 0 2px; color:var(--dim); font-size:.86rem; }
+    .project-groups { display:flex; flex-direction:column; gap:12px; }
+    .project-group { overflow:hidden; border:1px solid var(--line); border-radius:14px; background:rgba(15,15,35,.42); }
+    .project-group summary { display:flex; align-items:center; gap:10px; padding:17px 20px; cursor:pointer; list-style:none; user-select:none; }
+    .project-group summary::-webkit-details-marker { display:none; }
+    .project-group summary::before { content:"▸"; color:var(--blue); font-size:1rem; transition:transform .2s ease; }
+    .project-group[open] summary::before { transform:rotate(90deg); }
+    .project-group-title { display:flex; align-items:center; gap:8px; font-weight:650; }
+    .project-group-icon { font-size:1.15rem; }
+    .project-group-count { color:var(--dim); font-size:.76rem; }
+    .project-group-toggle { margin-left:auto; color:var(--dim); font-size:.7rem; }
+    .project-group-toggle::after { content:"展開"; }
+    .project-group[open] .project-group-toggle::after { content:"摺疊"; }
     .project-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+    .project-group > .project-grid { padding:0 14px 14px; }
     .project-card { padding:17px; border:1px solid var(--line); border-radius:12px; background:rgba(22,33,62,.72); }
     .project-card-head { display:flex; align-items:center; gap:9px; min-height:42px; }
     .project-icon { font-size:1.25rem; }
@@ -54,6 +67,8 @@
     .project-card-meta span { color:#9af0ce; }
     .project-card a { color:var(--blue); font-size:.76rem; text-decoration:none; }
     .project-card a:hover { text-decoration:underline; }
+    .gas-note-group { margin-top:12px; }
+    .gas-note { margin:0; padding:0 20px 18px 50px; color:var(--dim); font-size:.8rem; line-height:1.65; }
     footer { padding:20px 16px 34px; color:#6f7b8b; text-align:center; font-size:.72rem; }
     @media(max-width:760px) { .grid,.panel ul,.model-grid,.project-grid { grid-template-columns:1fr; } header { align-items:flex-start; flex-direction:column; } .hero h2 { font-size:2.5rem; } }
   </style>
@@ -68,7 +83,7 @@
       <div class="eyebrow">Virtual Office / Public Overview</div>
       <h2 id="title">AI 工作空間總覽</h2>
       <p>這是 Virtual Office 的公開版入口。公開頁保留產品定位、服務狀態、所有 public AI-Lish project 入口及經過篩選的 model 使用百分比；token、內部同步、user data 及 operational dashboard 均留在 private source。</p>
-      <div class="hero-meta"><span class="badge">PUBLIC SITE ONLINE</span><span>Build: 2026-08-31T11:00:00.000Z</span></div>
+      <div class="hero-meta"><span class="badge">PUBLIC SITE ONLINE</span><span>Build: 2026-08-31T12:00:00.000Z</span></div>
     </section>
 
     <section aria-labelledby="status-title">
@@ -90,123 +105,152 @@
 
     <section aria-labelledby="projects-title">
       <div class="section-title" id="projects-title">🗂️ AI-Lish Projects</div>
-      <div class="project-grid">
+      <div class="project-groups">
 
-        <article class="project-card">
-          <div class="project-card-head"><span class="project-icon">🧰</span><h3>Local Tools</h3></div>
-          <div class="project-card-meta"><span>進行中</span><time datetime="2026-08-31">2026-08-31</time></div>
-          <a href="https://github.com/ai-lish/local-tools" target="_blank" rel="noreferrer">開啟 project →</a>
-        </article>
-        <article class="project-card">
-          <div class="project-card-head"><span class="project-icon">👶</span><h3>晞霖學習網站</h3></div>
-          <div class="project-card-meta"><span>進行中</span><time datetime="2026-08-31">2026-08-31</time></div>
-          <a href="https://ai-lish.github.io/preschool/" target="_blank" rel="noreferrer">開啟 project →</a>
-        </article>
-        <article class="project-card">
-          <div class="project-card-head"><span class="project-icon">📚</span><h3>少康教學網站</h3></div>
-          <div class="project-card-meta"><span>進行中</span><time datetime="2026-08-30">2026-08-30</time></div>
-          <a href="https://ai-lish.github.io/ai-learning/" target="_blank" rel="noreferrer">開啟 project →</a>
-        </article>
-        <article class="project-card">
-          <div class="project-card-head"><span class="project-icon">🏢</span><h3>虛擬辦公室</h3></div>
-          <div class="project-card-meta"><span>進行中</span><time datetime="2026-08-30">2026-08-30</time></div>
-          <a href="https://ai-lish.github.io/virtual-office/" target="_blank" rel="noreferrer">開啟 project →</a>
-        </article>
-        <article class="project-card">
-          <div class="project-card-head"><span class="project-icon">📝</span><h3>Assessments 測考工具</h3></div>
-          <div class="project-card-meta"><span>進行中</span><time datetime="2026-08-11">2026-08-11</time></div>
-          <a href="https://github.com/ai-lish/Assessments" target="_blank" rel="noreferrer">開啟 project →</a>
-        </article>
-        <article class="project-card">
-          <div class="project-card-head"><span class="project-icon">🖼️</span><h3>相片合併工具</h3></div>
-          <div class="project-card-meta"><span>進行中</span><time datetime="2026-07-14">2026-07-14</time></div>
-          <a href="https://github.com/ai-lish/photo-merge" target="_blank" rel="noreferrer">開啟 project →</a>
-        </article>
-        <article class="project-card">
-          <div class="project-card-head"><span class="project-icon">🛠️</span><h3>MiniMax 工作坊</h3></div>
-          <div class="project-card-meta"><span>進行中</span><time datetime="2026-07-11">2026-07-11</time></div>
-          <a href="https://ai-lish.github.io/minimax-workshop/" target="_blank" rel="noreferrer">開啟 project →</a>
-        </article>
-        <article class="project-card">
-          <div class="project-card-head"><span class="project-icon">🏫</span><h3>CloudSAMS 行政小工具</h3></div>
-          <div class="project-card-meta"><span>進行中</span><time datetime="2026-07-02">2026-07-02</time></div>
-          <a href="https://github.com/ai-lish/cloudsams-tools" target="_blank" rel="noreferrer">開啟 project →</a>
-        </article>
-        <article class="project-card">
-          <div class="project-card-head"><span class="project-icon">🗾</span><h3>My-Japan PWA</h3></div>
-          <div class="project-card-meta"><span>進行中</span><time datetime="2026-06-20">2026-06-20</time></div>
-          <a href="https://ai-lish.github.io/My-Japan/" target="_blank" rel="noreferrer">開啟 project →</a>
-        </article>
-        <article class="project-card">
-          <div class="project-card-head"><span class="project-icon">✂️</span><h3>PDF 分割工具</h3></div>
-          <div class="project-card-meta"><span>進行中</span><time datetime="2026-06-09">2026-06-09</time></div>
-          <a href="https://ai-lish.github.io/pdf-splitter/" target="_blank" rel="noreferrer">開啟 project →</a>
-        </article>
-        <article class="project-card">
-          <div class="project-card-head"><span class="project-icon">🔍</span><h3>圖片像素提升</h3></div>
-          <div class="project-card-meta"><span>進行中</span><time datetime="2026-06-06">2026-06-06</time></div>
-          <a href="https://ai-lish.github.io/image-upscaler/" target="_blank" rel="noreferrer">開啟 project →</a>
-        </article>
-        <article class="project-card">
-          <div class="project-card-head"><span class="project-icon">🎲</span><h3>數學週 2026</h3></div>
-          <div class="project-card-meta"><span>進行中</span><time datetime="2026-06-04">2026-06-04</time></div>
-          <a href="https://ai-lish.github.io/math-week-2026/" target="_blank" rel="noreferrer">開啟 project →</a>
-        </article>
-        <article class="project-card">
-          <div class="project-card-head"><span class="project-icon">⚔️</span><h3>Math RPG</h3></div>
-          <div class="project-card-meta"><span>進行中</span><time datetime="2026-05-12">2026-05-12</time></div>
-          <a href="https://github.com/ai-lish/math-rpg" target="_blank" rel="noreferrer">開啟 project →</a>
-        </article>
-        <article class="project-card">
-          <div class="project-card-head"><span class="project-icon">🔥</span><h3>冰火大戰</h3></div>
-          <div class="project-card-meta"><span>進行中</span><time datetime="2026-05-10">2026-05-10</time></div>
-          <a href="https://ai-lish.github.io/bingfo/" target="_blank" rel="noreferrer">開啟 project →</a>
-        </article>
-        <article class="project-card">
-          <div class="project-card-head"><span class="project-icon">🧮</span><h3>趣味數學題</h3></div>
-          <div class="project-card-meta"><span>進行中</span><time datetime="2026-05-06">2026-05-06</time></div>
-          <a href="https://ai-lish.github.io/fun-math/" target="_blank" rel="noreferrer">開啟 project →</a>
-        </article>
-        <article class="project-card">
-          <div class="project-card-head"><span class="project-icon">🎴</span><h3>平方包</h3></div>
-          <div class="project-card-meta"><span>進行中</span><time datetime="2026-05-05">2026-05-05</time></div>
-          <a href="https://ai-lish.github.io/square-bun/" target="_blank" rel="noreferrer">開啟 project →</a>
-        </article>
-        <article class="project-card">
-          <div class="project-card-head"><span class="project-icon">⏱️</span><h3>60秒計算機大賽</h3></div>
-          <div class="project-card-meta"><span>進行中</span><time datetime="2026-05-02">2026-05-02</time></div>
-          <a href="https://ai-lish.github.io/calculator-race/" target="_blank" rel="noreferrer">開啟 project →</a>
-        </article>
-        <article class="project-card">
-          <div class="project-card-head"><span class="project-icon">✍️</span><h3>Zach AI Blog</h3></div>
-          <div class="project-card-meta"><span>進行中</span><time datetime="2026-04-27">2026-04-27</time></div>
-          <a href="https://ai-lish.github.io/zach-ai-blog/" target="_blank" rel="noreferrer">開啟 project →</a>
-        </article>
-        <article class="project-card">
-          <div class="project-card-head"><span class="project-icon">🎮</span><h3>Math RPG (Godot 4)</h3></div>
-          <div class="project-card-meta"><span>進行中</span><time datetime="2026-04-22">2026-04-22</time></div>
-          <a href="https://github.com/ai-lish/math-rpg-godot" target="_blank" rel="noreferrer">開啟 project →</a>
-        </article>
-        <article class="project-card">
-          <div class="project-card-head"><span class="project-icon">🎵</span><h3>Song-of-Songs</h3></div>
-          <div class="project-card-meta"><span>進行中</span><time datetime="2026-04-12">2026-04-12</time></div>
-          <a href="https://ai-lish.github.io/Song-of-Songs/index.html" target="_blank" rel="noreferrer">開啟 project →</a>
-        </article>
-        <article class="project-card">
-          <div class="project-card-head"><span class="project-icon">🎯</span><h3>全方位學習日</h3></div>
-          <div class="project-card-meta"><span>已完成</span><time datetime="2026-04-07">2026-04-07</time></div>
-          <a href="https://ai-lish.github.io/lsc-ole-s1-2026/" target="_blank" rel="noreferrer">開啟 project →</a>
-        </article>
-        <article class="project-card">
-          <div class="project-card-head"><span class="project-icon">📋</span><h3>欠交功課系統</h3></div>
-          <div class="project-card-meta"><span>待開始</span><time datetime="2026-03-15">2026-03-15</time></div>
-          <a href="https://github.com/ai-lish/homework-duty-system" target="_blank" rel="noreferrer">開啟 project →</a>
-        </article>
-        <article class="project-card">
-          <div class="project-card-head"><span class="project-icon">🎓</span><h3>教師發展日</h3></div>
-          <div class="project-card-meta"><span>已完成</span><time datetime="2026-03-15">2026-03-15</time></div>
-          <a href="https://ai-lish.github.io/teacher-dev-day/" target="_blank" rel="noreferrer">開啟 project →</a>
-        </article>
+      <details class="project-group" open>
+        <summary><span class="project-group-title"><span class="project-group-icon">🏢</span>Virtual Office &amp; AI</span><span class="project-group-count">1 個 project</span><span class="project-group-toggle" aria-hidden="true"></span></summary>
+        <div class="project-grid">
+          <article class="project-card">
+            <div class="project-card-head"><span class="project-icon">🏢</span><h3>虛擬辦公室</h3></div>
+            <div class="project-card-meta"><span>進行中</span><time datetime="2026-08-30">2026-08-30</time></div>
+            <a href="https://ai-lish.github.io/virtual-office/" target="_blank" rel="noreferrer">開啟 project →</a>
+          </article>
+        </div>
+      </details>
+      <details class="project-group" open>
+        <summary><span class="project-group-title"><span class="project-group-icon">🧰</span>Local Tools</span><span class="project-group-count">5 個 project</span><span class="project-group-toggle" aria-hidden="true"></span></summary>
+        <div class="project-grid">
+          <article class="project-card">
+            <div class="project-card-head"><span class="project-icon">🧰</span><h3>Local Tools</h3></div>
+            <div class="project-card-meta"><span>進行中</span><time datetime="2026-08-31">2026-08-31</time></div>
+            <a href="https://github.com/ai-lish/local-tools" target="_blank" rel="noreferrer">開啟 project →</a>
+          </article>
+          <article class="project-card">
+            <div class="project-card-head"><span class="project-icon">🖼️</span><h3>相片合併工具</h3></div>
+            <div class="project-card-meta"><span>進行中</span><time datetime="2026-07-14">2026-07-14</time></div>
+            <a href="https://github.com/ai-lish/photo-merge" target="_blank" rel="noreferrer">開啟 project →</a>
+          </article>
+          <article class="project-card">
+            <div class="project-card-head"><span class="project-icon">🏫</span><h3>CloudSAMS 行政小工具</h3></div>
+            <div class="project-card-meta"><span>進行中</span><time datetime="2026-07-02">2026-07-02</time></div>
+            <a href="https://github.com/ai-lish/cloudsams-tools" target="_blank" rel="noreferrer">開啟 project →</a>
+          </article>
+          <article class="project-card">
+            <div class="project-card-head"><span class="project-icon">✂️</span><h3>PDF 分割工具</h3></div>
+            <div class="project-card-meta"><span>進行中</span><time datetime="2026-06-09">2026-06-09</time></div>
+            <a href="https://ai-lish.github.io/pdf-splitter/" target="_blank" rel="noreferrer">開啟 project →</a>
+          </article>
+          <article class="project-card">
+            <div class="project-card-head"><span class="project-icon">🔍</span><h3>圖片像素提升</h3></div>
+            <div class="project-card-meta"><span>進行中</span><time datetime="2026-06-06">2026-06-06</time></div>
+            <a href="https://ai-lish.github.io/image-upscaler/" target="_blank" rel="noreferrer">開啟 project →</a>
+          </article>
+        </div>
+      </details>
+      <details class="project-group" open>
+        <summary><span class="project-group-title"><span class="project-group-icon">📚</span>教學與學習</span><span class="project-group-count">7 個 project</span><span class="project-group-toggle" aria-hidden="true"></span></summary>
+        <div class="project-grid">
+          <article class="project-card">
+            <div class="project-card-head"><span class="project-icon">👶</span><h3>晞霖學習網站</h3></div>
+            <div class="project-card-meta"><span>進行中</span><time datetime="2026-08-31">2026-08-31</time></div>
+            <a href="https://ai-lish.github.io/preschool/" target="_blank" rel="noreferrer">開啟 project →</a>
+          </article>
+          <article class="project-card">
+            <div class="project-card-head"><span class="project-icon">📚</span><h3>少康教學網站</h3></div>
+            <div class="project-card-meta"><span>進行中</span><time datetime="2026-08-30">2026-08-30</time></div>
+            <a href="https://ai-lish.github.io/ai-learning/" target="_blank" rel="noreferrer">開啟 project →</a>
+          </article>
+          <article class="project-card">
+            <div class="project-card-head"><span class="project-icon">📝</span><h3>Assessments 測考工具</h3></div>
+            <div class="project-card-meta"><span>進行中</span><time datetime="2026-08-11">2026-08-11</time></div>
+            <a href="https://github.com/ai-lish/Assessments" target="_blank" rel="noreferrer">開啟 project →</a>
+          </article>
+          <article class="project-card">
+            <div class="project-card-head"><span class="project-icon">🎲</span><h3>數學週 2026</h3></div>
+            <div class="project-card-meta"><span>進行中</span><time datetime="2026-06-04">2026-06-04</time></div>
+            <a href="https://ai-lish.github.io/math-week-2026/" target="_blank" rel="noreferrer">開啟 project →</a>
+          </article>
+          <article class="project-card">
+            <div class="project-card-head"><span class="project-icon">🎯</span><h3>全方位學習日</h3></div>
+            <div class="project-card-meta"><span>已完成</span><time datetime="2026-04-07">2026-04-07</time></div>
+            <a href="https://ai-lish.github.io/lsc-ole-s1-2026/" target="_blank" rel="noreferrer">開啟 project →</a>
+          </article>
+          <article class="project-card">
+            <div class="project-card-head"><span class="project-icon">📋</span><h3>欠交功課系統</h3></div>
+            <div class="project-card-meta"><span>待開始</span><time datetime="2026-03-15">2026-03-15</time></div>
+            <a href="https://github.com/ai-lish/homework-duty-system" target="_blank" rel="noreferrer">開啟 project →</a>
+          </article>
+          <article class="project-card">
+            <div class="project-card-head"><span class="project-icon">🎓</span><h3>教師發展日</h3></div>
+            <div class="project-card-meta"><span>已完成</span><time datetime="2026-03-15">2026-03-15</time></div>
+            <a href="https://ai-lish.github.io/teacher-dev-day/" target="_blank" rel="noreferrer">開啟 project →</a>
+          </article>
+        </div>
+      </details>
+      <details class="project-group" open>
+        <summary><span class="project-group-title"><span class="project-group-icon">🎮</span>數學遊戲</span><span class="project-group-count">6 個 project</span><span class="project-group-toggle" aria-hidden="true"></span></summary>
+        <div class="project-grid">
+          <article class="project-card">
+            <div class="project-card-head"><span class="project-icon">⚔️</span><h3>Math RPG</h3></div>
+            <div class="project-card-meta"><span>進行中</span><time datetime="2026-05-12">2026-05-12</time></div>
+            <a href="https://github.com/ai-lish/math-rpg" target="_blank" rel="noreferrer">開啟 project →</a>
+          </article>
+          <article class="project-card">
+            <div class="project-card-head"><span class="project-icon">🔥</span><h3>冰火大戰</h3></div>
+            <div class="project-card-meta"><span>進行中</span><time datetime="2026-05-10">2026-05-10</time></div>
+            <a href="https://ai-lish.github.io/bingfo/" target="_blank" rel="noreferrer">開啟 project →</a>
+          </article>
+          <article class="project-card">
+            <div class="project-card-head"><span class="project-icon">🧮</span><h3>趣味數學題</h3></div>
+            <div class="project-card-meta"><span>進行中</span><time datetime="2026-05-06">2026-05-06</time></div>
+            <a href="https://ai-lish.github.io/fun-math/" target="_blank" rel="noreferrer">開啟 project →</a>
+          </article>
+          <article class="project-card">
+            <div class="project-card-head"><span class="project-icon">🎴</span><h3>平方包</h3></div>
+            <div class="project-card-meta"><span>進行中</span><time datetime="2026-05-05">2026-05-05</time></div>
+            <a href="https://ai-lish.github.io/square-bun/" target="_blank" rel="noreferrer">開啟 project →</a>
+          </article>
+          <article class="project-card">
+            <div class="project-card-head"><span class="project-icon">⏱️</span><h3>60秒計算機大賽</h3></div>
+            <div class="project-card-meta"><span>進行中</span><time datetime="2026-05-02">2026-05-02</time></div>
+            <a href="https://ai-lish.github.io/calculator-race/" target="_blank" rel="noreferrer">開啟 project →</a>
+          </article>
+          <article class="project-card">
+            <div class="project-card-head"><span class="project-icon">🎮</span><h3>Math RPG (Godot 4)</h3></div>
+            <div class="project-card-meta"><span>進行中</span><time datetime="2026-04-22">2026-04-22</time></div>
+            <a href="https://github.com/ai-lish/math-rpg-godot" target="_blank" rel="noreferrer">開啟 project →</a>
+          </article>
+        </div>
+      </details>
+      <details class="project-group" open>
+        <summary><span class="project-group-title"><span class="project-group-icon">🎨</span>創作與個人工具</span><span class="project-group-count">4 個 project</span><span class="project-group-toggle" aria-hidden="true"></span></summary>
+        <div class="project-grid">
+          <article class="project-card">
+            <div class="project-card-head"><span class="project-icon">🛠️</span><h3>MiniMax 工作坊</h3></div>
+            <div class="project-card-meta"><span>進行中</span><time datetime="2026-07-11">2026-07-11</time></div>
+            <a href="https://ai-lish.github.io/minimax-workshop/" target="_blank" rel="noreferrer">開啟 project →</a>
+          </article>
+          <article class="project-card">
+            <div class="project-card-head"><span class="project-icon">🗾</span><h3>My-Japan PWA</h3></div>
+            <div class="project-card-meta"><span>進行中</span><time datetime="2026-06-20">2026-06-20</time></div>
+            <a href="https://ai-lish.github.io/My-Japan/" target="_blank" rel="noreferrer">開啟 project →</a>
+          </article>
+          <article class="project-card">
+            <div class="project-card-head"><span class="project-icon">✍️</span><h3>Zach AI Blog</h3></div>
+            <div class="project-card-meta"><span>進行中</span><time datetime="2026-04-27">2026-04-27</time></div>
+            <a href="https://ai-lish.github.io/zach-ai-blog/" target="_blank" rel="noreferrer">開啟 project →</a>
+          </article>
+          <article class="project-card">
+            <div class="project-card-head"><span class="project-icon">🎵</span><h3>Song-of-Songs</h3></div>
+            <div class="project-card-meta"><span>進行中</span><time datetime="2026-04-12">2026-04-12</time></div>
+            <a href="https://ai-lish.github.io/Song-of-Songs/index.html" target="_blank" rel="noreferrer">開啟 project →</a>
+          </article>
+        </div>
+      </details>
+        <details class="project-group gas-note-group">
+          <summary><span class="project-group-title"><span class="project-group-icon">⚙️</span>GAS / Automation</span><span class="project-group-count">暫無已核實 public project</span><span class="project-group-toggle" aria-hidden="true"></span></summary>
+          <p class="gas-note">目前只核實到相關 monitoring 文件，未找到可公開核實的 Google Apps Script repo 或 Web App project，因此暫不列入 project cards。</p>
+        </details>
       </div>
     </section>
 
@@ -225,7 +269,7 @@
       </div>
     </section>
   </main>
-  <footer>Build-time sanitized deployment · 2026-08-31T11:00:00.000Z</footer>
+  <footer>Build-time sanitized deployment · 2026-08-31T12:00:00.000Z</footer>
   <script>
     (() => {
       const root = document.getElementById('model-usage');
