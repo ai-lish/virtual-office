@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "publicRoot": "site",
+  "entries": [
+    { "source": "index.html", "destination": "index.html" },
+    { "source": "models.json", "destination": "models.json" },
+    { "source": "robots.txt", "destination": "robots.txt" },
+    { "source": "status.json", "destination": "status.json" }
+  ],
+  "generatedFiles": [".nojekyll"],
+  "allowedExternalHosts": ["ai-lish.github.io", "github.com", "script.google.com"]
+}

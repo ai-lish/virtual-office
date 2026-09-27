@@ -1,0 +1,10 @@
+{
+  "schema_version": "1",
+  "generated_at": "2026-09-27T06:00:00.000Z",
+  "services": [
+    {
+      "label": "public-site",
+      "status": "ok"
+    }
+  ]
+}
