@@ -1,0 +1,58 @@
+{
+  "schema_version": "1",
+  "generated_at": "2026-09-28T04:00:00.000Z",
+  "providers": [
+    {
+      "id": "chatgpt",
+      "label": "ChatGPT",
+      "observed_at": "2026-08-10T15:00:00.000Z",
+      "buckets": [
+        {
+          "bucket": "account",
+          "windows": {
+            "seven_day": 19
+          }
+        }
+      ]
+    },
+    {
+      "id": "claude",
+      "label": "Claude",
+      "observed_at": "2026-08-10T15:00:00.000Z",
+      "buckets": [
+        {
+          "bucket": "account",
+          "windows": {
+            "five_hour": 0,
+            "seven_day": 65
+          }
+        }
+      ]
+    },
+    {
+      "id": "gemini",
+      "label": "Gemini",
+      "observed_at": null,
+      "buckets": []
+    },
+    {
+      "id": "minimax",
+      "label": "MiniMax",
+      "observed_at": "2026-08-10T15:00:00.000Z",
+      "buckets": [
+        {
+          "bucket": "MiniMax-M*",
+          "windows": {
+            "five_hour": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "copilot",
+      "label": "GitHub Copilot",
+      "observed_at": null,
+      "buckets": []
+    }
+  ]
+}
