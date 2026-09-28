@@ -3,7 +3,9 @@
   "publicRoot": "site",
   "entries": [
     { "source": "index.html", "destination": "index.html" },
-    { "source": "models.json", "destination": "models.json" },
+    { "source": "history.html", "destination": "history.html" },
+    { "source": "providers.json", "destination": "providers.json" },
+    { "source": "history.json", "destination": "history.json" },
     { "source": "robots.txt", "destination": "robots.txt" },
     { "source": "status.json", "destination": "status.json" }
   ],

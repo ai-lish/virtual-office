@@ -35,38 +35,85 @@ const forbiddenContent = [
 ];
 const externalUrlPattern = /\bhttps?:\/\/[^\s"'<>`)]+/gi;
 
-function validateModelsSnapshot(value) {
-  const topKeys = Object.keys(value).sort();
-  if (JSON.stringify(topKeys) !== JSON.stringify(['freshness', 'generated_at', 'models', 'schema_version'])) {
-    throw new Error('models.json contains unknown or missing top-level keys');
+const PUBLIC_PROVIDERS = new Map([
+  ['chatgpt', 'ChatGPT'],
+  ['claude', 'Claude'],
+  ['gemini', 'Gemini'],
+  ['minimax', 'MiniMax'],
+  ['copilot', 'GitHub Copilot']
+]);
+const PUBLIC_WINDOWS = new Set(['five_hour', 'seven_day', 'monthly']);
+const BUCKET_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._ *-]{0,63}$/;
+const HOUR_PATTERN = /^\d{4}-\d{2}-\d{2}T\d{2}:00:00\.000Z$/;
+
+function assertExactKeys(value, keys, message) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)
+    || JSON.stringify(Object.keys(value).sort()) !== JSON.stringify([...keys].sort())) {
+    throw new Error(message);
   }
-  if (value.schema_version !== '1' || !['live', 'unavailable'].includes(value.freshness)) {
-    throw new Error('models.json schema or freshness is invalid');
+}
+
+function assertHeader(value, name) {
+  if (value.schema_version !== '1') throw new Error(`${name} schema_version is invalid`);
+  if (typeof value.generated_at !== 'string' || !HOUR_PATTERN.test(value.generated_at)) {
+    throw new Error(`${name} generated_at must be rounded to an UTC hour`);
   }
-  if (typeof value.generated_at !== 'string' || !/^\d{4}-\d{2}-\d{2}T\d{2}:00:00\.000Z$/.test(value.generated_at)) {
-    throw new Error('models.json generated_at must be rounded to an UTC hour');
+}
+
+function assertWindows(windows, name) {
+  if (!windows || typeof windows !== 'object' || Array.isArray(windows)) throw new Error(`${name} windows must be an object`);
+  const names = Object.keys(windows);
+  if (names.length === 0 || names.some((window) => !PUBLIC_WINDOWS.has(window))) {
+    throw new Error(`${name} contains unknown or empty windows`);
   }
-  if (!Array.isArray(value.models) || value.models.length > 32) {
-    throw new Error('models.json models must be a bounded array');
-  }
-  const names = new Set();
-  for (const model of value.models) {
-    const modelKeys = Object.keys(model || {}).sort();
-    if (JSON.stringify(modelKeys) !== JSON.stringify(['interval_used_percent', 'model', 'weekly_used_percent'])) {
-      throw new Error('models.json model entry contains unknown or missing keys');
+  for (const window of names) {
+    if (!Number.isInteger(windows[window]) || windows[window] < 0 || windows[window] > 100) {
+      throw new Error(`${name} window values must be integers between 0 and 100`);
     }
-    if (typeof model.model !== 'string' || !/^[A-Za-z0-9][A-Za-z0-9._ *-]{0,63}$/.test(model.model) || names.has(model.model)) {
-      throw new Error('models.json contains an invalid or duplicate model name');
+  }
+}
+
+function validateProviders(value) {
+  assertExactKeys(value, ['generated_at', 'providers', 'schema_version'], 'providers.json contains unknown or missing top-level keys');
+  assertHeader(value, 'providers.json');
+  if (!Array.isArray(value.providers) || value.providers.length !== PUBLIC_PROVIDERS.size) {
+    throw new Error('providers.json must list exactly the approved providers');
+  }
+  const seen = new Set();
+  for (const provider of value.providers) {
+    assertExactKeys(provider, ['buckets', 'id', 'label', 'observed_at'], 'providers.json provider entry contains unknown or missing keys');
+    if (PUBLIC_PROVIDERS.get(provider.id) !== provider.label || seen.has(provider.id)) {
+      throw new Error('providers.json contains an unknown, relabelled or duplicate provider');
     }
-    names.add(model.model);
-    for (const field of ['interval_used_percent', 'weekly_used_percent']) {
-      if (!Number.isInteger(model[field]) || model[field] < 0 || model[field] > 100) {
-        throw new Error(`models.json ${field} must be an integer between 0 and 100`);
-      }
+    seen.add(provider.id);
+    if (provider.observed_at !== null && (typeof provider.observed_at !== 'string' || !HOUR_PATTERN.test(provider.observed_at))) {
+      throw new Error('providers.json observed_at must be null or rounded to an UTC hour');
+    }
+    if (!Array.isArray(provider.buckets) || provider.buckets.length > 8) throw new Error('providers.json buckets must be a bounded array');
+    if ((provider.observed_at === null) !== (provider.buckets.length === 0)) {
+      throw new Error('providers.json observed_at and buckets must be present together');
+    }
+    for (const bucket of provider.buckets) {
+      assertExactKeys(bucket, ['bucket', 'windows'], 'providers.json bucket contains unknown or missing keys');
+      if (typeof bucket.bucket !== 'string' || !BUCKET_PATTERN.test(bucket.bucket)) throw new Error('providers.json bucket label is invalid');
+      assertWindows(bucket.windows, 'providers.json');
     }
   }
-  if (value.freshness === 'unavailable' && value.models.length !== 0) {
-    throw new Error('unavailable models.json must not contain model entries');
+}
+
+function validateHistory(value) {
+  assertExactKeys(value, ['generated_at', 'records', 'schema_version'], 'history.json contains unknown or missing top-level keys');
+  assertHeader(value, 'history.json');
+  if (!Array.isArray(value.records) || value.records.length > 20000) throw new Error('history.json records must be a bounded array');
+  for (const record of value.records) {
+    assertExactKeys(record, ['bucket', 'observed_at', 'period', 'provider', 'windows'], 'history.json record contains unknown or missing keys');
+    if (!PUBLIC_PROVIDERS.has(record.provider)) throw new Error('history.json contains an unknown provider');
+    if (typeof record.bucket !== 'string' || !BUCKET_PATTERN.test(record.bucket)) throw new Error('history.json bucket label is invalid');
+    if (!['native', 'observation'].includes(record.period)) throw new Error('history.json period is invalid');
+    if (typeof record.observed_at !== 'string' || !HOUR_PATTERN.test(record.observed_at)) {
+      throw new Error('history.json observed_at must be rounded to an UTC hour');
+    }
+    assertWindows(record.windows, 'history.json');
   }
 }
 
@@ -112,8 +159,10 @@ for (const file of files) {
   }
 }
 
-const modelsFile = files.find((file) => file.relative === 'models.json');
-if (!modelsFile) throw new Error('models.json is missing from public output');
-validateModelsSnapshot(JSON.parse((await readFile(modelsFile.full)).toString('utf8')));
+for (const [name, validate] of [['providers.json', validateProviders], ['history.json', validateHistory]]) {
+  const file = files.find((entry) => entry.relative === name);
+  if (!file) throw new Error(`${name} is missing from public output`);
+  validate(JSON.parse((await readFile(file.full)).toString('utf8')));
+}
 
 console.log(`Public-site guard passed (${files.length} exact files).`);

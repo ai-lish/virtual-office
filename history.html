@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="zh-HK">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>AI 使用歷史</title>
+  <style>
+    :root { color-scheme: dark; --bg:#0f0f23; --card:#16213e; --bar:#1a1a2e; --text:#eee; --dim:#9aa4b2; --red:#bc002d; --blue:#5dade2; --line:rgba(255,255,255,.09); font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; background:radial-gradient(circle at 15% 0%,#1d2442 0,#0f0f23 42%),var(--bg); color:var(--text); }
+    header { position:sticky; top:0; z-index:3; display:flex; justify-content:space-between; align-items:center; gap:16px; padding:14px clamp(16px,4vw,44px); background:linear-gradient(90deg,var(--bar),var(--card)); border-bottom:2px solid var(--red); }
+    header h1 { margin:0; font-size:1.05rem; }
+    header a { color:var(--blue); font-size:.8rem; text-decoration:none; }
+    main { width:min(1080px,calc(100% - 32px)); margin:0 auto; padding:26px 0 58px; }
+    section { margin-top:28px; }
+    .section-title { display:flex; align-items:center; gap:10px; margin-bottom:12px; color:var(--dim); font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; }
+    .section-title::after { content:""; height:1px; flex:1; background:var(--line); }
+    .note { margin:0 0 12px; color:var(--dim); font-size:.8rem; line-height:1.65; }
+    .panel { padding:18px; border:1px solid var(--line); border-radius:14px; background:rgba(22,33,62,.72); }
+    .filters { display:flex; flex-wrap:wrap; align-items:center; gap:8px; position:sticky; top:54px; z-index:2; padding:10px 0; background:rgba(15,15,35,.92); }
+    .filters span { color:var(--dim); font-size:.76rem; margin-right:4px; }
+    .filters button, .filters select { padding:6px 12px; border:1px solid rgba(255,255,255,.18); border-radius:999px; background:transparent; color:var(--text); font:inherit; font-size:.78rem; cursor:pointer; }
+    .filters button[aria-pressed="true"] { background:rgba(93,173,226,.2); border-color:var(--blue); font-weight:650; }
+    .filters select option { background:#16213e; }
+    table { width:100%; border-collapse:collapse; font-size:.82rem; }
+    th, td { padding:9px 10px; text-align:left; border-bottom:1px solid var(--line); }
+    th { color:var(--dim); font-size:.7rem; font-weight:600; letter-spacing:.04em; }
+    td.num, th.num { text-align:right; font-variant-numeric:tabular-nums; }
+    .key { display:inline-block; width:14px; height:3px; margin-right:8px; vertical-align:middle; border-radius:2px; background:var(--provider); }
+    .table-wrap { overflow-x:auto; }
+    .table-wrap table { min-width:620px; }
+    .multiples { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:12px; }
+    .multiple { padding:14px; border:1px solid var(--line); border-radius:12px; background:rgba(15,15,35,.6); }
+    .multiple h3 { display:flex; justify-content:space-between; margin:0 0 10px; font-size:.86rem; }
+    .multiple h3 small { color:var(--dim); font-weight:400; font-size:.7rem; }
+    .bars { position:relative; display:flex; align-items:flex-end; gap:2px; height:120px; border-bottom:1px solid rgba(255,255,255,.25); background:linear-gradient(to top, transparent calc(80% - 1px), rgba(255,255,255,.12) calc(80% - 1px), rgba(255,255,255,.12) 80%, transparent 80%); }
+    .bar-hit { flex:1 1 0; min-width:3px; height:100%; display:flex; align-items:flex-end; cursor:default; outline:none; }
+    .bar { width:100%; border-radius:4px 4px 0 0; background:var(--provider); }
+    .bar-hit:hover .bar, .bar-hit:focus .bar { filter:brightness(1.35); }
+    .axis { display:flex; justify-content:space-between; margin-top:4px; color:var(--dim); font-size:.66rem; }
+    .empty { margin:0; padding:26px 0; color:var(--dim); font-size:.8rem; text-align:center; }
+    .heat { display:grid; grid-template-columns:120px repeat(24,minmax(16px,1fr)); gap:2px; min-width:620px; font-size:.68rem; }
+    .heat-label { color:var(--text); display:flex; align-items:center; }
+    .heat-hour { color:var(--dim); text-align:center; }
+    .heat-cell { height:26px; border-radius:3px; background:rgba(255,255,255,.04); outline:none; }
+    .heat-cell:hover, .heat-cell:focus { box-shadow:0 0 0 2px #fff inset; }
+    .heat-legend { display:flex; align-items:center; gap:6px; margin-top:10px; color:var(--dim); font-size:.68rem; }
+    .heat-legend i { width:22px; height:10px; border-radius:2px; display:inline-block; }
+    .tooltip { position:fixed; z-index:10; pointer-events:none; padding:8px 10px; border:1px solid rgba(255,255,255,.2); border-radius:8px; background:#0b1022; font-size:.76rem; line-height:1.5; box-shadow:0 8px 24px rgba(0,0,0,.4); }
+    .tooltip strong { display:block; font-size:.95rem; }
+    .tooltip span { color:var(--dim); }
+    .week-nav { display:flex; align-items:center; gap:8px; margin-bottom:10px; color:var(--dim); font-size:.78rem; }
+    .week-nav button { padding:4px 10px; border:1px solid rgba(255,255,255,.18); border-radius:999px; background:transparent; color:var(--text); cursor:pointer; }
+    .delta-up { color:#f0a58a; } .delta-down { color:#8fd3b6; }
+    .pager { display:flex; justify-content:flex-end; align-items:center; gap:8px; margin-top:10px; color:var(--dim); font-size:.76rem; }
+    .pager button { padding:4px 10px; border:1px solid rgba(255,255,255,.18); border-radius:999px; background:transparent; color:var(--text); cursor:pointer; }
+    footer { padding:20px 16px 34px; color:#6f7b8b; text-align:center; font-size:.72rem; }
+    [data-provider="chatgpt"] { --provider:#3987e5; }
+    [data-provider="claude"] { --provider:#d95926; }
+    [data-provider="gemini"] { --provider:#199e70; }
+    [data-provider="minimax"] { --provider:#c98500; }
+    [data-provider="copilot"] { --provider:#d55181; }
+    @media(max-width:760px) { header { flex-direction:column; align-items:flex-start; } .filters { top:84px; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📈 AI 使用歷史</h1>
+    <a href="index.html">← 返回虛擬辦公室</a>
+  </header>
+  <main>
+    <p class="note">每個 AI 每個使用時段只保留最後一次讀數。ChatGPT、Claude、Gemini、MiniMax 跟各自的 5 小時 window；Copilot 係月度配額，按固定觀察時段記錄。時間以香港時間顯示。2026-08-10 或之前嘅紀錄來自舊系統，當時每日只收集 5 次。</p>
+    <div class="filters" role="group" aria-label="時間範圍">
+      <span>範圍（以最新紀錄計）</span>
+      <button type="button" data-range="7">7 日</button>
+      <button type="button" data-range="30">30 日</button>
+      <button type="button" data-range="90">90 日</button>
+      <button type="button" data-range="0">全部</button>
+    </div>
+
+    <section aria-labelledby="summary-title">
+      <div class="section-title" id="summary-title">訂閱分析摘要</div>
+      <div class="panel table-wrap"><table id="summary"><caption class="note" style="text-align:left">「高用量」＝該時段用到 80% 或以上。經常高用量代表配額偏緊；長期偏低代表可以考慮降級或減少訂閱。</caption></table></div>
+    </section>
+
+    <section aria-labelledby="daily-title">
+      <div class="section-title" id="daily-title">每日最高使用率</div>
+      <p class="note">每條柱＝當日（香港時間）該 AI 最高嘅使用百分比；虛線＝80%。滑鼠或 Tab 移到柱上可睇數值。</p>
+      <div class="multiples" id="multiples"></div>
+    </section>
+
+    <section aria-labelledby="heat-title">
+      <div class="section-title" id="heat-title">一日之中幾時用得多</div>
+      <p class="note">按收集時間（香港時間，每小時一格）計嘅平均使用百分比；顏色越光代表越高，空格代表冇紀錄。</p>
+      <div class="panel table-wrap"><div class="heat" id="heat"></div><div class="heat-legend" id="heat-legend"></div></div>
+    </section>
+
+    <section aria-labelledby="week-title">
+      <div class="section-title" id="week-title">每週比較</div>
+      <div class="panel table-wrap">
+        <div class="week-nav"><button type="button" id="week-prev" aria-label="上一週">‹</button><span id="week-label"></span><button type="button" id="week-next" aria-label="下一週">›</button></div>
+        <table id="week"></table>
+      </div>
+    </section>
+
+    <section aria-labelledby="records-title">
+      <div class="section-title" id="records-title">完整紀錄</div>
+      <div class="filters" style="position:static" role="group" aria-label="紀錄篩選">
+        <span>月份</span><select id="month"></select>
+        <span>AI</span><select id="provider-filter"></select>
+      </div>
+      <div class="panel table-wrap"><table id="records"></table><div class="pager" id="pager"></div></div>
+    </section>
+  </main>
+  <footer>Build 2026-09-28T04:00:00.000Z · 只含使用百分比及收集時間</footer>
+  <div class="tooltip" id="tooltip" hidden></div>
+  <script>
+    (() => {
+      const PROVIDERS = [
+        { id: 'chatgpt', label: 'ChatGPT' },
+        { id: 'claude', label: 'Claude' },
+        { id: 'gemini', label: 'Gemini' },
+        { id: 'minimax', label: 'MiniMax' },
+        { id: 'copilot', label: 'GitHub Copilot' }
+      ];
+      const WINDOW_LABELS = { five_hour: '5 小時', seven_day: '7 日', monthly: '本月' };
+      const el = (tag, className, text) => {
+        const node = document.createElement(tag);
+        if (className) node.className = className;
+        if (text !== undefined) node.textContent = text;
+        return node;
+      };
+      const clamp = (value) => Math.max(0, Math.min(100, Math.round(Number(value))));
+      const hkt = (iso, options) => new Date(iso).toLocaleString('zh-HK', { timeZone: 'Asia/Hong_Kong', ...options });
+      const meter = (label, value) => {
+        const row = el('div', 'metric-row');
+        row.append(el('span', '', label));
+        const bar = el('div', 'metric-bar');
+        const fill = el('div', 'metric-fill');
+        fill.style.width = clamp(value) + '%';
+        if (clamp(value) >= 80) fill.classList.add('metric-fill-high');
+        bar.setAttribute('role', 'meter');
+        bar.setAttribute('aria-label', label + ' 已用');
+        bar.setAttribute('aria-valuemin', '0');
+        bar.setAttribute('aria-valuemax', '100');
+        bar.setAttribute('aria-valuenow', String(clamp(value)));
+        bar.append(fill);
+        row.append(bar);
+        row.append(el('strong', 'metric-value', clamp(value) + '%'));
+        return row;
+      };
+      const DAY = 24 * 60 * 60 * 1000;
+      const HEAT_STEPS = ['#184f95', '#1c5cab', '#256abf', '#2a78d6', '#3987e5', '#5598e7', '#6da7ec', '#86b6ef', '#9ec5f4', '#cde2fb'];
+      const tooltip = document.getElementById('tooltip');
+      const state = { range: 30, weekOffset: 0, month: '', provider: '', page: 0 };
+      let all = [];
+
+      const hktParts = (iso) => {
+        const parts = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Hong_Kong', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', hourCycle: 'h23' })
+          .formatToParts(new Date(iso)).reduce((acc, part) => ({ ...acc, [part.type]: part.value }), {});
+        return { day: parts.year + '-' + parts.month + '-' + parts.day, month: parts.year + '-' + parts.month, hour: Number(parts.hour) };
+      };
+      // Primary metric per provider: five-hour share, or the monthly share for Copilot.
+      const primary = (record) => record.windows.five_hour ?? record.windows.monthly;
+      const primaryLabel = (id) => id === 'copilot' ? '本月' : '5 小時';
+      const mean = (values) => values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : null;
+      const fmt = (value) => value === null || value === undefined ? '—' : Math.round(value) + '%';
+
+      const showTip = (target, value, label) => {
+        tooltip.replaceChildren(el('strong', '', value), el('span', '', label));
+        tooltip.hidden = false;
+        const box = target.getBoundingClientRect();
+        tooltip.style.left = Math.min(window.innerWidth - 180, Math.max(8, box.left + box.width / 2 - 70)) + 'px';
+        tooltip.style.top = (box.top < 130 ? box.bottom + 8 : box.top - 58) + 'px';
+      };
+      const hideTip = () => { tooltip.hidden = true; };
+      const hover = (node, value, label) => {
+        node.tabIndex = 0;
+        node.setAttribute('aria-label', label + '：' + value);
+        for (const type of ['pointerenter', 'focus']) node.addEventListener(type, () => showTip(node, value, label));
+        for (const type of ['pointerleave', 'blur']) node.addEventListener(type, hideTip);
+      };
+
+      const inRange = () => {
+        if (!all.length || !state.range) return all;
+        const latest = new Date(all[all.length - 1].observed_at).getTime();
+        return all.filter((record) => latest - new Date(record.observed_at).getTime() < state.range * DAY);
+      };
+
+      const renderSummary = (records) => {
+        const table = document.getElementById('summary');
+        table.querySelectorAll('thead,tbody').forEach((node) => node.remove());
+        const head = el('thead');
+        const headRow = el('tr');
+        for (const [text, numeric] of [['AI', false], ['時段數', true], ['平均使用率', true], ['高用量時段', true], ['最高', true], ['平均 7 日', true], ['最近紀錄', false]]) {
+          headRow.append(el('th', numeric ? 'num' : '', text));
+        }
+        head.append(headRow);
+        const body = el('tbody');
+        for (const { id, label } of PROVIDERS) {
+          const rows = records.filter((record) => record.provider === id && primary(record) !== undefined);
+          const values = rows.map(primary);
+          const weekly = rows.map((record) => record.windows.seven_day).filter((value) => value !== undefined);
+          const high = values.filter((value) => value >= 80).length;
+          const tr = el('tr');
+          tr.dataset.provider = id;
+          const name = el('td');
+          name.append(el('span', 'key'), document.createTextNode(label + '（' + primaryLabel(id) + '）'));
+          tr.append(name,
+            el('td', 'num', String(rows.length)),
+            el('td', 'num', fmt(mean(values))),
+            el('td', 'num', rows.length ? high + '（' + Math.round(high / rows.length * 100) + '%）' : '—'),
+            el('td', 'num', values.length ? Math.max(...values) + '%' : '—'),
+            el('td', 'num', fmt(mean(weekly))),
+            el('td', '', rows.length ? hkt(rows[rows.length - 1].observed_at, { dateStyle: 'short', timeStyle: 'short' }) : '未有資料'));
+          body.append(tr);
+        }
+        table.append(head, body);
+      };
+
+      const renderMultiples = (records) => {
+        const root = document.getElementById('multiples');
+        root.replaceChildren();
+        for (const { id, label } of PROVIDERS) {
+          const byDay = new Map();
+          for (const record of records) {
+            if (record.provider !== id || primary(record) === undefined) continue;
+            const day = hktParts(record.observed_at).day;
+            byDay.set(day, Math.max(byDay.get(day) ?? 0, primary(record)));
+          }
+          const card = el('article', 'multiple');
+          card.dataset.provider = id;
+          const title = el('h3', '', label);
+          title.append(el('small', '', primaryLabel(id) + '・' + byDay.size + ' 日'));
+          card.append(title);
+          if (!byDay.size) {
+            card.append(el('p', 'empty', '呢個範圍未有資料'));
+          } else {
+            const days = [...byDay.keys()].sort();
+            const bars = el('div', 'bars');
+            for (const day of days) {
+              const hit = el('div', 'bar-hit');
+              const bar = el('div', 'bar');
+              bar.style.height = Math.max(2, byDay.get(day)) + '%';
+              hit.append(bar);
+              hover(hit, byDay.get(day) + '%', label + '・' + day);
+              bars.append(hit);
+            }
+            const axis = el('div', 'axis');
+            axis.append(el('span', '', days[0]), el('span', '', days[days.length - 1]));
+            card.append(bars, axis);
+          }
+          root.append(card);
+        }
+      };
+
+      const renderHeat = (records) => {
+        const root = document.getElementById('heat');
+        root.replaceChildren(el('span', 'heat-hour', ''));
+        for (let hour = 0; hour < 24; hour += 1) root.append(el('span', 'heat-hour', hour % 3 === 0 ? String(hour) : ''));
+        for (const { id, label } of PROVIDERS) {
+          const buckets = Array.from({ length: 24 }, () => []);
+          for (const record of records) {
+            if (record.provider === id && primary(record) !== undefined) buckets[hktParts(record.observed_at).hour].push(primary(record));
+          }
+          root.append(el('span', 'heat-label', label));
+          buckets.forEach((values, hour) => {
+            const cell = el('span', 'heat-cell');
+            const average = mean(values);
+            if (average !== null) {
+              cell.style.background = HEAT_STEPS[Math.min(9, Math.floor(average / 10))];
+              hover(cell, Math.round(average) + '%', label + '・' + hour + ':00 平均（' + values.length + ' 次）');
+            }
+            root.append(cell);
+          });
+        }
+        const legend = document.getElementById('heat-legend');
+        legend.replaceChildren(el('span', '', '0%'));
+        for (const colour of HEAT_STEPS) {
+          const swatch = el('i');
+          swatch.style.background = colour;
+          legend.append(swatch);
+        }
+        legend.append(el('span', '', '100%'));
+      };
+
+      const weekStart = (time) => {
+        const date = new Date(time + 8 * 60 * 60 * 1000);
+        const day = (date.getUTCDay() + 6) % 7;
+        return Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() - day) - 8 * 60 * 60 * 1000;
+      };
+      const renderWeek = () => {
+        const table = document.getElementById('week');
+        table.replaceChildren();
+        if (!all.length) return;
+        const anchor = weekStart(new Date(all[all.length - 1].observed_at).getTime()) + state.weekOffset * 7 * DAY;
+        const weeks = [anchor - 7 * DAY, anchor, anchor + 7 * DAY];
+        const label = (start) => hkt(new Date(start).toISOString(), { month: 'numeric', day: 'numeric' });
+        document.getElementById('week-label').textContent = label(anchor) + ' 起嘅一週（同前後一週比較）';
+        const head = el('tr');
+        head.append(el('th', '', 'AI'));
+        for (const [index, start] of weeks.entries()) head.append(el('th', 'num', ['前一週', '本週', '後一週'][index] + '（' + label(start) + '）'));
+        head.append(el('th', 'num', '本週 vs 前一週'));
+        const thead = el('thead');
+        thead.append(head);
+        const body = el('tbody');
+        for (const { id, label: name } of PROVIDERS) {
+          const averages = weeks.map((start) => mean(all
+            .filter((record) => record.provider === id && primary(record) !== undefined)
+            .filter((record) => { const time = new Date(record.observed_at).getTime(); return time >= start && time < start + 7 * DAY; })
+            .map(primary)));
+          const tr = el('tr');
+          tr.dataset.provider = id;
+          const cell = el('td');
+          cell.append(el('span', 'key'), document.createTextNode(name));
+          tr.append(cell, ...averages.map((value) => el('td', 'num', fmt(value))));
+          const delta = averages[0] !== null && averages[1] !== null ? Math.round(averages[1] - averages[0]) : null;
+          tr.append(el('td', 'num ' + (delta > 0 ? 'delta-up' : delta < 0 ? 'delta-down' : ''), delta === null ? '—' : (delta > 0 ? '+' : '') + delta + ' 個百分點'));
+          body.append(tr);
+        }
+        table.append(thead, body);
+      };
+
+      const renderRecords = () => {
+        const table = document.getElementById('records');
+        const rows = all
+          .filter((record) => !state.month || hktParts(record.observed_at).month === state.month)
+          .filter((record) => !state.provider || record.provider === state.provider)
+          .slice()
+          .reverse();
+        const pages = Math.max(1, Math.ceil(rows.length / 50));
+        state.page = Math.min(state.page, pages - 1);
+        const head = el('tr');
+        for (const [text, numeric] of [['收集時間', false], ['AI', false], ['類別', false], ['5 小時', true], ['7 日', true], ['本月', true], ['時段', false]]) head.append(el('th', numeric ? 'num' : '', text));
+        const thead = el('thead');
+        thead.append(head);
+        const body = el('tbody');
+        const labels = new Map(PROVIDERS.map((provider) => [provider.id, provider.label]));
+        for (const record of rows.slice(state.page * 50, state.page * 50 + 50)) {
+          const tr = el('tr');
+          tr.dataset.provider = record.provider;
+          const name = el('td');
+          name.append(el('span', 'key'), document.createTextNode(labels.get(record.provider) || record.provider));
+          tr.append(el('td', '', hkt(record.observed_at, { dateStyle: 'short', timeStyle: 'short' })), name, el('td', '', record.bucket),
+            el('td', 'num', fmt(record.windows.five_hour)), el('td', 'num', fmt(record.windows.seven_day)), el('td', 'num', fmt(record.windows.monthly)),
+            el('td', '', record.period === 'native' ? 'AI 自己嘅 window' : '固定觀察時段'));
+          body.append(tr);
+        }
+        table.replaceChildren(thead, body);
+        const pager = document.getElementById('pager');
+        const prev = el('button', '', '‹ 上頁');
+        const next = el('button', '', '下頁 ›');
+        prev.disabled = state.page === 0;
+        next.disabled = state.page >= pages - 1;
+        prev.addEventListener('click', () => { state.page -= 1; renderRecords(); });
+        next.addEventListener('click', () => { state.page += 1; renderRecords(); });
+        pager.replaceChildren(el('span', '', rows.length + ' 條紀錄・第 ' + (state.page + 1) + '／' + pages + ' 頁'), prev, next);
+      };
+
+      const renderRanged = () => {
+        for (const button of document.querySelectorAll('[data-range]')) button.setAttribute('aria-pressed', String(Number(button.dataset.range) === state.range));
+        const records = inRange();
+        renderSummary(records);
+        renderMultiples(records);
+        renderHeat(records);
+      };
+
+      const setup = (data) => {
+        all = (Array.isArray(data?.records) ? data.records : [])
+          .filter((record) => record && record.windows && record.observed_at)
+          .sort((left, right) => left.observed_at.localeCompare(right.observed_at));
+        const months = [...new Set(all.map((record) => hktParts(record.observed_at).month))].sort().reverse();
+        const monthSelect = document.getElementById('month');
+        monthSelect.replaceChildren(el('option', '', '全部月份'), ...months.map((month) => el('option', '', month)));
+        monthSelect.options[0].value = '';
+        monthSelect.addEventListener('change', () => { state.month = monthSelect.value; state.page = 0; renderRecords(); });
+        const providerSelect = document.getElementById('provider-filter');
+        providerSelect.replaceChildren(el('option', '', '全部'), ...PROVIDERS.map((provider) => {
+          const option = el('option', '', provider.label);
+          option.value = provider.id;
+          return option;
+        }));
+        providerSelect.options[0].value = '';
+        providerSelect.addEventListener('change', () => { state.provider = providerSelect.value; state.page = 0; renderRecords(); });
+        for (const button of document.querySelectorAll('[data-range]')) {
+          button.addEventListener('click', () => { state.range = Number(button.dataset.range); renderRanged(); });
+        }
+        document.getElementById('week-prev').addEventListener('click', () => { state.weekOffset -= 1; renderWeek(); });
+        document.getElementById('week-next').addEventListener('click', () => { state.weekOffset += 1; renderWeek(); });
+        renderRanged();
+        renderWeek();
+        renderRecords();
+      };
+
+      fetch('history.json?cache=' + Date.now(), { cache: 'no-store' })
+        .then((response) => response.ok ? response.json() : Promise.reject(new Error('unavailable')))
+        .then(setup)
+        .catch(() => {
+          document.getElementById('summary').replaceChildren(el('caption', 'note', '使用歷史暫時不可用。'));
+        });
+    })();
+  </script>
+</body>
+</html>

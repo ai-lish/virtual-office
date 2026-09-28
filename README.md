@@ -1,20 +1,20 @@
 # Virtual Office — Public Deployment
 
-This repository hosts the public GitHub Pages deployment for Virtual Office. The private operational source, Memory and quota history belong in `math-lish/virtual-office`; this public repository is not the source of raw usage records.
+This repository hosts the public GitHub Pages deployment for Virtual Office. The private operational source, Memory and quota history belong in `math-lish/virtual-office`; this repository only deploys files that the private workflow has already built and guarded.
 
 ## Current state
 
-- GitHub Pages builds and deploys the safe static overview from the approved site files.
-- The public homepage contains a curated index of 23 AI-Lish projects and a separate registry of six GAS / Automation projects.
-- `models.json` is a closed-schema summary. At the 2026-09-27 repository reset, the owner reported that `MINIMAX_API_KEY` was not configured and the model snapshot was `unavailable`. The Pages workflow still has a scheduled snapshot-fetch step that can use this secret if configured; that step has not been removed.
-- The public page does not include operational quota history, raw billing CSVs, Copilot reports, account data, tokens, or raw provider responses.
+- GitHub Pages builds and deploys the exact files listed in `publish.allowlist.json`.
+- The homepage (`index.html`) contains the current usage cards for ChatGPT, Claude, Gemini, MiniMax and GitHub Copilot, a curated index of 23 AI-Lish projects, and a registry of six GAS / Automation projects.
+- `history.html` shows five-hour usage history and analysis: a subscription summary, daily peak usage, usage by hour of day, week-over-week comparison and a filterable record table.
+- `providers.json` and `history.json` are closed-schema projections of the private `quota-data/history.json`. They contain only provider/bucket labels, window names (`five_hour`, `seven_day`, `monthly`), integer percentages and hour-rounded capture times.
+- This repository holds no provider credentials. Usage is collected on the owner's Mac from the private repository; the former `models.json` MiniMax fetch step and its `MINIMAX_API_KEY` secret are no longer used.
+- The public pages do not include reset times, token or request counts, raw billing CSVs, Copilot reports, account data, tokens or raw provider responses.
 
-## Planned direction
+## Window rules
 
-The intended design is to collect provider usage locally from the private source repository, keep `quota-data/` as the primary history source, and use this repository only to deploy explicitly approved sanitized output. The MiniMax key is planned to move out of the public repository's workflow. Those changes are not implemented by this README update.
-
-If quota summaries are published in the future, expose only the provider/window labels needed to read them, usage percentages and capture times. Keep token/request details, per-model Copilot analysis, MiniMax hourly token trends, raw exports and credentials private. Claude, ChatGPT, MiniMax and Gemini should use their own five-hour windows, and also record a provider's seven-day/weekly quota when available. Copilot alone has a monthly quota and should use the fixed UTC observation slots 01–06, 06–11, 11–16, 16–21 and 21–01, labeled as observation periods rather than a five-hour quota. Gemini must not use those slots. The existing private-source `scripts/quota/providers/gemini.js` accepts only a pre-cleaned snapshot file; the collection method for Gemini web remains planned.
+ChatGPT, Claude, Gemini and MiniMax records follow each provider's own five-hour window, keeping only the latest reading per window, with the seven-day/weekly share when the provider reports one. GitHub Copilot has a monthly quota and is recorded in fixed observation periods (UTC 00:00, 05:00, 10:00, 15:00, 20:00), labelled as observations rather than a five-hour quota. Gemini web and Copilot currently rely on hand-written sanitized snapshots; automatic collection for them is planned.
 
 ## Deployment checks
 
-The Pages workflow builds and guards its output before deployment. Its `models.json` output must remain schema-limited and contain no raw provider data. Do not add credentials or raw usage records to this public repository.
+`scripts/build-public-site.mjs` copies only the allowlisted files into `site/`, and `scripts/guard-public-site.mjs` rejects any extra file, credential-shaped text, non-allowlisted external host, and any `providers.json` / `history.json` field outside the closed schema. Do not add credentials or raw usage records to this repository.

@@ -33,18 +33,6 @@
     .panel ul { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px 28px; margin:0; padding:0; list-style:none; color:#c8d0dc; font-size:.86rem; line-height:1.6; }
     .panel li::before { content:"✓"; margin-right:8px; color:var(--blue); }
     .model-panel { padding:22px; border:1px solid var(--line); border-radius:14px; background:rgba(22,33,62,.72); }
-    .model-note { margin:0 0 16px; color:var(--dim); font-size:.82rem; line-height:1.6; }
-    .model-meta { margin:0 0 14px; color:#b7c3d3; font-size:.76rem; }
-    .model-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
-    .model-card { padding:16px; border:1px solid var(--line); border-radius:12px; background:rgba(15,15,35,.68); }
-    .model-card-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; }
-    .model-card-name { font-weight:650; overflow-wrap:anywhere; }
-    .model-card-badge { color:#9af0ce; font-size:.68rem; letter-spacing:.08em; }
-    .metric-row { display:grid; grid-template-columns:42px 1fr 38px; align-items:center; gap:8px; margin-top:8px; color:var(--dim); font-size:.76rem; }
-    .metric-bar { height:7px; overflow:hidden; border-radius:999px; background:rgba(255,255,255,.1); }
-    .metric-fill { height:100%; border-radius:inherit; background:linear-gradient(90deg,#5dade2,#2ecc71); }
-    .metric-value { color:#e8edf4; text-align:right; font-variant-numeric:tabular-nums; }
-    .model-empty { margin:0; padding:12px 0 2px; color:var(--dim); font-size:.86rem; }
     .project-groups { display:flex; flex-direction:column; gap:12px; }
     .project-group { overflow:hidden; border:1px solid var(--line); border-radius:14px; background:rgba(15,15,35,.42); }
     .project-group summary { display:flex; align-items:center; gap:10px; padding:17px 20px; cursor:pointer; list-style:none; user-select:none; }
@@ -74,7 +62,28 @@
     .gas-note-group { margin-top:12px; }
     .gas-note { margin:0; padding:0 20px 18px 50px; color:var(--dim); font-size:.8rem; line-height:1.65; }
     footer { padding:20px 16px 34px; color:#6f7b8b; text-align:center; font-size:.72rem; }
-    @media(max-width:760px) { .grid,.panel ul,.model-grid,.project-grid { grid-template-columns:1fr; } header { align-items:flex-start; flex-direction:column; } .hero h2 { font-size:2.5rem; } }
+    .usage-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:12px; }
+    .usage-card { padding:16px; border:1px solid var(--line); border-left:3px solid var(--provider); border-radius:12px; background:rgba(15,15,35,.68); }
+    .usage-card-head { display:flex; flex-direction:column; gap:2px; margin-bottom:6px; }
+    .usage-card-name { font-weight:650; }
+    .usage-card-time { color:var(--dim); font-size:.7rem; font-variant-numeric:tabular-nums; }
+    .usage-card-empty { margin:10px 0 0; color:var(--dim); font-size:.8rem; }
+    .usage-stale { display:inline-block; margin-top:8px; padding:2px 8px; border-radius:999px; border:1px solid rgba(255,255,255,.18); color:var(--dim); font-size:.66rem; }
+    .usage-bucket { margin-top:8px; color:var(--dim); font-size:.7rem; }
+    .metric-row { display:grid; grid-template-columns:42px 1fr 40px; align-items:center; gap:8px; margin-top:8px; color:var(--dim); font-size:.76rem; }
+    .metric-bar { height:7px; overflow:hidden; border-radius:999px; background:rgba(255,255,255,.1); }
+    .metric-fill { height:100%; border-radius:inherit; background:var(--provider); }
+    .metric-fill-high { box-shadow:0 0 0 1px #fff inset; }
+    .metric-value { color:#e8edf4; text-align:right; font-variant-numeric:tabular-nums; }
+    .usage-note { margin:0 0 14px; color:var(--dim); font-size:.8rem; line-height:1.6; }
+    .usage-link { display:inline-block; margin-top:14px; color:var(--blue); font-size:.82rem; text-decoration:none; }
+    .usage-link:hover { text-decoration:underline; }
+    [data-provider="chatgpt"] { --provider:#3987e5; }
+    [data-provider="claude"] { --provider:#d95926; }
+    [data-provider="gemini"] { --provider:#199e70; }
+    [data-provider="minimax"] { --provider:#c98500; }
+    [data-provider="copilot"] { --provider:#d55181; }
+    @media(max-width:760px) { .grid,.panel ul,.project-grid { grid-template-columns:1fr; } header { align-items:flex-start; flex-direction:column; } .hero h2 { font-size:2.5rem; } }
   </style>
 </head>
 <body>
@@ -86,8 +95,8 @@
     <section class="hero" aria-labelledby="title">
       <div class="eyebrow">Virtual Office / Public Overview</div>
       <h2 id="title">AI 工作空間總覽</h2>
-      <p>這是 Virtual Office 的公開版入口。公開頁保留產品定位、服務狀態、所有 public AI-Lish project 入口及經過篩選的 model 使用百分比；token、內部同步、user data 及 operational dashboard 均留在 private source。</p>
-      <div class="hero-meta"><span class="badge">PUBLIC SITE ONLINE</span><span>Build: 2026-09-27T06:00:00.000Z</span></div>
+      <p>這是 Virtual Office 的公開版入口。公開頁保留產品定位、服務狀態、所有 public AI-Lish project 入口及各 AI 的使用百分比；token、內部同步、user data 及 operational dashboard 均留在 private source。</p>
+      <div class="hero-meta"><span class="badge">PUBLIC SITE ONLINE</span><span>Build: 2026-09-28T04:00:00.000Z</span></div>
     </section>
 
     <section aria-labelledby="status-title">
@@ -99,11 +108,13 @@
       </div>
     </section>
 
-    <section aria-labelledby="models-title">
-      <div class="section-title" id="models-title">📊 Model 使用情況</div>
+
+    <section aria-labelledby="usage-title">
+      <div class="section-title" id="usage-title">📊 AI 使用量</div>
       <div class="model-panel" aria-live="polite">
-        <p class="model-note">只公開每個 model 的 5h／7d 使用百分比；不公開 prompt 數、reset time、帳戶、token 或原始 API 回應。</p>
-        <div id="model-usage"><p class="model-empty">正在載入安全 snapshot…</p></div>
+        <p class="usage-note">各 AI 最近一次收集到的使用百分比。只公開百分比及收集時間（準確至小時）；不公開 prompt／token 數、reset 時間、帳戶或原始回應。Copilot 係月度配額。</p>
+        <div id="usage-cards" class="usage-grid"><p class="usage-card-empty">正在載入…</p></div>
+        <a class="usage-link" href="history.html">查看 5 小時使用歷史及分析 →</a>
       </div>
     </section>
 
@@ -305,7 +316,7 @@
           <li>所有 public AI-Lish project 的名稱及公開連結</li>
           <li>GAS project 的安全摘要及最近推送日期</li>
           <li>安全部署及資料邊界狀態</li>
-          <li>只含 model 使用百分比，不含 raw quota response</li>
+          <li>只含 AI 使用百分比及收集時間，不含 raw quota response</li>
           <li>不含 user、school 或 account data</li>
           <li>不直接連接 private API 或 backend</li>
           <li>每次更新均重新 build 及 guard</li>
@@ -313,64 +324,77 @@
       </div>
     </section>
   </main>
-  <footer>Build-time sanitized deployment · 2026-09-27T06:00:00.000Z</footer>
+  <footer>Build-time sanitized deployment · 2026-09-28T04:00:00.000Z</footer>
+
   <script>
     (() => {
-      const root = document.getElementById('model-usage');
-      const clamp = (value) => Math.max(0, Math.min(100, Math.round(Number(value))));
+      const PROVIDERS = [
+        { id: 'chatgpt', label: 'ChatGPT' },
+        { id: 'claude', label: 'Claude' },
+        { id: 'gemini', label: 'Gemini' },
+        { id: 'minimax', label: 'MiniMax' },
+        { id: 'copilot', label: 'GitHub Copilot' }
+      ];
+      const WINDOW_LABELS = { five_hour: '5 小時', seven_day: '7 日', monthly: '本月' };
       const el = (tag, className, text) => {
         const node = document.createElement(tag);
         if (className) node.className = className;
         if (text !== undefined) node.textContent = text;
         return node;
       };
-      const metric = (label, value) => {
+      const clamp = (value) => Math.max(0, Math.min(100, Math.round(Number(value))));
+      const hkt = (iso, options) => new Date(iso).toLocaleString('zh-HK', { timeZone: 'Asia/Hong_Kong', ...options });
+      const meter = (label, value) => {
         const row = el('div', 'metric-row');
         row.append(el('span', '', label));
         const bar = el('div', 'metric-bar');
         const fill = el('div', 'metric-fill');
         fill.style.width = clamp(value) + '%';
-        fill.setAttribute('role', 'meter');
-        fill.setAttribute('aria-valuemin', '0');
-        fill.setAttribute('aria-valuemax', '100');
-        fill.setAttribute('aria-valuenow', String(clamp(value)));
+        if (clamp(value) >= 80) fill.classList.add('metric-fill-high');
+        bar.setAttribute('role', 'meter');
+        bar.setAttribute('aria-label', label + ' 已用');
+        bar.setAttribute('aria-valuemin', '0');
+        bar.setAttribute('aria-valuemax', '100');
+        bar.setAttribute('aria-valuenow', String(clamp(value)));
         bar.append(fill);
         row.append(bar);
         row.append(el('strong', 'metric-value', clamp(value) + '%'));
         return row;
       };
+      const root = document.getElementById('usage-cards');
       const render = (snapshot) => {
-        const models = Array.isArray(snapshot?.models) ? snapshot.models : [];
+        const byId = new Map((snapshot?.providers || []).map((provider) => [provider.id, provider]));
+        const generated = snapshot?.generated_at ? new Date(snapshot.generated_at).getTime() : Date.now();
         root.replaceChildren();
-        const stamp = snapshot?.generated_at ? new Date(snapshot.generated_at).toLocaleString('zh-HK', {
-          dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Hong_Kong'
-        }) : '—';
-        root.append(el('p', 'model-meta', 'Snapshot: ' + stamp + ' · ' + (snapshot?.freshness === 'live' ? 'LIVE BUILD' : 'UNAVAILABLE')));
-        if (models.length === 0) {
-          root.append(el('p', 'model-empty', snapshot?.freshness === 'unavailable'
-            ? '目前沒有可公開的 model snapshot。'
-            : '目前沒有 model 資料。'));
-          return;
-        }
-        const grid = el('div', 'model-grid');
-        for (const model of models) {
-          const card = el('article', 'model-card');
-          const head = el('div', 'model-card-head');
-          head.append(el('span', 'model-card-name', model.model));
-          head.append(el('span', 'model-card-badge', 'PUBLIC SUMMARY'));
+        for (const { id, label } of PROVIDERS) {
+          const provider = byId.get(id);
+          const card = el('article', 'usage-card');
+          card.dataset.provider = id;
+          const head = el('div', 'usage-card-head');
+          head.append(el('span', 'usage-card-name', label));
+          head.append(el('span', 'usage-card-time', provider?.observed_at ? hkt(provider.observed_at, { dateStyle: 'short', timeStyle: 'short' }) : '—'));
           card.append(head);
-          card.append(metric('5h', model.interval_used_percent));
-          card.append(metric('7d', model.weekly_used_percent));
-          grid.append(card);
+          const buckets = provider?.buckets || [];
+          if (buckets.length === 0) {
+            card.append(el('p', 'usage-card-empty', '未有資料'));
+          } else {
+            for (const bucket of buckets) {
+              if (buckets.length > 1) card.append(el('div', 'usage-bucket', bucket.bucket));
+              for (const name of ['five_hour', 'seven_day', 'monthly']) {
+                if (bucket.windows[name] !== undefined) card.append(meter(WINDOW_LABELS[name], bucket.windows[name]));
+              }
+            }
+            if (generated - new Date(provider.observed_at).getTime() > 24 * 60 * 60 * 1000) {
+              card.append(el('span', 'usage-stale', '超過 24 小時未更新'));
+            }
+          }
+          root.append(card);
         }
-        root.append(grid);
       };
-      fetch('models.json?cache=' + Date.now(), { cache: 'no-store' })
-        .then((response) => response.ok ? response.json() : Promise.reject(new Error('snapshot unavailable')))
+      fetch('providers.json?cache=' + Date.now(), { cache: 'no-store' })
+        .then((response) => response.ok ? response.json() : Promise.reject(new Error('unavailable')))
         .then(render)
-        .catch(() => {
-          root.replaceChildren(el('p', 'model-empty', 'Model snapshot 暫時不可用。'));
-        });
+        .catch(() => root.replaceChildren(el('p', 'usage-card-empty', '使用量資料暫時不可用。')));
     })();
   </script>
 </body>
