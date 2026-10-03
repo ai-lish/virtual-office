@@ -1,17 +1,17 @@
 {
   "schema_version": "1",
-  "generated_at": "2026-10-03T20:00:00.000Z",
+  "generated_at": "2026-10-03T21:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-10-03T20:00:00.000Z",
+      "observed_at": "2026-10-03T21:00:00.000Z",
       "buckets": [
         {
           "bucket": "account",
           "windows": {
-            "five_hour": 20,
-            "seven_day": 29
+            "five_hour": 48,
+            "seven_day": 33
           }
         }
       ]
@@ -25,12 +25,12 @@
     {
       "id": "gemini",
       "label": "Gemini",
-      "observed_at": "2026-10-03T20:00:00.000Z",
+      "observed_at": "2026-10-03T21:00:00.000Z",
       "buckets": [
         {
           "bucket": "account",
           "windows": {
-            "five_hour": 10,
+            "five_hour": 0,
             "seven_day": 4
           }
         }
