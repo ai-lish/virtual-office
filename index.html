@@ -68,7 +68,6 @@
     .usage-card-name { font-weight:650; }
     .usage-card-time { color:var(--dim); font-size:.7rem; font-variant-numeric:tabular-nums; }
     .usage-card-empty { margin:10px 0 0; color:var(--dim); font-size:.8rem; }
-    .usage-stale { display:inline-block; margin-top:8px; padding:2px 8px; border-radius:999px; border:1px solid rgba(255,255,255,.18); color:var(--dim); font-size:.66rem; }
     .usage-bucket { margin-top:8px; color:var(--dim); font-size:.7rem; }
     .metric-row { display:grid; grid-template-columns:42px 1fr 40px; align-items:center; gap:8px; margin-top:8px; color:var(--dim); font-size:.76rem; }
     .metric-bar { height:7px; overflow:hidden; border-radius:999px; background:rgba(255,255,255,.1); }
@@ -96,7 +95,7 @@
       <div class="eyebrow">Virtual Office / Public Overview</div>
       <h2 id="title">AI 工作空間總覽</h2>
       <p>這是 Virtual Office 的公開版入口。公開頁保留產品定位、服務狀態、所有 public AI-Lish project 入口及各 AI 的使用百分比；token、內部同步、user data 及 operational dashboard 均留在 private source。</p>
-      <div class="hero-meta"><span class="badge">PUBLIC SITE ONLINE</span><span>Build: 2026-10-03T12:00:00.000Z</span></div>
+      <div class="hero-meta"><span class="badge">PUBLIC SITE ONLINE</span><span>Build: 2026-10-03T19:00:00.000Z</span></div>
     </section>
 
     <section aria-labelledby="status-title">
@@ -112,7 +111,7 @@
     <section aria-labelledby="usage-title">
       <div class="section-title" id="usage-title">📊 AI 使用量</div>
       <div class="model-panel" aria-live="polite">
-        <p class="usage-note">各 AI 最近一次收集到的使用百分比。只公開百分比及收集時間（準確至小時）；不公開 prompt／token 數、reset 時間、帳戶或原始回應。Copilot 係月度配額。</p>
+        <p class="usage-note">只顯示最新且未過期的百分比；較舊讀數保留在分析頁。只公開百分比及觀測時間（準確至小時），不公開帳戶、reset 時間或原始回應。Copilot 係月度配額。</p>
         <div id="usage-cards" class="usage-grid"><p class="usage-card-empty">正在載入…</p></div>
         <a class="usage-link" href="history.html">查看 5 小時使用歷史及分析 →</a>
       </div>
@@ -324,7 +323,7 @@
       </div>
     </section>
   </main>
-  <footer>Build-time sanitized deployment · 2026-10-03T12:00:00.000Z</footer>
+  <footer>Build-time sanitized deployment · 2026-10-03T19:00:00.000Z</footer>
 
   <script>
     (() => {
@@ -364,7 +363,6 @@
       const root = document.getElementById('usage-cards');
       const render = (snapshot) => {
         const byId = new Map((snapshot?.providers || []).map((provider) => [provider.id, provider]));
-        const generated = snapshot?.generated_at ? new Date(snapshot.generated_at).getTime() : Date.now();
         root.replaceChildren();
         for (const { id, label } of PROVIDERS) {
           const provider = byId.get(id);
@@ -376,16 +374,13 @@
           card.append(head);
           const buckets = provider?.buckets || [];
           if (buckets.length === 0) {
-            card.append(el('p', 'usage-card-empty', '未有資料'));
+            card.append(el('p', 'usage-card-empty', '未有未過期資料'));
           } else {
             for (const bucket of buckets) {
               if (buckets.length > 1) card.append(el('div', 'usage-bucket', bucket.bucket));
               for (const name of ['five_hour', 'seven_day', 'monthly']) {
                 if (bucket.windows[name] !== undefined) card.append(meter(WINDOW_LABELS[name], bucket.windows[name]));
               }
-            }
-            if (generated - new Date(provider.observed_at).getTime() > 24 * 60 * 60 * 1000) {
-              card.append(el('span', 'usage-stale', '超過 24 小時未更新'));
             }
           }
           root.append(card);

@@ -1,33 +1,18 @@
 {
   "schema_version": "1",
-  "generated_at": "2026-10-03T12:00:00.000Z",
+  "generated_at": "2026-10-03T19:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-08-10T15:00:00.000Z",
-      "buckets": [
-        {
-          "bucket": "account",
-          "windows": {
-            "seven_day": 19
-          }
-        }
-      ]
+      "observed_at": null,
+      "buckets": []
     },
     {
       "id": "claude",
       "label": "Claude",
-      "observed_at": "2026-08-10T15:00:00.000Z",
-      "buckets": [
-        {
-          "bucket": "account",
-          "windows": {
-            "five_hour": 0,
-            "seven_day": 65
-          }
-        }
-      ]
+      "observed_at": null,
+      "buckets": []
     },
     {
       "id": "gemini",
@@ -38,15 +23,8 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-08-10T15:00:00.000Z",
-      "buckets": [
-        {
-          "bucket": "MiniMax-M*",
-          "windows": {
-            "five_hour": 1
-          }
-        }
-      ]
+      "observed_at": null,
+      "buckets": []
     },
     {
       "id": "copilot",
