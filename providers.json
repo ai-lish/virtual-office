@@ -10,7 +10,7 @@
         {
           "bucket": "account",
           "windows": {
-            "five_hour": 79,
+            "five_hour": 80,
             "seven_day": 25
           }
         }
