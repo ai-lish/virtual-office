@@ -5,8 +5,16 @@
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": null,
-      "buckets": []
+      "observed_at": "2026-10-03T19:00:00.000Z",
+      "buckets": [
+        {
+          "bucket": "account",
+          "windows": {
+            "five_hour": 79,
+            "seven_day": 25
+          }
+        }
+      ]
     },
     {
       "id": "claude",
@@ -17,8 +25,16 @@
     {
       "id": "gemini",
       "label": "Gemini",
-      "observed_at": null,
-      "buckets": []
+      "observed_at": "2026-10-03T19:00:00.000Z",
+      "buckets": [
+        {
+          "bucket": "account",
+          "windows": {
+            "five_hour": 1,
+            "seven_day": 3
+          }
+        }
+      ]
     },
     {
       "id": "minimax",
