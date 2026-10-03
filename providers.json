@@ -1,6 +1,6 @@
 {
   "schema_version": "1",
-  "generated_at": "2026-10-03T21:00:00.000Z",
+  "generated_at": "2026-10-03T22:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
@@ -39,8 +39,15 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": null,
-      "buckets": []
+      "observed_at": "2026-10-03T22:00:00.000Z",
+      "buckets": [
+        {
+          "bucket": "MiniMax-M*",
+          "windows": {
+            "five_hour": 0
+          }
+        }
+      ]
     },
     {
       "id": "copilot",
