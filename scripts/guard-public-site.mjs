@@ -45,6 +45,7 @@ const PUBLIC_PROVIDERS = new Map([
 const PUBLIC_WINDOWS = new Set(['five_hour', 'seven_day', 'monthly']);
 const BUCKET_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._ *-]{0,63}$/;
 const HOUR_PATTERN = /^\d{4}-\d{2}-\d{2}T\d{2}:00:00\.000Z$/;
+const PUBLIC_TIME_PATTERN = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?Z$/;
 
 function assertExactKeys(value, keys, message) {
   if (!value || typeof value !== 'object' || Array.isArray(value)
@@ -54,9 +55,40 @@ function assertExactKeys(value, keys, message) {
 }
 
 function assertHeader(value, name) {
-  if (value.schema_version !== '1') throw new Error(`${name} schema_version is invalid`);
+  if (!['1', '2'].includes(value.schema_version)) throw new Error(`${name} schema_version is invalid`);
   if (typeof value.generated_at !== 'string' || !HOUR_PATTERN.test(value.generated_at)) {
     throw new Error(`${name} generated_at must be rounded to an UTC hour`);
+  }
+}
+
+function assertResetCount(value, name) {
+  if (value !== null && (!Number.isInteger(value) || value < 0)) throw new Error(`${name} manual_resets_remaining is invalid`);
+}
+
+function assertResetMetadata(windows, resetsAt, resetMarkers, name) {
+  const names = Object.keys(windows || {}).sort();
+  for (const [field, value] of [['resets_at', resetsAt], ['reset_markers', resetMarkers]]) {
+    if (!value || typeof value !== 'object' || Array.isArray(value)
+      || JSON.stringify(Object.keys(value).sort()) !== JSON.stringify(names)) {
+      throw new Error(`${name} ${field} windows do not match windows`);
+    }
+  }
+  for (const window of names) {
+    const resetAt = resetsAt[window];
+    if (resetAt !== null && (typeof resetAt !== 'string' || !PUBLIC_TIME_PATTERN.test(resetAt))) {
+      throw new Error(`${name} resets_at values must be null or ISO timestamps`);
+    }
+    const marker = resetMarkers[window];
+    assertExactKeys(marker, ['detected', 'manual', 'pre_reset_observed_at', 'pre_reset_peak_pct'], `${name} reset marker contains unknown or missing keys`);
+    if (typeof marker.detected !== 'boolean' || typeof marker.manual !== 'boolean') {
+      throw new Error(`${name} reset marker flags must be boolean`);
+    }
+    if (marker.pre_reset_peak_pct === null) {
+      if (marker.pre_reset_observed_at !== null) throw new Error(`${name} reset peak time requires a peak`);
+    } else if (!Number.isInteger(marker.pre_reset_peak_pct) || marker.pre_reset_peak_pct < 0 || marker.pre_reset_peak_pct > 100
+      || typeof marker.pre_reset_observed_at !== 'string' || !PUBLIC_TIME_PATTERN.test(marker.pre_reset_observed_at)) {
+      throw new Error(`${name} reset peak is invalid`);
+    }
   }
 }
 
@@ -86,17 +118,29 @@ function validateProviders(value) {
       throw new Error('providers.json contains an unknown, relabelled or duplicate provider');
     }
     seen.add(provider.id);
-    if (provider.observed_at !== null && (typeof provider.observed_at !== 'string' || !HOUR_PATTERN.test(provider.observed_at))) {
-      throw new Error('providers.json observed_at must be null or rounded to an UTC hour');
+    const timePattern = value.schema_version === '1' ? HOUR_PATTERN : PUBLIC_TIME_PATTERN;
+    if (provider.observed_at !== null && (typeof provider.observed_at !== 'string' || !timePattern.test(provider.observed_at))) {
+      throw new Error(value.schema_version === '1'
+        ? 'providers.json observed_at must be null or rounded to an UTC hour'
+        : 'providers.json observed_at must be null or an ISO timestamp');
     }
     if (!Array.isArray(provider.buckets) || provider.buckets.length > 8) throw new Error('providers.json buckets must be a bounded array');
     if ((provider.observed_at === null) !== (provider.buckets.length === 0)) {
       throw new Error('providers.json observed_at and buckets must be present together');
     }
     for (const bucket of provider.buckets) {
-      assertExactKeys(bucket, ['bucket', 'windows'], 'providers.json bucket contains unknown or missing keys');
+      const bucketKeys = value.schema_version === '1'
+        ? ['bucket', 'windows']
+        : ['bucket', 'manual_resets_remaining', 'reset_markers', 'resets_at', 'windows'];
+      assertExactKeys(bucket, bucketKeys, 'providers.json bucket contains unknown or missing keys');
       if (typeof bucket.bucket !== 'string' || !BUCKET_PATTERN.test(bucket.bucket)) throw new Error('providers.json bucket label is invalid');
+      if (value.schema_version === '2') {
+        assertResetCount(bucket.manual_resets_remaining, 'providers.json');
+      }
       assertWindows(bucket.windows, 'providers.json');
+      if (value.schema_version === '2') {
+        assertResetMetadata(bucket.windows, bucket.resets_at, bucket.reset_markers, 'providers.json');
+      }
     }
   }
 }
@@ -106,14 +150,24 @@ function validateHistory(value) {
   assertHeader(value, 'history.json');
   if (!Array.isArray(value.records) || value.records.length > 20000) throw new Error('history.json records must be a bounded array');
   for (const record of value.records) {
-    assertExactKeys(record, ['bucket', 'observed_at', 'period', 'provider', 'windows'], 'history.json record contains unknown or missing keys');
+    const recordKeys = value.schema_version === '1'
+      ? ['bucket', 'observed_at', 'period', 'provider', 'windows']
+      : ['bucket', 'manual_resets_remaining', 'observed_at', 'period', 'provider', 'reset_markers', 'resets_at', 'windows'];
+    assertExactKeys(record, recordKeys, 'history.json record contains unknown or missing keys');
     if (!PUBLIC_PROVIDERS.has(record.provider)) throw new Error('history.json contains an unknown provider');
     if (typeof record.bucket !== 'string' || !BUCKET_PATTERN.test(record.bucket)) throw new Error('history.json bucket label is invalid');
     if (!['native', 'observation'].includes(record.period)) throw new Error('history.json period is invalid');
-    if (typeof record.observed_at !== 'string' || !HOUR_PATTERN.test(record.observed_at)) {
-      throw new Error('history.json observed_at must be rounded to an UTC hour');
+    const timePattern = value.schema_version === '1' ? HOUR_PATTERN : PUBLIC_TIME_PATTERN;
+    if (typeof record.observed_at !== 'string' || !timePattern.test(record.observed_at)) {
+      throw new Error(value.schema_version === '1'
+        ? 'history.json observed_at must be rounded to an UTC hour'
+        : 'history.json observed_at must be an ISO timestamp');
     }
     assertWindows(record.windows, 'history.json');
+    if (value.schema_version === '2') {
+      assertResetCount(record.manual_resets_remaining, 'history.json');
+      assertResetMetadata(record.windows, record.resets_at, record.reset_markers, 'history.json');
+    }
   }
 }
 
