@@ -133,4 +133,22 @@ test('rejects invalid reset metadata types, ranges and timestamps', async () => 
   record.resets_at[window] = 'tomorrow';
   result = await runGuard({ providers: projectProvidersV2(legacyProviders), history: invalidHistory });
   assert.notEqual(result.status, 0);
+
+  const invalidWindowRange = projectHistoryV2(legacyHistory);
+  const rangeRecord = invalidWindowRange.records[0];
+  rangeRecord.windows[Object.keys(rangeRecord.windows)[0]] = 101;
+  result = await runGuard({ providers: projectProvidersV2(legacyProviders), history: invalidWindowRange });
+  assert.notEqual(result.status, 0);
+
+  const invalidPeakRange = projectHistoryV2(legacyHistory);
+  const peakRecord = invalidPeakRange.records[0];
+  const peakWindow = Object.keys(peakRecord.windows)[0];
+  peakRecord.reset_markers[peakWindow] = {
+    detected: true,
+    manual: false,
+    pre_reset_peak_pct: 101,
+    pre_reset_observed_at: '2026-10-04T11:34:56Z'
+  };
+  result = await runGuard({ providers: projectProvidersV2(legacyProviders), history: invalidPeakRange });
+  assert.notEqual(result.status, 0);
 });
