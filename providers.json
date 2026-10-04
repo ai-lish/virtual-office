@@ -1,17 +1,36 @@
 {
-  "schema_version": "1",
-  "generated_at": "2026-10-04T00:00:00.000Z",
+  "schema_version": "2",
+  "generated_at": "2026-10-04T03:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-10-04T00:00:00.000Z",
+      "observed_at": "2026-10-04T03:51:11Z",
       "buckets": [
         {
           "bucket": "account",
+          "manual_resets_remaining": 3,
           "windows": {
-            "five_hour": 0,
-            "seven_day": 35
+            "five_hour": 47,
+            "seven_day": 43
+          },
+          "resets_at": {
+            "five_hour": "2026-10-04T05:38:48Z",
+            "seven_day": "2026-10-10T04:38:22Z"
+          },
+          "reset_markers": {
+            "five_hour": {
+              "detected": false,
+              "manual": false,
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
+            },
+            "seven_day": {
+              "detected": false,
+              "manual": false,
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
+            }
           }
         }
       ]
@@ -19,19 +38,65 @@
     {
       "id": "claude",
       "label": "Claude",
-      "observed_at": null,
-      "buckets": []
+      "observed_at": "2026-10-04T03:50:51Z",
+      "buckets": [
+        {
+          "bucket": "account",
+          "manual_resets_remaining": null,
+          "windows": {
+            "five_hour": 52,
+            "seven_day": 70
+          },
+          "resets_at": {
+            "five_hour": null,
+            "seven_day": null
+          },
+          "reset_markers": {
+            "five_hour": {
+              "detected": true,
+              "manual": false,
+              "pre_reset_peak_pct": 100,
+              "pre_reset_observed_at": "2026-07-07T19:55:00Z"
+            },
+            "seven_day": {
+              "detected": false,
+              "manual": false,
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
+            }
+          }
+        }
+      ]
     },
     {
       "id": "gemini",
       "label": "Gemini",
-      "observed_at": "2026-10-04T00:00:00.000Z",
+      "observed_at": "2026-10-04T03:49:43Z",
       "buckets": [
         {
           "bucket": "account",
+          "manual_resets_remaining": null,
           "windows": {
             "five_hour": 0,
             "seven_day": 4
+          },
+          "resets_at": {
+            "five_hour": null,
+            "seven_day": "2026-10-06T04:22:00Z"
+          },
+          "reset_markers": {
+            "five_hour": {
+              "detected": false,
+              "manual": false,
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
+            },
+            "seven_day": {
+              "detected": false,
+              "manual": false,
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
+            }
           }
         }
       ]
@@ -39,12 +104,24 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-10-04T00:00:00.000Z",
+      "observed_at": "2026-10-04T03:55:47Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
+          "manual_resets_remaining": null,
           "windows": {
             "five_hour": 0
+          },
+          "resets_at": {
+            "five_hour": "2026-10-04T05:00:00Z"
+          },
+          "reset_markers": {
+            "five_hour": {
+              "detected": false,
+              "manual": false,
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
+            }
           }
         }
       ]

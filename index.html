@@ -74,6 +74,7 @@
     .metric-fill { height:100%; border-radius:inherit; background:var(--provider); }
     .metric-fill-high { box-shadow:0 0 0 1px #fff inset; }
     .metric-value { color:#e8edf4; text-align:right; font-variant-numeric:tabular-nums; }
+    .usage-window-meta { grid-column:1 / -1; color:var(--dim); font-size:.66rem; line-height:1.45; }
     .usage-note { margin:0 0 14px; color:var(--dim); font-size:.8rem; line-height:1.6; }
     .usage-link { display:inline-block; margin-top:14px; color:var(--blue); font-size:.82rem; text-decoration:none; }
     .usage-link:hover { text-decoration:underline; }
@@ -95,7 +96,7 @@
       <div class="eyebrow">Virtual Office / Public Overview</div>
       <h2 id="title">AI 工作空間總覽</h2>
       <p>這是 Virtual Office 的公開版入口。公開頁保留產品定位、服務狀態、所有 public AI-Lish project 入口及各 AI 的使用百分比；token、內部同步、user data 及 operational dashboard 均留在 private source。</p>
-      <div class="hero-meta"><span class="badge">PUBLIC SITE ONLINE</span><span>Build: 2026-10-04T00:00:00.000Z</span></div>
+      <div class="hero-meta"><span class="badge">PUBLIC SITE ONLINE</span><span>Build: 2026-10-04T03:00:00.000Z</span></div>
     </section>
 
     <section aria-labelledby="status-title">
@@ -111,7 +112,7 @@
     <section aria-labelledby="usage-title">
       <div class="section-title" id="usage-title">📊 AI 使用量</div>
       <div class="model-panel" aria-live="polite">
-        <p class="usage-note">只顯示最新且未過期的百分比；較舊讀數保留在分析頁。只公開百分比及觀測時間（準確至小時），不公開帳戶、reset 時間或原始回應。Copilot 係月度配額。</p>
+        <p class="usage-note">只顯示最新且未過期的各窗口百分比；較舊讀數保留在分析頁。公開資料包括窗口重設時間、reset 標記、reset 前最高用量及手動 reset 餘額，不含帳戶、token 或原始回應。Copilot 係月度配額。</p>
         <div id="usage-cards" class="usage-grid"><p class="usage-card-empty">正在載入…</p></div>
         <a class="usage-link" href="history.html">查看 5 小時使用歷史及分析 →</a>
       </div>
@@ -323,7 +324,7 @@
       </div>
     </section>
   </main>
-  <footer>Build-time sanitized deployment · 2026-10-04T00:00:00.000Z</footer>
+  <footer>Build-time sanitized deployment · 2026-10-04T03:00:00.000Z</footer>
 
   <script>
     (() => {
@@ -343,7 +344,7 @@
       };
       const clamp = (value) => Math.max(0, Math.min(100, Math.round(Number(value))));
       const hkt = (iso, options) => new Date(iso).toLocaleString('zh-HK', { timeZone: 'Asia/Hong_Kong', ...options });
-      const meter = (label, value) => {
+      const meter = (label, value, resetsAt, resetMarker) => {
         const row = el('div', 'metric-row');
         row.append(el('span', '', label));
         const bar = el('div', 'metric-bar');
@@ -358,6 +359,17 @@
         bar.append(fill);
         row.append(bar);
         row.append(el('strong', 'metric-value', clamp(value) + '%'));
+        const annotations = [];
+        if (resetsAt) annotations.push('重設時間 · ' + hkt(resetsAt, { dateStyle: 'short', timeStyle: 'short' }));
+        if (resetMarker?.detected) {
+          let reset = resetMarker.manual ? '手動 reset' : 'reset';
+          if (Number.isInteger(resetMarker.pre_reset_peak_pct)) {
+            reset += ' 前最高 ' + resetMarker.pre_reset_peak_pct + '%';
+            if (resetMarker.pre_reset_observed_at) reset += '（' + hkt(resetMarker.pre_reset_observed_at, { dateStyle: 'short', timeStyle: 'short' }) + '）';
+          }
+          annotations.push(reset);
+        }
+        if (annotations.length) row.append(el('span', 'usage-window-meta', annotations.join(' · ')));
         return row;
       };
       const root = document.getElementById('usage-cards');
@@ -378,8 +390,13 @@
           } else {
             for (const bucket of buckets) {
               if (buckets.length > 1) card.append(el('div', 'usage-bucket', bucket.bucket));
+              if (Number.isInteger(bucket.manual_resets_remaining)) {
+                card.append(el('div', 'usage-bucket', '手動 reset 餘額 · ' + bucket.manual_resets_remaining + ' 次'));
+              }
               for (const name of ['five_hour', 'seven_day', 'monthly']) {
-                if (bucket.windows[name] !== undefined) card.append(meter(WINDOW_LABELS[name], bucket.windows[name]));
+                if (bucket.windows[name] !== undefined) {
+                  card.append(meter(WINDOW_LABELS[name], bucket.windows[name], bucket.resets_at[name], bucket.reset_markers[name]));
+                }
               }
             }
           }

@@ -29,7 +29,7 @@
     td.num, th.num { text-align:right; font-variant-numeric:tabular-nums; }
     .key { display:inline-block; width:14px; height:3px; margin-right:8px; vertical-align:middle; border-radius:2px; background:var(--provider); }
     .table-wrap { overflow-x:auto; }
-    .table-wrap table { min-width:620px; }
+    .table-wrap table { min-width:860px; }
     .multiples { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:12px; }
     .multiple { padding:14px; border:1px solid var(--line); border-radius:12px; background:rgba(15,15,35,.6); }
     .multiple h3 { display:flex; justify-content:space-between; margin:0 0 10px; font-size:.86rem; }
@@ -53,6 +53,7 @@
     .week-nav { display:flex; align-items:center; gap:8px; margin-bottom:10px; color:var(--dim); font-size:.78rem; }
     .week-nav button { padding:4px 10px; border:1px solid rgba(255,255,255,.18); border-radius:999px; background:transparent; color:var(--text); cursor:pointer; }
     .delta-up { color:#f0a58a; } .delta-down { color:#8fd3b6; }
+    .record-note { display:block; margin-top:3px; color:var(--dim); font-size:.66rem; font-weight:400; line-height:1.45; text-align:left; }
     .pager { display:flex; justify-content:flex-end; align-items:center; gap:8px; margin-top:10px; color:var(--dim); font-size:.76rem; }
     .pager button { padding:4px 10px; border:1px solid rgba(255,255,255,.18); border-radius:999px; background:transparent; color:var(--text); cursor:pointer; }
     footer { padding:20px 16px 34px; color:#6f7b8b; text-align:center; font-size:.72rem; }
@@ -70,7 +71,7 @@
     <a href="index.html">← 返回虛擬辦公室</a>
   </header>
   <main>
-    <p class="note">每個 AI 每個使用時段只保留最後一次讀數。ChatGPT、Claude、Gemini、MiniMax 跟各自的 5 小時 window；Copilot 係月度配額，按固定觀察時段記錄。時間以香港時間顯示。2026-08-10 或之前嘅紀錄來自舊系統，當時每日只收集 5 次。</p>
+    <p class="note">每次不同觀測都會保留；5 小時、7 日及月度窗口各自記錄。reset 點會標示 reset 前週期的最高使用率及其最後觀測時間。時間以香港時間顯示。2026-08-10 或之前嘅 898 筆紀錄來自舊系統，格式只在讀取時轉換，來源歷史不改寫。</p>
     <div class="filters" role="group" aria-label="時間範圍">
       <span>範圍（以最新紀錄計）</span>
       <button type="button" data-range="7">7 日</button>
@@ -113,7 +114,7 @@
       <div class="panel table-wrap"><table id="records"></table><div class="pager" id="pager"></div></div>
     </section>
   </main>
-  <footer>Build 2026-10-04T00:00:00.000Z · 只含使用百分比及收集時間</footer>
+  <footer>Build 2026-10-04T03:00:00.000Z · 只含百分比、窗口重設時間、reset 標記、reset 前峰值及手動 reset 餘額</footer>
   <div class="tooltip" id="tooltip" hidden></div>
   <script>
     (() => {
@@ -133,7 +134,7 @@
       };
       const clamp = (value) => Math.max(0, Math.min(100, Math.round(Number(value))));
       const hkt = (iso, options) => new Date(iso).toLocaleString('zh-HK', { timeZone: 'Asia/Hong_Kong', ...options });
-      const meter = (label, value) => {
+      const meter = (label, value, resetsAt, resetMarker) => {
         const row = el('div', 'metric-row');
         row.append(el('span', '', label));
         const bar = el('div', 'metric-bar');
@@ -148,6 +149,17 @@
         bar.append(fill);
         row.append(bar);
         row.append(el('strong', 'metric-value', clamp(value) + '%'));
+        const annotations = [];
+        if (resetsAt) annotations.push('重設時間 · ' + hkt(resetsAt, { dateStyle: 'short', timeStyle: 'short' }));
+        if (resetMarker?.detected) {
+          let reset = resetMarker.manual ? '手動 reset' : 'reset';
+          if (Number.isInteger(resetMarker.pre_reset_peak_pct)) {
+            reset += ' 前最高 ' + resetMarker.pre_reset_peak_pct + '%';
+            if (resetMarker.pre_reset_observed_at) reset += '（' + hkt(resetMarker.pre_reset_observed_at, { dateStyle: 'short', timeStyle: 'short' }) + '）';
+          }
+          annotations.push(reset);
+        }
+        if (annotations.length) row.append(el('span', 'usage-window-meta', annotations.join(' · ')));
         return row;
       };
       const DAY = 24 * 60 * 60 * 1000;
@@ -162,7 +174,8 @@
         return { day: parts.year + '-' + parts.month + '-' + parts.day, month: parts.year + '-' + parts.month, hour: Number(parts.hour) };
       };
       // Primary metric per provider: five-hour share, or the monthly share for Copilot.
-      const primary = (record) => record.windows.five_hour ?? record.windows.monthly;
+      const windowValue = (record, name) => record.windows?.[name];
+      const primary = (record) => windowValue(record, 'five_hour') ?? windowValue(record, 'monthly');
       const primaryLabel = (id) => id === 'copilot' ? '本月' : '5 小時';
       const mean = (values) => values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : null;
       const fmt = (value) => value === null || value === undefined ? '—' : Math.round(value) + '%';
@@ -201,7 +214,7 @@
         for (const { id, label } of PROVIDERS) {
           const rows = records.filter((record) => record.provider === id && primary(record) !== undefined);
           const values = rows.map(primary);
-          const weekly = rows.map((record) => record.windows.seven_day).filter((value) => value !== undefined);
+          const weekly = rows.map((record) => windowValue(record, 'seven_day')).filter((value) => value !== undefined);
           const high = values.filter((value) => value >= 80).length;
           const tr = el('tr');
           tr.dataset.provider = id;
@@ -332,7 +345,7 @@
         const pages = Math.max(1, Math.ceil(rows.length / 50));
         state.page = Math.min(state.page, pages - 1);
         const head = el('tr');
-        for (const [text, numeric] of [['收集時間', false], ['AI', false], ['類別', false], ['5 小時', true], ['7 日', true], ['本月', true], ['時段', false]]) head.append(el('th', numeric ? 'num' : '', text));
+        for (const [text, numeric] of [['觀測時間', false], ['AI', false], ['類別', false], ['5 小時窗口', true], ['7 日窗口', true], ['月度窗口', true], ['手動 reset 餘額', true], ['時段', false]]) head.append(el('th', numeric ? 'num' : '', text));
         const thead = el('thead');
         thead.append(head);
         const body = el('tbody');
@@ -342,9 +355,29 @@
           tr.dataset.provider = record.provider;
           const name = el('td');
           name.append(el('span', 'key'), document.createTextNode(labels.get(record.provider) || record.provider));
-          tr.append(el('td', '', hkt(record.observed_at, { dateStyle: 'short', timeStyle: 'short' })), name, el('td', '', record.bucket),
-            el('td', 'num', fmt(record.windows.five_hour)), el('td', 'num', fmt(record.windows.seven_day)), el('td', 'num', fmt(record.windows.monthly)),
-            el('td', '', record.period === 'native' ? 'AI 自己嘅 window' : '固定觀察時段'));
+          const windowCell = (windowName) => {
+            const data = record.windows[windowName];
+            const resetMarker = record.reset_markers?.[windowName];
+            const cell = el('td', 'num');
+            if (data === undefined || data === null) return Object.assign(cell, { textContent: '—' });
+            cell.append(document.createTextNode(fmt(data)));
+            const notes = [];
+            if (record.resets_at?.[windowName]) notes.push('重設 ' + hkt(record.resets_at[windowName], { dateStyle: 'short', timeStyle: 'short' }));
+            if (resetMarker?.detected) {
+              let reset = resetMarker.manual ? '手動 reset' : 'reset';
+              if (Number.isInteger(resetMarker.pre_reset_peak_pct)) {
+                reset += '・前最高 ' + resetMarker.pre_reset_peak_pct + '%';
+                if (resetMarker.pre_reset_observed_at) reset += ' @ ' + hkt(resetMarker.pre_reset_observed_at, { dateStyle: 'short', timeStyle: 'short' });
+              }
+              notes.push(reset);
+            }
+            if (notes.length) cell.append(el('small', 'record-note', notes.join(' · ')));
+            return cell;
+          };
+          tr.append(el('td', '', hkt(record.observed_at, { dateStyle: 'short', timeStyle: 'medium' })), name, el('td', '', record.bucket),
+            windowCell('five_hour'), windowCell('seven_day'), windowCell('monthly'),
+            el('td', 'num', record.manual_resets_remaining === null ? '—' : String(record.manual_resets_remaining)),
+            el('td', '', record.period === 'native' ? '來源窗口' : '觀測時間'));
           body.append(tr);
         }
         table.replaceChildren(thead, body);
