@@ -5,14 +5,14 @@
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-10-04T11:02:53Z",
+      "observed_at": "2026-10-04T11:19:50Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": 3,
           "windows": {
-            "five_hour": 18,
-            "seven_day": 63
+            "five_hour": 47,
+            "seven_day": 68
           },
           "resets_at": {
             "five_hour": "2026-10-04T15:41:27Z",
@@ -20,10 +20,10 @@
           },
           "reset_markers": {
             "five_hour": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 100,
-              "pre_reset_observed_at": "2026-10-04T09:13:53Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             },
             "seven_day": {
               "detected": false,
@@ -38,13 +38,13 @@
     {
       "id": "claude",
       "label": "Claude",
-      "observed_at": "2026-10-04T11:01:18Z",
+      "observed_at": "2026-10-04T11:19:31Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 68,
+            "five_hour": 71,
             "seven_day": 100
           },
           "resets_at": {
@@ -53,10 +53,10 @@
           },
           "reset_markers": {
             "five_hour": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 100,
-              "pre_reset_observed_at": "2026-10-04T08:12:13Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             },
             "seven_day": {
               "detected": false,
@@ -71,14 +71,14 @@
     {
       "id": "gemini",
       "label": "Gemini",
-      "observed_at": "2026-10-04T08:09:44Z",
+      "observed_at": "2026-10-04T11:18:08Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 0,
-            "seven_day": 4
+            "five_hour": 14,
+            "seven_day": 5
           },
           "resets_at": {
             "five_hour": null,
