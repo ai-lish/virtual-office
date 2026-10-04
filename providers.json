@@ -1,18 +1,18 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-10-04T18:00:00.000Z",
+  "generated_at": "2026-10-04T19:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-10-04T18:51:59Z",
+      "observed_at": "2026-10-04T19:57:37Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": 2,
           "windows": {
-            "five_hour": 12,
-            "seven_day": 2
+            "five_hour": 17,
+            "seven_day": 3
           },
           "resets_at": {
             "five_hour": "2026-10-04T22:55:55Z",
@@ -20,16 +20,16 @@
           },
           "reset_markers": {
             "five_hour": {
-              "detected": true,
-              "manual": true,
-              "pre_reset_peak_pct": 97,
-              "pre_reset_observed_at": "2026-10-04T17:45:54Z"
+              "detected": false,
+              "manual": false,
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             },
             "seven_day": {
-              "detected": true,
-              "manual": true,
-              "pre_reset_peak_pct": 92,
-              "pre_reset_observed_at": "2026-10-04T17:45:54Z"
+              "detected": false,
+              "manual": false,
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             }
           }
         }
@@ -38,7 +38,7 @@
     {
       "id": "claude",
       "label": "Claude",
-      "observed_at": "2026-10-04T18:51:38Z",
+      "observed_at": "2026-10-04T19:57:10Z",
       "buckets": [
         {
           "bucket": "account",
@@ -71,7 +71,7 @@
     {
       "id": "gemini",
       "label": "Gemini",
-      "observed_at": "2026-10-04T18:49:08Z",
+      "observed_at": "2026-10-04T19:54:40Z",
       "buckets": [
         {
           "bucket": "account",
@@ -104,27 +104,8 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-10-04T17:33:43Z",
-      "buckets": [
-        {
-          "bucket": "MiniMax-M*",
-          "manual_resets_remaining": null,
-          "windows": {
-            "five_hour": 0
-          },
-          "resets_at": {
-            "five_hour": "2026-10-04T20:00:00Z"
-          },
-          "reset_markers": {
-            "five_hour": {
-              "detected": true,
-              "manual": false,
-              "pre_reset_peak_pct": 0,
-              "pre_reset_observed_at": "2026-10-04T13:10:43Z"
-            }
-          }
-        }
-      ]
+      "observed_at": null,
+      "buckets": []
     },
     {
       "id": "copilot",
