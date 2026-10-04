@@ -1,18 +1,18 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-10-04T07:00:00.000Z",
+  "generated_at": "2026-10-04T08:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-10-04T07:06:34Z",
+      "observed_at": "2026-10-04T08:13:02Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": 3,
           "windows": {
-            "five_hour": 19,
-            "seven_day": 48
+            "five_hour": 36,
+            "seven_day": 50
           },
           "resets_at": {
             "five_hour": "2026-10-04T10:40:37Z",
@@ -38,25 +38,25 @@
     {
       "id": "claude",
       "label": "Claude",
-      "observed_at": "2026-10-04T07:06:13Z",
+      "observed_at": "2026-10-04T08:12:13Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 0,
-            "seven_day": 77
+            "five_hour": 100,
+            "seven_day": 91
           },
           "resets_at": {
             "five_hour": null,
-            "seven_day": null
+            "seven_day": "2026-10-08T16:00:00Z"
           },
           "reset_markers": {
             "five_hour": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 56,
-              "pre_reset_observed_at": "2026-10-04T06:00:52Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             },
             "seven_day": {
               "detected": false,
@@ -71,13 +71,13 @@
     {
       "id": "gemini",
       "label": "Gemini",
-      "observed_at": "2026-10-04T05:58:49Z",
+      "observed_at": "2026-10-04T08:09:44Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 1,
+            "five_hour": 0,
             "seven_day": 4
           },
           "resets_at": {
