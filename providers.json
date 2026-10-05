@@ -1,18 +1,18 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-10-05T08:00:00.000Z",
+  "generated_at": "2026-10-05T09:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-10-05T07:59:15Z",
+      "observed_at": "2026-10-05T09:05:33Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": 2,
           "windows": {
-            "five_hour": 4,
-            "seven_day": 12
+            "five_hour": 14,
+            "seven_day": 13
           },
           "resets_at": {
             "five_hour": "2026-10-05T09:39:12Z",
@@ -38,14 +38,14 @@
     {
       "id": "claude",
       "label": "Claude",
-      "observed_at": "2026-10-05T07:58:54Z",
+      "observed_at": "2026-10-05T09:05:10Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 13,
-            "seven_day": 43
+            "five_hour": 42,
+            "seven_day": 46
           },
           "resets_at": {
             "five_hour": null,
@@ -53,10 +53,10 @@
           },
           "reset_markers": {
             "five_hour": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 100,
-              "pre_reset_observed_at": "2026-10-05T05:48:40Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             },
             "seven_day": {
               "detected": false,
@@ -104,27 +104,8 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-10-05T07:00:10Z",
-      "buckets": [
-        {
-          "bucket": "MiniMax-M*",
-          "manual_resets_remaining": null,
-          "windows": {
-            "five_hour": 0
-          },
-          "resets_at": {
-            "five_hour": "2026-10-05T10:00:00Z"
-          },
-          "reset_markers": {
-            "five_hour": {
-              "detected": true,
-              "manual": false,
-              "pre_reset_peak_pct": 0,
-              "pre_reset_observed_at": "2026-10-05T00:53:51Z"
-            }
-          }
-        }
-      ]
+      "observed_at": null,
+      "buckets": []
     },
     {
       "id": "copilot",
