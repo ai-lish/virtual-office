@@ -1,18 +1,18 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-10-05T02:00:00.000Z",
+  "generated_at": "2026-10-05T03:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-10-05T02:32:50Z",
+      "observed_at": "2026-10-05T03:38:33Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": 2,
           "windows": {
-            "five_hour": 1,
-            "seven_day": 6
+            "five_hour": 31,
+            "seven_day": 11
           },
           "resets_at": {
             "five_hour": "2026-10-05T04:11:34Z",
@@ -38,14 +38,14 @@
     {
       "id": "claude",
       "label": "Claude",
-      "observed_at": "2026-10-05T02:32:23Z",
+      "observed_at": "2026-10-05T03:37:56Z",
       "buckets": [
         {
           "bucket": "account",
-          "manual_resets_remaining": null,
+          "manual_resets_remaining": 0,
           "windows": {
-            "five_hour": 0,
-            "seven_day": 28
+            "five_hour": 100,
+            "seven_day": 41
           },
           "resets_at": {
             "five_hour": null,
@@ -71,7 +71,7 @@
     {
       "id": "gemini",
       "label": "Gemini",
-      "observed_at": "2026-10-05T01:23:32Z",
+      "observed_at": "2026-10-05T03:35:34Z",
       "buckets": [
         {
           "bucket": "account",
@@ -104,27 +104,8 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-10-05T00:53:51Z",
-      "buckets": [
-        {
-          "bucket": "MiniMax-M*",
-          "manual_resets_remaining": null,
-          "windows": {
-            "five_hour": 0
-          },
-          "resets_at": {
-            "five_hour": "2026-10-05T05:00:00Z"
-          },
-          "reset_markers": {
-            "five_hour": {
-              "detected": true,
-              "manual": false,
-              "pre_reset_peak_pct": 0,
-              "pre_reset_observed_at": "2026-10-04T21:20:36Z"
-            }
-          }
-        }
-      ]
+      "observed_at": null,
+      "buckets": []
     },
     {
       "id": "copilot",
