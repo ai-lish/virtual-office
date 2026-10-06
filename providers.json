@@ -1,35 +1,35 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-10-06T07:00:00.000Z",
+  "generated_at": "2026-10-06T08:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-10-06T07:49:56Z",
+      "observed_at": "2026-10-06T08:55:59Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": 2,
           "windows": {
-            "five_hour": 0,
-            "seven_day": 28
+            "five_hour": 35,
+            "seven_day": 33
           },
           "resets_at": {
-            "five_hour": "2026-10-06T12:44:20Z",
-            "seven_day": "2026-10-11T17:55:56Z"
+            "five_hour": "2026-10-06T12:44:19Z",
+            "seven_day": "2026-10-11T17:55:55Z"
           },
           "reset_markers": {
             "five_hour": {
               "detected": true,
               "manual": false,
-              "pre_reset_peak_pct": 3,
-              "pre_reset_observed_at": "2026-10-06T05:38:15Z"
+              "pre_reset_peak_pct": 0,
+              "pre_reset_observed_at": "2026-10-06T07:49:56Z"
             },
             "seven_day": {
-              "detected": false,
+              "detected": true,
               "manual": false,
-              "pre_reset_peak_pct": null,
-              "pre_reset_observed_at": null
+              "pre_reset_peak_pct": 28,
+              "pre_reset_observed_at": "2026-10-06T05:38:15Z"
             }
           }
         }
@@ -38,14 +38,14 @@
     {
       "id": "claude",
       "label": "Claude",
-      "observed_at": "2026-10-06T07:49:22Z",
+      "observed_at": "2026-10-06T08:55:31Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 4,
-            "seven_day": 64
+            "five_hour": 34,
+            "seven_day": 68
           },
           "resets_at": {
             "five_hour": null,
@@ -71,7 +71,7 @@
     {
       "id": "gemini",
       "label": "Gemini",
-      "observed_at": "2026-10-06T07:46:37Z",
+      "observed_at": "2026-10-06T08:52:48Z",
       "buckets": [
         {
           "bucket": "account",
