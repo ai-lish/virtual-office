@@ -1,18 +1,18 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-10-05T23:00:00.000Z",
+  "generated_at": "2026-10-06T00:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-10-05T23:08:48Z",
+      "observed_at": "2026-10-06T00:14:27Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": 2,
           "windows": {
-            "five_hour": 1,
-            "seven_day": 17
+            "five_hour": 13,
+            "seven_day": 19
           },
           "resets_at": {
             "five_hour": "2026-10-06T01:55:50Z",
@@ -20,16 +20,16 @@
           },
           "reset_markers": {
             "five_hour": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 0,
-              "pre_reset_observed_at": "2026-10-05T20:58:26Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             },
             "seven_day": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 17,
-              "pre_reset_observed_at": "2026-10-05T20:58:26Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             }
           }
         }
@@ -38,18 +38,18 @@
     {
       "id": "claude",
       "label": "Claude",
-      "observed_at": "2026-10-05T23:08:08Z",
+      "observed_at": "2026-10-06T00:14:04Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 0,
-            "seven_day": 57
+            "five_hour": 11,
+            "seven_day": 58
           },
           "resets_at": {
             "five_hour": null,
-            "seven_day": "2026-10-08T16:00:00Z"
+            "seven_day": null
           },
           "reset_markers": {
             "five_hour": {
@@ -71,13 +71,13 @@
     {
       "id": "gemini",
       "label": "Gemini",
-      "observed_at": "2026-10-05T23:06:07Z",
+      "observed_at": "2026-10-06T00:12:17Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 0,
+            "five_hour": 4,
             "seven_day": 5
           },
           "resets_at": {
