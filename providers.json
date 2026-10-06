@@ -1,18 +1,18 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-10-06T11:00:00.000Z",
+  "generated_at": "2026-10-06T12:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-10-06T11:08:25Z",
+      "observed_at": "2026-10-06T12:09:13Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": 2,
           "windows": {
-            "five_hour": 91,
-            "seven_day": 42
+            "five_hour": 100,
+            "seven_day": 44
           },
           "resets_at": {
             "five_hour": "2026-10-06T12:44:19Z",
