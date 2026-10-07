@@ -5,7 +5,7 @@
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-10-07T15:43:18Z",
+      "observed_at": "2026-10-07T16:47:32Z",
       "buckets": [
         {
           "bucket": "account",
@@ -38,25 +38,25 @@
     {
       "id": "claude",
       "label": "Claude",
-      "observed_at": "2026-10-07T15:42:57Z",
+      "observed_at": "2026-10-07T16:47:12Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 61,
+            "five_hour": 0,
             "seven_day": 98
           },
           "resets_at": {
-            "five_hour": "2026-10-07T15:50:00Z",
+            "five_hour": null,
             "seven_day": "2026-10-08T16:00:00Z"
           },
           "reset_markers": {
             "five_hour": {
-              "detected": false,
+              "detected": true,
               "manual": false,
-              "pre_reset_peak_pct": null,
-              "pre_reset_observed_at": null
+              "pre_reset_peak_pct": 61,
+              "pre_reset_observed_at": "2026-10-07T13:33:37Z"
             },
             "seven_day": {
               "detected": false,
@@ -71,7 +71,7 @@
     {
       "id": "gemini",
       "label": "Gemini",
-      "observed_at": "2026-10-07T14:36:21Z",
+      "observed_at": "2026-10-07T16:45:50Z",
       "buckets": [
         {
           "bucket": "account",
@@ -81,15 +81,15 @@
             "seven_day": 0
           },
           "resets_at": {
-            "five_hour": "2026-10-07T15:22:00Z",
+            "five_hour": "2026-10-07T20:22:00Z",
             "seven_day": "2026-10-13T04:22:00Z"
           },
           "reset_markers": {
             "five_hour": {
-              "detected": false,
+              "detected": true,
               "manual": false,
-              "pre_reset_peak_pct": null,
-              "pre_reset_observed_at": null
+              "pre_reset_peak_pct": 14,
+              "pre_reset_observed_at": "2026-10-04T11:18:08Z"
             },
             "seven_day": {
               "detected": false,
