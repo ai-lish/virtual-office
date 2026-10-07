@@ -1,11 +1,11 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-10-07T19:00:00.000Z",
+  "generated_at": "2026-10-07T21:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-10-07T19:58:18Z",
+      "observed_at": "2026-10-07T21:01:10Z",
       "buckets": [
         {
           "bucket": "account",
@@ -20,10 +20,10 @@
           },
           "reset_markers": {
             "five_hour": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 27,
-              "pre_reset_observed_at": "2026-10-07T18:54:10Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             },
             "seven_day": {
               "detected": false,
@@ -38,7 +38,7 @@
     {
       "id": "claude",
       "label": "Claude",
-      "observed_at": "2026-10-07T19:57:59Z",
+      "observed_at": "2026-10-07T21:00:54Z",
       "buckets": [
         {
           "bucket": "account",
@@ -71,25 +71,25 @@
     {
       "id": "gemini",
       "label": "Gemini",
-      "observed_at": "2026-10-07T19:56:43Z",
+      "observed_at": "2026-10-07T20:59:44Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 8,
+            "five_hour": 0,
             "seven_day": 1
           },
           "resets_at": {
-            "five_hour": "2026-10-07T20:22:00Z",
+            "five_hour": "2026-10-08T01:22:00Z",
             "seven_day": "2026-10-13T04:22:00Z"
           },
           "reset_markers": {
             "five_hour": {
-              "detected": false,
+              "detected": true,
               "manual": false,
-              "pre_reset_peak_pct": null,
-              "pre_reset_observed_at": null
+              "pre_reset_peak_pct": 8,
+              "pre_reset_observed_at": "2026-10-07T19:56:43Z"
             },
             "seven_day": {
               "detected": false,
