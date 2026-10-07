@@ -1,6 +1,6 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-10-07T15:00:00.000Z",
+  "generated_at": "2026-10-07T16:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
@@ -104,7 +104,7 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-10-07T08:36:14Z",
+      "observed_at": "2026-10-07T16:25:27Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
@@ -113,14 +113,14 @@
             "five_hour": 0
           },
           "resets_at": {
-            "five_hour": "2026-10-07T10:00:00Z"
+            "five_hour": "2026-10-07T20:00:00Z"
           },
           "reset_markers": {
             "five_hour": {
               "detected": true,
               "manual": false,
               "pre_reset_peak_pct": 0,
-              "pre_reset_observed_at": "2026-10-07T01:30:55Z"
+              "pre_reset_observed_at": "2026-10-07T08:36:14Z"
             }
           }
         }
