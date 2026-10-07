@@ -67,6 +67,8 @@
     .usage-card-head { display:flex; flex-direction:column; gap:2px; margin-bottom:6px; }
     .usage-card-name { font-weight:650; }
     .usage-card-time { color:var(--dim); font-size:.7rem; font-variant-numeric:tabular-nums; }
+    .usage-card-age { color:var(--dim); font-size:.7rem; }
+    .usage-card-age.stale { color:#ffd083; font-weight:650; }
     .usage-card-empty { margin:10px 0 0; color:var(--dim); font-size:.8rem; }
     .usage-bucket { margin-top:8px; color:var(--dim); font-size:.7rem; }
     .metric-row { display:grid; grid-template-columns:42px 1fr 40px; align-items:center; gap:8px; margin-top:8px; color:var(--dim); font-size:.76rem; }
@@ -112,7 +114,7 @@
     <section aria-labelledby="usage-title">
       <div class="section-title" id="usage-title">📊 AI 使用量</div>
       <div class="model-panel" aria-live="polite">
-        <p class="usage-note">只顯示最新且未過期的各窗口百分比；較舊讀數保留在分析頁。公開資料包括窗口重設時間、reset 標記、reset 前最高用量及手動 reset 餘額，不含帳戶、token 或原始回應。Copilot 係月度配額。</p>
+        <p class="usage-note">每個 AI 顯示最後一次讀數；超過服務時限會標示「已過期」及距今時間，數值仍保留供參考。公開資料只含百分比、時間及 reset 摘要，不含帳戶、token 或原始回應。Copilot 係月度配額。</p>
         <div id="usage-cards" class="usage-grid"><p class="usage-card-empty">正在載入…</p></div>
         <a class="usage-link" href="history.html">查看 5 小時使用歷史及分析 →</a>
       </div>
@@ -327,6 +329,284 @@
   <footer>Build-time sanitized deployment · 2026-10-07T11:00:00.000Z</footer>
 
   <script>
+    'use strict';
+
+(function installQuotaView(root, factory) {
+  const api = factory();
+  if (typeof module === 'object' && module.exports) module.exports = api;
+  root.VirtualOfficeQuotaView = api;
+}(typeof globalThis !== 'undefined' ? globalThis : this, function createQuotaView() {
+  const HKT_OFFSET_MS = 8 * 60 * 60 * 1000;
+  const MINUTE_MS = 60 * 1000;
+  const FIVE_HOUR_WINDOW_MS = 5 * 60 * MINUTE_MS;
+  const DAY_MS = 24 * 60 * MINUTE_MS;
+  const WEEK_MS = 7 * DAY_MS;
+  // Week charts use Monday 00:00 Hong Kong time as their alignment point.
+  const WEEK_START_DAY_HKT = 1;
+  const LAST_WEEK_COLOUR = '#69a8ff';
+  const THIS_WEEK_COLOUR = '#ff9b62';
+
+  function toEpoch(value) {
+    if (value instanceof Date) return value.getTime();
+    if (typeof value === 'number') return value;
+    if (typeof value === 'string') return Date.parse(value);
+    return NaN;
+  }
+
+  function formatHkt(value) {
+    const epoch = toEpoch(value);
+    if (!Number.isFinite(epoch)) return '時間未知';
+    return new Date(epoch).toLocaleString('zh-HK', {
+      timeZone: 'Asia/Hong_Kong', year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', hourCycle: 'h23'
+    });
+  }
+
+  function formatAgeLabel(observedAt, now = Date.now(), staleOverride = null, freshnessMs = null) {
+    const observed = toEpoch(observedAt);
+    const current = toEpoch(now);
+    if (!Number.isFinite(observed) || !Number.isFinite(current)) return '觀測時間未知';
+    const ageMs = current - observed;
+    if (ageMs < 0) return '觀測時間在未來';
+    const stale = typeof staleOverride === 'boolean'
+      ? staleOverride
+      : Number.isFinite(freshnessMs) && ageMs > freshnessMs;
+    const totalMinutes = Math.floor(ageMs / MINUTE_MS);
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    const elapsed = hours > 0
+      ? `${hours} 小時${minutes ? ` ${minutes} 分鐘` : ''}前`
+      : totalMinutes > 0 ? `${totalMinutes} 分鐘前` : '不足 1 分鐘前';
+    return stale ? `已過期 · ${elapsed}` : `最近更新 · ${elapsed}`;
+  }
+
+  function weekStartHkt(value) {
+    const epoch = toEpoch(value);
+    if (!Number.isFinite(epoch)) return NaN;
+    const hktDate = new Date(epoch + HKT_OFFSET_MS);
+    const day = hktDate.getUTCDay();
+    const daysSinceStart = (day - WEEK_START_DAY_HKT + 7) % 7;
+    return Date.UTC(
+      hktDate.getUTCFullYear(), hktDate.getUTCMonth(), hktDate.getUTCDate() - daysSinceStart
+    ) - HKT_OFFSET_MS;
+  }
+
+  function makeWindow(record, startMs, endMs, splitMethod) {
+    const used = record.windows.five_hour;
+    return {
+      provider: record.provider,
+      bucket: record.bucket,
+      start_at: new Date(startMs).toISOString(),
+      end_at: new Date(endMs).toISOString(),
+      peak_pct: used,
+      peak_observed_at: record.observed_at,
+      split_method: splitMethod,
+      reset_detected: false,
+      reset_before_peaks: [],
+      _startMs: startMs,
+      _latestObservedMs: toEpoch(record.observed_at)
+    };
+  }
+
+  function updatePeak(window, percent, observedAt, fromResetMarker = false) {
+    if (!Number.isInteger(percent) || percent < 0 || percent > 100) return;
+    const observedMs = toEpoch(observedAt);
+    if (percent > window.peak_pct || (percent === window.peak_pct && observedMs > toEpoch(window.peak_observed_at))) {
+      window.peak_pct = percent;
+      window.peak_observed_at = observedAt;
+      window.peak_from_reset_marker = fromResetMarker;
+    }
+  }
+
+  function aggregateFiveHourWindows(records) {
+    const scopes = new Map();
+    for (const record of Array.isArray(records) ? records : []) {
+      const observedMs = toEpoch(record?.observed_at);
+      const percent = record?.windows?.five_hour;
+      if (typeof record?.provider !== 'string' || typeof record?.bucket !== 'string'
+        || !Number.isFinite(observedMs) || !Number.isInteger(percent) || percent < 0 || percent > 100) continue;
+      const scopeKey = `${record.provider}\u0000${record.bucket}`;
+      if (!scopes.has(scopeKey)) scopes.set(scopeKey, []);
+      scopes.get(scopeKey).push({ record, observedMs });
+    }
+
+    const allWindows = [];
+    for (const entries of scopes.values()) {
+      entries.sort((left, right) => left.observedMs - right.observedMs);
+      const knownWindows = new Map();
+      const scopeWindows = [];
+      const eventRows = [];
+      let fallbackWindow = null;
+
+      for (const entry of entries) {
+        const { record, observedMs } = entry;
+        const resetAtMs = toEpoch(record.resets_at?.five_hour);
+        const marker = record.reset_markers?.five_hour || {};
+        let window;
+        if (Number.isFinite(resetAtMs)) {
+          const key = String(resetAtMs);
+          window = knownWindows.get(key);
+          if (!window) {
+            window = makeWindow(record, resetAtMs - FIVE_HOUR_WINDOW_MS, resetAtMs, '來源重設時間');
+            knownWindows.set(key, window);
+            scopeWindows.push(window);
+          }
+          fallbackWindow = null;
+        } else {
+          const hasResetMarker = marker.detected === true;
+          const elapsedFiveHours = fallbackWindow
+            && observedMs - fallbackWindow._startMs >= FIVE_HOUR_WINDOW_MS;
+          if (!fallbackWindow || hasResetMarker || elapsedFiveHours) {
+            const method = hasResetMarker ? 'reset 標記'
+              : fallbackWindow ? '觀測間距（5 小時）' : '首筆觀測起算（5 小時）';
+            fallbackWindow = makeWindow(record, observedMs, observedMs + FIVE_HOUR_WINDOW_MS, method);
+            scopeWindows.push(fallbackWindow);
+          }
+          window = fallbackWindow;
+        }
+
+        updatePeak(window, record.windows.five_hour, record.observed_at);
+        window._latestObservedMs = Math.max(window._latestObservedMs, observedMs);
+        if (marker.detected === true) window.reset_detected = true;
+        eventRows.push({ entry, window, marker });
+      }
+
+      // Reset metadata carries the final known peak of the preceding window.
+      // Attach it to the closest earlier window where that window is present.
+      for (const { entry, window, marker } of eventRows) {
+        if (marker.detected !== true || !Number.isInteger(marker.pre_reset_peak_pct)
+          || typeof marker.pre_reset_observed_at !== 'string') continue;
+        const prior = scopeWindows
+          .filter((candidate) => candidate !== window && candidate._latestObservedMs < entry.observedMs)
+          .sort((left, right) => right._latestObservedMs - left._latestObservedMs)[0];
+        const resetPeak = {
+          used_pct: marker.pre_reset_peak_pct,
+          observed_at: marker.pre_reset_observed_at
+        };
+        if (prior) {
+          updatePeak(prior, resetPeak.used_pct, resetPeak.observed_at, true);
+          prior.reset_before_peaks.push(resetPeak);
+        } else {
+          window.reset_before_peaks.push(resetPeak);
+        }
+      }
+
+      allWindows.push(...scopeWindows);
+    }
+
+    return allWindows
+      .sort((left, right) => left._startMs - right._startMs
+        || left.provider.localeCompare(right.provider) || left.bucket.localeCompare(right.bucket))
+      .map(({ _startMs, _endMs, _latestObservedMs, ...window }) => window);
+  }
+
+  function buildWeeklySeries(windows, now = Date.now()) {
+    const nowMs = toEpoch(now);
+    const currentStart = weekStartHkt(nowMs);
+    if (!Number.isFinite(nowMs) || !Number.isFinite(currentStart)) {
+      return { previous: [], current: [], currentWeekStart: null, previousWeekStart: null, now: null };
+    }
+    const previousStart = currentStart - WEEK_MS;
+    const points = (Array.isArray(windows) ? windows : []).map((window) => ({
+      window,
+      startMs: toEpoch(window.start_at)
+    })).filter((item) => Number.isFinite(item.startMs));
+    const makePoints = (start, end) => points
+      .filter(({ startMs }) => startMs >= start && startMs < end)
+      .sort((left, right) => left.startMs - right.startMs)
+      .map(({ window, startMs }) => ({
+        x: (startMs - start) / WEEK_MS,
+        value: window.peak_pct,
+        start_at: window.start_at,
+        observed_at: window.peak_observed_at
+      }));
+    return {
+      previous: makePoints(previousStart, currentStart),
+      current: makePoints(currentStart, Math.min(nowMs + 1, currentStart + WEEK_MS)),
+      currentWeekStart: new Date(currentStart).toISOString(),
+      previousWeekStart: new Date(previousStart).toISOString(),
+      now: new Date(nowMs).toISOString()
+    };
+  }
+
+  function escapeXml(value) {
+    return String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&apos;');
+  }
+
+  function renderWeeklySvg(label, windows, now = Date.now()) {
+    const series = buildWeeklySeries(windows, now);
+    const safePoints = (points) => points.filter((point) => Number.isFinite(point.x)
+      && point.x >= 0 && point.x <= 1
+      && Number.isInteger(point.value) && point.value >= 0 && point.value <= 100);
+    const previousPoints = safePoints(series.previous);
+    const currentPoints = safePoints(series.current);
+    const width = 370;
+    const height = 204;
+    const left = 36;
+    const right = 8;
+    const top = 34;
+    const bottom = 32;
+    const plotWidth = width - left - right;
+    const plotHeight = height - top - bottom;
+    const xFor = (ratio) => left + Math.max(0, Math.min(1, ratio)) * plotWidth;
+    const yFor = (percent) => top + (100 - Math.max(0, Math.min(100, percent))) / 100 * plotHeight;
+    const polyline = (points, colour, name) => {
+      if (!points.length) return '';
+      const coordinates = points.map((point) => `${xFor(point.x).toFixed(1)},${yFor(point.value).toFixed(1)}`);
+      const line = points.length > 1
+        ? `<polyline data-series="${name}" fill="none" stroke="${colour}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" points="${coordinates.join(' ')}"/>`
+        : '';
+      const dots = points.map((point) => {
+        const time = escapeXml(formatHkt(point.start_at));
+        const observed = escapeXml(formatHkt(point.observed_at));
+        return `<circle cx="${xFor(point.x).toFixed(1)}" cy="${yFor(point.value).toFixed(1)}" r="2.7" fill="${colour}"><title>${name}：${point.value}% · 窗口 ${time} · 最高值觀測 ${observed}</title></circle>`;
+      }).join('');
+      return line + dots;
+    };
+    const yAxis = [0, 50, 100].map((value) => {
+      const y = yFor(value).toFixed(1);
+      return `<line x1="${left}" x2="${width - right}" y1="${y}" y2="${y}" stroke="#ffffff" stroke-opacity=".16"/><text x="${left - 7}" y="${Number(y) + 3}" fill="#aeb9c8" font-size="10" text-anchor="end">${value}%</text>`;
+    }).join('');
+    const tickLabels = ['一', '二', '三', '四', '五', '六', '日'];
+    const xAxis = Array.from({ length: 8 }, (_, index) => {
+      const x = xFor(index / 7).toFixed(1);
+      const tick = `<line x1="${x}" x2="${x}" y1="${height - bottom}" y2="${height - bottom + 3}" stroke="#aeb9c8"/>`;
+      const text = tickLabels[index];
+      if (!text) return tick;
+      const anchor = index === 0 ? 'start' : 'middle';
+      return `${tick}<text x="${x}" y="${height - 8}" fill="#aeb9c8" font-size="10" text-anchor="${anchor}">${text}</text>`;
+    }).join('');
+    const safeLabel = escapeXml(label);
+    return `<svg role="img" aria-label="${safeLabel}：上週與本週 5 小時用量比較" viewBox="0 0 ${width} ${height}" width="100%" height="auto" preserveAspectRatio="xMidYMid meet">
+  <title>${safeLabel}：上週與本週 5 小時用量比較</title>
+  <rect width="${width}" height="${height}" rx="8" fill="#0f0f23"/>
+  <g font-family="system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif">
+    <line x1="42" x2="57" y1="15" y2="15" stroke="${LAST_WEEK_COLOUR}" stroke-width="2.5"/><circle cx="49.5" cy="15" r="2.5" fill="${LAST_WEEK_COLOUR}"/><text x="62" y="18" fill="#e8edf4" font-size="10">上週</text>
+    <line x1="111" x2="126" y1="15" y2="15" stroke="${THIS_WEEK_COLOUR}" stroke-width="2.5"/><circle cx="118.5" cy="15" r="2.5" fill="${THIS_WEEK_COLOUR}"/><text x="131" y="18" fill="#e8edf4" font-size="10">本週</text>
+    ${yAxis}
+    ${xAxis}
+    ${polyline(previousPoints, LAST_WEEK_COLOUR, '上週')}
+    ${polyline(currentPoints, THIS_WEEK_COLOUR, '本週')}
+  </g>
+</svg>`;
+  }
+
+  return Object.freeze({
+    DAY_MS,
+    FIVE_HOUR_WINDOW_MS,
+    HKT_OFFSET_MS,
+    WEEK_MS,
+    WEEK_START_DAY_HKT,
+    aggregateFiveHourWindows,
+    buildWeeklySeries,
+    formatAgeLabel,
+    formatHkt,
+    renderWeeklySvg,
+    weekStartHkt
+  });
+}));
+
     (() => {
       const PROVIDERS = [
         { id: 'chatgpt', label: 'ChatGPT' },
@@ -372,6 +652,8 @@
         if (annotations.length) row.append(el('span', 'usage-window-meta', annotations.join(' · ')));
         return row;
       };
+      const QuotaView = window.VirtualOfficeQuotaView;
+      const PROVIDER_TTL_MS = {"chatgpt":7200000,"claude":7200000,"minimax":7200000,"gemini":86400000,"copilot":86400000};
       const root = document.getElementById('usage-cards');
       const render = (snapshot) => {
         const byId = new Map((snapshot?.providers || []).map((provider) => [provider.id, provider]));
@@ -382,11 +664,17 @@
           card.dataset.provider = id;
           const head = el('div', 'usage-card-head');
           head.append(el('span', 'usage-card-name', label));
-          head.append(el('span', 'usage-card-time', provider?.observed_at ? hkt(provider.observed_at, { dateStyle: 'short', timeStyle: 'short' }) : '—'));
+          head.append(el('span', 'usage-card-time', provider?.observed_at
+            ? '最後讀數 · ' + hkt(provider.observed_at, { dateStyle: 'short', timeStyle: 'short' })
+            : '未有讀數'));
+          if (provider?.observed_at) {
+            const ageLabel = QuotaView.formatAgeLabel(provider.observed_at, Date.now(), null, PROVIDER_TTL_MS[id]);
+            head.append(el('span', 'usage-card-age' + (ageLabel.startsWith('已過期') ? ' stale' : ''), ageLabel));
+          }
           card.append(head);
           const buckets = provider?.buckets || [];
           if (buckets.length === 0) {
-            card.append(el('p', 'usage-card-empty', '未有未過期資料'));
+            card.append(el('p', 'usage-card-empty', '未有收集讀數'));
           } else {
             for (const bucket of buckets) {
               if (buckets.length > 1) card.append(el('div', 'usage-bucket', bucket.bucket));
