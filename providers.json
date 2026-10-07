@@ -1,18 +1,18 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-10-07T06:00:00.000Z",
+  "generated_at": "2026-10-07T07:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-10-07T06:06:43Z",
+      "observed_at": "2026-10-07T07:10:54Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": 2,
           "windows": {
             "five_hour": 54,
-            "seven_day": 8
+            "seven_day": 9
           },
           "resets_at": {
             "five_hour": "2026-10-07T08:56:45Z",
@@ -38,7 +38,7 @@
     {
       "id": "claude",
       "label": "Claude",
-      "observed_at": "2026-10-07T06:06:28Z",
+      "observed_at": "2026-10-07T07:10:32Z",
       "buckets": [
         {
           "bucket": "account",
@@ -71,7 +71,7 @@
     {
       "id": "gemini",
       "label": "Gemini",
-      "observed_at": "2026-10-07T06:05:08Z",
+      "observed_at": "2026-10-07T07:08:39Z",
       "buckets": [
         {
           "bucket": "account",
