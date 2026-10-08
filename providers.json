@@ -1,18 +1,18 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-10-08T01:00:00.000Z",
+  "generated_at": "2026-10-08T02:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-10-08T01:14:25Z",
+      "observed_at": "2026-10-08T02:19:13Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": 3,
           "windows": {
-            "five_hour": 0,
-            "seven_day": 19
+            "five_hour": 13,
+            "seven_day": 21
           },
           "resets_at": {
             "five_hour": "2026-10-08T06:11:46Z",
@@ -20,10 +20,10 @@
           },
           "reset_markers": {
             "five_hour": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 5,
-              "pre_reset_observed_at": "2026-10-08T00:11:15Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             },
             "seven_day": {
               "detected": false,
@@ -38,7 +38,7 @@
     {
       "id": "claude",
       "label": "Claude",
-      "observed_at": "2026-10-08T01:14:04Z",
+      "observed_at": "2026-10-08T02:18:52Z",
       "buckets": [
         {
           "bucket": "account",
@@ -71,7 +71,7 @@
     {
       "id": "gemini",
       "label": "Gemini",
-      "observed_at": "2026-10-08T01:12:54Z",
+      "observed_at": "2026-10-08T02:16:32Z",
       "buckets": [
         {
           "bucket": "account",
@@ -81,15 +81,15 @@
             "seven_day": 1
           },
           "resets_at": {
-            "five_hour": "2026-10-08T01:22:00Z",
+            "five_hour": "2026-10-08T06:22:00Z",
             "seven_day": "2026-10-13T04:22:00Z"
           },
           "reset_markers": {
             "five_hour": {
-              "detected": false,
+              "detected": true,
               "manual": false,
-              "pre_reset_peak_pct": null,
-              "pre_reset_observed_at": null
+              "pre_reset_peak_pct": 0,
+              "pre_reset_observed_at": "2026-10-07T20:59:44Z"
             },
             "seven_day": {
               "detected": false,
