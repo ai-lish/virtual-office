@@ -1,11 +1,11 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-10-09T03:00:00.000Z",
+  "generated_at": "2026-10-09T04:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-10-09T03:43:05Z",
+      "observed_at": "2026-10-09T04:47:21Z",
       "buckets": [
         {
           "bucket": "account",
@@ -20,16 +20,16 @@
           },
           "reset_markers": {
             "five_hour": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 13,
-              "pre_reset_observed_at": "2026-10-09T02:40:08Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             },
             "seven_day": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 39,
-              "pre_reset_observed_at": "2026-10-09T02:40:08Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             }
           }
         }
@@ -38,17 +38,17 @@
     {
       "id": "claude",
       "label": "Claude",
-      "observed_at": "2026-10-09T03:42:45Z",
+      "observed_at": "2026-10-09T04:47:00Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 0,
-            "seven_day": 14
+            "five_hour": 6,
+            "seven_day": 15
           },
           "resets_at": {
-            "five_hour": null,
+            "five_hour": "2026-10-09T09:40:00Z",
             "seven_day": "2026-10-15T16:00:00Z"
           },
           "reset_markers": {
@@ -71,17 +71,17 @@
     {
       "id": "gemini",
       "label": "Gemini",
-      "observed_at": "2026-10-09T03:41:19Z",
+      "observed_at": "2026-10-09T04:44:55Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 1,
-            "seven_day": 1
+            "five_hour": 0,
+            "seven_day": 2
           },
           "resets_at": {
-            "five_hour": null,
+            "five_hour": "2026-10-09T07:22:00Z",
             "seven_day": "2026-10-13T04:22:00Z"
           },
           "reset_markers": {
