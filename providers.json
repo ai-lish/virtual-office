@@ -5,17 +5,17 @@
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-10-09T01:36:59Z",
+      "observed_at": "2026-10-09T02:40:08Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": 3,
           "windows": {
-            "five_hour": 1,
-            "seven_day": 37
+            "five_hour": 13,
+            "seven_day": 39
           },
           "resets_at": {
-            "five_hour": "2026-10-09T03:25:13Z",
+            "five_hour": "2026-10-09T03:25:14Z",
             "seven_day": "2026-10-14T03:56:46Z"
           },
           "reset_markers": {
@@ -38,7 +38,7 @@
     {
       "id": "claude",
       "label": "Claude",
-      "observed_at": "2026-10-09T01:36:40Z",
+      "observed_at": "2026-10-09T02:39:42Z",
       "buckets": [
         {
           "bucket": "account",
@@ -71,7 +71,7 @@
     {
       "id": "gemini",
       "label": "Gemini",
-      "observed_at": "2026-10-09T01:35:11Z",
+      "observed_at": "2026-10-09T02:38:14Z",
       "buckets": [
         {
           "bucket": "account",
