@@ -1,11 +1,11 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-10-10T16:00:00.000Z",
+  "generated_at": "2026-10-10T17:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-10-10T16:10:35Z",
+      "observed_at": "2026-10-10T17:12:10Z",
       "buckets": [
         {
           "bucket": "account",
@@ -20,16 +20,16 @@
           },
           "reset_markers": {
             "five_hour": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 84,
-              "pre_reset_observed_at": "2026-10-10T15:08:44Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             },
             "seven_day": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 93,
-              "pre_reset_observed_at": "2026-10-10T15:08:44Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             }
           }
         }
