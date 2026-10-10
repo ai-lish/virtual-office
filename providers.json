@@ -104,23 +104,23 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-10-10T07:02:53Z",
+      "observed_at": "2026-10-10T13:37:44Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 0
+            "five_hour": 6
           },
           "resets_at": {
-            "five_hour": "2026-10-10T10:00:00Z"
+            "five_hour": "2026-10-10T15:00:00Z"
           },
           "reset_markers": {
             "five_hour": {
               "detected": true,
               "manual": false,
               "pre_reset_peak_pct": 0,
-              "pre_reset_observed_at": "2026-10-10T00:47:29Z"
+              "pre_reset_observed_at": "2026-10-10T07:02:53Z"
             }
           }
         }
