@@ -1,11 +1,11 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-10-10T21:00:00.000Z",
+  "generated_at": "2026-10-10T22:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-10-10T21:18:20Z",
+      "observed_at": "2026-10-10T22:20:10Z",
       "buckets": [
         {
           "bucket": "account",
@@ -16,7 +16,7 @@
           },
           "resets_at": {
             "five_hour": "2026-10-10T23:40:46Z",
-            "seven_day": "2026-10-14T03:56:45Z"
+            "seven_day": "2026-10-14T03:56:46Z"
           },
           "reset_markers": {
             "five_hour": {
