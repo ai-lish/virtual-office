@@ -5,13 +5,13 @@
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-10-11T07:45:36Z",
+      "observed_at": "2026-10-11T08:50:04Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": 2,
           "windows": {
-            "five_hour": 81,
+            "five_hour": 82,
             "seven_day": 13
           },
           "resets_at": {
