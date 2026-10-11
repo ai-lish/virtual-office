@@ -339,6 +339,7 @@
   const HKT_OFFSET_MS = 8 * 60 * 60 * 1000;
   const MINUTE_MS = 60 * 1000;
   const FIVE_HOUR_WINDOW_MS = 5 * 60 * MINUTE_MS;
+  const WINDOW_END_READ_LEAD_MS = 5 * MINUTE_MS;
   const DAY_MS = 24 * 60 * MINUTE_MS;
   const WEEK_MS = 7 * DAY_MS;
   // Week charts use Monday 00:00 Hong Kong time as their alignment point.
@@ -400,6 +401,11 @@
       end_at: new Date(endMs).toISOString(),
       peak_pct: used,
       peak_observed_at: record.observed_at,
+      latest_pct: used,
+      latest_observed_at: record.observed_at,
+      window_end_pct: null,
+      window_end_observed_at: null,
+      read_method: '最後讀數（沒有窗口完結讀數）',
       split_method: splitMethod,
       reset_detected: false,
       reset_before_peaks: [],
@@ -466,7 +472,18 @@
         }
 
         updatePeak(window, record.windows.five_hour, record.observed_at);
-        window._latestObservedMs = Math.max(window._latestObservedMs, observedMs);
+        if (observedMs >= window._latestObservedMs) {
+          window._latestObservedMs = observedMs;
+          window.latest_pct = record.windows.five_hour;
+          window.latest_observed_at = record.observed_at;
+        }
+        if (Number.isFinite(resetAtMs) && resetAtMs >= observedMs
+          && resetAtMs - observedMs <= WINDOW_END_READ_LEAD_MS
+          && (window.window_end_observed_at === null
+            || observedMs > toEpoch(window.window_end_observed_at))) {
+          window.window_end_pct = record.windows.five_hour;
+          window.window_end_observed_at = record.observed_at;
+        }
         if (marker.detected === true) window.reset_detected = true;
         eventRows.push({ entry, window, marker });
       }
@@ -484,13 +501,22 @@
           observed_at: marker.pre_reset_observed_at
         };
         if (prior) {
-          updatePeak(prior, resetPeak.used_pct, resetPeak.observed_at, true);
           prior.reset_before_peaks.push(resetPeak);
         } else {
           window.reset_before_peaks.push(resetPeak);
         }
       }
 
+      for (const window of scopeWindows) {
+        if (window.window_end_pct !== null) {
+          window.peak_pct = window.window_end_pct;
+          window.peak_observed_at = window.window_end_observed_at;
+          window.read_method = '窗口完結讀數';
+        } else {
+          window.peak_pct = window.latest_pct;
+          window.peak_observed_at = window.latest_observed_at;
+        }
+      }
       allWindows.push(...scopeWindows);
     }
 
@@ -518,7 +544,8 @@
         x: (startMs - start) / WEEK_MS,
         value: window.peak_pct,
         start_at: window.start_at,
-        observed_at: window.peak_observed_at
+        observed_at: window.peak_observed_at,
+        read_method: window.read_method
       }));
     return {
       previous: makePoints(previousStart, currentStart),
@@ -560,7 +587,7 @@
       const dots = points.map((point) => {
         const time = escapeXml(formatHkt(point.start_at));
         const observed = escapeXml(formatHkt(point.observed_at));
-        return `<circle cx="${xFor(point.x).toFixed(1)}" cy="${yFor(point.value).toFixed(1)}" r="2.7" fill="${colour}"><title>${name}：${point.value}% · 窗口 ${time} · 最高值觀測 ${observed}</title></circle>`;
+        return `<circle cx="${xFor(point.x).toFixed(1)}" cy="${yFor(point.value).toFixed(1)}" r="2.7" fill="${colour}"><title>${name}：${point.value}% · ${escapeXml(point.read_method || '最後讀數')} · 窗口 ${time} · 觀測 ${observed}</title></circle>`;
       }).join('');
       return line + dots;
     };
