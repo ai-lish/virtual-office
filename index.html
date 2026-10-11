@@ -410,7 +410,9 @@
       reset_detected: false,
       reset_before_peaks: [],
       _startMs: startMs,
-      _latestObservedMs: toEpoch(record.observed_at)
+      _latestObservedMs: toEpoch(record.observed_at),
+      _accountSegment: Number.isSafeInteger(record.account_segment) && record.account_segment >= 0
+        ? record.account_segment : 0
     };
   }
 
@@ -431,7 +433,9 @@
       const percent = record?.windows?.five_hour;
       if (typeof record?.provider !== 'string' || typeof record?.bucket !== 'string'
         || !Number.isFinite(observedMs) || !Number.isInteger(percent) || percent < 0 || percent > 100) continue;
-      const scopeKey = `${record.provider}\u0000${record.bucket}`;
+      const accountSegment = Number.isSafeInteger(record.account_segment) && record.account_segment >= 0
+        ? record.account_segment : 0;
+      const scopeKey = `${record.provider}\u0000${record.bucket}\u0000${accountSegment}`;
       if (!scopes.has(scopeKey)) scopes.set(scopeKey, []);
       scopes.get(scopeKey).push({ record, observedMs });
     }
@@ -494,7 +498,9 @@
         if (marker.detected !== true || !Number.isInteger(marker.pre_reset_peak_pct)
           || typeof marker.pre_reset_observed_at !== 'string') continue;
         const prior = scopeWindows
-          .filter((candidate) => candidate !== window && candidate._latestObservedMs < entry.observedMs)
+          .filter((candidate) => candidate !== window
+            && candidate._accountSegment === window._accountSegment
+            && candidate._latestObservedMs < entry.observedMs)
           .sort((left, right) => right._latestObservedMs - left._latestObservedMs)[0];
         const resetPeak = {
           used_pct: marker.pre_reset_peak_pct,
@@ -523,7 +529,10 @@
     return allWindows
       .sort((left, right) => left._startMs - right._startMs
         || left.provider.localeCompare(right.provider) || left.bucket.localeCompare(right.bucket))
-      .map(({ _startMs, _endMs, _latestObservedMs, ...window }) => window);
+      .map(({ _startMs, _endMs, _latestObservedMs, _accountSegment, ...window }) => {
+        if (_accountSegment !== 0) window.account_segment = _accountSegment;
+        return window;
+      });
   }
 
   function buildWeeklySeries(windows, now = Date.now()) {
@@ -545,7 +554,9 @@
         value: window.peak_pct,
         start_at: window.start_at,
         observed_at: window.peak_observed_at,
-        read_method: window.read_method
+        read_method: window.read_method,
+        account_segment: Number.isSafeInteger(window.account_segment) && window.account_segment >= 0
+          ? window.account_segment : 0
       }));
     return {
       previous: makePoints(previousStart, currentStart),
@@ -561,7 +572,7 @@
       .replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&apos;');
   }
 
-  function renderWeeklySvg(label, windows, now = Date.now()) {
+  function renderWeeklySvg(label, windows, now = Date.now(), accountBoundaries = []) {
     const series = buildWeeklySeries(windows, now);
     const safePoints = (points) => points.filter((point) => Number.isFinite(point.x)
       && point.x >= 0 && point.x <= 1
@@ -580,17 +591,40 @@
     const yFor = (percent) => top + (100 - Math.max(0, Math.min(100, percent))) / 100 * plotHeight;
     const polyline = (points, colour, name) => {
       if (!points.length) return '';
-      const coordinates = points.map((point) => `${xFor(point.x).toFixed(1)},${yFor(point.value).toFixed(1)}`);
-      const line = points.length > 1
-        ? `<polyline data-series="${name}" fill="none" stroke="${colour}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" points="${coordinates.join(' ')}"/>`
-        : '';
-      const dots = points.map((point) => {
-        const time = escapeXml(formatHkt(point.start_at));
-        const observed = escapeXml(formatHkt(point.observed_at));
-        return `<circle cx="${xFor(point.x).toFixed(1)}" cy="${yFor(point.value).toFixed(1)}" r="2.7" fill="${colour}"><title>${name}：${point.value}% · ${escapeXml(point.read_method || '最後讀數')} · 窗口 ${time} · 觀測 ${observed}</title></circle>`;
+      const groups = [];
+      for (const point of points) {
+        const segment = Number.isSafeInteger(point.account_segment) ? point.account_segment : 0;
+        let group = groups[groups.length - 1];
+        if (!group || group.segment !== segment) {
+          group = { segment, points: [] };
+          groups.push(group);
+        }
+        group.points.push(point);
+      }
+      return groups.map(({ segment, points: segmentPoints }) => {
+        const coordinates = segmentPoints.map((point) => `${xFor(point.x).toFixed(1)},${yFor(point.value).toFixed(1)}`);
+        const line = segmentPoints.length > 1
+          ? `<polyline data-series="${name}" data-account-segment="${segment}" fill="none" stroke="${colour}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" points="${coordinates.join(' ')}"/>`
+          : '';
+        const dots = segmentPoints.map((point) => {
+          const time = escapeXml(formatHkt(point.start_at));
+          const observed = escapeXml(formatHkt(point.observed_at));
+          return `<circle data-series="${name}" data-account-segment="${segment}" cx="${xFor(point.x).toFixed(1)}" cy="${yFor(point.value).toFixed(1)}" r="2.7" fill="${colour}"><title>${name}：${point.value}% · ${escapeXml(point.read_method || '最後讀數')} · 窗口 ${time} · 觀測 ${observed}</title></circle>`;
+        }).join('');
+        return line + dots;
       }).join('');
-      return line + dots;
     };
+    const boundaryMarks = (Array.isArray(accountBoundaries) ? accountBoundaries : []).map((boundary) => {
+      const boundaryMs = toEpoch(boundary?.effective_at);
+      const weekStart = weekStartHkt(boundaryMs);
+      const previousStart = toEpoch(series.previousWeekStart);
+      const currentStart = toEpoch(series.currentWeekStart);
+      if (!Number.isFinite(boundaryMs) || ![previousStart, currentStart].includes(weekStart)) return '';
+      const x = xFor((boundaryMs - weekStart) / WEEK_MS);
+      const anchor = x > width - right - 130 ? 'end' : 'start';
+      const labelX = x + (anchor === 'end' ? -4 : 4);
+      return `<line data-account-boundary="true" x1="${x.toFixed(1)}" x2="${x.toFixed(1)}" y1="${top}" y2="${height - bottom}" stroke="#ffd083" stroke-width="1.5" stroke-dasharray="4 3"/><text data-account-boundary-label="true" x="${labelX.toFixed(1)}" y="29" fill="#ffd083" font-size="9" text-anchor="${anchor}">轉用另一帳號 · ${escapeXml(formatHkt(boundary.effective_at))}</text>`;
+    }).join('');
     const yAxis = [0, 50, 100].map((value) => {
       const y = yFor(value).toFixed(1);
       return `<line x1="${left}" x2="${width - right}" y1="${y}" y2="${y}" stroke="#ffffff" stroke-opacity=".16"/><text x="${left - 7}" y="${Number(y) + 3}" fill="#aeb9c8" font-size="10" text-anchor="end">${value}%</text>`;
@@ -613,6 +647,7 @@
     <line x1="111" x2="126" y1="15" y2="15" stroke="${THIS_WEEK_COLOUR}" stroke-width="2.5"/><circle cx="118.5" cy="15" r="2.5" fill="${THIS_WEEK_COLOUR}"/><text x="131" y="18" fill="#e8edf4" font-size="10">本週</text>
     ${yAxis}
     ${xAxis}
+    ${boundaryMarks}
     ${polyline(previousPoints, LAST_WEEK_COLOUR, '上週')}
     ${polyline(currentPoints, THIS_WEEK_COLOUR, '本週')}
   </g>

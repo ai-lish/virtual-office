@@ -61,6 +61,7 @@
     .window-table-wrap table { min-width:760px; }
     .window-method { display:block; color:var(--dim); font-size:.68rem; line-height:1.4; }
     .window-reset { display:block; color:#ffd083; font-size:.68rem; line-height:1.4; }
+    .account-boundary-row td { padding:12px 10px; color:#ffd083; font-weight:700; background:rgba(255,208,131,.08); border-top:2px dashed #ffd083; border-bottom:2px dashed #ffd083; }
     .delta-up { color:#f0a58a; } .delta-down { color:#8fd3b6; }
     .record-note { display:block; margin-top:3px; color:var(--dim); font-size:.66rem; font-weight:400; line-height:1.45; text-align:left; }
     .pager { display:flex; justify-content:flex-end; align-items:center; gap:8px; margin-top:10px; color:var(--dim); font-size:.76rem; }
@@ -80,7 +81,7 @@
     <a href="index.html">← 返回虛擬辦公室</a>
   </header>
   <main>
-    <p class="note">每次不同觀測都會保留；5 小時、7 日及月度窗口各自記錄。reset 點會標示 reset 前週期的最高使用率及其最後觀測時間。時間以香港時間顯示。2026-08-10 或之前嘅 898 筆紀錄來自舊系統，格式只在讀取時轉換，來源歷史不改寫。</p>
+    <p class="note">每次不同觀測都會保留；5 小時、7 日及月度窗口各自記錄。reset 點會標示 reset 前週期的最高使用率及其最後觀測時間。帳號分界會標示為「轉用另一帳號」；分界前後分開統計及繪線。時間以香港時間顯示。2026-08-10 或之前嘅 898 筆紀錄來自舊系統，格式只在讀取時轉換，來源歷史不改寫。</p>
     <div class="filters" role="group" aria-label="時間範圍">
       <span>範圍（以最新紀錄計）</span>
       <button type="button" data-range="7">7 日</button>
@@ -118,7 +119,7 @@
 
     <section aria-labelledby="records-title">
       <div class="section-title" id="records-title">5 小時窗口讀數</div>
-      <p class="note">每個窗口優先列完結前 5 分鐘讀數；沒有該筆時改列窗口最後讀數，並標示採用方式。按來源的 five_hour 重設時間分組；缺少重設時間時，按 reset 標記或相隔 5 小時的觀測切分，該窗口邊界屬估算。</p>
+      <p class="note">每個窗口優先列完結前 5 分鐘讀數；沒有該筆時改列窗口最後讀數，並標示採用方式。按來源的 five_hour 重設時間分組；缺少重設時間時，按 reset 標記或相隔 5 小時的觀測切分，該窗口邊界屬估算。帳號分界另作一列，不會合併分界前後的窗口。</p>
       <div class="filters" style="position:static" role="group" aria-label="紀錄篩選">
         <span>月份</span><select id="month"></select>
         <span>AI</span><select id="provider-filter"></select>
@@ -210,7 +211,9 @@
       reset_detected: false,
       reset_before_peaks: [],
       _startMs: startMs,
-      _latestObservedMs: toEpoch(record.observed_at)
+      _latestObservedMs: toEpoch(record.observed_at),
+      _accountSegment: Number.isSafeInteger(record.account_segment) && record.account_segment >= 0
+        ? record.account_segment : 0
     };
   }
 
@@ -231,7 +234,9 @@
       const percent = record?.windows?.five_hour;
       if (typeof record?.provider !== 'string' || typeof record?.bucket !== 'string'
         || !Number.isFinite(observedMs) || !Number.isInteger(percent) || percent < 0 || percent > 100) continue;
-      const scopeKey = `${record.provider}\u0000${record.bucket}`;
+      const accountSegment = Number.isSafeInteger(record.account_segment) && record.account_segment >= 0
+        ? record.account_segment : 0;
+      const scopeKey = `${record.provider}\u0000${record.bucket}\u0000${accountSegment}`;
       if (!scopes.has(scopeKey)) scopes.set(scopeKey, []);
       scopes.get(scopeKey).push({ record, observedMs });
     }
@@ -294,7 +299,9 @@
         if (marker.detected !== true || !Number.isInteger(marker.pre_reset_peak_pct)
           || typeof marker.pre_reset_observed_at !== 'string') continue;
         const prior = scopeWindows
-          .filter((candidate) => candidate !== window && candidate._latestObservedMs < entry.observedMs)
+          .filter((candidate) => candidate !== window
+            && candidate._accountSegment === window._accountSegment
+            && candidate._latestObservedMs < entry.observedMs)
           .sort((left, right) => right._latestObservedMs - left._latestObservedMs)[0];
         const resetPeak = {
           used_pct: marker.pre_reset_peak_pct,
@@ -323,7 +330,10 @@
     return allWindows
       .sort((left, right) => left._startMs - right._startMs
         || left.provider.localeCompare(right.provider) || left.bucket.localeCompare(right.bucket))
-      .map(({ _startMs, _endMs, _latestObservedMs, ...window }) => window);
+      .map(({ _startMs, _endMs, _latestObservedMs, _accountSegment, ...window }) => {
+        if (_accountSegment !== 0) window.account_segment = _accountSegment;
+        return window;
+      });
   }
 
   function buildWeeklySeries(windows, now = Date.now()) {
@@ -345,7 +355,9 @@
         value: window.peak_pct,
         start_at: window.start_at,
         observed_at: window.peak_observed_at,
-        read_method: window.read_method
+        read_method: window.read_method,
+        account_segment: Number.isSafeInteger(window.account_segment) && window.account_segment >= 0
+          ? window.account_segment : 0
       }));
     return {
       previous: makePoints(previousStart, currentStart),
@@ -361,7 +373,7 @@
       .replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&apos;');
   }
 
-  function renderWeeklySvg(label, windows, now = Date.now()) {
+  function renderWeeklySvg(label, windows, now = Date.now(), accountBoundaries = []) {
     const series = buildWeeklySeries(windows, now);
     const safePoints = (points) => points.filter((point) => Number.isFinite(point.x)
       && point.x >= 0 && point.x <= 1
@@ -380,17 +392,40 @@
     const yFor = (percent) => top + (100 - Math.max(0, Math.min(100, percent))) / 100 * plotHeight;
     const polyline = (points, colour, name) => {
       if (!points.length) return '';
-      const coordinates = points.map((point) => `${xFor(point.x).toFixed(1)},${yFor(point.value).toFixed(1)}`);
-      const line = points.length > 1
-        ? `<polyline data-series="${name}" fill="none" stroke="${colour}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" points="${coordinates.join(' ')}"/>`
-        : '';
-      const dots = points.map((point) => {
-        const time = escapeXml(formatHkt(point.start_at));
-        const observed = escapeXml(formatHkt(point.observed_at));
-        return `<circle cx="${xFor(point.x).toFixed(1)}" cy="${yFor(point.value).toFixed(1)}" r="2.7" fill="${colour}"><title>${name}：${point.value}% · ${escapeXml(point.read_method || '最後讀數')} · 窗口 ${time} · 觀測 ${observed}</title></circle>`;
+      const groups = [];
+      for (const point of points) {
+        const segment = Number.isSafeInteger(point.account_segment) ? point.account_segment : 0;
+        let group = groups[groups.length - 1];
+        if (!group || group.segment !== segment) {
+          group = { segment, points: [] };
+          groups.push(group);
+        }
+        group.points.push(point);
+      }
+      return groups.map(({ segment, points: segmentPoints }) => {
+        const coordinates = segmentPoints.map((point) => `${xFor(point.x).toFixed(1)},${yFor(point.value).toFixed(1)}`);
+        const line = segmentPoints.length > 1
+          ? `<polyline data-series="${name}" data-account-segment="${segment}" fill="none" stroke="${colour}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" points="${coordinates.join(' ')}"/>`
+          : '';
+        const dots = segmentPoints.map((point) => {
+          const time = escapeXml(formatHkt(point.start_at));
+          const observed = escapeXml(formatHkt(point.observed_at));
+          return `<circle data-series="${name}" data-account-segment="${segment}" cx="${xFor(point.x).toFixed(1)}" cy="${yFor(point.value).toFixed(1)}" r="2.7" fill="${colour}"><title>${name}：${point.value}% · ${escapeXml(point.read_method || '最後讀數')} · 窗口 ${time} · 觀測 ${observed}</title></circle>`;
+        }).join('');
+        return line + dots;
       }).join('');
-      return line + dots;
     };
+    const boundaryMarks = (Array.isArray(accountBoundaries) ? accountBoundaries : []).map((boundary) => {
+      const boundaryMs = toEpoch(boundary?.effective_at);
+      const weekStart = weekStartHkt(boundaryMs);
+      const previousStart = toEpoch(series.previousWeekStart);
+      const currentStart = toEpoch(series.currentWeekStart);
+      if (!Number.isFinite(boundaryMs) || ![previousStart, currentStart].includes(weekStart)) return '';
+      const x = xFor((boundaryMs - weekStart) / WEEK_MS);
+      const anchor = x > width - right - 130 ? 'end' : 'start';
+      const labelX = x + (anchor === 'end' ? -4 : 4);
+      return `<line data-account-boundary="true" x1="${x.toFixed(1)}" x2="${x.toFixed(1)}" y1="${top}" y2="${height - bottom}" stroke="#ffd083" stroke-width="1.5" stroke-dasharray="4 3"/><text data-account-boundary-label="true" x="${labelX.toFixed(1)}" y="29" fill="#ffd083" font-size="9" text-anchor="${anchor}">轉用另一帳號 · ${escapeXml(formatHkt(boundary.effective_at))}</text>`;
+    }).join('');
     const yAxis = [0, 50, 100].map((value) => {
       const y = yFor(value).toFixed(1);
       return `<line x1="${left}" x2="${width - right}" y1="${y}" y2="${y}" stroke="#ffffff" stroke-opacity=".16"/><text x="${left - 7}" y="${Number(y) + 3}" fill="#aeb9c8" font-size="10" text-anchor="end">${value}%</text>`;
@@ -413,6 +448,7 @@
     <line x1="111" x2="126" y1="15" y2="15" stroke="${THIS_WEEK_COLOUR}" stroke-width="2.5"/><circle cx="118.5" cy="15" r="2.5" fill="${THIS_WEEK_COLOUR}"/><text x="131" y="18" fill="#e8edf4" font-size="10">本週</text>
     ${yAxis}
     ${xAxis}
+    ${boundaryMarks}
     ${polyline(previousPoints, LAST_WEEK_COLOUR, '上週')}
     ${polyline(currentPoints, THIS_WEEK_COLOUR, '本週')}
   </g>
@@ -484,6 +520,7 @@
       const HEAT_STEPS = ['#184f95', '#1c5cab', '#256abf', '#2a78d6', '#3987e5', '#5598e7', '#6da7ec', '#86b6ef', '#9ec5f4', '#cde2fb'];
       const tooltip = document.getElementById('tooltip');
       const state = { range: 30, weekOffset: 0, month: '', provider: '', page: 0 };
+      const ACCOUNT_BOUNDARIES = [{"provider":"claude","bucket":"account","effective_at":"2026-10-11T10:54:05Z"}];
       let all = [];
       let fiveHourWindows = [];
 
@@ -641,7 +678,7 @@
           const windows = fiveHourWindows.filter((window) => window.provider === id);
           if (!windows.length) card.append(el('p', 'empty', '此服務目前沒有 5 小時用量數據。'));
           const svg = el('div');
-          svg.innerHTML = QuotaView.renderWeeklySvg(label, windows, Date.now());
+          svg.innerHTML = QuotaView.renderWeeklySvg(label, windows, Date.now(), ACCOUNT_BOUNDARIES.filter((boundary) => boundary.provider === id));
           card.append(svg);
           root.append(card);
         }
@@ -682,10 +719,15 @@
 
       const renderRecords = () => {
         const table = document.getElementById('records');
-        const rows = fiveHourWindows
-          .filter((window) => !state.month || hktParts(window.start_at).month === state.month)
-          .filter((window) => !state.provider || window.provider === state.provider)
-          .slice()
+        const rows = [
+          ...fiveHourWindows.map((window) => ({ kind: 'window', provider: window.provider, bucket: window.bucket, start_at: window.start_at, window })),
+          ...ACCOUNT_BOUNDARIES.map((boundary) => ({
+            kind: 'account_boundary', provider: boundary.provider, bucket: boundary.bucket,
+            start_at: boundary.effective_at, effective_at: boundary.effective_at
+          }))
+        ]
+          .filter((row) => !state.month || hktParts(row.start_at).month === state.month)
+          .filter((row) => !state.provider || row.provider === state.provider)
           .sort((left, right) => right.start_at.localeCompare(left.start_at));
         const pages = Math.max(1, Math.ceil(rows.length / 50));
         state.page = Math.min(state.page, pages - 1);
@@ -695,7 +737,19 @@
         thead.append(head);
         const body = el('tbody');
         const labels = new Map(PROVIDERS.map((provider) => [provider.id, provider.label]));
-        for (const window of rows.slice(state.page * 50, state.page * 50 + 50)) {
+        for (const row of rows.slice(state.page * 50, state.page * 50 + 50)) {
+          if (row.kind === 'account_boundary') {
+            const tr = el('tr', 'account-boundary-row');
+            tr.dataset.provider = row.provider;
+            const label = labels.get(row.provider) || row.provider;
+            const message = label + ' · 轉用另一帳號 · ' + hkt(row.effective_at, { dateStyle: 'short', timeStyle: 'short' });
+            const cell = el('td', '', message);
+            cell.colSpan = 6;
+            tr.append(cell);
+            body.append(tr);
+            continue;
+          }
+          const window = row.window;
           const tr = el('tr');
           tr.dataset.provider = window.provider;
           const name = el('td');
@@ -747,6 +801,11 @@
       const setup = (data) => {
         all = (Array.isArray(data?.records) ? data.records : [])
           .filter((record) => record && record.windows && record.observed_at)
+          .map((record) => ({
+            ...record,
+            account_segment: ACCOUNT_BOUNDARIES.filter((boundary) => boundary.provider === record.provider
+              && boundary.bucket === record.bucket && record.observed_at >= boundary.effective_at).length
+          }))
           .sort((left, right) => left.observed_at.localeCompare(right.observed_at));
         fiveHourWindows = QuotaView.aggregateFiveHourWindows(all);
         const months = [...new Set(all.map((record) => hktParts(record.observed_at).month))].sort().reverse();
