@@ -1,6 +1,6 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-10-11T09:00:00.000Z",
+  "generated_at": "2026-10-11T10:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
@@ -38,7 +38,7 @@
     {
       "id": "claude",
       "label": "Claude",
-      "observed_at": "2026-10-11T07:48:33Z",
+      "observed_at": "2026-10-11T10:54:04Z",
       "buckets": [
         {
           "bucket": "account",
@@ -71,7 +71,7 @@
     {
       "id": "gemini",
       "label": "Gemini",
-      "observed_at": "2026-10-11T07:47:14Z",
+      "observed_at": "2026-10-11T10:52:54Z",
       "buckets": [
         {
           "bucket": "account",
