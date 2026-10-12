@@ -1,6 +1,6 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-10-12T15:00:00.000Z",
+  "generated_at": "2026-10-12T16:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
@@ -104,13 +104,13 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-10-12T15:16:37Z",
+      "observed_at": "2026-10-12T16:11:47Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 1
+            "five_hour": 2
           },
           "resets_at": {
             "five_hour": "2026-10-12T20:00:00Z"
