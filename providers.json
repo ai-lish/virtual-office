@@ -1,35 +1,35 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-10-12T00:00:00.000Z",
+  "generated_at": "2026-10-12T04:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-10-12T00:04:33Z",
+      "observed_at": "2026-10-12T04:38:14Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": 2,
           "windows": {
-            "five_hour": 57,
-            "seven_day": 54
+            "five_hour": 5,
+            "seven_day": 56
           },
           "resets_at": {
-            "five_hour": "2026-10-12T00:42:19Z",
+            "five_hour": "2026-10-12T05:42:50Z",
             "seven_day": "2026-10-18T04:34:58Z"
           },
           "reset_markers": {
             "five_hour": {
               "detected": true,
               "manual": false,
-              "pre_reset_peak_pct": 100,
-              "pre_reset_observed_at": "2026-10-11T18:03:04Z"
+              "pre_reset_peak_pct": 57,
+              "pre_reset_observed_at": "2026-10-12T00:04:33Z"
             },
             "seven_day": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 45,
-              "pre_reset_observed_at": "2026-10-11T18:03:04Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             }
           }
         }
@@ -71,17 +71,17 @@
     {
       "id": "gemini",
       "label": "Gemini",
-      "observed_at": "2026-10-12T00:05:57Z",
+      "observed_at": "2026-10-12T04:39:58Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
             "five_hour": 0,
-            "seven_day": 2
+            "seven_day": 3
           },
           "resets_at": {
-            "five_hour": null,
+            "five_hour": "2026-10-12T05:22:00Z",
             "seven_day": "2026-10-13T04:22:00Z"
           },
           "reset_markers": {
@@ -104,23 +104,23 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-10-12T00:07:35Z",
+      "observed_at": "2026-10-12T04:44:51Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 0
+            "five_hour": 6
           },
           "resets_at": {
             "five_hour": "2026-10-12T05:00:00Z"
           },
           "reset_markers": {
             "five_hour": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 3,
-              "pre_reset_observed_at": "2026-10-11T23:39:18Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             }
           }
         }
