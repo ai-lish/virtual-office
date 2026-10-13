@@ -38,17 +38,17 @@
     {
       "id": "claude",
       "label": "Claude",
-      "observed_at": "2026-10-13T20:50:54Z",
+      "observed_at": "2026-10-13T23:56:54Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 0,
-            "seven_day": 30
+            "five_hour": 43,
+            "seven_day": 35
           },
           "resets_at": {
-            "five_hour": null,
+            "five_hour": "2026-10-14T04:00:00Z",
             "seven_day": "2026-10-19T18:00:00Z"
           },
           "reset_markers": {
@@ -104,7 +104,7 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-10-13T23:16:26Z",
+      "observed_at": "2026-10-13T23:56:34Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
