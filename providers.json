@@ -1,18 +1,18 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-10-13T01:00:00.000Z",
+  "generated_at": "2026-10-13T02:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-10-13T01:14:07Z",
+      "observed_at": "2026-10-13T02:15:53Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": 2,
           "windows": {
-            "five_hour": 72,
-            "seven_day": 75
+            "five_hour": 85,
+            "seven_day": 77
           },
           "resets_at": {
             "five_hour": "2026-10-13T03:49:19Z",
@@ -38,14 +38,14 @@
     {
       "id": "claude",
       "label": "Claude",
-      "observed_at": "2026-10-13T01:14:29Z",
+      "observed_at": "2026-10-13T02:16:17Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 62,
-            "seven_day": 9
+            "five_hour": 73,
+            "seven_day": 10
           },
           "resets_at": {
             "five_hour": "2026-10-13T03:40:00Z",
@@ -71,25 +71,25 @@
     {
       "id": "gemini",
       "label": "Gemini",
-      "observed_at": "2026-10-13T01:14:21Z",
+      "observed_at": "2026-10-13T02:16:12Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 1,
+            "five_hour": 0,
             "seven_day": 3
           },
           "resets_at": {
-            "five_hour": "2026-10-13T01:22:00Z",
+            "five_hour": "2026-10-13T06:22:00Z",
             "seven_day": "2026-10-13T04:22:00Z"
           },
           "reset_markers": {
             "five_hour": {
-              "detected": false,
+              "detected": true,
               "manual": false,
-              "pre_reset_peak_pct": null,
-              "pre_reset_observed_at": null
+              "pre_reset_peak_pct": 2,
+              "pre_reset_observed_at": "2026-10-12T17:14:58Z"
             },
             "seven_day": {
               "detected": false,
@@ -104,13 +104,13 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-10-13T01:15:55Z",
+      "observed_at": "2026-10-13T02:16:22Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 2
+            "five_hour": 3
           },
           "resets_at": {
             "five_hour": "2026-10-13T05:00:00Z"
