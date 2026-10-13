@@ -1,11 +1,11 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-10-13T06:00:00.000Z",
+  "generated_at": "2026-10-13T07:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-10-13T06:21:56Z",
+      "observed_at": "2026-10-13T07:23:19Z",
       "buckets": [
         {
           "bucket": "account",
@@ -38,13 +38,13 @@
     {
       "id": "claude",
       "label": "Claude",
-      "observed_at": "2026-10-13T06:22:02Z",
+      "observed_at": "2026-10-13T07:23:26Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 10,
+            "five_hour": 13,
             "seven_day": 14
           },
           "resets_at": {
@@ -104,13 +104,13 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-10-13T06:23:21Z",
+      "observed_at": "2026-10-13T07:23:31Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 2
+            "five_hour": 3
           },
           "resets_at": {
             "five_hour": "2026-10-13T10:00:00Z"
