@@ -104,7 +104,7 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-10-14T05:03:08Z",
+      "observed_at": "2026-10-14T05:04:30Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
@@ -117,10 +117,10 @@
           },
           "reset_markers": {
             "five_hour": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 5,
-              "pre_reset_observed_at": "2026-10-14T04:01:26Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             }
           }
         }
