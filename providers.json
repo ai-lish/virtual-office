@@ -104,7 +104,7 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-10-14T17:25:42Z",
+      "observed_at": "2026-10-14T17:27:13Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
