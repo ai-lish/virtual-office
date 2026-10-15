@@ -1,17 +1,17 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-10-15T08:00:00.000Z",
+  "generated_at": "2026-10-15T09:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-10-15T08:46:38Z",
+      "observed_at": "2026-10-15T09:48:57Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": 2,
           "windows": {
-            "five_hour": 31,
+            "five_hour": 32,
             "seven_day": 5
           },
           "resets_at": {
@@ -20,16 +20,16 @@
           },
           "reset_markers": {
             "five_hour": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 0,
-              "pre_reset_observed_at": "2026-10-15T05:43:01Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             },
             "seven_day": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 51,
-              "pre_reset_observed_at": "2026-10-14T22:35:34Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             }
           }
         }
@@ -38,13 +38,13 @@
     {
       "id": "claude",
       "label": "Claude",
-      "observed_at": "2026-10-15T08:48:30Z",
+      "observed_at": "2026-10-15T09:49:13Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 30,
+            "five_hour": 34,
             "seven_day": 75
           },
           "resets_at": {
@@ -104,13 +104,13 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-10-15T08:48:35Z",
+      "observed_at": "2026-10-15T09:49:18Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 5
+            "five_hour": 6
           },
           "resets_at": {
             "five_hour": "2026-10-15T10:00:00Z"
