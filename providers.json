@@ -1,18 +1,18 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-10-16T11:00:00.000Z",
+  "generated_at": "2026-10-16T12:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-10-16T11:05:19Z",
+      "observed_at": "2026-10-16T12:05:44Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": 2,
           "windows": {
-            "five_hour": 9,
-            "seven_day": 9
+            "five_hour": 37,
+            "seven_day": 14
           },
           "resets_at": {
             "five_hour": "2026-10-16T13:04:57Z",
@@ -38,14 +38,14 @@
     {
       "id": "claude",
       "label": "Claude",
-      "observed_at": "2026-10-16T11:05:24Z",
+      "observed_at": "2026-10-16T12:06:11Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 20,
-            "seven_day": 86
+            "five_hour": 57,
+            "seven_day": 91
           },
           "resets_at": {
             "five_hour": "2026-10-16T13:00:00Z",
@@ -71,7 +71,7 @@
     {
       "id": "gemini",
       "label": "Gemini",
-      "observed_at": "2026-10-16T09:04:01Z",
+      "observed_at": "2026-10-16T12:06:01Z",
       "buckets": [
         {
           "bucket": "account",
@@ -81,15 +81,15 @@
             "seven_day": 0
           },
           "resets_at": {
-            "five_hour": "2026-10-16T09:22:00Z",
+            "five_hour": "2026-10-16T14:22:00Z",
             "seven_day": "2026-10-20T04:22:00Z"
           },
           "reset_markers": {
             "five_hour": {
-              "detected": false,
+              "detected": true,
               "manual": false,
-              "pre_reset_peak_pct": null,
-              "pre_reset_observed_at": null
+              "pre_reset_peak_pct": 0,
+              "pre_reset_observed_at": "2026-10-16T06:02:25Z"
             },
             "seven_day": {
               "detected": false,
