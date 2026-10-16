@@ -5,24 +5,99 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
   <title>AI 使用歷史</title>
+  <script>
+    (() => {
+      let mode = 'auto';
+      try {
+        const saved = localStorage.getItem('vo-theme');
+        if (saved === 'light' || saved === 'dark' || saved === 'auto') mode = saved;
+      } catch {}
+      document.documentElement.dataset.mode = mode;
+    })();
+  </script>
   <style>
-    :root { color-scheme: dark; --bg:#0f0f23; --card:#16213e; --bar:#1a1a2e; --text:#eee; --dim:#9aa4b2; --red:#bc002d; --blue:#5dade2; --line:rgba(255,255,255,.09); font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif; }
+
+    :root {
+      color-scheme:dark;
+      --bg:#0f0f23; --bg-glow:#1d2442; --bar:#1a1a2e; --card:#16213e;
+      --surface-panel:rgba(22,33,62,.72); --surface-usage:rgba(15,15,35,.68); --surface-gas:rgba(22,33,62,.56);
+      --surface-group:rgba(15,15,35,.42); --surface-card:rgba(22,33,62,.72); --surface-muted:rgba(15,15,35,.6);
+      --surface-filter:rgba(15,15,35,.92); --surface-tooltip:#0b1022;
+      --text:#eeeeee; --ink-metric:#e8edf4; --ink-soft:#c8d0dc; --ink-pill:#cbd5e1;
+      --dim:#9aa4b2; --ink-footer:#6f7b8b; --red:#bc002d; --blue:#5dade2; --blue-edge:rgba(93,173,226,.18);
+      --green:#2ecc71; --mint:#9af0ce; --green-wash:rgba(46,204,113,.14); --green-edge:rgba(46,204,113,.4);
+      --amber:#ffd083; --amber-wash:rgba(255,208,131,.08); --amber-edge:rgba(255,208,131,.35);
+      --line:rgba(255,255,255,.09); --edge-control:rgba(255,255,255,.18); --track:rgba(255,255,255,.1);
+      --high-ring:#ffffff; --svg-grid:#ffffff; --svg-muted:#aeb9c8;
+      --week-last:#69a8ff; --week-current:#ff9b62; --delta-up:#f0a58a; --delta-down:#8fd3b6;
+      --chart-guide:rgba(255,255,255,.12); --chart-baseline:rgba(255,255,255,.25);
+      --filter-selected:rgba(93,173,226,.2); --tooltip-edge:rgba(255,255,255,.2);
+      --heat-empty:rgba(255,255,255,.04); --shadow:rgba(0,0,0,.4);
+      --p-chatgpt:#3987e5; --p-claude:#d95926; --p-gemini:#199e70; --p-minimax:#c98500; --p-copilot:#d55181;
+      --heat-1:#184f95; --heat-2:#1c5cab; --heat-3:#256abf; --heat-4:#2a78d6; --heat-5:#3987e5;
+      --heat-6:#5598e7; --heat-7:#6da7ec; --heat-8:#86b6ef; --heat-9:#9ec5f4; --heat-10:#cde2fb;
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif;
+    }
+    :root[data-mode="light"] {
+      color-scheme:light;
+      --bg:#f3f5fa; --bg-glow:#e3e8f5; --bar:#e9edf6; --card:#ffffff;
+      --surface-panel:#ffffff; --surface-usage:#ffffff; --surface-gas:#f8f9fd;
+      --surface-group:#ffffff; --surface-card:#ffffff; --surface-muted:#f8f9fd;
+      --surface-filter:rgba(243,245,250,.96); --surface-tooltip:#ffffff;
+      --text:#16213e; --ink-metric:#0f0f23; --ink-soft:#38445a; --ink-pill:#38445a;
+      --dim:#556072; --ink-footer:#5f6a7a; --red:#bc002d; --blue:#1f6fb2; --blue-edge:rgba(31,111,178,.25);
+      --green:#1f9d63; --mint:#11785a; --green-wash:rgba(17,120,90,.1); --green-edge:rgba(17,120,90,.35);
+      --amber:#8a5a00; --amber-wash:rgba(201,133,0,.1); --amber-edge:rgba(138,90,0,.35);
+      --line:rgba(22,33,62,.12); --edge-control:rgba(22,33,62,.22); --track:rgba(22,33,62,.1);
+      --high-ring:#16213e; --svg-grid:#16213e; --svg-muted:#556072;
+      --week-last:#3987e5; --week-current:#c95620; --delta-up:#a33a18; --delta-down:#137450;
+      --chart-guide:rgba(22,33,62,.18); --chart-baseline:rgba(22,33,62,.25);
+      --filter-selected:rgba(31,111,178,.2); --tooltip-edge:rgba(22,33,62,.2);
+      --heat-empty:rgba(22,33,62,.04); --shadow:rgba(15,33,62,.16);
+      --p-chatgpt:#3987e5; --p-claude:#d95926; --p-gemini:#199e70; --p-minimax:#b37600; --p-copilot:#d55181;
+      --heat-1:#184f95; --heat-2:#1c5cab; --heat-3:#256abf; --heat-4:#2a78d6; --heat-5:#3987e5;
+      --heat-6:#5598e7; --heat-7:#6da7ec; --heat-8:#86b6ef; --heat-9:#9ec5f4; --heat-10:#cde2fb;
+ }
+    @media(prefers-color-scheme:light) { :root[data-mode="auto"] {
+      color-scheme:light;
+      --bg:#f3f5fa; --bg-glow:#e3e8f5; --bar:#e9edf6; --card:#ffffff;
+      --surface-panel:#ffffff; --surface-usage:#ffffff; --surface-gas:#f8f9fd;
+      --surface-group:#ffffff; --surface-card:#ffffff; --surface-muted:#f8f9fd;
+      --surface-filter:rgba(243,245,250,.96); --surface-tooltip:#ffffff;
+      --text:#16213e; --ink-metric:#0f0f23; --ink-soft:#38445a; --ink-pill:#38445a;
+      --dim:#556072; --ink-footer:#5f6a7a; --red:#bc002d; --blue:#1f6fb2; --blue-edge:rgba(31,111,178,.25);
+      --green:#1f9d63; --mint:#11785a; --green-wash:rgba(17,120,90,.1); --green-edge:rgba(17,120,90,.35);
+      --amber:#8a5a00; --amber-wash:rgba(201,133,0,.1); --amber-edge:rgba(138,90,0,.35);
+      --line:rgba(22,33,62,.12); --edge-control:rgba(22,33,62,.22); --track:rgba(22,33,62,.1);
+      --high-ring:#16213e; --svg-grid:#16213e; --svg-muted:#556072;
+      --week-last:#3987e5; --week-current:#c95620; --delta-up:#a33a18; --delta-down:#137450;
+      --chart-guide:rgba(22,33,62,.18); --chart-baseline:rgba(22,33,62,.25);
+      --filter-selected:rgba(31,111,178,.2); --tooltip-edge:rgba(22,33,62,.2);
+      --heat-empty:rgba(22,33,62,.04); --shadow:rgba(15,33,62,.16);
+      --p-chatgpt:#3987e5; --p-claude:#d95926; --p-gemini:#199e70; --p-minimax:#b37600; --p-copilot:#d55181;
+      --heat-1:#184f95; --heat-2:#1c5cab; --heat-3:#256abf; --heat-4:#2a78d6; --heat-5:#3987e5;
+      --heat-6:#5598e7; --heat-7:#6da7ec; --heat-8:#86b6ef; --heat-9:#9ec5f4; --heat-10:#cde2fb;
+ } }
     * { box-sizing:border-box; }
-    body { margin:0; min-height:100vh; background:radial-gradient(circle at 15% 0%,#1d2442 0,#0f0f23 42%),var(--bg); color:var(--text); }
+    body { margin:0; min-height:100vh; background:radial-gradient(circle at 15% 0%,var(--bg-glow) 0,var(--bg) 42%),var(--bg); color:var(--text); }
+    button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible { outline:2px solid var(--blue); outline-offset:2px; }
+
     header { position:sticky; top:0; z-index:3; display:flex; justify-content:space-between; align-items:center; gap:16px; padding:14px clamp(16px,4vw,44px); background:linear-gradient(90deg,var(--bar),var(--card)); border-bottom:2px solid var(--red); }
     header h1 { margin:0; font-size:1.05rem; }
-    header a { color:var(--blue); font-size:.8rem; text-decoration:none; }
+    .header-actions { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+    header a { display:inline-flex; align-items:center; min-height:44px; color:var(--blue); font-size:.8rem; text-decoration:none; }
+    .theme-toggle { display:inline-flex; align-items:center; justify-content:center; gap:7px; min-height:44px; padding:0 12px; border:1px solid var(--edge-control); border-radius:999px; background:transparent; color:var(--text); font:inherit; font-size:.74rem; cursor:pointer; }
     main { width:min(1080px,calc(100% - 32px)); margin:0 auto; padding:26px 0 58px; }
     section { margin-top:28px; }
     .section-title { display:flex; align-items:center; gap:10px; margin-bottom:12px; color:var(--dim); font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; }
     .section-title::after { content:""; height:1px; flex:1; background:var(--line); }
     .note { margin:0 0 12px; color:var(--dim); font-size:.8rem; line-height:1.65; }
-    .panel { padding:18px; border:1px solid var(--line); border-radius:14px; background:rgba(22,33,62,.72); }
-    .filters { display:flex; flex-wrap:wrap; align-items:center; gap:8px; position:sticky; top:54px; z-index:2; padding:10px 0; background:rgba(15,15,35,.92); }
+    .panel { padding:18px; border:1px solid var(--line); border-radius:14px; background:var(--surface-panel); }
+    .filters { display:flex; flex-wrap:wrap; align-items:center; gap:8px; position:sticky; top:54px; z-index:2; padding:10px 0; background:var(--surface-filter); }
     .filters span { color:var(--dim); font-size:.76rem; margin-right:4px; }
-    .filters button, .filters select { padding:6px 12px; border:1px solid rgba(255,255,255,.18); border-radius:999px; background:transparent; color:var(--text); font:inherit; font-size:.78rem; cursor:pointer; }
-    .filters button[aria-pressed="true"] { background:rgba(93,173,226,.2); border-color:var(--blue); font-weight:650; }
-    .filters select option { background:#16213e; }
+    .filters button, .filters select { padding:6px 12px; border:1px solid var(--edge-control); border-radius:999px; background:transparent; color:var(--text); font:inherit; font-size:.78rem; cursor:pointer; }
+    .filters button[aria-pressed="true"] { background:var(--filter-selected); border-color:var(--blue); font-weight:650; }
+    .filters select option { background:var(--card); }
     table { width:100%; border-collapse:collapse; font-size:.82rem; }
     th, td { padding:9px 10px; text-align:left; border-bottom:1px solid var(--line); }
     th { color:var(--dim); font-size:.7rem; font-weight:600; letter-spacing:.04em; }
@@ -31,10 +106,10 @@
     .table-wrap { overflow-x:auto; }
     .table-wrap table { min-width:860px; }
     .multiples { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:12px; }
-    .multiple { padding:14px; border:1px solid var(--line); border-radius:12px; background:rgba(15,15,35,.6); }
+    .multiple { padding:14px; border:1px solid var(--line); border-radius:12px; background:var(--surface-muted); }
     .multiple h3 { display:flex; justify-content:space-between; margin:0 0 10px; font-size:.86rem; }
     .multiple h3 small { color:var(--dim); font-weight:400; font-size:.7rem; }
-    .bars { position:relative; display:flex; align-items:flex-end; gap:2px; height:120px; border-bottom:1px solid rgba(255,255,255,.25); background:linear-gradient(to top, transparent calc(80% - 1px), rgba(255,255,255,.12) calc(80% - 1px), rgba(255,255,255,.12) 80%, transparent 80%); }
+    .bars { position:relative; display:flex; align-items:flex-end; gap:2px; height:120px; border-bottom:1px solid var(--chart-baseline); background:linear-gradient(to top, transparent calc(80% - 1px), var(--chart-guide) calc(80% - 1px), var(--chart-guide) 80%, transparent 80%); }
     .bar-hit { flex:1 1 0; min-width:3px; height:100%; display:flex; align-items:flex-end; cursor:default; outline:none; }
     .bar { width:100%; border-radius:4px 4px 0 0; background:var(--provider); }
     .bar-hit:hover .bar, .bar-hit:focus .bar { filter:brightness(1.35); }
@@ -43,42 +118,42 @@
     .heat { display:grid; grid-template-columns:120px repeat(24,minmax(16px,1fr)); gap:2px; min-width:620px; font-size:.68rem; }
     .heat-label { color:var(--text); display:flex; align-items:center; }
     .heat-hour { color:var(--dim); text-align:center; }
-    .heat-cell { height:26px; border-radius:3px; background:rgba(255,255,255,.04); outline:none; }
-    .heat-cell:hover, .heat-cell:focus { box-shadow:0 0 0 2px #fff inset; }
+    .heat-cell { height:26px; border-radius:3px; background:var(--heat-empty); outline:none; }
+    .heat-cell:hover, .heat-cell:focus { box-shadow:0 0 0 2px var(--high-ring) inset; }
     .heat-legend { display:flex; align-items:center; gap:6px; margin-top:10px; color:var(--dim); font-size:.68rem; }
     .heat-legend i { width:22px; height:10px; border-radius:2px; display:inline-block; }
-    .tooltip { position:fixed; z-index:10; pointer-events:none; padding:8px 10px; border:1px solid rgba(255,255,255,.2); border-radius:8px; background:#0b1022; font-size:.76rem; line-height:1.5; box-shadow:0 8px 24px rgba(0,0,0,.4); }
+    .tooltip { position:fixed; z-index:10; pointer-events:none; padding:8px 10px; border:1px solid var(--tooltip-edge); border-radius:8px; background:var(--surface-tooltip); font-size:.76rem; line-height:1.5; box-shadow:0 8px 24px var(--shadow); }
     .tooltip strong { display:block; font-size:.95rem; }
     .tooltip span { color:var(--dim); }
     .week-nav { display:flex; align-items:center; gap:8px; margin-bottom:10px; color:var(--dim); font-size:.78rem; }
-    .week-nav button { padding:4px 10px; border:1px solid rgba(255,255,255,.18); border-radius:999px; background:transparent; color:var(--text); cursor:pointer; }
+    .week-nav button { padding:4px 10px; border:1px solid var(--edge-control); border-radius:999px; background:transparent; color:var(--text); cursor:pointer; }
     .weekly-charts { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:12px; margin-bottom:20px; }
-    .weekly-chart-card { min-width:0; padding:12px; border:1px solid var(--line); border-radius:12px; background:rgba(15,15,35,.6); }
+    .weekly-chart-card { min-width:0; padding:12px; border:1px solid var(--line); border-radius:12px; background:var(--surface-muted); }
     .weekly-chart-card h3 { margin:0 0 4px; font-size:.86rem; }
     .weekly-chart-card p { margin:0 0 4px; color:var(--dim); font-size:.68rem; }
     .weekly-chart-card svg { display:block; width:100%; height:auto; overflow:visible; }
     .window-table-wrap { overflow-x:auto; }
     .window-table-wrap table { min-width:760px; }
     .window-method { display:block; color:var(--dim); font-size:.68rem; line-height:1.4; }
-    .window-reset { display:block; color:#ffd083; font-size:.68rem; line-height:1.4; }
-    .account-boundary-row td { padding:12px 10px; color:#ffd083; font-weight:700; background:rgba(255,208,131,.08); border-top:2px dashed #ffd083; border-bottom:2px dashed #ffd083; }
-    .delta-up { color:#f0a58a; } .delta-down { color:#8fd3b6; }
+    .window-reset { display:block; color:var(--amber); font-size:.68rem; line-height:1.4; }
+    .account-boundary-row td { padding:12px 10px; color:var(--amber); font-weight:700; background:var(--amber-wash); border-top:2px dashed var(--amber); border-bottom:2px dashed var(--amber); }
+    .delta-up { color:var(--delta-up); } .delta-down { color:var(--delta-down); }
     .record-note { display:block; margin-top:3px; color:var(--dim); font-size:.66rem; font-weight:400; line-height:1.45; text-align:left; }
     .pager { display:flex; justify-content:flex-end; align-items:center; gap:8px; margin-top:10px; color:var(--dim); font-size:.76rem; }
-    .pager button { padding:4px 10px; border:1px solid rgba(255,255,255,.18); border-radius:999px; background:transparent; color:var(--text); cursor:pointer; }
-    footer { padding:20px 16px 34px; color:#6f7b8b; text-align:center; font-size:.72rem; }
-    [data-provider="chatgpt"] { --provider:#3987e5; }
-    [data-provider="claude"] { --provider:#d95926; }
-    [data-provider="gemini"] { --provider:#199e70; }
-    [data-provider="minimax"] { --provider:#c98500; }
-    [data-provider="copilot"] { --provider:#d55181; }
+    .pager button { padding:4px 10px; border:1px solid var(--edge-control); border-radius:999px; background:transparent; color:var(--text); cursor:pointer; }
+    footer { padding:20px 16px 34px; color:var(--ink-footer); text-align:center; font-size:.72rem; }
+    [data-provider="chatgpt"] { --provider:var(--p-chatgpt); }
+    [data-provider="claude"] { --provider:var(--p-claude); }
+    [data-provider="gemini"] { --provider:var(--p-gemini); }
+    [data-provider="minimax"] { --provider:var(--p-minimax); }
+    [data-provider="copilot"] { --provider:var(--p-copilot); }
     @media(max-width:760px) { header { flex-direction:column; align-items:flex-start; } .filters { top:84px; } }
   </style>
 </head>
 <body>
   <header>
     <h1>📈 AI 使用歷史</h1>
-    <a href="index.html">← 返回虛擬辦公室</a>
+    <div class="header-actions"><a href="index.html">← 返回虛擬辦公室</a><button type="button" class="theme-toggle" id="theme-toggle" aria-label="日夜模式：目前自動，下一步日間"><span aria-hidden="true">◐</span><span>自動</span></button></div>
   </header>
   <main>
     <p class="note">每次不同觀測都會保留；5 小時、7 日及月度窗口各自記錄。reset 點會標示 reset 前週期的最高使用率及其最後觀測時間。帳號分界會標示為「轉用另一帳號」；分界前後分開統計及繪線。時間以香港時間顯示。2026-08-10 或之前嘅 898 筆紀錄來自舊系統，格式只在讀取時轉換，來源歷史不改寫。</p>
@@ -145,8 +220,8 @@
   const WEEK_MS = 7 * DAY_MS;
   // Week charts use Monday 00:00 Hong Kong time as their alignment point.
   const WEEK_START_DAY_HKT = 1;
-  const LAST_WEEK_COLOUR = '#69a8ff';
-  const THIS_WEEK_COLOUR = '#ff9b62';
+  const LAST_WEEK_COLOUR = 'var(--week-last)';
+  const THIS_WEEK_COLOUR = 'var(--week-current)';
 
   function toEpoch(value) {
     if (value instanceof Date) return value.getTime();
@@ -424,28 +499,28 @@
       const x = xFor((boundaryMs - weekStart) / WEEK_MS);
       const anchor = x > width - right - 130 ? 'end' : 'start';
       const labelX = x + (anchor === 'end' ? -4 : 4);
-      return `<line data-account-boundary="true" x1="${x.toFixed(1)}" x2="${x.toFixed(1)}" y1="${top}" y2="${height - bottom}" stroke="#ffd083" stroke-width="1.5" stroke-dasharray="4 3"/><text data-account-boundary-label="true" x="${labelX.toFixed(1)}" y="29" fill="#ffd083" font-size="9" text-anchor="${anchor}">轉用另一帳號 · ${escapeXml(formatHkt(boundary.effective_at))}</text>`;
+      return `<line data-account-boundary="true" x1="${x.toFixed(1)}" x2="${x.toFixed(1)}" y1="${top}" y2="${height - bottom}" stroke="var(--amber)" stroke-width="1.5" stroke-dasharray="4 3"/><text data-account-boundary-label="true" x="${labelX.toFixed(1)}" y="29" fill="var(--amber)" font-size="9" text-anchor="${anchor}">轉用另一帳號 · ${escapeXml(formatHkt(boundary.effective_at))}</text>`;
     }).join('');
     const yAxis = [0, 50, 100].map((value) => {
       const y = yFor(value).toFixed(1);
-      return `<line x1="${left}" x2="${width - right}" y1="${y}" y2="${y}" stroke="#ffffff" stroke-opacity=".16"/><text x="${left - 7}" y="${Number(y) + 3}" fill="#aeb9c8" font-size="10" text-anchor="end">${value}%</text>`;
+      return `<line x1="${left}" x2="${width - right}" y1="${y}" y2="${y}" stroke="var(--svg-grid)" stroke-opacity=".16"/><text x="${left - 7}" y="${Number(y) + 3}" fill="var(--svg-muted)" font-size="10" text-anchor="end">${value}%</text>`;
     }).join('');
     const tickLabels = ['一', '二', '三', '四', '五', '六', '日'];
     const xAxis = Array.from({ length: 8 }, (_, index) => {
       const x = xFor(index / 7).toFixed(1);
-      const tick = `<line x1="${x}" x2="${x}" y1="${height - bottom}" y2="${height - bottom + 3}" stroke="#aeb9c8"/>`;
+      const tick = `<line x1="${x}" x2="${x}" y1="${height - bottom}" y2="${height - bottom + 3}" stroke="var(--svg-muted)"/>`;
       const text = tickLabels[index];
       if (!text) return tick;
       const anchor = index === 0 ? 'start' : 'middle';
-      return `${tick}<text x="${x}" y="${height - 8}" fill="#aeb9c8" font-size="10" text-anchor="${anchor}">${text}</text>`;
+      return `${tick}<text x="${x}" y="${height - 8}" fill="var(--svg-muted)" font-size="10" text-anchor="${anchor}">${text}</text>`;
     }).join('');
     const safeLabel = escapeXml(label);
     return `<svg role="img" aria-label="${safeLabel}：上週與本週 5 小時用量比較" viewBox="0 0 ${width} ${height}" width="100%" height="auto" preserveAspectRatio="xMidYMid meet">
   <title>${safeLabel}：上週與本週 5 小時用量比較</title>
-  <rect width="${width}" height="${height}" rx="8" fill="#0f0f23"/>
+  <rect width="${width}" height="${height}" rx="8" fill="var(--bg)"/>
   <g font-family="system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif">
-    <line x1="42" x2="57" y1="15" y2="15" stroke="${LAST_WEEK_COLOUR}" stroke-width="2.5"/><circle cx="49.5" cy="15" r="2.5" fill="${LAST_WEEK_COLOUR}"/><text x="62" y="18" fill="#e8edf4" font-size="10">上週</text>
-    <line x1="111" x2="126" y1="15" y2="15" stroke="${THIS_WEEK_COLOUR}" stroke-width="2.5"/><circle cx="118.5" cy="15" r="2.5" fill="${THIS_WEEK_COLOUR}"/><text x="131" y="18" fill="#e8edf4" font-size="10">本週</text>
+    <line x1="42" x2="57" y1="15" y2="15" stroke="${LAST_WEEK_COLOUR}" stroke-width="2.5"/><circle cx="49.5" cy="15" r="2.5" fill="${LAST_WEEK_COLOUR}"/><text x="62" y="18" fill="var(--ink-metric)" font-size="10">上週</text>
+    <line x1="111" x2="126" y1="15" y2="15" stroke="${THIS_WEEK_COLOUR}" stroke-width="2.5"/><circle cx="118.5" cy="15" r="2.5" fill="${THIS_WEEK_COLOUR}"/><text x="131" y="18" fill="var(--ink-metric)" font-size="10">本週</text>
     ${yAxis}
     ${xAxis}
     ${boundaryMarks}
@@ -517,7 +592,7 @@
       };
       const QuotaView = window.VirtualOfficeQuotaView;
       const DAY = 24 * 60 * 60 * 1000;
-      const HEAT_STEPS = ['#184f95', '#1c5cab', '#256abf', '#2a78d6', '#3987e5', '#5598e7', '#6da7ec', '#86b6ef', '#9ec5f4', '#cde2fb'];
+      const HEAT_STEPS = ['var(--heat-1)', 'var(--heat-2)', 'var(--heat-3)', 'var(--heat-4)', 'var(--heat-5)', 'var(--heat-6)', 'var(--heat-7)', 'var(--heat-8)', 'var(--heat-9)', 'var(--heat-10)'];
       const tooltip = document.getElementById('tooltip');
       const state = { range: 30, weekOffset: 0, month: '', provider: '', page: 0 };
       const ACCOUNT_BOUNDARIES = [{"provider":"claude","bucket":"account","effective_at":"2026-10-11T10:54:05Z"}];
@@ -838,6 +913,42 @@
         .catch(() => {
           document.getElementById('summary').replaceChildren(el('caption', 'note', '使用歷史暫時不可用。'));
         });
+    })();
+  </script>
+  <script>
+    (() => {
+      const button = document.getElementById('theme-toggle');
+      if (!button) return;
+      const order = ['auto', 'light', 'dark'];
+      const info = {
+        auto: { icon: '◐', label: '自動', next: '日間' },
+        light: { icon: '☀', label: '日間', next: '夜間' },
+        dark: { icon: '☾', label: '夜間', next: '自動' }
+      };
+      let mode = info[document.documentElement.dataset.mode] ? document.documentElement.dataset.mode : 'auto';
+      const paint = () => {
+        document.documentElement.dataset.mode = mode;
+        const current = info[mode];
+        button.setAttribute('aria-label', '日夜模式：目前' + current.label + '，下一步' + current.next);
+        button.replaceChildren();
+        const icon = document.createElement('span');
+        icon.setAttribute('aria-hidden', 'true');
+        icon.textContent = current.icon;
+        const label = document.createElement('span');
+        label.textContent = current.label;
+        button.append(icon, label);
+      };
+      button.addEventListener('click', () => {
+        mode = order[(order.indexOf(mode) + 1) % order.length];
+        try {
+          localStorage.setItem('vo-theme', mode);
+        } catch {
+          mode = 'auto';
+          try { localStorage.removeItem('vo-theme'); } catch {}
+        }
+        paint();
+      });
+      paint();
     })();
   </script>
 </body>
