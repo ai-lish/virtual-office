@@ -5,14 +5,14 @@
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-10-16T15:22:01Z",
+      "observed_at": "2026-10-16T16:04:00Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": 2,
           "windows": {
-            "five_hour": 1,
-            "seven_day": 19
+            "five_hour": 13,
+            "seven_day": 21
           },
           "resets_at": {
             "five_hour": "2026-10-16T20:14:15Z",
@@ -38,31 +38,31 @@
     {
       "id": "claude",
       "label": "Claude",
-      "observed_at": "2026-10-16T15:22:38Z",
+      "observed_at": "2026-10-16T16:04:24Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 54,
-            "seven_day": 98
+            "five_hour": 0,
+            "seven_day": 0
           },
           "resets_at": {
-            "five_hour": "2026-10-16T19:40:00Z",
+            "five_hour": "2026-10-16T21:00:00Z",
             "seven_day": "2026-10-19T18:00:00Z"
           },
           "reset_markers": {
             "five_hour": {
-              "detected": false,
+              "detected": true,
               "manual": false,
-              "pre_reset_peak_pct": null,
-              "pre_reset_observed_at": null
+              "pre_reset_peak_pct": 54,
+              "pre_reset_observed_at": "2026-10-16T15:22:38Z"
             },
             "seven_day": {
-              "detected": false,
+              "detected": true,
               "manual": false,
-              "pre_reset_peak_pct": null,
-              "pre_reset_observed_at": null
+              "pre_reset_peak_pct": 98,
+              "pre_reset_observed_at": "2026-10-16T15:22:38Z"
             }
           }
         }
@@ -71,7 +71,7 @@
     {
       "id": "gemini",
       "label": "Gemini",
-      "observed_at": "2026-10-16T15:22:14Z",
+      "observed_at": "2026-10-16T16:04:19Z",
       "buckets": [
         {
           "bucket": "account",
@@ -104,13 +104,13 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-10-16T15:22:44Z",
+      "observed_at": "2026-10-16T16:04:29Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 1
+            "five_hour": 2
           },
           "resets_at": {
             "five_hour": "2026-10-16T20:00:00Z"
