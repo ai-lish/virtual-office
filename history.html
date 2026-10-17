@@ -53,10 +53,10 @@
       --week-last:#3987e5; --week-current:#c95620; --delta-up:#a33a18; --delta-down:#137450;
       --chart-guide:rgba(22,33,62,.18); --chart-baseline:rgba(22,33,62,.25);
       --filter-selected:rgba(31,111,178,.2); --tooltip-edge:rgba(22,33,62,.2);
-      --heat-empty:rgba(22,33,62,.04); --shadow:rgba(15,33,62,.16);
+      --heat-empty:#eef0f4; --shadow:rgba(15,33,62,.16);
       --p-chatgpt:#3987e5; --p-claude:#d95926; --p-gemini:#199e70; --p-minimax:#b37600; --p-copilot:#d55181;
-      --heat-1:#184f95; --heat-2:#1c5cab; --heat-3:#256abf; --heat-4:#2a78d6; --heat-5:#3987e5;
-      --heat-6:#5598e7; --heat-7:#6da7ec; --heat-8:#86b6ef; --heat-9:#9ec5f4; --heat-10:#cde2fb;
+      --heat-1:#d4e4f9; --heat-2:#bcd5f5; --heat-3:#a1c3f0; --heat-4:#83afe9; --heat-5:#6599e0;
+      --heat-6:#4a83d4; --heat-7:#356dc2; --heat-8:#285aa9; --heat-9:#1e498e; --heat-10:#163a73;
  }
     @media(prefers-color-scheme:light) { :root[data-mode="auto"] {
       color-scheme:light;
@@ -73,10 +73,10 @@
       --week-last:#3987e5; --week-current:#c95620; --delta-up:#a33a18; --delta-down:#137450;
       --chart-guide:rgba(22,33,62,.18); --chart-baseline:rgba(22,33,62,.25);
       --filter-selected:rgba(31,111,178,.2); --tooltip-edge:rgba(22,33,62,.2);
-      --heat-empty:rgba(22,33,62,.04); --shadow:rgba(15,33,62,.16);
+      --heat-empty:#eef0f4; --shadow:rgba(15,33,62,.16);
       --p-chatgpt:#3987e5; --p-claude:#d95926; --p-gemini:#199e70; --p-minimax:#b37600; --p-copilot:#d55181;
-      --heat-1:#184f95; --heat-2:#1c5cab; --heat-3:#256abf; --heat-4:#2a78d6; --heat-5:#3987e5;
-      --heat-6:#5598e7; --heat-7:#6da7ec; --heat-8:#86b6ef; --heat-9:#9ec5f4; --heat-10:#cde2fb;
+      --heat-1:#d4e4f9; --heat-2:#bcd5f5; --heat-3:#a1c3f0; --heat-4:#83afe9; --heat-5:#6599e0;
+      --heat-6:#4a83d4; --heat-7:#356dc2; --heat-8:#285aa9; --heat-9:#1e498e; --heat-10:#163a73;
  } }
     * { box-sizing:border-box; }
     body { margin:0; min-height:100vh; background:radial-gradient(circle at 15% 0%,var(--bg-glow) 0,var(--bg) 42%),var(--bg); color:var(--text); }
@@ -178,7 +178,7 @@
 
     <section aria-labelledby="heat-title">
       <div class="section-title" id="heat-title">一日之中幾時用得多</div>
-      <p class="note">按收集時間（香港時間，每小時一格）計嘅平均使用百分比；顏色越光代表越高，空格代表冇紀錄。</p>
+      <p class="note">按收集時間（香港時間，每小時一格）計嘅平均使用百分比；顏色按下面圖例由低至高，空格代表冇紀錄。</p>
       <div class="panel table-wrap"><div class="heat" id="heat"></div><div class="heat-legend" id="heat-legend"></div></div>
     </section>
 
