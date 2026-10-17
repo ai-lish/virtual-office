@@ -1,17 +1,17 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-10-17T10:00:00.000Z",
+  "generated_at": "2026-10-17T11:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-10-17T10:26:03Z",
+      "observed_at": "2026-10-17T11:27:20Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": 2,
           "windows": {
-            "five_hour": 14,
+            "five_hour": 20,
             "seven_day": 44
           },
           "resets_at": {
@@ -38,14 +38,14 @@
     {
       "id": "claude",
       "label": "Claude",
-      "observed_at": "2026-10-17T10:26:30Z",
+      "observed_at": "2026-10-17T11:27:25Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 33,
-            "seven_day": 31
+            "five_hour": 51,
+            "seven_day": 34
           },
           "resets_at": {
             "five_hour": "2026-10-17T11:40:00Z",
@@ -104,23 +104,23 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-10-17T10:26:36Z",
+      "observed_at": "2026-10-17T11:27:30Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 3
+            "five_hour": 8
           },
           "resets_at": {
             "five_hour": "2026-10-17T15:00:00Z"
           },
           "reset_markers": {
             "five_hour": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 7,
-              "pre_reset_observed_at": "2026-10-17T09:25:20Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             }
           }
         }
@@ -154,7 +154,7 @@
     {
       "id": "antigravity",
       "label": "Antigravity",
-      "observed_at": "2026-10-17T10:27:01Z",
+      "observed_at": "2026-10-17T11:27:56Z",
       "buckets": [
         {
           "bucket": "third-party-models",
