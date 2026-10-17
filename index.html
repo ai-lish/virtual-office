@@ -33,7 +33,7 @@
       --chart-guide:rgba(255,255,255,.12); --chart-baseline:rgba(255,255,255,.25);
       --filter-selected:rgba(93,173,226,.2); --tooltip-edge:rgba(255,255,255,.2);
       --heat-empty:rgba(255,255,255,.04); --shadow:rgba(0,0,0,.4);
-      --p-chatgpt:#3987e5; --p-claude:#d95926; --p-gemini:#199e70; --p-minimax:#c98500; --p-copilot:#d55181;
+      --p-chatgpt:#3987e5; --p-claude:#d95926; --p-gemini:#199e70; --p-minimax:#c98500; --p-copilot:#d55181; --p-antigravity:#a4d65e;
       --heat-1:#184f95; --heat-2:#1c5cab; --heat-3:#256abf; --heat-4:#2a78d6; --heat-5:#3987e5;
       --heat-6:#5598e7; --heat-7:#6da7ec; --heat-8:#86b6ef; --heat-9:#9ec5f4; --heat-10:#cde2fb;
       font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif;
@@ -54,7 +54,7 @@
       --chart-guide:rgba(22,33,62,.18); --chart-baseline:rgba(22,33,62,.25);
       --filter-selected:rgba(31,111,178,.2); --tooltip-edge:rgba(22,33,62,.2);
       --heat-empty:#eef0f4; --shadow:rgba(15,33,62,.16);
-      --p-chatgpt:#3987e5; --p-claude:#d95926; --p-gemini:#199e70; --p-minimax:#b37600; --p-copilot:#d55181;
+      --p-chatgpt:#3987e5; --p-claude:#d95926; --p-gemini:#199e70; --p-minimax:#b37600; --p-copilot:#d55181; --p-antigravity:#204020;
       --heat-1:#d4e4f9; --heat-2:#bcd5f5; --heat-3:#a1c3f0; --heat-4:#83afe9; --heat-5:#6599e0;
       --heat-6:#4a83d4; --heat-7:#356dc2; --heat-8:#285aa9; --heat-9:#1e498e; --heat-10:#163a73;
  }
@@ -74,7 +74,7 @@
       --chart-guide:rgba(22,33,62,.18); --chart-baseline:rgba(22,33,62,.25);
       --filter-selected:rgba(31,111,178,.2); --tooltip-edge:rgba(22,33,62,.2);
       --heat-empty:#eef0f4; --shadow:rgba(15,33,62,.16);
-      --p-chatgpt:#3987e5; --p-claude:#d95926; --p-gemini:#199e70; --p-minimax:#b37600; --p-copilot:#d55181;
+      --p-chatgpt:#3987e5; --p-claude:#d95926; --p-gemini:#199e70; --p-minimax:#b37600; --p-copilot:#d55181; --p-antigravity:#204020;
       --heat-1:#d4e4f9; --heat-2:#bcd5f5; --heat-3:#a1c3f0; --heat-4:#83afe9; --heat-5:#6599e0;
       --heat-6:#4a83d4; --heat-7:#356dc2; --heat-8:#285aa9; --heat-9:#1e498e; --heat-10:#163a73;
  } }
@@ -167,6 +167,7 @@
     [data-provider="gemini"] { --provider:var(--p-gemini); }
     [data-provider="minimax"] { --provider:var(--p-minimax); }
     [data-provider="copilot"] { --provider:var(--p-copilot); }
+    [data-provider="antigravity"] { --provider:var(--p-antigravity); }
     @media(max-width:760px) {
       header { align-items:flex-start; }
       .header-actions { gap:6px; }
@@ -435,7 +436,7 @@
       </div>
     </details>
   </main>
-  <footer>Build-time sanitized deployment · 2026-10-17T01:00:00.000Z</footer>
+  <footer>Build-time sanitized deployment · 2026-10-17T02:00:00.000Z</footer>
 
   <script>
     'use strict';
@@ -784,16 +785,20 @@
         { id: 'claude', label: 'Claude' },
         { id: 'gemini', label: 'Gemini' },
         { id: 'minimax', label: 'MiniMax' },
-        { id: 'copilot', label: 'GitHub Copilot' }
+        { id: 'copilot', label: 'GitHub Copilot' },
+        { id: 'antigravity', label: 'Antigravity' }
       ];
       const WINDOW_LABELS = { five_hour: '5 小時', seven_day: '7 日', monthly: '本月' };
+      const BUCKET_LABELS = { antigravity: { 'gemini-models': 'Gemini 模型', 'third-party-models': 'Claude／GPT 模型' } };
+      const bucketName = (provider, bucket) => BUCKET_LABELS[provider]?.[bucket] || bucket || '用量';
       const el = (tag, className, text) => {
         const node = document.createElement(tag);
         if (className) node.className = className;
         if (text !== undefined) node.textContent = text;
         return node;
       };
-      const clamp = (value) => Math.max(0, Math.min(100, Math.round(Number(value))));
+      const clamp = (value) => Math.round(Math.max(0, Math.min(100, Number(value))) * 10) / 10;
+      const formatPct = (value) => Number.isInteger(value) ? String(value) : Number(value).toFixed(1);
       const hkt = (iso, options) => new Date(iso).toLocaleString('zh-HK', { timeZone: 'Asia/Hong_Kong', ...options });
       const meter = (label, value, resetsAt, resetMarker) => {
         const row = el('div', 'metric-row');
@@ -809,13 +814,13 @@
         bar.setAttribute('aria-valuenow', String(clamp(value)));
         bar.append(fill);
         row.append(bar);
-        row.append(el('strong', 'metric-value', clamp(value) + '%'));
+        row.append(el('strong', 'metric-value', formatPct(clamp(value)) + '%'));
         const annotations = [];
         if (resetsAt) annotations.push('重設時間 · ' + hkt(resetsAt, { dateStyle: 'short', timeStyle: 'short' }));
         if (resetMarker?.detected) {
           let reset = resetMarker.manual ? '手動 reset' : 'reset';
-          if (Number.isInteger(resetMarker.pre_reset_peak_pct)) {
-            reset += ' 前最高 ' + resetMarker.pre_reset_peak_pct + '%';
+          if (Number.isFinite(resetMarker.pre_reset_peak_pct)) {
+            reset += ' 前最高 ' + formatPct(resetMarker.pre_reset_peak_pct) + '%';
             if (resetMarker.pre_reset_observed_at) reset += '（' + hkt(resetMarker.pre_reset_observed_at, { dateStyle: 'short', timeStyle: 'short' }) + '）';
           }
           annotations.push(reset);
@@ -824,7 +829,7 @@
         return row;
       };
       const QuotaView = window.VirtualOfficeQuotaView;
-      const PROVIDER_TTL_MS = {"chatgpt":7200000,"claude":7200000,"minimax":7200000,"gemini":86400000,"copilot":86400000};
+      const PROVIDER_TTL_MS = {"chatgpt":7200000,"claude":7200000,"minimax":7200000,"gemini":86400000,"copilot":86400000,"antigravity":691200000};
       const root = document.getElementById('usage-cards');
       const alert = document.getElementById('usage-alert');
       const render = (snapshot) => {
@@ -851,7 +856,7 @@
           for (const bucket of buckets) {
             for (const [name, value] of Object.entries(bucket.windows || {})) {
               if (value >= 100) {
-                const bucketLabel = buckets.length > 1 && bucket.bucket ? bucket.bucket + ' ' : '';
+                const bucketLabel = buckets.length > 1 && bucket.bucket ? bucketName(id, bucket.bucket) + ' ' : '';
                 const reset = bucket.resets_at?.[name]
                   ? hkt(bucket.resets_at[name], { month: 'numeric', day: 'numeric' }) + ' 重設'
                   : '';
@@ -868,7 +873,7 @@
             card.append(el('p', 'usage-card-empty', '未有收集讀數'));
           } else {
             for (const bucket of buckets) {
-              if (buckets.length > 1) card.append(el('div', 'usage-bucket', bucket.bucket));
+              if (buckets.length > 1) card.append(el('div', 'usage-bucket', bucketName(id, bucket.bucket)));
               if (Number.isInteger(bucket.manual_resets_remaining)) {
                 card.append(el('div', 'usage-bucket', '手動 reset 餘額 · ' + bucket.manual_resets_remaining + ' 次'));
               }
