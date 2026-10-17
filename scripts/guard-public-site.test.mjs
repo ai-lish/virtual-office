@@ -50,6 +50,79 @@ function projectHistoryV2(source) {
   };
 }
 
+function addAntigravityProjection(providers, history) {
+  providers.providers.push({
+    id: 'antigravity',
+    label: 'Antigravity',
+    observed_at: '2026-10-17T00:00:00Z',
+    buckets: [
+      {
+        bucket: 'gemini-models',
+        manual_resets_remaining: null,
+        windows: { seven_day: 26.6 },
+        resets_at: { seven_day: '2026-10-23T18:52:05Z' },
+        reset_markers: {
+          seven_day: {
+            detected: true,
+            manual: false,
+            pre_reset_peak_pct: 88.8,
+            pre_reset_observed_at: '2026-10-16T18:52:05Z'
+          }
+        }
+      },
+      {
+        bucket: 'third-party-models',
+        manual_resets_remaining: null,
+        windows: { seven_day: 21.9 },
+        resets_at: { seven_day: '2026-10-23T18:57:46Z' },
+        reset_markers: {
+          seven_day: {
+            detected: false,
+            manual: false,
+            pre_reset_peak_pct: null,
+            pre_reset_observed_at: null
+          }
+        }
+      }
+    ]
+  });
+  history.records.push({
+    provider: 'antigravity',
+    bucket: 'gemini-models',
+    period: 'native',
+    observed_at: '2026-10-17T00:00:00Z',
+    windows: { seven_day: 26.6 },
+    resets_at: { seven_day: '2026-10-23T18:52:05Z' },
+    reset_markers: {
+      seven_day: {
+        detected: true,
+        manual: false,
+        pre_reset_peak_pct: 88.8,
+        pre_reset_observed_at: '2026-10-16T18:52:05Z'
+      }
+    },
+    manual_resets_remaining: null
+  });
+  history.records.push({
+    provider: 'antigravity',
+    bucket: 'third-party-models',
+    period: 'native',
+    observed_at: '2026-10-17T00:00:00Z',
+    windows: { seven_day: 21.9 },
+    resets_at: { seven_day: '2026-10-23T18:57:46Z' },
+    reset_markers: {
+      seven_day: {
+        detected: false,
+        manual: false,
+        pre_reset_peak_pct: null,
+        pre_reset_observed_at: null
+      }
+    },
+    manual_resets_remaining: null
+  });
+  return { providers, history };
+}
+
 async function runGuard({ providers = legacyProviders, history = legacyHistory } = {}) {
   const tempRoot = await mkdtemp(path.join(os.tmpdir(), 'virtual-office-guard-'));
   try {
@@ -77,9 +150,7 @@ async function runGuard({ providers = legacyProviders, history = legacyHistory }
   }
 }
 
-test('accepts the current schema 1 public projections during transition', async () => {
-  assert.equal(legacyProviders.schema_version, '1');
-  assert.equal(legacyHistory.schema_version, '1');
+test('accepts the current five-provider deployment during the Antigravity transition', async () => {
   const result = await runGuard();
   assert.equal(result.status, 0, result.stderr);
 });
@@ -101,6 +172,98 @@ test('accepts schema 2 reset metadata with the exact approved fields', async () 
   }
   const result = await runGuard({ providers, history });
   assert.equal(result.status, 0, result.stderr);
+});
+
+test('accepts Antigravity seven-day percentages and reset peaks with one decimal place', async () => {
+  const { providers, history } = addAntigravityProjection(
+    projectProvidersV2(legacyProviders),
+    projectHistoryV2(legacyHistory)
+  );
+  const result = await runGuard({ providers, history });
+  assert.equal(result.status, 0, result.stderr);
+});
+
+test('rejects Antigravity percentages and reset peaks with two decimal places', async () => {
+  const providers = projectProvidersV2(legacyProviders);
+  const history = projectHistoryV2(legacyHistory);
+  addAntigravityProjection(providers, history);
+  providers.providers.at(-1).buckets[0].windows.seven_day = 26.66;
+  let result = await runGuard({ providers, history });
+  assert.notEqual(result.status, 0);
+
+  const fractionalProviders = projectProvidersV2(legacyProviders);
+  const fractionalHistory = projectHistoryV2(legacyHistory);
+  addAntigravityProjection(fractionalProviders, fractionalHistory);
+  fractionalHistory.records.at(-1).reset_markers.seven_day.pre_reset_peak_pct = 88.88;
+  result = await runGuard({ providers: fractionalProviders, history: fractionalHistory });
+  assert.notEqual(result.status, 0);
+});
+
+test('rejects fractional percentages for every other provider', async () => {
+  const providers = projectProvidersV2(legacyProviders);
+  const history = projectHistoryV2(legacyHistory);
+  const { providers: withAntigravity, history: withAntigravityHistory } = addAntigravityProjection(providers, history);
+  const claude = withAntigravity.providers.find((provider) => provider.id === 'claude');
+  claude.buckets[0].windows.seven_day = 14.1;
+  let result = await runGuard({ providers: withAntigravity, history: withAntigravityHistory });
+  assert.notEqual(result.status, 0);
+
+  const resetPeakHistory = projectHistoryV2(legacyHistory);
+  const claudeReset = resetPeakHistory.records.find((record) => record.provider === 'claude');
+  assert.ok(claudeReset, 'fixture should include a Claude history record');
+  claudeReset.reset_markers.seven_day = {
+    detected: true,
+    manual: false,
+    pre_reset_peak_pct: 14.1,
+    pre_reset_observed_at: '2026-10-16T23:00:00Z'
+  };
+  result = await runGuard({ providers: projectProvidersV2(legacyProviders), history: resetPeakHistory });
+  assert.notEqual(result.status, 0);
+});
+
+test('rejects Antigravity windows other than seven_day', async () => {
+  const providers = projectProvidersV2(legacyProviders);
+  const history = projectHistoryV2(legacyHistory);
+  const { providers: withAntigravity, history: withAntigravityHistory } = addAntigravityProjection(providers, history);
+  const providerBucket = withAntigravity.providers.at(-1).buckets[0];
+  providerBucket.windows.five_hour = 1;
+  providerBucket.resets_at.five_hour = null;
+  providerBucket.reset_markers.five_hour = {
+    detected: false,
+    manual: false,
+    pre_reset_peak_pct: null,
+    pre_reset_observed_at: null
+  };
+  const record = withAntigravityHistory.records.at(-1);
+  record.windows.monthly = 1;
+  record.resets_at.monthly = null;
+  record.reset_markers.monthly = {
+    detected: false,
+    manual: false,
+    pre_reset_peak_pct: null,
+    pre_reset_observed_at: null
+  };
+  const result = await runGuard({ providers: withAntigravity, history: withAntigravityHistory });
+  assert.notEqual(result.status, 0);
+});
+
+test('keeps the provider allowlist closed during the transition', async () => {
+  const providers = projectProvidersV2(legacyProviders);
+  const history = projectHistoryV2(legacyHistory);
+  addAntigravityProjection(providers, history);
+  providers.providers = providers.providers.filter((provider) => provider.id !== 'claude');
+  let result = await runGuard({ providers, history });
+  assert.notEqual(result.status, 0);
+
+  const unknownProviders = projectProvidersV2(legacyProviders);
+  unknownProviders.providers.push({
+    id: 'unapproved',
+    label: 'Unapproved',
+    observed_at: null,
+    buckets: []
+  });
+  result = await runGuard({ providers: unknownProviders, history: projectHistoryV2(legacyHistory) });
+  assert.notEqual(result.status, 0);
 });
 
 test('rejects unlisted provider bucket and history record fields', async () => {

@@ -40,8 +40,12 @@ const PUBLIC_PROVIDERS = new Map([
   ['claude', 'Claude'],
   ['gemini', 'Gemini'],
   ['minimax', 'MiniMax'],
-  ['copilot', 'GitHub Copilot']
+  ['copilot', 'GitHub Copilot'],
+  ['antigravity', 'Antigravity']
 ]);
+// Keep the exact current deployment valid until private #38 publishes Antigravity.
+const LEGACY_PUBLIC_PROVIDER_IDS = new Set(['chatgpt', 'claude', 'gemini', 'minimax', 'copilot']);
+const APPROVED_PROVIDER_SETS = [new Set(PUBLIC_PROVIDERS.keys()), LEGACY_PUBLIC_PROVIDER_IDS];
 const PUBLIC_WINDOWS = new Set(['five_hour', 'seven_day', 'monthly']);
 const BUCKET_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._ *-]{0,63}$/;
 const HOUR_PATTERN = /^\d{4}-\d{2}-\d{2}T\d{2}:00:00\.000Z$/;
@@ -65,7 +69,14 @@ function assertResetCount(value, name) {
   if (value !== null && (!Number.isInteger(value) || value < 0)) throw new Error(`${name} manual_resets_remaining is invalid`);
 }
 
-function assertResetMetadata(windows, resetsAt, resetMarkers, name) {
+function isValidPercent(value, allowFractional) {
+  if (typeof value !== 'number' || !Number.isFinite(value) || value < 0 || value > 100) return false;
+  return allowFractional
+    ? Math.abs(value * 10 - Math.round(value * 10)) < 1e-8
+    : Number.isInteger(value);
+}
+
+function assertResetMetadata(windows, resetsAt, resetMarkers, name, provider) {
   const names = Object.keys(windows || {}).sort();
   for (const [field, value] of [['resets_at', resetsAt], ['reset_markers', resetMarkers]]) {
     if (!value || typeof value !== 'object' || Array.isArray(value)
@@ -85,22 +96,27 @@ function assertResetMetadata(windows, resetsAt, resetMarkers, name) {
     }
     if (marker.pre_reset_peak_pct === null) {
       if (marker.pre_reset_observed_at !== null) throw new Error(`${name} reset peak time requires a peak`);
-    } else if (!Number.isInteger(marker.pre_reset_peak_pct) || marker.pre_reset_peak_pct < 0 || marker.pre_reset_peak_pct > 100
+    } else if (!isValidPercent(marker.pre_reset_peak_pct, provider === 'antigravity')
       || typeof marker.pre_reset_observed_at !== 'string' || !PUBLIC_TIME_PATTERN.test(marker.pre_reset_observed_at)) {
       throw new Error(`${name} reset peak is invalid`);
     }
   }
 }
 
-function assertWindows(windows, name) {
+function assertWindows(windows, name, provider) {
   if (!windows || typeof windows !== 'object' || Array.isArray(windows)) throw new Error(`${name} windows must be an object`);
   const names = Object.keys(windows);
   if (names.length === 0 || names.some((window) => !PUBLIC_WINDOWS.has(window))) {
     throw new Error(`${name} contains unknown or empty windows`);
   }
+  if (provider === 'antigravity' && JSON.stringify(names) !== JSON.stringify(['seven_day'])) {
+    throw new Error(`${name} Antigravity records must contain only the seven_day window`);
+  }
   for (const window of names) {
-    if (!Number.isInteger(windows[window]) || windows[window] < 0 || windows[window] > 100) {
-      throw new Error(`${name} window values must be integers between 0 and 100`);
+    if (!isValidPercent(windows[window], provider === 'antigravity')) {
+      throw new Error(provider === 'antigravity'
+        ? `${name} Antigravity window values must be percentages with at most one decimal place`
+        : `${name} window values must be integers between 0 and 100`);
     }
   }
 }
@@ -108,7 +124,7 @@ function assertWindows(windows, name) {
 function validateProviders(value) {
   assertExactKeys(value, ['generated_at', 'providers', 'schema_version'], 'providers.json contains unknown or missing top-level keys');
   assertHeader(value, 'providers.json');
-  if (!Array.isArray(value.providers) || value.providers.length !== PUBLIC_PROVIDERS.size) {
+  if (!Array.isArray(value.providers) || !APPROVED_PROVIDER_SETS.some((approved) => approved.size === value.providers.length)) {
     throw new Error('providers.json must list exactly the approved providers');
   }
   const seen = new Set();
@@ -137,11 +153,14 @@ function validateProviders(value) {
       if (value.schema_version === '2') {
         assertResetCount(bucket.manual_resets_remaining, 'providers.json');
       }
-      assertWindows(bucket.windows, 'providers.json');
+      assertWindows(bucket.windows, 'providers.json', provider.id);
       if (value.schema_version === '2') {
-        assertResetMetadata(bucket.windows, bucket.resets_at, bucket.reset_markers, 'providers.json');
+        assertResetMetadata(bucket.windows, bucket.resets_at, bucket.reset_markers, 'providers.json', provider.id);
       }
     }
+  }
+  if (!APPROVED_PROVIDER_SETS.some((approved) => approved.size === seen.size && [...approved].every((id) => seen.has(id)))) {
+    throw new Error('providers.json must list exactly the approved providers');
   }
 }
 
@@ -163,10 +182,10 @@ function validateHistory(value) {
         ? 'history.json observed_at must be rounded to an UTC hour'
         : 'history.json observed_at must be an ISO timestamp');
     }
-    assertWindows(record.windows, 'history.json');
+    assertWindows(record.windows, 'history.json', record.provider);
     if (value.schema_version === '2') {
       assertResetCount(record.manual_resets_remaining, 'history.json');
-      assertResetMetadata(record.windows, record.resets_at, record.reset_markers, 'history.json');
+      assertResetMetadata(record.windows, record.resets_at, record.reset_markers, 'history.json', record.provider);
     }
   }
 }
