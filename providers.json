@@ -1,11 +1,11 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-10-16T23:00:00.000Z",
+  "generated_at": "2026-10-17T00:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-10-16T21:14:19Z",
+      "observed_at": "2026-10-17T00:15:57Z",
       "buckets": [
         {
           "bucket": "account",
@@ -15,15 +15,15 @@
             "seven_day": 34
           },
           "resets_at": {
-            "five_hour": "2026-10-17T02:14:18Z",
+            "five_hour": "2026-10-17T05:15:57Z",
             "seven_day": "2026-10-22T07:23:51Z"
           },
           "reset_markers": {
             "five_hour": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 96,
-              "pre_reset_observed_at": "2026-10-16T20:13:49Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             },
             "seven_day": {
               "detected": false,
@@ -38,7 +38,7 @@
     {
       "id": "claude",
       "label": "Claude",
-      "observed_at": "2026-10-16T21:14:27Z",
+      "observed_at": "2026-10-17T00:16:14Z",
       "buckets": [
         {
           "bucket": "account",
@@ -53,10 +53,10 @@
           },
           "reset_markers": {
             "five_hour": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 100,
-              "pre_reset_observed_at": "2026-10-16T20:13:54Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             },
             "seven_day": {
               "detected": false,
@@ -104,23 +104,23 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-10-16T23:15:34Z",
+      "observed_at": "2026-10-17T00:16:19Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 4
+            "five_hour": 1
           },
           "resets_at": {
-            "five_hour": "2026-10-17T00:00:00Z"
+            "five_hour": "2026-10-17T05:00:00Z"
           },
           "reset_markers": {
             "five_hour": {
-              "detected": false,
+              "detected": true,
               "manual": false,
-              "pre_reset_peak_pct": null,
-              "pre_reset_observed_at": null
+              "pre_reset_peak_pct": 4,
+              "pre_reset_observed_at": "2026-10-16T23:15:34Z"
             }
           }
         }
