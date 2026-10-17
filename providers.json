@@ -1,18 +1,18 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-10-17T21:00:00.000Z",
+  "generated_at": "2026-10-17T22:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-10-17T21:40:27Z",
+      "observed_at": "2026-10-17T22:41:35Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": 2,
           "windows": {
-            "five_hour": 9,
-            "seven_day": 1
+            "five_hour": 17,
+            "seven_day": 3
           },
           "resets_at": {
             "five_hour": "2026-10-18T01:40:52Z",
@@ -20,16 +20,16 @@
           },
           "reset_markers": {
             "five_hour": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 50,
-              "pre_reset_observed_at": "2026-10-17T20:39:04Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             },
             "seven_day": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 60,
-              "pre_reset_observed_at": "2026-10-17T20:39:04Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             }
           }
         }
@@ -104,13 +104,13 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-10-17T21:40:47Z",
+      "observed_at": "2026-10-17T22:41:40Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 3
+            "five_hour": 4
           },
           "resets_at": {
             "five_hour": "2026-10-18T00:00:00Z"
@@ -154,7 +154,7 @@
     {
       "id": "antigravity",
       "label": "Antigravity",
-      "observed_at": "2026-10-17T21:41:16Z",
+      "observed_at": "2026-10-17T22:42:06Z",
       "buckets": [
         {
           "bucket": "third-party-models",
