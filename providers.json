@@ -1,6 +1,6 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-10-19T11:00:00.000Z",
+  "generated_at": "2026-10-19T13:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
@@ -63,17 +63,17 @@
     {
       "id": "gemini",
       "label": "Gemini",
-      "observed_at": "2026-10-19T09:24:07Z",
+      "observed_at": "2026-10-19T12:31:12Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
             "five_hour": 0,
-            "seven_day": 17
+            "seven_day": 22
           },
           "resets_at": {
-            "five_hour": "2026-10-19T12:22:00Z",
+            "five_hour": "2026-10-19T17:22:00Z",
             "seven_day": "2026-10-20T04:22:00Z"
           },
           "reset_markers": {
@@ -81,7 +81,7 @@
               "detected": true,
               "manual": false,
               "pre_reset_peak_pct": 0,
-              "pre_reset_observed_at": "2026-10-18T13:59:17Z"
+              "pre_reset_observed_at": "2026-10-19T09:24:07Z"
             },
             "seven_day": {
               "detected": false,
@@ -96,23 +96,23 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-10-19T10:26:25Z",
+      "observed_at": "2026-10-19T12:33:56Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 1
+            "five_hour": 3
           },
           "resets_at": {
             "five_hour": "2026-10-19T15:00:00Z"
           },
           "reset_markers": {
             "five_hour": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 7,
-              "pre_reset_observed_at": "2026-10-19T09:25:37Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             }
           }
         }
@@ -146,7 +146,7 @@
     {
       "id": "antigravity",
       "label": "Antigravity",
-      "observed_at": "2026-10-19T10:26:49Z",
+      "observed_at": "2026-10-19T12:34:32Z",
       "buckets": [
         {
           "bucket": "third-party-models",
