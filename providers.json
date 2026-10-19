@@ -11,20 +11,12 @@
           "bucket": "account",
           "manual_resets_remaining": 2,
           "windows": {
-            "five_hour": 99,
             "seven_day": 19
           },
           "resets_at": {
-            "five_hour": "2026-10-18T16:41:37Z",
             "seven_day": "2026-10-25T14:03:05Z"
           },
           "reset_markers": {
-            "five_hour": {
-              "detected": false,
-              "manual": false,
-              "pre_reset_peak_pct": null,
-              "pre_reset_observed_at": null
-            },
             "seven_day": {
               "detected": true,
               "manual": false,
