@@ -38,14 +38,21 @@ const externalUrlPattern = /\bhttps?:\/\/[^\s"'<>`)]+/gi;
 const PUBLIC_PROVIDERS = new Map([
   ['chatgpt', 'ChatGPT'],
   ['claude', 'Claude'],
+  ['claude-2', 'Claude（帳號 2）'],
   ['gemini', 'Gemini'],
   ['minimax', 'MiniMax'],
   ['copilot', 'GitHub Copilot'],
   ['antigravity', 'Antigravity']
 ]);
+const ANTIGRAVITY_DEPLOYMENT_PROVIDER_IDS = new Set([
+  'chatgpt', 'claude', 'gemini', 'minimax', 'copilot', 'antigravity'
+]);
 // Keep the exact current deployment valid until private #38 publishes Antigravity.
 const LEGACY_PUBLIC_PROVIDER_IDS = new Set(['chatgpt', 'claude', 'gemini', 'minimax', 'copilot']);
-const APPROVED_PROVIDER_SETS = [new Set(PUBLIC_PROVIDERS.keys()), LEGACY_PUBLIC_PROVIDER_IDS];
+const APPROVED_PROVIDER_SETS = [
+  new Set(PUBLIC_PROVIDERS.keys()), ANTIGRAVITY_DEPLOYMENT_PROVIDER_IDS,
+  LEGACY_PUBLIC_PROVIDER_IDS
+];
 const PUBLIC_WINDOWS = new Set(['five_hour', 'seven_day', 'monthly']);
 const BUCKET_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._ *-]{0,63}$/;
 const HOUR_PATTERN = /^\d{4}-\d{2}-\d{2}T\d{2}:00:00\.000Z$/;

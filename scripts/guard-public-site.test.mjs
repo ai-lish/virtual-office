@@ -51,6 +51,8 @@ function projectHistoryV2(source) {
 }
 
 function addAntigravityProjection(providers, history) {
+  providers.providers = providers.providers.filter((provider) => provider.id !== 'antigravity');
+  history.records = history.records.filter((record) => record.provider !== 'antigravity');
   providers.providers.push({
     id: 'antigravity',
     label: 'Antigravity',
@@ -150,7 +152,7 @@ async function runGuard({ providers = legacyProviders, history = legacyHistory }
   }
 }
 
-test('accepts the current five-provider deployment during the Antigravity transition', async () => {
+test('accepts the current six-provider deployment during the Claude account 2 transition', async () => {
   const result = await runGuard();
   assert.equal(result.status, 0, result.stderr);
 });
@@ -179,6 +181,43 @@ test('accepts Antigravity seven-day percentages and reset peaks with one decimal
     projectProvidersV2(legacyProviders),
     projectHistoryV2(legacyHistory)
   );
+  const result = await runGuard({ providers, history });
+  assert.equal(result.status, 0, result.stderr);
+});
+
+test('accepts the separate Claude account 2 provider with the neutral label', async () => {
+  const providers = projectProvidersV2(legacyProviders);
+  const history = projectHistoryV2(legacyHistory);
+  addAntigravityProjection(providers, history);
+  const observedAt = '2026-10-27T03:00:00Z';
+  providers.providers.push({
+    id: 'claude-2',
+    label: 'Claude（帳號 2）',
+    observed_at: observedAt,
+    buckets: [{
+      bucket: 'account',
+      manual_resets_remaining: null,
+      windows: { five_hour: 31, seven_day: 47 },
+      resets_at: { five_hour: '2026-10-27T05:00:00Z', seven_day: '2026-10-30T05:00:00Z' },
+      reset_markers: {
+        five_hour: { detected: false, manual: false, pre_reset_peak_pct: null, pre_reset_observed_at: null },
+        seven_day: { detected: false, manual: false, pre_reset_peak_pct: null, pre_reset_observed_at: null }
+      }
+    }]
+  });
+  history.records.push({
+    provider: 'claude-2',
+    bucket: 'account',
+    period: 'native',
+    observed_at: observedAt,
+    windows: { five_hour: 31, seven_day: 47 },
+    resets_at: { five_hour: '2026-10-27T05:00:00Z', seven_day: '2026-10-30T05:00:00Z' },
+    reset_markers: {
+      five_hour: { detected: false, manual: false, pre_reset_peak_pct: null, pre_reset_observed_at: null },
+      seven_day: { detected: false, manual: false, pre_reset_peak_pct: null, pre_reset_observed_at: null }
+    },
+    manual_resets_remaining: null
+  });
   const result = await runGuard({ providers, history });
   assert.equal(result.status, 0, result.stderr);
 });
