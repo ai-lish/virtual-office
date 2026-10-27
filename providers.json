@@ -1,11 +1,11 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-10-26T20:00:00.000Z",
+  "generated_at": "2026-10-27T00:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-10-26T18:51:48Z",
+      "observed_at": "2026-10-26T21:57:12Z",
       "buckets": [
         {
           "bucket": "account",
@@ -18,10 +18,10 @@
           },
           "reset_markers": {
             "seven_day": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 5,
-              "pre_reset_observed_at": "2026-10-26T15:49:06Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             }
           }
         }
@@ -30,17 +30,17 @@
     {
       "id": "claude",
       "label": "Claude",
-      "observed_at": "2026-10-26T19:54:13Z",
+      "observed_at": "2026-10-26T22:59:34Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 0,
-            "seven_day": 0
+            "five_hour": 14,
+            "seven_day": 2
           },
           "resets_at": {
-            "five_hour": null,
+            "five_hour": "2026-10-27T03:50:00Z",
             "seven_day": "2026-11-02T18:00:00Z"
           },
           "reset_markers": {
@@ -51,10 +51,10 @@
               "pre_reset_observed_at": null
             },
             "seven_day": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 100,
-              "pre_reset_observed_at": "2026-10-26T16:50:08Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             }
           }
         }
@@ -63,7 +63,7 @@
     {
       "id": "gemini",
       "label": "Gemini",
-      "observed_at": "2026-10-26T17:51:06Z",
+      "observed_at": "2026-10-26T20:56:26Z",
       "buckets": [
         {
           "bucket": "account",
@@ -73,15 +73,15 @@
             "seven_day": 17
           },
           "resets_at": {
-            "five_hour": "2026-10-26T19:22:00Z",
+            "five_hour": "2026-10-27T00:22:00Z",
             "seven_day": "2026-10-27T04:22:00Z"
           },
           "reset_markers": {
             "five_hour": {
-              "detected": false,
+              "detected": true,
               "manual": false,
-              "pre_reset_peak_pct": null,
-              "pre_reset_observed_at": null
+              "pre_reset_peak_pct": 0,
+              "pre_reset_observed_at": "2026-10-26T14:26:13Z"
             },
             "seven_day": {
               "detected": false,
@@ -96,7 +96,7 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-10-26T18:51:53Z",
+      "observed_at": "2026-10-26T21:57:16Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
@@ -105,14 +105,14 @@
             "five_hour": 0
           },
           "resets_at": {
-            "five_hour": "2026-10-26T20:00:00Z"
+            "five_hour": "2026-10-27T00:00:00Z"
           },
           "reset_markers": {
             "five_hour": {
-              "detected": false,
+              "detected": true,
               "manual": false,
-              "pre_reset_peak_pct": null,
-              "pre_reset_observed_at": null
+              "pre_reset_peak_pct": 0,
+              "pre_reset_observed_at": "2026-10-26T15:49:12Z"
             }
           }
         }
@@ -146,7 +146,7 @@
     {
       "id": "antigravity",
       "label": "Antigravity",
-      "observed_at": "2026-10-26T19:55:17Z",
+      "observed_at": "2026-10-26T23:00:39Z",
       "buckets": [
         {
           "bucket": "third-party-models",
@@ -155,7 +155,7 @@
             "seven_day": 0
           },
           "resets_at": {
-            "seven_day": "2026-11-02T19:55:15Z"
+            "seven_day": "2026-11-02T23:00:34Z"
           },
           "reset_markers": {
             "seven_day": {
