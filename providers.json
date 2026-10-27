@@ -61,33 +61,39 @@
       ]
     },
     {
+      "id": "claude-2",
+      "label": "Claude（帳號 2）",
+      "observed_at": null,
+      "buckets": []
+    },
+    {
       "id": "gemini",
       "label": "Gemini",
-      "observed_at": "2026-10-27T03:05:51Z",
+      "observed_at": "2026-10-27T06:09:24Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
             "five_hour": 0,
-            "seven_day": 17
+            "seven_day": 0
           },
           "resets_at": {
-            "five_hour": "2026-10-27T05:22:00Z",
-            "seven_day": "2026-10-27T04:22:00Z"
+            "five_hour": "2026-10-27T10:22:00Z",
+            "seven_day": "2026-11-03T04:22:00Z"
           },
           "reset_markers": {
             "five_hour": {
               "detected": true,
               "manual": false,
               "pre_reset_peak_pct": 0,
-              "pre_reset_observed_at": "2026-10-26T20:56:26Z"
+              "pre_reset_observed_at": "2026-10-27T03:05:51Z"
             },
             "seven_day": {
-              "detected": false,
+              "detected": true,
               "manual": false,
-              "pre_reset_peak_pct": null,
-              "pre_reset_observed_at": null
+              "pre_reset_peak_pct": 17,
+              "pre_reset_observed_at": "2026-10-25T18:59:00Z"
             }
           }
         }
@@ -146,7 +152,7 @@
     {
       "id": "antigravity",
       "label": "Antigravity",
-      "observed_at": "2026-10-27T05:08:11Z",
+      "observed_at": "2026-10-27T06:09:50Z",
       "buckets": [
         {
           "bucket": "third-party-models",
@@ -155,7 +161,7 @@
             "seven_day": 0
           },
           "resets_at": {
-            "seven_day": "2026-11-03T05:08:07Z"
+            "seven_day": "2026-11-03T06:09:47Z"
           },
           "reset_markers": {
             "seven_day": {

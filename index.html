@@ -164,6 +164,7 @@
     .usage-link:hover { text-decoration:underline; }
     [data-provider="chatgpt"] { --provider:var(--p-chatgpt); }
     [data-provider="claude"] { --provider:var(--p-claude); }
+    [data-provider="claude-2"] { --provider:var(--p-claude); }
     [data-provider="gemini"] { --provider:var(--p-gemini); }
     [data-provider="minimax"] { --provider:var(--p-minimax); }
     [data-provider="copilot"] { --provider:var(--p-copilot); }
@@ -790,6 +791,7 @@
       const PROVIDERS = [
         { id: 'chatgpt', label: 'ChatGPT' },
         { id: 'claude', label: 'Claude' },
+        { id: 'claude-2', label: 'Claude（帳號 2）' },
         { id: 'gemini', label: 'Gemini' },
         { id: 'minimax', label: 'MiniMax' },
         { id: 'copilot', label: 'GitHub Copilot' },
@@ -836,7 +838,7 @@
         return row;
       };
       const QuotaView = window.VirtualOfficeQuotaView;
-      const PROVIDER_TTL_MS = {"chatgpt":7200000,"claude":7200000,"minimax":7200000,"gemini":86400000,"copilot":86400000,"antigravity":691200000};
+      const PROVIDER_TTL_MS = {"chatgpt":7200000,"claude":7200000,"claude-2":7200000,"minimax":7200000,"gemini":86400000,"copilot":86400000,"antigravity":691200000};
       const root = document.getElementById('usage-cards');
       const alert = document.getElementById('usage-alert');
       const render = (snapshot) => {
