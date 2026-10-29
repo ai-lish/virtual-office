@@ -19,36 +19,39 @@
 
     :root {
       color-scheme:dark;
-      --bg:#0f0f23; --bg-glow:#1d2442; --bar:#1a1a2e; --card:#16213e;
-      --surface-panel:rgba(22,33,62,.72); --surface-usage:rgba(15,15,35,.68); --surface-gas:rgba(22,33,62,.56);
-      --surface-group:rgba(15,15,35,.42); --surface-card:rgba(22,33,62,.72); --surface-muted:rgba(15,15,35,.6);
-      --surface-filter:rgba(15,15,35,.92); --surface-tooltip:#0b1022;
-      --text:#eeeeee; --ink-metric:#e8edf4; --ink-soft:#c8d0dc; --ink-pill:#cbd5e1;
-      --dim:#9aa4b2; --ink-footer:#6f7b8b; --red:#bc002d; --blue:#5dade2; --blue-edge:rgba(93,173,226,.18);
-      --green:#2ecc71; --mint:#9af0ce; --green-wash:rgba(46,204,113,.14); --green-edge:rgba(46,204,113,.4);
-      --amber:#ffd083; --amber-wash:rgba(255,208,131,.08); --amber-edge:rgba(255,208,131,.35);
-      --line:rgba(255,255,255,.09); --edge-control:rgba(255,255,255,.18); --track:rgba(255,255,255,.1);
+      --bg:#0e1116; --bar:#0e1116; --card:#161b22; --surface-2:#1c222b;
+      --surface-panel:#161b22; --surface-usage:#161b22; --surface-muted:#1c222b;
+      --surface-filter:rgba(14,17,22,.92); --surface-tooltip:#0a0d12;
+      --text:#e8ecf1; --ink-metric:#e8ecf1; --ink-soft:#a3adba;
+      --dim:#8c96a3; --ink-footer:#8c96a3; --accent:#6ca8ff; --on-accent:#0e1116; --blue:var(--accent); --blue-edge:rgba(108,168,255,.3);
+      --green:#3dd68c; --mint:#7ee2b0; --green-wash:rgba(61,214,140,.14); --green-edge:rgba(61,214,140,.4);
+      --amber:#f2b544; --amber-wash:rgba(242,181,68,.1); --amber-edge:rgba(242,181,68,.4);
+      --meter-low:#6ca8ff; --meter-mid:#f2b544; --meter-high:#ff8a7a;
+      --c-ai-learning:#8ab8ff; --c-tools:#5fd0c0; --c-admin:#c5a3ff; --c-gas:#f2b544; --c-virtual-office:#b8c2cf; --c-preschool:#ff9ec4;
+      --line:#232a33; --line-2:#2a323d; --edge-control:#566172; --track:#2a323d;
       --high-ring:#ffffff; --svg-grid:#ffffff; --svg-muted:#aeb9c8;
       --week-last:#69a8ff; --week-current:#ff9b62; --delta-up:#f0a58a; --delta-down:#8fd3b6;
       --chart-guide:rgba(255,255,255,.12); --chart-baseline:rgba(255,255,255,.25);
-      --filter-selected:rgba(93,173,226,.2); --tooltip-edge:rgba(255,255,255,.2);
+      --filter-selected:rgba(108,168,255,.2); --tooltip-edge:rgba(255,255,255,.2);
       --heat-empty:rgba(255,255,255,.04); --shadow:rgba(0,0,0,.4);
       --p-chatgpt:#3987e5; --p-claude:#d95926; --p-gemini:#199e70; --p-minimax:#c98500; --p-copilot:#d55181; --p-antigravity:#a4d65e;
       --heat-1:#184f95; --heat-2:#1c5cab; --heat-3:#256abf; --heat-4:#2a78d6; --heat-5:#3987e5;
       --heat-6:#5598e7; --heat-7:#6da7ec; --heat-8:#86b6ef; --heat-9:#9ec5f4; --heat-10:#cde2fb;
+      --mono:ui-monospace,"SF Mono","Cascadia Mono",Consolas,monospace;
       font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif;
     }
     :root[data-mode="light"] {
       color-scheme:light;
-      --bg:#f3f5fa; --bg-glow:#e3e8f5; --bar:#e9edf6; --card:#ffffff;
-      --surface-panel:#ffffff; --surface-usage:#ffffff; --surface-gas:#f8f9fd;
-      --surface-group:#ffffff; --surface-card:#ffffff; --surface-muted:#f8f9fd;
+      --bg:#f3f5fa; --bar:#f3f5fa; --card:#ffffff; --surface-2:#eceff6;
+      --surface-panel:#ffffff; --surface-usage:#ffffff; --surface-muted:#f8f9fd;
       --surface-filter:rgba(243,245,250,.96); --surface-tooltip:#ffffff;
-      --text:#16213e; --ink-metric:#0f0f23; --ink-soft:#38445a; --ink-pill:#38445a;
-      --dim:#556072; --ink-footer:#5f6a7a; --red:#bc002d; --blue:#1f6fb2; --blue-edge:rgba(31,111,178,.25);
+      --text:#16213e; --ink-metric:#0f0f23; --ink-soft:#38445a;
+      --dim:#556072; --ink-footer:#5f6a7a; --accent:#1f6fb2; --on-accent:#ffffff; --blue:var(--accent); --blue-edge:rgba(31,111,178,.3);
       --green:#1f9d63; --mint:#11785a; --green-wash:rgba(17,120,90,.1); --green-edge:rgba(17,120,90,.35);
       --amber:#8a5a00; --amber-wash:rgba(201,133,0,.1); --amber-edge:rgba(138,90,0,.35);
-      --line:rgba(22,33,62,.12); --edge-control:rgba(22,33,62,.22); --track:rgba(22,33,62,.1);
+      --meter-low:#1f6fb2; --meter-mid:#b26a00; --meter-high:#d23f2c;
+      --c-ai-learning:#1f5fa8; --c-tools:#0a6e61; --c-admin:#6b3fc4; --c-gas:#8a5a00; --c-virtual-office:#4a5666; --c-preschool:#b0245f;
+      --line:rgba(22,33,62,.12); --line-2:rgba(22,33,62,.18); --edge-control:#8591a3; --track:#dde2ec;
       --high-ring:#16213e; --svg-grid:#16213e; --svg-muted:#556072;
       --week-last:#3987e5; --week-current:#c95620; --delta-up:#a33a18; --delta-down:#137450;
       --chart-guide:rgba(22,33,62,.18); --chart-baseline:rgba(22,33,62,.25);
@@ -60,15 +63,16 @@
  }
     @media(prefers-color-scheme:light) { :root[data-mode="auto"] {
       color-scheme:light;
-      --bg:#f3f5fa; --bg-glow:#e3e8f5; --bar:#e9edf6; --card:#ffffff;
-      --surface-panel:#ffffff; --surface-usage:#ffffff; --surface-gas:#f8f9fd;
-      --surface-group:#ffffff; --surface-card:#ffffff; --surface-muted:#f8f9fd;
+      --bg:#f3f5fa; --bar:#f3f5fa; --card:#ffffff; --surface-2:#eceff6;
+      --surface-panel:#ffffff; --surface-usage:#ffffff; --surface-muted:#f8f9fd;
       --surface-filter:rgba(243,245,250,.96); --surface-tooltip:#ffffff;
-      --text:#16213e; --ink-metric:#0f0f23; --ink-soft:#38445a; --ink-pill:#38445a;
-      --dim:#556072; --ink-footer:#5f6a7a; --red:#bc002d; --blue:#1f6fb2; --blue-edge:rgba(31,111,178,.25);
+      --text:#16213e; --ink-metric:#0f0f23; --ink-soft:#38445a;
+      --dim:#556072; --ink-footer:#5f6a7a; --accent:#1f6fb2; --on-accent:#ffffff; --blue:var(--accent); --blue-edge:rgba(31,111,178,.3);
       --green:#1f9d63; --mint:#11785a; --green-wash:rgba(17,120,90,.1); --green-edge:rgba(17,120,90,.35);
       --amber:#8a5a00; --amber-wash:rgba(201,133,0,.1); --amber-edge:rgba(138,90,0,.35);
-      --line:rgba(22,33,62,.12); --edge-control:rgba(22,33,62,.22); --track:rgba(22,33,62,.1);
+      --meter-low:#1f6fb2; --meter-mid:#b26a00; --meter-high:#d23f2c;
+      --c-ai-learning:#1f5fa8; --c-tools:#0a6e61; --c-admin:#6b3fc4; --c-gas:#8a5a00; --c-virtual-office:#4a5666; --c-preschool:#b0245f;
+      --line:rgba(22,33,62,.12); --line-2:rgba(22,33,62,.18); --edge-control:#8591a3; --track:#dde2ec;
       --high-ring:#16213e; --svg-grid:#16213e; --svg-muted:#556072;
       --week-last:#3987e5; --week-current:#c95620; --delta-up:#a33a18; --delta-down:#137450;
       --chart-guide:rgba(22,33,62,.18); --chart-baseline:rgba(22,33,62,.25);
@@ -79,10 +83,14 @@
       --heat-6:#4a83d4; --heat-7:#356dc2; --heat-8:#285aa9; --heat-9:#1e498e; --heat-10:#163a73;
  } }
     * { box-sizing:border-box; }
-    body { margin:0; min-height:100vh; background:radial-gradient(circle at 15% 0%,var(--bg-glow) 0,var(--bg) 42%),var(--bg); color:var(--text); }
+    body { margin:0; min-height:100vh; background:var(--bg); color:var(--text); line-height:1.5; }
     button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible { outline:2px solid var(--blue); outline-offset:2px; }
+    .ti { display:none; flex:none; width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+    .ti-auto { display:block; }
+    :root[data-mode="light"] .ti-auto, :root[data-mode="dark"] .ti-auto { display:none; }
+    :root[data-mode="light"] .ti-light, :root[data-mode="dark"] .ti-dark { display:block; }
 
-    header { position:sticky; top:0; z-index:3; display:flex; justify-content:space-between; align-items:center; gap:16px; padding:14px clamp(16px,4vw,44px); background:linear-gradient(90deg,var(--bar),var(--card)); border-bottom:2px solid var(--red); }
+    header { position:sticky; top:0; z-index:3; display:flex; justify-content:space-between; align-items:center; gap:16px; padding:14px clamp(16px,4vw,44px); background:var(--bar); border-bottom:1px solid var(--line-2); }
     header h1 { margin:0; font-size:1.05rem; }
     .header-actions { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
     header a { display:inline-flex; align-items:center; min-height:44px; color:var(--blue); font-size:.8rem; text-decoration:none; }
@@ -155,7 +163,7 @@
 <body>
   <header>
     <h1>📈 AI 使用歷史</h1>
-    <div class="header-actions"><a href="index.html">← 返回虛擬辦公室</a><button type="button" class="theme-toggle" id="theme-toggle" aria-label="日夜模式：目前自動，下一步日間"><span aria-hidden="true">◐</span><span>自動</span></button></div>
+    <div class="header-actions"><a href="index.html">← 返回虛擬辦公室</a><button type="button" class="theme-toggle" id="theme-toggle" aria-label="日夜模式：目前自動，下一步日間"><svg class="ti ti-auto" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" style="fill:currentColor"/></svg><svg class="ti ti-light" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg><svg class="ti ti-dark" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><span class="theme-label">自動</span></button></div>
   </header>
   <main>
     <p class="note">每次不同觀測都會保留；5 小時、7 日及月度窗口各自記錄。reset 點會標示 reset 前週期的最高使用率及其最後觀測時間。帳號分界會標示為「轉用另一帳號」；分界前後分開統計及繪線。時間以香港時間顯示。2026-08-10 或之前嘅 898 筆紀錄來自舊系統，格式只在讀取時轉換，來源歷史不改寫。</p>
@@ -210,7 +218,7 @@
       <div class="panel table-wrap"><table id="antigravity-records"></table></div>
     </section>
   </main>
-  <footer>Build 2026-10-29T13:00:00.000Z · 只含百分比、窗口重設時間、reset 標記、reset 前峰值及手動 reset 餘額</footer>
+  <footer>Build 2026-10-29T15:00:00.000Z · 只含百分比、窗口重設時間、reset 標記、reset 前峰值及手動 reset 餘額</footer>
   <div class="tooltip" id="tooltip" hidden></div>
   <script>
     'use strict';
@@ -577,11 +585,13 @@
       const hkt = (iso, options) => new Date(iso).toLocaleString('zh-HK', { timeZone: 'Asia/Hong_Kong', ...options });
       const meter = (label, value, resetsAt, resetMarker) => {
         const row = el('div', 'metric-row');
-        row.append(el('span', '', label));
+        row.append(el('span', 'metric-label', label));
         const bar = el('div', 'metric-bar');
         const fill = el('div', 'metric-fill');
         fill.style.width = clamp(value) + '%';
+        // Meter colour follows usage: below 50 low, 50 to 79.9 mid, 80 and above high.
         if (clamp(value) >= 80) fill.classList.add('metric-fill-high');
+        else if (clamp(value) >= 50) fill.classList.add('metric-fill-mid');
         bar.setAttribute('role', 'meter');
         bar.setAttribute('aria-label', label + ' 已用');
         bar.setAttribute('aria-valuemin', '0');
@@ -967,22 +977,17 @@
       if (!button) return;
       const order = ['auto', 'light', 'dark'];
       const info = {
-        auto: { icon: '◐', label: '自動', next: '日間' },
-        light: { icon: '☀', label: '日間', next: '夜間' },
-        dark: { icon: '☾', label: '夜間', next: '自動' }
+        auto: { label: '自動', next: '日間' },
+        light: { label: '日間', next: '夜間' },
+        dark: { label: '夜間', next: '自動' }
       };
+      const text = button.querySelector('.theme-label');
       let mode = info[document.documentElement.dataset.mode] ? document.documentElement.dataset.mode : 'auto';
       const paint = () => {
         document.documentElement.dataset.mode = mode;
         const current = info[mode];
         button.setAttribute('aria-label', '日夜模式：目前' + current.label + '，下一步' + current.next);
-        button.replaceChildren();
-        const icon = document.createElement('span');
-        icon.setAttribute('aria-hidden', 'true');
-        icon.textContent = current.icon;
-        const label = document.createElement('span');
-        label.textContent = current.label;
-        button.append(icon, label);
+        if (text) text.textContent = current.label;
       };
       button.addEventListener('click', () => {
         mode = order[(order.indexOf(mode) + 1) % order.length];

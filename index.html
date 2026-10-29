@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>🏢 虛擬辦公室</title>
+<title>虛擬辦公室</title>
 <script>
     (() => {
       let mode = 'auto';
@@ -19,36 +19,39 @@
 
     :root {
       color-scheme:dark;
-      --bg:#0f0f23; --bg-glow:#1d2442; --bar:#1a1a2e; --card:#16213e;
-      --surface-panel:rgba(22,33,62,.72); --surface-usage:rgba(15,15,35,.68); --surface-gas:rgba(22,33,62,.56);
-      --surface-group:rgba(15,15,35,.42); --surface-card:rgba(22,33,62,.72); --surface-muted:rgba(15,15,35,.6);
-      --surface-filter:rgba(15,15,35,.92); --surface-tooltip:#0b1022;
-      --text:#eeeeee; --ink-metric:#e8edf4; --ink-soft:#c8d0dc; --ink-pill:#cbd5e1;
-      --dim:#9aa4b2; --ink-footer:#6f7b8b; --red:#bc002d; --blue:#5dade2; --blue-edge:rgba(93,173,226,.18);
-      --green:#2ecc71; --mint:#9af0ce; --green-wash:rgba(46,204,113,.14); --green-edge:rgba(46,204,113,.4);
-      --amber:#ffd083; --amber-wash:rgba(255,208,131,.08); --amber-edge:rgba(255,208,131,.35);
-      --line:rgba(255,255,255,.09); --edge-control:rgba(255,255,255,.18); --track:rgba(255,255,255,.1);
+      --bg:#0e1116; --bar:#0e1116; --card:#161b22; --surface-2:#1c222b;
+      --surface-panel:#161b22; --surface-usage:#161b22; --surface-muted:#1c222b;
+      --surface-filter:rgba(14,17,22,.92); --surface-tooltip:#0a0d12;
+      --text:#e8ecf1; --ink-metric:#e8ecf1; --ink-soft:#a3adba;
+      --dim:#8c96a3; --ink-footer:#8c96a3; --accent:#6ca8ff; --on-accent:#0e1116; --blue:var(--accent); --blue-edge:rgba(108,168,255,.3);
+      --green:#3dd68c; --mint:#7ee2b0; --green-wash:rgba(61,214,140,.14); --green-edge:rgba(61,214,140,.4);
+      --amber:#f2b544; --amber-wash:rgba(242,181,68,.1); --amber-edge:rgba(242,181,68,.4);
+      --meter-low:#6ca8ff; --meter-mid:#f2b544; --meter-high:#ff8a7a;
+      --c-ai-learning:#8ab8ff; --c-tools:#5fd0c0; --c-admin:#c5a3ff; --c-gas:#f2b544; --c-virtual-office:#b8c2cf; --c-preschool:#ff9ec4;
+      --line:#232a33; --line-2:#2a323d; --edge-control:#566172; --track:#2a323d;
       --high-ring:#ffffff; --svg-grid:#ffffff; --svg-muted:#aeb9c8;
       --week-last:#69a8ff; --week-current:#ff9b62; --delta-up:#f0a58a; --delta-down:#8fd3b6;
       --chart-guide:rgba(255,255,255,.12); --chart-baseline:rgba(255,255,255,.25);
-      --filter-selected:rgba(93,173,226,.2); --tooltip-edge:rgba(255,255,255,.2);
+      --filter-selected:rgba(108,168,255,.2); --tooltip-edge:rgba(255,255,255,.2);
       --heat-empty:rgba(255,255,255,.04); --shadow:rgba(0,0,0,.4);
       --p-chatgpt:#3987e5; --p-claude:#d95926; --p-gemini:#199e70; --p-minimax:#c98500; --p-copilot:#d55181; --p-antigravity:#a4d65e;
       --heat-1:#184f95; --heat-2:#1c5cab; --heat-3:#256abf; --heat-4:#2a78d6; --heat-5:#3987e5;
       --heat-6:#5598e7; --heat-7:#6da7ec; --heat-8:#86b6ef; --heat-9:#9ec5f4; --heat-10:#cde2fb;
+      --mono:ui-monospace,"SF Mono","Cascadia Mono",Consolas,monospace;
       font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif;
     }
     :root[data-mode="light"] {
       color-scheme:light;
-      --bg:#f3f5fa; --bg-glow:#e3e8f5; --bar:#e9edf6; --card:#ffffff;
-      --surface-panel:#ffffff; --surface-usage:#ffffff; --surface-gas:#f8f9fd;
-      --surface-group:#ffffff; --surface-card:#ffffff; --surface-muted:#f8f9fd;
+      --bg:#f3f5fa; --bar:#f3f5fa; --card:#ffffff; --surface-2:#eceff6;
+      --surface-panel:#ffffff; --surface-usage:#ffffff; --surface-muted:#f8f9fd;
       --surface-filter:rgba(243,245,250,.96); --surface-tooltip:#ffffff;
-      --text:#16213e; --ink-metric:#0f0f23; --ink-soft:#38445a; --ink-pill:#38445a;
-      --dim:#556072; --ink-footer:#5f6a7a; --red:#bc002d; --blue:#1f6fb2; --blue-edge:rgba(31,111,178,.25);
+      --text:#16213e; --ink-metric:#0f0f23; --ink-soft:#38445a;
+      --dim:#556072; --ink-footer:#5f6a7a; --accent:#1f6fb2; --on-accent:#ffffff; --blue:var(--accent); --blue-edge:rgba(31,111,178,.3);
       --green:#1f9d63; --mint:#11785a; --green-wash:rgba(17,120,90,.1); --green-edge:rgba(17,120,90,.35);
       --amber:#8a5a00; --amber-wash:rgba(201,133,0,.1); --amber-edge:rgba(138,90,0,.35);
-      --line:rgba(22,33,62,.12); --edge-control:rgba(22,33,62,.22); --track:rgba(22,33,62,.1);
+      --meter-low:#1f6fb2; --meter-mid:#b26a00; --meter-high:#d23f2c;
+      --c-ai-learning:#1f5fa8; --c-tools:#0a6e61; --c-admin:#6b3fc4; --c-gas:#8a5a00; --c-virtual-office:#4a5666; --c-preschool:#b0245f;
+      --line:rgba(22,33,62,.12); --line-2:rgba(22,33,62,.18); --edge-control:#8591a3; --track:#dde2ec;
       --high-ring:#16213e; --svg-grid:#16213e; --svg-muted:#556072;
       --week-last:#3987e5; --week-current:#c95620; --delta-up:#a33a18; --delta-down:#137450;
       --chart-guide:rgba(22,33,62,.18); --chart-baseline:rgba(22,33,62,.25);
@@ -60,15 +63,16 @@
  }
     @media(prefers-color-scheme:light) { :root[data-mode="auto"] {
       color-scheme:light;
-      --bg:#f3f5fa; --bg-glow:#e3e8f5; --bar:#e9edf6; --card:#ffffff;
-      --surface-panel:#ffffff; --surface-usage:#ffffff; --surface-gas:#f8f9fd;
-      --surface-group:#ffffff; --surface-card:#ffffff; --surface-muted:#f8f9fd;
+      --bg:#f3f5fa; --bar:#f3f5fa; --card:#ffffff; --surface-2:#eceff6;
+      --surface-panel:#ffffff; --surface-usage:#ffffff; --surface-muted:#f8f9fd;
       --surface-filter:rgba(243,245,250,.96); --surface-tooltip:#ffffff;
-      --text:#16213e; --ink-metric:#0f0f23; --ink-soft:#38445a; --ink-pill:#38445a;
-      --dim:#556072; --ink-footer:#5f6a7a; --red:#bc002d; --blue:#1f6fb2; --blue-edge:rgba(31,111,178,.25);
+      --text:#16213e; --ink-metric:#0f0f23; --ink-soft:#38445a;
+      --dim:#556072; --ink-footer:#5f6a7a; --accent:#1f6fb2; --on-accent:#ffffff; --blue:var(--accent); --blue-edge:rgba(31,111,178,.3);
       --green:#1f9d63; --mint:#11785a; --green-wash:rgba(17,120,90,.1); --green-edge:rgba(17,120,90,.35);
       --amber:#8a5a00; --amber-wash:rgba(201,133,0,.1); --amber-edge:rgba(138,90,0,.35);
-      --line:rgba(22,33,62,.12); --edge-control:rgba(22,33,62,.22); --track:rgba(22,33,62,.1);
+      --meter-low:#1f6fb2; --meter-mid:#b26a00; --meter-high:#d23f2c;
+      --c-ai-learning:#1f5fa8; --c-tools:#0a6e61; --c-admin:#6b3fc4; --c-gas:#8a5a00; --c-virtual-office:#4a5666; --c-preschool:#b0245f;
+      --line:rgba(22,33,62,.12); --line-2:rgba(22,33,62,.18); --edge-control:#8591a3; --track:#dde2ec;
       --high-ring:#16213e; --svg-grid:#16213e; --svg-muted:#556072;
       --week-last:#3987e5; --week-current:#c95620; --delta-up:#a33a18; --delta-down:#137450;
       --chart-guide:rgba(22,33,62,.18); --chart-baseline:rgba(22,33,62,.25);
@@ -79,89 +83,133 @@
       --heat-6:#4a83d4; --heat-7:#356dc2; --heat-8:#285aa9; --heat-9:#1e498e; --heat-10:#163a73;
  } }
     * { box-sizing:border-box; }
-    body { margin:0; min-height:100vh; background:radial-gradient(circle at 15% 0%,var(--bg-glow) 0,var(--bg) 42%),var(--bg); color:var(--text); }
+    body { margin:0; min-height:100vh; background:var(--bg); color:var(--text); line-height:1.5; }
     button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible { outline:2px solid var(--blue); outline-offset:2px; }
+    .ti { display:none; flex:none; width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+    .ti-auto { display:block; }
+    :root[data-mode="light"] .ti-auto, :root[data-mode="dark"] .ti-auto { display:none; }
+    :root[data-mode="light"] .ti-light, :root[data-mode="dark"] .ti-dark { display:block; }
 
-    header { position:sticky; top:0; z-index:2; display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:8px 16px; padding:12px clamp(16px,4vw,44px); background:linear-gradient(90deg,var(--bar),var(--card)); border-bottom:2px solid var(--red); }
-    header h1 { margin:0; font-size:1.05rem; letter-spacing:.02em; }
+    .sprite { position:absolute; width:0; height:0; overflow:hidden; }
+    .ico { flex:none; width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+    .site-header { display:flex; flex-wrap:wrap; align-items:center; gap:8px 20px; padding:10px clamp(16px,4vw,44px); background:var(--bar); border-bottom:1px solid var(--line-2); }
+    .brand { display:flex; align-items:center; gap:12px; min-width:0; }
+    .brand-mark { display:grid; place-items:center; flex:none; width:40px; height:40px; border:1px solid var(--blue-edge); border-radius:10px; background:var(--surface-2); color:var(--accent); }
+    .brand-mark .ico { width:22px; height:22px; }
+    .brand h1 { margin:0; font-size:1.05rem; font-weight:650; line-height:1.25; }
+    .brand p { margin:0; color:var(--dim); font-size:.75rem; line-height:1.4; }
+    .page-nav { display:flex; flex:1 1 auto; flex-wrap:wrap; justify-content:center; gap:2px 4px; }
+    .page-nav a { display:inline-flex; align-items:center; min-height:44px; padding:0 12px; border-radius:10px; color:var(--ink-soft); font-size:.88rem; text-decoration:none; }
+    .page-nav a:hover { background:var(--surface-2); color:var(--text); }
     .header-actions { display:flex; flex-wrap:wrap; align-items:center; justify-content:flex-end; gap:8px; margin-left:auto; }
-    .status-pill { display:inline-flex; align-items:center; gap:7px; min-height:44px; padding:0 12px; border:1px solid var(--green-edge); border-radius:999px; background:var(--green-wash); color:var(--mint); font-size:.74rem; }
-    .status-pill::before { content:""; width:7px; height:7px; flex:none; border-radius:50%; background:var(--green); }
-    .theme-toggle { display:inline-flex; align-items:center; justify-content:center; gap:7px; min-height:44px; padding:0 12px; border:1px solid var(--edge-control); border-radius:999px; background:transparent; color:var(--text); font:inherit; font-size:.74rem; cursor:pointer; }
-    main { width:min(1080px,100%); margin:0 auto; padding:20px 16px 40px; display:flex; flex-direction:column; gap:28px; }
-    section { display:flex; flex-direction:column; gap:12px; min-width:0; }
-    .section-title { display:flex; align-items:center; gap:10px; margin:0; color:var(--dim); font-size:.78rem; font-weight:500; letter-spacing:.04em; }
-    .section-title::after { content:""; height:1px; flex:1; background:var(--line); }
-    .model-panel { display:flex; flex-direction:column; gap:12px; padding:18px; border:1px solid var(--line); border-radius:14px; background:var(--surface-panel); }
-    .project-groups { display:flex; flex-direction:column; gap:12px; }
-    .project-group { min-width:0; overflow:hidden; border:1px solid var(--line); border-radius:14px; background:var(--surface-group); }
-    .project-group summary { display:flex; flex-wrap:wrap; align-items:center; gap:10px; min-height:52px; padding:12px 16px; cursor:pointer; list-style:none; user-select:none; }
-    .project-group summary::-webkit-details-marker { display:none; }
-    .project-group summary::before { content:"▸"; color:var(--blue); font-size:1rem; transition:transform .2s ease; }
-    .project-group[open] summary::before { transform:rotate(90deg); }
-    .project-group-title { display:flex; align-items:center; gap:8px; font-weight:650; }
-    .project-group-icon { font-size:1.15rem; }
-    .project-group-count { color:var(--dim); font-size:.76rem; font-variant-numeric:tabular-nums; }
-    .project-group-toggle { margin-left:auto; color:var(--dim); font-size:.7rem; }
-    .project-group-toggle::after { content:"展開"; }
-    .project-group[open] .project-group-toggle::after { content:"摺疊"; }
-    .project-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(165px,1fr)); gap:10px; }
-    .project-group > .project-grid { padding:0 12px 12px; }
-    .project-card { display:flex; min-width:0; min-height:120px; flex-direction:column; gap:7px; padding:15px; border:1px solid var(--line); border-radius:12px; background:var(--surface-card); color:var(--text); text-decoration:none; }
+    .status-pill { display:inline-flex; align-items:center; gap:8px; min-height:36px; padding:0 14px; border:1px solid var(--green-edge); border-radius:999px; background:var(--green-wash); color:var(--mint); font-size:.78rem; }
+    .status-pill::before { content:""; width:8px; height:8px; flex:none; border-radius:50%; background:var(--green); }
+    .theme-toggle { display:inline-flex; align-items:center; justify-content:center; gap:7px; min-height:44px; padding:0 14px; border:1px solid var(--edge-control); border-radius:999px; background:transparent; color:var(--text); font:inherit; font-size:.78rem; cursor:pointer; }
+    .theme-toggle:hover { background:var(--surface-2); }
+    main { width:min(1080px,100%); margin:0 auto; padding:28px 16px 48px; display:flex; flex-direction:column; gap:40px; }
+    main > section { display:flex; flex-direction:column; gap:14px; min-width:0; scroll-margin-top:16px; }
+    .section-head { display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:4px 24px; }
+    .section-head > div { flex:1 1 360px; min-width:0; }
+    .section-title { display:flex; align-items:center; gap:10px; margin:0; font-size:1.2rem; font-weight:650; line-height:1.3; }
+    .section-title .ico { width:20px; height:20px; color:var(--accent); }
+    .section-desc { margin:6px 0 0; color:var(--dim); font-size:.84rem; line-height:1.6; }
+    .project-tools { display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; }
+    .project-tools label { color:var(--ink-soft); font-size:.84rem; }
+    .search-field { position:relative; flex:1 1 240px; max-width:380px; }
+    .search-field .ico { position:absolute; left:13px; top:50%; margin-top:-8px; color:var(--dim); pointer-events:none; }
+    .search-field input { width:100%; min-height:44px; padding:8px 14px 8px 38px; border:1px solid var(--edge-control); border-radius:10px; background:var(--card); color:var(--text); font:inherit; font-size:.88rem; }
+    .search-field input::placeholder { color:var(--dim); }
+    #project-results { color:var(--dim); font-family:var(--mono); font-size:.76rem; font-variant-numeric:tabular-nums; }
+    .project-filters { display:flex; flex-wrap:wrap; gap:8px; }
+    .filter-chip { display:inline-flex; align-items:center; gap:8px; min-height:44px; padding:0 14px; border:1px solid var(--edge-control); border-radius:999px; background:transparent; color:var(--text); font:inherit; font-size:.84rem; cursor:pointer; }
+    .filter-chip:hover { background:var(--surface-2); }
+    .filter-chip[aria-pressed="true"] { border-color:var(--accent); background:var(--accent); color:var(--on-accent); font-weight:650; }
+    .filter-count { font-family:var(--mono); font-size:.76rem; font-weight:400; font-variant-numeric:tabular-nums; }
+    .gas-note { margin:0; padding:10px 14px; border:1px solid var(--line-2); border-radius:10px; background:var(--card); color:var(--dim); font-size:.8rem; line-height:1.6; }
+    .project-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(264px,1fr)); gap:12px; }
+    [data-category="ai-learning"] { --cat:var(--c-ai-learning); }
+    [data-category="tools"] { --cat:var(--c-tools); }
+    [data-category="admin"] { --cat:var(--c-admin); }
+    [data-category="gas"] { --cat:var(--c-gas); }
+    [data-category="virtual-office"] { --cat:var(--c-virtual-office); }
+    [data-category="preschool"] { --cat:var(--c-preschool); }
+    .project-card { display:flex; min-width:0; flex-direction:column; gap:12px; padding:16px; border:1px solid var(--line-2); border-radius:14px; background:var(--card); color:var(--text); text-decoration:none; }
     .project-card[hidden] { display:none; }
-    .project-link:hover { border-color:var(--blue); text-decoration:none; }
+    .project-link:hover { border-color:var(--accent); background:var(--surface-2); text-decoration:none; }
     .project-card:focus-visible { outline:2px solid var(--blue); outline-offset:2px; }
-    .gas-card { border-color:var(--blue-edge); background:var(--surface-gas); }
-    .project-card-head { display:flex; align-items:center; gap:9px; min-height:42px; }
-    .project-icon { flex:none; font-size:1.25rem; }
-    .project-card h3 { margin:0; font-size:.92rem; font-weight:650; overflow-wrap:anywhere; }
-    .project-card-meta { display:flex; flex-wrap:wrap; justify-content:space-between; gap:6px 10px; margin-top:auto; color:var(--dim); font-size:.7rem; }
-    .project-date { color:var(--mint); font-variant-numeric:tabular-nums; }
-    .project-status { color:var(--ink-soft); }
-    .status-active { color:var(--mint); }
-    .status-completed { color:var(--blue); }
-    .status-pending { color:var(--amber); }
-    .project-open { color:var(--blue); font-size:.74rem; }
-    .no-public-link { color:var(--dim); }
-    .gas-project-summary { margin:0; color:var(--ink-soft); font-size:.78rem; line-height:1.55; }
-    .gas-private-label { color:var(--dim); font-size:.68rem; letter-spacing:.02em; }
-    .gas-note { margin:0; padding:0 16px 12px 42px; color:var(--dim); font-size:.78rem; line-height:1.6; }
-    .project-search { display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; }
-    .project-search label { color:var(--dim); font-size:.78rem; }
-    .project-search input { flex:1 1 220px; min-width:0; max-width:360px; min-height:44px; padding:8px 14px; border:1px solid var(--edge-control); border-radius:999px; background:var(--surface-usage); color:var(--text); font:inherit; font-size:.84rem; }
-    #project-results { color:var(--dim); font-size:.74rem; font-variant-numeric:tabular-nums; }
-    .about-page { border:1px solid var(--line); border-radius:14px; background:var(--surface-usage); }
-    .about-page > summary { display:flex; align-items:center; gap:10px; min-height:52px; padding:0 16px; cursor:pointer; font-size:.88rem; font-weight:650; list-style:none; }
-    .about-page > summary::-webkit-details-marker { display:none; }
-    .about-page > summary::after { content:"查看"; margin-left:auto; color:var(--dim); font-size:.72rem; font-weight:400; }
-    .about-page[open] > summary::after { content:"收起"; }
-    .about-description { margin:0; padding:0 16px 14px; color:var(--ink-soft); font-size:.82rem; line-height:1.65; }
-    .about-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px 24px; padding:0 16px 16px; }
-    .about-grid h3 { margin:0 0 8px; font-size:.82rem; }
-    .about-grid ul { display:flex; flex-direction:column; gap:6px; margin:0; padding:0; list-style:none; color:var(--ink-soft); font-size:.78rem; line-height:1.55; }
-    .about-scope li::before { content:"✓"; margin-right:8px; color:var(--blue); }
-    .about-status li { display:flex; justify-content:space-between; gap:12px; }
-    .about-status strong { color:var(--mint); font-size:.68rem; letter-spacing:.08em; }
-    footer { padding:12px 16px 28px; color:var(--ink-footer); text-align:center; font-size:.72rem; }
-    .usage-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; align-items:start; }
-    .usage-card { min-width:0; padding:16px; border:1px solid var(--line); border-left:3px solid var(--provider); border-radius:12px; background:var(--surface-usage); }
-    .usage-card-head { display:flex; flex-direction:column; gap:2px; margin-bottom:6px; }
-    .usage-card-name { font-weight:650; }
-    .usage-card-time { color:var(--dim); font-size:.7rem; font-variant-numeric:tabular-nums; }
-    .usage-card-age { color:var(--dim); font-size:.7rem; }
-    .usage-card-age.stale { color:var(--amber); font-weight:650; }
+    .project-card-head { display:flex; align-items:center; gap:12px; }
+    .project-tile { display:grid; place-items:center; flex:none; width:40px; height:40px; border-radius:10px; background:var(--surface-2); background:color-mix(in srgb,var(--cat) 14%,transparent); color:var(--cat); font-size:1.05rem; font-weight:700; }
+    .project-card-title { min-width:0; }
+    .project-card h3 { margin:0; font-size:.95rem; font-weight:650; line-height:1.35; overflow-wrap:anywhere; }
+    .project-category { color:var(--cat); font-size:.74rem; }
+    .gas-project-summary { margin:0; color:var(--ink-soft); font-size:.8rem; line-height:1.6; }
+    .project-card-meta { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:6px 10px; margin-top:auto; }
+    .project-status, .gas-private-label { padding:2px 10px; border-radius:999px; font-size:.72rem; font-weight:600; }
+    .status-active { background:var(--green-wash); color:var(--mint); }
+    .status-pending { background:var(--amber-wash); color:var(--amber); }
+    .status-completed { background:var(--surface-2); color:var(--dim); }
+    .gas-private-label { background:var(--surface-2); color:var(--ink-soft); }
+    .project-date { color:var(--dim); font-family:var(--mono); font-size:.72rem; font-variant-numeric:tabular-nums; }
+    .project-open { display:flex; align-items:center; gap:6px; padding-top:12px; border-top:1px solid var(--line); color:var(--accent); font-size:.8rem; font-weight:600; }
+    .no-public-link { color:var(--dim); font-weight:400; }
+    .info-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:16px; align-items:start; }
+    .info-card { display:flex; flex-direction:column; gap:12px; min-width:0; padding:20px; border:1px solid var(--line-2); border-radius:14px; background:var(--card); scroll-margin-top:16px; }
+    .info-card ul { margin:0; padding:0; list-style:none; }
+    .about-description { margin:0; color:var(--ink-soft); font-size:.84rem; line-height:1.65; }
+    .sub-title { margin:4px 0 0; font-size:.88rem; font-weight:650; }
+    .skill-list li { display:grid; grid-template-columns:9rem minmax(0,1fr); gap:4px 16px; padding:10px 0; border-top:1px solid var(--line); color:var(--ink-soft); font-size:.84rem; line-height:1.55; }
+    .skill-list li:first-child { padding-top:0; border-top:0; }
+    .skill-list strong { color:var(--text); font-family:var(--mono); font-size:.8rem; font-weight:600; overflow-wrap:anywhere; }
+    .status-list li { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; padding:10px 0; border-top:1px solid var(--line); }
+    .status-list li:first-child { padding-top:0; border-top:0; }
+    .svc-name { display:block; font-size:.84rem; font-weight:650; }
+    .svc-desc { display:block; color:var(--dim); font-size:.78rem; line-height:1.55; }
+    .tag { flex:none; margin-top:2px; padding:2px 8px; border-radius:6px; background:var(--surface-2); background:color-mix(in srgb,var(--tag) 14%,transparent); color:var(--tag); font-family:var(--mono); font-size:.68rem; font-weight:600; letter-spacing:.06em; }
+    .tag-online { --tag:var(--mint); }
+    .tag-protected { --tag:var(--c-admin); }
+    .tag-guarded { --tag:var(--accent); }
+    .scope { border-top:1px solid var(--line); }
+    .scope summary { display:flex; align-items:center; justify-content:space-between; gap:10px; min-height:44px; cursor:pointer; list-style:none; font-size:.88rem; font-weight:650; }
+    .scope summary::-webkit-details-marker { display:none; }
+    .scope summary::after { content:""; width:8px; height:8px; margin-right:4px; border-right:2px solid var(--dim); border-bottom:2px solid var(--dim); transform:rotate(45deg); transition:transform .2s ease; }
+    .scope[open] summary::after { transform:rotate(-135deg); }
+    .scope-count { margin-left:auto; color:var(--dim); font-family:var(--mono); font-size:.74rem; font-weight:400; }
+    .scope li { display:flex; gap:8px; padding:4px 0; color:var(--ink-soft); font-size:.8rem; line-height:1.55; }
+    .scope li::before { content:"✓"; color:var(--accent); }
+    footer { padding:12px 16px 32px; color:var(--ink-footer); text-align:center; font-size:.72rem; }
+    footer span { font-family:var(--mono); }
+    .usage-body { display:flex; flex-direction:column; gap:12px; }
+    .usage-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; align-items:stretch; }
+    .usage-card { display:flex; flex-direction:column; min-width:0; padding:16px; border:1px solid var(--line-2); border-radius:14px; background:var(--surface-usage); }
+    .usage-card.is-stale { border-color:var(--amber-edge); }
+    .usage-card-head { display:flex; flex-direction:column; align-items:flex-start; gap:4px; }
+    .usage-card-title { display:flex; align-items:center; gap:8px; min-width:0; }
+    .usage-dot { flex:none; width:8px; height:8px; border-radius:50%; background:var(--provider); }
+    .usage-card-name { font-size:1rem; font-weight:650; overflow-wrap:anywhere; }
+    .usage-card-age { color:var(--dim); font-size:.72rem; }
+    .usage-card-age.stale { padding:2px 9px; border:1px solid var(--amber-edge); border-radius:999px; background:var(--amber-wash); color:var(--amber); font-weight:650; }
+    .usage-card-body { flex:1 1 auto; }
+    .usage-card-time { margin-top:14px; padding-top:10px; border-top:1px solid var(--line); color:var(--dim); font-family:var(--mono); font-size:.68rem; font-weight:300; font-variant-numeric:tabular-nums; }
     .usage-card-empty { margin:10px 0 0; color:var(--dim); font-size:.8rem; }
-    .usage-bucket { margin-top:8px; color:var(--dim); font-size:.7rem; }
-    .metric-row { display:grid; grid-template-columns:42px 1fr 40px; align-items:center; gap:8px; margin-top:8px; color:var(--dim); font-size:.76rem; }
-    .metric-bar { height:7px; overflow:hidden; border-radius:999px; background:var(--track); }
-    .metric-fill { height:100%; border-radius:inherit; background:var(--provider); }
+    .usage-bucket { margin-top:12px; color:var(--dim); font-size:.72rem; }
+    .metric-row { display:grid; grid-template-columns:minmax(0,1fr) auto; grid-template-areas:"label value" "bar bar" "meta meta"; align-items:baseline; gap:6px 8px; margin-top:14px; }
+    .metric-label { grid-area:label; color:var(--ink-soft); font-size:.8rem; }
+    .metric-bar { grid-area:bar; height:8px; overflow:hidden; border-radius:999px; background:var(--track); }
+    .metric-fill { height:100%; border-radius:inherit; background:var(--meter-low); }
+    .metric-fill-mid { background:var(--meter-mid); }
+    .metric-fill-high { background:var(--meter-high); }
     .metric-fill-high { box-shadow:0 0 0 1px var(--high-ring) inset; }
-    .metric-value { color:var(--ink-metric); text-align:right; font-variant-numeric:tabular-nums; }
-    .usage-window-meta { grid-column:1 / -1; color:var(--dim); font-size:.66rem; line-height:1.45; }
-    .usage-note { margin:0 0 14px; color:var(--dim); font-size:.8rem; line-height:1.6; }
-    .usage-alert { margin:0 0 12px; padding:9px 12px; border:1px solid var(--amber-edge); border-radius:10px; background:var(--amber-wash); color:var(--amber); font-size:.78rem; line-height:1.5; }
-    .usage-link { display:inline-flex; align-items:center; min-height:44px; margin-top:6px; color:var(--blue); font-size:.82rem; text-decoration:none; }
+    .metric-value { grid-area:value; color:var(--ink-metric); font-family:var(--mono); font-size:1.25rem; font-weight:600; font-variant-numeric:tabular-nums; line-height:1.2; text-align:right; }
+    .usage-window-meta { grid-area:meta; color:var(--dim); font-size:.68rem; font-variant-numeric:tabular-nums; line-height:1.45; }
+    .usage-note { margin:6px 0 0; max-width:72ch; color:var(--dim); font-size:.82rem; line-height:1.6; }
+    .usage-alert { margin:0; padding:9px 12px; border:1px solid var(--amber-edge); border-radius:10px; background:var(--amber-wash); color:var(--amber); font-size:.78rem; line-height:1.5; }
+    .usage-link { display:inline-flex; align-items:center; gap:6px; min-height:44px; color:var(--accent); font-size:.84rem; text-decoration:none; }
     .usage-link:hover { text-decoration:underline; }
+    .usage-legend { display:flex; flex-wrap:wrap; align-items:center; gap:4px 18px; margin:0; padding:0; list-style:none; color:var(--dim); font-size:.74rem; }
+    .usage-legend li { display:inline-flex; align-items:center; gap:6px; }
+    .usage-legend i { width:16px; height:6px; border-radius:999px; background:var(--meter-low); }
+    .usage-legend .lg-mid { background:var(--meter-mid); }
+    .usage-legend .lg-high { background:var(--meter-high); }
     [data-provider="chatgpt"] { --provider:var(--p-chatgpt); }
     [data-provider="claude"] { --provider:var(--p-claude); }
     [data-provider="claude-2"] { --provider:var(--p-claude); }
@@ -169,266 +217,272 @@
     [data-provider="minimax"] { --provider:var(--p-minimax); }
     [data-provider="copilot"] { --provider:var(--p-copilot); }
     [data-provider="antigravity"] { --provider:var(--p-antigravity); }
-    @media(max-width:760px) {
-      header { align-items:flex-start; }
-      .header-actions { gap:6px; }
-      .project-group summary { padding-inline:12px; }
-      .usage-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
-      .metric-row {
-        grid-template-columns:minmax(0,1fr) auto;
-        grid-template-areas:"label value" "bar bar";
-      }
-      .metric-row > span:first-child { grid-area:label; }
-      .metric-row > .metric-bar { grid-area:bar; }
-      .metric-row > .metric-value { grid-area:value; }
-      .metric-row > .usage-window-meta { grid-column:1 / -1; }
-    }
-    @media(min-width:761px) and (max-width:1039px) { .usage-grid { grid-template-columns:repeat(5,minmax(0,1fr)); } }
+    @media(max-width:1040px) { .page-nav { order:3; flex-basis:100%; justify-content:flex-start; margin-inline:-12px; } }
+    @media(min-width:1041px) { .site-header { position:sticky; top:0; z-index:5; } main > section { scroll-margin-top:80px; } }
+    @media(max-width:760px) { .usage-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+    @media(max-width:400px) { .info-grid { grid-template-columns:minmax(0,1fr); } .skill-list li { grid-template-columns:minmax(0,1fr); } }
 </style>
 </head>
 <body>
-<header>
-<h1>🏢 虛擬辦公室</h1>
-<div class="header-actions"><span class="status-pill">全部服務正常</span><button type="button" class="theme-toggle" id="theme-toggle" aria-label="日夜模式：目前自動，下一步日間"><span aria-hidden="true">◐</span><span>自動</span></button></div>
+<svg class="sprite" aria-hidden="true" focusable="false"><defs>
+<symbol id="i-building" viewBox="0 0 24 24"><path d="M5 21V4.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5V21"/><path d="M14 10h4.5a.5.5 0 0 1 .5.5V21"/><path d="M3 21h18"/><path d="M8.5 8h2M8.5 12h2M8.5 16h2"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M5 20v-7M12 20V5M19 20v-10"/><path d="M3 20h18"/></symbol>
+<symbol id="i-grid" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+<symbol id="i-ext" viewBox="0 0 24 24"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></symbol>
+<symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></symbol>
+</defs></svg>
+<header class="site-header">
+<div class="brand">
+<span class="brand-mark" aria-hidden="true"><svg class="ico"><use href="#i-building"/></svg></span>
+<div><h1>虛擬辦公室</h1><p>AI-Lish 公開入口 · AI 使用量、project 及服務狀態</p></div>
+</div>
+<nav class="page-nav" aria-label="頁內導覽">
+<a href="#usage">AI 使用量</a>
+<a href="#projects">Projects</a>
+<a href="#skills">Skills</a>
+<a href="#about">關於</a>
+</nav>
+<div class="header-actions"><span class="status-pill">全部服務正常</span><button type="button" class="theme-toggle" id="theme-toggle" aria-label="日夜模式：目前自動，下一步日間"><svg class="ti ti-auto" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" style="fill:currentColor"/></svg><svg class="ti ti-light" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg><svg class="ti ti-dark" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><span class="theme-label">自動</span></button></div>
 </header>
 <main>
 
-<section aria-labelledby="usage-title">
-<div class="section-title" id="usage-title">📊 AI 使用量</div>
-<div class="model-panel" aria-live="polite">
+<section id="usage" aria-labelledby="usage-title">
+<div class="section-head">
+<div>
+<h2 class="section-title" id="usage-title"><svg class="ico" aria-hidden="true"><use href="#i-chart"/></svg>AI 使用量</h2>
 <p class="usage-note">每個 AI 顯示最後一次讀數；超過服務時限會標示「已過期」及距今時間，數值仍保留供參考。公開資料只含百分比、時間及 reset 摘要，不含帳戶、token 或原始回應。Copilot 係月度配額。</p>
+</div>
+<a class="usage-link" href="history.html">查看 5 小時使用歷史及分析<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+</div>
+<div class="usage-body" aria-live="polite">
 <p id="usage-alert" class="usage-alert" hidden></p>
 <div id="usage-cards" class="usage-grid"><p class="usage-card-empty">正在載入…</p></div>
-<a class="usage-link" href="history.html">查看 5 小時使用歷史及分析 →</a>
 </div>
+<ul class="usage-legend" aria-label="用量條顏色圖例">
+<li><i></i>低於 50%</li>
+<li><i class="lg-mid"></i>50–79%</li>
+<li><i class="lg-high"></i>80% 或以上</li>
+<li>Copilot 係月度配額</li>
+</ul>
 </section>
 
-<section aria-labelledby="projects-title">
-<h2 class="section-title" id="projects-title">🗂️ AI-Lish Projects · 共 31 個</h2>
-<div class="project-search">
+<section id="projects" aria-labelledby="projects-title">
+<div class="section-head">
+<div>
+<h2 class="section-title" id="projects-title"><svg class="ico" aria-hidden="true"><use href="#i-grid"/></svg>AI-Lish Projects</h2>
+<p class="section-desc">共 32 個公開 project 及 GAS 工具，按最近更新排列。</p>
+</div>
+</div>
+<div class="project-tools">
 <label for="project-search">搵 project</label>
-<input id="project-search" type="search" data-total="31" placeholder="輸入名稱，例如 平方包" aria-describedby="project-results">
-<span id="project-results" role="status" aria-live="polite">顯示全部 31 個</span>
+<div class="search-field">
+<svg class="ico" aria-hidden="true"><use href="#i-search"/></svg>
+<input id="project-search" type="search" data-total="32" placeholder="輸入名稱，例如 平方包" aria-describedby="project-results">
 </div>
-<div class="project-groups">
-
-<details class="project-group" data-project-group open>
-<summary><span class="project-group-title"><span class="project-group-icon" aria-hidden="true">📚</span>ai-learning</span><span class="project-group-count" data-group-count data-total-count="9">9 個</span><span class="project-group-toggle" aria-hidden="true"></span></summary>
-<div class="project-grid">
-<a class="project-card project-link" data-project-card href="https://ai-lish.github.io/ai-learning/" target="_blank" rel="noreferrer">
-<div class="project-card-head"><span class="project-icon" aria-hidden="true">📚</span><h3>少康教學網站</h3></div>
-<div class="project-card-meta"><span class="project-status status-active">進行中</span><time datetime="2026-10-27"><span>最近更新</span> <span class="project-date">2026-10-27</span></time></div>
-<span class="project-open">開啟 project →</span>
-</a>
-<a class="project-card project-link" data-project-card href="https://ai-lish.github.io/square-bun/" target="_blank" rel="noreferrer">
-<div class="project-card-head"><span class="project-icon" aria-hidden="true">🎴</span><h3>平方包</h3></div>
-<div class="project-card-meta"><span class="project-status status-active">進行中</span><time datetime="2026-10-17"><span>最近更新</span> <span class="project-date">2026-10-17</span></time></div>
-<span class="project-open">開啟 project →</span>
-</a>
-<a class="project-card project-link" data-project-card href="https://ai-lish.github.io/Assessments/" target="_blank" rel="noreferrer">
-<div class="project-card-head"><span class="project-icon" aria-hidden="true">📝</span><h3>Assessments 測考工具</h3></div>
-<div class="project-card-meta"><span class="project-status status-active">進行中</span><time datetime="2026-09-28"><span>最近更新</span> <span class="project-date">2026-09-28</span></time></div>
-<span class="project-open">開啟 project →</span>
-</a>
-<a class="project-card project-link" data-project-card href="https://ai-lish.github.io/math-week-2026/" target="_blank" rel="noreferrer">
-<div class="project-card-head"><span class="project-icon" aria-hidden="true">🎲</span><h3>數學週 2026</h3></div>
-<div class="project-card-meta"><span class="project-status status-active">進行中</span><time datetime="2026-06-04"><span>最近更新</span> <span class="project-date">2026-06-04</span></time></div>
-<span class="project-open">開啟 project →</span>
-</a>
-<a class="project-card project-link" data-project-card href="https://ai-lish.github.io/math-rpg/" target="_blank" rel="noreferrer">
-<div class="project-card-head"><span class="project-icon" aria-hidden="true">⚔️</span><h3>Math RPG</h3></div>
-<div class="project-card-meta"><span class="project-status status-active">進行中</span><time datetime="2026-05-12"><span>最近更新</span> <span class="project-date">2026-05-12</span></time></div>
-<span class="project-open">開啟 project →</span>
-</a>
-<a class="project-card project-link" data-project-card href="https://ai-lish.github.io/bingfo/" target="_blank" rel="noreferrer">
-<div class="project-card-head"><span class="project-icon" aria-hidden="true">🔥</span><h3>冰火大戰</h3></div>
-<div class="project-card-meta"><span class="project-status status-active">進行中</span><time datetime="2026-05-10"><span>最近更新</span> <span class="project-date">2026-05-10</span></time></div>
-<span class="project-open">開啟 project →</span>
-</a>
-<a class="project-card project-link" data-project-card href="https://ai-lish.github.io/fun-math/" target="_blank" rel="noreferrer">
-<div class="project-card-head"><span class="project-icon" aria-hidden="true">🧮</span><h3>趣味數學題</h3></div>
-<div class="project-card-meta"><span class="project-status status-active">進行中</span><time datetime="2026-05-06"><span>最近更新</span> <span class="project-date">2026-05-06</span></time></div>
-<span class="project-open">開啟 project →</span>
-</a>
-<a class="project-card project-link" data-project-card href="https://ai-lish.github.io/calculator-race/" target="_blank" rel="noreferrer">
-<div class="project-card-head"><span class="project-icon" aria-hidden="true">⏱️</span><h3>60秒計算機大賽</h3></div>
-<div class="project-card-meta"><span class="project-status status-active">進行中</span><time datetime="2026-05-02"><span>最近更新</span> <span class="project-date">2026-05-02</span></time></div>
-<span class="project-open">開啟 project →</span>
-</a>
-<a class="project-card project-link" data-project-card href="https://ai-lish.github.io/math-rpg-godot/" target="_blank" rel="noreferrer">
-<div class="project-card-head"><span class="project-icon" aria-hidden="true">🎮</span><h3>Math RPG (Godot 4)</h3></div>
-<div class="project-card-meta"><span class="project-status status-active">進行中</span><time datetime="2026-04-22"><span>最近更新</span> <span class="project-date">2026-04-22</span></time></div>
-<span class="project-open">開啟 project →</span>
-</a>
+<span id="project-results" role="status" aria-live="polite">顯示全部 32 個</span>
 </div>
-</details>
-<details class="project-group" data-project-group open>
-<summary><span class="project-group-title"><span class="project-group-icon" aria-hidden="true">🧰</span>小工具</span><span class="project-group-count" data-group-count data-total-count="6">6 個</span><span class="project-group-toggle" aria-hidden="true"></span></summary>
-<div class="project-grid">
-<a class="project-card project-link" data-project-card href="https://ai-lish.github.io/local-tools/" target="_blank" rel="noreferrer">
-<div class="project-card-head"><span class="project-icon" aria-hidden="true">🧰</span><h3>Local Tools</h3></div>
-<div class="project-card-meta"><span class="project-status status-active">進行中</span><time datetime="2026-10-29"><span>最近更新</span> <span class="project-date">2026-10-29</span></time></div>
-<span class="project-open">開啟 project →</span>
-</a>
-<a class="project-card project-link" data-project-card href="https://ai-lish.github.io/My-Japan/" target="_blank" rel="noreferrer">
-<div class="project-card-head"><span class="project-icon" aria-hidden="true">🗾</span><h3>My-Japan PWA</h3></div>
-<div class="project-card-meta"><span class="project-status status-active">進行中</span><time datetime="2026-09-27"><span>最近更新</span> <span class="project-date">2026-09-27</span></time></div>
-<span class="project-open">開啟 project →</span>
-</a>
-<a class="project-card project-link" data-project-card href="https://ai-lish.github.io/pdf-splitter/" target="_blank" rel="noreferrer">
-<div class="project-card-head"><span class="project-icon" aria-hidden="true">✂️</span><h3>PDF 分割工具</h3></div>
-<div class="project-card-meta"><span class="project-status status-active">進行中</span><time datetime="2026-09-13"><span>最近更新</span> <span class="project-date">2026-09-13</span></time></div>
-<span class="project-open">開啟 project →</span>
-</a>
-<a class="project-card project-link" data-project-card href="https://ai-lish.github.io/photo-merge/" target="_blank" rel="noreferrer">
-<div class="project-card-head"><span class="project-icon" aria-hidden="true">🖼️</span><h3>相片合併工具</h3></div>
-<div class="project-card-meta"><span class="project-status status-active">進行中</span><time datetime="2026-07-14"><span>最近更新</span> <span class="project-date">2026-07-14</span></time></div>
-<span class="project-open">開啟 project →</span>
-</a>
-<a class="project-card project-link" data-project-card href="https://ai-lish.github.io/minimax-workshop/" target="_blank" rel="noreferrer">
-<div class="project-card-head"><span class="project-icon" aria-hidden="true">🛠️</span><h3>MiniMax 工作坊</h3></div>
-<div class="project-card-meta"><span class="project-status status-active">進行中</span><time datetime="2026-07-11"><span>最近更新</span> <span class="project-date">2026-07-11</span></time></div>
-<span class="project-open">開啟 project →</span>
-</a>
-<a class="project-card project-link" data-project-card href="https://ai-lish.github.io/image-upscaler/" target="_blank" rel="noreferrer">
-<div class="project-card-head"><span class="project-icon" aria-hidden="true">🔍</span><h3>圖片像素提升</h3></div>
-<div class="project-card-meta"><span class="project-status status-active">進行中</span><time datetime="2026-06-06"><span>最近更新</span> <span class="project-date">2026-06-06</span></time></div>
-<span class="project-open">開啟 project →</span>
-</a>
+<div class="project-filters" role="group" aria-label="分類篩選">
+<button type="button" class="filter-chip" data-filter="all" aria-pressed="true">全部<span class="filter-count">32</span></button>
+<button type="button" class="filter-chip" data-filter="ai-learning" aria-pressed="false">ai-learning<span class="filter-count">10</span></button>
+<button type="button" class="filter-chip" data-filter="tools" aria-pressed="false">小工具<span class="filter-count">6</span></button>
+<button type="button" class="filter-chip" data-filter="admin" aria-pressed="false">行政工作<span class="filter-count">6</span></button>
+<button type="button" class="filter-chip" data-filter="gas" aria-pressed="false">GAS / Automation<span class="filter-count">8</span></button>
+<button type="button" class="filter-chip" data-filter="virtual-office" aria-pressed="false">virtual-office<span class="filter-count">1</span></button>
+<button type="button" class="filter-chip" data-filter="preschool" aria-pressed="false">preschool<span class="filter-count">1</span></button>
 </div>
-</details>
-<details class="project-group" data-project-group open>
-<summary><span class="project-group-title"><span class="project-group-icon" aria-hidden="true">🗂️</span>行政工作</span><span class="project-group-count" data-group-count data-total-count="6">6 個</span><span class="project-group-toggle" aria-hidden="true"></span></summary>
+<p class="gas-note" data-gas-note>資料根據 Google Drive 的 GAS project registry 及已核實 README 整理；按需要保留 Web App link，部分 project 需要 Google 登入。頁面不公開 Drive／Script ID、access 設定或原始程式碼。</p>
 <div class="project-grid">
-<a class="project-card project-link" data-project-card href="https://ai-lish.github.io/zach-ai-blog/" target="_blank" rel="noreferrer">
-<div class="project-card-head"><span class="project-icon" aria-hidden="true">✍️</span><h3>Zach AI Blog</h3></div>
-<div class="project-card-meta"><span class="project-status status-active">進行中</span><time datetime="2026-10-19"><span>最近更新</span> <span class="project-date">2026-10-19</span></time></div>
-<span class="project-open">開啟 project →</span>
+<a class="project-card project-link" data-project-card data-category="tools" href="https://ai-lish.github.io/local-tools/" target="_blank" rel="noreferrer">
+<div class="project-card-head"><span class="project-tile" aria-hidden="true">L</span><div class="project-card-title"><h3>Local Tools</h3><span class="project-category">小工具</span></div></div>
+<div class="project-card-meta"><span class="project-status status-active">進行中</span><time class="project-date" datetime="2026-10-29">更新 2026-10-29</time></div>
+<span class="project-open">開啟 project<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span>
 </a>
-<a class="project-card project-link" data-project-card href="https://ai-lish.github.io/homework-duty-system/" target="_blank" rel="noreferrer">
-<div class="project-card-head"><span class="project-icon" aria-hidden="true">📋</span><h3>欠交功課系統</h3></div>
-<div class="project-card-meta"><span class="project-status status-pending">待開始</span><time datetime="2026-09-02"><span>最近更新</span> <span class="project-date">2026-09-02</span></time></div>
-<span class="project-open">開啟 project →</span>
+<a class="project-card project-link" data-project-card data-category="virtual-office" href="https://ai-lish.github.io/virtual-office/" target="_blank" rel="noreferrer">
+<div class="project-card-head"><span class="project-tile" aria-hidden="true">虛</span><div class="project-card-title"><h3>虛擬辦公室</h3><span class="project-category">virtual-office</span></div></div>
+<div class="project-card-meta"><span class="project-status status-active">進行中</span><time class="project-date" datetime="2026-10-29">更新 2026-10-29</time></div>
+<span class="project-open">開啟 project<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span>
 </a>
-<a class="project-card project-link" data-project-card href="https://ai-lish.github.io/cloudsams-tools/" target="_blank" rel="noreferrer">
-<div class="project-card-head"><span class="project-icon" aria-hidden="true">🏫</span><h3>CloudSAMS 行政小工具</h3></div>
-<div class="project-card-meta"><span class="project-status status-active">進行中</span><time datetime="2026-07-02"><span>最近更新</span> <span class="project-date">2026-07-02</span></time></div>
-<span class="project-open">開啟 project →</span>
+<a class="project-card project-link" data-project-card data-category="ai-learning" href="https://ai-lish.github.io/ai-learning/" target="_blank" rel="noreferrer">
+<div class="project-card-head"><span class="project-tile" aria-hidden="true">少</span><div class="project-card-title"><h3>少康教學網站</h3><span class="project-category">ai-learning</span></div></div>
+<div class="project-card-meta"><span class="project-status status-active">進行中</span><time class="project-date" datetime="2026-10-27">更新 2026-10-27</time></div>
+<span class="project-open">開啟 project<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span>
 </a>
-<a class="project-card project-link" data-project-card href="https://ai-lish.github.io/Song-of-Songs/index.html" target="_blank" rel="noreferrer">
-<div class="project-card-head"><span class="project-icon" aria-hidden="true">🎵</span><h3>Song-of-Songs</h3></div>
-<div class="project-card-meta"><span class="project-status status-active">進行中</span><time datetime="2026-04-12"><span>最近更新</span> <span class="project-date">2026-04-12</span></time></div>
-<span class="project-open">開啟 project →</span>
+<a class="project-card project-link" data-project-card data-category="ai-learning" href="https://ai-lish.github.io/Nine-Math-Art/" target="_blank" rel="noreferrer">
+<div class="project-card-head"><span class="project-tile" aria-hidden="true">長</span><div class="project-card-title"><h3>長安倉曹見習錄</h3><span class="project-category">ai-learning</span></div></div>
+<div class="project-card-meta"><span class="project-status status-active">進行中</span><time class="project-date" datetime="2026-10-26">更新 2026-10-26</time></div>
+<span class="project-open">開啟 project<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span>
 </a>
-<a class="project-card project-link" data-project-card href="https://ai-lish.github.io/lsc-ole-s1-2026/" target="_blank" rel="noreferrer">
-<div class="project-card-head"><span class="project-icon" aria-hidden="true">🎯</span><h3>全方位學習日</h3></div>
-<div class="project-card-meta"><span class="project-status status-completed">已完成</span><time datetime="2026-04-07"><span>最近更新</span> <span class="project-date">2026-04-07</span></time></div>
-<span class="project-open">開啟 project →</span>
+<a class="project-card project-link" data-project-card data-category="admin" href="https://ai-lish.github.io/zach-ai-blog/" target="_blank" rel="noreferrer">
+<div class="project-card-head"><span class="project-tile" aria-hidden="true">Z</span><div class="project-card-title"><h3>Zach AI Blog</h3><span class="project-category">行政工作</span></div></div>
+<div class="project-card-meta"><span class="project-status status-active">進行中</span><time class="project-date" datetime="2026-10-19">更新 2026-10-19</time></div>
+<span class="project-open">開啟 project<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span>
 </a>
-<a class="project-card project-link" data-project-card href="https://ai-lish.github.io/teacher-dev-day/" target="_blank" rel="noreferrer">
-<div class="project-card-head"><span class="project-icon" aria-hidden="true">🎓</span><h3>教師發展日</h3></div>
-<div class="project-card-meta"><span class="project-status status-completed">已完成</span><time datetime="2026-03-15"><span>最近更新</span> <span class="project-date">2026-03-15</span></time></div>
-<span class="project-open">開啟 project →</span>
+<a class="project-card project-link" data-project-card data-category="preschool" href="https://ai-lish.github.io/preschool/" target="_blank" rel="noreferrer">
+<div class="project-card-head"><span class="project-tile" aria-hidden="true">晞</span><div class="project-card-title"><h3>晞霖學習網站</h3><span class="project-category">preschool</span></div></div>
+<div class="project-card-meta"><span class="project-status status-active">進行中</span><time class="project-date" datetime="2026-10-19">更新 2026-10-19</time></div>
+<span class="project-open">開啟 project<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span>
 </a>
-</div>
-</details>
-<details class="project-group gas-note-group" data-project-group open>
-<summary><span class="project-group-title"><span class="project-group-icon" aria-hidden="true">⚙️</span>GAS / Automation</span><span class="project-group-count" data-group-count data-total-count="8">8 個</span><span class="project-group-toggle" aria-hidden="true"></span></summary>
-<p class="gas-note">資料根據 Google Drive 的 GAS project registry 及已核實 README 整理；按需要保留 Web App link，部分 project 需要 Google 登入。頁面不公開 Drive／Script ID、access 設定或原始程式碼。</p>
-<div class="project-grid">
-<a class="project-card gas-card project-link" data-project-card href="https://script.google.com/macros/s/AKfycbzlZRSL88kmPzGhqyrtWPCijGB5I3DFoY75LGcqXn3-dsuBc-5TH84Fa7Jh813kg70Vfg/exec" target="_blank" rel="noreferrer">
-<div class="project-card-head"><span class="project-icon" aria-hidden="true">🔁</span><h3>Bridge－推送維護員</h3></div>
+<a class="project-card project-link" data-project-card data-category="ai-learning" href="https://ai-lish.github.io/square-bun/" target="_blank" rel="noreferrer">
+<div class="project-card-head"><span class="project-tile" aria-hidden="true">平</span><div class="project-card-title"><h3>平方包</h3><span class="project-category">ai-learning</span></div></div>
+<div class="project-card-meta"><span class="project-status status-active">進行中</span><time class="project-date" datetime="2026-10-17">更新 2026-10-17</time></div>
+<span class="project-open">開啟 project<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span>
+</a>
+<a class="project-card gas-card project-link" data-project-card data-category="gas" href="https://script.google.com/macros/s/AKfycbzlZRSL88kmPzGhqyrtWPCijGB5I3DFoY75LGcqXn3-dsuBc-5TH84Fa7Jh813kg70Vfg/exec" target="_blank" rel="noreferrer">
+<div class="project-card-head"><span class="project-tile" aria-hidden="true">B</span><div class="project-card-title"><h3>Bridge－推送維護員</h3><span class="project-category">GAS / Automation</span></div></div>
 <p class="gas-project-summary">GAS source 檔案同步及維護流程</p>
-<div class="project-card-meta"><span class="gas-private-label">需登入</span><time datetime="2026-10-16"><span>最近更新</span> <span class="project-date">2026-10-16</span></time></div>
-<span class="project-open">開啟 GAS Web App →</span>
+<div class="project-card-meta"><span class="gas-private-label">需登入</span><time class="project-date" datetime="2026-10-16">更新 2026-10-16</time></div>
+<span class="project-open">開啟 GAS Web App<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span>
 </a>
-<article class="project-card gas-card" data-project-card>
-<div class="project-card-head"><span class="project-icon" aria-hidden="true">🧪</span><h3>Test&amp;ReTest</h3></div>
+<article class="project-card gas-card" data-project-card data-category="gas">
+<div class="project-card-head"><span class="project-tile" aria-hidden="true">T</span><div class="project-card-title"><h3>Test&amp;ReTest</h3><span class="project-category">GAS / Automation</span></div></div>
 <p class="gas-project-summary">比較四種 PDF 輸出路線，檢視版面與公式呈現</p>
-<div class="project-card-meta"><span class="gas-private-label">只限本人</span><time datetime="2026-10-16"><span>最近更新</span> <span class="project-date">2026-10-16</span></time></div>
+<div class="project-card-meta"><span class="gas-private-label">只限本人</span><time class="project-date" datetime="2026-10-16">更新 2026-10-16</time></div>
 <span class="project-open no-public-link">未有公開連結</span>
 </article>
-<a class="project-card gas-card project-link" data-project-card href="https://script.google.com/macros/s/AKfycbwcbCr2-lxvvmbOVyfBlSFChi3dsyZGfChFKftktley0CfwMdr4gJO5DKVNh3LlC2aC/exec" target="_blank" rel="noreferrer">
-<div class="project-card-head"><span class="project-icon" aria-hidden="true">🧑‍💼</span><h3>工作小助理</h3></div>
+<a class="project-card gas-card project-link" data-project-card data-category="gas" href="https://script.google.com/macros/s/AKfycbwcbCr2-lxvvmbOVyfBlSFChi3dsyZGfChFKftktley0CfwMdr4gJO5DKVNh3LlC2aC/exec" target="_blank" rel="noreferrer">
+<div class="project-card-head"><span class="project-tile" aria-hidden="true">工</span><div class="project-card-title"><h3>工作小助理</h3><span class="project-category">GAS / Automation</span></div></div>
 <p class="gas-project-summary">校務資料、課表及工作流程自動化</p>
-<div class="project-card-meta"><span class="gas-private-label">需登入</span><time datetime="2026-10-16"><span>最近更新</span> <span class="project-date">2026-10-16</span></time></div>
-<span class="project-open">開啟 GAS Web App →</span>
+<div class="project-card-meta"><span class="gas-private-label">需登入</span><time class="project-date" datetime="2026-10-16">更新 2026-10-16</time></div>
+<span class="project-open">開啟 GAS Web App<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span>
 </a>
-<a class="project-card gas-card project-link" data-project-card href="https://script.google.com/macros/s/AKfycbyTJFzLqhPegxQvfdsAgcUR1Pi_nPzXhUDoJWigqCTo8ZORcr0YJJNu181-HAsbqoow/exec" target="_blank" rel="noreferrer">
-<div class="project-card-head"><span class="project-icon" aria-hidden="true">📖</span><h3>My-Bible</h3></div>
+<a class="project-card gas-card project-link" data-project-card data-category="gas" href="https://script.google.com/macros/s/AKfycbyTJFzLqhPegxQvfdsAgcUR1Pi_nPzXhUDoJWigqCTo8ZORcr0YJJNu181-HAsbqoow/exec" target="_blank" rel="noreferrer">
+<div class="project-card-head"><span class="project-tile" aria-hidden="true">M</span><div class="project-card-title"><h3>My-Bible</h3><span class="project-category">GAS / Automation</span></div></div>
 <p class="gas-project-summary">聖經／詩歌閱讀及音訊進度同步</p>
-<div class="project-card-meta"><span class="gas-private-label">可能公開</span><time datetime="2026-10-14"><span>最近更新</span> <span class="project-date">2026-10-14</span></time></div>
-<span class="project-open">開啟 GAS Web App →</span>
+<div class="project-card-meta"><span class="gas-private-label">可能公開</span><time class="project-date" datetime="2026-10-14">更新 2026-10-14</time></div>
+<span class="project-open">開啟 GAS Web App<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span>
 </a>
-<a class="project-card gas-card project-link" data-project-card href="https://script.google.com/macros/s/AKfycbw0Ph51isF6wsF3fpLZyfJnPGXRMq4EshWuLztScQlLBQQo-ndlsafyqPKdlOZEjgdrhg/exec" target="_blank" rel="noreferrer">
-<div class="project-card-head"><span class="project-icon" aria-hidden="true">📝</span><h3>HKDSE</h3></div>
+<a class="project-card gas-card project-link" data-project-card data-category="gas" href="https://script.google.com/macros/s/AKfycbw0Ph51isF6wsF3fpLZyfJnPGXRMq4EshWuLztScQlLBQQo-ndlsafyqPKdlOZEjgdrhg/exec" target="_blank" rel="noreferrer">
+<div class="project-card-head"><span class="project-tile" aria-hidden="true">H</span><div class="project-card-title"><h3>HKDSE</h3><span class="project-category">GAS / Automation</span></div></div>
 <p class="gas-project-summary">題目、答案及教學輸出工具</p>
-<div class="project-card-meta"><span class="gas-private-label">需登入</span><time datetime="2026-10-07"><span>最近更新</span> <span class="project-date">2026-10-07</span></time></div>
-<span class="project-open">開啟 GAS Web App →</span>
+<div class="project-card-meta"><span class="gas-private-label">需登入</span><time class="project-date" datetime="2026-10-07">更新 2026-10-07</time></div>
+<span class="project-open">開啟 GAS Web App<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span>
 </a>
-<article class="project-card gas-card" data-project-card>
-<div class="project-card-head"><span class="project-icon" aria-hidden="true">📈</span><h3>Mark sheet</h3></div>
+<article class="project-card gas-card" data-project-card data-category="gas">
+<div class="project-card-head"><span class="project-tile" aria-hidden="true">M</span><div class="project-card-title"><h3>Mark sheet</h3><span class="project-category">GAS / Automation</span></div></div>
 <p class="gas-project-summary">試卷評核、選擇題自動計分及作答分析；學生能力查閱介面製作中</p>
-<div class="project-card-meta"><span class="gas-private-label">只限本人</span><time datetime="2026-10-06"><span>最近更新</span> <span class="project-date">2026-10-06</span></time></div>
+<div class="project-card-meta"><span class="gas-private-label">只限本人</span><time class="project-date" datetime="2026-10-06">更新 2026-10-06</time></div>
 <span class="project-open no-public-link">未有公開連結</span>
 </article>
-<a class="project-card gas-card project-link" data-project-card href="https://script.google.com/macros/s/AKfycbYtbFkNftCiw67O6T_mS05iyqfPCt44pEl702656EYw0m97xSbZr8QmF1kVlTXZQUs/exec" target="_blank" rel="noreferrer">
-<div class="project-card-head"><span class="project-icon" aria-hidden="true">🧸</span><h3>幼兒學校安排</h3></div>
+<a class="project-card gas-card project-link" data-project-card data-category="gas" href="https://script.google.com/macros/s/AKfycbYtbFkNftCiw67O6T_mS05iyqfPCt44pEl702656EYw0m97xSbZr8QmF1kVlTXZQUs/exec" target="_blank" rel="noreferrer">
+<div class="project-card-head"><span class="project-tile" aria-hidden="true">幼</span><div class="project-card-title"><h3>幼兒學校安排</h3><span class="project-category">GAS / Automation</span></div></div>
 <p class="gas-project-summary">每週課程排程、通告及 Calendar 匯入／匯出</p>
-<div class="project-card-meta"><span class="gas-private-label">權限未核實</span><time datetime="2026-10-04"><span>最近更新</span> <span class="project-date">2026-10-04</span></time></div>
-<span class="project-open">開啟 GAS Web App →</span>
+<div class="project-card-meta"><span class="gas-private-label">權限未核實</span><time class="project-date" datetime="2026-10-04">更新 2026-10-04</time></div>
+<span class="project-open">開啟 GAS Web App<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span>
 </a>
-<a class="project-card gas-card project-link" data-project-card href="https://script.google.com/macros/s/AKfycbxNdGdAEG_Hyl4bRpKz6k49nqAh50V_y3lx2ML31eDWj0u_swGJ2IgaOHmhQL8eII7O-A/exec" target="_blank" rel="noreferrer">
-<div class="project-card-head"><span class="project-icon" aria-hidden="true">🤖</span><h3>GAS-AI 工具專案</h3></div>
+<a class="project-card project-link" data-project-card data-category="ai-learning" href="https://ai-lish.github.io/Assessments/" target="_blank" rel="noreferrer">
+<div class="project-card-head"><span class="project-tile" aria-hidden="true">A</span><div class="project-card-title"><h3>Assessments 測考工具</h3><span class="project-category">ai-learning</span></div></div>
+<div class="project-card-meta"><span class="project-status status-active">進行中</span><time class="project-date" datetime="2026-09-28">更新 2026-09-28</time></div>
+<span class="project-open">開啟 project<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span>
+</a>
+<a class="project-card project-link" data-project-card data-category="tools" href="https://ai-lish.github.io/My-Japan/" target="_blank" rel="noreferrer">
+<div class="project-card-head"><span class="project-tile" aria-hidden="true">M</span><div class="project-card-title"><h3>My-Japan PWA</h3><span class="project-category">小工具</span></div></div>
+<div class="project-card-meta"><span class="project-status status-active">進行中</span><time class="project-date" datetime="2026-09-27">更新 2026-09-27</time></div>
+<span class="project-open">開啟 project<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span>
+</a>
+<a class="project-card project-link" data-project-card data-category="tools" href="https://ai-lish.github.io/pdf-splitter/" target="_blank" rel="noreferrer">
+<div class="project-card-head"><span class="project-tile" aria-hidden="true">P</span><div class="project-card-title"><h3>PDF 分割工具</h3><span class="project-category">小工具</span></div></div>
+<div class="project-card-meta"><span class="project-status status-active">進行中</span><time class="project-date" datetime="2026-09-13">更新 2026-09-13</time></div>
+<span class="project-open">開啟 project<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span>
+</a>
+<a class="project-card gas-card project-link" data-project-card data-category="gas" href="https://script.google.com/macros/s/AKfycbxNdGdAEG_Hyl4bRpKz6k49nqAh50V_y3lx2ML31eDWj0u_swGJ2IgaOHmhQL8eII7O-A/exec" target="_blank" rel="noreferrer">
+<div class="project-card-head"><span class="project-tile" aria-hidden="true">G</span><div class="project-card-title"><h3>GAS-AI 工具專案</h3><span class="project-category">GAS / Automation</span></div></div>
 <p class="gas-project-summary">Stable Diffusion／MiniMax H3 本機教學及提示語工作台</p>
-<div class="project-card-meta"><span class="gas-private-label">需登入</span><time datetime="2026-09-06"><span>最近更新</span> <span class="project-date">2026-09-06</span></time></div>
-<span class="project-open">開啟 GAS Web App →</span>
+<div class="project-card-meta"><span class="gas-private-label">需登入</span><time class="project-date" datetime="2026-09-06">更新 2026-09-06</time></div>
+<span class="project-open">開啟 GAS Web App<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span>
 </a>
-</div>
-</details>
-<details class="project-group" data-project-group open>
-<summary><span class="project-group-title"><span class="project-group-icon" aria-hidden="true">🏢</span>virtual-office</span><span class="project-group-count" data-group-count data-total-count="1">1 個</span><span class="project-group-toggle" aria-hidden="true"></span></summary>
-<div class="project-grid">
-<a class="project-card project-link" data-project-card href="https://ai-lish.github.io/virtual-office/" target="_blank" rel="noreferrer">
-<div class="project-card-head"><span class="project-icon" aria-hidden="true">🏢</span><h3>虛擬辦公室</h3></div>
-<div class="project-card-meta"><span class="project-status status-active">進行中</span><time datetime="2026-10-29"><span>最近更新</span> <span class="project-date">2026-10-29</span></time></div>
-<span class="project-open">開啟 project →</span>
+<a class="project-card project-link" data-project-card data-category="admin" href="https://ai-lish.github.io/homework-duty-system/" target="_blank" rel="noreferrer">
+<div class="project-card-head"><span class="project-tile" aria-hidden="true">欠</span><div class="project-card-title"><h3>欠交功課系統</h3><span class="project-category">行政工作</span></div></div>
+<div class="project-card-meta"><span class="project-status status-pending">待開始</span><time class="project-date" datetime="2026-09-02">更新 2026-09-02</time></div>
+<span class="project-open">開啟 project<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span>
 </a>
-</div>
-</details>
-<details class="project-group" data-project-group open>
-<summary><span class="project-group-title"><span class="project-group-icon" aria-hidden="true">👶</span>preschool</span><span class="project-group-count" data-group-count data-total-count="1">1 個</span><span class="project-group-toggle" aria-hidden="true"></span></summary>
-<div class="project-grid">
-<a class="project-card project-link" data-project-card href="https://ai-lish.github.io/preschool/" target="_blank" rel="noreferrer">
-<div class="project-card-head"><span class="project-icon" aria-hidden="true">👶</span><h3>晞霖學習網站</h3></div>
-<div class="project-card-meta"><span class="project-status status-active">進行中</span><time datetime="2026-10-19"><span>最近更新</span> <span class="project-date">2026-10-19</span></time></div>
-<span class="project-open">開啟 project →</span>
+<a class="project-card project-link" data-project-card data-category="tools" href="https://ai-lish.github.io/photo-merge/" target="_blank" rel="noreferrer">
+<div class="project-card-head"><span class="project-tile" aria-hidden="true">相</span><div class="project-card-title"><h3>相片合併工具</h3><span class="project-category">小工具</span></div></div>
+<div class="project-card-meta"><span class="project-status status-active">進行中</span><time class="project-date" datetime="2026-07-14">更新 2026-07-14</time></div>
+<span class="project-open">開啟 project<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span>
 </a>
-</div>
-</details>
+<a class="project-card project-link" data-project-card data-category="tools" href="https://ai-lish.github.io/minimax-workshop/" target="_blank" rel="noreferrer">
+<div class="project-card-head"><span class="project-tile" aria-hidden="true">M</span><div class="project-card-title"><h3>MiniMax 工作坊</h3><span class="project-category">小工具</span></div></div>
+<div class="project-card-meta"><span class="project-status status-active">進行中</span><time class="project-date" datetime="2026-07-11">更新 2026-07-11</time></div>
+<span class="project-open">開啟 project<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span>
+</a>
+<a class="project-card project-link" data-project-card data-category="admin" href="https://ai-lish.github.io/cloudsams-tools/" target="_blank" rel="noreferrer">
+<div class="project-card-head"><span class="project-tile" aria-hidden="true">C</span><div class="project-card-title"><h3>CloudSAMS 行政小工具</h3><span class="project-category">行政工作</span></div></div>
+<div class="project-card-meta"><span class="project-status status-active">進行中</span><time class="project-date" datetime="2026-07-02">更新 2026-07-02</time></div>
+<span class="project-open">開啟 project<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span>
+</a>
+<a class="project-card project-link" data-project-card data-category="tools" href="https://ai-lish.github.io/image-upscaler/" target="_blank" rel="noreferrer">
+<div class="project-card-head"><span class="project-tile" aria-hidden="true">圖</span><div class="project-card-title"><h3>圖片像素提升</h3><span class="project-category">小工具</span></div></div>
+<div class="project-card-meta"><span class="project-status status-active">進行中</span><time class="project-date" datetime="2026-06-06">更新 2026-06-06</time></div>
+<span class="project-open">開啟 project<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span>
+</a>
+<a class="project-card project-link" data-project-card data-category="ai-learning" href="https://ai-lish.github.io/math-week-2026/" target="_blank" rel="noreferrer">
+<div class="project-card-head"><span class="project-tile" aria-hidden="true">數</span><div class="project-card-title"><h3>數學週 2026</h3><span class="project-category">ai-learning</span></div></div>
+<div class="project-card-meta"><span class="project-status status-active">進行中</span><time class="project-date" datetime="2026-06-04">更新 2026-06-04</time></div>
+<span class="project-open">開啟 project<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span>
+</a>
+<a class="project-card project-link" data-project-card data-category="ai-learning" href="https://ai-lish.github.io/math-rpg/" target="_blank" rel="noreferrer">
+<div class="project-card-head"><span class="project-tile" aria-hidden="true">M</span><div class="project-card-title"><h3>Math RPG</h3><span class="project-category">ai-learning</span></div></div>
+<div class="project-card-meta"><span class="project-status status-active">進行中</span><time class="project-date" datetime="2026-05-12">更新 2026-05-12</time></div>
+<span class="project-open">開啟 project<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span>
+</a>
+<a class="project-card project-link" data-project-card data-category="ai-learning" href="https://ai-lish.github.io/bingfo/" target="_blank" rel="noreferrer">
+<div class="project-card-head"><span class="project-tile" aria-hidden="true">冰</span><div class="project-card-title"><h3>冰火大戰</h3><span class="project-category">ai-learning</span></div></div>
+<div class="project-card-meta"><span class="project-status status-active">進行中</span><time class="project-date" datetime="2026-05-10">更新 2026-05-10</time></div>
+<span class="project-open">開啟 project<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span>
+</a>
+<a class="project-card project-link" data-project-card data-category="ai-learning" href="https://ai-lish.github.io/fun-math/" target="_blank" rel="noreferrer">
+<div class="project-card-head"><span class="project-tile" aria-hidden="true">趣</span><div class="project-card-title"><h3>趣味數學題</h3><span class="project-category">ai-learning</span></div></div>
+<div class="project-card-meta"><span class="project-status status-active">進行中</span><time class="project-date" datetime="2026-05-06">更新 2026-05-06</time></div>
+<span class="project-open">開啟 project<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span>
+</a>
+<a class="project-card project-link" data-project-card data-category="ai-learning" href="https://ai-lish.github.io/calculator-race/" target="_blank" rel="noreferrer">
+<div class="project-card-head"><span class="project-tile" aria-hidden="true">6</span><div class="project-card-title"><h3>60秒計算機大賽</h3><span class="project-category">ai-learning</span></div></div>
+<div class="project-card-meta"><span class="project-status status-active">進行中</span><time class="project-date" datetime="2026-05-02">更新 2026-05-02</time></div>
+<span class="project-open">開啟 project<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span>
+</a>
+<a class="project-card project-link" data-project-card data-category="ai-learning" href="https://ai-lish.github.io/math-rpg-godot/" target="_blank" rel="noreferrer">
+<div class="project-card-head"><span class="project-tile" aria-hidden="true">M</span><div class="project-card-title"><h3>Math RPG (Godot 4)</h3><span class="project-category">ai-learning</span></div></div>
+<div class="project-card-meta"><span class="project-status status-active">進行中</span><time class="project-date" datetime="2026-04-22">更新 2026-04-22</time></div>
+<span class="project-open">開啟 project<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span>
+</a>
+<a class="project-card project-link" data-project-card data-category="admin" href="https://ai-lish.github.io/Song-of-Songs/index.html" target="_blank" rel="noreferrer">
+<div class="project-card-head"><span class="project-tile" aria-hidden="true">S</span><div class="project-card-title"><h3>Song-of-Songs</h3><span class="project-category">行政工作</span></div></div>
+<div class="project-card-meta"><span class="project-status status-active">進行中</span><time class="project-date" datetime="2026-04-12">更新 2026-04-12</time></div>
+<span class="project-open">開啟 project<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span>
+</a>
+<a class="project-card project-link" data-project-card data-category="admin" href="https://ai-lish.github.io/lsc-ole-s1-2026/" target="_blank" rel="noreferrer">
+<div class="project-card-head"><span class="project-tile" aria-hidden="true">全</span><div class="project-card-title"><h3>全方位學習日</h3><span class="project-category">行政工作</span></div></div>
+<div class="project-card-meta"><span class="project-status status-completed">已完成</span><time class="project-date" datetime="2026-04-07">更新 2026-04-07</time></div>
+<span class="project-open">開啟 project<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span>
+</a>
+<a class="project-card project-link" data-project-card data-category="admin" href="https://ai-lish.github.io/teacher-dev-day/" target="_blank" rel="noreferrer">
+<div class="project-card-head"><span class="project-tile" aria-hidden="true">教</span><div class="project-card-title"><h3>教師發展日</h3><span class="project-category">行政工作</span></div></div>
+<div class="project-card-meta"><span class="project-status status-completed">已完成</span><time class="project-date" datetime="2026-03-15">更新 2026-03-15</time></div>
+<span class="project-open">開啟 project<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span>
+</a>
 </div>
 </section>
 
-<section class="about-page" aria-labelledby="skills-title" id="skills">
-<h2 class="section-title" id="skills-title">📘 Skills 用途清單</h2>
-<ul><li><strong>grill-me</strong> — 釐清新工作的目標、範圍及分工。</li><li><strong>class-test</strong> — 製作班測與精簡評卷參考，核對數學、配分及版面。</li><li><strong>manim-video</strong> — 製作與核對有來源依據的數學教學影片。</li><li><strong>ex-draft</strong> — 按指定學習範圍起草互動練習。</li><li><strong>ch-note</strong> — 按課程來源整理章節筆記。</li><li><strong>nse-appendix</strong> — 按課程框架製作國家安全教育附錄。</li></ul>
+<div class="info-grid">
+<section class="info-card" aria-labelledby="skills-title" id="skills">
+<h2 class="section-title" id="skills-title"><svg class="ico" aria-hidden="true" viewBox="0 0 24 24"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h11"/></svg>Skills 用途清單</h2>
+<ul class="skill-list"><li><strong>grill-me</strong><span>釐清新工作的目標、範圍及分工。</span></li><li><strong>class-test</strong><span>製作班測與精簡評卷參考，核對數學、配分及版面。</span></li><li><strong>manim-video</strong><span>製作與核對有來源依據的數學教學影片。</span></li><li><strong>ex-draft</strong><span>按指定學習範圍起草互動練習。</span></li><li><strong>ch-note</strong><span>按課程來源整理章節筆記。</span></li><li><strong>nse-appendix</strong><span>按課程框架製作國家安全教育附錄。</span></li></ul>
 <p class="about-description">此處只介紹用途，不提供原文或下載檔案。</p>
 </section>
 
-<details class="about-page">
-<summary>🧭 關於此頁及公開範圍</summary>
+<section class="info-card" aria-labelledby="about-title" id="about">
+<h2 class="section-title" id="about-title"><svg class="ico" aria-hidden="true"><use href="#i-info"/></svg>關於此頁及公開範圍</h2>
 <p class="about-description">這是 Virtual Office 的公開版入口。公開頁保留產品定位、服務狀態、所有 public AI-Lish project 入口及各 AI 的使用百分比；token、內部同步、user data 及 operational dashboard 均留在 private source。</p>
-<div class="about-grid">
-<section class="about-status" aria-labelledby="service-state-title">
-<h3 id="service-state-title">服務狀態</h3>
-<ul>
-<li><span>公開網站 · GitHub Pages sanitized deployment 正常提供服務</span><strong>ONLINE</strong></li>
-<li><span>Private source · 程式、cron、同步設定及 operational data 保留於 private repository</span><strong>PROTECTED</strong></li>
-<li><span>公開邊界 · public output 經 literal allowlist、guard 及 post-deploy checks</span><strong>GUARDED</strong></li>
+<h3 class="sub-title" id="service-state-title">服務狀態</h3>
+<ul class="status-list" aria-labelledby="service-state-title">
+<li><span><span class="svc-name">公開網站</span><span class="svc-desc">GitHub Pages sanitized deployment 正常提供服務</span></span><span class="tag tag-online">ONLINE</span></li>
+<li><span><span class="svc-name">Private source</span><span class="svc-desc">程式、cron、同步設定及 operational data 保留於 private repository</span></span><span class="tag tag-protected">PROTECTED</span></li>
+<li><span><span class="svc-name">公開邊界</span><span class="svc-desc">public output 經 literal allowlist、guard 及 post-deploy checks</span></span><span class="tag tag-guarded">GUARDED</span></li>
 </ul>
-</section>
-<section class="about-scope" aria-labelledby="public-scope-title">
-<h3 id="public-scope-title">公開內容</h3>
+<details class="scope">
+<summary id="public-scope-title">公開內容<span class="scope-count">9 項</span></summary>
 <ul>
 <li>Virtual Office 產品介紹及公開入口</li>
 <li>所有 public AI-Lish project 的名稱及公開連結</li>
@@ -440,11 +494,11 @@
 <li>不直接連接 private API 或 backend</li>
 <li>每次更新均重新 build 及 guard</li>
 </ul>
+</details>
 </section>
 </div>
-</details>
 </main>
-<footer>Build-time sanitized deployment · 2026-10-29T13:00:00.000Z</footer>
+<footer>Build-time sanitized deployment · <span>2026-10-29T15:00:00.000Z</span></footer>
 
 <script>
     'use strict';
@@ -499,292 +553,7 @@
     return stale ? `已過期 · ${elapsed}` : `最近更新 · ${elapsed}`;
   }
 
-  function weekStartHkt(value) {
-    const epoch = toEpoch(value);
-    if (!Number.isFinite(epoch)) return NaN;
-    const hktDate = new Date(epoch + HKT_OFFSET_MS);
-    const day = hktDate.getUTCDay();
-    const daysSinceStart = (day - WEEK_START_DAY_HKT + 7) % 7;
-    return Date.UTC(
-      hktDate.getUTCFullYear(), hktDate.getUTCMonth(), hktDate.getUTCDate() - daysSinceStart
-    ) - HKT_OFFSET_MS;
-  }
-
-  function makeWindow(record, startMs, endMs, splitMethod) {
-    const used = record.windows.five_hour;
-    return {
-      provider: record.provider,
-      bucket: record.bucket,
-      start_at: new Date(startMs).toISOString(),
-      end_at: new Date(endMs).toISOString(),
-      peak_pct: used,
-      peak_observed_at: record.observed_at,
-      latest_pct: used,
-      latest_observed_at: record.observed_at,
-      window_end_pct: null,
-      window_end_observed_at: null,
-      read_method: '最後讀數（沒有窗口完結讀數）',
-      split_method: splitMethod,
-      reset_detected: false,
-      reset_before_peaks: [],
-      _startMs: startMs,
-      _latestObservedMs: toEpoch(record.observed_at),
-      _accountSegment: Number.isSafeInteger(record.account_segment) && record.account_segment >= 0
-        ? record.account_segment : 0
-    };
-  }
-
-  function updatePeak(window, percent, observedAt, fromResetMarker = false) {
-    if (!Number.isInteger(percent) || percent < 0 || percent > 100) return;
-    const observedMs = toEpoch(observedAt);
-    if (percent > window.peak_pct || (percent === window.peak_pct && observedMs > toEpoch(window.peak_observed_at))) {
-      window.peak_pct = percent;
-      window.peak_observed_at = observedAt;
-      window.peak_from_reset_marker = fromResetMarker;
-    }
-  }
-
-  function aggregateFiveHourWindows(records) {
-    const scopes = new Map();
-    for (const record of Array.isArray(records) ? records : []) {
-      const observedMs = toEpoch(record?.observed_at);
-      const percent = record?.windows?.five_hour;
-      if (typeof record?.provider !== 'string' || typeof record?.bucket !== 'string'
-        || !Number.isFinite(observedMs) || !Number.isInteger(percent) || percent < 0 || percent > 100) continue;
-      const accountSegment = Number.isSafeInteger(record.account_segment) && record.account_segment >= 0
-        ? record.account_segment : 0;
-      const scopeKey = `${record.provider}\u0000${record.bucket}\u0000${accountSegment}`;
-      if (!scopes.has(scopeKey)) scopes.set(scopeKey, []);
-      scopes.get(scopeKey).push({ record, observedMs });
-    }
-
-    const allWindows = [];
-    for (const entries of scopes.values()) {
-      entries.sort((left, right) => left.observedMs - right.observedMs);
-      const knownWindows = new Map();
-      const scopeWindows = [];
-      const eventRows = [];
-      let fallbackWindow = null;
-
-      for (const entry of entries) {
-        const { record, observedMs } = entry;
-        const resetAtMs = toEpoch(record.resets_at?.five_hour);
-        const marker = record.reset_markers?.five_hour || {};
-        let window;
-        if (Number.isFinite(resetAtMs)) {
-          const key = String(resetAtMs);
-          window = knownWindows.get(key);
-          if (!window) {
-            window = makeWindow(record, resetAtMs - FIVE_HOUR_WINDOW_MS, resetAtMs, '來源重設時間');
-            knownWindows.set(key, window);
-            scopeWindows.push(window);
-          }
-          fallbackWindow = null;
-        } else {
-          const hasResetMarker = marker.detected === true;
-          const elapsedFiveHours = fallbackWindow
-            && observedMs - fallbackWindow._startMs >= FIVE_HOUR_WINDOW_MS;
-          if (!fallbackWindow || hasResetMarker || elapsedFiveHours) {
-            const method = hasResetMarker ? 'reset 標記'
-              : fallbackWindow ? '觀測間距（5 小時）' : '首筆觀測起算（5 小時）';
-            fallbackWindow = makeWindow(record, observedMs, observedMs + FIVE_HOUR_WINDOW_MS, method);
-            scopeWindows.push(fallbackWindow);
-          }
-          window = fallbackWindow;
-        }
-
-        updatePeak(window, record.windows.five_hour, record.observed_at);
-        if (observedMs >= window._latestObservedMs) {
-          window._latestObservedMs = observedMs;
-          window.latest_pct = record.windows.five_hour;
-          window.latest_observed_at = record.observed_at;
-        }
-        if (Number.isFinite(resetAtMs) && resetAtMs >= observedMs
-          && resetAtMs - observedMs <= WINDOW_END_READ_LEAD_MS
-          && (window.window_end_observed_at === null
-            || observedMs > toEpoch(window.window_end_observed_at))) {
-          window.window_end_pct = record.windows.five_hour;
-          window.window_end_observed_at = record.observed_at;
-        }
-        if (marker.detected === true) window.reset_detected = true;
-        eventRows.push({ entry, window, marker });
-      }
-
-      // Reset metadata carries the final known peak of the preceding window.
-      // Attach it to the closest earlier window where that window is present.
-      for (const { entry, window, marker } of eventRows) {
-        if (marker.detected !== true || !Number.isInteger(marker.pre_reset_peak_pct)
-          || typeof marker.pre_reset_observed_at !== 'string') continue;
-        const prior = scopeWindows
-          .filter((candidate) => candidate !== window
-            && candidate._accountSegment === window._accountSegment
-            && candidate._latestObservedMs < entry.observedMs)
-          .sort((left, right) => right._latestObservedMs - left._latestObservedMs)[0];
-        const resetPeak = {
-          used_pct: marker.pre_reset_peak_pct,
-          observed_at: marker.pre_reset_observed_at
-        };
-        if (prior) {
-          prior.reset_before_peaks.push(resetPeak);
-        } else {
-          window.reset_before_peaks.push(resetPeak);
-        }
-      }
-
-      for (const window of scopeWindows) {
-        if (window.window_end_pct !== null) {
-          window.peak_pct = window.window_end_pct;
-          window.peak_observed_at = window.window_end_observed_at;
-          window.read_method = '窗口完結讀數';
-        } else {
-          window.peak_pct = window.latest_pct;
-          window.peak_observed_at = window.latest_observed_at;
-        }
-      }
-      allWindows.push(...scopeWindows);
-    }
-
-    return allWindows
-      .sort((left, right) => left._startMs - right._startMs
-        || left.provider.localeCompare(right.provider) || left.bucket.localeCompare(right.bucket))
-      .map(({ _startMs, _endMs, _latestObservedMs, _accountSegment, ...window }) => {
-        if (_accountSegment !== 0) window.account_segment = _accountSegment;
-        return window;
-      });
-  }
-
-  function buildWeeklySeries(windows, now = Date.now()) {
-    const nowMs = toEpoch(now);
-    const currentStart = weekStartHkt(nowMs);
-    if (!Number.isFinite(nowMs) || !Number.isFinite(currentStart)) {
-      return { previous: [], current: [], currentWeekStart: null, previousWeekStart: null, now: null };
-    }
-    const previousStart = currentStart - WEEK_MS;
-    const points = (Array.isArray(windows) ? windows : []).map((window) => ({
-      window,
-      startMs: toEpoch(window.start_at)
-    })).filter((item) => Number.isFinite(item.startMs));
-    const makePoints = (start, end) => points
-      .filter(({ startMs }) => startMs >= start && startMs < end)
-      .sort((left, right) => left.startMs - right.startMs)
-      .map(({ window, startMs }) => ({
-        x: (startMs - start) / WEEK_MS,
-        value: window.peak_pct,
-        start_at: window.start_at,
-        observed_at: window.peak_observed_at,
-        read_method: window.read_method,
-        account_segment: Number.isSafeInteger(window.account_segment) && window.account_segment >= 0
-          ? window.account_segment : 0
-      }));
-    return {
-      previous: makePoints(previousStart, currentStart),
-      current: makePoints(currentStart, Math.min(nowMs + 1, currentStart + WEEK_MS)),
-      currentWeekStart: new Date(currentStart).toISOString(),
-      previousWeekStart: new Date(previousStart).toISOString(),
-      now: new Date(nowMs).toISOString()
-    };
-  }
-
-  function escapeXml(value) {
-    return String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;')
-      .replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&apos;');
-  }
-
-  function renderWeeklySvg(label, windows, now = Date.now(), accountBoundaries = []) {
-    const series = buildWeeklySeries(windows, now);
-    const safePoints = (points) => points.filter((point) => Number.isFinite(point.x)
-      && point.x >= 0 && point.x <= 1
-      && Number.isInteger(point.value) && point.value >= 0 && point.value <= 100);
-    const previousPoints = safePoints(series.previous);
-    const currentPoints = safePoints(series.current);
-    const width = 370;
-    const height = 204;
-    const left = 36;
-    const right = 8;
-    const top = 34;
-    const bottom = 32;
-    const plotWidth = width - left - right;
-    const plotHeight = height - top - bottom;
-    const xFor = (ratio) => left + Math.max(0, Math.min(1, ratio)) * plotWidth;
-    const yFor = (percent) => top + (100 - Math.max(0, Math.min(100, percent))) / 100 * plotHeight;
-    const polyline = (points, colour, name) => {
-      if (!points.length) return '';
-      const groups = [];
-      for (const point of points) {
-        const segment = Number.isSafeInteger(point.account_segment) ? point.account_segment : 0;
-        let group = groups[groups.length - 1];
-        if (!group || group.segment !== segment) {
-          group = { segment, points: [] };
-          groups.push(group);
-        }
-        group.points.push(point);
-      }
-      return groups.map(({ segment, points: segmentPoints }) => {
-        const coordinates = segmentPoints.map((point) => `${xFor(point.x).toFixed(1)},${yFor(point.value).toFixed(1)}`);
-        const line = segmentPoints.length > 1
-          ? `<polyline data-series="${name}" data-account-segment="${segment}" fill="none" stroke="${colour}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" points="${coordinates.join(' ')}"/>`
-          : '';
-        const dots = segmentPoints.map((point) => {
-          const time = escapeXml(formatHkt(point.start_at));
-          const observed = escapeXml(formatHkt(point.observed_at));
-          return `<circle data-series="${name}" data-account-segment="${segment}" cx="${xFor(point.x).toFixed(1)}" cy="${yFor(point.value).toFixed(1)}" r="2.7" fill="${colour}"><title>${name}：${point.value}% · ${escapeXml(point.read_method || '最後讀數')} · 窗口 ${time} · 觀測 ${observed}</title></circle>`;
-        }).join('');
-        return line + dots;
-      }).join('');
-    };
-    const boundaryMarks = (Array.isArray(accountBoundaries) ? accountBoundaries : []).map((boundary) => {
-      const boundaryMs = toEpoch(boundary?.effective_at);
-      const weekStart = weekStartHkt(boundaryMs);
-      const previousStart = toEpoch(series.previousWeekStart);
-      const currentStart = toEpoch(series.currentWeekStart);
-      if (!Number.isFinite(boundaryMs) || ![previousStart, currentStart].includes(weekStart)) return '';
-      const x = xFor((boundaryMs - weekStart) / WEEK_MS);
-      const anchor = x > width - right - 130 ? 'end' : 'start';
-      const labelX = x + (anchor === 'end' ? -4 : 4);
-      return `<line data-account-boundary="true" x1="${x.toFixed(1)}" x2="${x.toFixed(1)}" y1="${top}" y2="${height - bottom}" stroke="var(--amber)" stroke-width="1.5" stroke-dasharray="4 3"/><text data-account-boundary-label="true" x="${labelX.toFixed(1)}" y="29" fill="var(--amber)" font-size="9" text-anchor="${anchor}">轉用另一帳號 · ${escapeXml(formatHkt(boundary.effective_at))}</text>`;
-    }).join('');
-    const yAxis = [0, 50, 100].map((value) => {
-      const y = yFor(value).toFixed(1);
-      return `<line x1="${left}" x2="${width - right}" y1="${y}" y2="${y}" stroke="var(--svg-grid)" stroke-opacity=".16"/><text x="${left - 7}" y="${Number(y) + 3}" fill="var(--svg-muted)" font-size="10" text-anchor="end">${value}%</text>`;
-    }).join('');
-    const tickLabels = ['一', '二', '三', '四', '五', '六', '日'];
-    const xAxis = Array.from({ length: 8 }, (_, index) => {
-      const x = xFor(index / 7).toFixed(1);
-      const tick = `<line x1="${x}" x2="${x}" y1="${height - bottom}" y2="${height - bottom + 3}" stroke="var(--svg-muted)"/>`;
-      const text = tickLabels[index];
-      if (!text) return tick;
-      const anchor = index === 0 ? 'start' : 'middle';
-      return `${tick}<text x="${x}" y="${height - 8}" fill="var(--svg-muted)" font-size="10" text-anchor="${anchor}">${text}</text>`;
-    }).join('');
-    const safeLabel = escapeXml(label);
-    return `<svg role="img" aria-label="${safeLabel}：上週與本週 5 小時用量比較" viewBox="0 0 ${width} ${height}" width="100%" height="auto" preserveAspectRatio="xMidYMid meet">
-<title>${safeLabel}：上週與本週 5 小時用量比較</title>
-<rect width="${width}" height="${height}" rx="8" fill="var(--bg)"/>
-<g font-family="system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif">
-<line x1="42" x2="57" y1="15" y2="15" stroke="${LAST_WEEK_COLOUR}" stroke-width="2.5"/><circle cx="49.5" cy="15" r="2.5" fill="${LAST_WEEK_COLOUR}"/><text x="62" y="18" fill="var(--ink-metric)" font-size="10">上週</text>
-<line x1="111" x2="126" y1="15" y2="15" stroke="${THIS_WEEK_COLOUR}" stroke-width="2.5"/><circle cx="118.5" cy="15" r="2.5" fill="${THIS_WEEK_COLOUR}"/><text x="131" y="18" fill="var(--ink-metric)" font-size="10">本週</text>
-    ${yAxis}
-    ${xAxis}
-    ${boundaryMarks}
-    ${polyline(previousPoints, LAST_WEEK_COLOUR, '上週')}
-    ${polyline(currentPoints, THIS_WEEK_COLOUR, '本週')}
-</g>
-</svg>`;
-  }
-
-  return Object.freeze({
-    DAY_MS,
-    FIVE_HOUR_WINDOW_MS,
-    HKT_OFFSET_MS,
-    WEEK_MS,
-    WEEK_START_DAY_HKT,
-    aggregateFiveHourWindows,
-    buildWeeklySeries,
-    formatAgeLabel,
-    formatHkt,
-    renderWeeklySvg,
-    weekStartHkt
-  });
+  return Object.freeze({ formatAgeLabel, formatHkt });
 }));
 
     (() => {
@@ -811,11 +580,13 @@
       const hkt = (iso, options) => new Date(iso).toLocaleString('zh-HK', { timeZone: 'Asia/Hong_Kong', ...options });
       const meter = (label, value, resetsAt, resetMarker) => {
         const row = el('div', 'metric-row');
-        row.append(el('span', '', label));
+        row.append(el('span', 'metric-label', label));
         const bar = el('div', 'metric-bar');
         const fill = el('div', 'metric-fill');
         fill.style.width = clamp(value) + '%';
+        // Meter colour follows usage: below 50 low, 50 to 79.9 mid, 80 and above high.
         if (clamp(value) >= 80) fill.classList.add('metric-fill-high');
+        else if (clamp(value) >= 50) fill.classList.add('metric-fill-mid');
         bar.setAttribute('role', 'meter');
         bar.setAttribute('aria-label', label + ' 已用');
         bar.setAttribute('aria-valuemin', '0');
@@ -850,10 +621,9 @@
           const card = el('article', 'usage-card');
           card.dataset.provider = id;
           const head = el('div', 'usage-card-head');
-          head.append(el('span', 'usage-card-name', label));
-          head.append(el('span', 'usage-card-time', provider?.observed_at
-            ? '最後讀數 · ' + hkt(provider.observed_at, { dateStyle: 'short', timeStyle: 'short' })
-            : '未有讀數'));
+          const title = el('div', 'usage-card-title');
+          title.append(el('span', 'usage-dot'), el('span', 'usage-card-name', label));
+          head.append(title);
           let isStale = false;
           if (provider?.observed_at) {
             const ageLabel = QuotaView.formatAgeLabel(provider.observed_at, Date.now(), null, PROVIDER_TTL_MS[id]);
@@ -877,22 +647,28 @@
           if (isStale || exhausted.length) {
             attention.push(label + '：' + [...exhausted, ...(isStale ? ['讀數已過期'] : [])].join('、'));
           }
+          card.classList.toggle('is-stale', isStale);
           card.append(head);
+          const body = el('div', 'usage-card-body');
           if (buckets.length === 0) {
-            card.append(el('p', 'usage-card-empty', '未有收集讀數'));
+            body.append(el('p', 'usage-card-empty', '未有收集讀數'));
           } else {
             for (const bucket of buckets) {
-              if (buckets.length > 1) card.append(el('div', 'usage-bucket', bucketName(id, bucket.bucket)));
+              if (buckets.length > 1) body.append(el('div', 'usage-bucket', bucketName(id, bucket.bucket)));
               if (Number.isInteger(bucket.manual_resets_remaining)) {
-                card.append(el('div', 'usage-bucket', '手動 reset 餘額 · ' + bucket.manual_resets_remaining + ' 次'));
+                body.append(el('div', 'usage-bucket', '手動 reset 餘額 · ' + bucket.manual_resets_remaining + ' 次'));
               }
               for (const name of ['five_hour', 'seven_day', 'monthly']) {
                 if (bucket.windows[name] !== undefined) {
-                  card.append(meter(WINDOW_LABELS[name], bucket.windows[name], bucket.resets_at[name], bucket.reset_markers[name]));
+                  body.append(meter(WINDOW_LABELS[name], bucket.windows[name], bucket.resets_at[name], bucket.reset_markers[name]));
                 }
               }
             }
           }
+          card.append(body);
+          card.append(el('div', 'usage-card-time', provider?.observed_at
+            ? '最後讀數 · ' + hkt(provider.observed_at, { dateStyle: 'short', timeStyle: 'short' })
+            : '未有讀數'));
           root.append(card);
         }
         alert.hidden = attention.length === 0;
@@ -911,28 +687,27 @@
       const input = document.getElementById('project-search');
       const count = document.getElementById('project-results');
       const total = Number(input?.dataset.total || 0);
-      const groups = [...document.querySelectorAll('[data-project-group]')];
+      const cards = [...document.querySelectorAll('[data-project-card]')];
+      const chips = [...document.querySelectorAll('[data-filter]')];
+      const gasNote = document.querySelector('[data-gas-note]');
+      let filter = 'all';
       const update = () => {
         const query = input.value.trim().toLocaleLowerCase('zh-HK');
         let matched = 0;
-        for (const group of groups) {
-          const groupCards = [...group.querySelectorAll('[data-project-card]')];
-          let groupMatched = 0;
-          for (const card of groupCards) {
-            const name = card.querySelector('h3')?.textContent || '';
-            const visible = !query || name.toLocaleLowerCase('zh-HK').includes(query);
-            card.hidden = !visible;
-            if (visible) groupMatched += 1;
-          }
-          matched += groupMatched;
-          group.hidden = groupMatched === 0;
-          group.open = !query || groupMatched > 0;
-          const groupCount = group.querySelector('[data-group-count]');
-          const groupTotal = Number(groupCount?.dataset.totalCount || 0);
-          if (groupCount) groupCount.textContent = query ? groupMatched + ' / ' + groupTotal + ' 個' : groupTotal + ' 個';
+        for (const card of cards) {
+          const name = card.querySelector('h3')?.textContent || '';
+          const visible = (filter === 'all' || card.dataset.category === filter)
+            && (!query || name.toLocaleLowerCase('zh-HK').includes(query));
+          card.hidden = !visible;
+          if (visible) matched += 1;
         }
-        count.textContent = query ? '找到 ' + matched + ' 個' : '顯示全部 ' + total + ' 個';
+        for (const chip of chips) chip.setAttribute('aria-pressed', String(chip.dataset.filter === filter));
+        if (gasNote) gasNote.hidden = filter !== 'all' && filter !== 'gas';
+        count.textContent = query || filter !== 'all' ? '找到 ' + matched + ' 個' : '顯示全部 ' + total + ' 個';
       };
+      for (const chip of chips) {
+        chip.addEventListener('click', () => { filter = chip.dataset.filter; update(); });
+      }
       input.addEventListener('input', update);
       update();
     })();
@@ -943,22 +718,17 @@
       if (!button) return;
       const order = ['auto', 'light', 'dark'];
       const info = {
-        auto: { icon: '◐', label: '自動', next: '日間' },
-        light: { icon: '☀', label: '日間', next: '夜間' },
-        dark: { icon: '☾', label: '夜間', next: '自動' }
+        auto: { label: '自動', next: '日間' },
+        light: { label: '日間', next: '夜間' },
+        dark: { label: '夜間', next: '自動' }
       };
+      const text = button.querySelector('.theme-label');
       let mode = info[document.documentElement.dataset.mode] ? document.documentElement.dataset.mode : 'auto';
       const paint = () => {
         document.documentElement.dataset.mode = mode;
         const current = info[mode];
         button.setAttribute('aria-label', '日夜模式：目前' + current.label + '，下一步' + current.next);
-        button.replaceChildren();
-        const icon = document.createElement('span');
-        icon.setAttribute('aria-hidden', 'true');
-        icon.textContent = current.icon;
-        const label = document.createElement('span');
-        label.textContent = current.label;
-        button.append(icon, label);
+        if (text) text.textContent = current.label;
       };
       button.addEventListener('click', () => {
         mode = order[(order.indexOf(mode) + 1) % order.length];
