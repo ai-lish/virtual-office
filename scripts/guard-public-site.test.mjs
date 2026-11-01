@@ -222,6 +222,69 @@ test('accepts the separate Claude account 2 provider with the neutral label', as
   assert.equal(result.status, 0, result.stderr);
 });
 
+function addGrokBotProjection(providers, history, sevenDay = 2.2) {
+  const observedAt = '2026-11-01T12:58:00Z';
+  const marker = { detected: false, manual: false, pre_reset_peak_pct: null, pre_reset_observed_at: null };
+  providers.providers.push({
+    id: 'grok-bot',
+    label: 'Grok Bot',
+    observed_at: observedAt,
+    buckets: [{
+      bucket: 'account',
+      manual_resets_remaining: null,
+      windows: { seven_day: sevenDay },
+      resets_at: { seven_day: '2026-11-02T11:44:00Z' },
+      reset_markers: { seven_day: { ...marker } }
+    }]
+  });
+  history.records.push({
+    provider: 'grok-bot',
+    bucket: 'account',
+    period: 'native',
+    observed_at: observedAt,
+    windows: { seven_day: sevenDay },
+    resets_at: { seven_day: '2026-11-02T11:44:00Z' },
+    reset_markers: { seven_day: { ...marker } },
+    manual_resets_remaining: null
+  });
+}
+
+function addClaude2Projection(providers) {
+  // The live providers.json fixture may already carry Claude account 2.
+  if (providers.providers.some((provider) => provider.id === 'claude-2')) return;
+  providers.providers.push({ id: 'claude-2', label: 'Claude（帳號 2）', observed_at: null, buckets: [] });
+}
+
+test('accepts the weekly Grok Bot provider with one decimal place', async () => {
+  const providers = projectProvidersV2(legacyProviders);
+  const history = projectHistoryV2(legacyHistory);
+  addAntigravityProjection(providers, history);
+  addClaude2Projection(providers);
+  addGrokBotProjection(providers, history);
+  const result = await runGuard({ providers, history });
+  assert.equal(result.status, 0, result.stderr);
+});
+
+test('rejects Grok Bot two-decimal percentages and non-weekly windows', async () => {
+  let providers = projectProvidersV2(legacyProviders);
+  let history = projectHistoryV2(legacyHistory);
+  addAntigravityProjection(providers, history);
+  addClaude2Projection(providers);
+  addGrokBotProjection(providers, history, 2.25);
+  let result = await runGuard({ providers, history });
+  assert.notEqual(result.status, 0);
+
+  providers = projectProvidersV2(legacyProviders);
+  history = projectHistoryV2(legacyHistory);
+  addAntigravityProjection(providers, history);
+  addClaude2Projection(providers);
+  addGrokBotProjection(providers, history);
+  providers.providers.at(-1).buckets[0].windows.five_hour = 1;
+  result = await runGuard({ providers, history });
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /Grok Bot records must contain only the seven_day window/);
+});
+
 test('rejects Antigravity percentages and reset peaks with two decimal places', async () => {
   const providers = projectProvidersV2(legacyProviders);
   const history = projectHistoryV2(legacyHistory);
