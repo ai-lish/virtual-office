@@ -189,6 +189,10 @@ test('accepts the separate Claude account 2 provider with the neutral label', as
   const providers = projectProvidersV2(legacyProviders);
   const history = projectHistoryV2(legacyHistory);
   addAntigravityProjection(providers, history);
+  // The checked-in providers.json already includes claude-2. Drop it before
+  // re-adding the explicit fixture so the approved provider count stays exact.
+  providers.providers = providers.providers.filter((provider) => provider.id !== 'claude-2');
+  history.records = history.records.filter((record) => record.provider !== 'claude-2');
   const observedAt = '2026-10-27T03:00:00Z';
   providers.providers.push({
     id: 'claude-2',
