@@ -10,5 +10,5 @@
     { "source": "status.json", "destination": "status.json" }
   ],
   "generatedFiles": [".nojekyll"],
-  "allowedExternalHosts": ["ai-lish.github.io", "github.com", "script.google.com"]
+  "allowedExternalHosts": ["ai-lish.github.io", "github.com", "math-lish.github.io", "script.google.com"]
 }
