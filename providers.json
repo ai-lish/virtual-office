@@ -1,11 +1,11 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-11-03T18:00:00.000Z",
+  "generated_at": "2026-11-03T21:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-11-03T17:08:35Z",
+      "observed_at": "2026-11-03T20:17:59Z",
       "buckets": [
         {
           "bucket": "account",
@@ -18,10 +18,10 @@
           },
           "reset_markers": {
             "seven_day": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 68,
-              "pre_reset_observed_at": "2026-11-03T13:59:04Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             }
           }
         }
@@ -30,7 +30,7 @@
     {
       "id": "claude",
       "label": "Claude",
-      "observed_at": "2026-11-03T15:03:18Z",
+      "observed_at": "2026-11-03T18:12:54Z",
       "buckets": [
         {
           "bucket": "account",
@@ -63,17 +63,17 @@
     {
       "id": "claude-2",
       "label": "Claude（帳號 2）",
-      "observed_at": "2026-11-03T17:08:43Z",
+      "observed_at": "2026-11-03T19:15:31Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 22,
+            "five_hour": 0,
             "seven_day": 78
           },
           "resets_at": {
-            "five_hour": "2026-11-03T18:40:00Z",
+            "five_hour": null,
             "seven_day": "2026-11-05T07:00:00Z"
           },
           "reset_markers": {
@@ -96,7 +96,7 @@
     {
       "id": "gemini",
       "label": "Gemini",
-      "observed_at": "2026-11-03T15:02:59Z",
+      "observed_at": "2026-11-03T18:12:47Z",
       "buckets": [
         {
           "bucket": "account",
@@ -106,7 +106,7 @@
             "seven_day": 0
           },
           "resets_at": {
-            "five_hour": "2026-11-03T17:22:00Z",
+            "five_hour": "2026-11-03T22:22:00Z",
             "seven_day": "2026-11-10T04:22:00Z"
           },
           "reset_markers": {
@@ -114,7 +114,7 @@
               "detected": true,
               "manual": false,
               "pre_reset_peak_pct": 0,
-              "pre_reset_observed_at": "2026-11-03T08:43:33Z"
+              "pre_reset_observed_at": "2026-11-03T15:02:59Z"
             },
             "seven_day": {
               "detected": false,
@@ -129,23 +129,23 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-11-03T17:42:39Z",
+      "observed_at": "2026-11-03T20:18:05Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 9
+            "five_hour": 0
           },
           "resets_at": {
-            "five_hour": "2026-11-03T20:00:00Z"
+            "five_hour": "2026-11-04T00:00:00Z"
           },
           "reset_markers": {
             "five_hour": {
-              "detected": false,
+              "detected": true,
               "manual": false,
-              "pre_reset_peak_pct": null,
-              "pre_reset_observed_at": null
+              "pre_reset_peak_pct": 9,
+              "pre_reset_observed_at": "2026-11-03T17:42:39Z"
             }
           }
         }
@@ -179,7 +179,7 @@
     {
       "id": "antigravity",
       "label": "Antigravity",
-      "observed_at": "2026-11-03T17:10:05Z",
+      "observed_at": "2026-11-03T20:19:49Z",
       "buckets": [
         {
           "bucket": "third-party-models",
@@ -188,7 +188,7 @@
             "seven_day": 0
           },
           "resets_at": {
-            "seven_day": "2026-11-10T17:10:02Z"
+            "seven_day": "2026-11-10T20:19:46Z"
           },
           "reset_markers": {
             "seven_day": {
@@ -206,7 +206,7 @@
             "seven_day": 0
           },
           "resets_at": {
-            "seven_day": "2026-11-10T17:10:02Z"
+            "seven_day": "2026-11-10T20:19:46Z"
           },
           "reset_markers": {
             "seven_day": {
