@@ -19,6 +19,7 @@ function projectProvidersV2(source) {
       ...provider,
       buckets: provider.buckets.map((bucket) => ({
         ...bucket,
+        windows: { ...bucket.windows },
         manual_resets_remaining: null,
         resets_at: Object.fromEntries(Object.keys(bucket.windows).map((window) => [window, null])),
         reset_markers: Object.fromEntries(Object.keys(bucket.windows).map((window) => [window, {
@@ -38,6 +39,7 @@ function projectHistoryV2(source) {
     schema_version: '2',
     records: source.records.map((record) => ({
       ...record,
+      windows: { ...record.windows },
       manual_resets_remaining: null,
       resets_at: Object.fromEntries(Object.keys(record.windows).map((window) => [window, null])),
       reset_markers: Object.fromEntries(Object.keys(record.windows).map((window) => [window, {
@@ -152,8 +154,17 @@ async function runGuard({ providers = legacyProviders, history = legacyHistory }
   }
 }
 
-test('accepts the current six-provider deployment during the Claude account 2 transition', async () => {
-  const result = await runGuard();
+test('accepts the seven-provider deployment with Claude account 2 and without Grok Bot', async () => {
+  const providers = projectProvidersV2(legacyProviders);
+  const history = projectHistoryV2(legacyHistory);
+  providers.providers = providers.providers.filter((provider) => provider.id !== 'grok-bot');
+  history.records = history.records.filter((record) => record.provider !== 'grok-bot');
+  addAntigravityProjection(providers, history);
+  addClaude2Projection(providers);
+  assert.deepEqual(providers.providers.map((provider) => provider.id).sort(), [
+    'antigravity', 'chatgpt', 'claude', 'claude-2', 'copilot', 'gemini', 'minimax'
+  ]);
+  const result = await runGuard({ providers, history });
   assert.equal(result.status, 0, result.stderr);
 });
 
@@ -189,6 +200,8 @@ test('accepts the separate Claude account 2 provider with the neutral label', as
   const providers = projectProvidersV2(legacyProviders);
   const history = projectHistoryV2(legacyHistory);
   addAntigravityProjection(providers, history);
+  providers.providers = providers.providers.filter((provider) => provider.id !== 'claude-2');
+  history.records = history.records.filter((record) => record.provider !== 'claude-2');
   const observedAt = '2026-10-27T03:00:00Z';
   providers.providers.push({
     id: 'claude-2',
@@ -221,6 +234,101 @@ test('accepts the separate Claude account 2 provider with the neutral label', as
   const result = await runGuard({ providers, history });
   assert.equal(result.status, 0, result.stderr);
 });
+
+function addGrokBotProjection(providers, history, sevenDay = 2.2) {
+  providers.providers = providers.providers.filter((provider) => provider.id !== 'grok-bot');
+  history.records = history.records.filter((record) => record.provider !== 'grok-bot');
+  const observedAt = '2026-11-01T12:58:00Z';
+  const marker = {
+    detected: true,
+    manual: false,
+    pre_reset_peak_pct: 88.8,
+    pre_reset_observed_at: '2026-10-31T12:58:00Z'
+  };
+  providers.providers.push({
+    id: 'grok-bot',
+    label: 'Grok Bot',
+    observed_at: observedAt,
+    buckets: [{
+      bucket: 'account',
+      manual_resets_remaining: null,
+      windows: { seven_day: sevenDay },
+      resets_at: { seven_day: '2026-11-02T11:44:00Z' },
+      reset_markers: { seven_day: { ...marker } }
+    }]
+  });
+  history.records.push({
+    provider: 'grok-bot',
+    bucket: 'account',
+    period: 'native',
+    observed_at: observedAt,
+    windows: { seven_day: sevenDay },
+    resets_at: { seven_day: '2026-11-02T11:44:00Z' },
+    reset_markers: { seven_day: { ...marker } },
+    manual_resets_remaining: null
+  });
+}
+
+function addClaude2Projection(providers) {
+  // The live providers.json fixture may already carry Claude account 2.
+  if (providers.providers.some((provider) => provider.id === 'claude-2')) return;
+  providers.providers.push({ id: 'claude-2', label: 'Claude（帳號 2）', observed_at: null, buckets: [] });
+}
+
+function grokBotProjection() {
+  const providers = projectProvidersV2(legacyProviders);
+  const history = projectHistoryV2(legacyHistory);
+  addAntigravityProjection(providers, history);
+  addClaude2Projection(providers);
+  addGrokBotProjection(providers, history);
+  return { providers, history };
+}
+
+test('accepts all eight providers with one-decimal Grok Bot windows and reset peaks', async () => {
+  const { providers, history } = grokBotProjection();
+  assert.deepEqual(providers.providers.map((provider) => provider.id).sort(), [
+    'antigravity', 'chatgpt', 'claude', 'claude-2', 'copilot', 'gemini', 'grok-bot', 'minimax'
+  ]);
+  const result = await runGuard({ providers, history });
+  assert.equal(result.status, 0, result.stderr);
+});
+
+for (const source of ['providers', 'history']) {
+  const target = ({ providers, history }) => source === 'providers'
+    ? providers.providers.find((provider) => provider.id === 'grok-bot').buckets[0]
+    : history.records.find((record) => record.provider === 'grok-bot');
+
+  test(`rejects Grok Bot two-decimal window percentages in ${source}.json`, async () => {
+    const projection = grokBotProjection();
+    target(projection).windows.seven_day = 2.25;
+    const result = await runGuard(projection);
+    assert.notEqual(result.status, 0);
+    assert.match(result.stderr, new RegExp(`${source}\\.json Grok Bot window values must be percentages with at most one decimal place`));
+  });
+
+  test(`rejects Grok Bot two-decimal reset peaks in ${source}.json`, async () => {
+    const projection = grokBotProjection();
+    target(projection).reset_markers.seven_day.pre_reset_peak_pct = 88.88;
+    const result = await runGuard(projection);
+    assert.notEqual(result.status, 0);
+    assert.match(result.stderr, new RegExp(`${source}\\.json reset peak is invalid`));
+  });
+
+  for (const window of ['five_hour', 'monthly']) {
+    test(`rejects the Grok Bot ${window} window in ${source}.json`, async () => {
+      const projection = grokBotProjection();
+      const record = target(projection);
+      record.windows[window] = 1;
+      record.resets_at[window] = null;
+      record.reset_markers[window] = {
+        detected: false, manual: false, pre_reset_peak_pct: null, pre_reset_observed_at: null
+      };
+      const result = await runGuard(projection);
+      assert.notEqual(result.status, 0);
+      assert.match(result.stderr, new RegExp(`${source}\\.json Grok Bot records must contain only the seven_day window`));
+    });
+  }
+}
 
 test('rejects Antigravity percentages and reset peaks with two decimal places', async () => {
   const providers = projectProvidersV2(legacyProviders);
@@ -287,22 +395,39 @@ test('rejects Antigravity windows other than seven_day', async () => {
 });
 
 test('keeps the provider allowlist closed during the transition', async () => {
-  const providers = projectProvidersV2(legacyProviders);
-  const history = projectHistoryV2(legacyHistory);
-  addAntigravityProjection(providers, history);
-  providers.providers = providers.providers.filter((provider) => provider.id !== 'claude');
+  const { providers, history } = grokBotProjection();
+  providers.providers = providers.providers.filter((provider) => provider.id !== 'claude-2');
   let result = await runGuard({ providers, history });
   assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /providers\.json must list exactly the approved providers/);
 
-  const unknownProviders = projectProvidersV2(legacyProviders);
-  unknownProviders.providers.push({
-    id: 'unapproved',
-    label: 'Unapproved',
-    observed_at: null,
-    buckets: []
-  });
-  result = await runGuard({ providers: unknownProviders, history: projectHistoryV2(legacyHistory) });
+  const unknownProviders = grokBotProjection();
+  const provider = unknownProviders.providers.providers.find((provider) => provider.id === 'grok-bot');
+  provider.id = 'unapproved';
+  provider.label = 'Unapproved';
+  result = await runGuard(unknownProviders);
   assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /providers\.json contains an unknown, relabelled or duplicate provider/);
+
+  const unknownHistory = grokBotProjection();
+  unknownHistory.history.records.find((record) => record.provider === 'grok-bot').provider = 'unapproved';
+  result = await runGuard(unknownHistory);
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /history\.json contains an unknown provider/);
+});
+
+test('rejects relabelled and duplicate Grok Bot providers', async () => {
+  const relabelled = grokBotProjection();
+  relabelled.providers.providers.find((provider) => provider.id === 'grok-bot').label = 'Grok';
+  let result = await runGuard(relabelled);
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /providers\.json contains an unknown, relabelled or duplicate provider/);
+
+  const duplicate = grokBotProjection();
+  duplicate.providers.providers[0] = duplicate.providers.providers.find((provider) => provider.id === 'grok-bot');
+  result = await runGuard(duplicate);
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /providers\.json contains an unknown, relabelled or duplicate provider/);
 });
 
 test('rejects unlisted provider bucket and history record fields', async () => {

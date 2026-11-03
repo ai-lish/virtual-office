@@ -42,7 +42,13 @@ const PUBLIC_PROVIDERS = new Map([
   ['gemini', 'Gemini'],
   ['minimax', 'MiniMax'],
   ['copilot', 'GitHub Copilot'],
-  ['antigravity', 'Antigravity']
+  ['antigravity', 'Antigravity'],
+  ['grok-bot', 'Grok Bot']
+]);
+const FRACTIONAL_PERCENT_PROVIDERS = new Set(['antigravity', 'grok-bot']);
+// Keep the exact current deployment valid until private feat/grok-bot-quota publishes Grok Bot.
+const CLAUDE_2_DEPLOYMENT_PROVIDER_IDS = new Set([
+  'chatgpt', 'claude', 'claude-2', 'gemini', 'minimax', 'copilot', 'antigravity'
 ]);
 const ANTIGRAVITY_DEPLOYMENT_PROVIDER_IDS = new Set([
   'chatgpt', 'claude', 'gemini', 'minimax', 'copilot', 'antigravity'
@@ -50,7 +56,7 @@ const ANTIGRAVITY_DEPLOYMENT_PROVIDER_IDS = new Set([
 // Keep the exact current deployment valid until private #38 publishes Antigravity.
 const LEGACY_PUBLIC_PROVIDER_IDS = new Set(['chatgpt', 'claude', 'gemini', 'minimax', 'copilot']);
 const APPROVED_PROVIDER_SETS = [
-  new Set(PUBLIC_PROVIDERS.keys()), ANTIGRAVITY_DEPLOYMENT_PROVIDER_IDS,
+  new Set(PUBLIC_PROVIDERS.keys()), CLAUDE_2_DEPLOYMENT_PROVIDER_IDS, ANTIGRAVITY_DEPLOYMENT_PROVIDER_IDS,
   LEGACY_PUBLIC_PROVIDER_IDS
 ];
 const PUBLIC_WINDOWS = new Set(['five_hour', 'seven_day', 'monthly']);
@@ -103,7 +109,7 @@ function assertResetMetadata(windows, resetsAt, resetMarkers, name, provider) {
     }
     if (marker.pre_reset_peak_pct === null) {
       if (marker.pre_reset_observed_at !== null) throw new Error(`${name} reset peak time requires a peak`);
-    } else if (!isValidPercent(marker.pre_reset_peak_pct, provider === 'antigravity')
+    } else if (!isValidPercent(marker.pre_reset_peak_pct, FRACTIONAL_PERCENT_PROVIDERS.has(provider))
       || typeof marker.pre_reset_observed_at !== 'string' || !PUBLIC_TIME_PATTERN.test(marker.pre_reset_observed_at)) {
       throw new Error(`${name} reset peak is invalid`);
     }
@@ -119,10 +125,13 @@ function assertWindows(windows, name, provider) {
   if (provider === 'antigravity' && JSON.stringify(names) !== JSON.stringify(['seven_day'])) {
     throw new Error(`${name} Antigravity records must contain only the seven_day window`);
   }
+  if (provider === 'grok-bot' && JSON.stringify(names) !== JSON.stringify(['seven_day'])) {
+    throw new Error(`${name} Grok Bot records must contain only the seven_day window`);
+  }
   for (const window of names) {
-    if (!isValidPercent(windows[window], provider === 'antigravity')) {
-      throw new Error(provider === 'antigravity'
-        ? `${name} Antigravity window values must be percentages with at most one decimal place`
+    if (!isValidPercent(windows[window], FRACTIONAL_PERCENT_PROVIDERS.has(provider))) {
+      throw new Error(FRACTIONAL_PERCENT_PROVIDERS.has(provider)
+        ? `${name} ${PUBLIC_PROVIDERS.get(provider)} window values must be percentages with at most one decimal place`
         : `${name} window values must be integers between 0 and 100`);
     }
   }
