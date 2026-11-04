@@ -34,7 +34,7 @@
       --chart-guide:rgba(255,255,255,.12); --chart-baseline:rgba(255,255,255,.25);
       --filter-selected:rgba(108,168,255,.2); --tooltip-edge:rgba(255,255,255,.2);
       --heat-empty:rgba(255,255,255,.04); --shadow:rgba(0,0,0,.4);
-      --p-chatgpt:#3987e5; --p-claude:#d95926; --p-gemini:#199e70; --p-minimax:#c98500; --p-copilot:#d55181; --p-antigravity:#a4d65e;
+      --p-chatgpt:#3987e5; --p-claude:#d95926; --p-gemini:#199e70; --p-minimax:#c98500; --p-copilot:#d55181; --p-antigravity:#a4d65e; --p-grok-bot:#a993ff;
       --heat-1:#184f95; --heat-2:#1c5cab; --heat-3:#256abf; --heat-4:#2a78d6; --heat-5:#3987e5;
       --heat-6:#5598e7; --heat-7:#6da7ec; --heat-8:#86b6ef; --heat-9:#9ec5f4; --heat-10:#cde2fb;
       --mono:ui-monospace,"SF Mono","Cascadia Mono",Consolas,monospace;
@@ -57,7 +57,7 @@
       --chart-guide:rgba(22,33,62,.18); --chart-baseline:rgba(22,33,62,.25);
       --filter-selected:rgba(31,111,178,.2); --tooltip-edge:rgba(22,33,62,.2);
       --heat-empty:#eef0f4; --shadow:rgba(15,33,62,.16);
-      --p-chatgpt:#3987e5; --p-claude:#d95926; --p-gemini:#199e70; --p-minimax:#b37600; --p-copilot:#d55181; --p-antigravity:#204020;
+      --p-chatgpt:#3987e5; --p-claude:#d95926; --p-gemini:#199e70; --p-minimax:#b37600; --p-copilot:#d55181; --p-antigravity:#204020; --p-grok-bot:#5b3fd1;
       --heat-1:#d4e4f9; --heat-2:#bcd5f5; --heat-3:#a1c3f0; --heat-4:#83afe9; --heat-5:#6599e0;
       --heat-6:#4a83d4; --heat-7:#356dc2; --heat-8:#285aa9; --heat-9:#1e498e; --heat-10:#163a73;
  }
@@ -78,7 +78,7 @@
       --chart-guide:rgba(22,33,62,.18); --chart-baseline:rgba(22,33,62,.25);
       --filter-selected:rgba(31,111,178,.2); --tooltip-edge:rgba(22,33,62,.2);
       --heat-empty:#eef0f4; --shadow:rgba(15,33,62,.16);
-      --p-chatgpt:#3987e5; --p-claude:#d95926; --p-gemini:#199e70; --p-minimax:#b37600; --p-copilot:#d55181; --p-antigravity:#204020;
+      --p-chatgpt:#3987e5; --p-claude:#d95926; --p-gemini:#199e70; --p-minimax:#b37600; --p-copilot:#d55181; --p-antigravity:#204020; --p-grok-bot:#5b3fd1;
       --heat-1:#d4e4f9; --heat-2:#bcd5f5; --heat-3:#a1c3f0; --heat-4:#83afe9; --heat-5:#6599e0;
       --heat-6:#4a83d4; --heat-7:#356dc2; --heat-8:#285aa9; --heat-9:#1e498e; --heat-10:#163a73;
  } }
@@ -217,6 +217,7 @@
     [data-provider="minimax"] { --provider:var(--p-minimax); }
     [data-provider="copilot"] { --provider:var(--p-copilot); }
     [data-provider="antigravity"] { --provider:var(--p-antigravity); }
+    [data-provider="grok-bot"] { --provider:var(--p-grok-bot); }
     @media(max-width:1040px) { .page-nav { order:3; flex-basis:100%; justify-content:flex-start; margin-inline:-12px; } }
     @media(min-width:1041px) { .site-header { position:sticky; top:0; z-index:5; } main > section { scroll-margin-top:80px; } }
     @media(max-width:760px) { .usage-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
@@ -252,7 +253,7 @@
 <div class="section-head">
 <div>
 <h2 class="section-title" id="usage-title"><svg class="ico" aria-hidden="true"><use href="#i-chart"/></svg>AI 使用量</h2>
-<p class="usage-note">每個 AI 顯示最後一次讀數；超過服務時限會標示「已過期」及距今時間，數值仍保留供參考。公開資料只含百分比、時間及 reset 摘要，不含帳戶、token 或原始回應。Copilot 係月度配額。</p>
+<p class="usage-note">每個 AI 顯示最後一次讀數；超過服務時限會標示「已過期」及距今時間，數值仍保留供參考。公開資料只含百分比、時間及 reset 摘要，不含帳戶、token 或原始回應。Copilot 係月度配額；Grok Bot 係每週配額，由 Grok Bot 讀取用量頁後記錄。</p>
 </div>
 <a class="usage-link" href="history.html">查看 5 小時使用歷史及分析<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>
 </div>
@@ -263,11 +264,11 @@
 <div class="usage-card-head"><div class="usage-card-title"><span class="usage-dot"></span><span class="usage-card-name">GitHub Actions</span></div><span class="usage-card-age">估算</span></div>
 <div class="usage-card-body"><div class="metric-row">
 <span class="metric-label">本月用量</span>
-<div class="metric-bar" role="meter" aria-label="GitHub Actions 本月預算用量" aria-valuemin="0" aria-valuemax="100" aria-valuenow="5"><div class="metric-fill" style="width:5%"></div></div>
-<strong class="metric-value">5%</strong>
-<span class="usage-window-meta">已用 164 / 3,000 分鐘 · 下月 2026-12-01 重設</span>
+<div class="metric-bar" role="meter" aria-label="GitHub Actions 本月預算用量" aria-valuemin="0" aria-valuemax="100" aria-valuenow="6"><div class="metric-fill" style="width:6%"></div></div>
+<strong class="metric-value">6%</strong>
+<span class="usage-window-meta">已用 171 / 3,000 分鐘 · 下月 2026-12-01 重設</span>
 </div></div>
-<div class="usage-card-time">資料時間 · 2026-11-03 · 估算</div>
+<div class="usage-card-time">資料時間 · 2026-11-04 · 估算</div>
 </article></div>
 </div>
 <ul class="usage-legend" aria-label="用量條顏色圖例">
@@ -304,6 +305,11 @@
 </div>
 <p class="gas-note" data-gas-note>資料根據 Google Drive 的 GAS project registry 及已核實 README 整理；按需要保留 Web App link，部分 project 需要 Google 登入。頁面不公開 Drive／Script ID、access 設定或原始程式碼。</p>
 <div class="project-grid">
+<a class="project-card project-link" data-project-card data-category="ai-learning" href="https://ai-lish.github.io/ai-learning/" target="_blank" rel="noreferrer">
+<div class="project-card-head"><span class="project-tile" aria-hidden="true">少</span><div class="project-card-title"><h3>少康教學網站</h3><span class="project-category">ai-learning</span></div></div>
+<div class="project-card-meta"><span class="project-status status-active">進行中</span><time class="project-date" datetime="2026-11-04">更新 2026-11-04</time></div>
+<span class="project-open">開啟 project<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span>
+</a>
 <a class="project-card project-link" data-project-card data-category="virtual-office" href="https://ai-lish.github.io/virtual-office/" target="_blank" rel="noreferrer">
 <div class="project-card-head"><span class="project-tile" aria-hidden="true">虛</span><div class="project-card-title"><h3>虛擬辦公室</h3><span class="project-category">virtual-office</span></div></div>
 <div class="project-card-meta"><span class="project-status status-active">進行中</span><time class="project-date" datetime="2026-11-04">更新 2026-11-04</time></div>
@@ -311,11 +317,6 @@
 </a>
 <a class="project-card project-link" data-project-card data-category="admin" href="https://ai-lish.github.io/zach-ai-blog/" target="_blank" rel="noreferrer">
 <div class="project-card-head"><span class="project-tile" aria-hidden="true">Z</span><div class="project-card-title"><h3>Zach AI Blog</h3><span class="project-category">行政工作</span></div></div>
-<div class="project-card-meta"><span class="project-status status-active">進行中</span><time class="project-date" datetime="2026-11-03">更新 2026-11-03</time></div>
-<span class="project-open">開啟 project<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span>
-</a>
-<a class="project-card project-link" data-project-card data-category="ai-learning" href="https://ai-lish.github.io/ai-learning/" target="_blank" rel="noreferrer">
-<div class="project-card-head"><span class="project-tile" aria-hidden="true">少</span><div class="project-card-title"><h3>少康教學網站</h3><span class="project-category">ai-learning</span></div></div>
 <div class="project-card-meta"><span class="project-status status-active">進行中</span><time class="project-date" datetime="2026-11-03">更新 2026-11-03</time></div>
 <span class="project-open">開啟 project<svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></span>
 </a>
@@ -514,7 +515,7 @@
 </section>
 </div>
 </main>
-<footer>Build-time sanitized deployment · <span>2026-11-04T00:00:00.000Z</span></footer>
+<footer>Build-time sanitized deployment · <span>2026-11-04T03:00:00.000Z</span></footer>
 
 <script>
     'use strict';
@@ -580,7 +581,8 @@
         { id: 'gemini', label: 'Gemini' },
         { id: 'minimax', label: 'MiniMax' },
         { id: 'copilot', label: 'GitHub Copilot' },
-        { id: 'antigravity', label: 'Antigravity' }
+        { id: 'antigravity', label: 'Antigravity' },
+        { id: 'grok-bot', label: 'Grok Bot' }
       ];
       const WINDOW_LABELS = { five_hour: '5 小時', seven_day: '7 日', monthly: '本月' };
       const BUCKET_LABELS = { antigravity: { 'gemini-models': 'Gemini 模型', 'third-party-models': 'Claude／GPT 模型' } };
@@ -625,7 +627,7 @@
         return row;
       };
       const QuotaView = window.VirtualOfficeQuotaView;
-      const PROVIDER_TTL_MS = {"chatgpt":7200000,"claude":7200000,"claude-2":7200000,"minimax":7200000,"gemini":86400000,"copilot":86400000,"antigravity":691200000};
+      const PROVIDER_TTL_MS = {"chatgpt":7200000,"claude":7200000,"claude-2":7200000,"minimax":7200000,"gemini":86400000,"copilot":86400000,"antigravity":691200000,"grok-bot":691200000};
       const root = document.getElementById('usage-cards');
       const alert = document.getElementById('usage-alert');
       const render = (snapshot) => {

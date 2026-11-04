@@ -34,7 +34,7 @@
       --chart-guide:rgba(255,255,255,.12); --chart-baseline:rgba(255,255,255,.25);
       --filter-selected:rgba(108,168,255,.2); --tooltip-edge:rgba(255,255,255,.2);
       --heat-empty:rgba(255,255,255,.04); --shadow:rgba(0,0,0,.4);
-      --p-chatgpt:#3987e5; --p-claude:#d95926; --p-gemini:#199e70; --p-minimax:#c98500; --p-copilot:#d55181; --p-antigravity:#a4d65e;
+      --p-chatgpt:#3987e5; --p-claude:#d95926; --p-gemini:#199e70; --p-minimax:#c98500; --p-copilot:#d55181; --p-antigravity:#a4d65e; --p-grok-bot:#a993ff;
       --heat-1:#184f95; --heat-2:#1c5cab; --heat-3:#256abf; --heat-4:#2a78d6; --heat-5:#3987e5;
       --heat-6:#5598e7; --heat-7:#6da7ec; --heat-8:#86b6ef; --heat-9:#9ec5f4; --heat-10:#cde2fb;
       --mono:ui-monospace,"SF Mono","Cascadia Mono",Consolas,monospace;
@@ -57,7 +57,7 @@
       --chart-guide:rgba(22,33,62,.18); --chart-baseline:rgba(22,33,62,.25);
       --filter-selected:rgba(31,111,178,.2); --tooltip-edge:rgba(22,33,62,.2);
       --heat-empty:#eef0f4; --shadow:rgba(15,33,62,.16);
-      --p-chatgpt:#3987e5; --p-claude:#d95926; --p-gemini:#199e70; --p-minimax:#b37600; --p-copilot:#d55181; --p-antigravity:#204020;
+      --p-chatgpt:#3987e5; --p-claude:#d95926; --p-gemini:#199e70; --p-minimax:#b37600; --p-copilot:#d55181; --p-antigravity:#204020; --p-grok-bot:#5b3fd1;
       --heat-1:#d4e4f9; --heat-2:#bcd5f5; --heat-3:#a1c3f0; --heat-4:#83afe9; --heat-5:#6599e0;
       --heat-6:#4a83d4; --heat-7:#356dc2; --heat-8:#285aa9; --heat-9:#1e498e; --heat-10:#163a73;
  }
@@ -78,7 +78,7 @@
       --chart-guide:rgba(22,33,62,.18); --chart-baseline:rgba(22,33,62,.25);
       --filter-selected:rgba(31,111,178,.2); --tooltip-edge:rgba(22,33,62,.2);
       --heat-empty:#eef0f4; --shadow:rgba(15,33,62,.16);
-      --p-chatgpt:#3987e5; --p-claude:#d95926; --p-gemini:#199e70; --p-minimax:#b37600; --p-copilot:#d55181; --p-antigravity:#204020;
+      --p-chatgpt:#3987e5; --p-claude:#d95926; --p-gemini:#199e70; --p-minimax:#b37600; --p-copilot:#d55181; --p-antigravity:#204020; --p-grok-bot:#5b3fd1;
       --heat-1:#d4e4f9; --heat-2:#bcd5f5; --heat-3:#a1c3f0; --heat-4:#83afe9; --heat-5:#6599e0;
       --heat-6:#4a83d4; --heat-7:#356dc2; --heat-8:#285aa9; --heat-9:#1e498e; --heat-10:#163a73;
  } }
@@ -157,6 +157,7 @@
     [data-provider="minimax"] { --provider:var(--p-minimax); }
     [data-provider="copilot"] { --provider:var(--p-copilot); }
     [data-provider="antigravity"] { --provider:var(--p-antigravity); }
+    [data-provider="grok-bot"] { --provider:var(--p-grok-bot); }
     @media(max-width:760px) { header { flex-direction:column; align-items:flex-start; } .filters { top:84px; } }
   </style>
 </head>
@@ -177,7 +178,7 @@
 
     <section aria-labelledby="summary-title">
       <div class="section-title" id="summary-title">訂閱分析摘要</div>
-      <div class="panel table-wrap"><table id="summary"><caption class="note" style="text-align:left">「高用量」＝該時段用到 80% 或以上。經常高用量代表配額偏緊；長期偏低代表可以考慮降級或減少訂閱。</caption></table></div>
+      <div class="panel table-wrap"><table id="summary"><caption class="note" style="text-align:left">「高用量」＝該時段用到 80% 或以上。經常高用量代表配額偏緊；長期偏低代表可以考慮降級或減少訂閱。Grok Bot 每筆每週用量讀數當作一個時段，按觀測時間統計。</caption></table></div>
     </section>
 
     <section aria-labelledby="daily-title">
@@ -203,8 +204,8 @@
     </section>
 
     <section aria-labelledby="records-title">
-      <div class="section-title" id="records-title">5 小時窗口讀數</div>
-      <p class="note">每個窗口優先列完結前 5 分鐘讀數；沒有該筆時改列窗口最後讀數，並標示採用方式。按來源的 five_hour 重設時間分組；缺少重設時間時，按 reset 標記或相隔 5 小時的觀測切分，該窗口邊界屬估算。帳號分界另作一列，不會合併分界前後的窗口。</p>
+      <div class="section-title" id="records-title">窗口讀數</div>
+      <p class="note">5 小時窗口優先列完結前 5 分鐘讀數；沒有該筆時改列窗口最後讀數，並標示採用方式。按來源的 five_hour 重設時間分組；缺少重設時間時，按 reset 標記或相隔 5 小時的觀測切分，該窗口邊界屬估算。帳號分界另作一列，不會合併分界前後的窗口。Grok Bot 每週用量按每次觀測逐筆列出，並顯示重設時間。</p>
       <div class="filters" style="position:static" role="group" aria-label="紀錄篩選">
         <span>月份</span><select id="month"></select>
         <span>AI</span><select id="provider-filter"></select>
@@ -218,7 +219,7 @@
       <div class="panel table-wrap"><table id="antigravity-records"></table></div>
     </section>
   </main>
-  <footer>Build 2026-11-04T00:00:00.000Z · 只含百分比、窗口重設時間、reset 標記、reset 前峰值及手動 reset 餘額</footer>
+  <footer>Build 2026-11-04T03:00:00.000Z · 只含百分比、窗口重設時間、reset 標記、reset 前峰值及手動 reset 餘額</footer>
   <div class="tooltip" id="tooltip" hidden></div>
   <script>
     'use strict';
@@ -569,7 +570,8 @@
         { id: 'gemini', label: 'Gemini' },
         { id: 'minimax', label: 'MiniMax' },
         { id: 'copilot', label: 'GitHub Copilot' },
-        { id: 'antigravity', label: 'Antigravity' }
+        { id: 'antigravity', label: 'Antigravity' },
+        { id: 'grok-bot', label: 'Grok Bot' }
       ];
       const WINDOW_LABELS = { five_hour: '5 小時', seven_day: '7 日', monthly: '本月' };
       const BUCKET_LABELS = { antigravity: { 'gemini-models': 'Gemini 模型', 'third-party-models': 'Claude／GPT 模型' } };
@@ -627,20 +629,26 @@
           .formatToParts(new Date(iso)).reduce((acc, part) => ({ ...acc, [part.type]: part.value }), {});
         return { day: parts.year + '-' + parts.month + '-' + parts.day, month: parts.year + '-' + parts.month, hour: Number(parts.hour) };
       };
-      // Primary metric per provider: five-hour share, or the monthly share for Copilot.
+      const WEEKLY_ANALYSIS_PROVIDERS = new Set(['grok-bot']);
+      // Keep existing providers on their five-hour or Copilot monthly metric.
       const windowValue = (record, name) => record.windows?.[name];
-      const primary = (record) => windowValue(record, 'five_hour') ?? windowValue(record, 'monthly');
-      const primaryLabel = (id) => id === 'copilot' ? '本月' : id === 'antigravity' ? '每週' : '5 小時';
+      const primary = (record) => WEEKLY_ANALYSIS_PROVIDERS.has(record.provider)
+        ? windowValue(record, 'seven_day')
+        : windowValue(record, 'five_hour') ?? windowValue(record, 'monthly');
+      const primaryLabel = (id) => id === 'copilot' ? '本月' : id === 'antigravity' || id === 'grok-bot' ? '每週' : '5 小時';
       const mean = (values) => values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : null;
-      const fmt = (value) => value === null || value === undefined ? '—' : Math.round(value) + '%';
+      const roundMetric = (value, id) => WEEKLY_ANALYSIS_PROVIDERS.has(id) ? Math.round(value * 10) / 10 : Math.round(value);
+      const fmt = (value, id) => value === null || value === undefined ? '—' : roundMetric(value, id) + '%';
       const analysisRowsFor = (id, records, windows = fiveHourWindows) => {
         const grouped = windows.filter((window) => window.provider === id);
-        if (grouped.length || id !== 'copilot') {
+        if (grouped.length || (id !== 'copilot' && !WEEKLY_ANALYSIS_PROVIDERS.has(id))) {
           return grouped.map((window) => ({
             provider: id, value: window.peak_pct, observed_at: window.peak_observed_at,
             start_at: window.start_at, source_window: true
           }));
         }
+        // Like Copilot's monthly fallback, count each weekly observation at its
+        // capture time, not as a completed reset period or daily consumption.
         return records
           .filter((record) => record.provider === id && primary(record) !== undefined)
           .map((record) => ({ provider: id, value: primary(record), observed_at: record.observed_at, start_at: record.observed_at }));
@@ -690,10 +698,10 @@
           name.append(el('span', 'key'), document.createTextNode(label + '（' + primaryLabel(id) + '）'));
           tr.append(name,
             el('td', 'num', String(rows.length)),
-            el('td', 'num', fmt(mean(values))),
+            el('td', 'num', fmt(mean(values), id)),
             el('td', 'num', rows.length ? high + '（' + Math.round(high / rows.length * 100) + '%）' : '—'),
             el('td', 'num', values.length ? Math.max(...values) + '%' : '—'),
-            el('td', 'num', fmt(mean(weekly))),
+            el('td', 'num', fmt(mean(weekly), id)),
             el('td', '', latest ? hkt(latest.observed_at, { dateStyle: 'short', timeStyle: 'short' }) : '未有資料'));
           body.append(tr);
         }
@@ -751,7 +759,7 @@
             const average = mean(values);
             if (average !== null) {
               cell.style.background = HEAT_STEPS[Math.min(9, Math.floor(average / 10))];
-              hover(cell, Math.round(average) + '%', label + '・' + hour + ':00 平均（' + values.length + ' 次）');
+              hover(cell, fmt(average, id), label + '・' + hour + ':00 平均（' + values.length + ' 次）');
             }
             root.append(cell);
           });
@@ -773,6 +781,11 @@
           const card = el('article', 'weekly-chart-card');
           card.dataset.provider = id;
           card.append(el('h3', '', label));
+          if (WEEKLY_ANALYSIS_PROVIDERS.has(id)) {
+            card.append(el('p', 'note', '呢個服務只有每週配額讀數；每日圖同下方比較表按每次觀測統計。'));
+            root.append(card);
+            continue;
+          }
           const windows = fiveHourWindows.filter((window) => window.provider === id);
           if (!windows.length) card.append(el('p', 'empty', '此服務目前沒有 5 小時用量數據。'));
           const svg = el('div');
@@ -807,8 +820,8 @@
           tr.dataset.provider = id;
           const cell = el('td');
           cell.append(el('span', 'key'), document.createTextNode(name));
-          tr.append(cell, ...averages.map((value) => el('td', 'num', fmt(value))));
-          const delta = averages[0] !== null && averages[1] !== null ? Math.round(averages[1] - averages[0]) : null;
+          tr.append(cell, ...averages.map((value) => el('td', 'num', fmt(value, id))));
+          const delta = averages[0] !== null && averages[1] !== null ? roundMetric(averages[1] - averages[0], id) : null;
           tr.append(el('td', 'num ' + (delta > 0 ? 'delta-up' : delta < 0 ? 'delta-down' : ''), delta === null ? '—' : (delta > 0 ? '+' : '') + delta + ' 個百分點'));
           body.append(tr);
         }
@@ -819,6 +832,8 @@
         const table = document.getElementById('records');
         const rows = [
           ...fiveHourWindows.map((window) => ({ kind: 'window', provider: window.provider, bucket: window.bucket, start_at: window.start_at, window })),
+          ...all.filter((record) => WEEKLY_ANALYSIS_PROVIDERS.has(record.provider) && primary(record) !== undefined)
+            .map((record) => ({ kind: 'weekly_observation', provider: record.provider, start_at: record.observed_at, record })),
           ...ACCOUNT_BOUNDARIES.map((boundary) => ({
             kind: 'account_boundary', provider: boundary.provider, bucket: boundary.bucket,
             start_at: boundary.effective_at, effective_at: boundary.effective_at
@@ -830,12 +845,27 @@
         const pages = Math.max(1, Math.ceil(rows.length / 50));
         state.page = Math.min(state.page, pages - 1);
         const head = el('tr');
-        for (const [text, numeric] of [['5 小時窗口（香港時間）', false], ['AI', false], ['類別', false], ['窗口讀數', true], ['讀數觀測時間', false], ['窗口劃分', false]]) head.append(el('th', numeric ? 'num' : '', text));
+        for (const [text, numeric] of [['窗口（香港時間）', false], ['AI', false], ['類別', false], ['窗口讀數', true], ['讀數觀測時間', false], ['窗口劃分', false]]) head.append(el('th', numeric ? 'num' : '', text));
         const thead = el('thead');
         thead.append(head);
         const body = el('tbody');
         const labels = new Map(PROVIDERS.map((provider) => [provider.id, provider.label]));
         for (const row of rows.slice(state.page * 50, state.page * 50 + 50)) {
+          if (row.kind === 'weekly_observation') {
+            const record = row.record;
+            const tr = el('tr');
+            tr.dataset.provider = record.provider;
+            const name = el('td');
+            name.append(el('span', 'key'), document.createTextNode(labels.get(record.provider)));
+            const reset = record.resets_at?.seven_day;
+            tr.append(el('td', '', '每週配額 · ' + (reset
+              ? hkt(reset, { dateStyle: 'short', timeStyle: 'short' }) + ' 重設' : '未提供重設時間')),
+              name, el('td', '', record.bucket), el('td', 'num', fmt(primary(record), record.provider)),
+              el('td', '', hkt(record.observed_at, { dateStyle: 'short', timeStyle: 'short' })),
+              el('td', '', '每次觀測（7 日用量）'));
+            body.append(tr);
+            continue;
+          }
           if (row.kind === 'account_boundary') {
             const tr = el('tr', 'account-boundary-row');
             tr.dataset.provider = row.provider;
@@ -869,7 +899,8 @@
         }
         if (!rows.length) {
           const empty = el('tr');
-          const cell = el('td', 'empty', '此範圍沒有 5 小時窗口數據。');
+          const cell = el('td', 'empty', WEEKLY_ANALYSIS_PROVIDERS.has(state.provider)
+            ? '此範圍沒有每週用量記錄。' : '此範圍沒有 5 小時窗口數據。');
           cell.colSpan = 6;
           empty.append(cell);
           body.append(empty);
