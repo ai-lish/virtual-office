@@ -1,17 +1,17 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-11-04T14:00:00.000Z",
+  "generated_at": "2026-11-04T17:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-11-04T12:09:08Z",
+      "observed_at": "2026-11-04T15:18:37Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": 1,
           "windows": {
-            "seven_day": 2
+            "seven_day": 3
           },
           "resets_at": {
             "seven_day": "2026-11-11T02:55:26Z"
@@ -30,7 +30,7 @@
     {
       "id": "claude",
       "label": "Claude",
-      "observed_at": "2026-11-04T13:12:42Z",
+      "observed_at": "2026-11-04T16:23:41Z",
       "buckets": [
         {
           "bucket": "account",
@@ -63,7 +63,7 @@
     {
       "id": "claude-2",
       "label": "Claude（帳號 2）",
-      "observed_at": "2026-11-04T13:12:50Z",
+      "observed_at": "2026-11-04T16:23:47Z",
       "buckets": [
         {
           "bucket": "account",
@@ -78,10 +78,10 @@
           },
           "reset_markers": {
             "five_hour": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 53,
-              "pre_reset_observed_at": "2026-11-04T12:09:14Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             },
             "seven_day": {
               "detected": false,
@@ -96,7 +96,7 @@
     {
       "id": "gemini",
       "label": "Gemini",
-      "observed_at": "2026-11-04T13:12:35Z",
+      "observed_at": "2026-11-04T16:23:17Z",
       "buckets": [
         {
           "bucket": "account",
@@ -106,15 +106,15 @@
             "seven_day": 0
           },
           "resets_at": {
-            "five_hour": "2026-11-04T13:22:00Z",
+            "five_hour": "2026-11-04T18:22:00Z",
             "seven_day": "2026-11-10T04:22:00Z"
           },
           "reset_markers": {
             "five_hour": {
-              "detected": false,
+              "detected": true,
               "manual": false,
-              "pre_reset_peak_pct": null,
-              "pre_reset_observed_at": null
+              "pre_reset_peak_pct": 0,
+              "pre_reset_observed_at": "2026-11-04T10:02:49Z"
             },
             "seven_day": {
               "detected": false,
@@ -129,23 +129,23 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-11-04T13:12:57Z",
+      "observed_at": "2026-11-04T15:19:04Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 4
+            "five_hour": 0
           },
           "resets_at": {
-            "five_hour": "2026-11-04T15:00:00Z"
+            "five_hour": "2026-11-04T20:00:00Z"
           },
           "reset_markers": {
             "five_hour": {
-              "detected": false,
+              "detected": true,
               "manual": false,
-              "pre_reset_peak_pct": null,
-              "pre_reset_observed_at": null
+              "pre_reset_peak_pct": 4,
+              "pre_reset_observed_at": "2026-11-04T12:53:31Z"
             }
           }
         }
@@ -179,7 +179,7 @@
     {
       "id": "antigravity",
       "label": "Antigravity",
-      "observed_at": "2026-11-04T13:13:30Z",
+      "observed_at": "2026-11-04T16:24:22Z",
       "buckets": [
         {
           "bucket": "third-party-models",
@@ -188,7 +188,7 @@
             "seven_day": 0
           },
           "resets_at": {
-            "seven_day": "2026-11-11T13:13:27Z"
+            "seven_day": "2026-11-11T16:24:19Z"
           },
           "reset_markers": {
             "seven_day": {
@@ -203,7 +203,7 @@
           "bucket": "gemini-models",
           "manual_resets_remaining": null,
           "windows": {
-            "seven_day": 47
+            "seven_day": 46.8
           },
           "resets_at": {
             "seven_day": "2026-11-11T11:36:55Z"
@@ -222,13 +222,13 @@
     {
       "id": "grok-bot",
       "label": "Grok Bot",
-      "observed_at": "2026-11-04T13:04:36Z",
+      "observed_at": "2026-11-04T16:05:19Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "seven_day": 44.9
+            "seven_day": 45.9
           },
           "resets_at": {
             "seven_day": "2026-11-09T11:44:00Z"
