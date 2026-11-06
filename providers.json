@@ -1,17 +1,17 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-11-06T04:00:00.000Z",
+  "generated_at": "2026-11-06T07:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-11-06T02:08:23Z",
+      "observed_at": "2026-11-06T05:19:56Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": 1,
           "windows": {
-            "seven_day": 15
+            "seven_day": 17
           },
           "resets_at": {
             "seven_day": "2026-11-11T02:55:26Z"
@@ -129,7 +129,7 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-11-06T03:15:16Z",
+      "observed_at": "2026-11-06T06:25:40Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
@@ -138,14 +138,14 @@
             "five_hour": 0
           },
           "resets_at": {
-            "five_hour": "2026-11-06T05:00:00Z"
+            "five_hour": "2026-11-06T10:00:00Z"
           },
           "reset_markers": {
             "five_hour": {
-              "detected": false,
+              "detected": true,
               "manual": false,
-              "pre_reset_peak_pct": null,
-              "pre_reset_observed_at": null
+              "pre_reset_peak_pct": 0,
+              "pre_reset_observed_at": "2026-11-06T00:03:35Z"
             }
           }
         }
@@ -179,7 +179,7 @@
     {
       "id": "antigravity",
       "label": "Antigravity",
-      "observed_at": "2026-11-06T03:15:41Z",
+      "observed_at": "2026-11-06T06:26:04Z",
       "buckets": [
         {
           "bucket": "third-party-models",
@@ -188,7 +188,7 @@
             "seven_day": 0
           },
           "resets_at": {
-            "seven_day": "2026-11-13T03:15:38Z"
+            "seven_day": "2026-11-13T06:26:01Z"
           },
           "reset_markers": {
             "seven_day": {
@@ -222,13 +222,13 @@
     {
       "id": "grok-bot",
       "label": "Grok Bot",
-      "observed_at": "2026-11-06T04:03:39Z",
+      "observed_at": "2026-11-06T07:03:25Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "seven_day": 64.1
+            "seven_day": 65.5
           },
           "resets_at": {
             "seven_day": "2026-11-09T11:44:00Z"
