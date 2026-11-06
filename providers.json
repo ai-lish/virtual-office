@@ -1,11 +1,11 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-11-06T13:00:00.000Z",
+  "generated_at": "2026-11-06T17:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-11-06T11:41:49Z",
+      "observed_at": "2026-11-06T14:52:53Z",
       "buckets": [
         {
           "bucket": "account",
@@ -129,7 +129,7 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-11-06T12:50:35Z",
+      "observed_at": "2026-11-06T15:59:03Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
@@ -138,14 +138,14 @@
             "five_hour": 0
           },
           "resets_at": {
-            "five_hour": "2026-11-06T15:00:00Z"
+            "five_hour": "2026-11-06T20:00:00Z"
           },
           "reset_markers": {
             "five_hour": {
-              "detected": false,
+              "detected": true,
               "manual": false,
-              "pre_reset_peak_pct": null,
-              "pre_reset_observed_at": null
+              "pre_reset_peak_pct": 0,
+              "pre_reset_observed_at": "2026-11-06T12:47:31Z"
             }
           }
         }
@@ -179,7 +179,7 @@
     {
       "id": "antigravity",
       "label": "Antigravity",
-      "observed_at": "2026-11-06T12:47:57Z",
+      "observed_at": "2026-11-06T15:59:28Z",
       "buckets": [
         {
           "bucket": "third-party-models",
@@ -188,7 +188,7 @@
             "seven_day": 0
           },
           "resets_at": {
-            "seven_day": "2026-11-13T12:47:54Z"
+            "seven_day": "2026-11-13T15:59:25Z"
           },
           "reset_markers": {
             "seven_day": {
@@ -222,13 +222,13 @@
     {
       "id": "grok-bot",
       "label": "Grok Bot",
-      "observed_at": "2026-11-06T13:06:11Z",
+      "observed_at": "2026-11-06T16:09:41Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "seven_day": 74.3
+            "seven_day": 75.3
           },
           "resets_at": {
             "seven_day": "2026-11-09T11:44:00Z"
