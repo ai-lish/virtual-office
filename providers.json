@@ -1,11 +1,11 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-11-07T21:00:00.000Z",
+  "generated_at": "2026-11-07T23:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-11-07T19:26:41Z",
+      "observed_at": "2026-11-07T22:36:43Z",
       "buckets": [
         {
           "bucket": "account",
@@ -129,7 +129,7 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-11-07T20:32:09Z",
+      "observed_at": "2026-11-07T23:35:11Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
@@ -142,10 +142,10 @@
           },
           "reset_markers": {
             "five_hour": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 0,
-              "pre_reset_observed_at": "2026-11-07T16:16:57Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             }
           }
         }
@@ -179,7 +179,7 @@
     {
       "id": "antigravity",
       "label": "Antigravity",
-      "observed_at": "2026-11-07T20:32:34Z",
+      "observed_at": "2026-11-07T22:39:08Z",
       "buckets": [
         {
           "bucket": "third-party-models",
@@ -188,7 +188,7 @@
             "seven_day": 0
           },
           "resets_at": {
-            "seven_day": "2026-11-14T20:32:31Z"
+            "seven_day": "2026-11-14T22:39:06Z"
           },
           "reset_markers": {
             "seven_day": {
@@ -206,7 +206,7 @@
             "seven_day": 0
           },
           "resets_at": {
-            "seven_day": "2026-11-14T20:32:31Z"
+            "seven_day": "2026-11-14T22:39:06Z"
           },
           "reset_markers": {
             "seven_day": {
@@ -222,13 +222,13 @@
     {
       "id": "grok-bot",
       "label": "Grok Bot",
-      "observed_at": "2026-11-07T19:08:43Z",
+      "observed_at": "2026-11-07T22:02:23Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "seven_day": 84.1
+            "seven_day": 84.4
           },
           "resets_at": {
             "seven_day": "2026-11-09T11:44:00Z"
