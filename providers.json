@@ -1,6 +1,6 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-11-07T04:00:00.000Z",
+  "generated_at": "2026-11-07T05:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
@@ -129,7 +129,7 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-11-07T01:30:47Z",
+      "observed_at": "2026-11-07T04:40:36Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
@@ -142,10 +142,10 @@
           },
           "reset_markers": {
             "five_hour": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 0,
-              "pre_reset_observed_at": "2026-11-06T20:48:35Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             }
           }
         }
@@ -179,7 +179,7 @@
     {
       "id": "antigravity",
       "label": "Antigravity",
-      "observed_at": "2026-11-07T03:37:48Z",
+      "observed_at": "2026-11-07T04:41:01Z",
       "buckets": [
         {
           "bucket": "third-party-models",
@@ -188,7 +188,7 @@
             "seven_day": 0
           },
           "resets_at": {
-            "seven_day": "2026-11-14T03:37:45Z"
+            "seven_day": "2026-11-14T04:40:58Z"
           },
           "reset_markers": {
             "seven_day": {
@@ -206,7 +206,7 @@
             "seven_day": 0
           },
           "resets_at": {
-            "seven_day": "2026-11-14T03:37:45Z"
+            "seven_day": "2026-11-14T04:40:58Z"
           },
           "reset_markers": {
             "seven_day": {
