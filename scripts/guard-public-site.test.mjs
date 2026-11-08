@@ -161,7 +161,7 @@ test('builds and guards the nested pedagogy page and JSON from the exact allowli
   assert.equal(result.status, 0, result.stderr);
   assert.match(result.stdout, /Public-site guard passed \(9 exact files\)/);
   const page = await readFile(path.join(repoRoot, 'pedagogy/index.html'), 'utf8');
-  assert.doesNotMatch(page, /item\.action|這一步要做甚麼/);
+  assert.match(page, /if\(item\.action\)addField\(card,'這一步要做甚麼',item\.action\)/);
 });
 
 test('restricts citation hosts to the pedagogy source field', async () => {

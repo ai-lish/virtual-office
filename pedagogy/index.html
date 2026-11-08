@@ -67,7 +67,7 @@ function appendLinkedText(target,text){
 }
 function render(){
   const selectedStage=byId('stage').value,selectedMedia=byId('media').value,query=byId('search').value.trim().toLocaleLowerCase();
-  const filtered=cards.filter(item=>(!selectedStage||item.workflow.includes(selectedStage))&&(!selectedMedia||item.media.includes(selectedMedia))&&(!query||[item.zh,item.en,item.source,item.theory,item.example].join(' ').toLocaleLowerCase().includes(query)));
+  const filtered=cards.filter(item=>(!selectedStage||item.workflow.includes(selectedStage))&&(!selectedMedia||item.media.includes(selectedMedia))&&(!query||[item.zh,item.en,item.source,item.theory,item.example,item.action].join(' ').toLocaleLowerCase().includes(query)));
   const root=byId('results');root.replaceChildren();
   byId('status').textContent=`顯示 ${filtered.length}／${cards.length} 項教學法`;
   if(!filtered.length){const empty=document.createElement('p');empty.className='empty';empty.textContent='沒有符合條件的教學法。';root.append(empty);return}
@@ -79,7 +79,7 @@ function render(){
     for(const item of items){
       const card=document.createElement('article');card.className='card';const title=document.createElement('h3');title.append(document.createTextNode(item.zh+' '));const en=document.createElement('span');en.className='english';en.textContent=`(${item.en})`;title.append(en);card.append(title);
       const tags=document.createElement('div');tags.className='tags';for(const tag of [...item.workflow,...item.media]){const pill=document.createElement('span');pill.className='tag';pill.textContent=stageNames[tag]||mediaNames[tag]||tag;tags.append(pill)}card.append(tags);
-      addField(card,'出處',item.source,true);addField(card,'理論解說',item.theory);addField(card,'香港中學數學例子',item.example);
+      addField(card,'出處',item.source,true);addField(card,'理論解說',item.theory);addField(card,'香港中學數學例子',item.example);if(item.action)addField(card,'這一步要做甚麼',item.action);
 
       grid.append(card)
     }
