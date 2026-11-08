@@ -160,6 +160,8 @@ test('builds and guards the nested pedagogy page and JSON from the exact allowli
   const result = await runGuard();
   assert.equal(result.status, 0, result.stderr);
   assert.match(result.stdout, /Public-site guard passed \(9 exact files\)/);
+  const page = await readFile(path.join(repoRoot, 'pedagogy/index.html'), 'utf8');
+  assert.doesNotMatch(page, /item\.action|這一步要做甚麼/);
 });
 
 test('restricts citation hosts to the pedagogy source field', async () => {
@@ -189,6 +191,25 @@ test('allows only the public ERIC record-id citation query shape', async () => {
 
   cards[0].source = cards[0].source.replace('https://eric.ed.gov/?id=ED053419', 'https://eric.ed.gov/?id=private-student-id');
   result = await runGuard({ overrides: { 'pedagogy/pedagogy.json': JSON.stringify(cards) } });
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /identifier-like query parameter/);
+});
+
+test('rejects percent-encoded identifier-like query keys', async () => {
+  const cards = JSON.parse(await readFile(path.join(repoRoot, 'pedagogy/pedagogy.json'), 'utf8'));
+  cards[0].source += ' [encoded ERIC id](https://eric.ed.gov/?%69d=private-student-id)';
+  let result = await runGuard({ overrides: { 'pedagogy/pedagogy.json': JSON.stringify(cards) } });
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /identifier-like query parameter/);
+
+  const tokenCards = JSON.parse(await readFile(path.join(repoRoot, 'pedagogy/pedagogy.json'), 'utf8'));
+  tokenCards[0].source += ' [encoded token](https://doi.org/paper?%74oken=private-value)';
+  result = await runGuard({ overrides: { 'pedagogy/pedagogy.json': JSON.stringify(tokenCards) } });
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /identifier-like query parameter/);
+
+  const homepage = `${await readFile(path.join(repoRoot, 'index.html'), 'utf8')}\n<a href="https://ai-lish.github.io/?%69d=private-value">test</a>`;
+  result = await runGuard({ overrides: { 'index.html': homepage } });
   assert.notEqual(result.status, 0);
   assert.match(result.stderr, /identifier-like query parameter/);
 });

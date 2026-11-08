@@ -51,6 +51,11 @@ const forbiddenContent = [
 ];
 const externalUrlPattern = /\bhttps?:\/\/[^\s"'<>`)]+/gi;
 const identifierQueryPattern = /[?&](?:id|fileId|driveId|spreadsheetId|studentId|teacherId|classId|token|key)=/i;
+const identifierQueryKeyPattern = /^(?:id|fileId|driveId|spreadsheetId|studentId|teacherId|classId|token|key)$/i;
+
+function hasIdentifierLikeQuery(url) {
+  return [...url.searchParams.keys()].some((key) => identifierQueryKeyPattern.test(key));
+}
 
 const PUBLIC_PROVIDERS = new Map([
   ['chatgpt', 'ChatGPT'],
@@ -263,11 +268,15 @@ function validatePedagogy(value) {
         || !allowedPedagogySourceHosts.has(url.hostname)) {
         throw new Error(`pedagogy card ${index + 1} source URL is outside the exact source host allowlist: ${url.hostname}`);
       }
+      const ericRecordId = url.searchParams.get('id') || '';
+      const queryKeys = [...url.searchParams.keys()];
       const isPublicEricRecordId = url.hostname === 'eric.ed.gov'
         && url.pathname === '/'
-        && [...url.searchParams.keys()].join(',') === 'id'
-        && /^(?:EJ|ED)\d{6,}$/.test(url.searchParams.get('id') || '');
-      if (/[?&](?:id|fileId|driveId|spreadsheetId|studentId|teacherId|classId|token|key)=/i.test(url.search)
+        && queryKeys.length === 1
+        && queryKeys[0] === 'id'
+        && url.search === `?id=${ericRecordId}`
+        && /^(?:EJ|ED)\d{6,}$/.test(ericRecordId);
+      if (hasIdentifierLikeQuery(url)
         && !isPublicEricRecordId) {
         throw new Error(`pedagogy card ${index + 1} source URL contains an identifier-like query parameter`);
       }
@@ -328,7 +337,7 @@ for (const file of files) {
     if (!fileAllowedExternalHosts.has(url.hostname)) {
       throw new Error(`external host is not in manifest allowlist: ${file.relative} (${url.hostname})`);
     }
-    if (file.relative !== 'pedagogy/pedagogy.json' && identifierQueryPattern.test(url.search)) {
+    if (file.relative !== 'pedagogy/pedagogy.json' && hasIdentifierLikeQuery(url)) {
       throw new Error(`identifier-like query parameter in public output: ${file.relative}`);
     }
   }
