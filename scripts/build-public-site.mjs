@@ -19,11 +19,11 @@ function assertSafeHost(value) {
   }
 }
 
-if (manifest.version !== 2 || manifest.publicRoot !== 'site' || !Array.isArray(manifest.entries) || !Array.isArray(manifest.generatedFiles) || !Array.isArray(manifest.allowedExternalHosts)) {
+if (manifest.version !== 2 || manifest.publicRoot !== 'site' || !Array.isArray(manifest.entries) || !Array.isArray(manifest.generatedFiles) || !Array.isArray(manifest.allowedExternalHosts) || !Array.isArray(manifest.allowedPedagogySourceHosts)) {
   throw new Error('invalid publish manifest');
 }
 
-for (const host of manifest.allowedExternalHosts) assertSafeHost(host);
+for (const host of [...manifest.allowedExternalHosts, ...manifest.allowedPedagogySourceHosts]) assertSafeHost(host);
 
 await rm(siteRoot, { recursive: true, force: true });
 await mkdir(siteRoot, { recursive: true });

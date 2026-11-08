@@ -7,8 +7,18 @@
     { "source": "providers.json", "destination": "providers.json" },
     { "source": "history.json", "destination": "history.json" },
     { "source": "robots.txt", "destination": "robots.txt" },
-    { "source": "status.json", "destination": "status.json" }
+    { "source": "status.json", "destination": "status.json" },
+    { "source": "pedagogy/index.html", "destination": "pedagogy/index.html" },
+    { "source": "pedagogy/pedagogy.json", "destination": "pedagogy/pedagogy.json" }
   ],
   "generatedFiles": [".nojekyll"],
-  "allowedExternalHosts": ["ai-lish.github.io", "github.com", "math-lish.github.io", "script.google.com"]
+  "allowedExternalHosts": ["ai-lish.github.io", "github.com", "math-lish.github.io", "script.google.com"],
+  "allowedPedagogySourceHosts": [
+    "academic.oup.com", "doi.org", "eric.ed.gov", "escholarship.org", "fis.leuphana.de",
+    "gupea.ub.gu.se", "mitpress.mit.edu", "nrich.maths.org", "press.princeton.edu",
+    "search.worldcat.org", "shop.elsevier.com", "udlguidelines.cast.org", "webspace.science.uu.nl",
+    "www.aft.org", "www.apa.org", "www.ascd.org", "www.cambridge.org", "www.corwin.com",
+    "www.edb.gov.hk", "www.hkeaa.edu.hk", "www.hup.harvard.edu", "www.jstor.org",
+    "www.pearson.com", "www.routledge.com", "www.solutiontree.com", "www.w3.org"
+  ]
 }

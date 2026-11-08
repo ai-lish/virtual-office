@@ -1,11 +1,24 @@
 #!/usr/bin/env node
 
+import { readFileSync } from 'node:fs';
 import { lstat, readFile, readdir } from 'node:fs/promises';
 import path from 'node:path';
 
 const root = process.cwd();
 const manifest = JSON.parse(await readFile(path.join(root, 'publish.allowlist.json'), 'utf8'));
 const siteRoot = path.resolve(root, manifest.publicRoot);
+const EXPECTED_PEDAGOGY_SOURCE_HOSTS = Object.freeze([
+  'academic.oup.com', 'doi.org', 'eric.ed.gov', 'escholarship.org', 'fis.leuphana.de',
+  'gupea.ub.gu.se', 'mitpress.mit.edu', 'nrich.maths.org', 'press.princeton.edu',
+  'search.worldcat.org', 'shop.elsevier.com', 'udlguidelines.cast.org', 'webspace.science.uu.nl',
+  'www.aft.org', 'www.apa.org', 'www.ascd.org', 'www.cambridge.org', 'www.corwin.com',
+  'www.edb.gov.hk', 'www.hkeaa.edu.hk', 'www.hup.harvard.edu', 'www.jstor.org',
+  'www.pearson.com', 'www.routledge.com', 'www.solutiontree.com', 'www.w3.org'
+]);
+const PUBLIC_PEDAGOGY_KEYS = Object.freeze(['zh', 'en', 'workflow', 'media', 'source', 'theory', 'example']);
+const PEDAGOGY_WORKFLOWS = new Set(['W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'W7', 'C']);
+const PEDAGOGY_MEDIA = new Set(['V', 'S', 'P', 'W']);
+const PEDAGOGY_PRIVATE_PATTERN = /(?:\/Users\/|C:\\Users\\|\.ai-shared|scratchpad|skills\/shared\/lesson-observation|skills\/pedagogy\/|office-ui\/|GoogleDrive|OneDrive|thread_id|session_name|teaching-methods\.md|用家原話|未公開校內試題|學生資料)/i;
 
 function assertSafeHost(value) {
   if (typeof value !== 'string' || value.length === 0 || value !== value.toLowerCase() || /[/:?#\s*]/.test(value)) {
@@ -13,11 +26,15 @@ function assertSafeHost(value) {
   }
 }
 
-if (manifest.version !== 2 || manifest.publicRoot !== 'site' || !Array.isArray(manifest.entries) || !Array.isArray(manifest.generatedFiles) || !Array.isArray(manifest.allowedExternalHosts)) {
+if (manifest.version !== 2 || manifest.publicRoot !== 'site' || !Array.isArray(manifest.entries) || !Array.isArray(manifest.generatedFiles) || !Array.isArray(manifest.allowedExternalHosts) || !Array.isArray(manifest.allowedPedagogySourceHosts)) {
   throw new Error('invalid publish manifest');
 }
-for (const host of manifest.allowedExternalHosts) assertSafeHost(host);
+for (const host of [...manifest.allowedExternalHosts, ...manifest.allowedPedagogySourceHosts]) assertSafeHost(host);
 const allowedExternalHosts = new Set(manifest.allowedExternalHosts);
+if (JSON.stringify([...manifest.allowedPedagogySourceHosts].sort()) !== JSON.stringify([...EXPECTED_PEDAGOGY_SOURCE_HOSTS].sort())) {
+  throw new Error('pedagogy source host allowlist differs from the reviewed exact set');
+}
+const allowedPedagogySourceHosts = new Set(manifest.allowedPedagogySourceHosts);
 
 const forbiddenName = /(?:^|\/)(?:.*\.map|.*(?:token|secret|credential|api[-_]?key|quota|usage|log).*|.*(?:\.bak|~))$/i;
 const forbiddenContent = [
@@ -30,10 +47,10 @@ const forbiddenContent = [
   /(?:API_KEY|apiKey|google_api_key|firebaseConfig|spreadsheetId|driveId|memory\/data)\s*[:=]?/i,
   /(?:Authorization|x-api-key|x-goog-api-key)\s*[:=]/i,
   /\bmethod\s*:\s*['"](?:POST|PUT|PATCH|DELETE)['"]/i,
-  /(?:studentId|teacherId|classId|spreadsheetId|driveId)\s*[:=]/i,
-  /[?&](?:id|fileId|driveId|spreadsheetId|studentId|teacherId|classId|token|key)=/i
+  /(?:studentId|teacherId|classId|spreadsheetId|driveId)\s*[:=]/i
 ];
 const externalUrlPattern = /\bhttps?:\/\/[^\s"'<>`)]+/gi;
+const identifierQueryPattern = /[?&](?:id|fileId|driveId|spreadsheetId|studentId|teacherId|classId|token|key)=/i;
 
 const PUBLIC_PROVIDERS = new Map([
   ['chatgpt', 'ChatGPT'],
@@ -206,6 +223,69 @@ function validateHistory(value) {
   }
 }
 
+function validatePedagogy(value) {
+  if (!Array.isArray(value) || value.length < 1 || value.length > 100) {
+    throw new Error('pedagogy/pedagogy.json must be a bounded array of method cards');
+  }
+  const usedHosts = new Set();
+  for (const [index, card] of value.entries()) {
+    assertExactKeys(card, PUBLIC_PEDAGOGY_KEYS, `pedagogy card ${index + 1} contains unknown or missing keys`);
+    for (const field of ['zh', 'en', 'source', 'theory', 'example']) {
+      if (typeof card[field] !== 'string' || card[field].trim().length === 0 || card[field].length > 8000) {
+        throw new Error(`pedagogy card ${index + 1} has an invalid ${field} field`);
+      }
+      if (field !== 'source' && /https?:\/\//i.test(card[field])) {
+        throw new Error(`pedagogy card ${index + 1} may only contain external URLs in source`);
+      }
+      if (PEDAGOGY_PRIVATE_PATTERN.test(card[field])) {
+        throw new Error(`pedagogy card ${index + 1} contains private operational content`);
+      }
+    }
+    for (const [field, allowed] of [['workflow', PEDAGOGY_WORKFLOWS], ['media', PEDAGOGY_MEDIA]]) {
+      const items = card[field];
+      if (!Array.isArray(items) || items.length < 1 || items.length > allowed.size
+        || items.some((item) => typeof item !== 'string' || !allowed.has(item))
+        || new Set(items).size !== items.length) {
+        throw new Error(`pedagogy card ${index + 1} has invalid ${field} values`);
+      }
+    }
+    if (!/\]\(https:\/\/[^)]+\)/i.test(card.source)) {
+      throw new Error(`pedagogy card ${index + 1} must include a linked citation`);
+    }
+    for (const match of card.source.matchAll(externalUrlPattern)) {
+      let url;
+      try {
+        url = new URL(match[0]);
+      } catch {
+        throw new Error(`pedagogy card ${index + 1} contains an invalid source URL`);
+      }
+      if (url.protocol !== 'https:' || url.username || url.password || url.port
+        || !allowedPedagogySourceHosts.has(url.hostname)) {
+        throw new Error(`pedagogy card ${index + 1} source URL is outside the exact source host allowlist: ${url.hostname}`);
+      }
+      const isPublicEricRecordId = url.hostname === 'eric.ed.gov'
+        && url.pathname === '/'
+        && [...url.searchParams.keys()].join(',') === 'id'
+        && /^(?:EJ|ED)\d{6,}$/.test(url.searchParams.get('id') || '');
+      if (/[?&](?:id|fileId|driveId|spreadsheetId|studentId|teacherId|classId|token|key)=/i.test(url.search)
+        && !isPublicEricRecordId) {
+        throw new Error(`pedagogy card ${index + 1} source URL contains an identifier-like query parameter`);
+      }
+      usedHosts.add(url.hostname);
+    }
+  }
+  if (JSON.stringify([...usedHosts].sort()) !== JSON.stringify([...allowedPedagogySourceHosts].sort())) {
+    throw new Error('pedagogy source host allowlist must match the hosts actually used in source fields');
+  }
+}
+
+function validatePedagogyPage(filePath) {
+  const html = readFileSync(filePath, 'utf8');
+  if (PEDAGOGY_PRIVATE_PATTERN.test(html) || /PRIVATE_CANONICAL|\.\.\/shared\/lesson-observation/i.test(html)) {
+    throw new Error('pedagogy/index.html contains a private path or local-only block');
+  }
+}
+
 async function walk(current, files = []) {
   for (const entry of await readdir(current, { withFileTypes: true })) {
     const full = path.join(current, entry.name);
@@ -229,6 +309,12 @@ for (const file of files) {
   if (forbiddenName.test(file.relative)) throw new Error(`forbidden public filename: ${file.relative}`);
   const content = (await readFile(file.full)).toString('utf8');
   if (forbiddenContent.some((pattern) => pattern.test(content))) throw new Error(`forbidden credential/backend reference in public output: ${file.relative}`);
+  if (file.relative !== 'pedagogy/pedagogy.json' && identifierQueryPattern.test(content)) {
+    throw new Error(`identifier-like query parameter in public output: ${file.relative}`);
+  }
+  const fileAllowedExternalHosts = file.relative === 'pedagogy/pedagogy.json'
+    ? allowedPedagogySourceHosts
+    : allowedExternalHosts;
   for (const match of content.matchAll(externalUrlPattern)) {
     let url;
     try {
@@ -239,10 +325,10 @@ for (const file of files) {
     if (url.protocol !== 'https:' || url.username || url.password || url.port) {
       throw new Error(`unsafe external URL form in public output: ${file.relative}`);
     }
-    if (!allowedExternalHosts.has(url.hostname)) {
+    if (!fileAllowedExternalHosts.has(url.hostname)) {
       throw new Error(`external host is not in manifest allowlist: ${file.relative} (${url.hostname})`);
     }
-    if (/[?&](?:id|fileId|driveId|spreadsheetId|studentId|teacherId|classId|token|key)=/i.test(url.search)) {
+    if (file.relative !== 'pedagogy/pedagogy.json' && identifierQueryPattern.test(url.search)) {
       throw new Error(`identifier-like query parameter in public output: ${file.relative}`);
     }
   }
@@ -252,6 +338,17 @@ for (const [name, validate] of [['providers.json', validateProviders], ['history
   const file = files.find((entry) => entry.relative === name);
   if (!file) throw new Error(`${name} is missing from public output`);
   validate(JSON.parse((await readFile(file.full)).toString('utf8')));
+}
+
+const pedagogyFile = files.find((entry) => entry.relative === 'pedagogy/pedagogy.json');
+if (!pedagogyFile) throw new Error('pedagogy/pedagogy.json is missing from public output');
+validatePedagogy(JSON.parse((await readFile(pedagogyFile.full)).toString('utf8')));
+const pedagogyPage = files.find((entry) => entry.relative === 'pedagogy/index.html');
+if (!pedagogyPage) throw new Error('pedagogy/index.html is missing from public output');
+validatePedagogyPage(pedagogyPage.full);
+const homepage = files.find((entry) => entry.relative === 'index.html');
+if (!homepage || !readFileSync(homepage.full, 'utf8').includes('href="/virtual-office/pedagogy/"')) {
+  throw new Error('index.html is missing the pedagogy page link');
 }
 
 console.log(`Public-site guard passed (${files.length} exact files).`);
