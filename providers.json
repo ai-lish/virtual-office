@@ -1,6 +1,6 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-11-08T05:00:00.000Z",
+  "generated_at": "2026-11-08T07:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
@@ -129,7 +129,7 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-11-08T05:49:37Z",
+      "observed_at": "2026-11-08T06:04:09Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
@@ -142,10 +142,10 @@
           },
           "reset_markers": {
             "five_hour": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 0,
-              "pre_reset_observed_at": "2026-11-08T02:52:47Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             }
           }
         }
@@ -179,7 +179,7 @@
     {
       "id": "antigravity",
       "label": "Antigravity",
-      "observed_at": "2026-11-08T05:01:07Z",
+      "observed_at": "2026-11-08T06:04:28Z",
       "buckets": [
         {
           "bucket": "third-party-models",
@@ -188,7 +188,7 @@
             "seven_day": 0
           },
           "resets_at": {
-            "seven_day": "2026-11-15T05:01:04Z"
+            "seven_day": "2026-11-15T06:04:25Z"
           },
           "reset_markers": {
             "seven_day": {
@@ -206,7 +206,7 @@
             "seven_day": 0
           },
           "resets_at": {
-            "seven_day": "2026-11-15T05:01:04Z"
+            "seven_day": "2026-11-15T06:04:25Z"
           },
           "reset_markers": {
             "seven_day": {
@@ -222,13 +222,13 @@
     {
       "id": "grok-bot",
       "label": "Grok Bot",
-      "observed_at": "2026-11-08T04:09:56Z",
+      "observed_at": "2026-11-08T07:03:18Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "seven_day": 87.5
+            "seven_day": 88.5
           },
           "resets_at": {
             "seven_day": "2026-11-09T11:44:00Z"
