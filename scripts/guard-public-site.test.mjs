@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const publicFiles = ['index.html', 'history.html', 'providers.json', 'history.json', 'robots.txt', 'status.json'];
+const publicFiles = ['index.html', 'history.html', 'providers.json', 'history.json', 'robots.txt', 'status.json', 'pedagogy/index.html', 'pedagogy/pedagogy.json'];
 const legacyProviders = JSON.parse(await readFile(path.join(repoRoot, 'providers.json'), 'utf8'));
 const legacyHistory = JSON.parse(await readFile(path.join(repoRoot, 'history.json'), 'utf8'));
 
@@ -127,7 +127,7 @@ function addAntigravityProjection(providers, history) {
   return { providers, history };
 }
 
-async function runGuard({ providers = legacyProviders, history = legacyHistory } = {}) {
+async function runGuard({ providers = legacyProviders, history = legacyHistory, overrides = {} } = {}) {
   const tempRoot = await mkdtemp(path.join(os.tmpdir(), 'virtual-office-guard-'));
   try {
     await mkdir(path.join(tempRoot, 'scripts'));
@@ -136,7 +136,9 @@ async function runGuard({ providers = legacyProviders, history = legacyHistory }
     await copyFile(path.join(repoRoot, 'scripts/build-public-site.mjs'), path.join(tempRoot, 'scripts/build-public-site.mjs'));
     for (const file of publicFiles) {
       const destination = path.join(tempRoot, file);
-      await writeFile(destination, file === 'providers.json' ? JSON.stringify(providers)
+      await mkdir(path.dirname(destination), { recursive: true });
+      await writeFile(destination, Object.hasOwn(overrides, file) ? overrides[file]
+        : file === 'providers.json' ? JSON.stringify(providers)
         : file === 'history.json' ? JSON.stringify(history)
           : await readFile(path.join(repoRoot, file)));
     }
@@ -153,6 +155,85 @@ async function runGuard({ providers = legacyProviders, history = legacyHistory }
     await rm(tempRoot, { recursive: true, force: true });
   }
 }
+
+test('builds and guards the nested pedagogy page and JSON from the exact allowlist', async () => {
+  const result = await runGuard();
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /Public-site guard passed \(9 exact files\)/);
+  const page = await readFile(path.join(repoRoot, 'pedagogy/index.html'), 'utf8');
+  assert.match(page, /if\(item\.action\)addField\(card,'這一步要做甚麼',item\.action\)/);
+});
+
+test('restricts citation hosts to the pedagogy source field', async () => {
+  const cards = JSON.parse(await readFile(path.join(repoRoot, 'pedagogy/pedagogy.json'), 'utf8'));
+  cards[0].source = 'Reference [link](https://unlisted.example/paper)';
+  let result = await runGuard({ overrides: { 'pedagogy/pedagogy.json': JSON.stringify(cards) } });
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /(?:external host is not in manifest allowlist|source URL is outside the exact source host allowlist)/);
+
+  const validCards = JSON.parse(await readFile(path.join(repoRoot, 'pedagogy/pedagogy.json'), 'utf8'));
+  validCards[0].theory += ' https://doi.org/10.1000/example';
+  result = await runGuard({ overrides: { 'pedagogy/pedagogy.json': JSON.stringify(validCards) } });
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /may only contain external URLs in source/);
+
+  const homepage = `${await readFile(path.join(repoRoot, 'index.html'), 'utf8')}\n<a href="https://doi.org/10.1000/example">external</a>`;
+  result = await runGuard({ overrides: { 'index.html': homepage } });
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /external host is not in manifest allowlist/);
+});
+
+test('allows only the public ERIC record-id citation query shape', async () => {
+  const cards = JSON.parse(await readFile(path.join(repoRoot, 'pedagogy/pedagogy.json'), 'utf8'));
+  cards[0].source += ' [ERIC test](https://eric.ed.gov/?id=ED053419)';
+  let result = await runGuard({ overrides: { 'pedagogy/pedagogy.json': JSON.stringify(cards) } });
+  assert.equal(result.status, 0, result.stderr);
+
+  cards[0].source = cards[0].source.replace('https://eric.ed.gov/?id=ED053419', 'https://eric.ed.gov/?id=private-student-id');
+  result = await runGuard({ overrides: { 'pedagogy/pedagogy.json': JSON.stringify(cards) } });
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /identifier-like query parameter/);
+});
+
+test('rejects percent-encoded identifier-like query keys', async () => {
+  const cards = JSON.parse(await readFile(path.join(repoRoot, 'pedagogy/pedagogy.json'), 'utf8'));
+  cards[0].source += ' [encoded ERIC id](https://eric.ed.gov/?%69d=private-student-id)';
+  let result = await runGuard({ overrides: { 'pedagogy/pedagogy.json': JSON.stringify(cards) } });
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /identifier-like query parameter/);
+
+  const tokenCards = JSON.parse(await readFile(path.join(repoRoot, 'pedagogy/pedagogy.json'), 'utf8'));
+  tokenCards[0].source += ' [encoded token](https://doi.org/paper?%74oken=private-value)';
+  result = await runGuard({ overrides: { 'pedagogy/pedagogy.json': JSON.stringify(tokenCards) } });
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /identifier-like query parameter/);
+
+  const homepage = `${await readFile(path.join(repoRoot, 'index.html'), 'utf8')}\n<a href="https://ai-lish.github.io/?%69d=private-value">test</a>`;
+  result = await runGuard({ overrides: { 'index.html': homepage } });
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /identifier-like query parameter/);
+});
+
+test('keeps the pedagogy projection schema closed', async () => {
+  const cards = JSON.parse(await readFile(path.join(repoRoot, 'pedagogy/pedagogy.json'), 'utf8'));
+  cards[0].private_note = 'must not publish';
+  const result = await runGuard({ overrides: { 'pedagogy/pedagogy.json': JSON.stringify(cards) } });
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /pedagogy card 1 contains unknown or missing keys/);
+});
+
+test('rejects private canonical paths and a missing homepage pedagogy link', async () => {
+  const page = `${await readFile(path.join(repoRoot, 'pedagogy/index.html'), 'utf8')}\n<!-- skills/shared/lesson-observation -->`;
+  let result = await runGuard({ overrides: { 'pedagogy/index.html': page } });
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /pedagogy\/index.html contains a private path/);
+
+  const homepage = (await readFile(path.join(repoRoot, 'index.html'), 'utf8'))
+    .replace('href="/virtual-office/pedagogy/"', 'href="/virtual-office/missing/"');
+  result = await runGuard({ overrides: { 'index.html': homepage } });
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /index.html is missing the pedagogy page link/);
+});
 
 test('accepts the seven-provider deployment with Claude account 2 and without Grok Bot', async () => {
   const providers = projectProvidersV2(legacyProviders);
