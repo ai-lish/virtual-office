@@ -269,6 +269,19 @@ test('pedagogy guard enforces a 1 MiB JSON size limit', async () => {
   assert.match(result.stderr, /exceeds the 1048576-byte limit/);
 });
 
+test('pedagogy guard accepts exactly 1 MiB and rejects one byte more', async () => {
+  const cards = JSON.parse(await readFile(path.join(repoRoot, 'pedagogy/pedagogy.json'), 'utf8'));
+  const content = JSON.stringify(cards);
+  const exact = `${content}${' '.repeat(1024 * 1024 - Buffer.byteLength(content))}`;
+  assert.equal(Buffer.byteLength(exact), 1024 * 1024);
+  let result = await runGuard({ overrides: { 'pedagogy/pedagogy.json': exact } });
+  assert.equal(result.status, 0, result.stderr);
+
+  result = await runGuard({ overrides: { 'pedagogy/pedagogy.json': `${exact} ` } });
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /exceeds the 1048576-byte limit/);
+});
+
 test('rejects private canonical paths and a missing homepage pedagogy link', async () => {
   const page = `${await readFile(path.join(repoRoot, 'pedagogy/index.html'), 'utf8')}\n<!-- skills/shared/lesson-observation -->`;
   let result = await runGuard({ overrides: { 'pedagogy/index.html': page } });
