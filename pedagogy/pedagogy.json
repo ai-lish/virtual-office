@@ -1,5 +1,6 @@
 [
   {
+    "level": "secondary",
     "zh": "有意義學習",
     "en": "Meaningful Learning",
     "workflow": [
@@ -16,6 +17,7 @@
     "example": "中一解一元一次方程前，先用數線及等式例子喚起正負數和等式兩邊相等的概念，再引入移項。"
   },
   {
+    "level": "secondary",
     "zh": "香港數學課程學習重點及照顧學習者多樣性",
     "en": "Hong Kong Mathematics Curriculum Framework",
     "workflow": [
@@ -32,6 +34,7 @@
     "example": "中四函數材料先對照課程指引確認函數表示及代入要求，再選擇符合已教範圍的例題和評估題。"
   },
   {
+    "level": "secondary",
     "zh": "關係性理解與工具性理解",
     "en": "Relational and Instrumental Understanding",
     "workflow": [
@@ -48,6 +51,7 @@
     "example": "中一拆括號不只展示 `2(x−1)=2x−2`，還用分配箭頭或方格指出 2 分別乘 x 和 −1。"
   },
   {
+    "level": "secondary",
     "zh": "動作、圖像與符號表徵／具體—圖像—抽象",
     "en": "Enactive–Iconic–Symbolic Representations / Concrete–Pictorial–Abstract (CPA)",
     "workflow": [
@@ -64,6 +68,7 @@
     "example": "中一一元一次方程先用天平圖表示兩邊相等，再用等式操作，最後寫出移項和檢查。"
   },
   {
+    "level": "secondary",
     "zh": "變易理論",
     "en": "Variation Theory",
     "workflow": [
@@ -80,6 +85,7 @@
     "example": "中四三角比先固定角型而改 sin、cos、tan，再固定函數而比較四個象限，讓學生分辨角與函數各自的作用。"
   },
   {
+    "level": "secondary",
     "zh": "診斷式教學及迷思概念處理",
     "en": "Diagnostic Teaching / Addressing Misconceptions",
     "workflow": [
@@ -96,6 +102,7 @@
     "example": "中一解方程練習以 `3(x−2)=14−5x` 作自擬題，檢查學生會否把括號前的 3 只乘 x，回饋再指出分配律漏項。"
   },
   {
+    "level": "secondary",
     "zh": "自我解釋效應",
     "en": "Self-Explanation Effect",
     "workflow": [
@@ -112,6 +119,7 @@
     "example": "中二因式分解示範後停下，請學生說明為何 `x²−9` 可寫成 `(x−3)(x+3)`，再核對乘開結果。"
   },
   {
+    "level": "secondary",
     "zh": "波利亞解難四步法",
     "en": "Pólya’s Four-Step Problem-Solving Method",
     "workflow": [
@@ -128,6 +136,7 @@
     "example": "中二文字題先標出已知與所求，選擇建立方程，解後代回情境檢查答案是否合理。"
   },
   {
+    "level": "secondary",
     "zh": "數學解難中的後設認知",
     "en": "Metacognition in Mathematical Problem Solving",
     "workflow": [
@@ -144,6 +153,7 @@
     "example": "中四二次方程解完後回看根的數目是否符合判別式，並代回原方程檢查。"
   },
   {
+    "level": "secondary",
     "zh": "促進學習的評估",
     "en": "Assessment for Learning",
     "workflow": [
@@ -160,6 +170,7 @@
     "example": "中四函數代入小測顯示多數錯誤來自負號，下一頁改用對比例子重教代入而非直接進入新題型。"
   },
   {
+    "level": "secondary",
     "zh": "回饋四層模型",
     "en": "Four Levels of Feedback",
     "workflow": [
@@ -176,6 +187,7 @@
     "example": "中一解方程錯在括號展開時，回饋指向該步的分配錯誤，要求學生重做並代回驗算。"
   },
   {
+    "level": "secondary",
     "zh": "形成性回饋",
     "en": "Formative Feedback",
     "workflow": [
@@ -192,6 +204,7 @@
     "example": "中二分式約分答錯時，提示先因式分解分子和分母，再標出可約的共同因式，而非只回覆「不正確」。"
   },
   {
+    "level": "secondary",
     "zh": "提取練習／測驗效應",
     "en": "Retrieval Practice / Testing Effect",
     "workflow": [
@@ -208,6 +221,7 @@
     "example": "中一代數影片在答案出現前停頓，請學生先寫出括號展開結果，再播放解答。"
   },
   {
+    "level": "secondary",
     "zh": "間隔效應／分散練習",
     "en": "Spacing Effect / Distributed Practice",
     "workflow": [
@@ -224,6 +238,7 @@
     "example": "中二角度題在本課、下一週和單元複習各出一題，逐步改變圖形與已知條件。"
   },
   {
+    "level": "secondary",
     "zh": "交錯練習",
     "en": "Interleaved Practice",
     "workflow": [
@@ -240,6 +255,7 @@
     "example": "中四完成各類函數代入的入門練習後，混合 `f(a)`、`f(k−1)` 和簡單方程題，要求學生先判斷步驟。"
   },
   {
+    "level": "secondary",
     "zh": "範例漸褪／示範—練習交替",
     "en": "Faded Worked Examples / Worked-Example–Practice Alternation",
     "workflow": [
@@ -256,6 +272,7 @@
     "example": "中二解二元一次方程組先看完整示範，再填一個整理步驟，最後獨立完成新題。"
   },
   {
+    "level": "secondary",
     "zh": "合宜困難",
     "en": "Desirable Difficulties",
     "workflow": [
@@ -272,6 +289,7 @@
     "example": "中一已學簡單方程後，隔一段時間再要求先選方法並解一道表面形式不同的題，而不是只增加繁複數字。"
   },
   {
+    "level": "secondary",
     "zh": "專長反轉效應",
     "en": "Expertise Reversal Effect",
     "workflow": [
@@ -288,6 +306,7 @@
     "example": "中二方程練習為初學者提供逐步提示，已掌握者可直接作答並按需要開啟解析。"
   },
   {
+    "level": "secondary",
     "zh": "通用學習設計",
     "en": "Universal Design for Learning (UDL)",
     "workflow": [
@@ -304,6 +323,7 @@
     "example": "中一角度練習除顏色標記外也用文字標示角名，並讓鍵盤可操作題目及檢視提示。"
   },
   {
+    "level": "secondary",
     "zh": "自我決定理論",
     "en": "Self-Determination Theory (SDT)",
     "workflow": [
@@ -320,6 +340,7 @@
     "example": "中四代數練習讓學生選擇先做基礎或挑戰題，並提供清晰的進步回饋和自選提示。"
   },
   {
+    "level": "secondary",
     "zh": "逆向設計",
     "en": "Backward Design / Understanding by Design",
     "workflow": [
@@ -336,6 +357,7 @@
     "example": "中四多項式除法單元先定學生要完成的除式與驗算表現，再設計示範、練習及檢查題。"
   },
   {
+    "level": "secondary",
     "zh": "建構式對齊",
     "en": "Constructive Alignment",
     "workflow": [
@@ -352,6 +374,7 @@
     "example": "中一目標是解一元一次方程，活動讓學生實際解題，評估也要求解方程而非只背方程定義。"
   },
   {
+    "level": "secondary",
     "zh": "SOLO 分類法",
     "en": "Structure of the Observed Learning Outcome (SOLO) Taxonomy",
     "workflow": [
@@ -368,6 +391,7 @@
     "example": "中二線性圖像題由讀出一點，進至列出多點、說明斜率和截距關係，再推斷圖像平移後的規律。"
   },
   {
+    "level": "secondary",
     "zh": "前測效應／預先提問",
     "en": "Pretesting Effect / Prequestioning",
     "workflow": [
@@ -384,6 +408,7 @@
     "example": "中四教直線方程前先問學生哪條線較陡，讓其先預測，再用斜率定義講解。"
   },
   {
+    "level": "secondary",
     "zh": "具體漸褪",
     "en": "Concreteness Fading",
     "workflow": [
@@ -400,6 +425,7 @@
     "example": "中一整數乘法先用正負籌碼示範，再畫數線，最後連到符號規則及算式。"
   },
   {
+    "level": "secondary",
     "zh": "對比案例／先比較後講解",
     "en": "Contrasting Cases / A Time for Telling",
     "workflow": [
@@ -416,6 +442,7 @@
     "example": "中二比較 `y=2x+1` 和 `y=2x−1` 的圖像，再明確解釋截距改變而斜率不變。"
   },
   {
+    "level": "secondary",
     "zh": "有效失敗",
     "en": "Productive Failure",
     "workflow": [
@@ -432,6 +459,7 @@
     "example": "中四學習二次函數極值前先讓學生比較幾個圖像和表格，隨後教師整理頂點式與對稱軸的關係。"
   },
   {
+    "level": "secondary",
     "zh": "數學建模循環",
     "en": "Mathematical Modelling Cycle",
     "workflow": [
@@ -448,6 +476,7 @@
     "example": "中三按手機月費情境定義固定費和每分鐘收費，建立線性模型，求總費後再檢查答案是否合理。"
   },
   {
+    "level": "secondary",
     "zh": "數學語域及雙語數學學習",
     "en": "Mathematics Register / Bilingual Mathematics Learning",
     "workflow": [
@@ -464,6 +493,7 @@
     "example": "中四英文數學題保留 “gradient”，旁邊以斜率圖和中文「斜率」對照，再讓學生用公式說明變化率。"
   },
   {
+    "level": "secondary",
     "zh": "跨語言實踐",
     "en": "Translanguaging",
     "workflow": [
@@ -480,6 +510,7 @@
     "example": "中四學生先用熟悉語言說明 `f(a)=5` 的代入意思，再共同整理成英文句子和代數表示。"
   },
   {
+    "level": "secondary",
     "zh": "完成題／完成策略",
     "en": "Completion Problem / Completion Strategy",
     "workflow": [
@@ -496,6 +527,7 @@
     "example": "中二解比例題先提供列式及第一步，學生補上交叉相乘或等值變形，再獨立完成新題。"
   },
   {
+    "level": "secondary",
     "zh": "漸進釋放責任",
     "en": "Gradual Release of Responsibility (I do–We do–You do)",
     "workflow": [
@@ -512,6 +544,7 @@
     "example": "中一先看教師完整拆括號示範，再和教師一起做一題，最後獨立完成含負數的括號題。"
   },
   {
+    "level": "secondary",
     "zh": "Rosenshine 教學原則",
     "en": "Rosenshine’s Principles of Instruction",
     "workflow": [
@@ -528,6 +561,7 @@
     "example": "中四多項式除法影片每示範一段後短問學生下一步，待回應後才繼續長除式。"
   },
   {
+    "level": "secondary",
     "zh": "數學任務框架及認知要求",
     "en": "Mathematical Tasks Framework / Cognitive Demand",
     "workflow": [
@@ -544,6 +578,7 @@
     "example": "中二一次函數不只代入公式求 y，另比較兩條直線的斜率與截距如何改變圖像。"
   },
   {
+    "level": "secondary",
     "zh": "低門檻、高天花板",
     "en": "Low Threshold, High Ceiling",
     "workflow": [
@@ -560,6 +595,7 @@
     "example": "中二探索兩個整數乘積為 36 的組合，先列因數對，再延伸至固定乘積時和的變化及一般化。"
   },
   {
+    "level": "secondary",
     "zh": "樞紐題／診斷問題",
     "en": "Hinge Question / Diagnostic Question",
     "workflow": [
@@ -576,6 +612,7 @@
     "example": "中四三角比題問第三象限的 sin 符號，選項分別對應坐標、CAST 記憶和只看角度大小等想法。"
   },
   {
+    "level": "secondary",
     "zh": "精熟學習",
     "en": "Mastery Learning",
     "workflow": [
@@ -592,6 +629,7 @@
     "example": "中一解方程練習在錯誤後提供針對性提示和例題，學生修正後再做不同數值的新題確認。"
   },
   {
+    "level": "secondary",
     "zh": "高信心錯誤更正／超正確修正效應",
     "en": "Hypercorrection Effect",
     "workflow": [
@@ -608,6 +646,7 @@
     "example": "中四自擬二次方程選擇題，學生作答前可標信心，講解時先處理高信心但錯誤的常見理由。"
   },
   {
+    "level": "secondary",
     "zh": "目標自由效應",
     "en": "Goal-Free Effect",
     "workflow": [
@@ -624,6 +663,7 @@
     "example": "中四指數函數練習先問「由圖像可確定哪些截距或單調性？」再要求求指定參數。"
   },
   {
+    "level": "secondary",
     "zh": "數學內容無障礙",
     "en": "Accessible Mathematics / WCAG 2.2",
     "workflow": [
@@ -640,6 +680,7 @@
     "example": "中四互動函數練習讓學生用鍵盤操作輸入和提交，圖像有文字替代說明，公式提供可讀的語義標記。"
   },
   {
+    "level": "secondary",
     "zh": "自我調節學習循環",
     "en": "Self-Regulated Learning Cycle",
     "workflow": [
@@ -656,6 +697,7 @@
     "example": "中四學生先為弧度題設定練習目標，作答時標記不確定位，完成後按錯因選擇一項下一步複習。"
   },
   {
+    "level": "secondary",
     "zh": "同儕教學",
     "en": "Peer Instruction / ConcepTest",
     "workflow": [
@@ -670,6 +712,7 @@
     "example": "中四投影片先問不同象限中 sinθ 的正負，學生個別投票後向同學解釋，再投票並核對坐標理由。"
   },
   {
+    "level": "secondary",
     "zh": "數學討論五項實踐",
     "en": "Five Practices for Orchestrating Productive Mathematics Discussions",
     "workflow": [
@@ -684,6 +727,7 @@
     "example": "中二比較不同方法解 `3x+5=20`，先預想可能錯法，再選取兩個不同正確策略並按「同除與移項」關係排序。"
   },
   {
+    "level": "secondary",
     "zh": "翻轉課堂",
     "en": "Flipped Classroom",
     "workflow": [
@@ -700,6 +744,7 @@
     "example": "中四學生課前看弧度定義短片，課堂以弧長和扇形面積題進行解題及教師診斷。"
   },
   {
+    "level": "secondary",
     "zh": "課堂學習研究循環",
     "en": "Learning Study",
     "workflow": [
@@ -714,6 +759,7 @@
     "example": "中四弧度課工作紙試用後，教師按學生把弧長和角度混淆的頁面證據，重排下一版先辨認半徑與圓心角，再引入弧長公式。"
   },
   {
+    "level": "secondary",
     "zh": "短暫資訊效應與持續板書",
     "en": "Transient Information Effect / Persistent Board",
     "workflow": [
@@ -728,6 +774,7 @@
     "example": "中一方程影片保留每行已完成算式，只在必要時暫時高亮當前移項。"
   },
   {
+    "level": "secondary",
     "zh": "空間鄰近原則、一致性原則及注意力分散效應",
     "en": "Spatial Contiguity Principle / Coherence Principle / Split-Attention Effect",
     "workflow": [
@@ -742,6 +789,7 @@
     "example": "中四函數代入畫面左欄保留算式，右欄顯示代入理由和對應圖像，不讓學生在不同頁找資訊。"
   },
   {
+    "level": "secondary",
     "zh": "時間鄰近原則",
     "en": "Temporal Contiguity Principle",
     "workflow": [
@@ -756,6 +804,7 @@
     "example": "中一分配律影片在旁白說明每項相乘時同步畫出箭頭，再停留顯示完整等式。"
   },
   {
+    "level": "secondary",
     "zh": "信號原則",
     "en": "Signaling Principle",
     "workflow": [
@@ -770,6 +819,7 @@
     "example": "中四三角比解題以同一顏色標出坐標的 x、y 符號及對應的 cos、sin 分子。"
   },
   {
+    "level": "secondary",
     "zh": "分段原則與空間鄰近",
     "en": "Segmenting Principle / Spatial Contiguity",
     "workflow": [
@@ -784,6 +834,7 @@
     "example": "中二幾何證明放大一對相等角解說後，縮回原圖並保留已完成證明步驟。"
   },
   {
+    "level": "secondary",
     "zh": "範例效應",
     "en": "Worked Example Effect",
     "workflow": [
@@ -799,6 +850,7 @@
     "example": "中一先完整展示 `2(x−1)=x+1` 的逐步解法，再另給一題由學生自行完成。"
   },
   {
+    "level": "secondary",
     "zh": "雙重編碼理論",
     "en": "Dual Coding Theory",
     "workflow": [
@@ -814,6 +866,7 @@
     "example": "中一拆括號影片以日字格表示 `a(b+c)=ab+ac`，同時用代數符號對照兩個格子。"
   },
   {
+    "level": "secondary",
     "zh": "提取練習及範例—練習交替",
     "en": "Retrieval Practice / Worked-Example–Practice Alternation",
     "workflow": [
@@ -830,6 +883,7 @@
     "example": "中一看完括號展開後，先停下做一題不同係數的例子，之後才播放答案及回看原有板書。"
   },
   {
+    "level": "secondary",
     "zh": "數據及錯因引導的試卷講評",
     "en": "Data-Informed Exam Review",
     "workflow": [
@@ -846,6 +900,7 @@
     "example": "中四自擬一次函數題組，先按「斜率誤讀」和「截距代入」分類講評，並標明此分類來自教師設計而非校內成績。"
   },
   {
+    "level": "secondary",
     "zh": "認知學徒制與出聲思考示範",
     "en": "Cognitive Apprenticeship / Think-Aloud Modelling",
     "workflow": [
@@ -862,6 +917,7 @@
     "example": "中四解函數代入題時，示範者說明先找輸入值、如何替換變數，最後代回檢查。"
   },
   {
+    "level": "secondary",
     "zh": "子目標標籤",
     "en": "Subgoal Labels",
     "workflow": [
@@ -878,6 +934,7 @@
     "example": "中二方程題分成「展開括號」「合併同類項」「隔離未知數」「代回檢查」。"
   },
   {
+    "level": "secondary",
     "zh": "目標、現況及下一步回饋",
     "en": "Feed Up / Feed Back / Feed Forward",
     "workflow": [
@@ -894,6 +951,7 @@
     "example": "中一 marking 指出題目要求解方程、學生在去括號時漏乘常數，並提醒下一題先檢查分配到每一項。"
   },
   {
+    "level": "secondary",
     "zh": "錯誤解答範例及找錯修正",
     "en": "Erroneous Worked Examples",
     "workflow": [
@@ -910,6 +968,7 @@
     "example": "中一自擬錯解把 `3(x−2)` 寫成 `3x−2`，要求先指出漏乘的 −2，再寫出正確展開。"
   },
   {
+    "level": "secondary",
     "zh": "比較多種正確解法",
     "en": "Comparing Multiple Solution Methods",
     "workflow": [
@@ -926,6 +985,7 @@
     "example": "中一同一方程分別以等式兩邊同減和移項解題，再標示兩種寫法的等價關係。"
   },
   {
+    "level": "secondary",
     "zh": "插入式提取練習／停下自試",
     "en": "Interpolated Testing",
     "workflow": [
@@ -942,6 +1002,7 @@
     "example": "中四解二次方程影片在因式分解後暫停，先讓學生自己求兩個根，再顯示完整答案。"
   },
   {
+    "level": "secondary",
     "zh": "影片長度與分段",
     "en": "Video Length and Segmentation",
     "workflow": [
@@ -955,6 +1016,7 @@
     "example": "中四試卷講評按題目或共同錯因製作可獨立回看的片段，每段先標示該段目標。"
   },
   {
+    "level": "secondary",
     "zh": "講解同步繪圖",
     "en": "Instructor-Generated Drawing",
     "workflow": [
@@ -969,6 +1031,7 @@
     "example": "中二幾何影片先畫平行線和截線，講到相應角時才加弧線標記並說明角關係。"
   },
   {
+    "level": "secondary",
     "zh": "試卷反思單",
     "en": "Exam Wrapper",
     "workflow": [
@@ -982,5 +1045,383 @@
     "source": "Lovett, M. C. (2013). Make exams worth more than the grade: Using exam wrappers to promote metacognition. In M. Kaplan et al. (Eds.), *Using Reflection and Metacognition to Improve Student Learning* (pp. 18–52). Stylus Publishing. [APA 改編資源及書目](https://www.apa.org/ed/precollege/topss/teaching-resources/exam-wrapper.html)。章節 DOI 未找到，書目由二手 APA 資源核對。",
     "theory": "試卷反思單引導學生回顧準備方法、分析已批改試卷的失分原因並訂立具體下一步。只問「明白嗎」或單一題解片尾問題不足以構成完整反思循環。",
     "example": "中四試後工作紙讓學生按自擬題錯誤分類（概念、程序、計算），再寫一項下一週可執行的練習安排。"
+  },
+  {
+    "level": "k2",
+    "zh": "遊戲中學習與兒童為本課程",
+    "en": "Learning through Play and Child-centred Curriculum",
+    "workflow": [
+      "W1",
+      "W2",
+      "W4",
+      "W7",
+      "C"
+    ],
+    "media": [
+      "V",
+      "S",
+      "P",
+      "W"
+    ],
+    "source": "課程發展議會、教育局（2017）。《幼稚園教育課程指引：快樂學習、有效學習》。香港：教育局。[教育局官方 PDF](https://www.edb.gov.hk/attachment/en/curriculum-development/major-level-of-edu/preprimary/ENG_KGECG_2017.pdf)。官方課程指引，屬課程依據，不是單一教學介入成效研究。",
+    "theory": "指引以兒童為本，主張透過遊戲、生活經驗和均衡課程促進幼兒全人發展。遊戲可提供探索、語言及社交機會，但須看活動是否連到明確學習目標；僅有裝飾或獎勵不等於遊戲中學習。",
+    "example": "K2「方舟動物上船」（`ark-k2.html`）讓幼兒操作動物上船；觀課時檢查數量比較、分類或語言目標是否清楚，而不只看動畫是否有趣。"
+  },
+  {
+    "level": "k2",
+    "zh": "幼小銜接與連續性",
+    "en": "Kindergarten–Primary Interface and Continuity",
+    "workflow": [
+      "W1",
+      "W7",
+      "C"
+    ],
+    "media": [
+      "V",
+      "S",
+      "P",
+      "W"
+    ],
+    "source": "香港教育局（年份未標示）。*A Quick Guide to Interface between Kindergarten and Primary Education*。[教育局官方指南 PDF](https://www.edb.gov.hk/attachment/en/curriculum-development/major-level-of-edu/preprimary/Interface_booklet-quick-guide.pdf)。官方指南可核對；本卡不把銜接主張描述為實驗效果。",
+    "theory": "幼小銜接重視幼兒已有的經驗、學習方式與小學環境之間的連貫。材料可以逐步建立聆聽、表達、數量感和簡單自理，而不應把 K2 提前變成大量小學紙筆操練；具體要求須依官方課程與兒童發展需要判斷。",
+    "example": "`numbers.html` 讓 K2 幼兒把數量和數字配對，並由家長請孩子說出「我數到幾多」；不要求幼兒抄寫小學格式的長算式。"
+  },
+  {
+    "level": "k2",
+    "zh": "數學學習軌跡",
+    "en": "Learning Trajectories in Mathematics",
+    "workflow": [
+      "W1",
+      "W2",
+      "W3",
+      "W4"
+    ],
+    "media": [
+      "V",
+      "S",
+      "P",
+      "W"
+    ],
+    "source": "Clements, D. H., & Sarama, J. (2004). Learning Trajectories in Mathematics Education. *Mathematical Thinking and Learning, 6*(2), 81–89. [DOI](https://doi.org/10.1207/s15327833mtl0602_1).",
+    "theory": "學習軌跡把數學目標、幼兒可能的思考發展路徑及相應教學活動連在一起。它幫助設計者選擇適切的下一步，但不是所有幼兒必然依同一順序發展的年齡診斷表；需以實際作答和互動調整。",
+    "example": "K2 `numbers.html` 先讓幼兒逐件點數，再把物件數量配到數字；若已能穩定點數，可加入「哪一組多一個」作下一步。"
+  },
+  {
+    "level": "k2",
+    "zh": "引導式遊戲",
+    "en": "Guided Play",
+    "workflow": [
+      "W2",
+      "W3",
+      "W4",
+      "W7"
+    ],
+    "media": [
+      "V",
+      "S",
+      "P",
+      "W"
+    ],
+    "source": "Weisberg, D. S., Hirsh-Pasek, K., & Golinkoff, R. M. (2013). Guided Play: Where Curricular Goals Meet a Playful Pedagogy. *Mind, Brain, and Education, 7*(2), 104–112. [DOI](https://doi.org/10.1111/mbe.12015).",
+    "theory": "引導式遊戲同時保留兒童主動探索，以及成人按目標安排環境、材料或提示。成人不必直接代做，也不應放任幼兒在沒有目標的操作中反覆碰運氣；提示份量要配合任務和幼兒反應。",
+    "example": "在 `ark-k2.html`，家長可問「船上已有幾隻？再上多一隻會怎樣？」讓幼兒自己拖放及點數，不直接說出答案。"
+  },
+  {
+    "level": "k2",
+    "zh": "教育性應用程式的四項學習支柱",
+    "en": "Four Pillars of Learning in Educational Apps",
+    "workflow": [
+      "W1",
+      "W5",
+      "W6"
+    ],
+    "media": [
+      "P",
+      "S"
+    ],
+    "source": "Hirsh-Pasek, K., Zosh, J. M., Golinkoff, R. M., Gray, J. H., Robb, M. B., & Kaufman, J. (2015). Putting Education in “Educational” Apps: Lessons From the Science of Learning. *Psychological Science in the Public Interest, 16*(1), 3–34. [DOI](https://doi.org/10.1177/1529100615569721).",
+    "theory": "作者提出主動參與、投入、意義連結及社交互動四項設計支柱，提醒評審不要只按遊戲外觀判定教育性。這是設計框架，不是保證任何符合四項標籤的 app 都有效；仍須看幼兒實際做甚麼和學到甚麼。",
+    "example": "K2 `ark-k2.html` 可讓幼兒主動選動物、把數量連到日常上船情境，並與陪同家長輪流說明理由；若只連續點擊收集星星，學習連結較弱。"
+  },
+  {
+    "level": "k2",
+    "zh": "最近發展區與教學支架",
+    "en": "Zone of Proximal Development and Scaffolding",
+    "workflow": [
+      "W2",
+      "W3",
+      "W4",
+      "W7"
+    ],
+    "media": [
+      "V",
+      "S",
+      "P",
+      "W"
+    ],
+    "source": "Wood, D., Bruner, J. S., & Ross, G. (1976). The Role of Tutoring in Problem Solving. *Journal of Child Psychology and Psychiatry, 17*(2), 89–100. [DOI](https://doi.org/10.1111/j.1469-7610.1976.tb00381.x); Vygotsky, L. S. (1978). *Mind in Society: The Development of Higher Psychological Processes*. Harvard University Press. [JSTOR DOI](https://doi.org/10.2307/j.ctvjf9vz4).",
+    "theory": "成人可在幼兒暫未能獨立完成、但在適切協助下能參與的任務中提供支援，再按表現調整。Wood 等人的教學支架概念與 Vygotsky 的最近發展區相關，但兩者不是完全相同的術語或單一量表；本卡只用來檢查提示是否適量並逐漸撤除。",
+    "example": "K2 `numbers.html` 若幼兒不知如何配對，可先示範一組，再以手勢提示下一組，最後讓幼兒自行完成；不應每題都直接指出正確數字。"
+  },
+  {
+    "level": "k2",
+    "zh": "具體—圖像—抽象表徵",
+    "en": "Concrete–Pictorial–Abstract (CPA) Representations",
+    "workflow": [
+      "W2",
+      "W3"
+    ],
+    "media": [
+      "V",
+      "S",
+      "P",
+      "W"
+    ],
+    "source": "Bruner, J. S. (1966). *Toward a Theory of Instruction*. Harvard University Press. [出版社書目](https://www.hup.harvard.edu/books/9780674897014).",
+    "theory": "Bruner 區分動作、圖像和符號表徵，這些方式可幫助幼兒以不同形式接觸概念。CPA 是後來常用的教學序列，不應誤稱為 Bruner 原文中的固定教案步驟；幼兒可在表徵間來回連結，不必僵化地每課都按單一路線。",
+    "example": "K2 數量活動先移動動物圖像，再看船上座位圖，最後說出「船上有四隻」；每一步都連結同一個數量。"
+  },
+  {
+    "level": "k2",
+    "zh": "點數原則與快速辨量",
+    "en": "Counting Principles and Subitizing",
+    "workflow": [
+      "W2",
+      "W3",
+      "W4"
+    ],
+    "media": [
+      "V",
+      "S",
+      "P",
+      "W"
+    ],
+    "source": "Gelman, R., & Gallistel, C. R. (1978). *The Child’s Understanding of Number*. Harvard University Press. [DOI 電子版](https://doi.org/10.4159/9780674037533); Clements, D. H. (1999). Subitizing: What Is It? Why Teach It? *Teaching Children Mathematics, 5*(7), 400–405. [DOI](https://doi.org/10.5951/TCM.5.7.0400).",
+    "theory": "幼兒點數涉及一一對應、穩定次序、基數、抽象及次序無關等原則；快速辨量則是不用逐個點數而看出小組數量。這些是理解數概念的觀察框架，不表示單靠反覆背數詞就掌握數量，也不應把快速辨量速度當成能力排名。",
+    "example": "K2 `ark-k2.html` 讓幼兒逐隻點船上的動物，再問「不用再點一次，你看到幾隻？」；可觀察是否每隻只數一次，以及最後數詞代表總數。"
+  },
+  {
+    "level": "k2",
+    "zh": "線性數字棋盤遊戲",
+    "en": "Linear Number Board Games",
+    "workflow": [
+      "W3",
+      "W4",
+      "W7"
+    ],
+    "media": [
+      "V",
+      "S",
+      "P",
+      "W"
+    ],
+    "source": "Siegler, R. S., & Ramani, G. B. (2008). Playing Linear Numerical Board Games Promotes Low-Income Children’s Numerical Development. *Developmental Science, 11*(5), 655–661. [DOI](https://doi.org/10.1111/j.1467-7687.2008.00714.x).",
+    "theory": "該研究檢視線性數字棋盤遊戲與幼兒數學發展的關係，遊戲路徑讓數字和空間位置保持有序連結。研究情境及參與兒童有限，不能直接推成所有遊戲或所有家庭都有同等效果；設計要看數字標示、移動規則和成人提問。",
+    "example": "自擬 K2 1–10 線性路徑遊戲，幼兒擲一點或兩點骰子後移格，說出停在哪個數及前後相鄰數。"
+  },
+  {
+    "level": "k2",
+    "zh": "口語語素意識與中文字詞理解",
+    "en": "Oral Morphological Awareness and Chinese Word Meaning",
+    "workflow": [
+      "W1",
+      "W2",
+      "W3",
+      "W4"
+    ],
+    "media": [
+      "V",
+      "S",
+      "P",
+      "W"
+    ],
+    "source": "McBride-Chang, C., Wat, C. P., Shu, H., Zhou, A., & Wagner, R. K. (2003). Morphological Awareness Uniquely Predicts Young Children’s Chinese Character Recognition. *Journal of Educational Psychology, 95*(4), 743–751. [DOI](https://doi.org/10.1037/0022-0663.95.4.743).",
+    "theory": "該研究以口頭同音詞辨義及複合詞語素任務測量幼兒的形態意識，並發現其與中文字辨認有獨特關聯。這項關聯不表示研究測試了中文字形部件辨認，也不能證明某一款拆字活動必然提升識字；本卡只支持觀察幼兒如何留意口語詞素及詞義。",
+    "example": "K2 `characters.html` 的家長可口頭問：「花園的『花』和花朵的『花』，意思有甚麼相同？」讓孩子比較常用複合詞中的詞素意思；不以字形拆部件作本卡例子。"
+  },
+  {
+    "level": "k2",
+    "zh": "幼兒中文手寫與字形練習",
+    "en": "Chinese Handwriting and Character Practice in Kindergarten",
+    "workflow": [
+      "W2",
+      "W3",
+      "W4"
+    ],
+    "media": [
+      "S",
+      "P",
+      "W"
+    ],
+    "source": "Tse, L. F. L., Siu, A. M. H., & Li-Tsang, C. W. P. (2017). Development of Chinese Handwriting Skills among Kindergarten Children: Copying of the Composition in Chinese Characters and Name Writing. *Journal of Occupational Therapy, Schools & Early Intervention, 10*(1), 40–51. [DOI](https://doi.org/10.1080/19411243.2016.1273159).",
+    "theory": "研究描述幼稚園兒童中文書寫技能的發展和抄寫／姓名書寫表現。觀課可留意字格大小、筆畫起止和手部負荷是否適合，但該研究不是要求所有 K2 幼兒大量抄寫的依據；發展差異需要保留。",
+    "example": "K2 `k2-guide.html` 的字形活動可讓孩子先沿大字描一次，再在較大的空格自選寫一次；不要因筆畫略偏就判為不懂詞義。"
+  },
+  {
+    "level": "k2",
+    "zh": "對話式共讀",
+    "en": "Dialogic Reading (PEER and CROWD)",
+    "workflow": [
+      "W2",
+      "W3",
+      "W4",
+      "W7"
+    ],
+    "media": [
+      "V",
+      "S",
+      "P",
+      "W"
+    ],
+    "source": "Whitehurst, G. J., Falco, F. L., Lonigan, C. J., Fischel, J. E., DeBaryshe, B. D., Valdez-Menchaca, M. C., & Caulfield, M. (1988). Accelerating Language Development through Picture Book Reading. *Developmental Psychology, 24*(4), 552–559. [DOI](https://doi.org/10.1037/0012-1649.24.4.552); What Works Clearinghouse. Dialogic Reading intervention report. [IES／WWC PDF](https://ies.ed.gov/ncee/WWC/Docs/InterventionReports/WWC_Dialogic_Reading_020807.pdf)。PEER／CROWD 為後續實務框架；原研究幼兒年齡與此 K2 範圍不完全相同，須謹慎外推。",
+    "theory": "對話式共讀鼓勵成人透過提示、幼兒回應、擴展及重複閱讀，讓故事變成來回對話。CROWD 是可用的提問類型提示，PEER 是成人回應序列；不應連續盤問或打斷故事節奏，需按孩子興趣調整。",
+    "example": "在自擬方舟故事頁，家長問「你估下一隻會坐哪裏？」孩子回答後，成人重述並加一句「牠和誰坐在一起？」；讓孩子有時間回應。"
+  },
+  {
+    "level": "k2",
+    "zh": "執行功能與自我調節",
+    "en": "Executive Function and Self-Regulation",
+    "workflow": [
+      "W1",
+      "W4",
+      "W7"
+    ],
+    "media": [
+      "V",
+      "S",
+      "P",
+      "W"
+    ],
+    "source": "Diamond, A., & Lee, K. (2011). Interventions Shown to Aid Executive Function Development in Children 4 to 12 Years Old. *Science, 333*(6045), 959–964. [DOI](https://doi.org/10.1126/science.1204529).",
+    "theory": "執行功能包括工作記憶、抑制控制及認知轉換，支持幼兒記住簡單規則、等待輪流和改用另一策略。該文整理多種介入及 4–12 歲研究，不代表每項活動都適合每位 K2 幼兒；規則過多或等待過長會增加負擔。",
+    "example": "K2 `ark-k2.html` 可分兩輪操作：先記住「每隻動物上一隻船」，再輪流選動物；每輪只保留一個主要規則。"
+  },
+  {
+    "level": "k2",
+    "zh": "過程稱讚",
+    "en": "Process Praise",
+    "workflow": [
+      "W4",
+      "W7"
+    ],
+    "media": [
+      "V",
+      "S",
+      "P",
+      "W"
+    ],
+    "source": "Mueller, C. M., & Dweck, C. S. (1998). Praise for Intelligence Can Undermine Children’s Motivation and Performance. *Journal of Personality and Social Psychology, 75*(1), 33–52. [DOI](https://doi.org/10.1037/0022-3514.75.1.33); Gunderson, E. A., Gripshover, S. J., Romero, C., Dweck, C. S., Goldin-Meadow, S., & Levine, S. C. (2013). Parent Praise to 1- to 3-Year-Olds Predicts Children’s Motivational Frameworks 5 Years Later. *Child Development, 84*(5), 1526–1541. [DOI](https://doi.org/10.1111/cdev.12064).",
+    "theory": "研究比較能力稱讚與過程稱讚，及家長早期稱讚與其後動機觀念的關聯。研究年齡和設計有限，不能推論一句稱讚會決定幼兒長期動機；觀課只看稱讚是否具體、真實和指向可重用的策略。",
+    "example": "幼兒在 `numbers.html` 點數後，家長說「你逐個數，沒有漏掉」比只說「你好叻」更能指出可重用的方法。"
+  },
+  {
+    "level": "k2",
+    "zh": "外在獎勵與內在興趣",
+    "en": "Overjustification Effect and Intrinsic Interest",
+    "workflow": [
+      "W1",
+      "W4",
+      "W6",
+      "W7"
+    ],
+    "media": [
+      "P",
+      "S"
+    ],
+    "source": "Lepper, M. R., Greene, D., & Nisbett, R. E. (1973). Undermining Children’s Intrinsic Interest with Extrinsic Reward: A Test of the “Overjustification” Hypothesis. *Journal of Personality and Social Psychology, 28*(1), 129–137. [DOI](https://doi.org/10.1037/h0035519).",
+    "theory": "該實驗研究特定情境下，預期可得的外在獎勵與幼兒自發活動興趣的關係。結果不表示任何貼紙、遊戲或稱讚都會有害；獎勵類型、是否預期、活動本身和幼兒差異都重要，須避免把單一研究當通則。",
+    "example": "K2 `ark-k2.html` 若每次正確只為收集星星，觀課可建議增加「數一數船上有幾隻」的任務意義，而非只加更多星星。"
+  },
+  {
+    "level": "k2",
+    "zh": "材料內置的自我校正",
+    "en": "Control of Error in Learning Materials",
+    "workflow": [
+      "W3",
+      "W4",
+      "W5",
+      "W6"
+    ],
+    "media": [
+      "P",
+      "W"
+    ],
+    "source": "Montessori, M. (1912). *The Montessori Method: Scientific Pedagogy as Applied to Child Education in the Children’s Houses*. Trans. Anne E. George. Frederick A. Stokes Company. [Project Gutenberg 電子版本](https://www.gutenberg.org/ebooks/39863); Marshall, C. (2017). Montessori education: a review of the evidence base. *npj Science of Learning, 2*, Article 11. [DOI](https://doi.org/10.1038/s41539-017-0012-7).",
+    "theory": "Montessori 描述讓教具本身提供錯誤線索，使孩子有機會自行發現和修正。後來的綜述指出 Montessori 教育整體證據有差異，不能把某一種「自我校正」材料的效果獨立歸因；材料仍須有正確、清楚且不羞辱孩子的回饋。",
+    "example": "自擬 1–5 點數卡配對活動中，圖像框位讓多放或少放的物件明顯可見，幼兒可以自己再數一次；避免只用刺耳錯誤聲。"
+  },
+  {
+    "level": "k2",
+    "zh": "回應式觸控媒體與影片學習落差",
+    "en": "Contingent Touchscreen Media and the Video Deficit",
+    "workflow": [
+      "W2",
+      "W4",
+      "W5",
+      "W6"
+    ],
+    "media": [
+      "V",
+      "P"
+    ],
+    "source": "Kirkorian, H. L., Choi, K., & Pempek, T. A. (2016). Toddlers’ Word Learning From Contingent and Noncontingent Video on Touch Screens. *Child Development, 87*(2), 405–413. [DOI](https://doi.org/10.1111/cdev.12508); Strouse, G. A., & Samson, J. E. (2021). Learning From Video: A Meta-Analysis of the Video Deficit in Children Ages 0 to 6 Years. *Child Development, 92*(1), e20–e38. [DOI](https://doi.org/10.1111/cdev.13429).",
+    "theory": "研究探討幼兒由即時回應式媒體和非回應式影片學習的差別；影片落差會受年齡、內容、社會互動及任務影響。不要把「有觸控」直接等同有效互動；回應須與孩子行為及學習目標相關，且本卡研究包含不同年齡，外推至 K2 要審慎。",
+    "example": "K2 `ark-k2.html` 點選動物後才播放對應粵語名稱及上船動畫；點擊無論選甚麼都播放同一段影片，則互動關聯較弱。"
+  },
+  {
+    "level": "k2",
+    "zh": "兒童觸控互動設計建議",
+    "en": "Touchscreen Interaction Design Recommendations for Children",
+    "workflow": [
+      "W4",
+      "W5",
+      "W6"
+    ],
+    "media": [
+      "P",
+      "S"
+    ],
+    "source": "Soni, N., Aloba, A., Morga, K. S., Wisniewski, P. J., & Anthony, L. (2019). A Framework of Touchscreen Interaction Design Recommendations for Children (TIDRC): Characterizing the Gap between Research Evidence and Design Practice. *Proceedings of the 18th ACM International Conference on Interaction Design and Children*, 419–431. [DOI](https://doi.org/10.1145/3311927.3323149).",
+    "theory": "TIDRC 整理兒童觸控互動設計的研究建議與產品實踐落差，提醒設計者考慮目標大小、操作方式、錯誤復原及兒童能力。它是設計建議框架，不等於所有幼兒都適用同一像素尺寸；須在實際裝置和任務中測試。",
+    "example": "K2 `ark-k2.html` 的動物按鈕需有足夠點選區、彼此分開，並可容易取消或重選；不能要求精準拖到很小的座位框。"
+  },
+  {
+    "level": "k2",
+    "zh": "旁白電子書與成人共同閱讀",
+    "en": "Narrated E-books and Parent-supported Comprehension",
+    "workflow": [
+      "W2",
+      "W5",
+      "W7"
+    ],
+    "media": [
+      "V",
+      "S",
+      "P",
+      "W"
+    ],
+    "source": "Dore, R. A., Hassinger-Das, B., Brezack, N., Valladares, T. L., Paller, A., Vu, L., Golinkoff, R. M., & Hirsh-Pasek, K. (2018). The Parent Advantage in Fostering Children’s E-Book Comprehension. *Early Childhood Research Quarterly, 44*, 24–33. [DOI](https://doi.org/10.1016/j.ecresq.2018.02.002).",
+    "theory": "該研究比較成人共同閱讀和電子書支援對 4–5 歲兒童理解的作用，指出家長互動可能帶來重要支援。研究不是孤立測試所有旁白的效果；語音須清楚、與頁面內容同步且可重播，不能以聲音取代親子對話或孩子觀察圖像。",
+    "example": "K2 `k2-guide.html` 的生字頁先讀單字粵語音，再讀包含該字的短句；家長可停下來讓孩子指出圖中相應物件。"
+  },
+  {
+    "level": "k2",
+    "zh": "親子共同媒體參與",
+    "en": "Joint Media Engagement",
+    "workflow": [
+      "W2",
+      "W5",
+      "W7",
+      "C"
+    ],
+    "media": [
+      "V",
+      "S",
+      "P",
+      "W"
+    ],
+    "source": "Takeuchi, L., & Stevens, R. (2011). *The New Coviewing: Designing for Learning through Joint Media Engagement*. New York: Joan Ganz Cooney Center at Sesame Workshop. [官方報告 PDF](https://joanganzcooneycenter.org/wp-content/uploads/2011/12/jgc_coviewing_desktop.pdf)。研究中心報告及設計框架，不是單一隨機對照試驗。",
+    "theory": "共同媒體參與強調成人和孩子一起觀看或操作，透過談話、共同注意和共同解決問題延伸學習。成人在場本身不保證互動有效；材料需留出輪流、提問和分享想法的空間，並尊重孩子自主操作。",
+    "example": "K2 `ark-k2.html` 的家長與孩子輪流選動物，孩子說出選擇理由，家長再邀請孩子數船上動物；家長不替孩子完成所有拖放。"
   }
 ]

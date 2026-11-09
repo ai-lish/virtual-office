@@ -183,6 +183,16 @@ test('restricts citation hosts to the pedagogy source field', async () => {
   assert.match(result.stderr, /external host is not in manifest allowlist/);
 });
 
+test('allows the verified Project Gutenberg Montessori source and excludes the incorrect LOC host', async () => {
+  const manifest = JSON.parse(await readFile(path.join(repoRoot, 'publish.allowlist.json'), 'utf8'));
+  const cards = JSON.parse(await readFile(path.join(repoRoot, 'pedagogy/pedagogy.json'), 'utf8'));
+  assert.ok(manifest.allowedPedagogySourceHosts.includes('www.gutenberg.org'));
+  assert.ok(!manifest.allowedPedagogySourceHosts.includes('tile.loc.gov'));
+  assert.ok(cards.some((card) => card.source.includes('https://www.gutenberg.org/ebooks/39863')));
+  const result = await runGuard();
+  assert.equal(result.status, 0, result.stderr);
+});
+
 test('allows only the public ERIC record-id citation query shape', async () => {
   const cards = JSON.parse(await readFile(path.join(repoRoot, 'pedagogy/pedagogy.json'), 'utf8'));
   cards[0].source += ' [ERIC test](https://eric.ed.gov/?id=ED053419)';
@@ -222,9 +232,64 @@ test('keeps the pedagogy projection schema closed', async () => {
   assert.match(result.stderr, /pedagogy card 1 contains unknown or missing keys/);
 });
 
+test('accepts only the approved secondary and K2 pedagogy levels', async () => {
+  const cards = JSON.parse(await readFile(path.join(repoRoot, 'pedagogy/pedagogy.json'), 'utf8'));
+  const k2Cards = cards.filter((card) => card.level === 'k2');
+  assert.ok(k2Cards.length > 0);
+  assert.ok(cards.filter((card) => card.level === 'secondary').length > 0);
+  const validResult = await runGuard({ overrides: { 'pedagogy/pedagogy.json': JSON.stringify(cards) } });
+  assert.equal(validResult.status, 0, validResult.stderr);
+
+  cards[0].level = 'preschool';
+  const invalidResult = await runGuard({ overrides: { 'pedagogy/pedagogy.json': JSON.stringify(cards) } });
+  assert.notEqual(invalidResult.status, 0);
+  assert.match(invalidResult.stderr, /pedagogy card 1 has an invalid level/);
+});
+
+test('pedagogy guard accepts 1000 cards and rejects larger catalogs', async () => {
+  const cards = JSON.parse(await readFile(path.join(repoRoot, 'pedagogy/pedagogy.json'), 'utf8'));
+  const maximum = Array.from({ length: 1000 }, (_, index) => ({ ...cards[index % cards.length] }));
+  let result = await runGuard({ overrides: { 'pedagogy/pedagogy.json': JSON.stringify(maximum) } });
+  assert.equal(result.status, 0, result.stderr);
+
+  maximum.push({ ...cards[0] });
+  result = await runGuard({ overrides: { 'pedagogy/pedagogy.json': JSON.stringify(maximum) } });
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /between 1 and 1000 method cards/);
+});
+
+test('pedagogy guard enforces a 1 MiB JSON size limit', async () => {
+  const cards = JSON.parse(await readFile(path.join(repoRoot, 'pedagogy/pedagogy.json'), 'utf8'));
+  const card = cards[0];
+  const oversized = Array.from({ length: 140 }, () => ({ ...card, example: 'x'.repeat(8000) }));
+  const content = JSON.stringify(oversized);
+  assert.ok(Buffer.byteLength(content, 'utf8') > 1024 * 1024);
+  const result = await runGuard({ overrides: { 'pedagogy/pedagogy.json': content } });
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /exceeds the 1048576-byte limit/);
+});
+
+test('pedagogy guard accepts exactly 1 MiB and rejects one byte more', async () => {
+  const cards = JSON.parse(await readFile(path.join(repoRoot, 'pedagogy/pedagogy.json'), 'utf8'));
+  const content = JSON.stringify(cards);
+  const exact = `${content}${' '.repeat(1024 * 1024 - Buffer.byteLength(content))}`;
+  assert.equal(Buffer.byteLength(exact), 1024 * 1024);
+  let result = await runGuard({ overrides: { 'pedagogy/pedagogy.json': exact } });
+  assert.equal(result.status, 0, result.stderr);
+
+  result = await runGuard({ overrides: { 'pedagogy/pedagogy.json': `${exact} ` } });
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /exceeds the 1048576-byte limit/);
+});
+
 test('rejects private canonical paths and a missing homepage pedagogy link', async () => {
   const page = `${await readFile(path.join(repoRoot, 'pedagogy/index.html'), 'utf8')}\n<!-- skills/shared/lesson-observation -->`;
   let result = await runGuard({ overrides: { 'pedagogy/index.html': page } });
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /pedagogy\/index.html contains a private path/);
+
+  const k2PathPage = `${await readFile(path.join(repoRoot, 'pedagogy/index.html'), 'utf8')}\n<!-- skills/shared/k2-observation -->`;
+  result = await runGuard({ overrides: { 'pedagogy/index.html': k2PathPage } });
   assert.notEqual(result.status, 0);
   assert.match(result.stderr, /pedagogy\/index.html contains a private path/);
 
