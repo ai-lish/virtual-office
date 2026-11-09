@@ -13,12 +13,14 @@ const EXPECTED_PEDAGOGY_SOURCE_HOSTS = Object.freeze([
   'search.worldcat.org', 'shop.elsevier.com', 'udlguidelines.cast.org', 'webspace.science.uu.nl',
   'www.aft.org', 'www.apa.org', 'www.ascd.org', 'www.cambridge.org', 'www.corwin.com',
   'www.edb.gov.hk', 'www.hkeaa.edu.hk', 'www.hup.harvard.edu', 'www.jstor.org',
-  'www.pearson.com', 'www.routledge.com', 'www.solutiontree.com', 'www.w3.org'
+  'www.pearson.com', 'www.routledge.com', 'www.solutiontree.com', 'www.w3.org',
+  'ies.ed.gov', 'joanganzcooneycenter.org', 'tile.loc.gov'
 ]);
-const PUBLIC_PEDAGOGY_KEYS = Object.freeze(['zh', 'en', 'workflow', 'media', 'source', 'theory', 'example']);
+const PUBLIC_PEDAGOGY_KEYS = Object.freeze(['zh', 'en', 'workflow', 'media', 'source', 'theory', 'example', 'level']);
+const PEDAGOGY_LEVELS = new Set(['secondary', 'k2']);
 const PEDAGOGY_WORKFLOWS = new Set(['W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'W7', 'C']);
 const PEDAGOGY_MEDIA = new Set(['V', 'S', 'P', 'W']);
-const PEDAGOGY_PRIVATE_PATTERN = /(?:\/Users\/|C:\\Users\\|\.ai-shared|scratchpad|skills\/shared\/lesson-observation|skills\/pedagogy\/|office-ui\/|GoogleDrive|OneDrive|thread_id|session_name|teaching-methods\.md|用家原話|未公開校內試題|學生資料)/i;
+const PEDAGOGY_PRIVATE_PATTERN = /(?:\/Users\/|C:\\Users\\|\.ai-shared|scratchpad|skills\/shared\/(?:lesson-observation|k2-observation)|skills\/pedagogy\/|office-ui\/|GoogleDrive|OneDrive|thread_id|session_name|teaching-methods\.md|用家原話|未公開校內試題|學生資料)/i;
 
 function assertSafeHost(value) {
   if (typeof value !== 'string' || value.length === 0 || value !== value.toLowerCase() || /[/:?#\s*]/.test(value)) {
@@ -235,6 +237,9 @@ function validatePedagogy(value) {
   const usedHosts = new Set();
   for (const [index, card] of value.entries()) {
     assertExactKeys(card, PUBLIC_PEDAGOGY_KEYS, `pedagogy card ${index + 1} contains unknown or missing keys`);
+    if (!PEDAGOGY_LEVELS.has(card.level)) {
+      throw new Error(`pedagogy card ${index + 1} has an invalid level`);
+    }
     for (const field of ['zh', 'en', 'source', 'theory', 'example']) {
       if (typeof card[field] !== 'string' || card[field].trim().length === 0 || card[field].length > 8000) {
         throw new Error(`pedagogy card ${index + 1} has an invalid ${field} field`);

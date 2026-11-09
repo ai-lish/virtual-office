@@ -222,9 +222,28 @@ test('keeps the pedagogy projection schema closed', async () => {
   assert.match(result.stderr, /pedagogy card 1 contains unknown or missing keys/);
 });
 
+test('accepts only the approved secondary and K2 pedagogy levels', async () => {
+  const cards = JSON.parse(await readFile(path.join(repoRoot, 'pedagogy/pedagogy.json'), 'utf8'));
+  const k2Cards = cards.filter((card) => card.level === 'k2');
+  assert.ok(k2Cards.length > 0);
+  assert.ok(cards.filter((card) => card.level === 'secondary').length > 0);
+  const validResult = await runGuard({ overrides: { 'pedagogy/pedagogy.json': JSON.stringify(cards) } });
+  assert.equal(validResult.status, 0, validResult.stderr);
+
+  cards[0].level = 'preschool';
+  const invalidResult = await runGuard({ overrides: { 'pedagogy/pedagogy.json': JSON.stringify(cards) } });
+  assert.notEqual(invalidResult.status, 0);
+  assert.match(invalidResult.stderr, /pedagogy card 1 has an invalid level/);
+});
+
 test('rejects private canonical paths and a missing homepage pedagogy link', async () => {
   const page = `${await readFile(path.join(repoRoot, 'pedagogy/index.html'), 'utf8')}\n<!-- skills/shared/lesson-observation -->`;
   let result = await runGuard({ overrides: { 'pedagogy/index.html': page } });
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /pedagogy\/index.html contains a private path/);
+
+  const k2PathPage = `${await readFile(path.join(repoRoot, 'pedagogy/index.html'), 'utf8')}\n<!-- skills/shared/k2-observation -->`;
+  result = await runGuard({ overrides: { 'pedagogy/index.html': k2PathPage } });
   assert.notEqual(result.status, 0);
   assert.match(result.stderr, /pedagogy\/index.html contains a private path/);
 

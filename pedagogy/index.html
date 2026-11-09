@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>教學法總索引 — 虛擬辦公室</title>
+<title>中學／K2 教學法總索引 — 虛擬辦公室</title>
 <style>
 :root{color-scheme:dark light;--bg:#0f0f23;--card:#16213e;--text:#eee;--dim:#aab3c5;--accent:#64b5f6;--edge:#35435f;--tag:#203e63;--focus:#f5ba4b}
 @media(prefers-color-scheme:light){:root{--bg:#f4f6fa;--card:#fff;--text:#1e293b;--dim:#536175;--accent:#075fae;--edge:#cbd5e1;--tag:#e7f2ff;--focus:#9b5b00}}
@@ -17,7 +17,7 @@ a{color:var(--accent);overflow-wrap:anywhere}
 .btn{display:inline-flex;align-items:center;min-height:40px;padding:6px 12px;border:1px solid var(--edge);border-radius:8px;color:var(--text);text-decoration:none;font-size:.82rem}
 main{width:min(1120px,100%);margin:0 auto;padding:20px 16px 48px}
 .intro{color:var(--dim);font-size:.86rem;margin:0 0 16px}
-.controls{display:grid;grid-template-columns:1fr 1fr minmax(220px,2fr);gap:10px;margin:16px 0 8px}
+.controls{display:grid;grid-template-columns:1fr 1fr 1fr minmax(220px,2fr);gap:10px;margin:16px 0 8px}
 .controls label{display:grid;gap:5px;color:var(--dim);font-size:.76rem}
 .controls select,.controls input{width:100%;min-height:44px;padding:8px 10px;border:1px solid var(--edge);border-radius:8px;background:var(--card);color:var(--text);font:inherit}
 .status{min-height:24px;margin:8px 0 18px;color:var(--dim);font-size:.78rem}
@@ -36,12 +36,13 @@ main{width:min(1120px,100%);margin:0 auto;padding:20px 16px 48px}
 </head>
 <body>
 <header class="header">
-  <div><h1>📚 教學法總索引</h1><p>按工作流程分類 · 正本附來源、理論解說及香港中學數學例子</p></div>
+  <div><h1>📚 中學／K2 教學法總索引</h1><p>按工作流程分類 · 正本附來源、理論解說及例子</p></div>
   <a class="btn" href="/virtual-office/">← Skills</a>
 </header>
 <main>
   <p class="intro">索引只作導航；每張卡的完整定義以所列正本為準。可按階段、媒介篩選，或搜尋中英文名稱、來源及例子。</p>
   <div class="controls" aria-label="教學法篩選">
+    <label for="level">學習階段<select id="level"><option value="secondary">中學</option><option value="k2">K2</option></select></label>
     <label for="stage">工作階段<select id="stage"><option value="">全部階段</option></select></label>
     <label for="media">媒介<select id="media"><option value="">全部媒介</option><option value="V">V 影片</option><option value="S">S 投影片</option><option value="P">P 互動練習頁</option><option value="W">W 工作紙及題解</option></select></label>
     <label for="search">文字搜尋<input id="search" type="search" placeholder="例如：交錯練習、Mayer、弧度"></label>
@@ -66,10 +67,11 @@ function appendLinkedText(target,text){
   target.append(document.createTextNode(text.slice(cursor)));
 }
 function render(){
-  const selectedStage=byId('stage').value,selectedMedia=byId('media').value,query=byId('search').value.trim().toLocaleLowerCase();
-  const filtered=cards.filter(item=>(!selectedStage||item.workflow.includes(selectedStage))&&(!selectedMedia||item.media.includes(selectedMedia))&&(!query||[item.zh,item.en,item.source,item.theory,item.example,item.action].join(' ').toLocaleLowerCase().includes(query)));
+  const selectedLevel=byId('level').value,selectedStage=byId('stage').value,selectedMedia=byId('media').value,query=byId('search').value.trim().toLocaleLowerCase();
+  const trackCards=cards.filter(item=>item.level===selectedLevel);
+  const filtered=trackCards.filter(item=>(!selectedStage||item.workflow.includes(selectedStage))&&(!selectedMedia||item.media.includes(selectedMedia))&&(!query||[item.zh,item.en,item.source,item.theory,item.example,item.action].join(' ').toLocaleLowerCase().includes(query)));
   const root=byId('results');root.replaceChildren();
-  byId('status').textContent=`顯示 ${filtered.length}／${cards.length} 項教學法`;
+  byId('status').textContent=`${selectedLevel==='k2'?'K2':'中學'}：顯示 ${filtered.length}／${trackCards.length} 項教學法`;
   if(!filtered.length){const empty=document.createElement('p');empty.className='empty';empty.textContent='沒有符合條件的教學法。';root.append(empty);return}
   const grouped=new Map();
   for(const item of filtered){for(const stage of item.workflow){if(selectedStage&&stage!==selectedStage)continue;if(!grouped.has(stage))grouped.set(stage,[]);grouped.get(stage).push(item)}}
@@ -79,7 +81,7 @@ function render(){
     for(const item of items){
       const card=document.createElement('article');card.className='card';const title=document.createElement('h3');title.append(document.createTextNode(item.zh+' '));const en=document.createElement('span');en.className='english';en.textContent=`(${item.en})`;title.append(en);card.append(title);
       const tags=document.createElement('div');tags.className='tags';for(const tag of [...item.workflow,...item.media]){const pill=document.createElement('span');pill.className='tag';pill.textContent=stageNames[tag]||mediaNames[tag]||tag;tags.append(pill)}card.append(tags);
-      addField(card,'出處',item.source,true);addField(card,'理論解說',item.theory);addField(card,'香港中學數學例子',item.example);if(item.action)addField(card,'這一步要做甚麼',item.action);
+      addField(card,'出處',item.source,true);addField(card,'理論解說',item.theory);addField(card,selectedLevel==='k2'?'K2 幼兒例子':'香港中學數學例子',item.example);if(item.action)addField(card,'這一步要做甚麼',item.action);
 
       grid.append(card)
     }
@@ -89,7 +91,7 @@ function render(){
 fetch('pedagogy.json').then(response=>{if(!response.ok)throw new Error('HTTP '+response.status);return response.json()}).then(data=>{
   if(!Array.isArray(data))throw new Error('JSON 格式不正確');cards=data;
   const stageSelect=byId('stage');for(const [id,name] of Object.entries(stageNames)){const option=document.createElement('option');option.value=id;option.textContent=name;stageSelect.append(option)}
-  stageSelect.addEventListener('change',render);byId('media').addEventListener('change',render);byId('search').addEventListener('input',render);render()
+  byId('level').addEventListener('change',render);stageSelect.addEventListener('change',render);byId('media').addEventListener('change',render);byId('search').addEventListener('input',render);render()
 }).catch(error=>{byId('status').textContent='無法載入教學法資料';const box=document.createElement('p');box.className='error';box.textContent=error.message;byId('results').replaceChildren(box)});
 </script>
 </body>
