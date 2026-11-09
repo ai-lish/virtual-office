@@ -246,6 +246,29 @@ test('accepts only the approved secondary and K2 pedagogy levels', async () => {
   assert.match(invalidResult.stderr, /pedagogy card 1 has an invalid level/);
 });
 
+test('pedagogy guard accepts 1000 cards and rejects larger catalogs', async () => {
+  const cards = JSON.parse(await readFile(path.join(repoRoot, 'pedagogy/pedagogy.json'), 'utf8'));
+  const maximum = Array.from({ length: 1000 }, (_, index) => ({ ...cards[index % cards.length] }));
+  let result = await runGuard({ overrides: { 'pedagogy/pedagogy.json': JSON.stringify(maximum) } });
+  assert.equal(result.status, 0, result.stderr);
+
+  maximum.push({ ...cards[0] });
+  result = await runGuard({ overrides: { 'pedagogy/pedagogy.json': JSON.stringify(maximum) } });
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /between 1 and 1000 method cards/);
+});
+
+test('pedagogy guard enforces a 1 MiB JSON size limit', async () => {
+  const cards = JSON.parse(await readFile(path.join(repoRoot, 'pedagogy/pedagogy.json'), 'utf8'));
+  const card = cards[0];
+  const oversized = Array.from({ length: 140 }, () => ({ ...card, example: 'x'.repeat(8000) }));
+  const content = JSON.stringify(oversized);
+  assert.ok(Buffer.byteLength(content, 'utf8') > 1024 * 1024);
+  const result = await runGuard({ overrides: { 'pedagogy/pedagogy.json': content } });
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /exceeds the 1048576-byte limit/);
+});
+
 test('rejects private canonical paths and a missing homepage pedagogy link', async () => {
   const page = `${await readFile(path.join(repoRoot, 'pedagogy/index.html'), 'utf8')}\n<!-- skills/shared/lesson-observation -->`;
   let result = await runGuard({ overrides: { 'pedagogy/index.html': page } });

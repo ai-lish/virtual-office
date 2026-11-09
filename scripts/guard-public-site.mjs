@@ -17,6 +17,9 @@ const EXPECTED_PEDAGOGY_SOURCE_HOSTS = Object.freeze([
   'ies.ed.gov', 'joanganzcooneycenter.org', 'www.gutenberg.org'
 ]);
 const PUBLIC_PEDAGOGY_KEYS = Object.freeze(['zh', 'en', 'workflow', 'media', 'source', 'theory', 'example', 'level']);
+const MAX_PEDAGOGY_CARDS = 1000;
+// Keep mirror validation aligned with the private build; current JSON is about 75 KiB.
+const MAX_PEDAGOGY_JSON_BYTES = 1024 * 1024;
 const PEDAGOGY_LEVELS = new Set(['secondary', 'k2']);
 const PEDAGOGY_WORKFLOWS = new Set(['W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'W7', 'C']);
 const PEDAGOGY_MEDIA = new Set(['V', 'S', 'P', 'W']);
@@ -230,9 +233,12 @@ function validateHistory(value) {
   }
 }
 
-function validatePedagogy(value) {
-  if (!Array.isArray(value) || value.length < 1 || value.length > 100) {
-    throw new Error('pedagogy/pedagogy.json must be a bounded array of method cards');
+function validatePedagogy(value, sourceBytes) {
+  if (!Number.isSafeInteger(sourceBytes) || sourceBytes < 0 || sourceBytes > MAX_PEDAGOGY_JSON_BYTES) {
+    throw new Error(`pedagogy/pedagogy.json exceeds the ${MAX_PEDAGOGY_JSON_BYTES}-byte limit`);
+  }
+  if (!Array.isArray(value) || value.length < 1 || value.length > MAX_PEDAGOGY_CARDS) {
+    throw new Error(`pedagogy/pedagogy.json must contain between 1 and ${MAX_PEDAGOGY_CARDS} method cards`);
   }
   const usedHosts = new Set();
   for (const [index, card] of value.entries()) {
@@ -307,7 +313,7 @@ async function walk(current, files = []) {
     const stat = await lstat(full);
     if (stat.isSymbolicLink()) throw new Error(`symbolic link in public output: ${relative}`);
     if (stat.isDirectory()) await walk(full, files);
-    else if (stat.isFile()) files.push({ full, relative });
+    else if (stat.isFile()) files.push({ full, relative, size: stat.size });
   }
   return files;
 }
@@ -321,6 +327,9 @@ if (extra.length || missing.length) throw new Error(`public output differs from 
 
 for (const file of files) {
   if (forbiddenName.test(file.relative)) throw new Error(`forbidden public filename: ${file.relative}`);
+  if (file.relative === 'pedagogy/pedagogy.json' && file.size > MAX_PEDAGOGY_JSON_BYTES) {
+    throw new Error(`pedagogy/pedagogy.json exceeds the ${MAX_PEDAGOGY_JSON_BYTES}-byte limit`);
+  }
   const content = (await readFile(file.full)).toString('utf8');
   if (forbiddenContent.some((pattern) => pattern.test(content))) throw new Error(`forbidden credential/backend reference in public output: ${file.relative}`);
   if (file.relative !== 'pedagogy/pedagogy.json' && identifierQueryPattern.test(content)) {
@@ -356,7 +365,8 @@ for (const [name, validate] of [['providers.json', validateProviders], ['history
 
 const pedagogyFile = files.find((entry) => entry.relative === 'pedagogy/pedagogy.json');
 if (!pedagogyFile) throw new Error('pedagogy/pedagogy.json is missing from public output');
-validatePedagogy(JSON.parse((await readFile(pedagogyFile.full)).toString('utf8')));
+const pedagogyContent = await readFile(pedagogyFile.full);
+validatePedagogy(JSON.parse(pedagogyContent.toString('utf8')), pedagogyFile.size);
 const pedagogyPage = files.find((entry) => entry.relative === 'pedagogy/index.html');
 if (!pedagogyPage) throw new Error('pedagogy/index.html is missing from public output');
 validatePedagogyPage(pedagogyPage.full);
