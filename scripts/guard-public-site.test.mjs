@@ -183,6 +183,16 @@ test('restricts citation hosts to the pedagogy source field', async () => {
   assert.match(result.stderr, /external host is not in manifest allowlist/);
 });
 
+test('allows the verified Project Gutenberg Montessori source and excludes the incorrect LOC host', async () => {
+  const manifest = JSON.parse(await readFile(path.join(repoRoot, 'publish.allowlist.json'), 'utf8'));
+  const cards = JSON.parse(await readFile(path.join(repoRoot, 'pedagogy/pedagogy.json'), 'utf8'));
+  assert.ok(manifest.allowedPedagogySourceHosts.includes('www.gutenberg.org'));
+  assert.ok(!manifest.allowedPedagogySourceHosts.includes('tile.loc.gov'));
+  assert.ok(cards.some((card) => card.source.includes('https://www.gutenberg.org/ebooks/39863')));
+  const result = await runGuard();
+  assert.equal(result.status, 0, result.stderr);
+});
+
 test('allows only the public ERIC record-id citation query shape', async () => {
   const cards = JSON.parse(await readFile(path.join(repoRoot, 'pedagogy/pedagogy.json'), 'utf8'));
   cards[0].source += ' [ERIC test](https://eric.ed.gov/?id=ED053419)';

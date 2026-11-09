@@ -14,7 +14,7 @@ const EXPECTED_PEDAGOGY_SOURCE_HOSTS = Object.freeze([
   'www.aft.org', 'www.apa.org', 'www.ascd.org', 'www.cambridge.org', 'www.corwin.com',
   'www.edb.gov.hk', 'www.hkeaa.edu.hk', 'www.hup.harvard.edu', 'www.jstor.org',
   'www.pearson.com', 'www.routledge.com', 'www.solutiontree.com', 'www.w3.org',
-  'ies.ed.gov', 'joanganzcooneycenter.org', 'tile.loc.gov'
+  'ies.ed.gov', 'joanganzcooneycenter.org', 'www.gutenberg.org'
 ]);
 const PUBLIC_PEDAGOGY_KEYS = Object.freeze(['zh', 'en', 'workflow', 'media', 'source', 'theory', 'example', 'level']);
 const PEDAGOGY_LEVELS = new Set(['secondary', 'k2']);

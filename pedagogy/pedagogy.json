@@ -1221,8 +1221,8 @@
   },
   {
     "level": "k2",
-    "zh": "中文字形、部件與形態意識",
-    "en": "Chinese Character Form and Morphological Awareness",
+    "zh": "口語語素意識與中文字詞理解",
+    "en": "Oral Morphological Awareness and Chinese Word Meaning",
     "workflow": [
       "W1",
       "W2",
@@ -1236,8 +1236,8 @@
       "W"
     ],
     "source": "McBride-Chang, C., Wat, C. P., Shu, H., Zhou, A., & Wagner, R. K. (2003). Morphological Awareness Uniquely Predicts Young Children’s Chinese Character Recognition. *Journal of Educational Psychology, 95*(4), 743–751. [DOI](https://doi.org/10.1037/0022-0663.95.4.743).",
-    "theory": "該研究指出形態意識與幼兒中文字辨認有獨特關聯；可留意幼兒是否注意字的部件和語素線索。關聯研究不能證明某一款拆字活動必然提升識字，也不能把部件猜測當成正字教學的替代。",
-    "example": "K2 `characters.html` 可讓孩子比較兩個自擬常用字的相同部件，家長讀出詞語並問「這個字在兩個詞裏有甚麼相同？」；字例需先核對正字和年齡適切度。"
+    "theory": "該研究以口頭同音詞辨義及複合詞語素任務測量幼兒的形態意識，並發現其與中文字辨認有獨特關聯。這項關聯不表示研究測試了中文字形部件辨認，也不能證明某一款拆字活動必然提升識字；本卡只支持觀察幼兒如何留意口語詞素及詞義。",
+    "example": "K2 `characters.html` 的家長可口頭問：「花園的『花』和花朵的『花』，意思有甚麼相同？」讓孩子比較常用複合詞中的詞素意思；不以字形拆部件作本卡例子。"
   },
   {
     "level": "k2",
@@ -1346,7 +1346,7 @@
       "P",
       "W"
     ],
-    "source": "Montessori, M. (1912). *The Montessori Method: Scientific Pedagogy as Applied to Child Education in the Children’s Houses*. Trans. Anne E. George. Frederick A. Stokes Company. [美國國會圖書館掃描本](https://tile.loc.gov/storage-services/public/gdcmassbookdig/standardreferenc07unse/standardreferenc07unse.pdf); Marshall, C. (2017). Montessori education: a review of the evidence base. *npj Science of Learning, 2*, Article 11. [DOI](https://doi.org/10.1038/s41539-017-0012-7).",
+    "source": "Montessori, M. (1912). *The Montessori Method: Scientific Pedagogy as Applied to Child Education in the Children’s Houses*. Trans. Anne E. George. Frederick A. Stokes Company. [Project Gutenberg 電子版本](https://www.gutenberg.org/ebooks/39863); Marshall, C. (2017). Montessori education: a review of the evidence base. *npj Science of Learning, 2*, Article 11. [DOI](https://doi.org/10.1038/s41539-017-0012-7).",
     "theory": "Montessori 描述讓教具本身提供錯誤線索，使孩子有機會自行發現和修正。後來的綜述指出 Montessori 教育整體證據有差異，不能把某一種「自我校正」材料的效果獨立歸因；材料仍須有正確、清楚且不羞辱孩子的回饋。",
     "example": "自擬 1–5 點數卡配對活動中，圖像框位讓多放或少放的物件明顯可見，幼兒可以自己再數一次；避免只用刺耳錯誤聲。"
   },
