@@ -1,11 +1,11 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-11-09T20:00:00.000Z",
+  "generated_at": "2026-11-09T23:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-11-09T18:06:37Z",
+      "observed_at": "2026-11-09T21:16:56Z",
       "buckets": [
         {
           "bucket": "account",
@@ -30,7 +30,7 @@
     {
       "id": "claude",
       "label": "Claude",
-      "observed_at": "2026-11-09T19:09:31Z",
+      "observed_at": "2026-11-09T22:19:54Z",
       "buckets": [
         {
           "bucket": "account",
@@ -51,10 +51,10 @@
               "pre_reset_observed_at": null
             },
             "seven_day": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 94,
-              "pre_reset_observed_at": "2026-11-09T13:54:42Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             }
           }
         }
@@ -63,17 +63,17 @@
     {
       "id": "claude-2",
       "label": "Claude（帳號 2）",
-      "observed_at": "2026-11-09T20:14:32Z",
+      "observed_at": "2026-11-09T22:20:02Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 8,
+            "five_hour": 0,
             "seven_day": 42
           },
           "resets_at": {
-            "five_hour": "2026-11-09T21:30:00Z",
+            "five_hour": null,
             "seven_day": "2026-11-12T07:00:00Z"
           },
           "reset_markers": {
@@ -96,7 +96,7 @@
     {
       "id": "gemini",
       "label": "Gemini",
-      "observed_at": "2026-11-09T18:06:49Z",
+      "observed_at": "2026-11-09T21:17:13Z",
       "buckets": [
         {
           "bucket": "account",
@@ -106,15 +106,15 @@
             "seven_day": 6
           },
           "resets_at": {
-            "five_hour": "2026-11-09T18:22:00Z",
+            "five_hour": "2026-11-09T23:22:00Z",
             "seven_day": "2026-11-10T04:22:00Z"
           },
           "reset_markers": {
             "five_hour": {
-              "detected": false,
+              "detected": true,
               "manual": false,
-              "pre_reset_peak_pct": null,
-              "pre_reset_observed_at": null
+              "pre_reset_peak_pct": 0,
+              "pre_reset_observed_at": "2026-11-09T14:57:52Z"
             },
             "seven_day": {
               "detected": false,
@@ -129,7 +129,7 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-11-09T20:38:04Z",
+      "observed_at": "2026-11-09T21:17:24Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
@@ -142,10 +142,10 @@
           },
           "reset_markers": {
             "five_hour": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 0,
-              "pre_reset_observed_at": "2026-11-09T18:07:04Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             }
           }
         }
@@ -179,7 +179,7 @@
     {
       "id": "antigravity",
       "label": "Antigravity",
-      "observed_at": "2026-11-09T20:15:06Z",
+      "observed_at": "2026-11-09T22:21:37Z",
       "buckets": [
         {
           "bucket": "third-party-models",
@@ -188,7 +188,7 @@
             "seven_day": 0
           },
           "resets_at": {
-            "seven_day": "2026-11-16T20:15:04Z"
+            "seven_day": "2026-11-16T22:21:34Z"
           },
           "reset_markers": {
             "seven_day": {
@@ -222,13 +222,13 @@
     {
       "id": "grok-bot",
       "label": "Grok Bot",
-      "observed_at": "2026-11-09T19:07:01Z",
+      "observed_at": "2026-11-09T22:06:31Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "seven_day": 0.4
+            "seven_day": 2.1
           },
           "resets_at": {
             "seven_day": "2026-11-16T11:44:00Z"
