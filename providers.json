@@ -1,6 +1,6 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-11-12T06:00:00.000Z",
+  "generated_at": "2026-11-12T07:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
@@ -222,13 +222,13 @@
     {
       "id": "grok-bot",
       "label": "Grok Bot",
-      "observed_at": "2026-11-12T04:01:07Z",
+      "observed_at": "2026-11-12T07:06:30Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "seven_day": 28.1
+            "seven_day": 28.8
           },
           "resets_at": {
             "seven_day": "2026-11-16T11:44:00Z"
