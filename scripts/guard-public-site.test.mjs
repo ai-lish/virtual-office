@@ -167,7 +167,7 @@ test('builds and guards the nested pedagogy page and JSON from the exact allowli
 
 test('requires one to five non-empty examples and scans each one for private content', async () => {
   const cards = JSON.parse(await readFile(path.join(repoRoot, 'pedagogy/pedagogy.json'), 'utf8'));
-  for (const examples of [[], Array.from({ length: 6 }, () => '自擬：例子'), ['']]) {
+  for (const examples of [[], Array.from({ length: 6 }, () => '自擬：例子'), [''], ['AI-Learning《   》：內容'], ['自擬：   ']]) {
     const result = await runGuard({ overrides: { 'pedagogy/pedagogy.json': JSON.stringify([{ ...cards[0], examples }]) } });
     assert.notEqual(result.status, 0);
     assert.match(result.stderr, /invalid examples/);
