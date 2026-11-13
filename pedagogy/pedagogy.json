@@ -1545,9 +1545,10 @@
     ],
     "source": "Mueller, C. M., & Dweck, C. S. (1998). Praise for Intelligence Can Undermine Children’s Motivation and Performance. *Journal of Personality and Social Psychology, 75*(1), 33–52. [DOI](https://doi.org/10.1037/0022-3514.75.1.33); Gunderson, E. A., Gripshover, S. J., Romero, C., Dweck, C. S., Goldin-Meadow, S., & Levine, S. C. (2013). Parent Praise to 1- to 3-Year-Olds Predicts Children’s Motivational Frameworks 5 Years Later. *Child Development, 84*(5), 1526–1541. [DOI](https://doi.org/10.1111/cdev.12064).",
     "theory": "研究比較能力稱讚與過程稱讚，及家長早期稱讚與其後動機觀念的關聯。研究年齡和設計有限，不能推論一句稱讚會決定幼兒長期動機；觀課只看稱讚是否具體、真實和指向可重用的策略。",
-    "example": "preschool《數字認知》：幼兒在 `numbers.html` 點數後，家長說「你逐個數，沒有漏掉」比只說「你好叻」更能指出可重用的方法。",
+    "example": "自擬：K2／點數遊戲；幼兒逐個指着物件數數後，家長說「你每數一個都指一下，數到最後一個才停」，描述可重用的策略，而不只貼上能力標籤。",
     "examples": [
-      "preschool《數字認知》：幼兒在 `numbers.html` 點數後，家長說「你逐個數，沒有漏掉」比只說「你好叻」更能指出可重用的方法。"
+      "自擬：K2／點數遊戲；幼兒逐個指着物件數數後，家長說「你每數一個都指一下，數到最後一個才停」，描述可重用的策略，而不只貼上能力標籤。",
+      "自擬：K2／圖形拼搭；幼兒旋轉積木後完成圖樣，成人說「你試了轉方向，邊位對齊後才放進去」，具體指出策略。"
     ]
   },
   {
@@ -1677,6 +1678,74 @@
     "example": "preschool《方舟動物上船》：K2 `ark-k2.html` 的家長與孩子輪流選動物，孩子說出選擇理由，家長再邀請孩子數船上動物；家長不替孩子完成所有拖放。",
     "examples": [
       "preschool《方舟動物上船》：K2 `ark-k2.html` 的家長與孩子輪流選動物，孩子說出選擇理由，家長再邀請孩子數船上動物；家長不替孩子完成所有拖放。"
+    ]
+  },
+  {
+    "level": "k2",
+    "zh": "書寫媒介與幼兒初期書寫",
+    "en": "Writing Tools and Early Writing Acquisition",
+    "workflow": [
+      "W2",
+      "W3",
+      "W4",
+      "W5"
+    ],
+    "media": [
+      "S",
+      "P",
+      "W"
+    ],
+    "source": "Mayer, C. M., Wallner, S., Budde-Spengler, N., Braunert, S., Arndt, P. A., & Kiefer, M. (2020). Literacy Training of Kindergarten Children With Pencil, Keyboard or Tablet Stylus: The Influence of the Writing Tool on Reading and Writing Performance at the Letter and Word Level. *Frontiers in Psychology, 10*, 3054. [原文及 DOI](https://doi.org/10.3389/fpsyg.2019.03054).",
+    "theory": "書寫媒介會改變手部動作、字形視覺和摩擦／觸覺回饋的配合。比較德國幼兒園幼兒的研究發現，鉛筆、平板觸控筆和鍵盤在部分字母辨認、詞語讀寫及視空間測量上呈現不同結果，但效應整體偏小、詞語結果不一致，不能推論數碼書寫普遍較好。研究使用德文字母，不能直接推廣到中文字；觀課宜看工具是否讓幼兒清楚控制筆畫及取得合適回饋，而非預設不同媒介等效。",
+    "example": "自擬：K2／數字符號書寫；幼兒先用蠟筆在紙上寫「2」，再選觸控筆在平板描一次；成人觀察筆畫是否易控制及所需提示，不比較完成速度。",
+    "examples": [
+      "自擬：K2／數字符號書寫；幼兒先用蠟筆在紙上寫「2」，再選觸控筆在平板描一次；成人觀察筆畫是否易控制及所需提示，不比較完成速度。"
+    ]
+  },
+  {
+    "level": "k2",
+    "zh": "空間語言與空間關係探索",
+    "en": "Spatial Language and Spatial Relations",
+    "workflow": [
+      "W2",
+      "W3",
+      "W4",
+      "W7"
+    ],
+    "media": [
+      "V",
+      "S",
+      "P",
+      "W"
+    ],
+    "source": "Casasola, M., Wei, W. S., Suh, D. D., Donskoy, P., & Ransom, A. (2020). Children's Exposure to Spatial Language Promotes Their Spatial Thinking. *Journal of Experimental Psychology: General, 149*(6), 1116–1136. [DOI](https://doi.org/10.1037/xge0000699); Eising, M., & Karasinski, C. (2022). Developmental Kindergarten Classroom Intervention for Spatial Relational Terms. *CoDAS, 34*(6), e20210176. [原文及 DOI](https://doi.org/10.1590/2317-1782/20212021176).",
+    "theory": "「上面、下面、旁邊」等空間詞把語言連到幼兒可觀察、可移動和可拼搭的關係；配合簡短說話、手勢和物件操作，能讓詞語在情境中有指涉。隨機分組的四歲幼兒遊戲研究發現，加入空間語言後的心理旋轉表現高於只玩遊戲的組別；另一項五歲幼兒課堂介入在一個小班中觀察到多個空間詞的理解進步。研究樣本和介入有限，也沒有證明普遍的數學成績提升；觀課應看幼兒能否在新情境使用詞語，而非只重複詞表。",
+    "example": "自擬：K2／圖形拼搭；成人請幼兒把三角形放在方塊「上面」或「旁邊」，再邀請幼兒說出位置；如有需要先配合手勢示範，之後逐步撤去提示。",
+    "examples": [
+      "自擬：K2／圖形拼搭；成人請幼兒把三角形放在方塊「上面」或「旁邊」，再邀請幼兒說出位置；如有需要先配合手勢示範，之後逐步撤去提示。"
+    ]
+  },
+  {
+    "level": "k2",
+    "zh": "家園協作的多語共讀",
+    "en": "Home–Preschool Shared Reading for Dual-Language Learners",
+    "workflow": [
+      "W2",
+      "W5",
+      "W7",
+      "C"
+    ],
+    "media": [
+      "V",
+      "S",
+      "P",
+      "W"
+    ],
+    "source": "Grøver, V., Rydland, V., Gustafsson, J.-E., & Snow, C. E. (2020). Shared Book Reading in Preschool Supports Bilingual Children's Second-Language Learning: A Cluster-Randomized Trial. *Child Development, 91*(6), 2192–2210. [DOI](https://doi.org/10.1111/cdev.13348).",
+    "theory": "家園協作共讀可讓幼兒在家庭慣用語中探索內容，再於園內以教學語言共讀相關主題，連結兩處接觸的詞彙和想法。挪威一項群組隨機試驗整合園內共讀、家庭語言共讀和教師支援，報告部分第二語言詞彙、語法及觀點採擇結果有改善；第一語言詞彙效果只見於家庭共讀書中出現的詞，敘事結果則未見顯著影響。課堂和家庭部分未能分開估計，且研究語言背景不等於香港粵語情境，因此不能推論單一共讀方法或每種語言都有相同效果。",
+    "example": "自擬：K2／家校共讀；家長先以家庭慣用語共讀圖畫書，教師再以園內教學語言重看同一主題；雙方聚焦一兩個重複詞，邀幼兒說出兩種說法的意思，不要求逐句翻譯。",
+    "examples": [
+      "自擬：K2／家校共讀；家長先以家庭慣用語共讀圖畫書，教師再以園內教學語言重看同一主題；雙方聚焦一兩個重複詞，邀幼兒說出兩種說法的意思，不要求逐句翻譯。"
     ]
   }
 ]
