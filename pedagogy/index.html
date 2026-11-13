@@ -27,7 +27,7 @@ main{width:min(1120px,100%);margin:0 auto;padding:20px 16px 48px}
 .card h3{font-size:.96rem;margin:0 0 8px;line-height:1.45;overflow-wrap:anywhere}
 .english{color:var(--dim);font-weight:500;font-size:.82rem}
 .tags{display:flex;min-width:0;max-width:100%;gap:5px;flex-wrap:wrap;margin:0 0 10px}.tag{max-width:100%;min-width:0;padding:2px 8px;border-radius:999px;background:var(--tag);font-size:.7rem;color:var(--accent);white-space:normal;overflow-wrap:anywhere}
-.field{margin-top:9px;font-size:.82rem;overflow-wrap:anywhere}.field strong{display:block;font-size:.74rem;color:var(--dim);margin-bottom:2px}
+.field{margin-top:9px;font-size:.82rem;overflow-wrap:anywhere}.field strong{display:block;font-size:.74rem;color:var(--dim);margin-bottom:2px}.examples{margin:3px 0 0;padding-left:1.2rem}.examples li+li{margin-top:4px}
 .origin{margin-top:10px;font-size:.72rem;color:var(--dim)}
 .empty,.error{padding:16px;border:1px solid var(--edge);border-radius:10px;color:var(--dim)}
 :focus-visible{outline:3px solid var(--focus);outline-offset:2px}
@@ -61,6 +61,13 @@ function addField(card,label,value,linkify=false){
   if(linkify){appendLinkedText(section,value)}else{section.append(document.createTextNode(value||''))}
   card.append(section);
 }
+function addExamples(card,label,values){
+  const section=document.createElement('div');section.className='field';
+  const strong=document.createElement('strong');strong.textContent=label;section.append(strong);
+  const list=document.createElement('ul');list.className='examples';
+  for(const value of values){const item=document.createElement('li');item.textContent=value;list.append(item)}
+  section.append(list);card.append(section);
+}
 function appendLinkedText(target,text){
   const pattern=/\[([^\]]+)\]\((https:\/\/[^)]+)\)/g;let cursor=0,match;
   while((match=pattern.exec(text))){target.append(document.createTextNode(text.slice(cursor,match.index)));const link=document.createElement('a');link.textContent=match[1];link.href=match[2];link.target='_blank';link.rel='noopener noreferrer';target.append(link);cursor=pattern.lastIndex}
@@ -69,7 +76,7 @@ function appendLinkedText(target,text){
 function render(){
   const selectedLevel=byId('level').value,selectedStage=byId('stage').value,selectedMedia=byId('media').value,query=byId('search').value.trim().toLocaleLowerCase();
   const trackCards=cards.filter(item=>item.level===selectedLevel);
-  const filtered=trackCards.filter(item=>(!selectedStage||item.workflow.includes(selectedStage))&&(!selectedMedia||item.media.includes(selectedMedia))&&(!query||[item.zh,item.en,item.source,item.theory,item.example,item.action].join(' ').toLocaleLowerCase().includes(query)));
+  const filtered=trackCards.filter(item=>(!selectedStage||item.workflow.includes(selectedStage))&&(!selectedMedia||item.media.includes(selectedMedia))&&(!query||[item.zh,item.en,item.source,item.theory,(item.examples||[item.example]).join(' '),item.action].join(' ').toLocaleLowerCase().includes(query)));
   const root=byId('results');root.replaceChildren();
   byId('status').textContent=`${selectedLevel==='k2'?'K2':'中學'}：顯示 ${filtered.length}／${trackCards.length} 項教學法`;
   if(!filtered.length){const empty=document.createElement('p');empty.className='empty';empty.textContent='沒有符合條件的教學法。';root.append(empty);return}
@@ -81,7 +88,7 @@ function render(){
     for(const item of items){
       const card=document.createElement('article');card.className='card';const title=document.createElement('h3');title.append(document.createTextNode(item.zh+' '));const en=document.createElement('span');en.className='english';en.textContent=`(${item.en})`;title.append(en);card.append(title);
       const tags=document.createElement('div');tags.className='tags';for(const tag of [...item.workflow,...item.media]){const pill=document.createElement('span');pill.className='tag';pill.textContent=stageNames[tag]||mediaNames[tag]||tag;tags.append(pill)}card.append(tags);
-      addField(card,'出處',item.source,true);addField(card,'理論解說',item.theory);addField(card,selectedLevel==='k2'?'K2 幼兒例子':'香港中學數學例子',item.example);if(item.action)addField(card,'這一步要做甚麼',item.action);
+      addField(card,'出處',item.source,true);addField(card,'理論解說',item.theory);addExamples(card,selectedLevel==='k2'?'K2 幼兒例子':'香港中學數學例子',item.examples||[item.example]);if(item.action)addField(card,'這一步要做甚麼',item.action);
 
       grid.append(card)
     }

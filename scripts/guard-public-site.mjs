@@ -16,7 +16,12 @@ const EXPECTED_PEDAGOGY_SOURCE_HOSTS = Object.freeze([
   'www.pearson.com', 'www.routledge.com', 'www.solutiontree.com', 'www.w3.org',
   'ies.ed.gov', 'joanganzcooneycenter.org', 'www.gutenberg.org'
 ]);
-const PUBLIC_PEDAGOGY_KEYS = Object.freeze(['zh', 'en', 'workflow', 'media', 'source', 'theory', 'example', 'level']);
+const PUBLIC_PEDAGOGY_KEYS = Object.freeze(['zh', 'en', 'workflow', 'media', 'source', 'theory', 'example', 'examples', 'level']);
+const PEDAGOGY_EXAMPLE_PATTERN = /^(?:(?:AI-Learning|preschool)《([^》]+)》|自擬)：(.+)$/;
+function isValidPedagogyExample(value) {
+  const match = typeof value === 'string' && PEDAGOGY_EXAMPLE_PATTERN.exec(value);
+  return Boolean(match && (!match[1] || match[1].trim()) && match[2].trim());
+}
 const MAX_PEDAGOGY_CARDS = 1000;
 // Keep mirror validation aligned with the private build; current JSON is about 75 KiB.
 const MAX_PEDAGOGY_JSON_BYTES = 1024 * 1024;
@@ -256,6 +261,15 @@ function validatePedagogy(value, sourceBytes) {
       if (PEDAGOGY_PRIVATE_PATTERN.test(card[field])) {
         throw new Error(`pedagogy card ${index + 1} contains private operational content`);
       }
+    }
+    if (!Array.isArray(card.examples) || card.examples.length < 1 || card.examples.length > 5
+      || card.examples.some((example) => !isValidPedagogyExample(example))
+      || card.example !== card.examples[0]) {
+      throw new Error(`pedagogy card ${index + 1} has invalid examples (expected 1 to 5 source-tagged non-empty strings)`);
+    }
+    for (const example of card.examples) {
+      if (/https?:\/\//i.test(example)) throw new Error(`pedagogy card ${index + 1} may only contain external URLs in source`);
+      if (PEDAGOGY_PRIVATE_PATTERN.test(example)) throw new Error(`pedagogy card ${index + 1} contains private operational content`);
     }
     for (const [field, allowed] of [['workflow', PEDAGOGY_WORKFLOWS], ['media', PEDAGOGY_MEDIA]]) {
       const items = card[field];
