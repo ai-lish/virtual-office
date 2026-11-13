@@ -164,6 +164,32 @@ test('builds and guards the nested pedagogy page and JSON from the exact allowli
   assert.match(page, /if\(item\.action\)addField\(card,'這一步要做甚麼',item\.action\)/);
 });
 
+
+test('requires one to five non-empty examples and scans each one for private content', async () => {
+  const cards = JSON.parse(await readFile(path.join(repoRoot, 'pedagogy/pedagogy.json'), 'utf8'));
+  for (const examples of [[], Array.from({ length: 6 }, () => '自擬：例子'), ['']]) {
+    const result = await runGuard({ overrides: { 'pedagogy/pedagogy.json': JSON.stringify([{ ...cards[0], examples }]) } });
+    assert.notEqual(result.status, 0);
+    assert.match(result.stderr, /invalid examples/);
+  }
+  const mismatchResult = await runGuard({ overrides: { 'pedagogy/pedagogy.json': JSON.stringify([{ ...cards[0], example: '自擬：不同內容', examples: ['自擬：例子一'] }]) } });
+  assert.notEqual(mismatchResult.status, 0);
+  assert.match(mismatchResult.stderr, /invalid examples/);
+  const privateResult = await runGuard({ overrides: { 'pedagogy/pedagogy.json': JSON.stringify([{ ...cards[0], example: '自擬：學生資料', examples: ['自擬：學生資料'] }]) } });
+  assert.notEqual(privateResult.status, 0);
+  assert.match(privateResult.stderr, /private operational content/);
+  const secondExamplePrivateResult = await runGuard({ overrides: { 'pedagogy/pedagogy.json': JSON.stringify([{ ...cards[0], example: '自擬：安全例子', examples: ['自擬：安全例子', '自擬：學生資料'] }]) } });
+  assert.notEqual(secondExamplePrivateResult.status, 0);
+  assert.match(secondExamplePrivateResult.stderr, /private operational content/);
+});
+
+test('requires a source label for every example', async () => {
+  const cards = JSON.parse(await readFile(path.join(repoRoot, 'pedagogy', 'pedagogy.json'), 'utf8'));
+  const result = await runGuard({ overrides: { 'pedagogy/pedagogy.json': JSON.stringify([{ ...cards[0], example: '無標籤例子', examples: ['無標籤例子'] }]) } });
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /source-tagged/);
+});
+
 test('restricts citation hosts to the pedagogy source field', async () => {
   const cards = JSON.parse(await readFile(path.join(repoRoot, 'pedagogy/pedagogy.json'), 'utf8'));
   cards[0].source = 'Reference [link](https://unlisted.example/paper)';
@@ -261,7 +287,7 @@ test('pedagogy guard accepts 1000 cards and rejects larger catalogs', async () =
 test('pedagogy guard enforces a 1 MiB JSON size limit', async () => {
   const cards = JSON.parse(await readFile(path.join(repoRoot, 'pedagogy/pedagogy.json'), 'utf8'));
   const card = cards[0];
-  const oversized = Array.from({ length: 140 }, () => ({ ...card, example: 'x'.repeat(8000) }));
+  const oversized = Array.from({ length: 140 }, () => ({ ...card, example: 'x', examples: Array.from({ length: 5 }, () => 'x'.repeat(8000)) }));
   const content = JSON.stringify(oversized);
   assert.ok(Buffer.byteLength(content, 'utf8') > 1024 * 1024);
   const result = await runGuard({ overrides: { 'pedagogy/pedagogy.json': content } });
