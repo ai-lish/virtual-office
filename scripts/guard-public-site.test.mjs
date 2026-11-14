@@ -209,12 +209,14 @@ test('restricts citation hosts to the pedagogy source field', async () => {
   assert.match(result.stderr, /external host is not in manifest allowlist/);
 });
 
-test('allows the verified Project Gutenberg Montessori source and excludes the incorrect LOC host', async () => {
+test('allows the verified NSTA and Project Gutenberg sources and excludes the incorrect LOC host', async () => {
   const manifest = JSON.parse(await readFile(path.join(repoRoot, 'publish.allowlist.json'), 'utf8'));
   const cards = JSON.parse(await readFile(path.join(repoRoot, 'pedagogy/pedagogy.json'), 'utf8'));
   assert.ok(manifest.allowedPedagogySourceHosts.includes('www.gutenberg.org'));
+  assert.ok(manifest.allowedPedagogySourceHosts.includes('static.nsta.org'));
   assert.ok(!manifest.allowedPedagogySourceHosts.includes('tile.loc.gov'));
   assert.ok(cards.some((card) => card.source.includes('https://www.gutenberg.org/ebooks/39863')));
+  assert.ok(cards.some((card) => card.source.includes('https://static.nsta.org/pdfs/PositionStatement_EarlyChildhood.pdf')));
   const result = await runGuard();
   assert.equal(result.status, 0, result.stderr);
 });
@@ -274,11 +276,15 @@ test('accepts only the approved secondary and K2 pedagogy levels', async () => {
 
 test('pedagogy guard accepts 1000 cards and rejects larger catalogs', async () => {
   const cards = JSON.parse(await readFile(path.join(repoRoot, 'pedagogy/pedagogy.json'), 'utf8'));
-  const maximum = Array.from({ length: 1000 }, (_, index) => ({ ...cards[index % cards.length] }));
+  const maximum = Array.from({ length: 1000 }, (_, index) => {
+    const card = cards[index % cards.length];
+    const example = '自擬：測試例子';
+    return { ...card, theory: '測試', example, examples: [example] };
+  });
   let result = await runGuard({ overrides: { 'pedagogy/pedagogy.json': JSON.stringify(maximum) } });
   assert.equal(result.status, 0, result.stderr);
 
-  maximum.push({ ...cards[0] });
+  maximum.push({ ...maximum[0] });
   result = await runGuard({ overrides: { 'pedagogy/pedagogy.json': JSON.stringify(maximum) } });
   assert.notEqual(result.status, 0);
   assert.match(result.stderr, /between 1 and 1000 method cards/);

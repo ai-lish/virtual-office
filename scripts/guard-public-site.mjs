@@ -10,7 +10,7 @@ const siteRoot = path.resolve(root, manifest.publicRoot);
 const EXPECTED_PEDAGOGY_SOURCE_HOSTS = Object.freeze([
   'academic.oup.com', 'doi.org', 'eric.ed.gov', 'escholarship.org', 'fis.leuphana.de',
   'gupea.ub.gu.se', 'mitpress.mit.edu', 'nrich.maths.org', 'press.princeton.edu',
-  'search.worldcat.org', 'shop.elsevier.com', 'udlguidelines.cast.org', 'webspace.science.uu.nl',
+  'search.worldcat.org', 'shop.elsevier.com', 'static.nsta.org', 'udlguidelines.cast.org', 'webspace.science.uu.nl',
   'www.aft.org', 'www.apa.org', 'www.ascd.org', 'www.cambridge.org', 'www.corwin.com',
   'www.edb.gov.hk', 'www.hkeaa.edu.hk', 'www.hup.harvard.edu', 'www.jstor.org',
   'www.pearson.com', 'www.routledge.com', 'www.solutiontree.com', 'www.w3.org',
