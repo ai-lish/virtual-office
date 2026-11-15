@@ -1,6 +1,6 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-11-15T16:00:00.000Z",
+  "generated_at": "2026-11-15T23:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
@@ -129,23 +129,23 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-11-15T16:56:50Z",
+      "observed_at": "2026-11-15T23:54:41Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 0
+            "five_hour": 1
           },
           "resets_at": {
-            "five_hour": "2026-11-15T20:00:00Z"
+            "five_hour": "2026-11-16T00:00:00Z"
           },
           "reset_markers": {
             "five_hour": {
               "detected": true,
               "manual": false,
               "pre_reset_peak_pct": 0,
-              "pre_reset_observed_at": "2026-11-15T10:26:20Z"
+              "pre_reset_observed_at": "2026-11-15T16:56:50Z"
             }
           }
         }
@@ -222,13 +222,13 @@
     {
       "id": "grok-bot",
       "label": "Grok Bot",
-      "observed_at": "2026-11-15T16:18:59Z",
+      "observed_at": "2026-11-15T22:19:06Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "seven_day": 60.1
+            "seven_day": 62.5
           },
           "resets_at": {
             "seven_day": "2026-11-16T11:44:00Z"
