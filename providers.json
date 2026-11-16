@@ -1,6 +1,6 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-11-16T20:00:00.000Z",
+  "generated_at": "2026-11-16T21:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
@@ -179,7 +179,7 @@
     {
       "id": "antigravity",
       "label": "Antigravity",
-      "observed_at": "2026-11-16T19:51:48Z",
+      "observed_at": "2026-11-16T20:55:47Z",
       "buckets": [
         {
           "bucket": "third-party-models",
@@ -188,7 +188,7 @@
             "seven_day": 0
           },
           "resets_at": {
-            "seven_day": "2026-11-23T19:51:45Z"
+            "seven_day": "2026-11-23T20:55:45Z"
           },
           "reset_markers": {
             "seven_day": {
@@ -206,7 +206,7 @@
             "seven_day": 0
           },
           "resets_at": {
-            "seven_day": "2026-11-23T19:51:45Z"
+            "seven_day": "2026-11-23T20:55:45Z"
           },
           "reset_markers": {
             "seven_day": {
