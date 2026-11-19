@@ -1,6 +1,6 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-11-18T22:00:00.000Z",
+  "generated_at": "2026-11-19T00:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
@@ -38,17 +38,17 @@
     {
       "id": "claude",
       "label": "Claude",
-      "observed_at": "2026-11-18T19:50:37Z",
+      "observed_at": "2026-11-18T23:01:17Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 0,
-            "seven_day": 40
+            "five_hour": 11,
+            "seven_day": 41
           },
           "resets_at": {
-            "five_hour": null,
+            "five_hour": "2026-11-19T02:20:00Z",
             "seven_day": "2026-11-23T18:00:00Z"
           },
           "reset_markers": {
@@ -137,7 +137,7 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-11-18T22:32:44Z",
+      "observed_at": "2026-11-18T23:01:51Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
@@ -150,10 +150,10 @@
           },
           "reset_markers": {
             "five_hour": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 0,
-              "pre_reset_observed_at": "2026-11-18T16:40:36Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             }
           }
         }
@@ -187,7 +187,7 @@
     {
       "id": "antigravity",
       "label": "Antigravity",
-      "observed_at": "2026-11-18T21:58:49Z",
+      "observed_at": "2026-11-18T23:02:30Z",
       "buckets": [
         {
           "bucket": "third-party-models",
@@ -196,7 +196,7 @@
             "seven_day": 0
           },
           "resets_at": {
-            "seven_day": "2026-11-25T21:58:46Z"
+            "seven_day": "2026-11-25T23:02:27Z"
           },
           "reset_markers": {
             "seven_day": {
@@ -214,7 +214,7 @@
             "seven_day": 0
           },
           "resets_at": {
-            "seven_day": "2026-11-25T21:58:46Z"
+            "seven_day": "2026-11-25T23:02:27Z"
           },
           "reset_markers": {
             "seven_day": {
