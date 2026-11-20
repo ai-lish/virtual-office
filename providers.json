@@ -1,18 +1,18 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-11-20T01:00:00.000Z",
+  "generated_at": "2026-11-20T03:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-11-20T00:42:13Z",
+      "observed_at": "2026-11-20T02:48:45Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": 2,
           "windows": {
-            "five_hour": 37,
-            "seven_day": 49
+            "five_hour": 100,
+            "seven_day": 59
           },
           "resets_at": {
             "five_hour": "2026-11-20T04:16:40Z",
@@ -20,16 +20,16 @@
           },
           "reset_markers": {
             "five_hour": {
-              "detected": true,
-              "manual": false,
-              "pre_reset_peak_pct": 9,
-              "pre_reset_observed_at": "2026-11-19T20:20:01Z"
-            },
-            "seven_day": {
               "detected": false,
               "manual": false,
               "pre_reset_peak_pct": null,
               "pre_reset_observed_at": null
+            },
+            "seven_day": {
+              "detected": true,
+              "manual": false,
+              "pre_reset_peak_pct": 54,
+              "pre_reset_observed_at": "2026-11-20T01:45:10Z"
             }
           }
         }
@@ -187,7 +187,7 @@
     {
       "id": "antigravity",
       "label": "Antigravity",
-      "observed_at": "2026-11-20T00:42:56Z",
+      "observed_at": "2026-11-20T02:49:59Z",
       "buckets": [
         {
           "bucket": "third-party-models",
@@ -196,7 +196,7 @@
             "seven_day": 0
           },
           "resets_at": {
-            "seven_day": "2026-11-27T00:42:53Z"
+            "seven_day": "2026-11-27T02:49:56Z"
           },
           "reset_markers": {
             "seven_day": {
@@ -214,7 +214,7 @@
             "seven_day": 0
           },
           "resets_at": {
-            "seven_day": "2026-11-27T00:42:53Z"
+            "seven_day": "2026-11-27T02:49:56Z"
           },
           "reset_markers": {
             "seven_day": {
