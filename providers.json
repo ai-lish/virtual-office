@@ -1,11 +1,11 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-11-21T00:00:00.000Z",
+  "generated_at": "2026-11-21T03:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-11-20T21:00:34Z",
+      "observed_at": "2026-11-21T00:13:33Z",
       "buckets": [
         {
           "bucket": "account",
@@ -15,15 +15,15 @@
             "seven_day": 71
           },
           "resets_at": {
-            "five_hour": "2026-11-21T02:00:33Z",
+            "five_hour": "2026-11-21T02:00:57Z",
             "seven_day": "2026-11-25T03:18:46Z"
           },
           "reset_markers": {
             "five_hour": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 1,
-              "pre_reset_observed_at": "2026-11-20T18:52:30Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             },
             "seven_day": {
               "detected": false,
@@ -137,7 +137,7 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-11-20T23:09:35Z",
+      "observed_at": "2026-11-21T02:25:21Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
@@ -146,14 +146,14 @@
             "five_hour": 0
           },
           "resets_at": {
-            "five_hour": "2026-11-21T00:00:00Z"
+            "five_hour": "2026-11-21T05:00:00Z"
           },
           "reset_markers": {
             "five_hour": {
-              "detected": false,
+              "detected": true,
               "manual": false,
-              "pre_reset_peak_pct": null,
-              "pre_reset_observed_at": null
+              "pre_reset_peak_pct": 0,
+              "pre_reset_observed_at": "2026-11-20T22:12:44Z"
             }
           }
         }
@@ -187,7 +187,7 @@
     {
       "id": "antigravity",
       "label": "Antigravity",
-      "observed_at": "2026-11-20T23:10:01Z",
+      "observed_at": "2026-11-21T02:26:00Z",
       "buckets": [
         {
           "bucket": "third-party-models",
@@ -196,7 +196,7 @@
             "seven_day": 0
           },
           "resets_at": {
-            "seven_day": "2026-11-27T23:09:57Z"
+            "seven_day": "2026-11-28T02:25:56Z"
           },
           "reset_markers": {
             "seven_day": {
@@ -214,7 +214,7 @@
             "seven_day": 0
           },
           "resets_at": {
-            "seven_day": "2026-11-27T23:09:57Z"
+            "seven_day": "2026-11-28T02:25:56Z"
           },
           "reset_markers": {
             "seven_day": {
@@ -230,13 +230,13 @@
     {
       "id": "grok-bot",
       "label": "Grok Bot",
-      "observed_at": "2026-11-20T22:16:12Z",
+      "observed_at": "2026-11-21T01:19:37Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "seven_day": 35.6
+            "seven_day": 36.1
           },
           "resets_at": {
             "seven_day": "2026-11-23T11:44:00Z"
