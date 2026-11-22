@@ -230,13 +230,13 @@
     {
       "id": "grok-bot",
       "label": "Grok Bot",
-      "observed_at": "2026-11-22T10:18:33Z",
+      "observed_at": "2026-11-22T13:23:47Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "seven_day": 49.8
+            "seven_day": 51.3
           },
           "resets_at": {
             "seven_day": "2026-11-23T11:44:00Z"
