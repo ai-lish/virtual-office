@@ -1,21 +1,21 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-11-24T00:00:00.000Z",
+  "generated_at": "2026-11-24T04:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-11-23T21:58:23Z",
+      "observed_at": "2026-11-24T03:16:00Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": 1,
           "windows": {
-            "five_hour": 0,
-            "seven_day": 32
+            "five_hour": 100,
+            "seven_day": 48
           },
           "resets_at": {
-            "five_hour": "2026-11-23T23:49:09Z",
+            "five_hour": "2026-11-24T04:56:09Z",
             "seven_day": "2026-11-29T06:07:56Z"
           },
           "reset_markers": {
@@ -38,17 +38,17 @@
     {
       "id": "claude",
       "label": "Claude",
-      "observed_at": "2026-11-23T20:55:51Z",
+      "observed_at": "2026-11-24T01:08:44Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 0,
-            "seven_day": 0
+            "five_hour": 25,
+            "seven_day": 4
           },
           "resets_at": {
-            "five_hour": null,
+            "five_hour": "2026-11-24T04:50:00Z",
             "seven_day": "2026-11-30T18:00:00Z"
           },
           "reset_markers": {
@@ -104,7 +104,7 @@
     {
       "id": "gemini",
       "label": "Gemini",
-      "observed_at": "2026-11-23T20:55:42Z",
+      "observed_at": "2026-11-24T00:05:52Z",
       "buckets": [
         {
           "bucket": "account",
@@ -114,15 +114,15 @@
             "seven_day": 3
           },
           "resets_at": {
-            "five_hour": "2026-11-23T22:22:00Z",
+            "five_hour": "2026-11-24T03:22:00Z",
             "seven_day": "2026-11-24T04:22:00Z"
           },
           "reset_markers": {
             "five_hour": {
-              "detected": false,
+              "detected": true,
               "manual": false,
-              "pre_reset_peak_pct": null,
-              "pre_reset_observed_at": null
+              "pre_reset_peak_pct": 0,
+              "pre_reset_observed_at": "2026-11-23T17:44:11Z"
             },
             "seven_day": {
               "detected": false,
@@ -137,7 +137,7 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-11-23T23:02:26Z",
+      "observed_at": "2026-11-24T02:13:42Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
@@ -146,14 +146,14 @@
             "five_hour": 0
           },
           "resets_at": {
-            "five_hour": "2026-11-24T00:00:00Z"
+            "five_hour": "2026-11-24T05:00:00Z"
           },
           "reset_markers": {
             "five_hour": {
-              "detected": false,
+              "detected": true,
               "manual": false,
-              "pre_reset_peak_pct": null,
-              "pre_reset_observed_at": null
+              "pre_reset_peak_pct": 0,
+              "pre_reset_observed_at": "2026-11-23T21:59:08Z"
             }
           }
         }
@@ -187,7 +187,7 @@
     {
       "id": "antigravity",
       "label": "Antigravity",
-      "observed_at": "2026-11-23T23:03:00Z",
+      "observed_at": "2026-11-24T03:16:56Z",
       "buckets": [
         {
           "bucket": "third-party-models",
@@ -214,7 +214,7 @@
             "seven_day": 0
           },
           "resets_at": {
-            "seven_day": "2026-11-30T23:02:57Z"
+            "seven_day": "2026-12-01T03:16:53Z"
           },
           "reset_markers": {
             "seven_day": {
@@ -230,13 +230,13 @@
     {
       "id": "grok-bot",
       "label": "Grok Bot",
-      "observed_at": "2026-11-23T22:28:22Z",
+      "observed_at": "2026-11-24T04:15:26Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "seven_day": 18.9
+            "seven_day": 41.4
           },
           "resets_at": {
             "seven_day": "2026-11-30T11:44:00Z"
