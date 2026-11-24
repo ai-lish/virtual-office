@@ -5,7 +5,7 @@
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-11-24T19:17:04Z",
+      "observed_at": "2026-11-24T20:21:21Z",
       "buckets": [
         {
           "bucket": "account",
@@ -15,21 +15,21 @@
             "seven_day": 56
           },
           "resets_at": {
-            "five_hour": "2026-11-24T20:43:52Z",
-            "seven_day": "2026-11-29T06:07:56Z"
+            "five_hour": "2026-11-24T20:43:51Z",
+            "seven_day": "2026-11-29T06:07:55Z"
           },
           "reset_markers": {
             "five_hour": {
-              "detected": false,
+              "detected": true,
               "manual": false,
-              "pre_reset_peak_pct": null,
-              "pre_reset_observed_at": null
+              "pre_reset_peak_pct": 30,
+              "pre_reset_observed_at": "2026-11-24T18:13:04Z"
             },
             "seven_day": {
-              "detected": false,
+              "detected": true,
               "manual": false,
-              "pre_reset_peak_pct": null,
-              "pre_reset_observed_at": null
+              "pre_reset_peak_pct": 56,
+              "pre_reset_observed_at": "2026-11-24T18:13:04Z"
             }
           }
         }
@@ -137,7 +137,7 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-11-24T17:09:41Z",
+      "observed_at": "2026-11-24T20:36:07Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
@@ -146,14 +146,14 @@
             "five_hour": 0
           },
           "resets_at": {
-            "five_hour": "2026-11-24T20:00:00Z"
+            "five_hour": "2026-11-25T00:00:00Z"
           },
           "reset_markers": {
             "five_hour": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 0,
-              "pre_reset_observed_at": "2026-11-24T10:42:54Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             }
           }
         }
@@ -187,7 +187,7 @@
     {
       "id": "antigravity",
       "label": "Antigravity",
-      "observed_at": "2026-11-24T19:18:38Z",
+      "observed_at": "2026-11-24T20:23:33Z",
       "buckets": [
         {
           "bucket": "third-party-models",
@@ -214,7 +214,7 @@
             "seven_day": 0
           },
           "resets_at": {
-            "seven_day": "2026-12-01T19:18:36Z"
+            "seven_day": "2026-12-01T20:23:31Z"
           },
           "reset_markers": {
             "seven_day": {
