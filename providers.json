@@ -1,21 +1,21 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-11-24T20:00:00.000Z",
+  "generated_at": "2026-11-24T23:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-11-24T20:21:21Z",
+      "observed_at": "2026-11-24T21:25:43Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": 1,
           "windows": {
-            "five_hour": 30,
+            "five_hour": 0,
             "seven_day": 56
           },
           "resets_at": {
-            "five_hour": "2026-11-24T20:43:51Z",
+            "five_hour": "2026-11-25T02:25:42Z",
             "seven_day": "2026-11-29T06:07:55Z"
           },
           "reset_markers": {
@@ -23,13 +23,13 @@
               "detected": true,
               "manual": false,
               "pre_reset_peak_pct": 30,
-              "pre_reset_observed_at": "2026-11-24T18:13:04Z"
+              "pre_reset_observed_at": "2026-11-24T20:21:21Z"
             },
             "seven_day": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 56,
-              "pre_reset_observed_at": "2026-11-24T18:13:04Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             }
           }
         }
@@ -230,13 +230,13 @@
     {
       "id": "grok-bot",
       "label": "Grok Bot",
-      "observed_at": "2026-11-24T19:20:45Z",
+      "observed_at": "2026-11-24T22:20:30Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": null,
           "windows": {
-            "seven_day": 43.5
+            "seven_day": 43.6
           },
           "resets_at": {
             "seven_day": "2026-11-30T11:44:00Z"
