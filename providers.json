@@ -1,11 +1,11 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-11-25T15:00:00.000Z",
+  "generated_at": "2026-11-25T18:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-11-25T13:26:42Z",
+      "observed_at": "2026-11-25T16:38:16Z",
       "buckets": [
         {
           "bucket": "account",
@@ -15,21 +15,21 @@
             "seven_day": 68
           },
           "resets_at": {
-            "five_hour": "2026-11-25T18:26:41Z",
+            "five_hour": "2026-11-25T18:27:07Z",
             "seven_day": "2026-11-29T06:07:55Z"
           },
           "reset_markers": {
             "five_hour": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 39,
-              "pre_reset_observed_at": "2026-11-25T12:22:44Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             },
             "seven_day": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 68,
-              "pre_reset_observed_at": "2026-11-25T12:22:44Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             }
           }
         }
@@ -137,7 +137,7 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-11-25T12:23:25Z",
+      "observed_at": "2026-11-25T15:34:57Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
@@ -146,14 +146,14 @@
             "five_hour": 0
           },
           "resets_at": {
-            "five_hour": "2026-11-25T15:00:00Z"
+            "five_hour": "2026-11-25T20:00:00Z"
           },
           "reset_markers": {
             "five_hour": {
               "detected": true,
               "manual": false,
               "pre_reset_peak_pct": 0,
-              "pre_reset_observed_at": "2026-11-25T06:00:31Z"
+              "pre_reset_observed_at": "2026-11-25T12:23:25Z"
             }
           }
         }
@@ -230,7 +230,7 @@
     {
       "id": "grok-bot",
       "label": "Grok Bot",
-      "observed_at": "2026-11-25T13:19:59Z",
+      "observed_at": "2026-11-25T16:24:44Z",
       "buckets": [
         {
           "bucket": "account",
