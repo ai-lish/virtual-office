@@ -187,6 +187,7 @@ footer span { font-family:var(--mono); }
 .usage-dot { flex:none; width:8px; height:8px; border-radius:50%; background:var(--provider); }
 .usage-card-name { font-size:1rem; font-weight:650; overflow-wrap:anywhere; }
 .usage-card-age { color:var(--dim); font-size:.72rem; }
+.usage-card-age.disabled { padding:2px 9px; border:1px solid var(--line-2); border-radius:999px; font-weight:650; }
 .usage-card-age.stale { padding:2px 9px; border:1px solid var(--amber-edge); border-radius:999px; background:var(--amber-wash); color:var(--amber); font-weight:650; }
 .usage-card-body { flex:1 1 auto; }
 .usage-card-time { margin-top:14px; padding-top:10px; border-top:1px solid var(--line); color:var(--dim); font-family:var(--mono); font-size:.68rem; font-weight:300; font-variant-numeric:tabular-nums; }
@@ -266,7 +267,7 @@ footer span { font-family:var(--mono); }
 <span class="metric-label">本月用量</span>
 <div class="metric-bar" role="meter" aria-label="GitHub Actions 本月預算用量" aria-valuemin="0" aria-valuemax="100" aria-valuenow="29"><div class="metric-fill" style="width:29%"></div></div>
 <strong class="metric-value">29%</strong>
-<span class="usage-window-meta">已用 860 / 3,000 分鐘 · 下月 2026-12-01 重設</span>
+<span class="usage-window-meta">已用 870 / 3,000 分鐘 · 下月 2026-12-01 重設</span>
 </div></div>
 <div class="usage-card-time">資料時間 · 2026-11-26 · 估算</div>
 </article></div>
@@ -526,7 +527,7 @@ footer span { font-family:var(--mono); }
 </section>
 </div>
 </main>
-<footer>Build-time sanitized deployment · <span>2026-11-26T20:00:00.000Z</span></footer>
+<footer>Build-time sanitized deployment · <span>2026-11-26T22:00:00.000Z</span></footer>
 
 <script>
 'use strict';
@@ -638,6 +639,7 @@ if (annotations.length) row.append(el('span', 'usage-window-meta', annotations.j
 return row;
 };
 const QuotaView = window.VirtualOfficeQuotaView;
+const DISABLED_PROVIDER_IDS = ["claude-2"];
 const PROVIDER_TTL_MS = {"chatgpt":7200000,"claude":7200000,"claude-2":7200000,"minimax":7200000,"gemini":86400000,"copilot":86400000,"antigravity":691200000,"grok-bot":691200000};
 const root = document.getElementById('usage-cards');
 const alert = document.getElementById('usage-alert');
@@ -647,6 +649,7 @@ root.replaceChildren();
 const attention = [];
 for (const { id, label } of PROVIDERS) {
 const provider = byId.get(id);
+const disabled = DISABLED_PROVIDER_IDS.includes(id);
 const card = el('article', 'usage-card');
 card.dataset.provider = id;
 const head = el('div', 'usage-card-head');
@@ -654,7 +657,9 @@ const title = el('div', 'usage-card-title');
 title.append(el('span', 'usage-dot'), el('span', 'usage-card-name', label));
 head.append(title);
 let isStale = false;
-if (provider?.observed_at) {
+if (disabled) {
+head.append(el('span', 'usage-card-age disabled', '已停用'));
+} else if (provider?.observed_at) {
 const ageLabel = QuotaView.formatAgeLabel(provider.observed_at, Date.now(), null, PROVIDER_TTL_MS[id]);
 isStale = ageLabel.startsWith('已過期');
 head.append(el('span', 'usage-card-age' + (isStale ? ' stale' : ''), ageLabel));
@@ -673,14 +678,14 @@ exhausted.push(bucketLabel + WINDOW_LABELS[name] + '已用盡'
 }
 }
 }
-if (isStale || exhausted.length) {
+if (!disabled && (isStale || exhausted.length)) {
 attention.push(label + '：' + [...exhausted, ...(isStale ? ['讀數已過期'] : [])].join('、'));
 }
 card.classList.toggle('is-stale', isStale);
 card.append(head);
 const body = el('div', 'usage-card-body');
 if (buckets.length === 0) {
-body.append(el('p', 'usage-card-empty', '未有收集讀數'));
+body.append(el('p', 'usage-card-empty', disabled ? '已停用，未有讀數' : '未有收集讀數'));
 } else {
 for (const bucket of buckets) {
 if (buckets.length > 1) body.append(el('div', 'usage-bucket', bucketName(id, bucket.bucket)));
