@@ -1,11 +1,11 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-11-27T19:00:00.000Z",
+  "generated_at": "2026-11-27T22:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-11-27T18:02:27Z",
+      "observed_at": "2026-11-27T21:14:13Z",
       "buckets": [
         {
           "bucket": "account",
@@ -15,15 +15,15 @@
             "seven_day": 100
           },
           "resets_at": {
-            "five_hour": "2026-11-27T20:53:49Z",
+            "five_hour": "2026-11-28T02:14:12Z",
             "seven_day": "2026-11-29T06:07:55Z"
           },
           "reset_markers": {
             "five_hour": {
-              "detected": false,
+              "detected": true,
               "manual": false,
-              "pre_reset_peak_pct": null,
-              "pre_reset_observed_at": null
+              "pre_reset_peak_pct": 0,
+              "pre_reset_observed_at": "2026-11-27T14:49:47Z"
             },
             "seven_day": {
               "detected": false,
@@ -187,7 +187,7 @@
     {
       "id": "antigravity",
       "label": "Antigravity",
-      "observed_at": "2026-11-27T19:09:30Z",
+      "observed_at": "2026-11-27T21:14:48Z",
       "buckets": [
         {
           "bucket": "third-party-models",
