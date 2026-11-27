@@ -1,29 +1,29 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-11-27T15:00:00.000Z",
+  "generated_at": "2026-11-27T19:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-11-27T14:49:47Z",
+      "observed_at": "2026-11-27T18:02:27Z",
       "buckets": [
         {
           "bucket": "account",
           "manual_resets_remaining": 2,
           "windows": {
             "five_hour": 0,
-            "seven_day": 99
+            "seven_day": 100
           },
           "resets_at": {
-            "five_hour": "2026-11-27T19:49:46Z",
+            "five_hour": "2026-11-27T20:53:49Z",
             "seven_day": "2026-11-29T06:07:55Z"
           },
           "reset_markers": {
             "five_hour": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 0,
-              "pre_reset_observed_at": "2026-11-27T08:24:35Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             },
             "seven_day": {
               "detected": false,
@@ -137,23 +137,23 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-11-27T14:49:58Z",
+      "observed_at": "2026-11-27T15:56:26Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
           "manual_resets_remaining": null,
           "windows": {
-            "five_hour": 2
+            "five_hour": 0
           },
           "resets_at": {
-            "five_hour": "2026-11-27T15:00:00Z"
+            "five_hour": "2026-11-27T20:00:00Z"
           },
           "reset_markers": {
             "five_hour": {
-              "detected": false,
+              "detected": true,
               "manual": false,
-              "pre_reset_peak_pct": null,
-              "pre_reset_observed_at": null
+              "pre_reset_peak_pct": 2,
+              "pre_reset_observed_at": "2026-11-27T10:33:14Z"
             }
           }
         }
@@ -187,7 +187,7 @@
     {
       "id": "antigravity",
       "label": "Antigravity",
-      "observed_at": "2026-11-27T14:50:27Z",
+      "observed_at": "2026-11-27T18:02:52Z",
       "buckets": [
         {
           "bucket": "third-party-models",
@@ -230,7 +230,7 @@
     {
       "id": "grok-bot",
       "label": "Grok Bot",
-      "observed_at": "2026-11-27T13:22:49Z",
+      "observed_at": "2026-11-27T16:21:05Z",
       "buckets": [
         {
           "bucket": "account",
