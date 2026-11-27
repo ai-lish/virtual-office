@@ -137,7 +137,7 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-11-27T15:56:26Z",
+      "observed_at": "2026-11-27T19:25:00Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
@@ -150,10 +150,10 @@
           },
           "reset_markers": {
             "five_hour": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 2,
-              "pre_reset_observed_at": "2026-11-27T10:33:14Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             }
           }
         }
@@ -187,7 +187,7 @@
     {
       "id": "antigravity",
       "label": "Antigravity",
-      "observed_at": "2026-11-27T18:02:52Z",
+      "observed_at": "2026-11-27T19:09:30Z",
       "buckets": [
         {
           "bucket": "third-party-models",
@@ -230,7 +230,7 @@
     {
       "id": "grok-bot",
       "label": "Grok Bot",
-      "observed_at": "2026-11-27T16:21:05Z",
+      "observed_at": "2026-11-27T19:22:55Z",
       "buckets": [
         {
           "bucket": "account",
