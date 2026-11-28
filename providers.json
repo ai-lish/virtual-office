@@ -1,11 +1,11 @@
 {
   "schema_version": "2",
-  "generated_at": "2026-11-28T12:00:00.000Z",
+  "generated_at": "2026-11-28T14:00:00.000Z",
   "providers": [
     {
       "id": "chatgpt",
       "label": "ChatGPT",
-      "observed_at": "2026-11-28T10:00:16Z",
+      "observed_at": "2026-11-28T13:11:30Z",
       "buckets": [
         {
           "bucket": "account",
@@ -15,15 +15,15 @@
             "seven_day": 100
           },
           "resets_at": {
-            "five_hour": "2026-11-28T15:00:16Z",
+            "five_hour": "2026-11-28T16:03:21Z",
             "seven_day": "2026-11-29T06:07:55Z"
           },
           "reset_markers": {
             "five_hour": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 0,
-              "pre_reset_observed_at": "2026-11-28T03:36:26Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             },
             "seven_day": {
               "detected": false,
@@ -137,7 +137,7 @@
     {
       "id": "minimax",
       "label": "MiniMax",
-      "observed_at": "2026-11-28T11:05:13Z",
+      "observed_at": "2026-11-28T14:01:48Z",
       "buckets": [
         {
           "bucket": "MiniMax-M*",
@@ -150,10 +150,10 @@
           },
           "reset_markers": {
             "five_hour": {
-              "detected": true,
+              "detected": false,
               "manual": false,
-              "pre_reset_peak_pct": 0,
-              "pre_reset_observed_at": "2026-11-28T07:53:13Z"
+              "pre_reset_peak_pct": null,
+              "pre_reset_observed_at": null
             }
           }
         }
@@ -187,7 +187,7 @@
     {
       "id": "antigravity",
       "label": "Antigravity",
-      "observed_at": "2026-11-28T11:06:32Z",
+      "observed_at": "2026-11-28T13:12:03Z",
       "buckets": [
         {
           "bucket": "third-party-models",
@@ -230,7 +230,7 @@
     {
       "id": "grok-bot",
       "label": "Grok Bot",
-      "observed_at": "2026-11-28T10:22:30Z",
+      "observed_at": "2026-11-28T13:18:01Z",
       "buckets": [
         {
           "bucket": "account",
